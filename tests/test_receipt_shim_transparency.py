@@ -31,9 +31,9 @@ ORIGINAL_HASHES = {
 }
 OPENSSL_QUEUE_ID = re.compile(rb"(?m)^[0-9A-Fa-f]{8,16}(?=:error:)")
 
-BASE_LINE_COUNT = 182
-CANDIDATE_LINE_COUNT = 189
-NEW_RELEASE_STEM = "0012-3a5ef7eeee484370"
+BASE_LINE_COUNT = 190
+CANDIDATE_LINE_COUNT = 191
+NEW_RELEASE_STEM = "0014-bd12e9e3e79a5529"
 RELEASE_FILE_SUFFIXES = (
     ".json",
     ".producer.sig",
@@ -163,10 +163,10 @@ def test_live_full_release_chain_is_byte_identical(
     _assert_byte_identical(original, shim, expected_code=0)
     assert shim.stderr == b""
     assert shim.stdout == (
-        b"release chain OK: 13 releases, "
-        b"HEAD=0012-3a5ef7eeee484370.json, "
-        b"digicert=2026-08-12T14:43:16Z, "
-        b"freetsa=2026-08-12T14:43:16Z\n"
+        b"release chain OK: 15 releases, "
+        b"HEAD=0014-bd12e9e3e79a5529.json, "
+        b"digicert=2026-08-15T13:59:24Z, "
+        b"freetsa=2026-08-15T13:59:24Z\n"
     )
 
 
@@ -212,7 +212,7 @@ def _corrupt_freetsa_receipt(root: pathlib.Path) -> None:
         (
             "unwitnessed-row",
             _append_unwitnessed_row,
-            b"HEAD release lineCount 189 does not match working-tree line count 190",
+            b"HEAD release lineCount 191 does not match working-tree line count 192",
         ),
         (
             "producer-signature",
@@ -338,8 +338,8 @@ def test_valid_base_ref_append_is_byte_identical(
     _assert_byte_identical(original, shim, expected_code=0)
     assert shim.stderr == b""
     assert shim.stdout == (
-        b"thesis-facts append check OK: 189 rows, immutable prefix 128, "
-        b"+7 appended vs base, release 12\n"
+        b"thesis-facts append check OK: 191 rows, immutable prefix 128, "
+        b"+1 appended vs base, release 14\n"
     )
 
 
@@ -377,12 +377,12 @@ def _remove_new_release_manifest(root: pathlib.Path) -> None:
         (
             "missing-assertion-version",
             _remove_appended_assertion_version,
-            b"appended line 183",
+            b"appended line 191",
         ),
         (
             "missing-release-manifest",
             _remove_new_release_manifest,
-            b"release proposal must add exactly one manifest for index 12",
+            b"release proposal must add exactly one manifest for index 14",
         ),
     ],
 )
