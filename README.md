@@ -572,3 +572,11 @@ package with this repository's trust pins committed in
 `scripts/receipt_pins.py`; see `releases/README.md` (immutable
 post-genesis, like everything under `releases/`) for the schema, offline
 verification procedure, and security limits.
+
+Each release manifest is additionally anchored in Bitcoin through
+OpenTimestamps: `ots/<stem>.json.ots` timestamps the manifest's exact
+bytes, so the anteriority of the journal state it commits to does not
+depend on trusting this repository's git history. A scheduled job stamps
+new manifests and upgrades pending proofs daily. See `ots/README.md` for
+what the proofs do and do not establish and the two-command verification
+procedure.

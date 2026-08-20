@@ -132,6 +132,8 @@ jobs:
           scripts/canonical_json.py
           scripts/cut_release_manifest.py
           scripts/verify_release_chain.py
+          scripts/ots_anchor.py
+          tests/test_ots_anchor.py
 
       - name: Test Arch surface
         run: >
@@ -157,6 +159,7 @@ jobs:
           tests/test_policyengine_ledger.py
           tests/test_release_chain.py
           tests/test_thesis_append_adversarial.py
+          tests/test_ots_anchor.py
           -q
 
       - name: Build target input database
