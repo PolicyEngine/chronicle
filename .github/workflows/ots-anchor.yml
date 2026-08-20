@@ -1,0 +1,77 @@
+name: OTS anchor
+
+# Anchor the witnessed observation journal outside the operator's control.
+# The journal and its release manifests live on codex/thesis-ledger-facts;
+# scripts/ots_anchor.py there stamps every release manifest's exact bytes
+# through OpenTimestamps and upgrades pending proofs once the calendars'
+# aggregate Bitcoin transactions confirm. Scheduled workflows only run from
+# the default branch, so this definition lives on main and operates on a
+# checkout of the journal branch. See ots/README.md on that branch for what
+# the proofs establish and how to verify them.
+
+on:
+  schedule:
+    - cron: "23 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ots-anchor
+  cancel-in-progress: false
+
+jobs:
+  anchor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      JOURNAL_BRANCH: codex/thesis-ledger-facts
+    steps:
+      - name: Check out the journal branch
+        uses: actions/checkout@v4
+        with:
+          ref: codex/thesis-ledger-facts
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Stamp missing proofs and upgrade pending ones
+        id: anchor
+        run: |
+          set -euo pipefail
+          if [ ! -f scripts/ots_anchor.py ]; then
+            echo "scripts/ots_anchor.py is not on $JOURNAL_BRANCH yet; nothing to do"
+            exit 0
+          fi
+          python3 scripts/ots_anchor.py run \
+            --ots-bin "uvx --from opentimestamps-client==0.7.2 ots"
+
+      - name: Commit and push proof changes
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- ots)" ]; then
+            echo "no proof changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ots
+          git commit -m "Update OpenTimestamps anchors for release manifests"
+          for attempt in 1 2 3; do
+            if git push origin "HEAD:$JOURNAL_BRANCH"; then
+              exit 0
+            fi
+            git pull --rebase origin "$JOURNAL_BRANCH"
+          done
+          git push origin "HEAD:$JOURNAL_BRANCH"
+
+      - name: Verify every proof binds to its manifest
+        run: |
+          set -euo pipefail
+          if [ ! -f scripts/ots_anchor.py ]; then
+            exit 0
+          fi
+          python3 scripts/ots_anchor.py verify \
+            --ots-bin "uvx --from opentimestamps-client==0.7.2 ots"
