@@ -1,0 +1,42 @@
+source_id: irs_soi
+package_id: soi-form-8960-2023
+dataset: irs_soi_publication_4801_form_8960_2023
+source_page: https://www.irs.gov/pub/irs-pdf/p4801.pdf
+publication_revision: Publication 4801 (Rev. 6-2026)
+table: Form 8960, Net Investment Income Tax—Individuals, Estates, and Trusts,
+  pages 214–215
+files:
+  2023:
+    filename: irs_soi_form_8960_2023.csv
+    source_url: https://www.irs.gov/pub/irs-pdf/p4801.pdf
+    sha256: a831947133806455b971560102bf6d7710865ece481616844bead7c9b81958fd
+    size_bytes: 795
+    source_table: >-
+      Publication 4801 (Rev. 6-2026), TY2023 Form 8960 facsimile, number of
+      returns and amounts of selected lines
+    year: 2023
+    notes: >-
+      Curated CSV transcription of the ten requested Form 8960 lines from the
+      supervisor-verified p4801-form8960-extract.txt (SHA-256
+      1cafe8a381e83c5365b6a2ef54695ac6b4beca369eb61338169e24f2581ef080),
+      checked against the full Publication 4801 text extraction p4801.txt
+      (SHA-256
+      0c157394542a0b3e2cbfe361d6ac4c744568c6476bada9d7a7647470b54a9364).
+      The canonical publisher artifact is Publication 4801 (Rev. 6-2026) at
+      source_url. Page 214 reports return counts; page 215 reports amounts in
+      thousands of dollars. The CSV keeps the published integers and signs
+      verbatim. SOI's entity-side partnership tables 23pa01, 23pa04, 23pa06,
+      23pa10, and 23pa23 publish no passive/nonpassive split by industry, while
+      Publication 1304 Table 1.4 reports partnership, S-corporation, and
+      estate/trust income and loss without a passive split. Form 8960 line 4 is
+      therefore the sole administrative anchor for the passive pass-through
+      NIIT base. The three independently reported line 4 values have a
+      one-thousand-dollar rounding residual: line 4a plus line 4b is
+      109,256,985 thousand dollars, while published line 4c is 109,256,984
+      thousand dollars. License: US government work, public domain.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-form-8960-2023/2023/a831947133806455b971560102bf6d7710865ece481616844bead7c9b81958fd/irs_soi_form_8960_2023.csv
+        uri: r2://ledger-raw/raw/irs_soi/soi-form-8960-2023/2023/a831947133806455b971560102bf6d7710865ece481616844bead7c9b81958fd/irs_soi_form_8960_2023.csv

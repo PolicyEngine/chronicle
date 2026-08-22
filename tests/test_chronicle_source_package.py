@@ -168,6 +168,55 @@ def test_record_set_provenance_fields_propagate_to_specs_and_facts():
     assert survey_spec.survey_instrument == "ACS 1-year"
 
 
+def test_record_set_measure_year_scope_preserves_legacy_layout():
+    package_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    package = load_source_package(package_path)
+    legacy_set = package.build_source_record_set_specs(2020)[0]
+    current_set = package.build_source_record_set_specs(2023)[0]
+    legacy_record = package.build_source_record_specs(2020)[0]
+
+    assert len(legacy_set.measures) == 29
+    assert len(current_set.measures) == 37
+    assert legacy_record.layout is not None
+    assert legacy_record.layout.record_set_spec_hash == "22ed3e367531f2331f744623"
+    assert "partnership_net_income_amount" not in {
+        measure.measure_id for measure in legacy_set.measures
+    }
+    assert "partnership_net_income_amount" in {
+        measure.measure_id for measure in current_set.measures
+    }
+
+
+@pytest.mark.parametrize(
+    ("years", "message"),
+    [
+        ([], "non-empty list"),
+        ("2023", "non-empty list"),
+        ([2023, "2024"], "must be integers"),
+        ([True, 2023], "must be integers"),
+        ([2023, 2023], "must be unique"),
+    ],
+)
+def test_record_set_measure_year_scope_rejects_malformed_values(years, message):
+    source_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    payload = yaml.safe_load((source_path / "source_package.yaml").read_text())
+    record_set = payload["record_sets"][0]
+    record_set["measures"][-1]["years"] = years
+
+    with pytest.raises(ValueError, match=message):
+        DeclarativeRecordSet(record_set).to_record_set_spec(2020)
+
+
+def test_record_set_measure_year_scope_requires_every_column_mapping():
+    source_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    payload = yaml.safe_load((source_path / "source_package.yaml").read_text())
+    record_set = payload["record_sets"][0]
+    record_set["measures"][-1]["years"].append(2024)
+
+    with pytest.raises(ValueError, match="no entry for declared year 2024"):
+        DeclarativeRecordSet(record_set).to_record_set_spec(2020)
+
+
 def test_hmrc_packages_preserve_provenance_and_definition_year_metadata():
     """HMRC facts must retain the axes needed to distinguish source claims."""
     hmrc_packages = sorted(
@@ -620,9 +669,14 @@ def test_source_package_path_builds_valid_soi_table_1_4_facts():
 
     assert package.package_id == "soi-table-1-4"
     assert len(cells) == 8109
-    assert len(facts) == 580
+    assert len(facts) == 740
     assert validate_facts(facts).valid
     assert facts[0].source.source_table == "Publication 1304 Table 1.4"
+    assert facts[0].source.url == "https://www.irs.gov/pub/irs-soi/23in14ar.xls"
+    assert (
+        facts[0].source.source_sha256
+        == "b6c1f87fbb5533417e195f6938538e5de09b6a0825a6a54346bf9363a18d96af"
+    )
     assert (
         values_by_record["irs_soi.ty2023.table_1_4.all.alimony_received_amount"].value
         == 6_686_429_000
@@ -630,6 +684,54 @@ def test_source_package_path_builds_valid_soi_table_1_4_facts():
     assert (
         values_by_record["irs_soi.ty2023.table_1_4.all.alimony_paid_amount"].value
         == 7_497_135_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_income_returns"
+        ].value
+        == 3_266_345
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_income_amount"
+        ].value
+        == 452_077_038_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_loss_returns"
+        ].value
+        == 2_103_634
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_loss_amount"
+        ].value
+        == 168_884_100_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_income_returns"
+        ].value
+        == 4_138_040
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_income_amount"
+        ].value
+        == 797_450_861_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_loss_returns"
+        ].value
+        == 1_415_974
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_loss_amount"
+        ].value
+        == 89_543_715_000
     )
 
 

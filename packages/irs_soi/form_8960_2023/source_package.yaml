@@ -1,0 +1,596 @@
+# SOI's entity-side partnership tables (23pa01/04/06/10/23) have no
+# passive/nonpassive industry split, and Publication 1304 Table 1.4 reports
+# entity income/loss without a passive split. Form 8960 line 4 is therefore the
+# sole administrative anchor for the passive pass-through NIIT base.
+schema_version: ledger.source_package.v1
+package_id: soi-form-8960-2023
+label: IRS SOI Publication 4801 TY2023 Form 8960 line-item estimates
+artifact:
+  source_name: irs_soi
+  source_table: Publication 4801 Form 8960, pages 214–215
+  resource_package: db
+  resource_directory: data/irs_soi/form_8960_2023
+  manifest: manifest.yaml
+  vintage: tax_year_2023_rev_6_2026
+  extracted_at: "2026-08-19"
+  extraction_method: >-
+    manual transcription from the supervisor-verified Publication 4801
+    (Rev. 6-2026) Form 8960 text extraction into a curated CSV; page 214 return
+    counts and page 215 amounts in thousands of dollars kept verbatim
+  parser: delimited_text_full_rows
+  sheet_name: form_8960_selected_lines
+  artifact_year: 2023
+record_sets:
+  - record_set_id: irs_soi.ty2023.form_8960.line_1
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.form_8960.line_1.v1
+    source_record_id_prefix: irs_soi.ty2023.form_8960.line_1
+    sheet_name: form_8960_selected_lines
+    period_type: tax_year
+    period: 2023
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: form_8960_filers
+    groupby_dimension: irs_soi.form_8960.line
+    rows:
+      - value_id: all
+        label: All Form 8960 filings reporting line 1
+        ordinal: 0
+        row_number: 2
+        expected_row_header_column: A
+        expected_row_header: line_1
+        guard_cells:
+          - column: B
+            expected_value: Taxable interest
+            label: published line label
+          - column: E
+            expected_value: 214
+            label: return-count page
+          - column: F
+            expected_value: 215
+            label: amount page
+        table_record_kind: total
+    measures:
+      - measure_id: return_count
+        label: Returns reporting Form 8960 line 1 taxable interest
+        ordinal: 0
+        column: C
+        source_column_id: return_count
+        expected_column_header_row: 1
+        expected_column_header: return_count
+        concept: irs_soi.form_8960.line_1.return_count
+        unit: count
+        aggregation: sum
+      - measure_id: amount
+        label: Form 8960 line 1 taxable interest
+        ordinal: 1
+        column: D
+        source_column_id: amount_thousands
+        expected_column_header_row: 1
+        expected_column_header: amount_thousands
+        concept: irs_soi.form_8960.line_1
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+
+  - record_set_id: irs_soi.ty2023.form_8960.line_2
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.form_8960.line_2.v1
+    source_record_id_prefix: irs_soi.ty2023.form_8960.line_2
+    sheet_name: form_8960_selected_lines
+    period_type: tax_year
+    period: 2023
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: form_8960_filers
+    groupby_dimension: irs_soi.form_8960.line
+    rows:
+      - value_id: all
+        label: All Form 8960 filings reporting line 2
+        ordinal: 0
+        row_number: 3
+        expected_row_header_column: A
+        expected_row_header: line_2
+        guard_cells:
+          - column: B
+            expected_value: Ordinary dividends
+            label: published line label
+          - column: E
+            expected_value: 214
+            label: return-count page
+          - column: F
+            expected_value: 215
+            label: amount page
+        table_record_kind: total
+    measures:
+      - measure_id: return_count
+        label: Returns reporting Form 8960 line 2 ordinary dividends
+        ordinal: 0
+        column: C
+        source_column_id: return_count
+        expected_column_header_row: 1
+        expected_column_header: return_count
+        concept: irs_soi.form_8960.line_2.return_count
+        unit: count
+        aggregation: sum
+      - measure_id: amount
+        label: Form 8960 line 2 ordinary dividends
+        ordinal: 1
+        column: D
+        source_column_id: amount_thousands
+        expected_column_header_row: 1
+        expected_column_header: amount_thousands
+        concept: irs_soi.form_8960.line_2
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+
+  - record_set_id: irs_soi.ty2023.form_8960.line_3
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.form_8960.line_3.v1
+    source_record_id_prefix: irs_soi.ty2023.form_8960.line_3
+    sheet_name: form_8960_selected_lines
+    period_type: tax_year
+    period: 2023
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: form_8960_filers
+    groupby_dimension: irs_soi.form_8960.line
+    rows:
+      - value_id: all
+        label: All Form 8960 filings reporting line 3
+        ordinal: 0
+        row_number: 4
+        expected_row_header_column: A
+        expected_row_header: line_3
+        guard_cells:
+          - column: B
+            expected_value: Annuities
+            label: published line label
+          - column: E
+            expected_value: 214
+            label: return-count page
+          - column: F
+            expected_value: 215
+            label: amount page
+        table_record_kind: total
+    measures:
+      - measure_id: return_count
+        label: Returns reporting Form 8960 line 3 annuities
+        ordinal: 0
+        column: C
+        source_column_id: return_count
+        expected_column_header_row: 1
+        expected_column_header: return_count
+        concept: irs_soi.form_8960.line_3.return_count
+        unit: count
+        aggregation: sum
+      - measure_id: amount
+        label: Form 8960 line 3 annuities
+        ordinal: 1
+        column: D
+        source_column_id: amount_thousands
+        expected_column_header_row: 1
+        expected_column_header: amount_thousands
+        concept: irs_soi.form_8960.line_3
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+
+  - record_set_id: irs_soi.ty2023.form_8960.line_4a
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.form_8960.line_4a.v1
+    source_record_id_prefix: irs_soi.ty2023.form_8960.line_4a
+    sheet_name: form_8960_selected_lines
+    period_type: tax_year
+    period: 2023
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: form_8960_filers
+    groupby_dimension: irs_soi.form_8960.line
+    rows:
+      - value_id: all
+        label: All Form 8960 filings reporting line 4a
+        ordinal: 0
+        row_number: 5
+        expected_row_header_column: A
+        expected_row_header: line_4a
+        guard_cells:
+          - column: B
+            expected_value: >-
+              Rental real estate, royalties, partnerships, S corporations,
+              trusts, trades or businesses, etc.
+            label: published line label
+          - column: E
+            expected_value: 214
+            label: return-count page
+          - column: F
+            expected_value: 215
+            label: amount page
+        table_record_kind: total
+    measures:
+      - measure_id: return_count
+        label: Returns reporting Form 8960 line 4a
+        ordinal: 0
+        column: C
+        source_column_id: return_count
+        expected_column_header_row: 1
+        expected_column_header: return_count
+        concept: irs_soi.form_8960.line_4a.return_count
+        unit: count
+        aggregation: sum
+      - measure_id: amount
+        label: >-
+          Form 8960 line 4a rental, royalty, pass-through, trust, and business
+          income or loss before the non-section 1411 adjustment
+        ordinal: 1
+        column: D
+        source_column_id: amount_thousands
+        expected_column_header_row: 1
+        expected_column_header: amount_thousands
+        concept: irs_soi.form_8960.line_4a
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+
+  - record_set_id: irs_soi.ty2023.form_8960.line_4b
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.form_8960.line_4b.v1
+    source_record_id_prefix: irs_soi.ty2023.form_8960.line_4b
+    sheet_name: form_8960_selected_lines
+    period_type: tax_year
+    period: 2023
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: form_8960_filers
+    groupby_dimension: irs_soi.form_8960.line
+    rows:
+      - value_id: all
+        label: All Form 8960 filings reporting line 4b
+        ordinal: 0
+        row_number: 6
+        expected_row_header_column: A
+        expected_row_header: line_4b
+        guard_cells:
+          - column: B
+            expected_value: >-
+              Adjustment for net income or loss derived in the ordinary course
+              of a non-section 1411 trade or business
+            label: published line label
+          - column: E
+            expected_value: 214
+            label: return-count page
+          - column: F
+            expected_value: 215
+            label: amount page
+        table_record_kind: total
+    measures:
+      - measure_id: return_count
+        label: Returns reporting Form 8960 line 4b
+        ordinal: 0
+        column: C
+        source_column_id: return_count
+        expected_column_header_row: 1
+        expected_column_header: return_count
+        concept: irs_soi.form_8960.line_4b.return_count
+        unit: count
+        aggregation: sum
+      - measure_id: amount
+        label: Form 8960 line 4b non-section 1411 trade or business adjustment
+        ordinal: 1
+        column: D
+        source_column_id: amount_thousands
+        expected_column_header_row: 1
+        expected_column_header: amount_thousands
+        concept: irs_soi.form_8960.line_4b
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+
+  - record_set_id: irs_soi.ty2023.form_8960.line_4c
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.form_8960.line_4c.v1
+    source_record_id_prefix: irs_soi.ty2023.form_8960.line_4c
+    description: >-
+      Form 8960 line 4c is the administrative NIIT passive-plus-rental base
+      after the line 4b non-section 1411 adjustment. SOI's entity-side
+      partnership tables 23pa01, 23pa04, 23pa06, 23pa10, and 23pa23 publish no
+      passive/nonpassive split by industry, and Publication 1304 Table 1.4
+      reports entity income and loss without a passive split. Form 8960 line 4
+      is therefore the sole administrative anchor for the passive pass-through
+      NIIT base.
+    sheet_name: form_8960_selected_lines
+    period_type: tax_year
+    period: 2023
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: form_8960_filers
+    groupby_dimension: irs_soi.form_8960.line
+    rows:
+      - value_id: all
+        label: All Form 8960 filings reporting line 4c
+        ordinal: 0
+        row_number: 7
+        expected_row_header_column: A
+        expected_row_header: line_4c
+        guard_cells:
+          - column: B
+            expected_value: Combine lines 4a and 4b
+            label: published line label
+          - column: E
+            expected_value: 214
+            label: return-count page
+          - column: F
+            expected_value: 215
+            label: amount page
+        table_record_kind: total
+    measures:
+      - measure_id: return_count
+        label: Returns reporting the Form 8960 line 4c NIIT passive-plus-rental base
+        ordinal: 0
+        column: C
+        source_column_id: return_count
+        expected_column_header_row: 1
+        expected_column_header: return_count
+        concept: irs_soi.form_8960.line_4c.return_count
+        unit: count
+        aggregation: sum
+      - measure_id: amount
+        label: Form 8960 line 4c NIIT passive-plus-rental base
+        ordinal: 1
+        column: D
+        source_column_id: amount_thousands
+        expected_column_header_row: 1
+        expected_column_header: amount_thousands
+        concept: irs_soi.form_8960.line_4c
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+
+  - record_set_id: irs_soi.ty2023.form_8960.line_5d
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.form_8960.line_5d.v1
+    source_record_id_prefix: irs_soi.ty2023.form_8960.line_5d
+    sheet_name: form_8960_selected_lines
+    period_type: tax_year
+    period: 2023
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: form_8960_filers
+    groupby_dimension: irs_soi.form_8960.line
+    rows:
+      - value_id: all
+        label: All Form 8960 filings reporting line 5d
+        ordinal: 0
+        row_number: 8
+        expected_row_header_column: A
+        expected_row_header: line_5d
+        guard_cells:
+          - column: B
+            expected_value: Combine lines 5a through 5c
+            label: published line label
+          - column: E
+            expected_value: 214
+            label: return-count page
+          - column: F
+            expected_value: 215
+            label: amount page
+        table_record_kind: total
+    measures:
+      - measure_id: return_count
+        label: Returns reporting Form 8960 line 5d
+        ordinal: 0
+        column: C
+        source_column_id: return_count
+        expected_column_header_row: 1
+        expected_column_header: return_count
+        concept: irs_soi.form_8960.line_5d.return_count
+        unit: count
+        aggregation: sum
+      - measure_id: amount
+        label: Form 8960 line 5d net property disposition gain or loss
+        ordinal: 1
+        column: D
+        source_column_id: amount_thousands
+        expected_column_header_row: 1
+        expected_column_header: amount_thousands
+        concept: irs_soi.form_8960.line_5d
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+
+  - record_set_id: irs_soi.ty2023.form_8960.line_8
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.form_8960.line_8.v1
+    source_record_id_prefix: irs_soi.ty2023.form_8960.line_8
+    sheet_name: form_8960_selected_lines
+    period_type: tax_year
+    period: 2023
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: form_8960_filers
+    groupby_dimension: irs_soi.form_8960.line
+    rows:
+      - value_id: all
+        label: All Form 8960 filings reporting line 8
+        ordinal: 0
+        row_number: 9
+        expected_row_header_column: A
+        expected_row_header: line_8
+        guard_cells:
+          - column: B
+            expected_value: Total investment income
+            label: published line label
+          - column: E
+            expected_value: 214
+            label: return-count page
+          - column: F
+            expected_value: 215
+            label: amount page
+        table_record_kind: total
+    measures:
+      - measure_id: return_count
+        label: Returns reporting Form 8960 line 8 total investment income
+        ordinal: 0
+        column: C
+        source_column_id: return_count
+        expected_column_header_row: 1
+        expected_column_header: return_count
+        concept: irs_soi.form_8960.line_8.return_count
+        unit: count
+        aggregation: sum
+      - measure_id: amount
+        label: Form 8960 line 8 total investment income
+        ordinal: 1
+        column: D
+        source_column_id: amount_thousands
+        expected_column_header_row: 1
+        expected_column_header: amount_thousands
+        concept: irs_soi.form_8960.line_8
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+
+  - record_set_id: irs_soi.ty2023.form_8960.line_12
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.form_8960.line_12.v1
+    source_record_id_prefix: irs_soi.ty2023.form_8960.line_12
+    sheet_name: form_8960_selected_lines
+    period_type: tax_year
+    period: 2023
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: form_8960_filers
+    groupby_dimension: irs_soi.form_8960.line
+    rows:
+      - value_id: all
+        label: All Form 8960 filings reporting line 12
+        ordinal: 0
+        row_number: 10
+        expected_row_header_column: A
+        expected_row_header: line_12
+        guard_cells:
+          - column: B
+            expected_value: Net investment income
+            label: published line label
+          - column: E
+            expected_value: 214
+            label: return-count page
+          - column: F
+            expected_value: 215
+            label: amount page
+        table_record_kind: total
+    measures:
+      - measure_id: return_count
+        label: Returns reporting Form 8960 line 12 net investment income
+        ordinal: 0
+        column: C
+        source_column_id: return_count
+        expected_column_header_row: 1
+        expected_column_header: return_count
+        concept: irs_soi.form_8960.line_12.return_count
+        unit: count
+        aggregation: sum
+      - measure_id: amount
+        label: Form 8960 line 12 net investment income
+        ordinal: 1
+        column: D
+        source_column_id: amount_thousands
+        expected_column_header_row: 1
+        expected_column_header: amount_thousands
+        concept: irs_soi.form_8960.line_12
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+
+  - record_set_id: irs_soi.ty2023.form_8960.line_17
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.form_8960.line_17.v1
+    source_record_id_prefix: irs_soi.ty2023.form_8960.line_17
+    sheet_name: form_8960_selected_lines
+    period_type: tax_year
+    period: 2023
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: form_8960_filers
+    groupby_dimension: irs_soi.form_8960.line
+    rows:
+      - value_id: all
+        label: All Form 8960 filings reporting line 17
+        ordinal: 0
+        row_number: 11
+        expected_row_header_column: A
+        expected_row_header: line_17
+        guard_cells:
+          - column: B
+            expected_value: Net investment income tax for individuals
+            label: published line label
+          - column: E
+            expected_value: 214
+            label: return-count page
+          - column: F
+            expected_value: 215
+            label: amount page
+        table_record_kind: total
+    measures:
+      - measure_id: return_count
+        label: Returns reporting Form 8960 line 17 individual NIIT
+        ordinal: 0
+        column: C
+        source_column_id: return_count
+        expected_column_header_row: 1
+        expected_column_header: return_count
+        concept: irs_soi.form_8960.line_17.return_count
+        unit: count
+        aggregation: sum
+      - measure_id: amount
+        label: Form 8960 line 17 net investment income tax for individuals
+        ordinal: 1
+        column: D
+        source_column_id: amount_thousands
+        expected_column_header_row: 1
+        expected_column_header: amount_thousands
+        concept: irs_soi.form_8960.line_17
+        unit: usd
+        aggregation: sum
+        value_scale: 1000

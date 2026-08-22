@@ -1,0 +1,11 @@
+form_line,label,return_count,amount_thousands,count_page,amount_page
+line_1,Taxable interest,8200131,209033554,214,215
+line_2,Ordinary dividends,6877553,349823646,214,215
+line_3,Annuities,176061,6970315,214,215
+line_4a,"Rental real estate, royalties, partnerships, S corporations, trusts, trades or businesses, etc.",4988033,1185607258,214,215
+line_4b,Adjustment for net income or loss derived in the ordinary course of a non-section 1411 trade or business,4038235,-1076350273,214,215
+line_4c,Combine lines 4a and 4b,2260296,109256984,214,215
+line_5d,Combine lines 5a through 5c,6432002,556322852,214,215
+line_8,Total investment income,8976709,1222447069,214,215
+line_12,Net investment income,8211516,1197238417,214,215
+line_17,Net investment income tax for individuals,8104840,39330017,214,215

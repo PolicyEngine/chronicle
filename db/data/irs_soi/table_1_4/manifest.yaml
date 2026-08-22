@@ -3,6 +3,14 @@ package_id: soi-table-1-4
 dataset: irs_soi_publication_1304_table_1_4
 source_page: https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-returns-complete-report-publication-1304-basic-tables-part-1
 table: Table 1.4
+notes: >-
+  Table 1.4 publishes partnership, S corporation, and estate/trust net-income
+  and net-loss return counts and amounts by AGI class, but it does not identify
+  the passive share. IRS SOI entity-side partnership tables 23pa01, 23pa04,
+  23pa06, 23pa10, and 23pa23 likewise publish no passive/nonpassive split by
+  industry. Publication 4801 Form 8960 line 4 is therefore the sole
+  administrative anchor for the passive pass-through NIIT base. Table 1.4 loss
+  amounts are reported and ingested as positive magnitudes.
 files:
   2020:
     filename: 20in14ar.xls

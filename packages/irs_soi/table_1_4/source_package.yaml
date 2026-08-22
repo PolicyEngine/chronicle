@@ -1,6 +1,6 @@
 schema_version: ledger.source_package.v1
 package_id: soi-table-1-4
-label: IRS SOI Publication 1304 Table 1.4 total wages
+label: IRS SOI Publication 1304 Table 1.4 income items by AGI class
 artifact:
   source_name: irs_soi
   source_table: Publication 1304 Table 1.4
@@ -852,4 +852,147 @@ record_sets:
           line is the national calibration source for that concept
           (PolicyEngine/populace#451 item 2).
         legal_vintage: tax_year_{year}
+        value_scale: 1000
+      # Table 1.4 publishes separate partnership and S corporation legs from
+      # TY2021 onward. TY2020 combines them, so these measures are deliberately
+      # scoped away from 2020 rather than duplicating the combined values.
+      - measure_id: partnership_net_income_returns
+        label: Returns with partnership net income
+        ordinal: 29
+        years: [2021, 2022, 2023]
+        column: BP
+        column_by_year:
+          2021: BD
+          2022: BP
+          2023: BP
+        expected_column_header_row: 8
+        expected_column_header_by_year:
+          2021: 55
+          2022: 67
+          2023: 67
+        concept: irs_soi.returns_with_partnership_net_income
+        unit: count
+        aggregation: sum
+      - measure_id: partnership_net_income_amount
+        label: Partnership net income
+        ordinal: 30
+        years: [2021, 2022, 2023]
+        column: BQ
+        column_by_year:
+          2021: BE
+          2022: BQ
+          2023: BQ
+        expected_column_header_row: 8
+        expected_column_header_by_year:
+          2021: 56
+          2022: 68
+          2023: 68
+        concept: irs_soi.partnership_net_income
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+      - measure_id: partnership_net_loss_returns
+        label: Returns with partnership net loss
+        ordinal: 31
+        years: [2021, 2022, 2023]
+        column: BR
+        column_by_year:
+          2021: BF
+          2022: BR
+          2023: BR
+        expected_column_header_row: 8
+        expected_column_header_by_year:
+          2021: 57
+          2022: 69
+          2023: 69
+        concept: irs_soi.returns_with_partnership_net_loss
+        unit: count
+        aggregation: sum
+      - measure_id: partnership_net_loss_amount
+        label: Partnership net loss (positive magnitude)
+        ordinal: 32
+        years: [2021, 2022, 2023]
+        column: BS
+        column_by_year:
+          2021: BG
+          2022: BS
+          2023: BS
+        expected_column_header_row: 8
+        expected_column_header_by_year:
+          2021: 58
+          2022: 70
+          2023: 70
+        concept: irs_soi.partnership_net_loss
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+      - measure_id: s_corporation_net_income_returns
+        label: Returns with S corporation net income
+        ordinal: 33
+        years: [2021, 2022, 2023]
+        column: BT
+        column_by_year:
+          2021: BH
+          2022: BT
+          2023: BT
+        expected_column_header_row: 8
+        expected_column_header_by_year:
+          2021: 59
+          2022: 71
+          2023: 71
+        concept: irs_soi.returns_with_s_corporation_net_income
+        unit: count
+        aggregation: sum
+      - measure_id: s_corporation_net_income_amount
+        label: S corporation net income
+        ordinal: 34
+        years: [2021, 2022, 2023]
+        column: BU
+        column_by_year:
+          2021: BI
+          2022: BU
+          2023: BU
+        expected_column_header_row: 8
+        expected_column_header_by_year:
+          2021: 60
+          2022: 72
+          2023: 72
+        concept: irs_soi.s_corporation_net_income
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+      - measure_id: s_corporation_net_loss_returns
+        label: Returns with S corporation net loss
+        ordinal: 35
+        years: [2021, 2022, 2023]
+        column: BV
+        column_by_year:
+          2021: BJ
+          2022: BV
+          2023: BV
+        expected_column_header_row: 8
+        expected_column_header_by_year:
+          2021: 61
+          2022: 73
+          2023: 73
+        concept: irs_soi.returns_with_s_corporation_net_loss
+        unit: count
+        aggregation: sum
+      - measure_id: s_corporation_net_loss_amount
+        label: S corporation net loss (positive magnitude)
+        ordinal: 36
+        years: [2021, 2022, 2023]
+        column: BW
+        column_by_year:
+          2021: BK
+          2022: BW
+          2023: BW
+        expected_column_header_row: 8
+        expected_column_header_by_year:
+          2021: 62
+          2022: 74
+          2023: 74
+        concept: irs_soi.s_corporation_net_loss
+        unit: usd
+        aggregation: sum
         value_scale: 1000
