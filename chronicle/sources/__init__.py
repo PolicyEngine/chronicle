@@ -17,6 +17,14 @@ from .cells import (
     validate_source_cells,
 )
 from .models import SourceFile, SourceReference
+from .offline_fetch import (
+    OFFLINE_FETCH_MANIFEST_SCHEMA_VERSION,
+    OfflineFetchArtifact,
+    OfflineFetchManifest,
+    OfflineFetchManifestError,
+    load_offline_fetch_manifest,
+    validate_offline_fetch_manifest,
+)
 from .specs import (
     CellSelectorSpec,
     SourceRecord,
@@ -35,6 +43,10 @@ from db.supabase_client import query_sources
 
 __all__ = [
     "CellSelectorSpec",
+    "OFFLINE_FETCH_MANIFEST_SCHEMA_VERSION",
+    "OfflineFetchArtifact",
+    "OfflineFetchManifest",
+    "OfflineFetchManifestError",
     "SourceArtifactMetadata",
     "SourceArtifact",
     "SourceCell",
@@ -55,6 +67,7 @@ __all__ = [
     "compile_source_record_set_specs",
     "decode_delimited_text",
     "load_source_cells_jsonl",
+    "load_offline_fetch_manifest",
     "query_sources",
     "resolve_cell_selector",
     "resolve_source_record",
@@ -66,4 +79,5 @@ __all__ = [
     "source_cells_from_xlsx",
     "source_regions_from_record_set_spec",
     "validate_source_cells",
+    "validate_offline_fetch_manifest",
 ]
