@@ -1,6 +1,15 @@
 schema_version: ledger.source_package.v1
 package_id: soi-historic-table-2-state-broad-2022
 label: IRS SOI Historic Table 2 state broad totals for 2022
+dimension_labels:
+  'filing_status': 'Filing status'
+  'income_range': 'Income range'
+  'state': 'State'
+dimension_value_labels:
+  'filing_status':
+    'all': 'All filing statuses'
+  'income_range':
+    'all': 'All income ranges'
 artifact:
   source_name: irs_soi
   source_table: Historic Table 2 state broad totals
@@ -134,7 +143,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Alabama all returns
+    label: All returns
     ordinal: 0
     row_number: 2
     expected_row_header_column: A
@@ -789,7 +798,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Alaska all returns
+    label: All returns
     ordinal: 0
     row_number: 3
     expected_row_header_column: A
@@ -823,7 +832,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Arizona all returns
+    label: All returns
     ordinal: 0
     row_number: 4
     expected_row_header_column: A
@@ -857,7 +866,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Arkansas all returns
+    label: All returns
     ordinal: 0
     row_number: 5
     expected_row_header_column: A
@@ -891,7 +900,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: California all returns
+    label: All returns
     ordinal: 0
     row_number: 6
     expected_row_header_column: A
@@ -925,7 +934,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Colorado all returns
+    label: All returns
     ordinal: 0
     row_number: 7
     expected_row_header_column: A
@@ -959,7 +968,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Connecticut all returns
+    label: All returns
     ordinal: 0
     row_number: 8
     expected_row_header_column: A
@@ -993,7 +1002,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Delaware all returns
+    label: All returns
     ordinal: 0
     row_number: 9
     expected_row_header_column: A
@@ -1027,7 +1036,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: District of Columbia all returns
+    label: All returns
     ordinal: 0
     row_number: 10
     expected_row_header_column: A
@@ -1061,7 +1070,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Florida all returns
+    label: All returns
     ordinal: 0
     row_number: 11
     expected_row_header_column: A
@@ -1095,7 +1104,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Georgia all returns
+    label: All returns
     ordinal: 0
     row_number: 12
     expected_row_header_column: A
@@ -1129,7 +1138,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Hawaii all returns
+    label: All returns
     ordinal: 0
     row_number: 13
     expected_row_header_column: A
@@ -1163,7 +1172,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Idaho all returns
+    label: All returns
     ordinal: 0
     row_number: 14
     expected_row_header_column: A
@@ -1197,7 +1206,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Illinois all returns
+    label: All returns
     ordinal: 0
     row_number: 15
     expected_row_header_column: A
@@ -1231,7 +1240,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Indiana all returns
+    label: All returns
     ordinal: 0
     row_number: 16
     expected_row_header_column: A
@@ -1265,7 +1274,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Iowa all returns
+    label: All returns
     ordinal: 0
     row_number: 17
     expected_row_header_column: A
@@ -1299,7 +1308,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Kansas all returns
+    label: All returns
     ordinal: 0
     row_number: 18
     expected_row_header_column: A
@@ -1333,7 +1342,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Kentucky all returns
+    label: All returns
     ordinal: 0
     row_number: 19
     expected_row_header_column: A
@@ -1367,7 +1376,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Louisiana all returns
+    label: All returns
     ordinal: 0
     row_number: 20
     expected_row_header_column: A
@@ -1401,7 +1410,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Maine all returns
+    label: All returns
     ordinal: 0
     row_number: 21
     expected_row_header_column: A
@@ -1435,7 +1444,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Maryland all returns
+    label: All returns
     ordinal: 0
     row_number: 22
     expected_row_header_column: A
@@ -1469,7 +1478,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Massachusetts all returns
+    label: All returns
     ordinal: 0
     row_number: 23
     expected_row_header_column: A
@@ -1503,7 +1512,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Michigan all returns
+    label: All returns
     ordinal: 0
     row_number: 24
     expected_row_header_column: A
@@ -1537,7 +1546,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Minnesota all returns
+    label: All returns
     ordinal: 0
     row_number: 25
     expected_row_header_column: A
@@ -1571,7 +1580,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Mississippi all returns
+    label: All returns
     ordinal: 0
     row_number: 26
     expected_row_header_column: A
@@ -1605,7 +1614,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Missouri all returns
+    label: All returns
     ordinal: 0
     row_number: 27
     expected_row_header_column: A
@@ -1639,7 +1648,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Montana all returns
+    label: All returns
     ordinal: 0
     row_number: 28
     expected_row_header_column: A
@@ -1673,7 +1682,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Nebraska all returns
+    label: All returns
     ordinal: 0
     row_number: 29
     expected_row_header_column: A
@@ -1707,7 +1716,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Nevada all returns
+    label: All returns
     ordinal: 0
     row_number: 30
     expected_row_header_column: A
@@ -1741,7 +1750,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: New Hampshire all returns
+    label: All returns
     ordinal: 0
     row_number: 31
     expected_row_header_column: A
@@ -1775,7 +1784,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: New Jersey all returns
+    label: All returns
     ordinal: 0
     row_number: 32
     expected_row_header_column: A
@@ -1809,7 +1818,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: New Mexico all returns
+    label: All returns
     ordinal: 0
     row_number: 33
     expected_row_header_column: A
@@ -1843,7 +1852,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: New York all returns
+    label: All returns
     ordinal: 0
     row_number: 34
     expected_row_header_column: A
@@ -1877,7 +1886,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: North Carolina all returns
+    label: All returns
     ordinal: 0
     row_number: 35
     expected_row_header_column: A
@@ -1911,7 +1920,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: North Dakota all returns
+    label: All returns
     ordinal: 0
     row_number: 36
     expected_row_header_column: A
@@ -1945,7 +1954,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Ohio all returns
+    label: All returns
     ordinal: 0
     row_number: 37
     expected_row_header_column: A
@@ -1979,7 +1988,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Oklahoma all returns
+    label: All returns
     ordinal: 0
     row_number: 38
     expected_row_header_column: A
@@ -2013,7 +2022,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Oregon all returns
+    label: All returns
     ordinal: 0
     row_number: 39
     expected_row_header_column: A
@@ -2047,7 +2056,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Pennsylvania all returns
+    label: All returns
     ordinal: 0
     row_number: 40
     expected_row_header_column: A
@@ -2081,7 +2090,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Rhode Island all returns
+    label: All returns
     ordinal: 0
     row_number: 41
     expected_row_header_column: A
@@ -2115,7 +2124,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: South Carolina all returns
+    label: All returns
     ordinal: 0
     row_number: 42
     expected_row_header_column: A
@@ -2149,7 +2158,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: South Dakota all returns
+    label: All returns
     ordinal: 0
     row_number: 43
     expected_row_header_column: A
@@ -2183,7 +2192,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Tennessee all returns
+    label: All returns
     ordinal: 0
     row_number: 44
     expected_row_header_column: A
@@ -2217,7 +2226,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Texas all returns
+    label: All returns
     ordinal: 0
     row_number: 45
     expected_row_header_column: A
@@ -2251,7 +2260,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Utah all returns
+    label: All returns
     ordinal: 0
     row_number: 46
     expected_row_header_column: A
@@ -2285,7 +2294,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Vermont all returns
+    label: All returns
     ordinal: 0
     row_number: 47
     expected_row_header_column: A
@@ -2319,7 +2328,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Virginia all returns
+    label: All returns
     ordinal: 0
     row_number: 48
     expected_row_header_column: A
@@ -2353,7 +2362,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Washington all returns
+    label: All returns
     ordinal: 0
     row_number: 49
     expected_row_header_column: A
@@ -2387,7 +2396,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: West Virginia all returns
+    label: All returns
     ordinal: 0
     row_number: 50
     expected_row_header_column: A
@@ -2421,7 +2430,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Wisconsin all returns
+    label: All returns
     ordinal: 0
     row_number: 51
     expected_row_header_column: A
@@ -2455,7 +2464,7 @@ record_sets:
   groupby_dimension: state
   rows:
   - value_id: all
-    label: Wyoming all returns
+    label: All returns
     ordinal: 0
     row_number: 52
     expected_row_header_column: A

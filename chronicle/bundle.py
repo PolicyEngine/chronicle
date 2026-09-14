@@ -347,7 +347,9 @@ def build_bundle(
     warnings: list[BuildBundleIssue] = []
     source_reports: list[BundleSourceReport] = []
     consumer_rows: list[dict[str, Any]] = []
-    uk_dimension_labels: dict[str, dict[str, list[str]]] = {}
+    dimension_labels: dict[str, dict[str, list[str]]] = {}
+    geography_names: dict[tuple[str, str], dict[str, list[str]]] = {}
+    value_labels: dict[tuple[str, str], dict[str, list[str]]] = {}
 
     for source in build_sources:
         suite_dir = sources_path / _safe_source_dir_name(source)
@@ -385,14 +387,22 @@ def build_bundle(
         label_errors, label_warnings = _dimension_label_reports(source, rows)
         errors.extend(label_errors)
         warnings.extend(label_warnings)
-        if source in UK_BUNDLE_SOURCES:
-            for dimension_id, labels in dimension_labels_by_id(rows).items():
-                for label in labels:
-                    uk_dimension_labels.setdefault(dimension_id, {}).setdefault(
-                        label, []
-                    ).append(source)
+        errors.extend(_geography_name_errors(source, rows))
+        for area, names in _geography_names(rows).items():
+            for name in names:
+                geography_names.setdefault(area, {}).setdefault(name, []).append(source)
+        for pair, labels in _value_labels(rows).items():
+            for label in labels:
+                value_labels.setdefault(pair, {}).setdefault(label, []).append(source)
+        for dimension_id, labels in dimension_labels_by_id(rows).items():
+            for label in labels:
+                dimension_labels.setdefault(dimension_id, {}).setdefault(
+                    label, []
+                ).append(source)
 
-    errors.extend(_cross_package_dimension_label_errors(uk_dimension_labels))
+    errors.extend(_cross_package_dimension_label_errors(dimension_labels))
+    warnings.extend(_cross_package_geography_name_warnings(geography_names))
+    warnings.extend(_cross_package_value_label_warnings(value_labels))
     aggregate_duplicates = _duplicate_key_reports(
         consumer_rows,
         "aggregate_fact_key",
@@ -473,15 +483,14 @@ def _dimension_label_reports(
     source: str,
     rows: list[dict[str, Any]],
 ) -> tuple[list[BuildBundleIssue], list[BuildBundleIssue]]:
-    """Report one source's dimension-label issues (chronicle#261).
+    """Report one source's dimension-label issues (chronicle#261, #265).
 
-    UK packages must label every dimension and value, so their issues are
-    errors, except publisher row labels that differ across the rows of one
-    groupby value: Chronicle keeps that text as published and warns. Other
-    packages carry labels wherever they declare or evidence them, unchecked.
+    Every package must label every dimension and value it emits, whichever
+    country it publishes for: the row contract is one contract, and a consumer
+    reads the labels the same way everywhere. The exception is publisher row
+    labels that differ across the rows of one groupby value: Chronicle keeps
+    that text as published and warns.
     """
-    if source not in UK_BUNDLE_SOURCES:
-        return [], []
     errors: list[BuildBundleIssue] = []
     warnings: list[BuildBundleIssue] = []
     for issue in dimension_label_issues(rows):
@@ -502,19 +511,190 @@ def _dimension_label_reports(
     return errors, warnings
 
 
+def _geography_name_errors(
+    source: str,
+    rows: list[dict[str, Any]],
+) -> list[BuildBundleIssue]:
+    """Report facts that leave a sub-national geography unnamed (chronicle#266).
+
+    Microcosm's calibration hierarchy labels a target's geography from the fact
+    it selects and falls back to its own catalog only for country-level
+    identifiers it already knows, so every fact below country level must carry
+    the name its publisher gives that area. One error per unnamed area, not per
+    fact: a source names an area once and every row of it is unnamed together.
+    """
+    unnamed: dict[tuple[str, str], int] = {}
+    for row in rows:
+        geography = row.get("geography") or {}
+        level = str(geography.get("level") or "")
+        if not level or level == "country":
+            continue
+        if str(geography.get("name") or "").strip():
+            continue
+        key = (level, str(geography.get("id") or ""))
+        unnamed[key] = unnamed.get(key, 0) + 1
+    errors = [
+        BuildBundleIssue(
+            code="missing_geography_name",
+            message=(
+                f"Geography {geography_id!r} at level {level!r} has no "
+                f"publisher name on {count} fact(s); Microcosm labels a "
+                "sub-national tier from the fact, never from the identifier."
+            ),
+            source=source,
+            key=f"{level}:{geography_id}",
+        )
+        for (level, geography_id), count in sorted(unnamed.items())
+    ]
+    # Two publishers may name one area differently and both be right, but one
+    # package naming it twice is a package that disagrees with itself.
+    errors.extend(
+        BuildBundleIssue(
+            code="conflicting_geography_name",
+            message=(
+                f"This package names geography {geography_id!r} at level "
+                f"{level!r} "
+                + " and ".join(repr(name) for name in sorted(names))
+                + "; one source states one name for an area."
+            ),
+            source=source,
+            key=f"{level}:{geography_id}",
+        )
+        for (level, geography_id), names in sorted(_geography_names(rows).items())
+        if len(names) > 1
+    )
+    return errors
+
+
+def _geography_names(rows: list[dict[str, Any]]) -> dict[tuple[str, str], set[str]]:
+    """Return every name one source gives each area it publishes facts for."""
+    found: dict[tuple[str, str], set[str]] = {}
+    for row in rows:
+        geography = row.get("geography") or {}
+        name = str(geography.get("name") or "").strip()
+        if not name:
+            continue
+        area = (str(geography.get("level") or ""), str(geography.get("id") or ""))
+        found.setdefault(area, set()).add(name)
+    return found
+
+
+def _spans_two_sources(labels: dict[str, list[str]]) -> bool:
+    """Whether the disagreement is between packages rather than inside one.
+
+    One package saying two things about one value or one area is its own
+    package-level issue; repeating it here would report the same drift twice.
+    """
+    return len({source for sources in labels.values() for source in sources}) > 1
+
+
+def _value_labels(rows: list[dict[str, Any]]) -> dict[tuple[str, str], set[str]]:
+    """Return every label one source gives each dimension value.
+
+    A value that is the fact's own geography is left out: publishers naming an
+    area two ways is the geography-name warning's business, and reporting it
+    again here would say the same thing in a second voice.
+    """
+    found: dict[tuple[str, str], set[str]] = {}
+    for row in rows:
+        geography_id = str((row.get("geography") or {}).get("id") or "").casefold()
+        pairs: list[tuple[str, str, Any]] = [
+            (str(dimension_id), str(value_id), label)
+            for dimension_id, value_labels in (
+                row.get("dimension_value_labels") or {}
+            ).items()
+            for value_id, label in value_labels.items()
+        ]
+        layout = row.get("layout") or {}
+        groupby = str(layout.get("groupby_dimension") or "")
+        groupby_value = layout.get("groupby_value_id")
+        if groupby and groupby_value is not None:
+            pairs.append(
+                (groupby, str(groupby_value), layout.get("groupby_value_label"))
+            )
+        for dimension_id, value_id, label in pairs:
+            text = str(label or "").strip()
+            if not text or value_id.casefold() == geography_id:
+                continue
+            found.setdefault((dimension_id, value_id), set()).add(text)
+    return found
+
+
+def _cross_package_value_label_warnings(
+    labels_by_value: dict[tuple[str, str], dict[str, list[str]]],
+) -> list[BuildBundleIssue]:
+    """Report a dimension value two packages label differently (chronicle#265).
+
+    One label per dimension id is an error because a consumer selects on the
+    id; one label per value is a warning because the wording belongs to the
+    table the value was read from, and two tables of one publisher may word a
+    band or a total differently. A consumer target that spans both sees both,
+    so the bundle says where that is possible.
+    """
+    return [
+        BuildBundleIssue(
+            code="conflicting_value_label_across_packages",
+            message=(
+                f"Packages label {dimension_id!r} value {value_id!r} "
+                "differently: "
+                + "; ".join(
+                    f"{label!r} in {sorted(sources)}"
+                    for label, sources in sorted(labels.items())
+                )
+                + "."
+            ),
+            key=f"{dimension_id}={value_id}",
+        )
+        for (dimension_id, value_id), labels in sorted(labels_by_value.items())
+        if len(labels) > 1 and _spans_two_sources(labels)
+    ]
+
+
+def _cross_package_geography_name_warnings(
+    names_by_area: dict[tuple[str, str], dict[str, list[str]]],
+) -> list[BuildBundleIssue]:
+    """Report an area two packages name differently (chronicle#266).
+
+    Chronicle keeps each publisher's own text, so these are warnings, not
+    errors: the IRS truncates county names to twenty characters, and ONS writes
+    "Yorkshire and The Humber" where HMRC writes "the". A Microcosm target that
+    selects facts from two such packages for one area sees both names and
+    refuses them, so the bundle says where that can happen rather than choosing
+    a spelling on the publishers' behalf.
+    """
+    return [
+        BuildBundleIssue(
+            code="conflicting_geography_name_across_packages",
+            message=(
+                f"Packages name geography {geography_id!r} at level {level!r} "
+                "differently: "
+                + "; ".join(
+                    f"{name!r} in {sorted(sources)}"
+                    for name, sources in sorted(names.items())
+                )
+                + "."
+            ),
+            key=f"{level}:{geography_id}",
+        )
+        for (level, geography_id), names in sorted(names_by_area.items())
+        if len(names) > 1 and _spans_two_sources(names)
+    ]
+
+
 def _cross_package_dimension_label_errors(
     labels_by_dimension: dict[str, dict[str, list[str]]],
 ) -> list[BuildBundleIssue]:
-    """Require one label per UK dimension id across packages.
+    """Require one label per dimension id across packages (chronicle#265).
 
     A consumer target can select facts from several packages that share a
-    dimension id, such as ``geography``, and must see one name for it.
+    dimension id, such as ``geography``, and must see one name for it. The
+    bundle is one artifact, so the requirement spans every package in it.
     """
     return [
         BuildBundleIssue(
             code="conflicting_dimension_label_across_packages",
             message=(
-                f"UK packages label dimension {dimension_id!r} differently: "
+                f"Packages label dimension {dimension_id!r} differently: "
                 + "; ".join(
                     f"{label!r} in {sorted(sources)}"
                     for label, sources in sorted(labels.items())

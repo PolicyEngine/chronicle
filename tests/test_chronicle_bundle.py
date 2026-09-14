@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -17,7 +18,7 @@ from chronicle.bundle import (
     build_bundle,
     build_bundle_coverage,
 )
-from chronicle.epoch import HASH_DOMAINS, SCHEMA_IDS, Epoch
+from chronicle.epoch import HASH_DOMAINS, Epoch
 from chronicle.harness import build_bundle_dir
 from chronicle.harness import main as harness_main
 
@@ -32,8 +33,9 @@ def _fixture_consumer_rows():
 
 
 def _row_for_epoch(row, epoch):
+    # Only the key identifiers move between epochs; the row keeps the contract
+    # it was published under (chronicle#266).
     transformed = json.loads(json.dumps(row))
-    transformed["schema_version"] = SCHEMA_IDS["consumer_fact"].for_epoch(epoch)
     for field_name, domain_name in (
         ("aggregate_fact_key", "aggregate_fact"),
         ("semantic_fact_key", "semantic_fact"),
@@ -137,7 +139,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "skipped_source_count": 10,
         "source_count": 50,
         "source_package_count": 202,
-        "warning_count": 1,
+        # 1 semantic-duplicate warning, plus the publisher wording Chronicle
+        # keeps as published: areas two packages name differently, values two
+        # packages word differently, and groupby rows that drift inside one
+        # package (chronicle#265, #266).
+        "warning_count": 167,
     }
     assert len(rows) == 330133
     assert {row["provenance_class"] for row in rows} <= {
@@ -1044,7 +1050,17 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 177
-    assert summary["warnings"] == [
+    assert Counter(warning["code"] for warning in summary["warnings"]) == {
+        "conflicting_geography_name_across_packages": 141,
+        "conflicting_groupby_value_label": 16,
+        "conflicting_value_label_across_packages": 9,
+        "duplicate_semantic_fact_key": 1,
+    }
+    assert [
+        warning
+        for warning in summary["warnings"]
+        if warning["code"] == "duplicate_semantic_fact_key"
+    ] == [
         {
             "code": "duplicate_semantic_fact_key",
             "message": (
@@ -1052,6 +1068,48 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
                 "consumers should reconcile or select sources."
             ),
         }
+    ]
+    # chronicle#266: the areas whose publishers name them differently, kept as
+    # each publisher writes them. ONS writes "Yorkshire and The Humber" where
+    # HMRC writes "the"; the IRS truncates county names to twenty characters.
+    geography_names = [
+        warning
+        for warning in summary["warnings"]
+        if warning["code"] == "conflicting_geography_name_across_packages"
+    ]
+    assert Counter(warning["key"].split(":")[0] for warning in geography_names) == {
+        "local_authority": 88,
+        "county": 50,
+        "constituency": 2,
+        "region": 1,
+    }
+    assert sorted(
+        warning["key"]
+        for warning in summary["warnings"]
+        if warning["code"] == "conflicting_value_label_across_packages"
+    ) == [
+        "age=85_plus",
+        "age=age_20",
+        "age=age_21",
+        "household_type=couple_3_plus_children_households",
+        "measure=country_total",
+        "ons.household_type=couple_3_plus_children_households",
+        "sex=female",
+        "us:statutes/26/62#adjusted_gross_income=all",
+        "us:statutes/26/62#adjusted_gross_income=under_1",
+    ]
+    assert [
+        warning["message"]
+        for warning in geography_names
+        if warning["key"] == "region:E12000003"
+    ] == [
+        "Packages name geography 'E12000003' at level 'region' differently: "
+        "'Yorkshire and The Humber' in ['hmrc-child-benefit-august-2025', "
+        "'mhclg-ehs-weekly-housing-costs-2023-24', "
+        "'ons-pipr-rents-by-area-june-2026', 'voa-council-tax-bands-2025']; "
+        "'Yorkshire and the Humber' in ['hmrc-cgt-country-region-2026', "
+        "'hmrc-spi-income-by-area-2023-24', 'ons-mye-2023-england-regions', "
+        "'ons-mye-2024-uk']."
     ]
     for source in (
         "dfe-funded-early-education-childcare-2026",
@@ -1473,7 +1531,7 @@ def test_bundle_jsonl_ingestion_accepts_chronicle_only_rows(tmp_path):
     loaded = load_bundle_jsonl(path)
 
     assert loaded == [row]
-    assert loaded[0]["schema_version"] == "chronicle.consumer_fact.v2"
+    assert loaded[0]["schema_version"] == "chronicle.consumer_fact.v3"
     assert loaded[0]["aggregate_fact_key"].startswith("chronicle.aggregate_fact.v3:")
 
 
@@ -1491,8 +1549,8 @@ def test_bundle_jsonl_ingestion_accepts_mixed_epoch_rows(tmp_path):
     loaded = load_bundle_jsonl(path)
 
     assert loaded == [ledger_row, chronicle_row]
-    # Both rows use the v2 row contract; their keys are in different epochs.
-    assert {row["schema_version"] for row in loaded} == {"chronicle.consumer_fact.v2"}
+    # Both rows use the same row contract; their keys are in different epochs.
+    assert {row["schema_version"] for row in loaded} == {"chronicle.consumer_fact.v3"}
     assert loaded[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert loaded[1]["aggregate_fact_key"].startswith("chronicle.aggregate_fact.v3:")
 

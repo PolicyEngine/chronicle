@@ -1,6 +1,13 @@
 schema_version: ledger.source_package.v1
 package_id: eurostat-spr-exp-func-2024
 label: Eurostat ESSPROS 2024 social protection expenditure by function for Belgium
+dimension_labels:
+  'freq': 'Time frequency'
+  'geo': 'Geopolitical entity (reporting)'
+  'spdeps': 'Main expenditure type'
+  'spfunc': 'Social protection function'
+  'time': 'Time'
+  'unit': 'Unit of measure'
 artifact:
   source_name: eurostat
   source_table: Eurostat spr_exp_func Expenditure on social benefits by function for Belgium

@@ -1,6 +1,14 @@
 schema_version: ledger.source_package.v1
 package_id: eurostat-nasa-10-nf-tr
 label: Eurostat nasa_10_nf_tr Belgian household-sector non-financial transactions
+dimension_labels:
+  'direct': 'Direction of flow'
+  'freq': 'Time frequency'
+  'geo': 'Geopolitical entity (reporting)'
+  'na_item': 'National accounts indicator (ESA 2010)'
+  'sector': 'Sector'
+  'time': 'Time'
+  'unit': 'Unit of measure'
 artifact:
   source_name: eurostat
   source_table: Eurostat nasa_10_nf_tr Non-financial transactions - annual data for Belgian households and NPISH

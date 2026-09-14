@@ -527,16 +527,20 @@ payload as its Ledger key; only the prefix differs.
 - **Emitters stay Ledger-named.** `EMIT_EPOCH` is the one default a later,
   consumer-gated cutover flips. Package scaffolds, relational builds, and
   consumer artifacts emit Ledger identifiers today.
-- **The row contract moves on its own.** `chronicle.consumer_fact.v2`
-  (chronicle#261) is the frozen v1 row plus optional dimension and value
-  labels, so a v1 row restamped with the v2 id is a valid v2 row. Rows are
-  emitted as v2 with Ledger-named keys, and each row validates against the
-  schema of the contract it names.
+- **The row contract moves on its own.** Each contract in
+  `CONSUMER_FACT_ROW_CONTRACTS` adds to the one before it, so a row restamped
+  with a later id stays valid: `chronicle.consumer_fact.v2` (chronicle#261) is
+  the frozen v1 row plus optional dimension and value labels, and
+  `chronicle.consumer_fact.v3` (chronicle#266) is v2 plus the publisher's name
+  for the fact's geography. Rows are emitted as v3 with Ledger-named keys, and
+  each row validates against the schema of the contract it names. Only v1 and
+  v2 name a naming epoch: the epoch table renames identifiers, it does not
+  version the row.
 - **Artifacts canonicalize on emit.** The consumer artifact pins the sha256 of
-  the v2 consumer-fact schema, so `build_consumer_artifact` rewrites every row
-  it read to Ledger-named keys and the v2 contract before writing it; an
+  the v3 consumer-fact schema, so `build_consumer_artifact` rewrites every row
+  it read to Ledger-named keys and the v3 contract before writing it; an
   artifact built from mixed-epoch rows is byte-identical to one built from the
-  same rows written Ledger-named. Loads accept an artifact pinned to either
+  same rows written Ledger-named. Loads accept an artifact pinned to any
   packaged schema whose rows use that contract. Asking an artifact boundary to
   emit Chronicle-named keys is refused until the consumer-gated key cutover,
   and the refusal happens before any existing output is touched.

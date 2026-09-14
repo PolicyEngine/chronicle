@@ -1,10 +1,12 @@
 """Consumer-fact row schema validation for Chronicle artifacts.
 
-Both consumer-fact row schemas are packaged with the wheel so builds and loads
-validate every fact row against the exact contract it claims: the frozen
-``consumer_fact.v1`` schema for ``ledger.consumer_fact.v1`` rows, and the
+Every consumer-fact row schema is packaged with the wheel so builds and loads
+validate each fact row against the exact contract it claims: the frozen
+``consumer_fact.v1`` schema for ``ledger.consumer_fact.v1`` rows, the
 ``consumer_fact.v2`` schema, v1 plus optional dimension and value labels
-(chronicle#261), for ``chronicle.consumer_fact.v2`` rows. The packaged schema
+(chronicle#261), for ``chronicle.consumer_fact.v2`` rows, and the
+``consumer_fact.v3`` schema, v2 plus the publisher's geography name
+(chronicle#266), for ``chronicle.consumer_fact.v3`` rows. The packaged schema
 bytes are the single source of truth: each artifact manifest records the sha256
 of the schema its rows use, and a load rejects any manifest that claims a
 different one.
@@ -24,6 +26,7 @@ from chronicle.epoch import (
     CONSUMER_FACT_EMIT_SCHEMA_VERSION,
     SCHEMA_IDS,
     canonicalize_key,
+    consumer_fact_row_contract,
 )
 from jsonschema import Draft202012Validator
 
@@ -32,6 +35,7 @@ _SCHEMA_RESOURCES = MappingProxyType(
     {
         SCHEMA_IDS["consumer_fact"].ledger: "consumer_fact.v1.schema.json",
         SCHEMA_IDS["consumer_fact"].chronicle: "consumer_fact.v2.schema.json",
+        "chronicle.consumer_fact.v3": "consumer_fact.v3.schema.json",
     }
 )
 
@@ -120,7 +124,7 @@ def _check_schema_version(row: dict[str, Any], line_number: int, path: Any) -> N
     if not isinstance(schema_version, str):
         return
     try:
-        SCHEMA_IDS["consumer_fact"].infer_identifier_epoch(schema_version)
+        consumer_fact_row_contract(schema_version)
     except ValueError as error:
         raise _epoch_validation_error(
             line_number=line_number,
@@ -139,10 +143,10 @@ def normalize_consumer_fact_row_epochs(
 
     This adapter accepts either registered naming epoch on each identifier,
     independently, and normalizes only the copy it returns. The caller's row is
-    never mutated, and mixed-epoch rows remain valid. ``schema_version`` must be
-    an accepted row contract but is kept as it is: ``ledger.consumer_fact.v1``
-    and ``chronicle.consumer_fact.v2`` are distinct contracts (v2 adds optional
-    labels), so each row validates against its own schema.
+    never mutated, and mixed-epoch rows remain valid. ``schema_version`` must
+    name a row contract in :data:`CONSUMER_FACT_ROW_CONTRACTS` but is kept as it
+    is: v1, v2 (optional labels) and v3 (the publisher's geography name) are
+    distinct contracts, so each row validates against its own schema.
     """
 
     normalized = deepcopy(row)

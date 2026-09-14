@@ -3,6 +3,15 @@ package_id: soi-county-2022
 label: IRS SOI 2022 county return and AGI totals
 fixture: false
 generated_by: uv run python -m chronicle.sources.admin_packages
+dimension_labels:
+  filing_status: Filing status
+  income_range: Income range
+  irs_soi.county: County
+dimension_value_labels:
+  filing_status:
+    all: All filing statuses
+  income_range:
+    all: All income ranges
 artifact:
   source_name: irs_soi
   source_table: IRS SOI County Data 2022

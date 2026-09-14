@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: statbel-fiscal-income-2023-nis-2025
 label: Statbel fiscal income 2023 commune taxable-income targets on 2025 NIS geography
+dimension_labels:
+  'geography': 'Geography'
 artifact:
   source_name: statbel_fiscal_income
   source_table: Personal income tax statistics by municipality, income year 2023, 2025 NIS

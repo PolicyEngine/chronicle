@@ -3,6 +3,8 @@
 schema_version: ledger.source_package.v1
 package_id: fpb-economic-outlook-2026-2031-june-2026
 label: Federal Planning Bureau Economic Outlook 2026-2031 June 2026 statistical annex
+dimension_labels:
+  'fpb.published_row': 'Published annex row'
 artifact:
   source_name: fpb_economic_outlook
   source_table: Economic Outlook 2026-2031, June 2026 statistical annex (T01, T06, T07, T11, T17, T24)

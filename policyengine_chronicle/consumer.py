@@ -24,11 +24,13 @@ from chronicle.core import (
 )
 from chronicle.epoch import (
     CONSUMER_FACT_EMIT_SCHEMA_VERSION,
+    CONSUMER_FACT_ROW_CONTRACTS,
     EMIT_EPOCH,
     HASH_DOMAINS,
     SCHEMA_IDS,
     Epoch,
     canonicalize_key,
+    consumer_fact_row_contract,
     hash_domain,
     schema_id,
 )
@@ -156,15 +158,17 @@ def load_consumer_artifact(path: str | Path) -> ConsumerArtifact:
             raise ValueError(
                 "Consumer artifact consumer_fact_schema_versions must be a list."
             )
+        accepted_contracts = ", ".join(
+            repr(contract) for contract in CONSUMER_FACT_ROW_CONTRACTS
+        )
         for row_schema_version in declared_fact_schema_versions:
             try:
-                SCHEMA_IDS["consumer_fact"].infer_identifier_epoch(row_schema_version)
+                consumer_fact_row_contract(row_schema_version)
             except ValueError as error:
                 raise ValueError(
                     "Unsupported consumer fact schema_version in artifact "
-                    f"manifest: {row_schema_version!r}; accepted forms are "
-                    f"{SCHEMA_IDS['consumer_fact'].ledger!r} and "
-                    f"{SCHEMA_IDS['consumer_fact'].chronicle!r}."
+                    f"manifest: {row_schema_version!r}; accepted contracts are "
+                    f"{accepted_contracts}."
                 ) from error
     manifest_schema_sha256 = manifest.get("consumer_fact_schema_sha256")
     if manifest_schema_sha256 is not None:
@@ -253,6 +257,20 @@ def _assert_finite_numbers(value: Any, *, line_number: int, path: Path) -> None:
             _assert_finite_numbers(item, line_number=line_number, path=path)
 
 
+def _geography_key_payload(row: dict[str, Any]) -> Any:
+    """Return the row's geography as the fact key hashes it.
+
+    The publisher's ``name`` rides on v3 rows as display metadata
+    (chronicle#266) and has never been part of a key, so it is dropped here:
+    a v2 row and the v3 row that names its geography hash alike.
+    """
+
+    geography = row.get("geography")
+    if not isinstance(geography, dict):
+        return geography
+    return {key: value for key, value in geography.items() if key != "name"}
+
+
 def _recompute_aggregate_fact_key(row: dict[str, Any]) -> str:
     """Recompute the aggregate fact key from the row's content."""
     declared_key = row.get("aggregate_fact_key")
@@ -270,7 +288,7 @@ def _recompute_aggregate_fact_key(row: dict[str, Any]) -> str:
         ),
         "aggregation": row.get("aggregation"),
         "period": row.get("period"),
-        "geography": row.get("geography"),
+        "geography": _geography_key_payload(row),
         "entity": row.get("entity"),
         "dimension_set_key": canonicalize_key(
             "dimension_set", row.get("dimension_set_key")

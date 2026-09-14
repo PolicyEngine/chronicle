@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: bea-regional-state-personal-income-components-2024
 label: BEA Regional 2024 state personal income components
+dimension_labels:
+  'bea_regional.geography': 'Area'
 artifact:
   source_name: bea
   source_table: BEA Regional annual state personal income CSV ZIP

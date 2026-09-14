@@ -1,6 +1,40 @@
 schema_version: ledger.source_package.v1
 package_id: soi-table-2-5-eitc-agi-children-2022
 label: IRS SOI Publication 1304 Table 2.5 EITC by AGI and qualifying children 2022
+dimension_labels:
+  'income_range': 'Income range'
+  'us:statutes/26/62#adjusted_gross_income': 'Adjusted gross income'
+dimension_value_labels:
+  'income_range':
+    '10k_to_11k': '$10,000 under $11,000'
+    '11k_to_12k': '$11,000 under $12,000'
+    '12k_to_13k': '$12,000 under $13,000'
+    '13k_to_14k': '$13,000 under $14,000'
+    '14k_to_15k': '$14,000 under $15,000'
+    '15k_to_16k': '$15,000 under $16,000'
+    '16k_to_17k': '$16,000 under $17,000'
+    '17k_to_18k': '$17,000 under $18,000'
+    '18k_to_19k': '$18,000 under $19,000'
+    '19k_to_20k': '$19,000 under $20,000'
+    '1_to_1k': '$1 under $1,000'
+    '1k_to_2k': '$1,000 under $2,000'
+    '20k_to_25k': '$20,000 under $25,000'
+    '25k_to_30k': '$25,000 under $30,000'
+    '2k_to_3k': '$2,000 under $3,000'
+    '30k_to_35k': '$30,000 under $35,000'
+    '35k_to_40k': '$35,000 under $40,000'
+    '3k_to_4k': '$3,000 under $4,000'
+    '40k_to_45k': '$40,000 under $45,000'
+    '45k_to_50k': '$45,000 under $50,000'
+    '4k_to_5k': '$4,000 under $5,000'
+    '50k_plus': '$50,000 and over'
+    '5k_to_6k': '$5,000 under $6,000'
+    '6k_to_7k': '$6,000 under $7,000'
+    '7k_to_8k': '$7,000 under $8,000'
+    '8k_to_9k': '$8,000 under $9,000'
+    '9k_to_10k': '$9,000 under $10,000'
+    'all': 'All income ranges'
+    'under_1': 'No adjusted gross income'
 artifact:
   source_name: irs_soi
   source_table: Publication 1304 Table 2.5 EITC by AGI and qualifying children

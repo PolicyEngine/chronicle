@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: hhs-acf-tanf-financial-2024
 label: HHS ACF FY 2024 TANF financial data cash assistance
+dimension_labels:
+  'hhs_acf_tanf.spending_category': 'Spending category'
 artifact:
   source_name: hhs_acf_tanf
   source_table: FY 2024 Federal TANF and State MOE Financial Data

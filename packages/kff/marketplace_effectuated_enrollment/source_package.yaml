@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: kff-marketplace-effectuated-enrollment
 label: KFF State Health Facts full-year average marketplace effectuated enrollment
+dimension_labels:
+  'kff.state': 'State'
 artifact:
   source_name: kff
   source_table: Full Year Average Marketplace Effectuated Enrollment, 2017-2024

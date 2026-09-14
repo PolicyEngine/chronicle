@@ -808,10 +808,22 @@ dimension_value_labels:
 ```
 
 A groupby axis whose rows cross several fields takes the label of its leading field, the one its id names; the crossed fields carry their own labels as dimensions of the same fact. A declaration wins over every recovered label. `build-bundle` reports an error
-for a UK package fact with an unlabelled or doubly labelled dimension or value,
-and for a dimension id two UK packages label differently; publisher row labels
+for any package fact with an unlabelled or doubly labelled dimension or value,
+and for a dimension id two packages label differently (chronicle#265 — the rule
+covers every country, since a consumer reads one artifact); publisher row labels
 that differ across one groupby value's rows are a warning, since Chronicle keeps
 them as published. `build_facts` refuses a declaration no fact uses.
+
+Every fact also carries the publisher's name for its geography (chronicle#266),
+taken from the record set's or the row's `geography_name`. `build-bundle`
+reports an error for a fact below country level whose geography has no name:
+Microcosm labels a sub-national tier from the fact and falls back to its own
+catalog only for identifiers it already knows, and an identifier is not a name.
+A country-level geography may stay unnamed, and no name is ever invented from
+the code. Where two packages name one area differently — the IRS truncates
+county names to twenty characters, and ONS writes "Yorkshire and The Humber"
+where HMRC writes "the" — Chronicle keeps each publisher's text and warns, the
+same way it does for a groupby value's row labels.
 
 Agents may add new package directories and YAML specs. They should not modify
 `chronicle.core`, `chronicle.database`, or `chronicle.suite` unless the package cannot be

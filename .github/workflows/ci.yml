@@ -74,16 +74,20 @@ jobs:
           )
 
           assert policyengine_chronicle.__name__ == "policyengine_chronicle"
-          # Both pinned consumer-fact schemas must ship inside the wheel: the
-          # frozen v1 contract and the v2 contract rows are emitted under.
+          # Every consumer-fact contract must ship inside the wheel: frozen v1,
+          # the v2 labels contract, and the v3 contract rows are emitted under.
           assert (
               consumer_fact_schema("ledger.consumer_fact.v1")["title"]
               == "Ledger consumer fact contract row"
           )
           assert consumer_fact_schema()["title"] == "Chronicle consumer fact contract row"
+          assert consumer_fact_schema()["properties"]["schema_version"] == {
+              "const": "chronicle.consumer_fact.v3"
+          }
           assert set(CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION) == {
               "ledger.consumer_fact.v1",
               "chronicle.consumer_fact.v2",
+              "chronicle.consumer_fact.v3",
           }
           assert len(CONSUMER_FACT_SCHEMA_SHA256) == 64
           PY

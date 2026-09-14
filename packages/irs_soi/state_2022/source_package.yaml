@@ -1,6 +1,16 @@
 schema_version: ledger.source_package.v1
 package_id: soi-state-2022
 label: IRS SOI 2022 state-data United States totals
+dimension_labels:
+  'filing_status': 'Filing status'
+  'income_range': 'Income range'
+  'irs_soi.state_table_measure': 'State table measure'
+  'us.tax.earned_income_credit_qualifying_children': 'EITC qualifying children'
+dimension_value_labels:
+  'filing_status':
+    'all': 'All filing statuses'
+  'income_range':
+    'all': 'All income ranges'
 artifact:
   source_name: irs_soi
   source_table: Historic Table 2 state data, United States total

@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: cms-aca-effectuated-enrollment-2022
 label: CMS Marketplace full-year 2022 effectuated enrollment and financial assistance
+dimension_labels:
+  'cms_aca.state': 'State'
 artifact:
   source_name: cms_aca
   source_table: 'Effectuated Enrollment: Early Snapshot 2023 and Full Year 2022 Average'

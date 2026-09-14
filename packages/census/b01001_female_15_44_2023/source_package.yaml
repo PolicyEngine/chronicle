@@ -1,6 +1,9 @@
 schema_version: ledger.source_package.v1
 package_id: census-b01001-female-age-2023
 label: Census ACS 2023 B01001 state female population by age band
+dimension_labels:
+  'age': 'Age'
+  'sex': 'Sex'
 artifact:
   source_name: census_acs
   source_table: ACS 2023 1-year detailed table B01001 female age bands by state

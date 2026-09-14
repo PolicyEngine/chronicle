@@ -249,8 +249,10 @@ def dimension_label_issues(
     value must carry a single label. Values that only ever appear as a groupby
     value, whose publisher row labels differ across rows, are reported
     separately as ``conflicting_groupby_value_label``: that text is the
-    publisher's, kept as published. Issues are aggregated per dimension or
-    value, with a fact count and an example fact key.
+    publisher's, kept as published — including the row value of a groupby axis
+    that is also a filter, whose own value the row names and the filter does
+    not. Issues are aggregated per dimension or value, with a fact count and an
+    example fact key.
     """
     missing: dict[tuple[str, str, str | None], list[Any]] = {}
     row_conflicts: dict[tuple[str, str | None], set[str]] = defaultdict(set)
@@ -312,6 +314,18 @@ def dimension_label_issues(
                 row_conflicts[(dimension_id, value_id)].update(value_labels)
             else:
                 value_labels_seen[(dimension_id, value_id)].update(value_labels)
+
+        # When the groupby axis is also a filter but its row value differs from
+        # the filter's, the row's own value never reaches the loop above. Its
+        # publisher label is still a label of that axis, and a package that
+        # names one row value two ways across its record sets drifts the way
+        # ``conflicting_groupby_value_label`` reports (chronicle#265).
+        if groupby and groupby_value_id:
+            folded = dimension_value_id(dimensions.get(groupby, ""))
+            if folded != groupby_value_id:
+                row_label = _nonempty_labels(layout.get("groupby_value_label"))
+                if row_label:
+                    value_labels_seen[(groupby, groupby_value_id)].update(row_label)
 
     issues = [
         DimensionLabelIssue(
