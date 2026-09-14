@@ -11,6 +11,8 @@ dimension_value_labels:
     '3plus': 'Three or more qualifying children'
   'filing_status':
     'all': 'All filing statuses'
+  'income_range':
+    'all': 'All income ranges'
 artifact:
   source_name: irs_soi
   source_table: Congressional District Data 2022

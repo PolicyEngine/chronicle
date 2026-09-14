@@ -20,7 +20,9 @@ from chronicle import bundle
 from chronicle.bundle import (
     UK_BUNDLE_SOURCES,
     _cross_package_dimension_label_errors,
+    _cross_package_value_label_warnings,
     _dimension_label_reports,
+    _value_labels,
 )
 from chronicle.source_package import SOURCE_PACKAGE_ALIASES
 
@@ -80,7 +82,9 @@ def test_a_package_outside_the_uk_suite_is_checked_like_a_uk_one():
     )
 
     assert "jct-tax-expenditures-2024" not in UK_BUNDLE_SOURCES
-    errors, warnings = _dimension_label_reports("jct-tax-expenditures-2024", [unlabelled])
+    errors, warnings = _dimension_label_reports(
+        "jct-tax-expenditures-2024", [unlabelled]
+    )
     assert {error.code for error in errors} == {"missing_dimension_label"}
     assert {error.source for error in errors} == {"jct-tax-expenditures-2024"}
     assert warnings == []
@@ -94,7 +98,9 @@ def test_one_dimension_id_needs_one_label_across_the_whole_bundle():
                 "Geopolitical entity (reporting)": ["eurostat-ilc-li02"],
                 "Belgium": ["eurostat-nasa-10-nf-tr"],
             },
-            "geography": {"Geography": ["statbel-fiscal-income-2023-nis-2025", "ons-a"]},
+            "geography": {
+                "Geography": ["statbel-fiscal-income-2023-nis-2025", "ons-a"]
+            },
         }
     )
 
@@ -143,3 +149,58 @@ def test_the_packages_microcosm_targets_outside_the_uk_declare_their_labels():
         "spf-finances-pit-2023": "Measure",
         "statbel-population-structure-2025": "Demographic group",
     }
+
+
+def test_a_value_two_packages_word_differently_is_a_warning():
+    warnings = _cross_package_value_label_warnings(
+        {
+            ("income_range", "under_1"): {
+                "No adjusted gross income": ["soi-table-1-1"],
+                "No adjusted gross income and deficit": [
+                    "soi-filing-season-week47-2024-eitc-total"
+                ],
+            },
+            ("filing_status", "all"): {"All filing statuses": ["soi-table-1-1"]},
+        }
+    )
+
+    assert [(warning.code, warning.key) for warning in warnings] == [
+        ("conflicting_value_label_across_packages", "income_range=under_1")
+    ]
+    assert "'No adjusted gross income' in ['soi-table-1-1']" in warnings[0].message
+
+
+def test_an_area_name_is_left_to_the_geography_warning():
+    """A value that is the row's own geography is the other warning's business."""
+    row = {
+        "geography": {"level": "constituency", "id": "E14001101"},
+        "dimension_value_labels": {
+            "geography": {"e14001101": "Bishop Auckland"},
+            "tenure": {"social": "Social rented"},
+        },
+        "layout": {
+            "groupby_dimension": "geography",
+            "groupby_value_id": "e14001101",
+            "groupby_value_label": "Bishop Auckland",
+        },
+    }
+
+    assert _value_labels([row]) == {("tenure", "social"): {"Social rented"}}
+
+
+def test_one_package_disagreeing_with_itself_is_left_to_its_own_report():
+    """The package-level check owns single-source drift; this one would repeat it."""
+    warnings = _cross_package_value_label_warnings(
+        {
+            ("groeipakket.component", "sociale_toeslag"): {
+                "Social supplement child caseload": [
+                    "opgroeien-groeipakket-caseload-2025"
+                ],
+                "Social supplement family caseload": [
+                    "opgroeien-groeipakket-caseload-2025"
+                ],
+            }
+        }
+    )
+
+    assert warnings == []

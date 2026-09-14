@@ -23,7 +23,7 @@ dimension_value_labels:
     '5k_to_10k': '$5,000 under $10,000'
     '75k_to_100k': '$75,000 under $100,000'
     'all': 'All income ranges'
-    'under_1': 'No adjusted gross income and deficit'
+    'under_1': 'No adjusted gross income'
 artifact:
   source_name: irs_soi
   source_table: Filing Season Statistics Table 1

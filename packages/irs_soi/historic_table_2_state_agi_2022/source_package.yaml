@@ -9,7 +9,15 @@ dimension_value_labels:
   'filing_status':
     'all': 'All filing statuses'
   'income_range':
+    '100k_to_200k': '$100,000 under $200,000'
+    '10k_to_25k': '$10,000 under $25,000'
+    '1_to_10k': '$1 under $10,000'
+    '200k_to_500k': '$200,000 under $500,000'
+    '25k_to_50k': '$25,000 under $50,000'
     '500k_plus': '$500,000 or more'
+    '50k_to_75k': '$50,000 under $75,000'
+    '75k_to_100k': '$75,000 under $100,000'
+    'under_1': 'No adjusted gross income'
 artifact:
   source_name: irs_soi
   source_table: Historic Table 2 state AGI facts

@@ -4,8 +4,8 @@ label: Eurostat gov_10a_taxag 2025 tax revenue vintage for Belgium
 dimension_labels:
   'freq': 'Time frequency'
   'geo': 'Geopolitical entity (reporting)'
-  'na_item': 'National accounts indicator'
-  'sector': 'Institutional sector'
+  'na_item': 'National accounts indicator (ESA 2010)'
+  'sector': 'Sector'
   'time': 'Time'
   'unit': 'Unit of measure'
 artifact:

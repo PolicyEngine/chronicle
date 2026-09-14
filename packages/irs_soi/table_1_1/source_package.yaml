@@ -9,7 +9,7 @@ dimension_labels:
   'us:statutes/26/62#adjusted_gross_income': 'Adjusted gross income'
 dimension_value_labels:
   'filing_status':
-    'all': 'All returns'
+    'all': 'All filing statuses'
   'income_range':
     '100k_to_200k': '$100,000 under $200,000'
     '10k_to_15k': '$10,000 under $15,000'
@@ -29,7 +29,7 @@ dimension_value_labels:
     '5k_to_10k': '$5,000 under $10,000'
     '5m_to_10m': '$5,000,000 under $10,000,000'
     '75k_to_100k': '$75,000 under $100,000'
-    'all': 'All returns'
+    'all': 'All income ranges'
     'under_1': 'No adjusted gross income'
 artifact:
   source_name: irs_soi

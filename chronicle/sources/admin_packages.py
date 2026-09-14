@@ -151,7 +151,10 @@ def build_irs_soi_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
             "income_range": "Income range",
             "irs_soi.county": "County",
         },
-        "dimension_value_labels": {"filing_status": {"all": "All filing statuses"}},
+        "dimension_value_labels": {
+            "filing_status": {"all": "All filing statuses"},
+            "income_range": {"all": "All income ranges"},
+        },
         "artifact": {
             "source_name": source_name,
             "source_table": f"{fixture_prefix}IRS SOI County Data 2022",

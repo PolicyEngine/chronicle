@@ -4,6 +4,7 @@ label: Eurostat ESSPROS 2024 social protection expenditure by function for Belgi
 dimension_labels:
   'freq': 'Time frequency'
   'geo': 'Geopolitical entity (reporting)'
+  'spdeps': 'Main expenditure type'
   'spfunc': 'Social protection function'
   'time': 'Time'
   'unit': 'Unit of measure'

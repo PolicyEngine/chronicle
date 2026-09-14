@@ -4,6 +4,7 @@ label: Eurostat EU-SILC income distribution by decile for BE, DE, and FR
 dimension_labels:
   'freq': 'Time frequency'
   'geo': 'Geopolitical entity (reporting)'
+  'quant_inc': 'Income quantile'
   'statinfo': 'Statistical information'
   'time': 'Time'
   'unit': 'Unit of measure'

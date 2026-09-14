@@ -140,9 +140,9 @@ def test_the_geography_name_moves_no_key_and_nothing_else_on_the_row():
 
     for field_name in (*_KEY_FIELDS, "value", "dimensions", "period", "entity"):
         assert named[field_name] == plain[field_name]
-    assert {
-        key: value for key, value in named.items() if plain.get(key) != value
-    } == {"geography": {**plain["geography"], "name": "Bishop Auckland"}}
+    assert {key: value for key, value in named.items() if plain.get(key) != value} == {
+        "geography": {**plain["geography"], "name": "Bishop Auckland"}
+    }
 
 
 def test_an_artifact_of_named_rows_loads(tmp_path):
@@ -153,7 +153,9 @@ def test_an_artifact_of_named_rows_loads(tmp_path):
             _fact(name="Blaydon and Consett", geography_id="E14001106"),
         ),
     ]
-    facts_path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows))
+    facts_path.write_text(
+        "".join(json.dumps(row, sort_keys=True) + "\n" for row in rows)
+    )
     out_dir = tmp_path / "artifact"
 
     build_consumer_artifact(out_dir, facts_path=facts_path)
@@ -233,7 +235,9 @@ def test_build_bundle_warns_when_two_packages_name_an_area_differently(tmp_path)
             "geography_name: Alabama", "geography_name: Alabama (truncated)", 1
         ),
     )
-    original_dir = Path(__file__).parents[1] / "packages" / "hhs_acf/tanf_financial_2024"
+    original_dir = (
+        Path(__file__).parents[1] / "packages" / "hhs_acf/tanf_financial_2024"
+    )
 
     report = bundle.build_bundle(
         tmp_path / "bundle",
@@ -248,3 +252,18 @@ def test_build_bundle_warns_when_two_packages_name_an_area_differently(tmp_path)
     ]
     assert report.valid
     assert [warning.key for warning in names] == ["state:0400000US01"]
+
+
+def test_one_package_naming_an_area_twice_is_an_error():
+    rows = [
+        consumer_fact_row(_fact(name="Bishop Auckland")),
+        consumer_fact_row(_fact(name="Bishop  Auckland")),
+        consumer_fact_row(_fact(geography_id="E14001106", name="Blaydon")),
+    ]
+
+    errors = _geography_name_errors("dwp-uc-households-by-constituency-may-2025", rows)
+
+    assert [(error.code, error.key) for error in errors] == [
+        ("conflicting_geography_name", "constituency:E14001101")
+    ]
+    assert "one source states one name for an area" in errors[0].message

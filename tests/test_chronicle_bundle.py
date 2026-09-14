@@ -139,9 +139,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "skipped_source_count": 10,
         "source_count": 50,
         "source_package_count": 202,
-        # 1 semantic-duplicate warning, and the areas two packages name
-        # differently (chronicle#266), each kept as its publisher writes it.
-        "warning_count": 142,
+        # 1 semantic-duplicate warning, plus the publisher wording Chronicle
+        # keeps as published: areas two packages name differently, values two
+        # packages word differently, and groupby rows that drift inside one
+        # package (chronicle#265, #266).
+        "warning_count": 167,
     }
     assert len(rows) == 330133
     assert {row["provenance_class"] for row in rows} <= {
@@ -1050,6 +1052,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 177
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 141,
+        "conflicting_groupby_value_label": 16,
+        "conflicting_value_label_across_packages": 9,
         "duplicate_semantic_fact_key": 1,
     }
     assert [
@@ -1079,6 +1083,21 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "constituency": 2,
         "region": 1,
     }
+    assert sorted(
+        warning["key"]
+        for warning in summary["warnings"]
+        if warning["code"] == "conflicting_value_label_across_packages"
+    ) == [
+        "age=85_plus",
+        "age=age_20",
+        "age=age_21",
+        "household_type=couple_3_plus_children_households",
+        "measure=country_total",
+        "ons.household_type=couple_3_plus_children_households",
+        "sex=female",
+        "us:statutes/26/62#adjusted_gross_income=all",
+        "us:statutes/26/62#adjusted_gross_income=under_1",
+    ]
     assert [
         warning["message"]
         for warning in geography_names

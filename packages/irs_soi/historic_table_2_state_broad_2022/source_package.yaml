@@ -8,6 +8,8 @@ dimension_labels:
 dimension_value_labels:
   'filing_status':
     'all': 'All filing statuses'
+  'income_range':
+    'all': 'All income ranges'
 artifact:
   source_name: irs_soi
   source_table: Historic Table 2 state broad totals

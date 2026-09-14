@@ -5,6 +5,7 @@ dimension_labels:
   'age': 'Age'
   'freq': 'Time frequency'
   'geo': 'Geopolitical entity (reporting)'
+  'rskpovth': 'Risk of poverty threshold'
   'sex': 'Sex'
   'statinfo': 'Statistical information'
   'time': 'Time'

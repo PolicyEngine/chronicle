@@ -7,9 +7,9 @@ dimension_labels:
   'us:statutes/26/62#adjusted_gross_income': 'Adjusted gross income'
 dimension_value_labels:
   'filing_status':
-    'all': 'All returns, total'
+    'all': 'All filing statuses'
   'income_range':
-    'all': 'All returns, total'
+    'all': 'All income ranges'
 artifact:
   source_name: irs_soi
   source_table: Publication 1304 Table 1.2

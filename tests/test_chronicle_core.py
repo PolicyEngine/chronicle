@@ -466,7 +466,7 @@ def test_frozen_fixture_bytes_are_unchanged():
             # carrying the publisher's geography name, and chronicle#265 again
             # here, because the sample's own package now declares its dimension
             # labels. The keys and values in them are unchanged.
-            "211cec78294ac27bed2d94a43293bdc41b8484f4ff8c8801c602d2943f3ef821"
+            "686ba7f0a357967ffa186cc38bf353a424e59d72074316d2e502ebc19af09c7c"
         ),
         fixture_root / "source_cells" / "soi_table_1_1_2023_cells.jsonl": (
             "615639f21ee63e54595c677e24c3eddff484c00a795a2f91b45a8575f021c7e2"
