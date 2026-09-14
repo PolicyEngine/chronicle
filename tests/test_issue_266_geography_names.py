@@ -18,7 +18,10 @@ from pathlib import Path
 import pytest
 
 from chronicle import bundle
-from chronicle.bundle import _geography_name_errors
+from chronicle.bundle import (
+    _cross_package_geography_name_warnings,
+    _geography_name_errors,
+)
 from chronicle.consumer_contract import consumer_fact_row
 from chronicle.core import (
     AggregateFact,
@@ -203,3 +206,45 @@ def test_build_bundle_reports_a_package_that_names_no_area(tmp_path):
     assert not report.valid
     assert {issue.code for issue in report.errors} == {"missing_geography_name"}
     assert "state:0400000US01" in {issue.key for issue in report.errors}
+
+
+def test_packages_that_name_one_area_two_ways_are_a_warning():
+    warnings = _cross_package_geography_name_warnings(
+        {
+            ("county", "0500000US02013"): {
+                "Aleutians East Borou": ["soi-county-2022"],
+                "Aleutians East Borough": ["census-pep-county-population-2024"],
+            },
+            ("region", "E12000007"): {"London": ["dft-bus0415-fares-index-2026"]},
+        }
+    )
+
+    assert [(warning.code, warning.key) for warning in warnings] == [
+        ("conflicting_geography_name_across_packages", "county:0500000US02013")
+    ]
+    assert "'Aleutians East Borou' in ['soi-county-2022']" in warnings[0].message
+
+
+def test_build_bundle_warns_when_two_packages_name_an_area_differently(tmp_path):
+    package_dir = _copy_package(
+        tmp_path,
+        "hhs_acf/tanf_caseload_2024",
+        transform=lambda text: text.replace(
+            "geography_name: Alabama", "geography_name: Alabama (truncated)", 1
+        ),
+    )
+    original_dir = Path(__file__).parents[1] / "packages" / "hhs_acf/tanf_financial_2024"
+
+    report = bundle.build_bundle(
+        tmp_path / "bundle",
+        year=2024,
+        sources=[str(package_dir), str(original_dir)],
+    )
+
+    names = [
+        warning
+        for warning in report.warnings
+        if warning.code == "conflicting_geography_name_across_packages"
+    ]
+    assert report.valid
+    assert [warning.key for warning in names] == ["state:0400000US01"]

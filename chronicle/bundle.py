@@ -348,6 +348,7 @@ def build_bundle(
     source_reports: list[BundleSourceReport] = []
     consumer_rows: list[dict[str, Any]] = []
     dimension_labels: dict[str, dict[str, list[str]]] = {}
+    geography_names: dict[tuple[str, str], dict[str, list[str]]] = {}
 
     for source in build_sources:
         suite_dir = sources_path / _safe_source_dir_name(source)
@@ -386,6 +387,9 @@ def build_bundle(
         errors.extend(label_errors)
         warnings.extend(label_warnings)
         errors.extend(_geography_name_errors(source, rows))
+        for area, names in _geography_names(rows).items():
+            for name in names:
+                geography_names.setdefault(area, {}).setdefault(name, []).append(source)
         for dimension_id, labels in dimension_labels_by_id(rows).items():
             for label in labels:
                 dimension_labels.setdefault(dimension_id, {}).setdefault(
@@ -393,6 +397,7 @@ def build_bundle(
                 ).append(source)
 
     errors.extend(_cross_package_dimension_label_errors(dimension_labels))
+    warnings.extend(_cross_package_geography_name_warnings(geography_names))
     aggregate_duplicates = _duplicate_key_reports(
         consumer_rows,
         "aggregate_fact_key",
@@ -535,6 +540,50 @@ def _geography_name_errors(
             key=f"{level}:{geography_id}",
         )
         for (level, geography_id), count in sorted(unnamed.items())
+    ]
+
+
+def _geography_names(rows: list[dict[str, Any]]) -> dict[tuple[str, str], set[str]]:
+    """Return every name one source gives each area it publishes facts for."""
+    found: dict[tuple[str, str], set[str]] = {}
+    for row in rows:
+        geography = row.get("geography") or {}
+        name = str(geography.get("name") or "").strip()
+        if not name:
+            continue
+        area = (str(geography.get("level") or ""), str(geography.get("id") or ""))
+        found.setdefault(area, set()).add(name)
+    return found
+
+
+def _cross_package_geography_name_warnings(
+    names_by_area: dict[tuple[str, str], dict[str, list[str]]],
+) -> list[BuildBundleIssue]:
+    """Report an area two packages name differently (chronicle#266).
+
+    Chronicle keeps each publisher's own text, so these are warnings, not
+    errors: the IRS truncates county names to twenty characters, and ONS writes
+    "Yorkshire and The Humber" where HMRC writes "the". A Microcosm target that
+    selects facts from two such packages for one area sees both names and
+    refuses them, so the bundle says where that can happen rather than choosing
+    a spelling on the publishers' behalf.
+    """
+    return [
+        BuildBundleIssue(
+            code="conflicting_geography_name_across_packages",
+            message=(
+                f"Packages name geography {geography_id!r} at level {level!r} "
+                "differently: "
+                + "; ".join(
+                    f"{name!r} in {sorted(sources)}"
+                    for name, sources in sorted(names.items())
+                )
+                + "."
+            ),
+            key=f"{level}:{geography_id}",
+        )
+        for (level, geography_id), names in sorted(names_by_area.items())
+        if len(names) > 1
     ]
 
 

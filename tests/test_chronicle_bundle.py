@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -138,7 +139,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "skipped_source_count": 10,
         "source_count": 50,
         "source_package_count": 202,
-        "warning_count": 1,
+        # 1 semantic-duplicate warning, and the areas two packages name
+        # differently (chronicle#266), each kept as its publisher writes it.
+        "warning_count": 142,
     }
     assert len(rows) == 330133
     assert {row["provenance_class"] for row in rows} <= {
@@ -1045,7 +1048,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 177
-    assert summary["warnings"] == [
+    assert Counter(warning["code"] for warning in summary["warnings"]) == {
+        "conflicting_geography_name_across_packages": 141,
+        "duplicate_semantic_fact_key": 1,
+    }
+    assert [
+        warning
+        for warning in summary["warnings"]
+        if warning["code"] == "duplicate_semantic_fact_key"
+    ] == [
         {
             "code": "duplicate_semantic_fact_key",
             "message": (
@@ -1053,6 +1064,33 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
                 "consumers should reconcile or select sources."
             ),
         }
+    ]
+    # chronicle#266: the areas whose publishers name them differently, kept as
+    # each publisher writes them. ONS writes "Yorkshire and The Humber" where
+    # HMRC writes "the"; the IRS truncates county names to twenty characters.
+    geography_names = [
+        warning
+        for warning in summary["warnings"]
+        if warning["code"] == "conflicting_geography_name_across_packages"
+    ]
+    assert Counter(warning["key"].split(":")[0] for warning in geography_names) == {
+        "local_authority": 88,
+        "county": 50,
+        "constituency": 2,
+        "region": 1,
+    }
+    assert [
+        warning["message"]
+        for warning in geography_names
+        if warning["key"] == "region:E12000003"
+    ] == [
+        "Packages name geography 'E12000003' at level 'region' differently: "
+        "'Yorkshire and The Humber' in ['hmrc-child-benefit-august-2025', "
+        "'mhclg-ehs-weekly-housing-costs-2023-24', "
+        "'ons-pipr-rents-by-area-june-2026', 'voa-council-tax-bands-2025']; "
+        "'Yorkshire and the Humber' in ['hmrc-cgt-country-region-2026', "
+        "'hmrc-spi-income-by-area-2023-24', 'ons-mye-2023-england-regions', "
+        "'ons-mye-2024-uk']."
     ]
     for source in (
         "dfe-funded-early-education-childcare-2026",

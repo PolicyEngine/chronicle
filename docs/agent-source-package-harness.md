@@ -820,7 +820,10 @@ reports an error for a fact below country level whose geography has no name:
 Microcosm labels a sub-national tier from the fact and falls back to its own
 catalog only for identifiers it already knows, and an identifier is not a name.
 A country-level geography may stay unnamed, and no name is ever invented from
-the code.
+the code. Where two packages name one area differently — the IRS truncates
+county names to twenty characters, and ONS writes "Yorkshire and The Humber"
+where HMRC writes "the" — Chronicle keeps each publisher's text and warns, the
+same way it does for a groupby value's row labels.
 
 Agents may add new package directories and YAML specs. They should not modify
 `chronicle.core`, `chronicle.database`, or `chronicle.suite` unless the package cannot be
