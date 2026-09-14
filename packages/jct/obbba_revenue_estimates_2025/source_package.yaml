@@ -1,6 +1,9 @@
 schema_version: ledger.source_package.v1
 package_id: jct-obbba-revenue-estimates-2025
 label: JCT OBBBA Title VII revenue estimates, no-tax-on-tips and no-tax-on-overtime (JCX-35-25)
+dimension_labels:
+  'jct.provision': 'Provision'
+  'provision': 'Provision'
 artifact:
   source_name: jct
   source_table: Estimated Revenue Effects Relative to the Present Law Baseline of the Tax Provisions in Title VII - Finance (JCX-35-25)

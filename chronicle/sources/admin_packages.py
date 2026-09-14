@@ -146,6 +146,12 @@ def build_irs_soi_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
         "label": f"{fixture_prefix}IRS SOI 2022 county return and AGI totals",
         "fixture": fixture,
         "generated_by": GENERATED_BY,
+        "dimension_labels": {
+            "filing_status": "Filing status",
+            "income_range": "Income range",
+            "irs_soi.county": "County",
+        },
+        "dimension_value_labels": {"filing_status": {"all": "All filing statuses"}},
         "artifact": {
             "source_name": source_name,
             "source_table": f"{fixture_prefix}IRS SOI County Data 2022",
@@ -327,6 +333,7 @@ def build_census_pep_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
         "label": f"{fixture_prefix}Census PEP Vintage 2024 county population",
         "fixture": fixture,
         "generated_by": GENERATED_BY,
+        "dimension_labels": {"census_pep.county": "County"},
         "artifact": {
             "source_name": source_name,
             "source_table": f"{fixture_prefix}Vintage 2024 County Population Totals",
@@ -556,6 +563,7 @@ def build_usda_snap_monthly_package(root: Path = REPO_ROOT) -> dict[str, Any]:
         "label": f"USDA FNS SNAP FY2025 monthly state caseloads through {latest_month}",
         "fixture": False,
         "generated_by": GENERATED_BY,
+        "dimension_labels": {"usda_snap.state_or_territory": "State or territory"},
         "artifact": {
             "source_name": "usda_snap",
             "source_table": "SNAP FY2025 Monthly State Participation",

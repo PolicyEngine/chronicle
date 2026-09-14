@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: bfp-economic-outlook-2026-06
 label: BFP June 2026 economic outlook headline projections
+dimension_labels:
+  'bfp.metric': 'Outlook projection year'
 artifact:
   source_name: bfp_economic_outlook
   source_table: Economic Budget 2026-2027 - Economic Outlook 2028-2031, June 2026 headline projections

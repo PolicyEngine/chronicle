@@ -55,14 +55,18 @@ EUROSTAT_ARTIFACT_FILENAMES = {
     "eurostat-ilc-li02": "ilc_li02.json",
     "eurostat-ilc-di01": "ilc_di01.json",
 }
-# chronicle#261 added dimension and value labels to every fact; with those three
-# fields stripped, these facts still hash to 9db298bc... and 51768608... .
+# chronicle#261 added dimension and value labels to every fact, and chronicle#265
+# moved these two packages' Eurostat ids off the labels their own constraints
+# happened to give them and onto the declared ones, so that every package in the
+# bundle names `freq`, `geo`, `sector`, `time` and `unit` the same way. With the
+# three label fields stripped, these facts still hash to the pre-label
+# 9db298bc... and 51768608... : only the labels moved.
 PRIOR_VINTAGE_FACT_DIGESTS = {
     "eurostat-gov-10a-taxag": (
-        "af578be022bf0f8808851936edccdf5c4fd6e0282fcd1a241137ec796144a160"
+        "e4c7a1c157aaa8c5238dac07bbfc3d9d138c58ff8c88d7d87aef8f370c161b83"
     ),
     "eurostat-spr-exp-func": (
-        "1a5569be1c59c4102576cc8e29d783e4795cb290368a8494f580f58401985398"
+        "c3df4bc4dc8353b2de8f8fcb05fc366a67e2889fa76b25d9ed0911dab01e7fd9"
     ),
 }
 EXPECTED_QUERY_FILTERS = {

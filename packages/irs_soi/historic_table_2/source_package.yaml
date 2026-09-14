@@ -1,6 +1,13 @@
 schema_version: ledger.source_package.v1
 package_id: soi-historic-table-2
 label: IRS SOI Historic Table 2 national AGI and tax-credit records
+dimension_labels:
+  'filing_status': 'Filing status'
+  'income_range': 'Income range'
+  'us:statutes/26/62#adjusted_gross_income': 'Adjusted gross income'
+dimension_value_labels:
+  'filing_status':
+    'all': 'All returns'
 artifact:
   source_name: irs_soi
   source_table: Historic Table 2

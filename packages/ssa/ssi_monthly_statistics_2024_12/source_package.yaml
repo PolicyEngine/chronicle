@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: ssa-ssi-monthly-statistics-2024-12
 label: SSA SSI Monthly Statistics December 2024 Table 1 federal payment recipients by age
+dimension_labels:
+  'age': 'Age'
 artifact:
   source_name: ssa
   source_table: 'SSI Monthly Statistics, December 2024, Table 1'

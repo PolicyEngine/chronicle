@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: cms-nhe-historical-service-source
 label: CMS NHE historical Medicaid source-of-funds expenditures
+dimension_labels:
+  'cms_nhe.source_of_funds': 'Source of funds'
 artifact:
   source_name: cms_nhe
   source_table: National Health Expenditures by type of service and source of funds, CY 1960-2024

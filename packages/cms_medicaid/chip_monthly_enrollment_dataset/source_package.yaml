@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: cms-medicaid-chip-monthly-enrollment-dataset
 label: CMS Medicaid and CHIP December 2025 final monthly state enrollment
+dimension_labels:
+  'cms_medicaid.state_abbreviation': 'State'
 artifact:
   source_name: cms_medicaid
   source_table: State Medicaid and CHIP Applications, Eligibility Determinations, and Enrollment Data

@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: census-stc-individual-income-tax
 label: Census State Tax Collections individual income tax collections
+dimension_labels:
+  'census_stc.item': 'Tax collection item'
 artifact:
   source_name: census_stc
   source_table: FY{year} STC Flat File item T40 Individual Income Taxes

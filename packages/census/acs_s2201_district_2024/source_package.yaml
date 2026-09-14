@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: census-acs-s2201-congressional-district-snap-2024
 label: Census ACS 2024 S2201 congressional district SNAP household counts
+dimension_labels:
+  'snap_receipt_status': 'SNAP receipt status'
 artifact:
   source_name: census_acs
   source_table: ACS 2024 1-year subject table S2201 congressional district SNAP household

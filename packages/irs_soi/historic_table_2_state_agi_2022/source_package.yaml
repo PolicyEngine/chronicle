@@ -1,6 +1,15 @@
 schema_version: ledger.source_package.v1
 package_id: soi-historic-table-2-state-agi-2022
 label: IRS SOI Historic Table 2 state AGI facts for 2022
+dimension_labels:
+  'filing_status': 'Filing status'
+  'income_range': 'Income range'
+  'us:statutes/26/62#adjusted_gross_income': 'Adjusted gross income'
+dimension_value_labels:
+  'filing_status':
+    'all': 'All filing statuses'
+  'income_range':
+    '500k_plus': '$500,000 or more'
 artifact:
   source_name: irs_soi
   source_table: Historic Table 2 state AGI facts

@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: spf-finances-pit-2023
 label: SPF Finances personal income tax 2023 national tax target
+dimension_labels:
+  'measure': 'Measure'
 artifact:
   source_name: spf_finances_pit
   source_table: Personal income tax statistics total taxes, income year 2023

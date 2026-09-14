@@ -1,6 +1,14 @@
 schema_version: ledger.source_package.v1
 package_id: eurostat-ilc-li02
 label: Eurostat ilc_li02 at-risk-of-poverty rate for Belgium, Germany, and France
+dimension_labels:
+  'age': 'Age'
+  'freq': 'Time frequency'
+  'geo': 'Geopolitical entity (reporting)'
+  'sex': 'Sex'
+  'statinfo': 'Statistical information'
+  'time': 'Time'
+  'unit': 'Unit of measure'
 artifact:
   source_name: eurostat
   source_table: Eurostat ilc_li02 At-risk-of-poverty rate by poverty threshold, age and sex - EU-SILC and ECHP surveys for Belgium, Germany, and France

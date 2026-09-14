@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: cms-aca-oep-state-level-2022
 label: CMS Marketplace 2022 OEP state-level public use file
+dimension_labels:
+  'cms_aca.state_abrvtn': 'State'
 artifact:
   source_name: cms_aca
   source_table: 2022 OEP State-Level Public Use File

@@ -426,7 +426,6 @@ def test_bundle_requires_labels_for_uk_packages_only():
     drifting = _row()
     drifting["layout"] = {**drifting["layout"], "groupby_value_label": "April 2021"}
 
-    assert _dimension_label_reports("soi-table-1-1", [unlabelled]) == ([], [])
     errors, warnings = _dimension_label_reports(
         UK_BUNDLE_SOURCES[0], [unlabelled, _row(), drifting]
     )

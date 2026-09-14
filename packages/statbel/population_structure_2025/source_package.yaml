@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: statbel-population-structure-2025
 label: Statbel population structure 2025 NUTS1 population facts
+dimension_labels:
+  'demographic_group': 'Demographic group'
 artifact:
   source_name: statbel_population_structure
   source_table: Population by place of residence, nationality, marital status, age and sex,

@@ -1,6 +1,12 @@
 schema_version: ledger.source_package.v1
 package_id: eurostat-ilc-di01
 label: Eurostat EU-SILC income distribution by decile for BE, DE, and FR
+dimension_labels:
+  'freq': 'Time frequency'
+  'geo': 'Geopolitical entity (reporting)'
+  'statinfo': 'Statistical information'
+  'time': 'Time'
+  'unit': 'Unit of measure'
 artifact:
   source_name: eurostat
   source_table: Eurostat ilc_di01 Distribution of income by quantiles for Belgium, Germany, and France

@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: cbo-revenue-projections-income-by-source-2026-02
 label: CBO February 2026 revenue projections income by source
+dimension_labels:
+  'cbo.income_source': 'Income source'
 artifact:
   source_name: cbo
   source_table: Revenue Projections, by Category, February 2026, sheet 3.Individual Income Tax Details

@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: ici-fact-book-table-30
 label: ICI Fact Book Table 30 mutual fund capital gains distributions
+dimension_labels:
+  'ici.distribution_disposition': 'Fact book year'
 artifact:
   source_name: ici
   source_table: 2026 Investment Company Fact Book Data Table 30, Long-Term Mutual Funds Paid and Reinvested Capital Gains by Type of Fund

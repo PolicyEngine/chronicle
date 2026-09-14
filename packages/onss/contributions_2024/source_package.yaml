@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: onss-contributions-2024
 label: ONSS declared worker contribution 2024 national target
+dimension_labels:
+  'measure': 'Measure'
 artifact:
   source_name: onss_contributions
   source_table: Declared contributions 2024, Table 6 by sector, status and sex

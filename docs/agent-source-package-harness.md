@@ -808,8 +808,9 @@ dimension_value_labels:
 ```
 
 A groupby axis whose rows cross several fields takes the label of its leading field, the one its id names; the crossed fields carry their own labels as dimensions of the same fact. A declaration wins over every recovered label. `build-bundle` reports an error
-for a UK package fact with an unlabelled or doubly labelled dimension or value,
-and for a dimension id two UK packages label differently; publisher row labels
+for any package fact with an unlabelled or doubly labelled dimension or value,
+and for a dimension id two packages label differently (chronicle#265 — the rule
+covers every country, since a consumer reads one artifact); publisher row labels
 that differ across one groupby value's rows are a warning, since Chronicle keeps
 them as published. `build_facts` refuses a declaration no fact uses.
 

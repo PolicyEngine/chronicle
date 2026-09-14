@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: jct-tax-expenditures-2024
 label: JCT 2024 individual income tax expenditure estimates
+dimension_labels:
+  'jct.tax_expenditure': 'Tax expenditure'
 artifact:
   source_name: jct
   source_table: Estimates of Federal Tax Expenditures for Fiscal Years 2024-2028

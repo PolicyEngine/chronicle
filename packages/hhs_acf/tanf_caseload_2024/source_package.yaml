@@ -1,6 +1,9 @@
 schema_version: ledger.source_package.v1
 package_id: hhs-acf-tanf-caseload-2024
 label: HHS ACF FY 2024 TANF average monthly caseload
+dimension_labels:
+  'hhs_acf_tanf.caseload_category': 'Caseload category'
+  'hhs_acf_tanf.state': 'State'
 artifact:
   source_name: hhs_acf_tanf
   source_table: TANF Caseload Data 2024

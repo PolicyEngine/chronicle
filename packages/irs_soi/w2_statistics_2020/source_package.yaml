@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: soi-w2-statistics-2020
 label: IRS SOI 2020 Form W-2 social-security tips totals
+dimension_labels:
+  'irs_soi.form_w2_item': 'Form W-2 item'
 artifact:
   source_name: irs_soi
   source_table: Table 4.B. Summary of Items for Taxpayers with Form W-2, by Return and Earner Type, Tax Year 2020
