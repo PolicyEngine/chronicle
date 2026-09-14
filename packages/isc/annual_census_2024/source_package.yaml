@@ -48,7 +48,7 @@ record_sets:
   groupby_dimension: isc.census_line
   rows:
   - value_id: pupils_at_isc_schools
-    label: Pupils at ISC member schools, January 2024 census
+    label: Pupils at ISC member schools
     ordinal: 0
     row_number: 147
     expected_row_header_column: D

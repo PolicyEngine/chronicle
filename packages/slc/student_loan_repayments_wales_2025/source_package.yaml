@@ -43,7 +43,7 @@ record_sets:
   groupby_dimension: slc.repayment_line
   rows:
   - value_id: he_repayments
-    label: Higher education borrower repayments, Wales, FY2024-25
+    label: Higher education borrower repayments
     ordinal: 0
     row_number: 603
     expected_row_header_column: D

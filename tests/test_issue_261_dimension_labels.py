@@ -8,10 +8,13 @@ Microcosm's reader, and that labels never move a fact key or value.
 
 from __future__ import annotations
 
+import shutil
 from decimal import Decimal
+from pathlib import Path
 
 import pytest
 
+from chronicle import bundle
 from chronicle.bundle import (
     UK_BUNDLE_SOURCES,
     _cross_package_dimension_label_errors,
@@ -38,6 +41,7 @@ from chronicle.dimension_labels import (
 from chronicle.source_package import (
     _dimension_labels_from_mapping,
     _dimension_value_labels_from_mapping,
+    load_source_package,
 )
 from chronicle.sources.cells import SourceArtifactMetadata
 from chronicle.sources.rows import SourceRow, build_source_row_key
@@ -474,3 +478,63 @@ def test_package_value_label_declarations_load_trimmed():
             {True: {"Yes": "Yes"}},
             context="packages/x: dimension_value_labels",
         )
+
+
+def _copy_package(tmp_path, relative_dir, *, transform):
+    """Copy one real package into tmp_path with its YAML transformed."""
+    source = Path(__file__).parents[1] / "packages" / relative_dir
+    target = tmp_path / source.name
+    shutil.copytree(source, target)
+    package_yaml = target / "source_package.yaml"
+    package_yaml.write_text(transform(package_yaml.read_text()))
+    return target
+
+
+def _without_label_blocks(text):
+    kept, skipping = [], False
+    for line in text.split("\n"):
+        if line.startswith(("dimension_labels:", "dimension_value_labels:")):
+            skipping = True
+            continue
+        if skipping:
+            if not line or line.startswith(" "):
+                continue
+            skipping = False
+        kept.append(line)
+    return "\n".join(kept)
+
+
+def test_build_facts_refuses_a_declaration_no_fact_uses(tmp_path):
+    package_dir = _copy_package(
+        tmp_path,
+        "isc/annual_census_2023",
+        transform=lambda text: text.replace(
+            "dimension_labels:\n",
+            "dimension_labels:\n  'isc.no_such_dimension': 'Nothing'\n",
+            1,
+        ),
+    )
+
+    with pytest.raises(ValueError, match="declares labels no fact uses"):
+        load_source_package(package_dir).build_facts(2023)
+
+
+def test_build_bundle_reports_an_unlabelled_uk_package(tmp_path, monkeypatch):
+    package_dir = _copy_package(
+        tmp_path,
+        "isc/annual_census_2023",
+        transform=_without_label_blocks,
+    )
+    monkeypatch.setattr(bundle, "UK_BUNDLE_SOURCES", (str(package_dir),))
+
+    report = bundle.build_bundle(
+        tmp_path / "bundle", year=2023, sources=[str(package_dir)]
+    )
+
+    assert not report.valid
+    assert {issue.code for issue in report.errors} == {
+        "missing_dimension_label",
+        "missing_dimension_value_label",
+    }
+    assert {issue.source for issue in report.errors} == {str(package_dir)}
+    assert "isc.census_line" in {issue.key for issue in report.errors}

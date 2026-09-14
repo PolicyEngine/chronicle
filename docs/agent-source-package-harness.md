@@ -801,13 +801,13 @@ load `No` or `Yes` as a boolean:
 
 ```yaml
 dimension_labels:
-  dwp.carer_entitlement: 'Carer Entitlement, Payment Indicator'
+  dwp.carer_entitlement: 'Carer Entitlement'
 dimension_value_labels:
   payment_indicator:
     'all': Total
 ```
 
-A declaration wins over every recovered label. `build-bundle` reports an error
+A groupby axis whose rows cross several fields takes the label of its leading field, the one its id names; the crossed fields carry their own labels as dimensions of the same fact. A declaration wins over every recovered label. `build-bundle` reports an error
 for a UK package fact with an unlabelled or doubly labelled dimension or value,
 and for a dimension id two UK packages label differently; publisher row labels
 that differ across one groupby value's rows are a warning, since Chronicle keeps

@@ -262,7 +262,12 @@ def dimension_label_issues(
         fact_key = row.get("aggregate_fact_key")
         layout = row.get("layout") or {}
         groupby = str(layout.get("groupby_dimension") or "").strip()
-        groupby_value_id = str(layout.get("groupby_value_id") or "").strip()
+        raw_groupby_value_id = layout.get("groupby_value_id")
+        groupby_value_id = (
+            dimension_value_id(raw_groupby_value_id).strip()
+            if raw_groupby_value_id is not None
+            else ""
+        )
         dimensions = {
             str(key): value for key, value in (row.get("dimensions") or {}).items()
         }
