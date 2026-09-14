@@ -15,6 +15,7 @@ import json
 import pytest
 import yaml
 
+from chronicle.dimension_labels import dimension_label_issues
 from chronicle.source_package import load_source_package, resolve_source_package_path
 from chronicle.suite import build_source_suite
 
@@ -202,17 +203,24 @@ def test_england_publisher_identities(year):
             "E06000060": (230_534, 230_740),
             "E92000001": (24_718_212, 24_718_418),
         }
-        single = [
-            index[(CTB + "single_adult_discount_dwellings", "E08000012", period, band)]
-            for band in ("A-", *"ABCDEFGH")
-        ]
-        assert (
-            sum(single),
-            index[(CTB + "single_adult_discount_dwellings", "E08000012", period, None)],
-        ) == (
-            93_656,
-            93_657,
-        )
+        # Liverpool's line 8 bands sum one below its published total, and the
+        # England row carries the same one.
+        for geography, expected in (
+            ("E08000012", (93_656, 93_657)),
+            ("E92000001", (8_388_188, 8_388_189)),
+        ):
+            bands = [
+                index[
+                    (CTB + "single_adult_discount_dwellings", geography, period, band)
+                ]
+                for band in ("A-", *"ABCDEFGH")
+            ]
+            assert (
+                sum(bands),
+                index[
+                    (CTB + "single_adult_discount_dwellings", geography, period, None)
+                ],
+            ) == expected
     else:
         assert mismatched == {}
 
@@ -240,16 +248,44 @@ def test_england_codes_follow_the_publisher_and_the_voa_roster():
     renamed = {"E08000016": "E08000038", "E08000019": "E08000039"}
     assert codes[2025] == {renamed.get(code, code) for code in voa_english}
 
+    # E08000038 and E08000039 enter the roster in April 2025, so only the 2025
+    # return's two rows carry lad_2025; every other authority row is lad_2023.
+    vintages = {}
+    for year, alias in ENGLAND.items():
+        for fact in _facts(alias, year):
+            if fact.geography.level == "local_authority":
+                vintages.setdefault((year, fact.geography.vintage), set()).add(
+                    fact.geography.id
+                )
+    assert set(vintages) == {
+        (2023, "lad_2023"),
+        (2024, "lad_2023"),
+        (2025, "lad_2023"),
+        (2025, "lad_2025"),
+    }
+    assert vintages[(2025, "lad_2025")] == set(renamed.values())
+
 
 def test_wales_package_carries_ct1_lines_for_four_financial_years():
     facts = _facts(WALES, 2026)
 
-    assert len(facts) == 8_646
+    assert len(facts) == 8_278
     assert {fact.period.type for fact in facts} == {"fiscal_year"}
     per_year = {}
     for fact in facts:
         per_year[fact.period.value] = per_year.get(fact.period.value, 0) + 1
-    assert per_year == {2023: 2_146, 2024: 2_157, 2025: 2_168, 2026: 2_175}
+    assert per_year == {2023: 2_054, 2024: 2_065, 2025: 2_076, 2026: 2_083}
+    # Four tier rows are zero in every ported cell (92 each) and are not ported,
+    # under the #239 all-zero-category rule.
+    concepts = {fact.measure.concept for fact in facts}
+    assert not concepts & {
+        CT1 + "empty_property_discount_25_percent",
+        CT1 + "empty_property_discount_100_percent",
+        CT1 + "second_homes_discount_25_percent",
+        CT1 + "second_homes_discount_100_percent",
+    }
+    assert CT1 + "empty_property_discount_total" in concepts
+    assert CT1 + "second_homes_discount_total" in concepts
     assert all(fact.source.raw_r2_uri for fact in facts)
     geographies = {(fact.geography.id, fact.geography.level) for fact in facts}
     assert len(geographies) == 23
@@ -387,3 +423,28 @@ def test_issue_262_packages_pass_agent_acceptance(alias, year, tmp_path):
     assert report.valid
     assert acceptance["valid"]
     assert acceptance["counts"]["row_semantic_error_count"] == 0
+
+
+@pytest.mark.parametrize(("alias", "year"), ALL_262)
+def test_issue_262_packages_label_every_dimension_and_value(alias, year, tmp_path):
+    # chronicle#261 makes an unlabelled dimension or value a bundle error for
+    # every UK source; these packages declare 'geography', 'council_tax_band'
+    # and, in Scotland, 'scotgov.geography_row'.
+    output_dir = tmp_path / alias
+    build_source_suite(alias, output_dir, year=year)
+    rows = [
+        json.loads(line)
+        for line in (output_dir / "consumer_facts.jsonl").read_text().splitlines()
+        if line.strip()
+    ]
+
+    assert rows
+    assert dimension_label_issues(rows) == []
+    if not alias.startswith("scotgov"):
+        banded = next(row for row in rows if row["dimensions"].get("council_tax_band"))
+        assert banded["dimension_labels"]["council_tax_band"] == "Council tax band"
+        assert banded["dimension_labels"]["geography"] == "Geography"
+        band = banded["dimensions"]["council_tax_band"]
+        assert (
+            banded["dimension_value_labels"]["council_tax_band"][band] == f"Band {band}"
+        )

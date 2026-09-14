@@ -38,6 +38,20 @@
 schema_version: ledger.source_package.v1
 package_id: mhclg-council-taxbase-england-2024
 label: 'MHCLG Council Taxbase 2024: dwellings by council tax band, CTB lines 1 to 24, England and billing authorities'
+dimension_labels:
+  'geography': 'Geography'
+  'council_tax_band': 'Council tax band'
+dimension_value_labels:
+  'council_tax_band':
+    'A-': 'Band A-'
+    'A': 'Band A'
+    'B': 'Band B'
+    'C': 'Band C'
+    'D': 'Band D'
+    'E': 'Band E'
+    'F': 'Band F'
+    'G': 'Band G'
+    'H': 'Band H'
 artifact:
   source_name: mhclg
   source_table: 'Council Taxbase: Local authority level data for 2024 (revised), Council_Taxbase_Data worksheet'

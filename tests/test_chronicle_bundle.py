@@ -130,7 +130,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 330501,
+        "fact_count": 330133,
         "geography_count": 12553,
         "period_count": 492,
         "semantic_duplicate_key_count": 177,
@@ -139,7 +139,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "source_package_count": 202,
         "warning_count": 1,
     }
-    assert len(rows) == 330501
+    assert len(rows) == 330133
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -171,7 +171,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 330501
+    assert coverage["fact_count"] == 330133
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -222,7 +222,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "statbel_population_structure": 36,
         "usda_snap": 852,
         "voa": 3001,
-        "welshgov": 9693,
+        "welshgov": 9325,
     }
     table_counts = coverage["counts"]["by_source_table"]
     assert len(table_counts) == 197
@@ -751,10 +751,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fiscal_year:2020": 44,
         "fiscal_year:2021": 52,
         "fiscal_year:2022": 52,
-        "fiscal_year:2023": 2559,
-        "fiscal_year:2024": 2862,
-        "fiscal_year:2025": 3486,
-        "fiscal_year:2026": 3620,
+        "fiscal_year:2023": 2467,
+        "fiscal_year:2024": 2770,
+        "fiscal_year:2025": 3394,
+        "fiscal_year:2026": 3528,
         "fiscal_year:2027": 34,
         "fiscal_year:2028": 35,
         "fiscal_year:2029": 35,
@@ -1030,7 +1030,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert len(coverage["counts"]["by_geography"]) == 12553
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 7071,
-        "dwelling": 152627,
+        "dwelling": 152259,
         "family": 1299,
         "firm": 1439,
         "government": 2313,

@@ -16,6 +16,7 @@ package_id: scotgov-council-tax-bands-2025
 label: 'Scottish Government chargeable dwellings September 2025: Scotland by council tax band
   (CTAXBASE 2025)'
 dimension_labels:
+  'geography': 'Geography'
   'scotgov.geography_row': 'Geography'
 artifact:
   source_name: scotgov

@@ -36,12 +36,28 @@
 # council tax support section), the flood lines 16a to 16c, lines 11a to 11c (new in 2025), the E-code,
 # region and notes columns. No English region (E12) rows are published and none are
 # computed here. Geography: the publisher's ONS codes; this workbook codes Barnsley and Sheffield
-# E08000038 and E08000039 where the 2023 and 2024 workbooks use E08000016 and E08000019.
+# E08000038 and E08000039, which enter the roster in April 2025 and carry
+# geography_vintage lad_2025, where the 2023 and 2024 workbooks (and the VOA
+# CTSOP1.1 roster) use E08000016 and E08000019 at lad_2023.
 # Line 12's title reads 'receiving zero% discount' in 2023 and 'no (0%) discount and not
 # being charged a premium' from 2024; line 15 equals lines 12 + 13 + 14 in all three years.
 schema_version: ledger.source_package.v1
 package_id: mhclg-council-taxbase-england-2025
 label: 'MHCLG Council Taxbase 2025: dwellings by council tax band, CTB lines 1 to 24, England and billing authorities'
+dimension_labels:
+  'geography': 'Geography'
+  'council_tax_band': 'Council tax band'
+dimension_value_labels:
+  'council_tax_band':
+    'A-': 'Band A-'
+    'A': 'Band A'
+    'B': 'Band B'
+    'C': 'Band C'
+    'D': 'Band D'
+    'E': 'Band E'
+    'F': 'Band F'
+    'G': 'Band G'
+    'H': 'Band H'
 artifact:
   source_name: mhclg
   source_table: 'Council Taxbase: Local authority level data for 2025 (revised), Council Taxbase Data worksheet'
@@ -419,7 +435,7 @@ record_sets:
     geography_id: E08000038
     geography_level: local_authority
     geography_name: 'Barnsley'
-    geography_vintage: lad_2023
+    geography_vintage: lad_2025
     table_record_kind: detail
     guard_cells:
     - column: D
@@ -3635,7 +3651,7 @@ record_sets:
     geography_id: E08000039
     geography_level: local_authority
     geography_name: 'Sheffield'
-    geography_vintage: lad_2023
+    geography_vintage: lad_2025
     table_record_kind: detail
     guard_cells:
     - column: D
