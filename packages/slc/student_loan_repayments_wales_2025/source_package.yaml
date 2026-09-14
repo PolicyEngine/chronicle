@@ -11,6 +11,8 @@
 schema_version: ledger.source_package.v1
 package_id: slc-student-loan-repayments-wales-2025
 label: 'SLC student loans in Wales FY2024-25: higher education borrower repayments'
+dimension_labels:
+  'slc.repayment_line': 'Repayment line'
 artifact:
   source_name: slc
   source_table: Student loans for higher education in Wales, financial year 2024-25
@@ -41,7 +43,7 @@ record_sets:
   groupby_dimension: slc.repayment_line
   rows:
   - value_id: he_repayments
-    label: Higher education borrower repayments, Wales, FY2024-25
+    label: Higher education borrower repayments
     ordinal: 0
     row_number: 603
     expected_row_header_column: D
