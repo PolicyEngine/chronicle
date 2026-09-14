@@ -69,12 +69,22 @@ jobs:
           import policyengine_chronicle.targets
           from policyengine_chronicle.schema import (
               CONSUMER_FACT_SCHEMA_SHA256,
+              CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION,
               consumer_fact_schema,
           )
 
           assert policyengine_chronicle.__name__ == "policyengine_chronicle"
-          # The pinned consumer-fact schema must ship inside the wheel.
-          assert consumer_fact_schema()["title"] == "Ledger consumer fact contract row"
+          # Both pinned consumer-fact schemas must ship inside the wheel: the
+          # frozen v1 contract and the v2 contract rows are emitted under.
+          assert (
+              consumer_fact_schema("ledger.consumer_fact.v1")["title"]
+              == "Ledger consumer fact contract row"
+          )
+          assert consumer_fact_schema()["title"] == "Chronicle consumer fact contract row"
+          assert set(CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION) == {
+              "ledger.consumer_fact.v1",
+              "chronicle.consumer_fact.v2",
+          }
           assert len(CONSUMER_FACT_SCHEMA_SHA256) == 64
           PY
           /tmp/chronicle-wheel-smoke/bin/chronicle --help >/dev/null
