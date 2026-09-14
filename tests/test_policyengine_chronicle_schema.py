@@ -15,6 +15,7 @@ from pathlib import Path
 import pytest
 
 from chronicle.epoch import Epoch, HASH_DOMAINS, SCHEMA_IDS
+from chronicle.epoch import CONSUMER_FACT_ROW_CONTRACTS
 from policyengine_chronicle.schema import (
     CONSUMER_FACT_SCHEMA_SHA256,
     CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION,
@@ -28,13 +29,16 @@ _REPO_ROOT = Path(__file__).parents[1]
 _SAMPLE_PATH = _REPO_ROOT / "chronicle" / "fixtures" / "consumer_facts.jsonl"
 _V1 = SCHEMA_IDS["consumer_fact"].ledger
 _V2 = SCHEMA_IDS["consumer_fact"].chronicle
+_V3 = "chronicle.consumer_fact.v3"
 _SCHEMA_FILES = {
     _V1: "consumer_fact.v1.schema.json",
     _V2: "consumer_fact.v2.schema.json",
+    _V3: "consumer_fact.v3.schema.json",
 }
 _FROZEN_SCHEMA_SHA256 = {
     _V1: "72ad3149564f8aab3e9bb6de5ea25950c8e19a3e8402e2cdcfc52d250bc8ee82",
     _V2: "6a42e4a54b9758eaa1219489c318131429a3200fef6205e6700651d46bde068d",
+    _V3: "bdb51e2a8115634633ba7448c4005930fd9c0bfbade5e1b079b6bc24da485d3d",
 }
 
 _TOP_LEVEL_KEY_DOMAINS = {
@@ -54,7 +58,8 @@ def _fixture_row(index=0):
 
 
 def _chronicle_epoch_row(row):
-    row["schema_version"] = SCHEMA_IDS["consumer_fact"].chronicle
+    # The row keeps the contract it was published under; only the key
+    # identifiers move to the Chronicle epoch.
     for field_name, domain_name in _TOP_LEVEL_KEY_DOMAINS.items():
         row[field_name] = HASH_DOMAINS[domain_name].key_for_epoch(
             row[field_name], Epoch.CHRONICLE
@@ -76,9 +81,20 @@ def _chronicle_epoch_row(row):
     return row
 
 
+def _v2_row(index=0):
+    """A fixture row restated as a ``chronicle.consumer_fact.v2`` row.
+
+    v2 carries the labels and knows nothing of the publisher's geography name.
+    """
+    row = _fixture_row(index)
+    row["schema_version"] = _V2
+    row.get("geography", {}).pop("name", None)
+    return row
+
+
 def _v1_row(index=0):
     """A fixture row restated as a label-free ``ledger.consumer_fact.v1`` row."""
-    row = _fixture_row(index)
+    row = _v2_row(index)
     row["schema_version"] = _V1
     row.pop("dimension_labels", None)
     row.pop("dimension_value_labels", None)
@@ -86,7 +102,7 @@ def _v1_row(index=0):
     return row
 
 
-@pytest.mark.parametrize("schema_version", [_V1, _V2])
+@pytest.mark.parametrize("schema_version", [_V1, _V2, _V3])
 def test_packaged_schema_is_byte_identical_to_docs_schema(schema_version):
     filename = _SCHEMA_FILES[schema_version]
     docs_bytes = (_REPO_ROOT / "docs" / "schemas" / filename).read_bytes()
@@ -105,10 +121,11 @@ def test_packaged_schema_is_byte_identical_to_docs_schema(schema_version):
     )
 
 
-def test_emitted_schema_is_the_v2_contract():
-    assert CONSUMER_FACT_SCHEMA_SHA256 == _FROZEN_SCHEMA_SHA256[_V2]
+def test_emitted_schema_is_the_v3_contract():
+    assert CONSUMER_FACT_SCHEMA_SHA256 == _FROZEN_SCHEMA_SHA256[_V3]
     assert dict(CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION) == _FROZEN_SCHEMA_SHA256
-    assert consumer_fact_schema() == consumer_fact_schema(_V2)
+    assert consumer_fact_schema() == consumer_fact_schema(_V3)
+    assert tuple(CONSUMER_FACT_ROW_CONTRACTS) == (_V1, _V2, _V3)
 
 
 def test_consumer_fact_schema_is_the_v1_contract_row():
@@ -156,16 +173,19 @@ def test_valid_fixture_rows_pass_validation():
     ]
 
     assert len(rows) == 3
-    assert {row["schema_version"] for row in rows} == {_V2}
+    assert {row["schema_version"] for row in rows} == {_V3}
     for line_number, row in enumerate(rows, start=1):
         validate_consumer_fact_row(row, line_number, _SAMPLE_PATH)
 
 
-def test_a_v1_row_validates_as_v1_and_restamped_as_v2():
+@pytest.mark.parametrize("schema_version", [_V2, _V3])
+def test_a_v1_row_validates_as_v1_and_restamped_under_each_successor(schema_version):
     row = _v1_row()
 
     validate_consumer_fact_row(row, 1, _SAMPLE_PATH)
-    validate_consumer_fact_row({**row, "schema_version": _V2}, 1, _SAMPLE_PATH)
+    validate_consumer_fact_row(
+        {**row, "schema_version": schema_version}, 1, _SAMPLE_PATH
+    )
 
 
 def test_v2_rows_carry_labels_and_v1_rows_may_not():
@@ -215,8 +235,9 @@ def test_all_chronicle_epoch_identifiers_pass_without_mutating_row():
 
     assert row == original
     normalized = normalize_consumer_fact_row_epochs(row, 2, _SAMPLE_PATH)
-    # The row contract is not an epoch alias any more: v2 stays v2.
-    assert normalized["schema_version"] == _V2
+    # The row contract is not an epoch alias: a row keeps the contract it
+    # declares, here the v3 one the fixture was published under.
+    assert normalized["schema_version"] == _V3
     for field_name, domain_name in _TOP_LEVEL_KEY_DOMAINS.items():
         assert normalized[field_name].startswith(HASH_DOMAINS[domain_name].ledger + ":")
     assert normalized["concept_alignment"]["concept_alignment_key"].startswith(
@@ -232,7 +253,6 @@ def test_all_chronicle_epoch_identifiers_pass_without_mutating_row():
 
 def test_mixed_epoch_identifiers_pass_validation():
     row = _fixture_row(1)
-    row["schema_version"] = SCHEMA_IDS["consumer_fact"].chronicle
     row["aggregate_fact_key"] = HASH_DOMAINS["aggregate_fact"].key_for_epoch(
         row["aggregate_fact_key"], Epoch.CHRONICLE
     )

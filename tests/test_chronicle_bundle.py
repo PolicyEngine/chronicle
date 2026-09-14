@@ -17,7 +17,7 @@ from chronicle.bundle import (
     build_bundle,
     build_bundle_coverage,
 )
-from chronicle.epoch import HASH_DOMAINS, SCHEMA_IDS, Epoch
+from chronicle.epoch import HASH_DOMAINS, Epoch
 from chronicle.harness import build_bundle_dir
 from chronicle.harness import main as harness_main
 
@@ -32,8 +32,9 @@ def _fixture_consumer_rows():
 
 
 def _row_for_epoch(row, epoch):
+    # Only the key identifiers move between epochs; the row keeps the contract
+    # it was published under (chronicle#266).
     transformed = json.loads(json.dumps(row))
-    transformed["schema_version"] = SCHEMA_IDS["consumer_fact"].for_epoch(epoch)
     for field_name, domain_name in (
         ("aggregate_fact_key", "aggregate_fact"),
         ("semantic_fact_key", "semantic_fact"),
@@ -1473,7 +1474,7 @@ def test_bundle_jsonl_ingestion_accepts_chronicle_only_rows(tmp_path):
     loaded = load_bundle_jsonl(path)
 
     assert loaded == [row]
-    assert loaded[0]["schema_version"] == "chronicle.consumer_fact.v2"
+    assert loaded[0]["schema_version"] == "chronicle.consumer_fact.v3"
     assert loaded[0]["aggregate_fact_key"].startswith("chronicle.aggregate_fact.v3:")
 
 
@@ -1491,8 +1492,8 @@ def test_bundle_jsonl_ingestion_accepts_mixed_epoch_rows(tmp_path):
     loaded = load_bundle_jsonl(path)
 
     assert loaded == [ledger_row, chronicle_row]
-    # Both rows use the v2 row contract; their keys are in different epochs.
-    assert {row["schema_version"] for row in loaded} == {"chronicle.consumer_fact.v2"}
+    # Both rows use the same row contract; their keys are in different epochs.
+    assert {row["schema_version"] for row in loaded} == {"chronicle.consumer_fact.v3"}
     assert loaded[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert loaded[1]["aggregate_fact_key"].startswith("chronicle.aggregate_fact.v3:")
 

@@ -30,7 +30,11 @@ from chronicle.core import (
     build_aggregate_constraints,
     validate_facts,
 )
-from chronicle.epoch import HASH_DOMAINS, SCHEMA_IDS, Epoch
+from chronicle.epoch import (
+    CONSUMER_FACT_EMIT_SCHEMA_VERSION,
+    HASH_DOMAINS,
+    Epoch,
+)
 from chronicle.harness import main
 from chronicle.jurisdictions.us.soi import build_soi_table_1_1_facts
 from chronicle.store import save_facts_jsonl
@@ -40,7 +44,7 @@ from policyengine_chronicle.consumer import (
 )
 
 CONSUMER_FACT_SCHEMA_PATH = (
-    Path(__file__).parents[1] / "docs" / "schemas" / "consumer_fact.v2.schema.json"
+    Path(__file__).parents[1] / "docs" / "schemas" / "consumer_fact.v3.schema.json"
 )
 CONSUMER_FACT_SAMPLE_PATH = (
     Path(__file__).parents[1] / "chronicle" / "fixtures" / "consumer_facts.jsonl"
@@ -210,9 +214,10 @@ def test_chronicle_epoch_consumer_row_uses_successor_ids_consistently():
     ledger_row = consumer_fact_row(fact)
     chronicle_row = consumer_fact_row(fact, emit_epoch=Epoch.CHRONICLE)
 
-    # The row contract is independent of the key epoch: both rows are v2.
-    assert ledger_row["schema_version"] == SCHEMA_IDS["consumer_fact"].chronicle
-    assert chronicle_row["schema_version"] == SCHEMA_IDS["consumer_fact"].chronicle
+    # The row contract is independent of the key epoch: both rows are the
+    # contract Chronicle emits today.
+    assert ledger_row["schema_version"] == CONSUMER_FACT_EMIT_SCHEMA_VERSION
+    assert chronicle_row["schema_version"] == CONSUMER_FACT_EMIT_SCHEMA_VERSION
     key_fields = {
         "aggregate_fact_key": "aggregate_fact",
         "semantic_fact_key": "semantic_fact",
@@ -298,7 +303,7 @@ def test_chronicle_epoch_writer_is_refused_until_a_schema_is_pinned(tmp_path):
     # Row-level emission under the successor epoch stays available to readers
     # and to the database, which is not schema-pinned.
     row = consumer_fact_row(_soi_agi_fact(), emit_epoch=Epoch.CHRONICLE)
-    assert row["schema_version"] == SCHEMA_IDS["consumer_fact"].chronicle
+    assert row["schema_version"] == CONSUMER_FACT_EMIT_SCHEMA_VERSION
 
 
 @pytest.mark.parametrize(
@@ -326,7 +331,7 @@ def test_write_consumer_facts_jsonl_accepts_the_ledger_epoch_string(tmp_path):
         [_soi_agi_fact()], facts_path, emit_epoch="ledger"
     )
 
-    assert report.schema_version == "chronicle.consumer_fact.v2"
+    assert report.schema_version == "chronicle.consumer_fact.v3"
     assert facts_path.exists()
 
 

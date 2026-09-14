@@ -328,7 +328,7 @@ def test_labels_never_move_a_fact_key_or_value():
         **plain["layout"],
         "groupby_dimension_label": "Carer Entitlement",
     }
-    assert rich["schema_version"] == "chronicle.consumer_fact.v2"
+    assert rich["schema_version"] == "chronicle.consumer_fact.v3"
     validate_consumer_fact_row(rich, 1, "labelled.jsonl")
 
 

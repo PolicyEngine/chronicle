@@ -161,12 +161,35 @@ SCHEMA_IDS: Mapping[str, EpochPair] = MappingProxyType(
 )
 
 
-# The consumer-fact row contract Chronicle emits. consumer_fact v2 (chronicle#261)
-# is v1 plus optional dimension and value labels, so a v1 row restamped with the
-# v2 id is a valid v2 row; its id is the pair's Chronicle-era name. The row
-# contract and the hash-key domains move independently: EMIT_EPOCH still keeps
-# every key Ledger-named.
-CONSUMER_FACT_EMIT_SCHEMA_VERSION = SCHEMA_IDS["consumer_fact"].chronicle
+# The consumer-fact row contracts Chronicle has emitted, oldest first. Each is a
+# superset of the one before it, so a row restamped with a later id stays valid:
+# v2 (chronicle#261) is v1 plus optional dimension and value labels, and v3
+# (chronicle#266) is v2 plus the publisher's name for the fact's geography. The
+# pair above is the Ledger rename table, not this contract history, so only v1
+# and v2 name a naming epoch. The row contract and the hash-key domains move
+# independently: EMIT_EPOCH still keeps every key Ledger-named.
+CONSUMER_FACT_ROW_CONTRACTS: tuple[str, ...] = (
+    SCHEMA_IDS["consumer_fact"].ledger,
+    SCHEMA_IDS["consumer_fact"].chronicle,
+    "chronicle.consumer_fact.v3",
+)
+CONSUMER_FACT_EMIT_SCHEMA_VERSION = CONSUMER_FACT_ROW_CONTRACTS[-1]
+
+
+def consumer_fact_row_contract(schema_version: str) -> str:
+    """Return *schema_version* when it names a consumer-fact row contract.
+
+    Raises:
+        ValueError: If it names none, listing the contracts that exist.
+    """
+
+    if schema_version in CONSUMER_FACT_ROW_CONTRACTS:
+        return schema_version
+    accepted = ", ".join(repr(contract) for contract in CONSUMER_FACT_ROW_CONTRACTS)
+    raise ValueError(
+        f"unsupported consumer-fact contract {schema_version!r}; accepted "
+        f"contracts are {accepted}"
+    )
 
 
 def hash_domain(name: str, epoch: Epoch = EMIT_EPOCH) -> str:

@@ -813,6 +813,14 @@ and for a dimension id two UK packages label differently; publisher row labels
 that differ across one groupby value's rows are a warning, since Chronicle keeps
 them as published. `build_facts` refuses a declaration no fact uses.
 
+Every fact also carries the publisher's name for its geography (chronicle#266),
+taken from the record set's or the row's `geography_name`. `build-bundle`
+reports an error for a fact below country level whose geography has no name:
+Microcosm labels a sub-national tier from the fact and falls back to its own
+catalog only for identifiers it already knows, and an identifier is not a name.
+A country-level geography may stay unnamed, and no name is ever invented from
+the code.
+
 Agents may add new package directories and YAML specs. They should not modify
 `chronicle.core`, `chronicle.database`, or `chronicle.suite` unless the package cannot be
 expressed in the current contract and the failure is documented in the build

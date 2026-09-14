@@ -462,7 +462,10 @@ def test_frozen_fixture_bytes_are_unchanged():
             "b0dd06765db7932c16a678b1ab321a7d908af26e2f2014d7da99c0eb5127e401"
         ),
         fixture_root / "consumer_facts.jsonl": (
-            "cc18841e726e7d93dfc6958de8c9c457f0a41cd7dd2161b34dbad55549b440c6"
+            # chronicle#266: re-pinned from cc18841e… because the rows now
+            # carry the publisher's geography name under the v3 contract. The
+            # keys and values in them are unchanged.
+            "f76d013878d13cf1a69a4ef22c61aa1b065a2b52c24570b6206333d85766e98a"
         ),
         fixture_root / "source_cells" / "soi_table_1_1_2023_cells.jsonl": (
             "615639f21ee63e54595c677e24c3eddff484c00a795a2f91b45a8575f021c7e2"

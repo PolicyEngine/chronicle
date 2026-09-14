@@ -385,6 +385,7 @@ def build_bundle(
         label_errors, label_warnings = _dimension_label_reports(source, rows)
         errors.extend(label_errors)
         warnings.extend(label_warnings)
+        errors.extend(_geography_name_errors(source, rows))
         if source in UK_BUNDLE_SOURCES:
             for dimension_id, labels in dimension_labels_by_id(rows).items():
                 for label in labels:
@@ -500,6 +501,43 @@ def _dimension_label_reports(
         else:
             errors.append(report)
     return errors, warnings
+
+
+def _geography_name_errors(
+    source: str,
+    rows: list[dict[str, Any]],
+) -> list[BuildBundleIssue]:
+    """Report facts that leave a sub-national geography unnamed (chronicle#266).
+
+    Microcosm's calibration hierarchy labels a target's geography from the fact
+    it selects and falls back to its own catalog only for country-level
+    identifiers it already knows, so every fact below country level must carry
+    the name its publisher gives that area. One error per unnamed area, not per
+    fact: a source names an area once and every row of it is unnamed together.
+    """
+    unnamed: dict[tuple[str, str], int] = {}
+    for row in rows:
+        geography = row.get("geography") or {}
+        level = str(geography.get("level") or "")
+        if not level or level == "country":
+            continue
+        if str(geography.get("name") or "").strip():
+            continue
+        key = (level, str(geography.get("id") or ""))
+        unnamed[key] = unnamed.get(key, 0) + 1
+    return [
+        BuildBundleIssue(
+            code="missing_geography_name",
+            message=(
+                f"Geography {geography_id!r} at level {level!r} has no "
+                f"publisher name on {count} fact(s); Microcosm labels a "
+                "sub-national tier from the fact, never from the identifier."
+            ),
+            source=source,
+            key=f"{level}:{geography_id}",
+        )
+        for (level, geography_id), count in sorted(unnamed.items())
+    ]
 
 
 def _cross_package_dimension_label_errors(

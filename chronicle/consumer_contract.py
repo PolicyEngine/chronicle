@@ -678,7 +678,7 @@ def _consumer_fact_row(
         "provenance_class": fact.provenance_class,
         "survey_instrument": fact.survey_instrument,
         "period": asdict(fact.period),
-        "geography": _geography_payload(fact),
+        "geography": _geography_row_payload(fact),
         "entity": asdict(fact.entity),
         "aggregation": _aggregation_payload(fact),
         "observed_measure": _observed_measure_payload(fact),
@@ -852,6 +852,19 @@ def _geography_payload(fact: AggregateFact) -> dict[str, Any]:
             "vintage": fact.geography.vintage,
         }
     )
+
+
+def _geography_row_payload(fact: AggregateFact) -> dict[str, Any]:
+    """Return the exported geography, named as the publisher names it.
+
+    The name is display metadata (chronicle#266), so it rides on the row and
+    never on :func:`_geography_payload`, which the fact keys hash. A source that
+    states no name for a geography exports none: Microcosm's geography catalog
+    covers the identifiers it already knows, and an identifier is not a name.
+    """
+
+    name = (fact.geography.name or "").strip()
+    return _clean({**_geography_payload(fact), "name": name or None})
 
 
 def _aggregation_payload(fact: AggregateFact) -> dict[str, Any]:
