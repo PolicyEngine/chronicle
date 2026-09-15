@@ -1,0 +1,19 @@
+source_id: desnz
+package_id: desnz-qep-gas-unit-fixed-costs-2026
+dataset: desnz_desnz-qep-gas-unit-fixed-costs-2026
+source_page: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+table: 'Quarterly Energy Prices table 2.3.4: average variable unit costs and fixed
+  costs for gas'
+files:
+  2026:
+    filename: table_234.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/6a424620b9f58f0eb4c13f1b/table_234__1_.xlsx
+    sha256: e08e813e9f7e1b85457ab73aecc3d3e39c59b517d801cd03360ec919177a5ad8
+    size_bytes: 198518
+    fetched_at: '2026-09-15T14:12:43+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/desnz/desnz-qep-gas-unit-fixed-costs-2026/2026/e08e813e9f7e1b85457ab73aecc3d3e39c59b517d801cd03360ec919177a5ad8/table_234.xlsx
+        uri: r2://ledger-raw/raw/desnz/desnz-qep-gas-unit-fixed-costs-2026/2026/e08e813e9f7e1b85457ab73aecc3d3e39c59b517d801cd03360ec919177a5ad8/table_234.xlsx

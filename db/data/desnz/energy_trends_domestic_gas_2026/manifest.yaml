@@ -1,0 +1,18 @@
+source_id: desnz
+package_id: desnz-energy-trends-domestic-gas-2026
+dataset: desnz_desnz-energy-trends-domestic-gas-2026
+source_page: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+table: Energy Trends Table 4.1 natural gas supply and consumption
+files:
+  2026:
+    filename: et-4.1.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/6a6a08b99a3fb159a95b9447/ET_4.1_JUL_26.xlsx
+    sha256: fd253e82cf40ce05c9b6db91237919979f58dbfd607908ec88a836de1b7a2b3a
+    size_bytes: 149482
+    fetched_at: '2026-09-15T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-energy-trends-domestic-gas-2026/2026/fd253e82cf40ce05c9b6db91237919979f58dbfd607908ec88a836de1b7a2b3a/et-4.1.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-energy-trends-domestic-gas-2026/2026/fd253e82cf40ce05c9b6db91237919979f58dbfd607908ec88a836de1b7a2b3a/et-4.1.xlsx

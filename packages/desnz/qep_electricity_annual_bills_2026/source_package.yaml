@@ -1,0 +1,2459 @@
+# DESNZ publishes this QEP table at calendar-year and financial-year grains. The
+# workbook does not publish quarterly bill observations, so this package does
+# not create them. Each bill fact keeps the publisher's consumption basis, VAT
+# treatment, payment method, and tariff classification. DESNZ describes the
+# fixed-versus-variable classification as official statistics in development.
+schema_version: ledger.source_package.v1
+package_id: desnz-qep-electricity-annual-bills-2026
+label: DESNZ QEP standard electricity average annual bills by payment method and tariff type, 2023 to
+  2025
+dimension_labels:
+  desnz.qep.bill_scope: Bill geography
+  fuel: Fuel
+  payment_method: Payment method
+  tariff_type: Tariff type
+  price_component: Price Component
+  vat_treatment: VAT treatment
+  benchmark_consumption_kwh: Bill benchmark consumption
+  metering_arrangement: Metering arrangement
+dimension_value_labels:
+  fuel:
+    electricity: Standard electricity
+  payment_method:
+    standard_credit: Standard credit
+    direct_debit: Direct debit
+    prepayment: Prepayment
+    all: All payment methods
+  tariff_type:
+    fixed: Fixed tariffs
+    variable: Variable tariffs
+    all: All tariffs
+  price_component:
+    annual_bill: Average annual bill
+  vat_treatment:
+    including_vat: Including VAT
+  metering_arrangement:
+    standard: Standard electricity
+artifact:
+  source_name: desnz
+  source_table: 'Quarterly Energy Prices table 2.2.1: average annual domestic standard electricity bills'
+  resource_package: db
+  resource_directory: data/desnz/qep_electricity_annual_bills_2026
+  manifest: manifest.yaml
+  vintage: qep_june_2026
+  extracted_at: '2026-09-15'
+  extraction_method: XLSX used-range cell parse of the calendar-year, financial-year, and methodology
+    sheets
+  parser: xlsx_used_range
+  sheets:
+  - 2.2.1
+  - 2.2.1 (Financial Year)
+  - Methodology
+  artifact_year: 2026
+record_sets:
+- record_set_id: desnz.qep.table_2_2_1.cy2023
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_1.cy2023.v1
+  source_record_id_prefix: desnz.qep.table_2_2_1.cy2023
+  sheet_name: 2.2.1
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-01-01'
+    end_date: '2023-12-31'
+    basis: calendar
+    source_period_label: '2023'
+    notes: The period value stores the publisher's calendar year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.bill_scope
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    benchmark_consumption_kwh: 3400
+    metering_arrangement: standard
+    price_component: annual_bill
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: benchmark_consumption_kwh
+    operator: ==
+    value: 3400
+    label: Bill benchmark consumption
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  - variable: price_component
+    operator: ==
+    value: annual_bill
+    label: Price component
+  rows:
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 0
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: 2023
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Average annual domestic Standard Electricity bills in cash terms for fixed and variable
+        tariffs based on consumption of 3,400kWh/year, United Kingdom
+      label: table title
+  measures:
+  - measure_id: standard_credit_fixed_bill
+    label: 'Standard credit: Fixed tariffs (pounds)'
+    ordinal: 0
+    column: B
+    source_column_id: standard_credit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Standard credit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: standard_credit_variable_bill
+    label: 'Standard credit: Variable tariffs (pounds)'
+    ordinal: 1
+    column: C
+    source_column_id: standard_credit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Standard credit: Variable tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: standard_credit_all_bill
+    label: 'Standard credit: All Tariffs (pounds)'
+    ordinal: 2
+    column: D
+    source_column_id: standard_credit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Standard credit: All Tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: direct_debit_fixed_bill
+    label: 'Direct debit: Fixed tariffs (pounds)'
+    ordinal: 3
+    column: E
+    source_column_id: direct_debit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Direct debit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: direct_debit_variable_bill
+    label: 'Direct debit: Variable tariffs (pounds)'
+    ordinal: 4
+    column: F
+    source_column_id: direct_debit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Direct debit: Variable tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: direct_debit_all_bill
+    label: 'Direct debit: All Tariffs (pounds)'
+    ordinal: 5
+    column: G
+    source_column_id: direct_debit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Direct debit: All Tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: prepayment_fixed_bill
+    label: 'Prepayment: Fixed tariffs (pounds)'
+    ordinal: 6
+    column: H
+    source_column_id: prepayment_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Prepayment: Fixed tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: prepayment_variable_bill
+    label: 'Prepayment: Variable tariffs (pounds)'
+    ordinal: 7
+    column: I
+    source_column_id: prepayment_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Prepayment: Variable tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: prepayment_all_bill
+    label: 'Prepayment: All Tariffs (pounds)'
+    ordinal: 8
+    column: J
+    source_column_id: prepayment_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Prepayment: All Tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: overall_fixed_bill
+    label: 'Overall: Fixed tariffs (pounds)'
+    ordinal: 9
+    column: K
+    source_column_id: overall_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Overall: Fixed tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: overall_variable_bill
+    label: 'Overall: Variable tariffs (pounds)'
+    ordinal: 10
+    column: L
+    source_column_id: overall_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Overall: Variable tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: overall_all_bill
+    label: 'Overall: All Tariffs (pounds)'
+    ordinal: 11
+    column: M
+    source_column_id: overall_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Overall: All Tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+- record_set_id: desnz.qep.table_2_2_1.cy2024
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_1.cy2024.v1
+  source_record_id_prefix: desnz.qep.table_2_2_1.cy2024
+  sheet_name: 2.2.1
+  period_type: calendar_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-01-01'
+    end_date: '2024-12-31'
+    basis: calendar
+    source_period_label: '2024'
+    notes: The period value stores the publisher's calendar year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.bill_scope
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    benchmark_consumption_kwh: 3400
+    metering_arrangement: standard
+    price_component: annual_bill
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: benchmark_consumption_kwh
+    operator: ==
+    value: 3400
+    label: Bill benchmark consumption
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  - variable: price_component
+    operator: ==
+    value: annual_bill
+    label: Price component
+  rows:
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 0
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: 2024
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Average annual domestic Standard Electricity bills in cash terms for fixed and variable
+        tariffs based on consumption of 3,400kWh/year, United Kingdom
+      label: table title
+  measures:
+  - measure_id: standard_credit_fixed_bill
+    label: 'Standard credit: Fixed tariffs (pounds)'
+    ordinal: 0
+    column: B
+    source_column_id: standard_credit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Standard credit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: standard_credit_variable_bill
+    label: 'Standard credit: Variable tariffs (pounds)'
+    ordinal: 1
+    column: C
+    source_column_id: standard_credit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Standard credit: Variable tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: standard_credit_all_bill
+    label: 'Standard credit: All Tariffs (pounds)'
+    ordinal: 2
+    column: D
+    source_column_id: standard_credit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Standard credit: All Tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: direct_debit_fixed_bill
+    label: 'Direct debit: Fixed tariffs (pounds)'
+    ordinal: 3
+    column: E
+    source_column_id: direct_debit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Direct debit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: direct_debit_variable_bill
+    label: 'Direct debit: Variable tariffs (pounds)'
+    ordinal: 4
+    column: F
+    source_column_id: direct_debit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Direct debit: Variable tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: direct_debit_all_bill
+    label: 'Direct debit: All Tariffs (pounds)'
+    ordinal: 5
+    column: G
+    source_column_id: direct_debit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Direct debit: All Tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: prepayment_fixed_bill
+    label: 'Prepayment: Fixed tariffs (pounds)'
+    ordinal: 6
+    column: H
+    source_column_id: prepayment_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Prepayment: Fixed tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: prepayment_variable_bill
+    label: 'Prepayment: Variable tariffs (pounds)'
+    ordinal: 7
+    column: I
+    source_column_id: prepayment_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Prepayment: Variable tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: prepayment_all_bill
+    label: 'Prepayment: All Tariffs (pounds)'
+    ordinal: 8
+    column: J
+    source_column_id: prepayment_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Prepayment: All Tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: overall_fixed_bill
+    label: 'Overall: Fixed tariffs (pounds)'
+    ordinal: 9
+    column: K
+    source_column_id: overall_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Overall: Fixed tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: overall_variable_bill
+    label: 'Overall: Variable tariffs (pounds)'
+    ordinal: 10
+    column: L
+    source_column_id: overall_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Overall: Variable tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: overall_all_bill
+    label: 'Overall: All Tariffs (pounds)'
+    ordinal: 11
+    column: M
+    source_column_id: overall_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Overall: All Tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+- record_set_id: desnz.qep.table_2_2_1.cy2025
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_1.cy2025.v1
+  source_record_id_prefix: desnz.qep.table_2_2_1.cy2025
+  sheet_name: 2.2.1
+  period_type: calendar_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-01-01'
+    end_date: '2025-12-31'
+    basis: calendar
+    source_period_label: '2025'
+    notes: The period value stores the publisher's calendar year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.bill_scope
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    benchmark_consumption_kwh: 3400
+    metering_arrangement: standard
+    price_component: annual_bill
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: benchmark_consumption_kwh
+    operator: ==
+    value: 3400
+    label: Bill benchmark consumption
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  - variable: price_component
+    operator: ==
+    value: annual_bill
+    label: Price component
+  rows:
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 0
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: 2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Average annual domestic Standard Electricity bills in cash terms for fixed and variable
+        tariffs based on consumption of 3,400kWh/year, United Kingdom
+      label: table title
+  measures:
+  - measure_id: standard_credit_fixed_bill
+    label: 'Standard credit: Fixed tariffs (pounds)'
+    ordinal: 0
+    column: B
+    source_column_id: standard_credit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Standard credit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: standard_credit_variable_bill
+    label: 'Standard credit: Variable tariffs (pounds)'
+    ordinal: 1
+    column: C
+    source_column_id: standard_credit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Standard credit: Variable tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: standard_credit_all_bill
+    label: 'Standard credit: All Tariffs (pounds)'
+    ordinal: 2
+    column: D
+    source_column_id: standard_credit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Standard credit: All Tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: direct_debit_fixed_bill
+    label: 'Direct debit: Fixed tariffs (pounds)'
+    ordinal: 3
+    column: E
+    source_column_id: direct_debit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Direct debit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: direct_debit_variable_bill
+    label: 'Direct debit: Variable tariffs (pounds)'
+    ordinal: 4
+    column: F
+    source_column_id: direct_debit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Direct debit: Variable tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: direct_debit_all_bill
+    label: 'Direct debit: All Tariffs (pounds)'
+    ordinal: 5
+    column: G
+    source_column_id: direct_debit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Direct debit: All Tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: prepayment_fixed_bill
+    label: 'Prepayment: Fixed tariffs (pounds)'
+    ordinal: 6
+    column: H
+    source_column_id: prepayment_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Prepayment: Fixed tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: prepayment_variable_bill
+    label: 'Prepayment: Variable tariffs (pounds)'
+    ordinal: 7
+    column: I
+    source_column_id: prepayment_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Prepayment: Variable tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: prepayment_all_bill
+    label: 'Prepayment: All Tariffs (pounds)'
+    ordinal: 8
+    column: J
+    source_column_id: prepayment_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Prepayment: All Tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: overall_fixed_bill
+    label: 'Overall: Fixed tariffs (pounds)'
+    ordinal: 9
+    column: K
+    source_column_id: overall_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Overall: Fixed tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: overall_variable_bill
+    label: 'Overall: Variable tariffs (pounds)'
+    ordinal: 10
+    column: L
+    source_column_id: overall_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Overall: Variable tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: overall_all_bill
+    label: 'Overall: All Tariffs (pounds)'
+    ordinal: 11
+    column: M
+    source_column_id: overall_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: 'Overall: All Tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+- record_set_id: desnz.qep.table_2_2_1.fy2023
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_1.fy2023.v1
+  source_record_id_prefix: desnz.qep.table_2_2_1.fy2023
+  sheet_name: 2.2.1 (Financial Year)
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023/24
+    notes: The period value stores the opening year of the publisher's financial-year label.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.bill_scope
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    benchmark_consumption_kwh: 3400
+    metering_arrangement: standard
+    price_component: annual_bill
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: benchmark_consumption_kwh
+    operator: ==
+    value: 3400
+    label: Bill benchmark consumption
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  - variable: price_component
+    operator: ==
+    value: annual_bill
+    label: Price component
+  rows:
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 0
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 2023/24 r
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Average financial year domestic Standard Electricity bills in cash terms for fixed
+        and variable tariffs based on consumption of 3,400kWh/year, United Kingdom
+      label: table title
+  measures:
+  - measure_id: standard_credit_fixed_bill
+    label: 'Standard credit: Fixed tariffs (pounds)'
+    ordinal: 0
+    column: B
+    source_column_id: standard_credit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Standard credit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: standard_credit_variable_bill
+    label: 'Standard credit: Variable tariffs (pounds)'
+    ordinal: 1
+    column: C
+    source_column_id: standard_credit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Standard credit: Variable tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: standard_credit_all_bill
+    label: 'Standard credit: All Tariffs (pounds)'
+    ordinal: 2
+    column: D
+    source_column_id: standard_credit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Standard credit: All Tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: direct_debit_fixed_bill
+    label: 'Direct debit: Fixed tariffs (pounds)'
+    ordinal: 3
+    column: E
+    source_column_id: direct_debit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Direct debit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: direct_debit_variable_bill
+    label: 'Direct debit: Variable tariffs (pounds)'
+    ordinal: 4
+    column: F
+    source_column_id: direct_debit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Direct debit: Variable tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: direct_debit_all_bill
+    label: 'Direct debit: All Tariffs (pounds)'
+    ordinal: 5
+    column: G
+    source_column_id: direct_debit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Direct debit: All Tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: prepayment_fixed_bill
+    label: 'Prepayment: Fixed tariffs (pounds)'
+    ordinal: 6
+    column: H
+    source_column_id: prepayment_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Prepayment: Fixed tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: prepayment_variable_bill
+    label: 'Prepayment: Variable tariffs (pounds)'
+    ordinal: 7
+    column: I
+    source_column_id: prepayment_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Prepayment: Variable tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: prepayment_all_bill
+    label: 'Prepayment: All Tariffs (pounds)'
+    ordinal: 8
+    column: J
+    source_column_id: prepayment_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Prepayment: All Tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: overall_fixed_bill
+    label: 'Overall: Fixed tariffs (pounds)'
+    ordinal: 9
+    column: K
+    source_column_id: overall_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Overall: Fixed tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: overall_variable_bill
+    label: 'Overall: Variable tariffs (pounds)'
+    ordinal: 10
+    column: L
+    source_column_id: overall_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Overall: Variable tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: overall_all_bill
+    label: 'Overall: All Tariffs (pounds)'
+    ordinal: 11
+    column: M
+    source_column_id: overall_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Overall: All Tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+- record_set_id: desnz.qep.table_2_2_1.fy2024
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_1.fy2024.v1
+  source_record_id_prefix: desnz.qep.table_2_2_1.fy2024
+  sheet_name: 2.2.1 (Financial Year)
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024/25
+    notes: The period value stores the opening year of the publisher's financial-year label.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.bill_scope
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    benchmark_consumption_kwh: 3400
+    metering_arrangement: standard
+    price_component: annual_bill
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: benchmark_consumption_kwh
+    operator: ==
+    value: 3400
+    label: Bill benchmark consumption
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  - variable: price_component
+    operator: ==
+    value: annual_bill
+    label: Price component
+  rows:
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 0
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 2024/25 r
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Average financial year domestic Standard Electricity bills in cash terms for fixed
+        and variable tariffs based on consumption of 3,400kWh/year, United Kingdom
+      label: table title
+  measures:
+  - measure_id: standard_credit_fixed_bill
+    label: 'Standard credit: Fixed tariffs (pounds)'
+    ordinal: 0
+    column: B
+    source_column_id: standard_credit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Standard credit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: standard_credit_variable_bill
+    label: 'Standard credit: Variable tariffs (pounds)'
+    ordinal: 1
+    column: C
+    source_column_id: standard_credit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Standard credit: Variable tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: standard_credit_all_bill
+    label: 'Standard credit: All Tariffs (pounds)'
+    ordinal: 2
+    column: D
+    source_column_id: standard_credit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Standard credit: All Tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: direct_debit_fixed_bill
+    label: 'Direct debit: Fixed tariffs (pounds)'
+    ordinal: 3
+    column: E
+    source_column_id: direct_debit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Direct debit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: direct_debit_variable_bill
+    label: 'Direct debit: Variable tariffs (pounds)'
+    ordinal: 4
+    column: F
+    source_column_id: direct_debit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Direct debit: Variable tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: direct_debit_all_bill
+    label: 'Direct debit: All Tariffs (pounds)'
+    ordinal: 5
+    column: G
+    source_column_id: direct_debit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Direct debit: All Tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: prepayment_fixed_bill
+    label: 'Prepayment: Fixed tariffs (pounds)'
+    ordinal: 6
+    column: H
+    source_column_id: prepayment_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Prepayment: Fixed tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: prepayment_variable_bill
+    label: 'Prepayment: Variable tariffs (pounds)'
+    ordinal: 7
+    column: I
+    source_column_id: prepayment_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Prepayment: Variable tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: prepayment_all_bill
+    label: 'Prepayment: All Tariffs (pounds)'
+    ordinal: 8
+    column: J
+    source_column_id: prepayment_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Prepayment: All Tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: overall_fixed_bill
+    label: 'Overall: Fixed tariffs (pounds)'
+    ordinal: 9
+    column: K
+    source_column_id: overall_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Overall: Fixed tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: overall_variable_bill
+    label: 'Overall: Variable tariffs (pounds)'
+    ordinal: 10
+    column: L
+    source_column_id: overall_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Overall: Variable tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: overall_all_bill
+    label: 'Overall: All Tariffs (pounds)'
+    ordinal: 11
+    column: M
+    source_column_id: overall_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Overall: All Tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+- record_set_id: desnz.qep.table_2_2_1.fy2025
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_1.fy2025.v1
+  source_record_id_prefix: desnz.qep.table_2_2_1.fy2025
+  sheet_name: 2.2.1 (Financial Year)
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2026-03-31'
+    basis: fiscal
+    source_period_label: 2025/26
+    notes: The period value stores the opening year of the publisher's financial-year label.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.bill_scope
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    benchmark_consumption_kwh: 3400
+    metering_arrangement: standard
+    price_component: annual_bill
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: benchmark_consumption_kwh
+    operator: ==
+    value: 3400
+    label: Bill benchmark consumption
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  - variable: price_component
+    operator: ==
+    value: annual_bill
+    label: Price component
+  rows:
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 0
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 2025/26
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Average financial year domestic Standard Electricity bills in cash terms for fixed
+        and variable tariffs based on consumption of 3,400kWh/year, United Kingdom
+      label: table title
+  measures:
+  - measure_id: standard_credit_fixed_bill
+    label: 'Standard credit: Fixed tariffs (pounds)'
+    ordinal: 0
+    column: B
+    source_column_id: standard_credit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Standard credit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: standard_credit_variable_bill
+    label: 'Standard credit: Variable tariffs (pounds)'
+    ordinal: 1
+    column: C
+    source_column_id: standard_credit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Standard credit: Variable tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: standard_credit_all_bill
+    label: 'Standard credit: All Tariffs (pounds)'
+    ordinal: 2
+    column: D
+    source_column_id: standard_credit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Standard credit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Standard credit: All Tariffs (pounds)'
+    filters:
+      payment_method: standard_credit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: direct_debit_fixed_bill
+    label: 'Direct debit: Fixed tariffs (pounds)'
+    ordinal: 3
+    column: E
+    source_column_id: direct_debit_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Direct debit: Fixed tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: direct_debit_variable_bill
+    label: 'Direct debit: Variable tariffs (pounds)'
+    ordinal: 4
+    column: F
+    source_column_id: direct_debit_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Direct debit: Variable tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: direct_debit_all_bill
+    label: 'Direct debit: All Tariffs (pounds)'
+    ordinal: 5
+    column: G
+    source_column_id: direct_debit_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Direct debit: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Direct debit: All Tariffs (pounds)'
+    filters:
+      payment_method: direct_debit
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: prepayment_fixed_bill
+    label: 'Prepayment: Fixed tariffs (pounds)'
+    ordinal: 6
+    column: H
+    source_column_id: prepayment_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Prepayment: Fixed tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: prepayment_variable_bill
+    label: 'Prepayment: Variable tariffs (pounds)'
+    ordinal: 7
+    column: I
+    source_column_id: prepayment_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Prepayment: Variable tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: prepayment_all_bill
+    label: 'Prepayment: All Tariffs (pounds)'
+    ordinal: 8
+    column: J
+    source_column_id: prepayment_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Prepayment: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Prepayment: All Tariffs (pounds)'
+    filters:
+      payment_method: prepayment
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type
+  - measure_id: overall_fixed_bill
+    label: 'Overall: Fixed tariffs (pounds)'
+    ordinal: 9
+    column: K
+    source_column_id: overall_fixed_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Fixed tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Overall: Fixed tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: fixed
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: fixed
+      label: Tariff type
+  - measure_id: overall_variable_bill
+    label: 'Overall: Variable tariffs (pounds)'
+    ordinal: 10
+    column: L
+    source_column_id: overall_variable_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: Variable tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Overall: Variable tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: variable
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: variable
+      label: Tariff type
+  - measure_id: overall_all_bill
+    label: 'Overall: All Tariffs (pounds)'
+    ordinal: 11
+    column: M
+    source_column_id: overall_all_bill
+    concept: desnz.qep.domestic_electricity_annual_bill
+    source_concept: desnz.qep.domestic_electricity_annual_bill
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: 'table.2.2.1, Overall: All Tariffs (pounds)'
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: 'Overall: All Tariffs (pounds)'
+    filters:
+      payment_method: all
+      tariff_type: all
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: tariff_type
+      operator: ==
+      value: all
+      label: Tariff type

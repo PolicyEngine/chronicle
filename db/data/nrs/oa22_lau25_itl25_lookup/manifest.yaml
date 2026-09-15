@@ -1,0 +1,24 @@
+source_id: nrs
+package_id: nrs-oa22-lau25-itl25-lookup
+source_name: NRS OA 2022 to LAU 2025 and ITL 2025 lookup
+publisher: National Records of Scotland
+source_page: https://www.nrscotland.gov.uk/media/qsxon3dm/oa22_lau25_itl25.zip
+files:
+  2025:
+    filename: scotland_oa22_lau25_itl25.zip
+    source_url: https://www.nrscotland.gov.uk/media/qsxon3dm/oa22_lau25_itl25.zip
+    source_table: OA2022 to LAU 2025 to ITL 2025 lookup, bridged to Council Area 2019
+    sha256: 4d94e959dfcc83ce6bcd0c09cfc073ad597fb89812eab1d8ab664f4ccbc6ba77
+    size_bytes: 369739
+    fetched_at: '2026-08-19'
+    retrieved_at: '2026-08-19'
+    vintage: 2019_council_area
+    vintages:
+    - 2019_council_area
+    - 2025_itl
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-oa22-lau25-itl25-lookup/2025/4d94e959dfcc83ce6bcd0c09cfc073ad597fb89812eab1d8ab664f4ccbc6ba77/scotland_oa22_lau25_itl25.zip
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-oa22-lau25-itl25-lookup/2025/4d94e959dfcc83ce6bcd0c09cfc073ad597fb89812eab1d8ab664f4ccbc6ba77/scotland_oa22_lau25_itl25.zip

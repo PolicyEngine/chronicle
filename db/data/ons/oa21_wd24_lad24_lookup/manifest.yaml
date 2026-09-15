@@ -1,0 +1,24 @@
+source_id: ons
+package_id: ons-oa21-wd24-lad24-lookup
+source_name: ONS OA21 to Ward 2024 and LAD best-fit lookup
+publisher: Office for National Statistics
+source_page: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/b21c632804094c149ccdfea1ae59c8c8/csv?layers=0
+files:
+  2024:
+    filename: ew_oa21_ward24_lad24_bestfit.csv
+    source_url: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/b21c632804094c149ccdfea1ae59c8c8/csv?layers=0
+    source_table: Output Area (2021) to Ward (2024) to LAD (May 2024) Best Fit Lookup
+      in EW V2
+    sha256: f2d2df158c6e3e29da09a96d456c718a065e1229590d27f6f5349e45689d7b67
+    size_bytes: 12628147
+    fetched_at: '2026-09-15'
+    retrieved_at: '2026-09-15'
+    vintage: 2024_wd
+    vintages:
+    - 2024_wd
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-oa21-wd24-lad24-lookup/2024/f2d2df158c6e3e29da09a96d456c718a065e1229590d27f6f5349e45689d7b67/ew_oa21_ward24_lad24_bestfit.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-oa21-wd24-lad24-lookup/2024/f2d2df158c6e3e29da09a96d456c718a065e1229590d27f6f5349e45689d7b67/ew_oa21_ward24_lad24_bestfit.csv

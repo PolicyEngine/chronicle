@@ -1,0 +1,27 @@
+source_id: nisra
+package_id: nisra-dz-sdz-lookups-v3
+source_name: NISRA Data Zone and Super Data Zone lookups V3
+publisher: Northern Ireland Statistics and Research Agency
+source_page: https://www.nisra.gov.uk/files/nisra/documents/2025-04/geography-data-zone-and-super-data-zone-lookups-v3.xlsx
+files:
+  2025:
+    filename: ni_dz21_sdz21_lookups_v3.xlsx
+    source_url: https://www.nisra.gov.uk/files/nisra/documents/2025-04/geography-data-zone-and-super-data-zone-lookups-v3.xlsx
+    source_table: DZ2021_Admin_geog_lookup with PARLCON2024, SDZ2021, LGD2014 and
+      DEA2014
+    sha256: 8e2e1f6daaddd2f5b6887ccab1bf9d0bf179f6d0d2ba60ef8e0ebb495a3e1999
+    size_bytes: 603543
+    fetched_at: '2026-09-09'
+    retrieved_at: '2026-09-09'
+    vintage: 2024_pcon
+    vintages:
+    - 2021_census
+    - 2014_lgd
+    - 2014_dea
+    - 2024_pcon
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-dz-sdz-lookups-v3/2025/8e2e1f6daaddd2f5b6887ccab1bf9d0bf179f6d0d2ba60ef8e0ebb495a3e1999/ni_dz21_sdz21_lookups_v3.xlsx
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-dz-sdz-lookups-v3/2025/8e2e1f6daaddd2f5b6887ccab1bf9d0bf179f6d0d2ba60ef8e0ebb495a3e1999/ni_dz21_sdz21_lookups_v3.xlsx

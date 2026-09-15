@@ -1,0 +1,18 @@
+source_id: nrs
+package_id: nrs-census2022-uv407-central-heating-council-area
+dataset: nrs_nrs-census2022-uv407-central-heating-council-area
+source_page: https://www.scotlandscensus.gov.uk/metadata/central-heating-type-in-household/
+table: Scotland's Census 2022 UV407 central heating, council areas
+files:
+  2022:
+    filename: nrs-uv407-central-heating-local-authority.csv
+    source_url: https://ukds-ckan.s3.eu-west-1.amazonaws.com/2022/NRS/UV407/Census_2022_UV407_Central_heating_Local_authority.csv
+    sha256: e878c7d3628f6bf2094e313bc19d4bee0a8c9bbe8d4e6ca4162ba32eda1bda8d
+    size_bytes: 32748
+    fetched_at: '2026-09-15T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-census2022-uv407-central-heating-council-area/2022/e878c7d3628f6bf2094e313bc19d4bee0a8c9bbe8d4e6ca4162ba32eda1bda8d/nrs-uv407-central-heating-local-authority.csv
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-census2022-uv407-central-heating-council-area/2022/e878c7d3628f6bf2094e313bc19d4bee0a8c9bbe8d4e6ca4162ba32eda1bda8d/nrs-uv407-central-heating-local-authority.csv

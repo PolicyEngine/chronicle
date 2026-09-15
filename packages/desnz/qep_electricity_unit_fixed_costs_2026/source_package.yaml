@@ -1,0 +1,3373 @@
+# DESNZ publishes this QEP table at calendar-year and financial-year grains. The
+# workbook does not publish quarterly unit-cost or fixed-cost observations, so
+# this package does not create them. Unit and fixed costs are price components,
+# so they do not carry a bill-consumption filter. The separate annual-bill facts
+# preserve DESNZ's 3,400 kWh electricity and 11,200 kWh gas assumptions.
+schema_version: ledger.source_package.v1
+package_id: desnz-qep-electricity-unit-fixed-costs-2026
+label: DESNZ QEP standard electricity average variable unit and fixed costs by payment method and price
+  region, 2023 to 2025
+dimension_labels:
+  desnz.qep.price_region: QEP price region
+  fuel: Fuel
+  payment_method: Payment method
+  price_component: Price Component
+  vat_treatment: VAT treatment
+  metering_arrangement: Metering arrangement
+dimension_value_labels:
+  fuel:
+    electricity: Standard electricity
+  payment_method:
+    standard_credit: Standard credit
+    direct_debit: Direct debit
+    prepayment: Prepayment
+    all: All payment methods
+  price_component:
+    variable_unit_cost: Average variable unit cost
+    fixed_cost: Average fixed cost
+  vat_treatment:
+    including_vat: Including VAT
+  metering_arrangement:
+    standard: Standard electricity
+artifact:
+  source_name: desnz
+  source_table: 'Quarterly Energy Prices table 2.2.4: average variable unit costs and fixed costs for
+    standard electricity'
+  resource_package: db
+  resource_directory: data/desnz/qep_electricity_unit_fixed_costs_2026
+  manifest: manifest.yaml
+  vintage: qep_june_2026
+  extracted_at: '2026-09-15'
+  extraction_method: XLSX used-range cell parse of the calendar-year, financial-year, and methodology
+    sheets
+  parser: xlsx_used_range
+  sheets:
+  - 2.2.4
+  - 2.2.4 (Financial Year)
+  - Methodology
+  artifact_year: 2026
+record_sets:
+- record_set_id: desnz.qep.table_2_2_4.cy2023
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.cy2023.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.cy2023
+  sheet_name: 2.2.4
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-01-01'
+    end_date: '2023-12-31'
+    basis: calendar
+    source_period_label: '2023'
+    notes: The period value stores the publisher's calendar year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 222
+    expected_row_header_column: B
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'East Midlands '
+      label: publisher price area
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 223
+    expected_row_header_column: B
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'Eastern '
+      label: publisher price area
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 224
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'London '
+      label: publisher price area
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 225
+    expected_row_header_column: B
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'Merseyside & North Wales '
+      label: publisher price area
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 226
+    expected_row_header_column: B
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'North East '
+      label: publisher price area
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 5
+    row_number: 227
+    expected_row_header_column: B
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'North Scotland '
+      label: publisher price area
+  - value_id: north_west
+    label: North West
+    ordinal: 6
+    row_number: 228
+    expected_row_header_column: B
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'North West '
+      label: publisher price area
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 229
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'Northern Ireland '
+      label: publisher price area
+  - value_id: south_east
+    label: South East
+    ordinal: 8
+    row_number: 230
+    expected_row_header_column: B
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'South East '
+      label: publisher price area
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 9
+    row_number: 231
+    expected_row_header_column: B
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'South Scotland '
+      label: publisher price area
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 10
+    row_number: 232
+    expected_row_header_column: B
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'South Wales '
+      label: publisher price area
+  - value_id: south_west
+    label: South West
+    ordinal: 11
+    row_number: 233
+    expected_row_header_column: B
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'South West '
+      label: publisher price area
+  - value_id: southern
+    label: Southern
+    ordinal: 12
+    row_number: 234
+    expected_row_header_column: B
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'Southern '
+      label: publisher price area
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 13
+    row_number: 235
+    expected_row_header_column: B
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'West Midlands '
+      label: publisher price area
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 14
+    row_number: 236
+    expected_row_header_column: B
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'Yorkshire '
+      label: publisher price area
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 15
+    row_number: 237
+    expected_row_header_column: B
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'United Kingdom '
+      label: publisher price area
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: standard_credit_fixed_cost
+    label: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 1
+    column: E
+    source_column_id: standard_credit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: standard_credit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: direct_debit_fixed_cost
+    label: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 3
+    column: G
+    source_column_id: direct_debit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: direct_debit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_fixed_cost
+    label: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 5
+    column: I
+    source_column_id: prepayment_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: prepayment
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_fixed_cost
+    label: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 7
+    column: K
+    source_column_id: overall_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: all
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+- record_set_id: desnz.qep.table_2_2_4.cy2024
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.cy2024.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.cy2024
+  sheet_name: 2.2.4
+  period_type: calendar_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-01-01'
+    end_date: '2024-12-31'
+    basis: calendar
+    source_period_label: '2024'
+    notes: The period value stores the publisher's calendar year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 238
+    expected_row_header_column: B
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: East Midlands
+      label: publisher price area
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 239
+    expected_row_header_column: B
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: Eastern
+      label: publisher price area
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 240
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: London
+      label: publisher price area
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 241
+    expected_row_header_column: B
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: Merseyside & North Wales
+      label: publisher price area
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 242
+    expected_row_header_column: B
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: North East
+      label: publisher price area
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 5
+    row_number: 243
+    expected_row_header_column: B
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: North Scotland
+      label: publisher price area
+  - value_id: north_west
+    label: North West
+    ordinal: 6
+    row_number: 244
+    expected_row_header_column: B
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: North West
+      label: publisher price area
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 245
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: Northern Ireland
+      label: publisher price area
+  - value_id: south_east
+    label: South East
+    ordinal: 8
+    row_number: 246
+    expected_row_header_column: B
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: South East
+      label: publisher price area
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 9
+    row_number: 247
+    expected_row_header_column: B
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: South Scotland
+      label: publisher price area
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 10
+    row_number: 248
+    expected_row_header_column: B
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: South Wales
+      label: publisher price area
+  - value_id: south_west
+    label: South West
+    ordinal: 11
+    row_number: 249
+    expected_row_header_column: B
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: South West
+      label: publisher price area
+  - value_id: southern
+    label: Southern
+    ordinal: 12
+    row_number: 250
+    expected_row_header_column: B
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: Southern
+      label: publisher price area
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 13
+    row_number: 251
+    expected_row_header_column: B
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: West Midlands
+      label: publisher price area
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 14
+    row_number: 252
+    expected_row_header_column: B
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: Yorkshire
+      label: publisher price area
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 15
+    row_number: 253
+    expected_row_header_column: B
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: United Kingdom
+      label: publisher price area
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: standard_credit_fixed_cost
+    label: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 1
+    column: E
+    source_column_id: standard_credit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: standard_credit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: direct_debit_fixed_cost
+    label: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 3
+    column: G
+    source_column_id: direct_debit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: direct_debit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_fixed_cost
+    label: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 5
+    column: I
+    source_column_id: prepayment_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: prepayment
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_fixed_cost
+    label: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 7
+    column: K
+    source_column_id: overall_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: all
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+- record_set_id: desnz.qep.table_2_2_4.cy2025
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.cy2025.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.cy2025
+  sheet_name: 2.2.4
+  period_type: calendar_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-01-01'
+    end_date: '2025-12-31'
+    basis: calendar
+    source_period_label: '2025'
+    notes: The period value stores the publisher's calendar year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 254
+    expected_row_header_column: B
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: East Midlands
+      label: publisher price area
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 255
+    expected_row_header_column: B
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: Eastern
+      label: publisher price area
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 256
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: London
+      label: publisher price area
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 257
+    expected_row_header_column: B
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: Merseyside & North Wales
+      label: publisher price area
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 258
+    expected_row_header_column: B
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: North East
+      label: publisher price area
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 5
+    row_number: 259
+    expected_row_header_column: B
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: North Scotland
+      label: publisher price area
+  - value_id: north_west
+    label: North West
+    ordinal: 6
+    row_number: 260
+    expected_row_header_column: B
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: North West
+      label: publisher price area
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 261
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: Northern Ireland
+      label: publisher price area
+  - value_id: south_east
+    label: South East
+    ordinal: 8
+    row_number: 262
+    expected_row_header_column: B
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: South East
+      label: publisher price area
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 9
+    row_number: 263
+    expected_row_header_column: B
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: South Scotland
+      label: publisher price area
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 10
+    row_number: 264
+    expected_row_header_column: B
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: South Wales
+      label: publisher price area
+  - value_id: south_west
+    label: South West
+    ordinal: 11
+    row_number: 265
+    expected_row_header_column: B
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: South West
+      label: publisher price area
+  - value_id: southern
+    label: Southern
+    ordinal: 12
+    row_number: 266
+    expected_row_header_column: B
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: Southern
+      label: publisher price area
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 13
+    row_number: 267
+    expected_row_header_column: B
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: West Midlands
+      label: publisher price area
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 14
+    row_number: 268
+    expected_row_header_column: B
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: Yorkshire
+      label: publisher price area
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 15
+    row_number: 269
+    expected_row_header_column: B
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: United Kingdom
+      label: publisher price area
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: standard_credit_fixed_cost
+    label: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 1
+    column: E
+    source_column_id: standard_credit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: standard_credit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: direct_debit_fixed_cost
+    label: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 3
+    column: G
+    source_column_id: direct_debit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: direct_debit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_fixed_cost
+    label: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 5
+    column: I
+    source_column_id: prepayment_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: prepayment
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_fixed_cost
+    label: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 7
+    column: K
+    source_column_id: overall_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: all
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+- record_set_id: desnz.qep.table_2_2_4.fy2023
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.fy2023.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.fy2023
+  sheet_name: 2.2.4 (Financial Year)
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023/24
+    notes: The period value stores the opening year of the publisher's financial-year label.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 45
+    expected_row_header_column: B
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: East Midlands
+      label: publisher price area
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 46
+    expected_row_header_column: B
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: Eastern
+      label: publisher price area
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 47
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: London
+      label: publisher price area
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 48
+    expected_row_header_column: B
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: Merseyside & North Wales
+      label: publisher price area
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 49
+    expected_row_header_column: B
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: North East
+      label: publisher price area
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 5
+    row_number: 50
+    expected_row_header_column: B
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: North Scotland
+      label: publisher price area
+  - value_id: north_west
+    label: North West
+    ordinal: 6
+    row_number: 51
+    expected_row_header_column: B
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: North West
+      label: publisher price area
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 52
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: Northern Ireland
+      label: publisher price area
+  - value_id: south_east
+    label: South East
+    ordinal: 8
+    row_number: 53
+    expected_row_header_column: B
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: South East
+      label: publisher price area
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 9
+    row_number: 54
+    expected_row_header_column: B
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: South Scotland
+      label: publisher price area
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 10
+    row_number: 55
+    expected_row_header_column: B
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: South Wales
+      label: publisher price area
+  - value_id: south_west
+    label: South West
+    ordinal: 11
+    row_number: 56
+    expected_row_header_column: B
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: South West
+      label: publisher price area
+  - value_id: southern
+    label: Southern
+    ordinal: 12
+    row_number: 57
+    expected_row_header_column: B
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: Southern
+      label: publisher price area
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 13
+    row_number: 58
+    expected_row_header_column: B
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: West Midlands
+      label: publisher price area
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 14
+    row_number: 59
+    expected_row_header_column: B
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: Yorkshire
+      label: publisher price area
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 15
+    row_number: 60
+    expected_row_header_column: B
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: United Kingdom
+      label: publisher price area
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: standard_credit_fixed_cost
+    label: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 1
+    column: E
+    source_column_id: standard_credit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: standard_credit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: direct_debit_fixed_cost
+    label: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 3
+    column: G
+    source_column_id: direct_debit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: direct_debit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_fixed_cost
+    label: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 5
+    column: I
+    source_column_id: prepayment_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: prepayment
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_fixed_cost
+    label: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 7
+    column: K
+    source_column_id: overall_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: all
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+- record_set_id: desnz.qep.table_2_2_4.fy2024
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.fy2024.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.fy2024
+  sheet_name: 2.2.4 (Financial Year)
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024/25
+    notes: The period value stores the opening year of the publisher's financial-year label.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 61
+    expected_row_header_column: B
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: East Midlands
+      label: publisher price area
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 62
+    expected_row_header_column: B
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: Eastern
+      label: publisher price area
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 63
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: London
+      label: publisher price area
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 64
+    expected_row_header_column: B
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: Merseyside & North Wales
+      label: publisher price area
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 65
+    expected_row_header_column: B
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: North East
+      label: publisher price area
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 5
+    row_number: 66
+    expected_row_header_column: B
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: North Scotland
+      label: publisher price area
+  - value_id: north_west
+    label: North West
+    ordinal: 6
+    row_number: 67
+    expected_row_header_column: B
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: North West
+      label: publisher price area
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 68
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25
+      label: reference period
+    - column: C
+      expected_value: Northern Ireland
+      label: publisher price area
+  - value_id: south_east
+    label: South East
+    ordinal: 8
+    row_number: 69
+    expected_row_header_column: B
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: South East
+      label: publisher price area
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 9
+    row_number: 70
+    expected_row_header_column: B
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: South Scotland
+      label: publisher price area
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 10
+    row_number: 71
+    expected_row_header_column: B
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: South Wales
+      label: publisher price area
+  - value_id: south_west
+    label: South West
+    ordinal: 11
+    row_number: 72
+    expected_row_header_column: B
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: South West
+      label: publisher price area
+  - value_id: southern
+    label: Southern
+    ordinal: 12
+    row_number: 73
+    expected_row_header_column: B
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: Southern
+      label: publisher price area
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 13
+    row_number: 74
+    expected_row_header_column: B
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: West Midlands
+      label: publisher price area
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 14
+    row_number: 75
+    expected_row_header_column: B
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: Yorkshire
+      label: publisher price area
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 15
+    row_number: 76
+    expected_row_header_column: B
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2024/25 r
+      label: reference period
+    - column: C
+      expected_value: United Kingdom
+      label: publisher price area
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: standard_credit_fixed_cost
+    label: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 1
+    column: E
+    source_column_id: standard_credit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: standard_credit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: direct_debit_fixed_cost
+    label: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 3
+    column: G
+    source_column_id: direct_debit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: direct_debit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_fixed_cost
+    label: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 5
+    column: I
+    source_column_id: prepayment_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: prepayment
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_fixed_cost
+    label: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 7
+    column: K
+    source_column_id: overall_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: all
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+- record_set_id: desnz.qep.table_2_2_4.fy2025
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.fy2025.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.fy2025
+  sheet_name: 2.2.4 (Financial Year)
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2026-03-31'
+    basis: fiscal
+    source_period_label: 2025/26
+    notes: The period value stores the opening year of the publisher's financial-year label.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 77
+    expected_row_header_column: B
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: East Midlands
+      label: publisher price area
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 78
+    expected_row_header_column: B
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: Eastern
+      label: publisher price area
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 79
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: London
+      label: publisher price area
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 80
+    expected_row_header_column: B
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: Merseyside & North Wales
+      label: publisher price area
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 81
+    expected_row_header_column: B
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: North East
+      label: publisher price area
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 5
+    row_number: 82
+    expected_row_header_column: B
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: North Scotland
+      label: publisher price area
+  - value_id: north_west
+    label: North West
+    ordinal: 6
+    row_number: 83
+    expected_row_header_column: B
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: North West
+      label: publisher price area
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 84
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: Northern Ireland
+      label: publisher price area
+  - value_id: south_east
+    label: South East
+    ordinal: 8
+    row_number: 85
+    expected_row_header_column: B
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: South East
+      label: publisher price area
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 9
+    row_number: 86
+    expected_row_header_column: B
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: South Scotland
+      label: publisher price area
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 10
+    row_number: 87
+    expected_row_header_column: B
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: South Wales
+      label: publisher price area
+  - value_id: south_west
+    label: South West
+    ordinal: 11
+    row_number: 88
+    expected_row_header_column: B
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: South West
+      label: publisher price area
+  - value_id: southern
+    label: Southern
+    ordinal: 12
+    row_number: 89
+    expected_row_header_column: B
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: Southern
+      label: publisher price area
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 13
+    row_number: 90
+    expected_row_header_column: B
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: West Midlands
+      label: publisher price area
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 14
+    row_number: 91
+    expected_row_header_column: B
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: Yorkshire
+      label: publisher price area
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 15
+    row_number: 92
+    expected_row_header_column: B
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: United Kingdom
+      label: publisher price area
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: standard_credit_fixed_cost
+    label: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 1
+    column: E
+    source_column_id: standard_credit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: standard_credit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: direct_debit_fixed_cost
+    label: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 3
+    column: G
+    source_column_id: direct_debit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Direct debit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: direct_debit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_fixed_cost
+    label: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 5
+    column: I
+    source_column_id: prepayment_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Prepayment: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: prepayment
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_fixed_cost
+    label: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 7
+    column: K
+    source_column_id: overall_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Overall: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: all
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
