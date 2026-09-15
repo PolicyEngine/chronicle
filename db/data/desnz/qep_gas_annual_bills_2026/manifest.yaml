@@ -1,0 +1,18 @@
+source_id: desnz
+package_id: desnz-qep-gas-annual-bills-2026
+dataset: desnz_desnz-qep-gas-annual-bills-2026
+source_page: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+table: 'Quarterly Energy Prices table 2.3.1: average annual domestic gas bills'
+files:
+  2026:
+    filename: table_231.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/6a4245df3413112faed80dbd/table_231__1_.xlsx
+    sha256: 680e8d3522ac82c365cd2b4c9020ac30901c0813b59fd012c50278bf9c3285b2
+    size_bytes: 205396
+    fetched_at: '2026-09-15T14:12:42+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/desnz/desnz-qep-gas-annual-bills-2026/2026/680e8d3522ac82c365cd2b4c9020ac30901c0813b59fd012c50278bf9c3285b2/table_231.xlsx
+        uri: r2://ledger-raw/raw/desnz/desnz-qep-gas-annual-bills-2026/2026/680e8d3522ac82c365cd2b4c9020ac30901c0813b59fd012c50278bf9c3285b2/table_231.xlsx

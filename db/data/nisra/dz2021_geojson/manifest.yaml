@@ -1,0 +1,25 @@
+source_id: nisra
+package_id: nisra-dz2021-geojson
+source_name: NISRA Data Zone 2021 boundaries
+publisher: Northern Ireland Statistics and Research Agency
+source_page: https://www.nisra.gov.uk/files/nisra/publications/geography-dz2021-geojson.zip
+files:
+  2021:
+    filename: ni_dz2021_geojson.zip
+    source_url: https://www.nisra.gov.uk/files/nisra/publications/geography-dz2021-geojson.zip
+    source_table: Data Zone 2021 GeoJSON with SDZ2021, LGD2014 and DEA2014 properties
+    sha256: 3acb357ebdecae64dbc2fb645e62c68f529a00f7ae9c19684bd3b7a10e62676b
+    size_bytes: 26823947
+    fetched_at: '2026-08-19'
+    retrieved_at: '2026-08-19'
+    vintage: 2021_census
+    vintages:
+    - 2021_census
+    - 2014_lgd
+    - 2014_dea
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-dz2021-geojson/2021/3acb357ebdecae64dbc2fb645e62c68f529a00f7ae9c19684bd3b7a10e62676b/ni_dz2021_geojson.zip
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-dz2021-geojson/2021/3acb357ebdecae64dbc2fb645e62c68f529a00f7ae9c19684bd3b7a10e62676b/ni_dz2021_geojson.zip

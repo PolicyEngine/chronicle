@@ -1,0 +1,1434 @@
+# Publisher observations only. Annual and quarterly cells are retained at their
+# published frequency; no weather normalization, interpolation, or allocation is performed.
+schema_version: ledger.source_package.v1
+package_id: desnz-energy-trends-domestic-gas-2026
+label: DESNZ Energy Trends domestic gas consumption, 2022 to 2026 Q1
+dimension_labels:
+  desnz.energy_trends.series: Energy Trends series
+  fuel: Fuel
+  frequency: Frequency
+  temperature_adjustment: Temperature adjustment
+dimension_value_labels:
+  fuel:
+    gas: Gas
+  frequency:
+    annual: Annual
+    quarterly: Quarterly
+  temperature_adjustment:
+    actual_temperature: Actual temperature
+artifact:
+  source_name: desnz
+  source_table: Energy Trends Table 4.1 natural gas supply and consumption
+  resource_package: db
+  resource_directory: data/desnz/energy_trends_domestic_gas_2026
+  manifest: manifest.yaml
+  vintage: 2026_release
+  extracted_at: '2026-09-15'
+  extraction_method: XLSX whole-workbook used-range cell parse
+  parser: xlsx_used_range
+  artifact_year: 2026
+  sheets:
+  - Annual (GWh)
+  - Quarter (GWh)
+record_sets:
+- record_set_id: desnz.energy_trends.4_1.domestic.2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2022.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2022
+  sheet_name: Annual (GWh)
+  period_type: calendar_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-01-01'
+    end_date: '2022-12-31'
+    basis: calendar
+    source_period_label: '2022'
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: annual
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: annual
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: Z
+    source_column_id: domestic_consumption
+    expected_column_header_row: null
+    expected_column_header: '2022
+
+      '
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2023.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2023
+  sheet_name: Annual (GWh)
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-01-01'
+    end_date: '2023-12-31'
+    basis: calendar
+    source_period_label: '2023'
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: annual
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: annual
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: AA
+    source_column_id: domestic_consumption
+    expected_column_header_row: null
+    expected_column_header: '2023'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2024.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2024
+  sheet_name: Annual (GWh)
+  period_type: calendar_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-01-01'
+    end_date: '2024-12-31'
+    basis: calendar
+    source_period_label: '2024'
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: annual
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: annual
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: AB
+    source_column_id: domestic_consumption
+    expected_column_header_row: null
+    expected_column_header: '2024'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2025.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2025
+  sheet_name: Annual (GWh)
+  period_type: calendar_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-01-01'
+    end_date: '2025-12-31'
+    basis: calendar
+    source_period_label: '2025'
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: annual
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: annual
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: AC
+    source_column_id: domestic_consumption
+    expected_column_header_row: null
+    expected_column_header: '2025'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2022_q1
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2022_q1.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2022_q1
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2022-Q1
+  period_coverage:
+    start_date: '2022-01-01'
+    end_date: '2022-03-31'
+    basis: calendar
+    source_period_label: Quarter 1 2022
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: CT
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2022
+
+      1st quarter'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2022_q2
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2022_q2.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2022_q2
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2022-Q2
+  period_coverage:
+    start_date: '2022-04-01'
+    end_date: '2022-06-30'
+    basis: calendar
+    source_period_label: Quarter 2 2022
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: CU
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2022
+
+      2nd quarter'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2022_q3
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2022_q3.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2022_q3
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2022-Q3
+  period_coverage:
+    start_date: '2022-07-01'
+    end_date: '2022-09-30'
+    basis: calendar
+    source_period_label: Quarter 3 2022
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: CV
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2022
+
+      3rd quarter'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2022_q4
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2022_q4.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2022_q4
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2022-Q4
+  period_coverage:
+    start_date: '2022-10-01'
+    end_date: '2022-12-31'
+    basis: calendar
+    source_period_label: Quarter 4 2022
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: CW
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2022
+
+      4th quarter'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2023_q1
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2023_q1.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2023_q1
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2023-Q1
+  period_coverage:
+    start_date: '2023-01-01'
+    end_date: '2023-03-31'
+    basis: calendar
+    source_period_label: Quarter 1 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: CX
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2023
+
+      1st quarter'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2023_q2
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2023_q2.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2023_q2
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2023-Q2
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2023-06-30'
+    basis: calendar
+    source_period_label: Quarter 2 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: CY
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2023
+
+      2nd quarter'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2023_q3
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2023_q3.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2023_q3
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2023-Q3
+  period_coverage:
+    start_date: '2023-07-01'
+    end_date: '2023-09-30'
+    basis: calendar
+    source_period_label: Quarter 3 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: CZ
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2023
+
+      3rd quarter '
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2023_q4
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2023_q4.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2023_q4
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2023-Q4
+  period_coverage:
+    start_date: '2023-10-01'
+    end_date: '2023-12-31'
+    basis: calendar
+    source_period_label: Quarter 4 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: DA
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2023
+
+      4th quarter '
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2024_q1
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2024_q1.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2024_q1
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2024-Q1
+  period_coverage:
+    start_date: '2024-01-01'
+    end_date: '2024-03-31'
+    basis: calendar
+    source_period_label: Quarter 1 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: DB
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2024
+
+      1st quarter '
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2024_q2
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2024_q2.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2024_q2
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2024-Q2
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2024-06-30'
+    basis: calendar
+    source_period_label: Quarter 2 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: DC
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2024
+
+      2nd quarter'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2024_q3
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2024_q3.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2024_q3
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2024-Q3
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-09-30'
+    basis: calendar
+    source_period_label: Quarter 3 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: DD
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2024
+
+      3rd quarter'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2024_q4
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2024_q4.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2024_q4
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2024-Q4
+  period_coverage:
+    start_date: '2024-10-01'
+    end_date: '2024-12-31'
+    basis: calendar
+    source_period_label: Quarter 4 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: DE
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2024
+
+      4th quarter'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2025_q1
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2025_q1.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2025_q1
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2025-Q1
+  period_coverage:
+    start_date: '2025-01-01'
+    end_date: '2025-03-31'
+    basis: calendar
+    source_period_label: Quarter 1 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: DF
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2025
+
+      1st quarter '
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2025_q2
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2025_q2.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2025_q2
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2025-Q2
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2025-06-30'
+    basis: calendar
+    source_period_label: Quarter 2 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: DG
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2025
+
+      2nd quarter'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2025_q3
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2025_q3.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2025_q3
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2025-Q3
+  period_coverage:
+    start_date: '2025-07-01'
+    end_date: '2025-09-30'
+    basis: calendar
+    source_period_label: Quarter 3 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: DH
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2025
+
+      3rd quarter'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2025_q4
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2025_q4.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2025_q4
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2025-Q4
+  period_coverage:
+    start_date: '2025-10-01'
+    end_date: '2025-12-31'
+    basis: calendar
+    source_period_label: Quarter 4 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: DI
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2025
+
+      4th quarter '
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: desnz.energy_trends.4_1.domestic.2026_q1
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: desnz.energy_trends.4_1.domestic.2026_q1.v1
+  source_record_id_prefix: desnz.energy_trends.4_1.domestic.2026_q1
+  sheet_name: Quarter (GWh)
+  period_type: quarter
+  period: 2026-Q1
+  period_coverage:
+    start_date: '2026-01-01'
+    end_date: '2026-03-31'
+    basis: calendar
+    source_period_label: Quarter 1 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_consumption
+  groupby_dimension: desnz.energy_trends.series
+  shared_filters:
+    fuel: gas
+    frequency: quarterly
+    temperature_adjustment: actual_temperature
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: gas
+    label: Fuel
+  - variable: frequency
+    operator: ==
+    value: quarterly
+    label: Frequency
+  - variable: temperature_adjustment
+    operator: ==
+    value: actual_temperature
+    label: Temperature adjustment
+  rows:
+  - value_id: domestic_consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    row_number: 22
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Domestic
+  measures:
+  - measure_id: consumption
+    label: Domestic gas consumption
+    ordinal: 0
+    column: DJ
+    source_column_id: domestic_consumption
+    expected_column_header_row: 3
+    expected_column_header: '2026
+
+      1st quarter [provisional]'
+    concept: desnz.energy_trends.domestic_gas_consumption
+    source_concept: desnz.energy_trends.domestic_gas_consumption
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistics/gas-section-4-energy-trends
+    concept_evidence_notes: Energy Trends Table 4.1 gas domestic consumption as published; GWh/TWh converted
+      to kWh.
+    unit: kwh
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number

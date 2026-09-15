@@ -1,0 +1,18 @@
+source_id: desnz
+package_id: desnz-subnational-gas-consumption-2024
+dataset: desnz_desnz-subnational-gas-consumption-2024
+source_page: https://www.gov.uk/government/statistics/regional-and-local-authority-gas-consumption-statistics
+table: Subnational gas consumption, Great Britain, 2005 to 2024
+files:
+  2026:
+    filename: subnational-gas-2005-2024.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/69f9bf208f3213f7384ecae6/Subnational_gas_consumption_statistics_2005-2024.xlsx
+    sha256: 192c5f81f953c9ab6b5c2dc4a3ca5ddccf5e98f53d39c0ce368c3c532b209cd3
+    size_bytes: 1650955
+    fetched_at: '2026-09-15T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-subnational-gas-consumption-2024/2026/192c5f81f953c9ab6b5c2dc4a3ca5ddccf5e98f53d39c0ce368c3c532b209cd3/subnational-gas-2005-2024.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-subnational-gas-consumption-2024/2026/192c5f81f953c9ab6b5c2dc4a3ca5ddccf5e98f53d39c0ce368c3c532b209cd3/subnational-gas-2005-2024.xlsx

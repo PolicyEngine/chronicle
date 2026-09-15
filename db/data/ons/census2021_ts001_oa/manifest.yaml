@@ -1,0 +1,23 @@
+source_id: ons
+package_id: ons-census2021-ts001-oa
+source_name: Census 2021 TS001 usual resident population by Output Area
+publisher: Office for National Statistics via Nomis
+source_page: https://www.nomisweb.co.uk/output/census/2021/census2021-ts001.zip
+files:
+  2021:
+    filename: census2021-ts001.zip
+    source_url: https://www.nomisweb.co.uk/output/census/2021/census2021-ts001.zip
+    source_table: Census 2021 TS001 usual resident population by Output Area
+    sha256: b724c1208b7628c7c558156fcc619446486353a12d0b6e0bf388add225653dc6
+    size_bytes: 1870128
+    fetched_at: '2026-08-19'
+    retrieved_at: '2026-08-19'
+    vintage: 2021_census
+    vintages:
+    - 2021_census
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-census2021-ts001-oa/2021/b724c1208b7628c7c558156fcc619446486353a12d0b6e0bf388add225653dc6/census2021-ts001.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-census2021-ts001-oa/2021/b724c1208b7628c7c558156fcc619446486353a12d0b6e0bf388add225653dc6/census2021-ts001.zip

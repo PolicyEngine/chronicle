@@ -1,0 +1,23 @@
+source_id: nrs
+package_id: nrs-oa22-ukpc24-lookup
+source_name: NRS OA 2022 to UK Parliamentary Constituency 2024 lookup
+publisher: National Records of Scotland
+source_page: https://www.nrscotland.gov.uk/media/njkmhppf/oa22_ukpc24.zip
+files:
+  2024:
+    filename: scotland_oa22_ukpc24.zip
+    source_url: https://www.nrscotland.gov.uk/media/njkmhppf/oa22_ukpc24.zip
+    source_table: OA2022 to UK Parliamentary Constituency 2024 lookup
+    sha256: b63829d28cdf93606d17ffd12999ec12f54a8bc3065cc40fbf9e975629e4689a
+    size_bytes: 181009
+    fetched_at: '2026-08-19'
+    retrieved_at: '2026-08-19'
+    vintage: 2024_pcon
+    vintages:
+    - 2024_pcon
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-oa22-ukpc24-lookup/2024/b63829d28cdf93606d17ffd12999ec12f54a8bc3065cc40fbf9e975629e4689a/scotland_oa22_ukpc24.zip
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-oa22-ukpc24-lookup/2024/b63829d28cdf93606d17ffd12999ec12f54a8bc3065cc40fbf9e975629e4689a/scotland_oa22_ukpc24.zip

@@ -1,0 +1,435 @@
+SuperWEB2(tm)
+
+"Census 2022-Household-2Ev1"
+"Scotland's Census 2022 - National Records of Scotland Table UV407 - Central heating All occupied households"
+"Council Area 2019 by Central Heating in Household"
+"Counting: Households"
+
+Filters:
+"Default Summation","Households"
+
+"Counting","Council Area 2019","Central Heating in Household","Count",
+"Households","Clackmannanshire","All occupied households",24072
+"Households","Clackmannanshire","No central heating",288
+"Households","Clackmannanshire","Gas central heating: Total",20746
+"Households","Clackmannanshire","Gas central heating: Mains gas",20488
+"Households","Clackmannanshire","Gas central heating: Other gas (including liquid petroleum gas and biogas)",255
+"Households","Clackmannanshire","Electric (including storage heaters) central heating",1092
+"Households","Clackmannanshire","Oil central heating",232
+"Households","Clackmannanshire","Solid Fuel (excluding wood)",36
+"Households","Clackmannanshire","Wood or Biomass (including logs, pellets, chippings) central heating",44
+"Households","Clackmannanshire","Other renewable energy source (including electric and air heat pump systems)",78
+"Households","Clackmannanshire","District or communal heat system",39
+"Households","Clackmannanshire","Other central heating",116
+"Households","Clackmannanshire","Two or more types of central heating",1404
+"Households","Dumfries and Galloway","All occupied households",70633
+"Households","Dumfries and Galloway","No central heating",1333
+"Households","Dumfries and Galloway","Gas central heating: Total",41129
+"Households","Dumfries and Galloway","Gas central heating: Mains gas",39346
+"Households","Dumfries and Galloway","Gas central heating: Other gas (including liquid petroleum gas and biogas)",1783
+"Households","Dumfries and Galloway","Electric (including storage heaters) central heating",7065
+"Households","Dumfries and Galloway","Oil central heating",12066
+"Households","Dumfries and Galloway","Solid Fuel (excluding wood)",580
+"Households","Dumfries and Galloway","Wood or Biomass (including logs, pellets, chippings) central heating",959
+"Households","Dumfries and Galloway","Other renewable energy source (including electric and air heat pump systems)",1593
+"Households","Dumfries and Galloway","District or communal heat system",48
+"Households","Dumfries and Galloway","Other central heating",279
+"Households","Dumfries and Galloway","Two or more types of central heating",5579
+"Households","East Ayrshire","All occupied households",55436
+"Households","East Ayrshire","No central heating",592
+"Households","East Ayrshire","Gas central heating: Total",48299
+"Households","East Ayrshire","Gas central heating: Mains gas",47602
+"Households","East Ayrshire","Gas central heating: Other gas (including liquid petroleum gas and biogas)",697
+"Households","East Ayrshire","Electric (including storage heaters) central heating",1380
+"Households","East Ayrshire","Oil central heating",1482
+"Households","East Ayrshire","Solid Fuel (excluding wood)",101
+"Households","East Ayrshire","Wood or Biomass (including logs, pellets, chippings) central heating",259
+"Households","East Ayrshire","Other renewable energy source (including electric and air heat pump systems)",210
+"Households","East Ayrshire","District or communal heat system",81
+"Households","East Ayrshire","Other central heating",288
+"Households","East Ayrshire","Two or more types of central heating",2745
+"Households","East Lothian","All occupied households",48792
+"Households","East Lothian","No central heating",742
+"Households","East Lothian","Gas central heating: Total",38574
+"Households","East Lothian","Gas central heating: Mains gas",37816
+"Households","East Lothian","Gas central heating: Other gas (including liquid petroleum gas and biogas)",758
+"Households","East Lothian","Electric (including storage heaters) central heating",3507
+"Households","East Lothian","Oil central heating",1581
+"Households","East Lothian","Solid Fuel (excluding wood)",181
+"Households","East Lothian","Wood or Biomass (including logs, pellets, chippings) central heating",289
+"Households","East Lothian","Other renewable energy source (including electric and air heat pump systems)",481
+"Households","East Lothian","District or communal heat system",157
+"Households","East Lothian","Other central heating",162
+"Households","East Lothian","Two or more types of central heating",3118
+"Households","East Renfrewshire","All occupied households",39732
+"Households","East Renfrewshire","No central heating",427
+"Households","East Renfrewshire","Gas central heating: Total",34883
+"Households","East Renfrewshire","Gas central heating: Mains gas",34587
+"Households","East Renfrewshire","Gas central heating: Other gas (including liquid petroleum gas and biogas)",296
+"Households","East Renfrewshire","Electric (including storage heaters) central heating",2180
+"Households","East Renfrewshire","Oil central heating",274
+"Households","East Renfrewshire","Solid Fuel (excluding wood)",5
+"Households","East Renfrewshire","Wood or Biomass (including logs, pellets, chippings) central heating",35
+"Households","East Renfrewshire","Other renewable energy source (including electric and air heat pump systems)",106
+"Households","East Renfrewshire","District or communal heat system",110
+"Households","East Renfrewshire","Other central heating",99
+"Households","East Renfrewshire","Two or more types of central heating",1611
+"Households","Na h-Eileanan Siar","All occupied households",12717
+"Households","Na h-Eileanan Siar","No central heating",447
+"Households","Na h-Eileanan Siar","Gas central heating: Total",1589
+"Households","Na h-Eileanan Siar","Gas central heating: Mains gas",1235
+"Households","Na h-Eileanan Siar","Gas central heating: Other gas (including liquid petroleum gas and biogas)",354
+"Households","Na h-Eileanan Siar","Electric (including storage heaters) central heating",2186
+"Households","Na h-Eileanan Siar","Oil central heating",4759
+"Households","Na h-Eileanan Siar","Solid Fuel (excluding wood)",309
+"Households","Na h-Eileanan Siar","Wood or Biomass (including logs, pellets, chippings) central heating",101
+"Households","Na h-Eileanan Siar","Other renewable energy source (including electric and air heat pump systems)",1450
+"Households","Na h-Eileanan Siar","District or communal heat system",6
+"Households","Na h-Eileanan Siar","Other central heating",68
+"Households","Na h-Eileanan Siar","Two or more types of central heating",1800
+"Households","Falkirk","All occupied households",72490
+"Households","Falkirk","No central heating",942
+"Households","Falkirk","Gas central heating: Total",61162
+"Households","Falkirk","Gas central heating: Mains gas",60285
+"Households","Falkirk","Gas central heating: Other gas (including liquid petroleum gas and biogas)",877
+"Households","Falkirk","Electric (including storage heaters) central heating",4633
+"Households","Falkirk","Oil central heating",919
+"Households","Falkirk","Solid Fuel (excluding wood)",213
+"Households","Falkirk","Wood or Biomass (including logs, pellets, chippings) central heating",63
+"Households","Falkirk","Other renewable energy source (including electric and air heat pump systems)",313
+"Households","Falkirk","District or communal heat system",428
+"Households","Falkirk","Other central heating",337
+"Households","Falkirk","Two or more types of central heating",3477
+"Households","Highland","All occupied households",111727
+"Households","Highland","No central heating",3433
+"Households","Highland","Gas central heating: Total",42490
+"Households","Highland","Gas central heating: Mains gas",39250
+"Households","Highland","Gas central heating: Other gas (including liquid petroleum gas and biogas)",3236
+"Households","Highland","Electric (including storage heaters) central heating",18580
+"Households","Highland","Oil central heating",24899
+"Households","Highland","Solid Fuel (excluding wood)",2129
+"Households","Highland","Wood or Biomass (including logs, pellets, chippings) central heating",2360
+"Households","Highland","Other renewable energy source (including electric and air heat pump systems)",4719
+"Households","Highland","District or communal heat system",196
+"Households","Highland","Other central heating",585
+"Households","Highland","Two or more types of central heating",12336
+"Households","Inverclyde","All occupied households",37405
+"Households","Inverclyde","No central heating",566
+"Households","Inverclyde","Gas central heating: Total",31270
+"Households","Inverclyde","Gas central heating: Mains gas",30889
+"Households","Inverclyde","Gas central heating: Other gas (including liquid petroleum gas and biogas)",381
+"Households","Inverclyde","Electric (including storage heaters) central heating",2508
+"Households","Inverclyde","Oil central heating",137
+"Households","Inverclyde","Solid Fuel (excluding wood)",5
+"Households","Inverclyde","Wood or Biomass (including logs, pellets, chippings) central heating",428
+"Households","Inverclyde","Other renewable energy source (including electric and air heat pump systems)",64
+"Households","Inverclyde","District or communal heat system",165
+"Households","Inverclyde","Other central heating",197
+"Households","Inverclyde","Two or more types of central heating",2063
+"Households","Midlothian","All occupied households",41009
+"Households","Midlothian","No central heating",393
+"Households","Midlothian","Gas central heating: Total",35179
+"Households","Midlothian","Gas central heating: Mains gas",34610
+"Households","Midlothian","Gas central heating: Other gas (including liquid petroleum gas and biogas)",568
+"Households","Midlothian","Electric (including storage heaters) central heating",1295
+"Households","Midlothian","Oil central heating",997
+"Households","Midlothian","Solid Fuel (excluding wood)",136
+"Households","Midlothian","Wood or Biomass (including logs, pellets, chippings) central heating",116
+"Households","Midlothian","Other renewable energy source (including electric and air heat pump systems)",138
+"Households","Midlothian","District or communal heat system",274
+"Households","Midlothian","Other central heating",168
+"Households","Midlothian","Two or more types of central heating",2309
+"Households","Moray","All occupied households",43116
+"Households","Moray","No central heating",640
+"Households","Moray","Gas central heating: Total",27309
+"Households","Moray","Gas central heating: Mains gas",26700
+"Households","Moray","Gas central heating: Other gas (including liquid petroleum gas and biogas)",609
+"Households","Moray","Electric (including storage heaters) central heating",3230
+"Households","Moray","Oil central heating",5519
+"Households","Moray","Solid Fuel (excluding wood)",241
+"Households","Moray","Wood or Biomass (including logs, pellets, chippings) central heating",427
+"Households","Moray","Other renewable energy source (including electric and air heat pump systems)",1512
+"Households","Moray","District or communal heat system",76
+"Households","Moray","Other central heating",147
+"Households","Moray","Two or more types of central heating",4018
+"Households","North Ayrshire","All occupied households",64185
+"Households","North Ayrshire","No central heating",1077
+"Households","North Ayrshire","Gas central heating: Total",53224
+"Households","North Ayrshire","Gas central heating: Mains gas",52468
+"Households","North Ayrshire","Gas central heating: Other gas (including liquid petroleum gas and biogas)",755
+"Households","North Ayrshire","Electric (including storage heaters) central heating",3865
+"Households","North Ayrshire","Oil central heating",1458
+"Households","North Ayrshire","Solid Fuel (excluding wood)",43
+"Households","North Ayrshire","Wood or Biomass (including logs, pellets, chippings) central heating",212
+"Households","North Ayrshire","Other renewable energy source (including electric and air heat pump systems)",387
+"Households","North Ayrshire","District or communal heat system",201
+"Households","North Ayrshire","Other central heating",302
+"Households","North Ayrshire","Two or more types of central heating",3415
+"Households","Orkney Islands","All occupied households",10631
+"Households","Orkney Islands","No central heating",470
+"Households","Orkney Islands","Gas central heating: Total",68
+"Households","Orkney Islands","Gas central heating: Mains gas",45
+"Households","Orkney Islands","Gas central heating: Other gas (including liquid petroleum gas and biogas)",23
+"Households","Orkney Islands","Electric (including storage heaters) central heating",3150
+"Households","Orkney Islands","Oil central heating",2989
+"Households","Orkney Islands","Solid Fuel (excluding wood)",180
+"Households","Orkney Islands","Wood or Biomass (including logs, pellets, chippings) central heating",73
+"Households","Orkney Islands","Other renewable energy source (including electric and air heat pump systems)",2018
+"Households","Orkney Islands","District or communal heat system",2
+"Households","Orkney Islands","Other central heating",85
+"Households","Orkney Islands","Two or more types of central heating",1591
+"Households","Scottish Borders","All occupied households",55583
+"Households","Scottish Borders","No central heating",1164
+"Households","Scottish Borders","Gas central heating: Total",34105
+"Households","Scottish Borders","Gas central heating: Mains gas",32742
+"Households","Scottish Borders","Gas central heating: Other gas (including liquid petroleum gas and biogas)",1363
+"Households","Scottish Borders","Electric (including storage heaters) central heating",5214
+"Households","Scottish Borders","Oil central heating",7101
+"Households","Scottish Borders","Solid Fuel (excluding wood)",730
+"Households","Scottish Borders","Wood or Biomass (including logs, pellets, chippings) central heating",890
+"Households","Scottish Borders","Other renewable energy source (including electric and air heat pump systems)",1237
+"Households","Scottish Borders","District or communal heat system",194
+"Households","Scottish Borders","Other central heating",233
+"Households","Scottish Borders","Two or more types of central heating",4717
+"Households","Shetland Islands","All occupied households",10576
+"Households","Shetland Islands","No central heating",400
+"Households","Shetland Islands","Gas central heating: Total",80
+"Households","Shetland Islands","Gas central heating: Mains gas",35
+"Households","Shetland Islands","Gas central heating: Other gas (including liquid petroleum gas and biogas)",45
+"Households","Shetland Islands","Electric (including storage heaters) central heating",4431
+"Households","Shetland Islands","Oil central heating",2470
+"Households","Shetland Islands","Solid Fuel (excluding wood)",141
+"Households","Shetland Islands","Wood or Biomass (including logs, pellets, chippings) central heating",36
+"Households","Shetland Islands","Other renewable energy source (including electric and air heat pump systems)",945
+"Households","Shetland Islands","District or communal heat system",950
+"Households","Shetland Islands","Other central heating",47
+"Households","Shetland Islands","Two or more types of central heating",1076
+"Households","South Ayrshire","All occupied households",52491
+"Households","South Ayrshire","No central heating",601
+"Households","South Ayrshire","Gas central heating: Total",42247
+"Households","South Ayrshire","Gas central heating: Mains gas",41421
+"Households","South Ayrshire","Gas central heating: Other gas (including liquid petroleum gas and biogas)",826
+"Households","South Ayrshire","Electric (including storage heaters) central heating",2891
+"Households","South Ayrshire","Oil central heating",3144
+"Households","South Ayrshire","Solid Fuel (excluding wood)",174
+"Households","South Ayrshire","Wood or Biomass (including logs, pellets, chippings) central heating",272
+"Households","South Ayrshire","Other renewable energy source (including electric and air heat pump systems)",311
+"Households","South Ayrshire","District or communal heat system",45
+"Households","South Ayrshire","Other central heating",196
+"Households","South Ayrshire","Two or more types of central heating",2611
+"Households","South Lanarkshire","All occupied households",147810
+"Households","South Lanarkshire","No central heating",2146
+"Households","South Lanarkshire","Gas central heating: Total",117753
+"Households","South Lanarkshire","Gas central heating: Mains gas",115801
+"Households","South Lanarkshire","Gas central heating: Other gas (including liquid petroleum gas and biogas)",1952
+"Households","South Lanarkshire","Electric (including storage heaters) central heating",11371
+"Households","South Lanarkshire","Oil central heating",5622
+"Households","South Lanarkshire","Solid Fuel (excluding wood)",276
+"Households","South Lanarkshire","Wood or Biomass (including logs, pellets, chippings) central heating",477
+"Households","South Lanarkshire","Other renewable energy source (including electric and air heat pump systems)",1774
+"Households","South Lanarkshire","District or communal heat system",398
+"Households","South Lanarkshire","Other central heating",660
+"Households","South Lanarkshire","Two or more types of central heating",7336
+"Households","Stirling","All occupied households",40349
+"Households","Stirling","No central heating",609
+"Households","Stirling","Gas central heating: Total",29910
+"Households","Stirling","Gas central heating: Mains gas",29058
+"Households","Stirling","Gas central heating: Other gas (including liquid petroleum gas and biogas)",851
+"Households","Stirling","Electric (including storage heaters) central heating",3306
+"Households","Stirling","Oil central heating",2504
+"Households","Stirling","Solid Fuel (excluding wood)",148
+"Households","Stirling","Wood or Biomass (including logs, pellets, chippings) central heating",266
+"Households","Stirling","Other renewable energy source (including electric and air heat pump systems)",498
+"Households","Stirling","District or communal heat system",58
+"Households","Stirling","Other central heating",127
+"Households","Stirling","Two or more types of central heating",2922
+"Households","Aberdeen City","All occupied households",109450
+"Households","Aberdeen City","No central heating",2564
+"Households","Aberdeen City","Gas central heating: Total",86593
+"Households","Aberdeen City","Gas central heating: Mains gas",85764
+"Households","Aberdeen City","Gas central heating: Other gas (including liquid petroleum gas and biogas)",829
+"Households","Aberdeen City","Electric (including storage heaters) central heating",10844
+"Households","Aberdeen City","Oil central heating",651
+"Households","Aberdeen City","Solid Fuel (excluding wood)",25
+"Households","Aberdeen City","Wood or Biomass (including logs, pellets, chippings) central heating",28
+"Households","Aberdeen City","Other renewable energy source (including electric and air heat pump systems)",357
+"Households","Aberdeen City","District or communal heat system",1790
+"Households","Aberdeen City","Other central heating",666
+"Households","Aberdeen City","Two or more types of central heating",5937
+"Households","Aberdeenshire","All occupied households",115769
+"Households","Aberdeenshire","No central heating",1893
+"Households","Aberdeenshire","Gas central heating: Total",64870
+"Households","Aberdeenshire","Gas central heating: Mains gas",61939
+"Households","Aberdeenshire","Gas central heating: Other gas (including liquid petroleum gas and biogas)",2931
+"Households","Aberdeenshire","Electric (including storage heaters) central heating",10616
+"Households","Aberdeenshire","Oil central heating",24675
+"Households","Aberdeenshire","Solid Fuel (excluding wood)",577
+"Households","Aberdeenshire","Wood or Biomass (including logs, pellets, chippings) central heating",1385
+"Households","Aberdeenshire","Other renewable energy source (including electric and air heat pump systems)",1950
+"Households","Aberdeenshire","District or communal heat system",379
+"Households","Aberdeenshire","Other central heating",366
+"Households","Aberdeenshire","Two or more types of central heating",9061
+"Households","Argyll and Bute","All occupied households",41894
+"Households","Argyll and Bute","No central heating",1755
+"Households","Argyll and Bute","Gas central heating: Total",18641
+"Households","Argyll and Bute","Gas central heating: Mains gas",17150
+"Households","Argyll and Bute","Gas central heating: Other gas (including liquid petroleum gas and biogas)",1491
+"Households","Argyll and Bute","Electric (including storage heaters) central heating",7984
+"Households","Argyll and Bute","Oil central heating",5326
+"Households","Argyll and Bute","Solid Fuel (excluding wood)",930
+"Households","Argyll and Bute","Wood or Biomass (including logs, pellets, chippings) central heating",718
+"Households","Argyll and Bute","Other renewable energy source (including electric and air heat pump systems)",2572
+"Households","Argyll and Bute","District or communal heat system",98
+"Households","Argyll and Bute","Other central heating",195
+"Households","Argyll and Bute","Two or more types of central heating",3671
+"Households","City of Edinburgh","All occupied households",238944
+"Households","City of Edinburgh","No central heating",7880
+"Households","City of Edinburgh","Gas central heating: Total",190227
+"Households","City of Edinburgh","Gas central heating: Mains gas",188864
+"Households","City of Edinburgh","Gas central heating: Other gas (including liquid petroleum gas and biogas)",1360
+"Households","City of Edinburgh","Electric (including storage heaters) central heating",24362
+"Households","City of Edinburgh","Oil central heating",382
+"Households","City of Edinburgh","Solid Fuel (excluding wood)",49
+"Households","City of Edinburgh","Wood or Biomass (including logs, pellets, chippings) central heating",73
+"Households","City of Edinburgh","Other renewable energy source (including electric and air heat pump systems)",570
+"Households","City of Edinburgh","District or communal heat system",2150
+"Households","City of Edinburgh","Other central heating",1067
+"Households","City of Edinburgh","Two or more types of central heating",12190
+"Households","Renfrewshire","All occupied households",86721
+"Households","Renfrewshire","No central heating",1807
+"Households","Renfrewshire","Gas central heating: Total",74246
+"Households","Renfrewshire","Gas central heating: Mains gas",73607
+"Households","Renfrewshire","Gas central heating: Other gas (including liquid petroleum gas and biogas)",639
+"Households","Renfrewshire","Electric (including storage heaters) central heating",5220
+"Households","Renfrewshire","Oil central heating",270
+"Households","Renfrewshire","Solid Fuel (excluding wood)",31
+"Households","Renfrewshire","Wood or Biomass (including logs, pellets, chippings) central heating",240
+"Households","Renfrewshire","Other renewable energy source (including electric and air heat pump systems)",148
+"Households","Renfrewshire","District or communal heat system",305
+"Households","Renfrewshire","Other central heating",409
+"Households","Renfrewshire","Two or more types of central heating",4048
+"Households","West Dunbartonshire","All occupied households",42596
+"Households","West Dunbartonshire","No central heating",742
+"Households","West Dunbartonshire","Gas central heating: Total",36238
+"Households","West Dunbartonshire","Gas central heating: Mains gas",35909
+"Households","West Dunbartonshire","Gas central heating: Other gas (including liquid petroleum gas and biogas)",332
+"Households","West Dunbartonshire","Electric (including storage heaters) central heating",2532
+"Households","West Dunbartonshire","Oil central heating",246
+"Households","West Dunbartonshire","Solid Fuel (excluding wood)",15
+"Households","West Dunbartonshire","Wood or Biomass (including logs, pellets, chippings) central heating",24
+"Households","West Dunbartonshire","Other renewable energy source (including electric and air heat pump systems)",58
+"Households","West Dunbartonshire","District or communal heat system",292
+"Households","West Dunbartonshire","Other central heating",220
+"Households","West Dunbartonshire","Two or more types of central heating",2226
+"Households","West Lothian","All occupied households",79836
+"Households","West Lothian","No central heating",1021
+"Households","West Lothian","Gas central heating: Total",69242
+"Households","West Lothian","Gas central heating: Mains gas",68480
+"Households","West Lothian","Gas central heating: Other gas (including liquid petroleum gas and biogas)",764
+"Households","West Lothian","Electric (including storage heaters) central heating",3422
+"Households","West Lothian","Oil central heating",811
+"Households","West Lothian","Solid Fuel (excluding wood)",152
+"Households","West Lothian","Wood or Biomass (including logs, pellets, chippings) central heating",92
+"Households","West Lothian","Other renewable energy source (including electric and air heat pump systems)",275
+"Households","West Lothian","District or communal heat system",209
+"Households","West Lothian","Other central heating",369
+"Households","West Lothian","Two or more types of central heating",4241
+"Households","Angus","All occupied households",54258
+"Households","Angus","No central heating",921
+"Households","Angus","Gas central heating: Total",38375
+"Households","Angus","Gas central heating: Mains gas",37015
+"Households","Angus","Gas central heating: Other gas (including liquid petroleum gas and biogas)",1360
+"Households","Angus","Electric (including storage heaters) central heating",5508
+"Households","Angus","Oil central heating",4573
+"Households","Angus","Solid Fuel (excluding wood)",136
+"Households","Angus","Wood or Biomass (including logs, pellets, chippings) central heating",391
+"Households","Angus","Other renewable energy source (including electric and air heat pump systems)",410
+"Households","Angus","District or communal heat system",143
+"Households","Angus","Other central heating",145
+"Households","Angus","Two or more types of central heating",3654
+"Households","Dundee City","All occupied households",69857
+"Households","Dundee City","No central heating",2123
+"Households","Dundee City","Gas central heating: Total",53240
+"Households","Dundee City","Gas central heating: Mains gas",52835
+"Households","Dundee City","Gas central heating: Other gas (including liquid petroleum gas and biogas)",405
+"Households","Dundee City","Electric (including storage heaters) central heating",9466
+"Households","Dundee City","Oil central heating",84
+"Households","Dundee City","Solid Fuel (excluding wood)",9
+"Households","Dundee City","Wood or Biomass (including logs, pellets, chippings) central heating",17
+"Households","Dundee City","Other renewable energy source (including electric and air heat pump systems)",205
+"Households","Dundee City","District or communal heat system",677
+"Households","Dundee City","Other central heating",301
+"Households","Dundee City","Two or more types of central heating",3735
+"Households","East Dunbartonshire","All occupied households",46461
+"Households","East Dunbartonshire","No central heating",475
+"Households","East Dunbartonshire","Gas central heating: Total",41445
+"Households","East Dunbartonshire","Gas central heating: Mains gas",41140
+"Households","East Dunbartonshire","Gas central heating: Other gas (including liquid petroleum gas and biogas)",305
+"Households","East Dunbartonshire","Electric (including storage heaters) central heating",2035
+"Households","East Dunbartonshire","Oil central heating",227
+"Households","East Dunbartonshire","Solid Fuel (excluding wood)",8
+"Households","East Dunbartonshire","Wood or Biomass (including logs, pellets, chippings) central heating",23
+"Households","East Dunbartonshire","Other renewable energy source (including electric and air heat pump systems)",151
+"Households","East Dunbartonshire","District or communal heat system",36
+"Households","East Dunbartonshire","Other central heating",111
+"Households","East Dunbartonshire","Two or more types of central heating",1950
+"Households","Fife","All occupied households",169573
+"Households","Fife","No central heating",1937
+"Households","Fife","Gas central heating: Total",144099
+"Households","Fife","Gas central heating: Mains gas",142324
+"Households","Fife","Gas central heating: Other gas (including liquid petroleum gas and biogas)",1775
+"Households","Fife","Electric (including storage heaters) central heating",8392
+"Households","Fife","Oil central heating",3056
+"Households","Fife","Solid Fuel (excluding wood)",241
+"Households","Fife","Wood or Biomass (including logs, pellets, chippings) central heating",305
+"Households","Fife","Other renewable energy source (including electric and air heat pump systems)",746
+"Households","Fife","District or communal heat system",391
+"Households","Fife","Other central heating",715
+"Households","Fife","Two or more types of central heating",9691
+"Households","Perth and Kinross","All occupied households",69989
+"Households","Perth and Kinross","No central heating",1393
+"Households","Perth and Kinross","Gas central heating: Total",44889
+"Households","Perth and Kinross","Gas central heating: Mains gas",42862
+"Households","Perth and Kinross","Gas central heating: Other gas (including liquid petroleum gas and biogas)",2027
+"Households","Perth and Kinross","Electric (including storage heaters) central heating",8402
+"Households","Perth and Kinross","Oil central heating",7846
+"Households","Perth and Kinross","Solid Fuel (excluding wood)",191
+"Households","Perth and Kinross","Wood or Biomass (including logs, pellets, chippings) central heating",651
+"Households","Perth and Kinross","Other renewable energy source (including electric and air heat pump systems)",1194
+"Households","Perth and Kinross","District or communal heat system",196
+"Households","Perth and Kinross","Other central heating",195
+"Households","Perth and Kinross","Two or more types of central heating",5033
+"Households","Glasgow City","All occupied households",293802
+"Households","Glasgow City","No central heating",9760
+"Households","Glasgow City","Gas central heating: Total",223411
+"Households","Glasgow City","Gas central heating: Mains gas",221151
+"Households","Glasgow City","Gas central heating: Other gas (including liquid petroleum gas and biogas)",2258
+"Households","Glasgow City","Electric (including storage heaters) central heating",37092
+"Households","Glasgow City","Oil central heating",183
+"Households","Glasgow City","Solid Fuel (excluding wood)",34
+"Households","Glasgow City","Wood or Biomass (including logs, pellets, chippings) central heating",222
+"Households","Glasgow City","Other renewable energy source (including electric and air heat pump systems)",982
+"Households","Glasgow City","District or communal heat system",3185
+"Households","Glasgow City","Other central heating",2555
+"Households","Glasgow City","Two or more types of central heating",16376
+"Households","North Lanarkshire","All occupied households",151371
+"Households","North Lanarkshire","No central heating",2237
+"Households","North Lanarkshire","Gas central heating: Total",129430
+"Households","North Lanarkshire","Gas central heating: Mains gas",128267
+"Households","North Lanarkshire","Gas central heating: Other gas (including liquid petroleum gas and biogas)",1159
+"Households","North Lanarkshire","Electric (including storage heaters) central heating",8756
+"Households","North Lanarkshire","Oil central heating",1081
+"Households","North Lanarkshire","Solid Fuel (excluding wood)",160
+"Households","North Lanarkshire","Wood or Biomass (including logs, pellets, chippings) central heating",56
+"Households","North Lanarkshire","Other renewable energy source (including electric and air heat pump systems)",411
+"Households","North Lanarkshire","District or communal heat system",325
+"Households","North Lanarkshire","Other central heating",877
+"Households","North Lanarkshire","Two or more types of central heating",8040
+
+
+"INFO","Data has been perturbed"
+
+
+"Crown copyright 2024 For further information on variables, see https://www.scotlandscensus.gov.uk/about/metadata-a-to-z/ In order to protect against disclosure of personal information, Statistical Disclosure Control has been applied to the data/outputs.  Cells might not sum to sub totals and totals due to these Statistical Disclosure Controls. To find out more on this visit https://www.scotlandscensus.gov.uk/about/2022-census/statistical-methodology/statistical-disclosure-control/"
+
+(c) Copyright WingArc Australia 2018

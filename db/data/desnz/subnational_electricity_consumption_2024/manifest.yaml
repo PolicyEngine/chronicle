@@ -1,0 +1,18 @@
+source_id: desnz
+package_id: desnz-subnational-electricity-consumption-2024
+dataset: desnz_desnz-subnational-electricity-consumption-2024
+source_page: https://www.gov.uk/government/statistics/regional-and-local-authority-electricity-consumption-statistics
+table: Subnational electricity consumption, Great Britain, 2005 to 2024
+files:
+  2026:
+    filename: subnational-electricity-2005-2024.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/69426e905431f4f94d7f0b5e/Subnational_electricity_consumption_statistics_2005-2024.xlsx
+    sha256: 9d40814a23f87b2b028dd39da05b47d0e67e843473ec6ec4a8a0f93167666429
+    size_bytes: 2103254
+    fetched_at: '2026-09-15T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-subnational-electricity-consumption-2024/2026/9d40814a23f87b2b028dd39da05b47d0e67e843473ec6ec4a8a0f93167666429/subnational-electricity-2005-2024.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-subnational-electricity-consumption-2024/2026/9d40814a23f87b2b028dd39da05b47d0e67e843473ec6ec4a8a0f93167666429/subnational-electricity-2005-2024.xlsx
