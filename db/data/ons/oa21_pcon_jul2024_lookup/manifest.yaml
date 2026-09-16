@@ -1,0 +1,26 @@
+source_id: ons
+package_id: ons-oa21-pcon-jul2024-lookup
+source_name: ONS OA21 to Westminster Parliamentary Constituency best-fit lookup
+publisher: Office for National Statistics
+source_page: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/5968b5b2c0f14dd29ba277beaae6dec3/csv?layers=0
+files:
+  2024:
+    filename: ew_oa21_pcon24_lookup.csv
+    source_url: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/5968b5b2c0f14dd29ba277beaae6dec3/csv?layers=0
+    source_table: Output Area (2021) to Westminster Parliamentary Constituency (July
+      2024) Best Fit Lookup in EW
+    sha256: e4ec577416bde73d5718ef133af4adeaae9b95a41867aeb006b5fc0260c790c0
+    size_bytes: 12879604
+    fetched_at: '2026-08-19'
+    retrieved_at: '2026-08-19'
+    vintage: 2024_pcon
+    vintages:
+    - 2024_pcon
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-oa21-pcon-jul2024-lookup/2024/e4ec577416bde73d5718ef133af4adeaae9b95a41867aeb006b5fc0260c790c0/ew_oa21_pcon24_lookup.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-oa21-pcon-jul2024-lookup/2024/e4ec577416bde73d5718ef133af4adeaae9b95a41867aeb006b5fc0260c790c0/ew_oa21_pcon24_lookup.csv
+    notes: The current fields are labelled PCON25CD, but the July 2024 boundaries
+      and pinned bytes are unchanged.

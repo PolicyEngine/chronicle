@@ -84,6 +84,12 @@ Legacy US derived keys likewise remain `derived/{source_id}/...`.
 Derived artifacts are reproducible and may be replaced by a new build, but a
 specific `{build_id}` path should be immutable once published.
 
+Raw publisher files tracked in Git must each remain below 100 MiB
+(`100 * 1024 * 1024` bytes), GitHub's individual-file ceiling. Exact publisher
+artifacts at or above that ceiling belong in `ledger-raw`; their checked
+manifests retain the source URL, SHA-256, byte size, and R2 location so builds
+can fetch and verify them without committing the bytes.
+
 ## Relational Registry Contract
 
 The hosted `chronicle` schema should be the lookup surface for Chronicle, not the place

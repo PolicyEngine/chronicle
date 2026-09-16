@@ -159,11 +159,33 @@ SOURCE_PACKAGE_ALIASES = {
     "dfi-ni-public-transport-statistics-2024-25": Path(
         "dfi_ni/public_transport_statistics_2024_25"
     ),
+    "desnz-energy-trends-domestic-electricity-2026": Path(
+        "desnz/energy_trends_domestic_electricity_2026"
+    ),
+    "desnz-energy-trends-domestic-gas-2026": Path(
+        "desnz/energy_trends_domestic_gas_2026"
+    ),
     "desnz-monthly-annual-road-fuel-prices-august-2026": Path(
         "desnz/monthly_annual_road_fuel_prices_august_2026"
     ),
     "desnz-need-england-wales-2023": Path("desnz/need_england_wales_2023"),
+    "desnz-need-england-wales-2024": Path("desnz/need_england_wales_2024"),
     "desnz-need-scotland-2023": Path("desnz/need_scotland_2023"),
+    "desnz-need-scotland-2024": Path("desnz/need_scotland_2024"),
+    "desnz-qep-electricity-annual-bills-2026": Path(
+        "desnz/qep_electricity_annual_bills_2026"
+    ),
+    "desnz-qep-electricity-unit-fixed-costs-2026": Path(
+        "desnz/qep_electricity_unit_fixed_costs_2026"
+    ),
+    "desnz-qep-gas-annual-bills-2026": Path("desnz/qep_gas_annual_bills_2026"),
+    "desnz-qep-gas-unit-fixed-costs-2026": Path("desnz/qep_gas_unit_fixed_costs_2026"),
+    "desnz-subnational-electricity-consumption-2024": Path(
+        "desnz/subnational_electricity_consumption_2024"
+    ),
+    "desnz-subnational-gas-consumption-2024": Path(
+        "desnz/subnational_gas_consumption_2024"
+    ),
     "desnz-weekly-road-fuel-prices-september-2026": Path(
         "desnz/weekly_road_fuel_prices_september_2026"
     ),
@@ -365,6 +387,9 @@ SOURCE_PACKAGE_ALIASES = {
     "ons-census2021-ts041-households-pcon24": Path(
         "ons/census2021_ts041_households_pcon24"
     ),
+    "ons-census2021-ts046-central-heating-ltla": Path(
+        "ons/census2021_ts046_central_heating_ltla"
+    ),
     "ons-mye-2023-uk-countries": Path("ons/mye_2023_uk_countries"),
     "ons-mye-2023-england-regions": Path("ons/mye_2023_england_regions"),
     "ons-mye-2024-uk": Path("ons/mye_2024_uk"),
@@ -386,6 +411,9 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "nrs-census2022-uv404-tenure-council-area": Path(
         "nrs/census2022_uv404_tenure_council_area"
+    ),
+    "nrs-census2022-uv407-central-heating-council-area": Path(
+        "nrs/census2022_uv407_central_heating_council_area"
     ),
     "nisra-census2021-households-lgd": Path("nisra/census2021_households_lgd"),
     "nisra-census2021-households-pcon24": Path("nisra/census2021_households_pcon24"),

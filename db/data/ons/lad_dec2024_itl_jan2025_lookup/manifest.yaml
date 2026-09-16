@@ -1,0 +1,26 @@
+source_id: ons
+package_id: ons-lad-dec2024-itl-jan2025-lookup
+source_name: ONS LAD December 2024 to ITL January 2025 lookup
+publisher: Office for National Statistics
+source_page: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/15bdb6b0ff1c4a64b34a64e2e39f8caf/csv?layers=0
+files:
+  2025:
+    filename: uk_lad24_itl25_lookup.csv
+    source_url: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/15bdb6b0ff1c4a64b34a64e2e39f8caf/csv?layers=0
+    source_table: Local Authority District (December 2024) to LAU1 to ITL3 to ITL2
+      to ITL1 (January 2025) Lookup in the UK
+    sha256: 2db528a486fdefebfb03a3fb89d706d037cd10f06692c98cdef60a9b7796b284
+    size_bytes: 45097
+    fetched_at: '2026-09-15'
+    retrieved_at: '2026-09-15'
+    vintage: 2025_itl
+    vintages:
+    - 2025_itl
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-lad-dec2024-itl-jan2025-lookup/2025/2db528a486fdefebfb03a3fb89d706d037cd10f06692c98cdef60a9b7796b284/uk_lad24_itl25_lookup.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-lad-dec2024-itl-jan2025-lookup/2025/2db528a486fdefebfb03a3fb89d706d037cd10f06692c98cdef60a9b7796b284/uk_lad24_itl25_lookup.csv
+    notes: The 361-LAD table publishes two ITL3 rows for North Ayrshire; these raw
+      bytes are preserved without reconciliation.

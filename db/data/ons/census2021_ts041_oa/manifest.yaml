@@ -1,0 +1,23 @@
+source_id: ons
+package_id: ons-census2021-ts041-oa
+source_name: Census 2021 TS041 household count by Output Area
+publisher: Office for National Statistics via Nomis
+source_page: https://www.nomisweb.co.uk/output/census/2021/census2021-ts041.zip
+files:
+  2021:
+    filename: census2021-ts041.zip
+    source_url: https://www.nomisweb.co.uk/output/census/2021/census2021-ts041.zip
+    source_table: Census 2021 TS041 number of households by Output Area
+    sha256: e4f11fc0ea22393fe3be444027878e67b51d2a44687e122c37439d19a548cb9f
+    size_bytes: 1511641
+    fetched_at: '2026-08-19'
+    retrieved_at: '2026-08-19'
+    vintage: 2021_census
+    vintages:
+    - 2021_census
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-census2021-ts041-oa/2021/e4f11fc0ea22393fe3be444027878e67b51d2a44687e122c37439d19a548cb9f/census2021-ts041.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-census2021-ts041-oa/2021/e4f11fc0ea22393fe3be444027878e67b51d2a44687e122c37439d19a548cb9f/census2021-ts041.zip

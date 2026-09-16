@@ -1,4 +1,12 @@
 # Keep pinned source artifacts byte-for-byte identical to their publishers.
 db/data/dfe/funded_early_education_childcare_2026/headline_figures_feeac_2011_2026.csv -diff
 db/data/dwp/uc_households_family_type_april_december_2025/uc_households_by_family_type_april_december_2023_2025.csv -diff
+db/data/nisra/census2021_dz21_households/ni_dz21_households.csv -diff
+db/data/nisra/census2021_dz21_people/ni_dz21_population.csv -diff
+db/data/nrs/census2022_oa22_usual_resident_population/scotland_outputarea2022_population.csv -diff
+db/data/nrs/census2022_uv407_central_heating_council_area/nrs-uv407-central-heating-local-authority.csv -diff
+db/data/ons/oa21_lsoa_msoa_lad22_lookup/ew_oa21_lsoa_msoa_lad22_hierarchy.csv -diff
+db/data/ons/oa21_parncp_lad_rgn_ctry_dec2024_lookup/ew_oa21_parncp_lad24_rgn24_dec2024.csv -diff
+db/data/ons/oa21_pcon_jul2024_lookup/ew_oa21_pcon24_lookup.csv -diff
+db/data/ons/oa21_wd24_lad24_lookup/ew_oa21_ward24_lad24_bestfit.csv -diff
 db/data/welshgov/council_tax_dwellings_2023_24_to_2026_27/statswales_council_tax_dwellings_by_authority_and_band.csv -diff

@@ -270,9 +270,7 @@ def test_ofgem_gb_vat_pairs_follow_the_publisher_including_the_2026_electricity_
         "dual_fuel",
     }
     electricity = [
-        ratio
-        for key, ratio in exceptions.items()
-        if key[2].startswith("electricity")
+        ratio for key, ratio in exceptions.items() if key[2].startswith("electricity")
     ]
     dual_fuel = [ratio for key, ratio in exceptions.items() if key[2] == "dual_fuel"]
     assert len(electricity) == 12
@@ -345,14 +343,26 @@ def test_ons_consumer_trends_sheets_share_one_coicop_constraint_key():
     by_sheet = {"04cn": set(), "07cn": set()}
     for fact in facts:
         record_set_id = fact.layout.record_set_id
-        sheet = "04cn" if ".04cn." in record_set_id else "07cn"
+        sheet = (
+            "04cn" if record_set_id.startswith("ons.consumer_trends.04cn") else "07cn"
+        )
         by_sheet[sheet].add(fact.filters.get("coicop"))
 
-    assert by_sheet["04cn"] == {"04.5"}
+    assert by_sheet["04cn"] == {
+        "04.5",
+        "04.5.1",
+        "04.5.2",
+        "04.5.3",
+        "04.5.4",
+    }
     assert by_sheet["07cn"] == {"07.2.2", "07.3.2"}
     assert all(fact.filters.get("coicop") for fact in facts)
     assert {fact.layout.groupby_value_id for fact in facts} == {
         "coicop_04_5",
+        "coicop_04_5_1",
+        "coicop_04_5_2",
+        "coicop_04_5_3",
+        "coicop_04_5_4",
         "coicop_07_2_2",
         "coicop_07_3_2",
     }
@@ -386,7 +396,13 @@ def test_wales_bus_finance_covers_every_unitary_authority_and_the_wales_total():
     assert len({fact.geography.id for fact in fy2024}) == 23
     assert "W92000004" in {fact.geography.id for fact in fy2024}
     assert (
-        len({fact.geography.id for fact in fy2024 if fact.geography.id.startswith("W06")})
+        len(
+            {
+                fact.geography.id
+                for fact in fy2024
+                if fact.geography.id.startswith("W06")
+            }
+        )
         == 22
     )
 

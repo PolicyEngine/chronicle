@@ -43,7 +43,7 @@ EXPECTED_FACT_COUNTS = {
     "hmrc-hydrocarbon-oils-quantities-june-2026": 168,
     "obr-fuel-duty-receipts-by-vehicle-april-2024": 49,
     "ofgem-energy-price-cap-q1-2024": 4,
-    "ons-consumer-trends-current-price-2026": 93,
+    "ons-consumer-trends-current-price-2026": 217,
     "orr-government-support-7270-2024-25": 10,
     "orr-government-support-7271-2024-25": 60,
     "orr-rail-fares-7180-2026": 28,

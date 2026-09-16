@@ -14,5 +14,5 @@ files:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/desnz/desnz-weekly-road-fuel-prices-september-2026/2026/65cfb716a6934ae6df82c3213c4f6f9dfa551ecb7075400e1f7eeb343eeb0ad7/Weekly_Fuel_Prices_07-09-26.xlsx
-        uri: r2://ledger-raw/raw/desnz/desnz-weekly-road-fuel-prices-september-2026/2026/65cfb716a6934ae6df82c3213c4f6f9dfa551ecb7075400e1f7eeb343eeb0ad7/Weekly_Fuel_Prices_07-09-26.xlsx
+        key: raw/uk/desnz/desnz-weekly-road-fuel-prices-september-2026/2026/65cfb716a6934ae6df82c3213c4f6f9dfa551ecb7075400e1f7eeb343eeb0ad7/Weekly_Fuel_Prices_07-09-26.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-weekly-road-fuel-prices-september-2026/2026/65cfb716a6934ae6df82c3213c4f6f9dfa551ecb7075400e1f7eeb343eeb0ad7/Weekly_Fuel_Prices_07-09-26.xlsx

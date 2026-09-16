@@ -14,5 +14,5 @@ files:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/desnz/desnz-monthly-annual-road-fuel-prices-august-2026/2026/30b19fdfda95adcf73ef4cdb5ab9993223595ebd3c0284d76a86210264dd358f/table_411_413.xlsx
-        uri: r2://ledger-raw/raw/desnz/desnz-monthly-annual-road-fuel-prices-august-2026/2026/30b19fdfda95adcf73ef4cdb5ab9993223595ebd3c0284d76a86210264dd358f/table_411_413.xlsx
+        key: raw/uk/desnz/desnz-monthly-annual-road-fuel-prices-august-2026/2026/30b19fdfda95adcf73ef4cdb5ab9993223595ebd3c0284d76a86210264dd358f/table_411_413.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-monthly-annual-road-fuel-prices-august-2026/2026/30b19fdfda95adcf73ef4cdb5ab9993223595ebd3c0284d76a86210264dd358f/table_411_413.xlsx

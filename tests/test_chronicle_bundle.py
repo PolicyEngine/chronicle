@@ -132,20 +132,20 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 330133,
-        "geography_count": 12553,
+        "fact_count": 339441,
+        "geography_count": 12586,
         "period_count": 492,
         "semantic_duplicate_key_count": 177,
         "skipped_source_count": 10,
         "source_count": 50,
-        "source_package_count": 202,
+        "source_package_count": 214,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: areas two packages name differently, values two
         # packages word differently, and groupby rows that drift inside one
         # package (chronicle#265, #266).
-        "warning_count": 167,
+        "warning_count": 171,
     }
-    assert len(rows) == 330133
+    assert len(rows) == 339441
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -163,7 +163,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 202
+    assert source_packages["source_package_count"] == 214
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -177,7 +177,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 330133
+    assert coverage["fact_count"] == 339441
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -189,7 +189,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "cms_medicaid": 515,
         "cms_medicare": 1,
         "cms_nhe": 3,
-        "desnz": 901,
+        "desnz": 5697,
         "dfe": 770,
         "dfc_ni": 1189,
         "dfi_ni": 24,
@@ -210,11 +210,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "nbb_national_accounts": 1,
         "nisra": 533,
         "nithc": 8,
-        "nrs": 5647,
+        "nrs": 6063,
         "obr": 319,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 80834,
+        "ons": 84930,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
@@ -231,7 +231,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9325,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 197
+    assert len(table_counts) == 209
     assert (
         table_counts[
             "dwp:Households on Universal Credit by family type, "
@@ -1016,6 +1016,45 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in issue_257_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    issue_270_period_increments = {
+        "calendar_year:2020": 4,
+        "calendar_year:2021": 3976,
+        "calendar_year:2022": 422,
+        "calendar_year:2023": 1733,
+        "calendar_year:2024": 1960,
+        "calendar_year:2025": 274,
+        "fiscal_year:2023": 268,
+        "fiscal_year:2024": 268,
+        "fiscal_year:2025": 268,
+        "quarter:2020-Q1": 4,
+        "quarter:2020-Q2": 4,
+        "quarter:2020-Q3": 4,
+        "quarter:2020-Q4": 4,
+        "quarter:2021-Q1": 4,
+        "quarter:2021-Q2": 4,
+        "quarter:2021-Q3": 4,
+        "quarter:2021-Q4": 4,
+        "quarter:2022-Q1": 6,
+        "quarter:2022-Q2": 6,
+        "quarter:2022-Q3": 6,
+        "quarter:2022-Q4": 6,
+        "quarter:2023-Q1": 6,
+        "quarter:2023-Q2": 6,
+        "quarter:2023-Q3": 6,
+        "quarter:2023-Q4": 6,
+        "quarter:2024-Q1": 6,
+        "quarter:2024-Q2": 6,
+        "quarter:2024-Q3": 6,
+        "quarter:2024-Q4": 6,
+        "quarter:2025-Q1": 6,
+        "quarter:2025-Q2": 6,
+        "quarter:2025-Q3": 6,
+        "quarter:2025-Q4": 6,
+        "quarter:2026-Q1": 6,
+        "quarter:2026-Q2": 1,
+    }
+    for key, count in issue_270_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
     assert coverage["counts"]["by_geography"]["country:BE"] == 4888
     assert coverage["counts"]["by_geography"]["country:DE"] == 36
@@ -1029,18 +1068,18 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 7356
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 3357
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 7980
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 7763
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 3365
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 7988
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
-    assert len(coverage["counts"]["by_geography"]) == 12553
+    assert len(coverage["counts"]["by_geography"]) == 12586
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 7071,
-        "dwelling": 152259,
+        "dwelling": 152487,
         "family": 1299,
         "firm": 1439,
         "government": 2313,
-        "household": 44441,
+        "household": 53521,
         "institutional_sector": 1185,
         "pension_plan": 2,
         "person": 64993,
@@ -1051,7 +1090,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 177
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
-        "conflicting_geography_name_across_packages": 141,
+        "conflicting_geography_name_across_packages": 145,
         "conflicting_groupby_value_label": 16,
         "conflicting_value_label_across_packages": 9,
         "duplicate_semantic_fact_key": 1,
@@ -1070,8 +1109,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         }
     ]
     # chronicle#266: the areas whose publishers name them differently, kept as
-    # each publisher writes them. ONS writes "Yorkshire and The Humber" where
-    # HMRC writes "the"; the IRS truncates county names to twenty characters.
+    # each publisher writes them. DESNZ and ONS write "Yorkshire and The
+    # Humber" where HMRC writes "the"; the IRS truncates county names to
+    # twenty characters.
     geography_names = [
         warning
         for warning in summary["warnings"]
@@ -1081,7 +1121,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "local_authority": 88,
         "county": 50,
         "constituency": 2,
-        "region": 1,
+        "country": 3,
+        "region": 2,
     }
     assert sorted(
         warning["key"]
@@ -1104,7 +1145,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if warning["key"] == "region:E12000003"
     ] == [
         "Packages name geography 'E12000003' at level 'region' differently: "
-        "'Yorkshire and The Humber' in ['hmrc-child-benefit-august-2025', "
+        "'Yorkshire and The Humber' in "
+        "['desnz-subnational-electricity-consumption-2024', "
+        "'desnz-subnational-gas-consumption-2024', "
+        "'hmrc-child-benefit-august-2025', "
         "'mhclg-ehs-weekly-housing-costs-2023-24', "
         "'ons-pipr-rents-by-area-june-2026', 'voa-council-tax-bands-2025']; "
         "'Yorkshire and the Humber' in ['hmrc-cgt-country-region-2026', "

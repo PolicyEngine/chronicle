@@ -14,5 +14,5 @@ files:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/desnz/desnz-need-scotland-2023/2023/d1956714384789c7626efe1ffb0a1e05bb5064c8c52c139fcd4a7c222807377d/need-scotland-2023.xlsx
-        uri: r2://ledger-raw/raw/desnz/desnz-need-scotland-2023/2023/d1956714384789c7626efe1ffb0a1e05bb5064c8c52c139fcd4a7c222807377d/need-scotland-2023.xlsx
+        key: raw/uk/desnz/desnz-need-scotland-2023/2023/d1956714384789c7626efe1ffb0a1e05bb5064c8c52c139fcd4a7c222807377d/need-scotland-2023.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-need-scotland-2023/2023/d1956714384789c7626efe1ffb0a1e05bb5064c8c52c139fcd4a7c222807377d/need-scotland-2023.xlsx
