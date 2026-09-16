@@ -53,7 +53,7 @@ record_sets:
   groupby_dimension: hmrc.cgt_residential_property_year
   rows:
   - value_id: ty2023
-    label: 2023 to 2024
+    label: Year of disposal 2023 to 2024
     ordinal: 0
     row_number: 13
     expected_row_header_column: A
@@ -366,7 +366,7 @@ record_sets:
     notes: HMRC marks statistics from 2023-24 onward as provisional.
   rows:
   - value_id: ty2024
-    label: 2024 to 2025
+    label: Year of disposal 2024 to 2025
     ordinal: 0
     row_number: 14
     expected_row_header_column: A
@@ -389,11 +389,36 @@ record_sets:
       passed, so this record set emits only the four available service cells.
   rows:
   - value_id: ty2025
-    label: 2025 to 2026
+    label: Year of disposal 2025 to 2026
     ordinal: 0
     row_number: 15
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
+    guard_cells:
+    - column: C
+      expected_value: '[Unavailable]'
+      label: Self Assessment taxpayer count unavailable in this vintage
+    - column: D
+      expected_value: '[Unavailable]'
+      label: Total taxpayer count unavailable in this vintage
+    - column: F
+      expected_value: '[Unavailable]'
+      label: Self Assessment disposal count unavailable in this vintage
+    - column: G
+      expected_value: '[Unavailable]'
+      label: Total disposal count unavailable in this vintage
+    - column: I
+      expected_value: '[Unavailable]'
+      label: Self Assessment gains unavailable in this vintage
+    - column: J
+      expected_value: '[Unavailable]'
+      label: Total gains unavailable in this vintage
+    - column: L
+      expected_value: '[Unavailable]'
+      label: Self Assessment tax unavailable in this vintage
+    - column: M
+      expected_value: '[Unavailable]'
+      label: Total tax unavailable in this vintage
     table_record_kind: total
   measures:
   - *t8a_taxpayers_ukps

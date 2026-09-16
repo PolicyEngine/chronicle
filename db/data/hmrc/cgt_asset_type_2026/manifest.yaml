@@ -3,7 +3,7 @@ package_id: hmrc-cgt-asset-type-2026
 dataset: hmrc_hmrc-cgt-asset-type-2026
 source_page: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
 table: 'Capital Gains Tax statistics Table 7: taxpayer disposals, disposal proceeds
-  and gains by asset type and period of ownership, 2023-24'
+  and gains by asset type and period of ownership'
 files:
   2026:
     filename: Table_7_2026_Statistics_by_asset_type_in_the_2023_to_2024_tax_year.ods

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
+
 import pytest
 
 from chronicle.bundle import UK_BUNDLE_SOURCES
@@ -95,9 +97,34 @@ def test_table_7_emits_only_source_measures_and_keeps_unknown_periods():
         "hmrc.cgt_disposals",
         "hmrc.cgt_disposal_proceeds",
         "hmrc.cgt_gains",
+        "hmrc.cgt_gains_total",
     }
     assert any(fact.filters.get("cgt_holding_period") == "unknown" for fact in facts)
     assert not any("percentage" in fact.measure.concept for fact in facts)
+
+    total_gains = [
+        fact
+        for fact in facts
+        if fact.measure.concept == "hmrc.cgt_gains_total" and not fact.filters
+    ]
+    assert len(total_gains) == 1
+    assert total_gains[0].value == 69_861_000_000
+    assert not any(
+        fact.measure.concept == "hmrc.cgt_gains" and not fact.filters for fact in facts
+    )
+
+    table_1_total_gains = next(
+        fact
+        for fact in _facts("hmrc-cgt-statistics-2026")
+        if fact.period.value == 2023
+        and fact.measure.concept == "hmrc.cgt_gains_total"
+        and not fact.filters
+    )
+    assert total_gains[0].value == table_1_total_gains.value
+    assert (
+        consumer_fact_rows(total_gains)[0]["semantic_fact_key"]
+        == consumer_fact_rows([table_1_total_gains])[0]["semantic_fact_key"]
+    )
 
     residential_unknown_gains = next(
         fact
@@ -139,6 +166,23 @@ def test_table_8_keeps_channels_taxpayer_types_and_tax_month_coverage():
         "hmrc.cgt_residential_property_gains",
         "hmrc.cgt_residential_property_tax",
     }
+    table_8a = [
+        fact
+        for fact in facts
+        if fact.layout.record_set_id and ".table8a." in fact.layout.record_set_id
+    ]
+    assert {
+        (
+            fact.period.value,
+            fact.layout.groupby_value_id,
+            fact.layout.groupby_value_label,
+        )
+        for fact in table_8a
+    } == {
+        (2023, "ty2023", "Year of disposal 2023 to 2024"),
+        (2024, "ty2024", "Year of disposal 2024 to 2025"),
+        (2025, "ty2025", "Year of disposal 2025 to 2026"),
+    }
     assert {fact.filters.get("taxpayer_type") for fact in facts} >= {
         "individuals",
         "trusts",
@@ -158,12 +202,40 @@ def test_table_8_keeps_channels_taxpayer_types_and_tax_month_coverage():
     assert october_2024_gains.value == 1_932_000_000
     assert not any(fact.period.value == 2022 for fact in facts)
     assert not any(fact.value == "[Unavailable]" for fact in facts)
-    unavailable = next(
-        cell
+    unavailable_addresses = {"C15", "D15", "F15", "G15", "I15", "J15", "L15", "M15"}
+    unavailable_cells = {
+        cell.address: cell.raw_value
         for cell in cells
-        if cell.sheet_name == "Table_8a" and cell.address == "M15"
+        if cell.sheet_name == "Table_8a" and cell.address in unavailable_addresses
+    }
+    assert unavailable_cells == {
+        address: "[Unavailable]" for address in unavailable_addresses
+    }
+
+    ty2025_specs = [
+        spec
+        for spec in package.build_source_record_specs(2026)
+        if spec.source_record_id.startswith("hmrc.cgt_table8_2026.table8a.ty2025.")
+    ]
+    expected_guards = {(address, "[Unavailable]") for address in unavailable_addresses}
+    assert len(ty2025_specs) == 4
+    assert all(
+        {(guard.address, guard.expected_value) for guard in spec.selector.guard_cells}
+        == expected_guards
+        for spec in ty2025_specs
     )
-    assert unavailable.raw_value == "[Unavailable]"
+
+    populated_cells = [
+        replace(cell, cell_type="number", raw_value=1, display_value="1")
+        if cell.sheet_name == "Table_8a" and cell.address == "C15"
+        else cell
+        for cell in cells
+    ]
+    with pytest.raises(
+        ValueError,
+        match="Self Assessment taxpayer count unavailable in this vintage",
+    ):
+        package.build_source_records(2026, cells=populated_cells)
 
 
 def test_table_9_preserves_carry_shapes_without_inventing_sub_million_tax():

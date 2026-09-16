@@ -114,13 +114,6 @@ record_sets:
       operator: ==
       value: non_financial
       label: Capital gains asset category
-  - value_id: total
-    label: Total
-    ordinal: 2
-    row_number: 11
-    expected_row_header_column: A
-    expected_row_header: Total
-    table_record_kind: total
   measures:
   - &disposals_measure_row8
     measure_id: disposals
@@ -185,6 +178,25 @@ record_sets:
     aggregation: sum
     value_scale: 1000000
     expected_cell_type: number
+
+- <<: *record_set_base
+  record_set_id: hmrc.cgt_table7_2026.asset_category_total.ty2023
+  provenance_class: survey_aggregate
+  record_set_spec_id: hmrc.cgt_table7_2026.asset_category_total.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table7_2026.asset_category.ty2023
+  rows:
+  - value_id: total
+    label: Total
+    ordinal: 0
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Total
+    table_record_kind: total
+  measures:
+  - <<: *disposals_measure_row8
+  - <<: *proceeds_measure_row8
+  - <<: *gains_measure_row8
+    concept: hmrc.cgt_gains_total
 
 - <<: *record_set_base
   record_set_id: hmrc.cgt_table7_2026.financial_asset_type.ty2023
