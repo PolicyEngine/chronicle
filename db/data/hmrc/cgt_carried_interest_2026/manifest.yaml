@@ -1,0 +1,19 @@
+source_id: hmrc
+package_id: hmrc-cgt-carried-interest-2026
+dataset: hmrc_hmrc-cgt-carried-interest-2026
+source_page: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+table: 'Capital Gains Tax statistics Table 9: taxpayers, gains and tax on carried
+  interest'
+files:
+  2026:
+    filename: Table_9_2026_Statistics_on_carried_interest.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a7b24b6423b0bdba0290ecd/Table_9_2026_Statistics_on_carried_interest.ods
+    sha256: 403b04573a4ba942624ee078152aaeb8ce009d80c48e38cbc62d58749fec4ddb
+    size_bytes: 6536
+    fetched_at: '2026-09-16T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-cgt-carried-interest-2026/2026/403b04573a4ba942624ee078152aaeb8ce009d80c48e38cbc62d58749fec4ddb/Table_9_2026_Statistics_on_carried_interest.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-cgt-carried-interest-2026/2026/403b04573a4ba942624ee078152aaeb8ce009d80c48e38cbc62d58749fec4ddb/Table_9_2026_Statistics_on_carried_interest.ods

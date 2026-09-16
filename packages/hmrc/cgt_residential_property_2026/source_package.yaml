@@ -1,0 +1,1033 @@
+schema_version: ledger.source_package.v1
+package_id: hmrc-cgt-residential-property-2026
+label: 'HMRC Capital Gains Tax statistics 2026, Table 8: UK residential property disposals, 2023-24 to 2025-26'
+dimension_labels:
+  'channel': 'Reporting channel'
+  'taxpayer_type': 'Taxpayer type'
+  'month': 'Month of disposal'
+  'hmrc.cgt_residential_property_year': 'Year of disposal'
+dimension_value_labels:
+  'channel':
+    'uk_property_service': 'CGT on UK Property service'
+    'self_assessment_only': 'Self Assessment-only taxpayers'
+    'self_assessment_component': 'Self Assessment component, including amendments and revisions'
+    'total': 'Total across reporting channels'
+artifact:
+  source_name: hmrc
+  source_table: 'Capital Gains Tax statistics Table 8: residential property disposals'
+  resource_package: db
+  resource_directory: data/hmrc/cgt_residential_property_2026
+  manifest: manifest.yaml
+  vintage: cgt_statistics_2026
+  extracted_at: '2026-09-16'
+  extraction_method: ODS whole-workbook used-range parse with numeric-text coercion
+  parser: ods_numeric_text_used_range
+  artifact_year: 2026
+record_sets:
+# Table 8a publishes the service, Self Assessment component, and combined total
+# side by side. HMRC's Self Assessment component has slightly different scope by
+# measure: taxpayer counts are exclusive filers, while disposals, gains, and tax
+# also include Self Assessment amendments to UK Property service returns.
+- &table8a_2023
+  record_set_id: hmrc.cgt_table8_2026.table8a.ty2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_table8_2026.table8a.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8a.ty2023
+  sheet_name: Table_8a
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    notes: HMRC marks statistics from 2023-24 onward as provisional.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: hmrc.cgt_residential_property_year
+  rows:
+  - value_id: ty2023
+    label: 2023 to 2024
+    ordinal: 0
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 2023 to 2024
+    table_record_kind: total
+  measures:
+  - &t8a_taxpayers_ukps
+    measure_id: taxpayers_uk_property_service
+    label: Residential property taxpayers filing through the CGT on UK Property service
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers_uk_property_service
+    expected_column_header_row: 11
+    expected_column_header: Number of taxpayers filing through the CGT on UK Property service
+    concept: hmrc.cgt_residential_property_taxpayers
+    source_concept: hmrc.cgt_table8a.residential_property_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a covers UK residents. Counts are thousands. A jointly owned
+      property disposal can be reported separately by several taxpayers. Gains
+      are after losses and before the Annual Exempt Amount. Statistics from
+      2023-24 onward are provisional.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters: {channel: uk_property_service}
+    constraints:
+    - {variable: channel, operator: '==', value: uk_property_service, label: Reporting channel}
+  - &t8a_taxpayers_sa
+    measure_id: taxpayers_self_assessment_only
+    label: Residential property taxpayers reporting exclusively through Self Assessment
+    ordinal: 1
+    column: C
+    source_column_id: taxpayers_self_assessment_only
+    expected_column_header_row: 11
+    expected_column_header: Number of taxpayers reporting residential property disposals exclusively via Self Assessment
+    concept: hmrc.cgt_residential_property_taxpayers
+    source_concept: hmrc.cgt_table8a.residential_property_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a's taxpayer Self Assessment component counts UK residents
+      reporting residential property disposals exclusively through Self
+      Assessment. Counts are thousands; 2023-24 onward is provisional.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters: {channel: self_assessment_only}
+    constraints:
+    - {variable: channel, operator: '==', value: self_assessment_only, label: Reporting channel}
+  - &t8a_taxpayers_total
+    measure_id: taxpayers_total
+    label: Residential property taxpayers, total
+    ordinal: 2
+    column: D
+    source_column_id: taxpayers_total
+    expected_column_header_row: 11
+    expected_column_header: Total number of taxpayers reporting residential property disposals
+    concept: hmrc.cgt_residential_property_taxpayers
+    source_concept: hmrc.cgt_table8a.residential_property_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a total across the CGT on UK Property service and taxpayers
+      reporting exclusively through Self Assessment. Counts are thousands. A
+      jointly owned property disposal can be reported by several taxpayers;
+      2023-24 onward is provisional.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters: {channel: total}
+    constraints:
+    - {variable: channel, operator: '==', value: total, label: Reporting channel}
+  - &t8a_disposals_ukps
+    measure_id: disposals_uk_property_service
+    label: Residential property disposals reported through the CGT on UK Property service
+    ordinal: 3
+    column: E
+    source_column_id: disposals_uk_property_service
+    expected_column_header_row: 11
+    expected_column_header: Number of disposals reported through the CGT on UK Property service
+    concept: hmrc.cgt_residential_property_disposals
+    source_concept: hmrc.cgt_table8a.residential_property_disposals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a counts taxpayer-reported disposal interests in thousands,
+      not necessarily distinct properties, because joint owners can report the
+      same property disposal separately. UK residents; 2023-24 onward is
+      provisional.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters: {channel: uk_property_service}
+    constraints:
+    - {variable: channel, operator: '==', value: uk_property_service, label: Reporting channel}
+  - &t8a_disposals_sa
+    measure_id: disposals_self_assessment_component
+    label: Residential property disposals additionally reported through Self Assessment
+    ordinal: 4
+    column: F
+    source_column_id: disposals_self_assessment_component
+    expected_column_header_row: 11
+    expected_column_header: Number of residential property disposals additionally reported through Self Assessment
+    concept: hmrc.cgt_residential_property_disposals
+    source_concept: hmrc.cgt_table8a.residential_property_disposals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a's Self Assessment component includes residential property
+      disposals reported exclusively through Self Assessment and amendments or
+      revisions to UK Property service reporting. Counts are taxpayer-reported
+      disposal interests in thousands, not necessarily distinct properties.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters: {channel: self_assessment_component}
+    constraints:
+    - {variable: channel, operator: '==', value: self_assessment_component, label: Reporting channel}
+  - &t8a_disposals_total
+    measure_id: disposals_total
+    label: Residential property disposals, total
+    ordinal: 5
+    column: G
+    source_column_id: disposals_total
+    expected_column_header_row: 11
+    expected_column_header: Total number of residential property disposals
+    concept: hmrc.cgt_residential_property_disposals
+    source_concept: hmrc.cgt_table8a.residential_property_disposals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a total across reporting channels. Counts are
+      taxpayer-reported disposal interests in thousands, not necessarily
+      distinct properties, because joint owners can report separately.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters: {channel: total}
+    constraints:
+    - {variable: channel, operator: '==', value: total, label: Reporting channel}
+  - &t8a_gains_ukps
+    measure_id: gains_uk_property_service
+    label: Residential property gains reported through the CGT on UK Property service
+    ordinal: 6
+    column: H
+    source_column_id: gains_uk_property_service
+    expected_column_header_row: 11
+    expected_column_header: Amounts of gains reported through the CGT on UK Property service
+    concept: hmrc.cgt_residential_property_gains
+    source_concept: hmrc.cgt_table8a.residential_property_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a residential property gains for UK residents, after losses
+      and before the Annual Exempt Amount. Published amounts are GBP millions;
+      2023-24 onward is provisional.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters: {channel: uk_property_service}
+    constraints:
+    - {variable: channel, operator: '==', value: uk_property_service, label: Reporting channel}
+  - &t8a_gains_sa
+    measure_id: gains_self_assessment_component
+    label: Residential property gains additionally reported through Self Assessment
+    ordinal: 7
+    column: I
+    source_column_id: gains_self_assessment_component
+    expected_column_header_row: 11
+    expected_column_header: Amounts of residential property gains additionally reported through Self Assessment
+    concept: hmrc.cgt_residential_property_gains
+    source_concept: hmrc.cgt_table8a.residential_property_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a's Self Assessment gains component includes reporting
+      exclusively through Self Assessment and amendments or revisions to UK
+      Property service reporting. Gains are after losses and before the Annual
+      Exempt Amount; published amounts are GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters: {channel: self_assessment_component}
+    constraints:
+    - {variable: channel, operator: '==', value: self_assessment_component, label: Reporting channel}
+  - &t8a_gains_total
+    measure_id: gains_total
+    label: Residential property gains, total
+    ordinal: 8
+    column: J
+    source_column_id: gains_total
+    expected_column_header_row: 11
+    expected_column_header: Total amounts of residential property gains
+    concept: hmrc.cgt_residential_property_gains
+    source_concept: hmrc.cgt_table8a.residential_property_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a total across reporting channels. Gains are for UK
+      residents, after losses and before the Annual Exempt Amount. Published
+      amounts are GBP millions; 2023-24 onward is provisional.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters: {channel: total}
+    constraints:
+    - {variable: channel, operator: '==', value: total, label: Reporting channel}
+  - &t8a_tax_ukps
+    measure_id: tax_uk_property_service
+    label: Tax on residential property gains reported through the CGT on UK Property service
+    ordinal: 9
+    column: K
+    source_column_id: tax_uk_property_service
+    expected_column_header_row: 11
+    expected_column_header: Amounts of tax reported through the CGT on UK Property service
+    concept: hmrc.cgt_residential_property_tax
+    source_concept: hmrc.cgt_table8a.residential_property_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a tax reported by UK residents through the CGT on UK
+      Property service. Published amounts are GBP millions; 2023-24 onward is
+      provisional.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters: {channel: uk_property_service}
+    constraints:
+    - {variable: channel, operator: '==', value: uk_property_service, label: Reporting channel}
+  - &t8a_tax_sa
+    measure_id: tax_self_assessment_component
+    label: Tax on residential property gains additionally reported through Self Assessment
+    ordinal: 10
+    column: L
+    source_column_id: tax_self_assessment_component
+    expected_column_header_row: 11
+    expected_column_header: Amounts of tax on residential property additionally reported through Self Assessment
+    concept: hmrc.cgt_residential_property_tax
+    source_concept: hmrc.cgt_table8a.residential_property_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a's Self Assessment tax component includes reporting
+      exclusively through Self Assessment and amendments or revisions to UK
+      Property service reporting. Published amounts are GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters: {channel: self_assessment_component}
+    constraints:
+    - {variable: channel, operator: '==', value: self_assessment_component, label: Reporting channel}
+  - &t8a_tax_total
+    measure_id: tax_total
+    label: Tax on residential property gains, total
+    ordinal: 11
+    column: M
+    source_column_id: tax_total
+    expected_column_header_row: 11
+    expected_column_header: Total amounts of tax on residential property gains
+    concept: hmrc.cgt_residential_property_tax
+    source_concept: hmrc.cgt_table8a.residential_property_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Table 8a total across reporting channels for UK residents. Published
+      tax amounts are GBP millions; 2023-24 onward is provisional.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters: {channel: total}
+    constraints:
+    - {variable: channel, operator: '==', value: total, label: Reporting channel}
+- <<: *table8a_2023
+  record_set_id: hmrc.cgt_table8_2026.table8a.ty2024
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8a.ty2024.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8a.ty2024
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    notes: HMRC marks statistics from 2023-24 onward as provisional.
+  rows:
+  - value_id: ty2024
+    label: 2024 to 2025
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 2024 to 2025
+    table_record_kind: total
+- <<: *table8a_2023
+  record_set_id: hmrc.cgt_table8_2026.table8a.ty2025
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8a.ty2025.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8a.ty2025
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-06'
+    end_date: '2026-04-05'
+    basis: tax
+    source_period_label: 2025 to 2026 tax year
+    notes: >-
+      HMRC marks 2025-26 as provisional. Self Assessment and combined cells
+      are publisher-marked unavailable because the filing deadline had not
+      passed, so this record set emits only the four available service cells.
+  rows:
+  - value_id: ty2025
+    label: 2025 to 2026
+    ordinal: 0
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 2025 to 2026
+    table_record_kind: total
+  measures:
+  - *t8a_taxpayers_ukps
+  - *t8a_disposals_ukps
+  - *t8a_gains_ukps
+  - *t8a_tax_ukps
+
+# Tables 8b.1-8b.3 report the UK Property service by taxpayer type. The All
+# rows are publisher-emitted annual margins, not sums created by Chronicle.
+- &table8b_2023
+  record_set_id: hmrc.cgt_table8_2026.table8b.ty2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_table8_2026.table8b.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8b.ty2023
+  sheet_name: Table_8b_3_2023-24
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    notes: HMRC marks these service statistics as subject to late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: taxpayer_type
+  shared_filters: {channel: uk_property_service}
+  shared_constraints:
+  - {variable: channel, operator: '==', value: uk_property_service, label: Reporting channel}
+  rows:
+  - value_id: individuals
+    label: Individuals
+    ordinal: 0
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Individuals
+    table_record_kind: detail
+    filters: {taxpayer_type: individuals}
+    constraints:
+    - {variable: taxpayer_type, operator: '==', value: individuals, label: Taxpayer type}
+  - value_id: trusts
+    label: Trusts
+    ordinal: 1
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Trusts
+    table_record_kind: detail
+    filters: {taxpayer_type: trusts}
+    constraints:
+    - {variable: taxpayer_type, operator: '==', value: trusts, label: Taxpayer type}
+  - value_id: all
+    label: All
+    ordinal: 2
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: All
+    table_record_kind: total
+  measures:
+  - &t8b_taxpayers
+    measure_id: taxpayers
+    label: Residential property taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 10
+    expected_column_header: Number of Taxpayers
+    concept: hmrc.cgt_residential_property_taxpayers
+    source_concept: hmrc.cgt_table8b.residential_property_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Tables 8b and 8c cover all CGT on UK Property service returns from
+      UK residents with at least one liable residential property disposal.
+      Self Assessment revisions are excluded. Counts are thousands; monthly
+      taxpayer counts are not additive because taxpayers can file in several
+      months. Figures are subject to late and amended returns.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - &t8b_returns
+    measure_id: returns
+    label: CGT on UK Property service returns
+    ordinal: 1
+    column: C
+    source_column_id: returns
+    expected_column_header_row: 10
+    expected_column_header: Number of Returns
+    concept: hmrc.cgt_residential_property_returns
+    source_concept: hmrc.cgt_table8b.residential_property_returns
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Tables 8b and 8c count CGT on UK Property service return
+      submissions by UK residents. Self Assessment revisions are excluded.
+      Counts are thousands and are subject to late and amended returns.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - &t8b_disposals
+    measure_id: disposals
+    label: Residential property disposals
+    ordinal: 2
+    column: D
+    source_column_id: disposals
+    expected_column_header_row: 10
+    expected_column_header: Number of Disposals
+    concept: hmrc.cgt_residential_property_disposals
+    source_concept: hmrc.cgt_table8b.residential_property_disposals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Tables 8b and 8c count taxpayer-reported disposal interests in
+      thousands, not necessarily distinct properties, because joint owners
+      can report separately. UK Property service only; subject to late and
+      amended returns.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - &t8b_gains
+    measure_id: gains
+    label: Residential property gains
+    ordinal: 3
+    column: E
+    source_column_id: gains
+    expected_column_header_row: 10
+    expected_column_header: Amounts of Gains
+    concept: hmrc.cgt_residential_property_gains
+    source_concept: hmrc.cgt_table8b.residential_property_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Tables 8b and 8c report UK Property service gains for UK residents,
+      after losses and before the Annual Exempt Amount. Self Assessment
+      revisions are excluded. Published amounts are GBP millions and subject
+      to late and amended returns.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - &t8b_tax
+    measure_id: tax
+    label: Tax on residential property gains
+    ordinal: 4
+    column: F
+    source_column_id: tax
+    expected_column_header_row: 10
+    expected_column_header: Amounts of Tax
+    concept: hmrc.cgt_residential_property_tax
+    source_concept: hmrc.cgt_table8b.residential_property_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC Tables 8b and 8c report tax through the CGT on UK Property service
+      for UK residents. Self Assessment revisions are excluded. Published
+      amounts are GBP millions and subject to late and amended returns.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- <<: *table8b_2023
+  record_set_id: hmrc.cgt_table8_2026.table8b.ty2024
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8b.ty2024.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8b.ty2024
+  sheet_name: Table_8b_2_2024-25
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    notes: HMRC marks these service statistics as subject to late and amended returns.
+- <<: *table8b_2023
+  record_set_id: hmrc.cgt_table8_2026.table8b.ty2025
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8b.ty2025.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8b.ty2025
+  sheet_name: Table_8b_1_2025-26
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-06'
+    end_date: '2026-04-05'
+    basis: tax
+    source_period_label: 2025 to 2026 tax year
+    notes: HMRC marks these service statistics as subject to late and amended returns.
+
+# Tables 8c.1-8c.3 use tax months: each named month runs from its sixth day to
+# the fifth day of the following month. Each monthly row is therefore a month
+# period with exact coverage rather than an annual record carrying a month tag.
+- &table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2023_04
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2023_04.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2023_04
+  sheet_name: Table_8c_3_2023-24
+  period_type: month
+  period: '2023-04'
+  period_coverage:
+    start_date: '2023-04-06'
+    end_date: '2023-05-05'
+    basis: tax
+    source_period_label: Apr 2023
+    notes: >-
+      HMRC months run from the sixth of the named month through the fifth of
+      the following month. Figures are subject to late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: month
+  shared_filters: {channel: uk_property_service}
+  shared_constraints:
+  - {variable: channel, operator: '==', value: uk_property_service, label: Reporting channel}
+  rows:
+  - value_id: '2023-04'
+    label: Apr 2023
+    ordinal: 0
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Apr 2023
+    table_record_kind: detail
+    filters: {month: '2023-04'}
+    constraints:
+    - {variable: month, operator: '==', value: '2023-04', label: Month of disposal}
+  measures:
+  - &t8c_taxpayers
+    <<: *t8b_taxpayers
+    source_concept: hmrc.cgt_table8c.residential_property_taxpayers
+    expected_column_header_row: 12
+  - &t8c_returns
+    <<: *t8b_returns
+    source_concept: hmrc.cgt_table8c.residential_property_returns
+    expected_column_header_row: 12
+  - &t8c_disposals
+    <<: *t8b_disposals
+    source_concept: hmrc.cgt_table8c.residential_property_disposals
+    expected_column_header_row: 12
+  - &t8c_gains
+    <<: *t8b_gains
+    source_concept: hmrc.cgt_table8c.residential_property_gains
+    expected_column_header_row: 12
+  - &t8c_tax
+    <<: *t8b_tax
+    source_concept: hmrc.cgt_table8c.residential_property_tax
+    expected_column_header_row: 12
+- <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2023_05
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2023_05.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2023_05
+  period: '2023-05'
+  period_coverage:
+    start_date: '2023-05-06'
+    end_date: '2023-06-05'
+    basis: tax
+    source_period_label: May 2023
+    notes: HMRC tax month, sixth of the named month through fifth of the following month; subject to late and amended returns.
+  rows:
+  - {value_id: '2023-05', label: May 2023, ordinal: 0, row_number: 14, expected_row_header_column: A, expected_row_header: May 2023, table_record_kind: detail, filters: {month: '2023-05'}, constraints: [{variable: month, operator: '==', value: '2023-05', label: Month of disposal}]}
+- <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2023_06
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2023_06.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2023_06
+  period: '2023-06'
+  period_coverage: {start_date: '2023-06-06', end_date: '2023-07-05', basis: tax, source_period_label: Jun 2023, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2023-06', label: Jun 2023, ordinal: 0, row_number: 15, expected_row_header_column: A, expected_row_header: Jun 2023, table_record_kind: detail, filters: {month: '2023-06'}, constraints: [{variable: month, operator: '==', value: '2023-06', label: Month of disposal}]}
+- <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2023_07
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2023_07.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2023_07
+  period: '2023-07'
+  period_coverage: {start_date: '2023-07-06', end_date: '2023-08-05', basis: tax, source_period_label: Jul 2023, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2023-07', label: Jul 2023, ordinal: 0, row_number: 16, expected_row_header_column: A, expected_row_header: Jul 2023, table_record_kind: detail, filters: {month: '2023-07'}, constraints: [{variable: month, operator: '==', value: '2023-07', label: Month of disposal}]}
+- <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2023_08
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2023_08.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2023_08
+  period: '2023-08'
+  period_coverage: {start_date: '2023-08-06', end_date: '2023-09-05', basis: tax, source_period_label: Aug 2023, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2023-08', label: Aug 2023, ordinal: 0, row_number: 17, expected_row_header_column: A, expected_row_header: Aug 2023, table_record_kind: detail, filters: {month: '2023-08'}, constraints: [{variable: month, operator: '==', value: '2023-08', label: Month of disposal}]}
+- <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2023_09
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2023_09.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2023_09
+  period: '2023-09'
+  period_coverage: {start_date: '2023-09-06', end_date: '2023-10-05', basis: tax, source_period_label: Sep 2023, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2023-09', label: Sep 2023, ordinal: 0, row_number: 18, expected_row_header_column: A, expected_row_header: Sep 2023, table_record_kind: detail, filters: {month: '2023-09'}, constraints: [{variable: month, operator: '==', value: '2023-09', label: Month of disposal}]}
+- <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2023_10
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2023_10.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2023_10
+  period: '2023-10'
+  period_coverage: {start_date: '2023-10-06', end_date: '2023-11-05', basis: tax, source_period_label: Oct 2023, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2023-10', label: Oct 2023, ordinal: 0, row_number: 19, expected_row_header_column: A, expected_row_header: Oct 2023, table_record_kind: detail, filters: {month: '2023-10'}, constraints: [{variable: month, operator: '==', value: '2023-10', label: Month of disposal}]}
+- <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2023_11
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2023_11.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2023_11
+  period: '2023-11'
+  period_coverage: {start_date: '2023-11-06', end_date: '2023-12-05', basis: tax, source_period_label: Nov 2023, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2023-11', label: Nov 2023, ordinal: 0, row_number: 20, expected_row_header_column: A, expected_row_header: Nov 2023, table_record_kind: detail, filters: {month: '2023-11'}, constraints: [{variable: month, operator: '==', value: '2023-11', label: Month of disposal}]}
+- <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2023_12
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2023_12.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2023_12
+  period: '2023-12'
+  period_coverage: {start_date: '2023-12-06', end_date: '2024-01-05', basis: tax, source_period_label: Dec 2023, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2023-12', label: Dec 2023, ordinal: 0, row_number: 21, expected_row_header_column: A, expected_row_header: Dec 2023, table_record_kind: detail, filters: {month: '2023-12'}, constraints: [{variable: month, operator: '==', value: '2023-12', label: Month of disposal}]}
+- <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_01
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_01.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_01
+  period: '2024-01'
+  period_coverage: {start_date: '2024-01-06', end_date: '2024-02-05', basis: tax, source_period_label: Jan 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-01', label: Jan 2024, ordinal: 0, row_number: 22, expected_row_header_column: A, expected_row_header: Jan 2024, table_record_kind: detail, filters: {month: '2024-01'}, constraints: [{variable: month, operator: '==', value: '2024-01', label: Month of disposal}]}
+- <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_02
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_02.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_02
+  period: '2024-02'
+  period_coverage: {start_date: '2024-02-06', end_date: '2024-03-05', basis: tax, source_period_label: Feb 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-02', label: Feb 2024, ordinal: 0, row_number: 23, expected_row_header_column: A, expected_row_header: Feb 2024, table_record_kind: detail, filters: {month: '2024-02'}, constraints: [{variable: month, operator: '==', value: '2024-02', label: Month of disposal}]}
+- <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_03
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_03.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_03
+  period: '2024-03'
+  period_coverage: {start_date: '2024-03-06', end_date: '2024-04-05', basis: tax, source_period_label: Mar 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-03', label: Mar 2024, ordinal: 0, row_number: 24, expected_row_header_column: A, expected_row_header: Mar 2024, table_record_kind: detail, filters: {month: '2024-03'}, constraints: [{variable: month, operator: '==', value: '2024-03', label: Month of disposal}]}
+- &table8c_total_2023
+  <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.ty2023.total
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.ty2023.total.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.ty2023.total
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    notes: Publisher-emitted All margin for Table 8c; subject to late and amended returns.
+  rows:
+  - value_id: all
+    label: All
+    ordinal: 0
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: All
+    table_record_kind: total
+
+- &table8c_month_2024_04
+  <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_04
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_04.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_04
+  sheet_name: Table_8c_2_2024-25
+  period: '2024-04'
+  period_coverage: {start_date: '2024-04-06', end_date: '2024-05-05', basis: tax, source_period_label: Apr 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-04', label: Apr 2024, ordinal: 0, row_number: 13, expected_row_header_column: A, expected_row_header: Apr 2024, table_record_kind: detail, filters: {month: '2024-04'}, constraints: [{variable: month, operator: '==', value: '2024-04', label: Month of disposal}]}
+- <<: *table8c_month_2024_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_05
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_05.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_05
+  period: '2024-05'
+  period_coverage: {start_date: '2024-05-06', end_date: '2024-06-05', basis: tax, source_period_label: May 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-05', label: May 2024, ordinal: 0, row_number: 14, expected_row_header_column: A, expected_row_header: May 2024, table_record_kind: detail, filters: {month: '2024-05'}, constraints: [{variable: month, operator: '==', value: '2024-05', label: Month of disposal}]}
+- <<: *table8c_month_2024_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_06
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_06.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_06
+  period: '2024-06'
+  period_coverage: {start_date: '2024-06-06', end_date: '2024-07-05', basis: tax, source_period_label: Jun 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-06', label: Jun 2024, ordinal: 0, row_number: 15, expected_row_header_column: A, expected_row_header: Jun 2024, table_record_kind: detail, filters: {month: '2024-06'}, constraints: [{variable: month, operator: '==', value: '2024-06', label: Month of disposal}]}
+- <<: *table8c_month_2024_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_07
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_07.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_07
+  period: '2024-07'
+  period_coverage: {start_date: '2024-07-06', end_date: '2024-08-05', basis: tax, source_period_label: Jul 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-07', label: Jul 2024, ordinal: 0, row_number: 16, expected_row_header_column: A, expected_row_header: Jul 2024, table_record_kind: detail, filters: {month: '2024-07'}, constraints: [{variable: month, operator: '==', value: '2024-07', label: Month of disposal}]}
+- <<: *table8c_month_2024_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_08
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_08.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_08
+  period: '2024-08'
+  period_coverage: {start_date: '2024-08-06', end_date: '2024-09-05', basis: tax, source_period_label: Aug 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-08', label: Aug 2024, ordinal: 0, row_number: 17, expected_row_header_column: A, expected_row_header: Aug 2024, table_record_kind: detail, filters: {month: '2024-08'}, constraints: [{variable: month, operator: '==', value: '2024-08', label: Month of disposal}]}
+- <<: *table8c_month_2024_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_09
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_09.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_09
+  period: '2024-09'
+  period_coverage: {start_date: '2024-09-06', end_date: '2024-10-05', basis: tax, source_period_label: Sep 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-09', label: Sep 2024, ordinal: 0, row_number: 18, expected_row_header_column: A, expected_row_header: Sep 2024, table_record_kind: detail, filters: {month: '2024-09'}, constraints: [{variable: month, operator: '==', value: '2024-09', label: Month of disposal}]}
+- <<: *table8c_month_2024_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_10
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_10.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_10
+  period: '2024-10'
+  period_coverage: {start_date: '2024-10-06', end_date: '2024-11-05', basis: tax, source_period_label: Oct 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-10', label: Oct 2024, ordinal: 0, row_number: 19, expected_row_header_column: A, expected_row_header: Oct 2024, table_record_kind: detail, filters: {month: '2024-10'}, constraints: [{variable: month, operator: '==', value: '2024-10', label: Month of disposal}]}
+- <<: *table8c_month_2024_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_11
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_11.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_11
+  period: '2024-11'
+  period_coverage: {start_date: '2024-11-06', end_date: '2024-12-05', basis: tax, source_period_label: Nov 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-11', label: Nov 2024, ordinal: 0, row_number: 20, expected_row_header_column: A, expected_row_header: Nov 2024, table_record_kind: detail, filters: {month: '2024-11'}, constraints: [{variable: month, operator: '==', value: '2024-11', label: Month of disposal}]}
+- <<: *table8c_month_2024_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2024_12
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2024_12.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2024_12
+  period: '2024-12'
+  period_coverage: {start_date: '2024-12-06', end_date: '2025-01-05', basis: tax, source_period_label: Dec 2024, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2024-12', label: Dec 2024, ordinal: 0, row_number: 21, expected_row_header_column: A, expected_row_header: Dec 2024, table_record_kind: detail, filters: {month: '2024-12'}, constraints: [{variable: month, operator: '==', value: '2024-12', label: Month of disposal}]}
+- <<: *table8c_month_2024_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_01
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_01.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_01
+  period: '2025-01'
+  period_coverage: {start_date: '2025-01-06', end_date: '2025-02-05', basis: tax, source_period_label: Jan 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-01', label: Jan 2025, ordinal: 0, row_number: 22, expected_row_header_column: A, expected_row_header: Jan 2025, table_record_kind: detail, filters: {month: '2025-01'}, constraints: [{variable: month, operator: '==', value: '2025-01', label: Month of disposal}]}
+- <<: *table8c_month_2024_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_02
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_02.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_02
+  period: '2025-02'
+  period_coverage: {start_date: '2025-02-06', end_date: '2025-03-05', basis: tax, source_period_label: Feb 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-02', label: Feb 2025, ordinal: 0, row_number: 23, expected_row_header_column: A, expected_row_header: Feb 2025, table_record_kind: detail, filters: {month: '2025-02'}, constraints: [{variable: month, operator: '==', value: '2025-02', label: Month of disposal}]}
+- <<: *table8c_month_2024_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_03
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_03.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_03
+  period: '2025-03'
+  period_coverage: {start_date: '2025-03-06', end_date: '2025-04-05', basis: tax, source_period_label: Mar 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-03', label: Mar 2025, ordinal: 0, row_number: 24, expected_row_header_column: A, expected_row_header: Mar 2025, table_record_kind: detail, filters: {month: '2025-03'}, constraints: [{variable: month, operator: '==', value: '2025-03', label: Month of disposal}]}
+- <<: *table8c_total_2023
+  record_set_id: hmrc.cgt_table8_2026.table8c.ty2024.total
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.ty2024.total.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.ty2024.total
+  sheet_name: Table_8c_2_2024-25
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    notes: Publisher-emitted All margin for Table 8c; subject to late and amended returns.
+
+- &table8c_month_2025_04
+  <<: *table8c_month_2023_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_04
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_04.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_04
+  sheet_name: Table_8c_1_2025-26
+  period: '2025-04'
+  period_coverage: {start_date: '2025-04-06', end_date: '2025-05-05', basis: tax, source_period_label: Apr 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-04', label: Apr 2025, ordinal: 0, row_number: 13, expected_row_header_column: A, expected_row_header: Apr 2025, table_record_kind: detail, filters: {month: '2025-04'}, constraints: [{variable: month, operator: '==', value: '2025-04', label: Month of disposal}]}
+- <<: *table8c_month_2025_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_05
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_05.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_05
+  period: '2025-05'
+  period_coverage: {start_date: '2025-05-06', end_date: '2025-06-05', basis: tax, source_period_label: May 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-05', label: May 2025, ordinal: 0, row_number: 14, expected_row_header_column: A, expected_row_header: May 2025, table_record_kind: detail, filters: {month: '2025-05'}, constraints: [{variable: month, operator: '==', value: '2025-05', label: Month of disposal}]}
+- <<: *table8c_month_2025_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_06
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_06.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_06
+  period: '2025-06'
+  period_coverage: {start_date: '2025-06-06', end_date: '2025-07-05', basis: tax, source_period_label: Jun 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-06', label: Jun 2025, ordinal: 0, row_number: 15, expected_row_header_column: A, expected_row_header: Jun 2025, table_record_kind: detail, filters: {month: '2025-06'}, constraints: [{variable: month, operator: '==', value: '2025-06', label: Month of disposal}]}
+- <<: *table8c_month_2025_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_07
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_07.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_07
+  period: '2025-07'
+  period_coverage: {start_date: '2025-07-06', end_date: '2025-08-05', basis: tax, source_period_label: Jul 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-07', label: Jul 2025, ordinal: 0, row_number: 16, expected_row_header_column: A, expected_row_header: Jul 2025, table_record_kind: detail, filters: {month: '2025-07'}, constraints: [{variable: month, operator: '==', value: '2025-07', label: Month of disposal}]}
+- <<: *table8c_month_2025_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_08
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_08.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_08
+  period: '2025-08'
+  period_coverage: {start_date: '2025-08-06', end_date: '2025-09-05', basis: tax, source_period_label: Aug 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-08', label: Aug 2025, ordinal: 0, row_number: 17, expected_row_header_column: A, expected_row_header: Aug 2025, table_record_kind: detail, filters: {month: '2025-08'}, constraints: [{variable: month, operator: '==', value: '2025-08', label: Month of disposal}]}
+- <<: *table8c_month_2025_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_09
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_09.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_09
+  period: '2025-09'
+  period_coverage: {start_date: '2025-09-06', end_date: '2025-10-05', basis: tax, source_period_label: Sep 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-09', label: Sep 2025, ordinal: 0, row_number: 18, expected_row_header_column: A, expected_row_header: Sep 2025, table_record_kind: detail, filters: {month: '2025-09'}, constraints: [{variable: month, operator: '==', value: '2025-09', label: Month of disposal}]}
+- <<: *table8c_month_2025_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_10
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_10.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_10
+  period: '2025-10'
+  period_coverage: {start_date: '2025-10-06', end_date: '2025-11-05', basis: tax, source_period_label: Oct 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-10', label: Oct 2025, ordinal: 0, row_number: 19, expected_row_header_column: A, expected_row_header: Oct 2025, table_record_kind: detail, filters: {month: '2025-10'}, constraints: [{variable: month, operator: '==', value: '2025-10', label: Month of disposal}]}
+- <<: *table8c_month_2025_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_11
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_11.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_11
+  period: '2025-11'
+  period_coverage: {start_date: '2025-11-06', end_date: '2025-12-05', basis: tax, source_period_label: Nov 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-11', label: Nov 2025, ordinal: 0, row_number: 20, expected_row_header_column: A, expected_row_header: Nov 2025, table_record_kind: detail, filters: {month: '2025-11'}, constraints: [{variable: month, operator: '==', value: '2025-11', label: Month of disposal}]}
+- <<: *table8c_month_2025_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2025_12
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2025_12.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2025_12
+  period: '2025-12'
+  period_coverage: {start_date: '2025-12-06', end_date: '2026-01-05', basis: tax, source_period_label: Dec 2025, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2025-12', label: Dec 2025, ordinal: 0, row_number: 21, expected_row_header_column: A, expected_row_header: Dec 2025, table_record_kind: detail, filters: {month: '2025-12'}, constraints: [{variable: month, operator: '==', value: '2025-12', label: Month of disposal}]}
+- <<: *table8c_month_2025_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2026_01
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2026_01.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2026_01
+  period: '2026-01'
+  period_coverage: {start_date: '2026-01-06', end_date: '2026-02-05', basis: tax, source_period_label: Jan 2026, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2026-01', label: Jan 2026, ordinal: 0, row_number: 22, expected_row_header_column: A, expected_row_header: Jan 2026, table_record_kind: detail, filters: {month: '2026-01'}, constraints: [{variable: month, operator: '==', value: '2026-01', label: Month of disposal}]}
+- <<: *table8c_month_2025_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2026_02
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2026_02.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2026_02
+  period: '2026-02'
+  period_coverage: {start_date: '2026-02-06', end_date: '2026-03-05', basis: tax, source_period_label: Feb 2026, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2026-02', label: Feb 2026, ordinal: 0, row_number: 23, expected_row_header_column: A, expected_row_header: Feb 2026, table_record_kind: detail, filters: {month: '2026-02'}, constraints: [{variable: month, operator: '==', value: '2026-02', label: Month of disposal}]}
+- <<: *table8c_month_2025_04
+  record_set_id: hmrc.cgt_table8_2026.table8c.month2026_03
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.month2026_03.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.month2026_03
+  period: '2026-03'
+  period_coverage: {start_date: '2026-03-06', end_date: '2026-04-05', basis: tax, source_period_label: Mar 2026, notes: 'HMRC tax month, sixth through fifth; subject to late and amended returns.'}
+  rows:
+  - {value_id: '2026-03', label: Mar 2026, ordinal: 0, row_number: 24, expected_row_header_column: A, expected_row_header: Mar 2026, table_record_kind: detail, filters: {month: '2026-03'}, constraints: [{variable: month, operator: '==', value: '2026-03', label: Month of disposal}]}
+- <<: *table8c_total_2023
+  record_set_id: hmrc.cgt_table8_2026.table8c.ty2025.total
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table8_2026.table8c.ty2025.total.v1
+  source_record_id_prefix: hmrc.cgt_table8_2026.table8c.ty2025.total
+  sheet_name: Table_8c_1_2025-26
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-06'
+    end_date: '2026-04-05'
+    basis: tax
+    source_period_label: 2025 to 2026 tax year
+    notes: Publisher-emitted All margin for Table 8c; subject to late and amended returns.

@@ -1,0 +1,18 @@
+source_id: hmrc
+package_id: hmrc-cgt-residential-property-2026
+dataset: hmrc_hmrc-cgt-residential-property-2026
+source_page: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+table: 'Capital Gains Tax statistics Table 8: residential property disposals'
+files:
+  2026:
+    filename: Table_8_2026_Statistics_on_UK_residential_property.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a7b24a6423b0bdba0290ecc/Table_8_2026_Statistics_on_UK_residential_property.ods
+    sha256: fefe621cab478ca14b06aaeabe0ac2db95a4912b1b40ac029fbbd5ea3fa34952
+    size_bytes: 11240
+    fetched_at: '2026-09-16T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-cgt-residential-property-2026/2026/fefe621cab478ca14b06aaeabe0ac2db95a4912b1b40ac029fbbd5ea3fa34952/Table_8_2026_Statistics_on_UK_residential_property.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-cgt-residential-property-2026/2026/fefe621cab478ca14b06aaeabe0ac2db95a4912b1b40ac029fbbd5ea3fa34952/Table_8_2026_Statistics_on_UK_residential_property.ods
