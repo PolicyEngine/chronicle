@@ -1,8 +1,10 @@
 # DESNZ publishes this QEP table at calendar-year and financial-year grains. The
 # workbook does not publish quarterly bill observations, so this package does
-# not create them. Each bill fact keeps the publisher's consumption basis, VAT
-# treatment, payment method, and tariff classification. DESNZ describes the
-# fixed-versus-variable classification as official statistics in development.
+# not create them. This issue's payment-method scope is standard metering;
+# Economy 7 is a separate tariff/metering arrangement outside that scope. Each
+# bill fact keeps the publisher's consumption basis, VAT treatment, payment
+# method, and tariff classification. DESNZ describes the fixed-versus-variable
+# classification as official statistics in development.
 schema_version: ledger.source_package.v1
 package_id: desnz-qep-electricity-annual-bills-2026
 label: DESNZ QEP standard electricity average annual bills by payment method and tariff type, 2023 to
@@ -18,7 +20,7 @@ dimension_labels:
   metering_arrangement: Metering arrangement
 dimension_value_labels:
   fuel:
-    electricity: Standard electricity
+    electricity: Electricity
   payment_method:
     standard_credit: Standard credit
     direct_debit: Direct debit

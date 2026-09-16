@@ -34,6 +34,7 @@ R2_COUNTRY_PUBLISHERS = {
     "nz": frozenset({"ird", "mbie", "msd", "stats_nz"}),
     "uk": frozenset(
         {
+            "desnz",
             "dft",
             "dwp",
             "hmrc",

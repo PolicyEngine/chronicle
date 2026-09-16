@@ -14,5 +14,5 @@ files:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/desnz/desnz-need-england-wales-2024/2024/be421af2e9f0906821dfcedade770b245eb58fd96feffba4c8dca74853b4d756/need-ew-2024.xlsx
-        uri: r2://ledger-raw/raw/desnz/desnz-need-england-wales-2024/2024/be421af2e9f0906821dfcedade770b245eb58fd96feffba4c8dca74853b4d756/need-ew-2024.xlsx
+        key: raw/uk/desnz/desnz-need-england-wales-2024/2024/be421af2e9f0906821dfcedade770b245eb58fd96feffba4c8dca74853b4d756/need-ew-2024.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-need-england-wales-2024/2024/be421af2e9f0906821dfcedade770b245eb58fd96feffba4c8dca74853b4d756/need-ew-2024.xlsx

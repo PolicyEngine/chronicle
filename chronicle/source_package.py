@@ -147,7 +147,9 @@ SOURCE_PACKAGE_ALIASES = {
     "dft-bus0415-fares-index-2026": Path("dft/bus0415_fares_index_2026"),
     "dft-bus05i-revenue-support-2025": Path("dft/bus05i_revenue_support_2025"),
     "dft-veh1103-cars-fuel-type-2025": Path("dft/veh1103_cars_fuel_type_2025"),
-    "dft-nts0313-mode-use-frequency-2025": Path("dft/nts0313_mode_use_frequency_2025"),
+    "dft-nts0313-mode-use-frequency-2025": Path(
+        "dft/nts0313_mode_use_frequency_2025"
+    ),
     "dft-nts0621-local-bus-use-frequency-2025": Path(
         "dft/nts0621_local_bus_use_frequency_2025"
     ),

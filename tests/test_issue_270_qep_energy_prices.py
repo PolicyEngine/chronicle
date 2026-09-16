@@ -25,7 +25,7 @@ QEP_PACKAGES = {
     ),
     "desnz-qep-electricity-unit-fixed-costs-2026": (
         REPOSITORY_ROOT / "packages/desnz/qep_electricity_unit_fixed_costs_2026",
-        768,
+        745,
     ),
     "desnz-qep-gas-annual-bills-2026": (
         REPOSITORY_ROOT / "packages/desnz/qep_gas_annual_bills_2026",
@@ -93,6 +93,49 @@ def test_qep_facts_use_only_the_published_annual_grains(package_id: str):
     assert all(fact.period_coverage.end_date for fact in facts)
 
 
+def test_qep_source_tables_are_annual_and_publisher_quarterly_values_are_unavailable():
+    expected_sheets = {
+        "desnz-qep-electricity-annual-bills-2026": {
+            "2.2.1",
+            "2.2.1 (Financial Year)",
+            "Methodology",
+        },
+        "desnz-qep-electricity-unit-fixed-costs-2026": {
+            "2.2.4",
+            "2.2.4 (Financial Year)",
+            "Methodology",
+        },
+        "desnz-qep-gas-annual-bills-2026": {
+            "2.3.1",
+            "2.3.1 (Financial Year)",
+            "Methodology",
+        },
+        "desnz-qep-gas-unit-fixed-costs-2026": {
+            "2.3.4",
+            "2.3.4 (Financial Year)",
+            "Methodology",
+        },
+    }
+
+    for package_id, sheets in expected_sheets.items():
+        assert set(load_source_package(package_id).artifact.sheets or ()) == sheets
+
+
+def test_qep_electricity_scope_is_standard_metering_not_economy_7():
+    for package_id in (
+        "desnz-qep-electricity-annual-bills-2026",
+        "desnz-qep-electricity-unit-fixed-costs-2026",
+    ):
+        package = load_source_package(package_id)
+        facts = package.build_facts(2026)
+
+        assert {fact.filters["metering_arrangement"] for fact in facts} == {"standard"}
+        assert {
+            fact.dimension_value_labels["fuel"]["electricity"] for fact in facts
+        } == {"Electricity"}
+        assert all("Economy 7" not in sheet for sheet in package.artifact.sheets or ())
+
+
 def test_qep_annual_bill_filters_preserve_tariff_and_consumption_basis():
     electricity = _facts("desnz-qep-electricity-annual-bills-2026")
     gas = _facts("desnz-qep-gas-annual-bills-2026")
@@ -143,6 +186,22 @@ def test_qep_regional_costs_cover_every_publisher_price_scope():
             "gbp_per_kwh",
             "gbp_per_year",
         }
+
+
+def test_qep_omits_northern_ireland_zero_fixed_cost_observations():
+    facts = _facts("desnz-qep-electricity-unit-fixed-costs-2026")
+    northern_ireland_fixed = [
+        fact
+        for fact in facts
+        if fact.geography.id == "N92000002"
+        and fact.filters["price_component"] == "fixed_cost"
+    ]
+
+    assert [fact.source_record_id for fact in northern_ireland_fixed] == [
+        "desnz.qep.table_2_2_4.cy2023.northern_ireland.standard_credit_fixed_cost"
+    ]
+    assert northern_ireland_fixed[0].value == pytest.approx(0.0005208450788492288)
+    assert all(fact.value != 0 for fact in facts)
 
 
 def test_qep_cost_components_do_not_embed_a_bill_consumption_assumption():

@@ -15,5 +15,5 @@ files:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/desnz/desnz-qep-electricity-annual-bills-2026/2026/818c53fc646ccfb40bbc54d5f22baed07fe17d20ca4b89ae79e821017a6f774b/table_221.xlsx
-        uri: r2://ledger-raw/raw/desnz/desnz-qep-electricity-annual-bills-2026/2026/818c53fc646ccfb40bbc54d5f22baed07fe17d20ca4b89ae79e821017a6f774b/table_221.xlsx
+        key: raw/uk/desnz/desnz-qep-electricity-annual-bills-2026/2026/818c53fc646ccfb40bbc54d5f22baed07fe17d20ca4b89ae79e821017a6f774b/table_221.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-qep-electricity-annual-bills-2026/2026/818c53fc646ccfb40bbc54d5f22baed07fe17d20ca4b89ae79e821017a6f774b/table_221.xlsx

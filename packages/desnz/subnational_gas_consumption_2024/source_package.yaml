@@ -1,6 +1,8 @@
 # Publisher local-area totals only. The package retains the source geography,
 # meter classification, reference-period wording, and weather-treatment metadata;
 # it does not allocate unassigned totals or derive household connection shares.
+# Isles of Scilly, Orkney, and Shetland are omitted in both years: their 2023
+# cells are blank and their 2024 meter/consumption cells are explicit zeroes.
 schema_version: ledger.source_package.v1
 package_id: desnz-subnational-gas-consumption-2024
 label: DESNZ subnational weather-corrected domestic gas consumption and meter counts, 2023 and 2024
@@ -46,8 +48,8 @@ record_sets:
   period_coverage:
     basis: survey_reference
     source_period_label: 2023 (mid-May 2023 to mid-May 2024)
-    notes: The workbook publishes only mid-May endpoints, not exact dates; consumption is weather-corrected
-      annualised quantity.
+    notes: The calendar_year identity follows the publisher's 2023 label. The workbook publishes only
+      mid-May endpoints, not exact dates; consumption is weather-corrected annualised quantity.
   geography_id: K03000001
   geography_level: country
   geography_name: Great Britain
@@ -4140,8 +4142,8 @@ record_sets:
   period_coverage:
     basis: survey_reference
     source_period_label: 2024 (mid-May 2024 to mid-May 2025)
-    notes: The workbook publishes only mid-May endpoints, not exact dates; consumption is weather-corrected
-      annualised quantity.
+    notes: The calendar_year identity follows the publisher's 2024 label. The workbook publishes only
+      mid-May endpoints, not exact dates; consumption is weather-corrected annualised quantity.
   geography_id: K03000001
   geography_level: country
   geography_name: Great Britain
@@ -7391,17 +7393,6 @@ record_sets:
     geography_level: local_authority
     geography_name: Cornwall
     geography_vintage: publication_2025_nspl
-  - value_id: e06000053
-    label: Isles of Scilly
-    ordinal: 293
-    row_number: 303
-    table_record_kind: detail
-    expected_row_header_column: A
-    expected_row_header: E06000053
-    geography_id: E06000053
-    geography_level: local_authority
-    geography_name: Isles of Scilly
-    geography_vintage: publication_2025_nspl
   - value_id: e06000054
     label: Wiltshire
     ordinal: 294
@@ -7974,17 +7965,6 @@ record_sets:
     geography_level: local_authority
     geography_name: North Ayrshire
     geography_vintage: publication_2025_nspl
-  - value_id: s12000023
-    label: Orkney Islands
-    ordinal: 346
-    row_number: 356
-    table_record_kind: detail
-    expected_row_header_column: A
-    expected_row_header: S12000023
-    geography_id: S12000023
-    geography_level: local_authority
-    geography_name: Orkney Islands
-    geography_vintage: publication_2025_nspl
   - value_id: s12000026
     label: Scottish Borders
     ordinal: 347
@@ -7995,17 +7975,6 @@ record_sets:
     geography_id: S12000026
     geography_level: local_authority
     geography_name: Scottish Borders
-    geography_vintage: publication_2025_nspl
-  - value_id: s12000027
-    label: Shetland Islands
-    ordinal: 348
-    row_number: 358
-    table_record_kind: detail
-    expected_row_header_column: A
-    expected_row_header: S12000027
-    geography_id: S12000027
-    geography_level: local_authority
-    geography_name: Shetland Islands
     geography_vintage: publication_2025_nspl
   - value_id: s12000028
     label: South Ayrshire

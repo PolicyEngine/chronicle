@@ -71,7 +71,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -138,7 +138,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -203,7 +203,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -268,7 +268,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -333,7 +333,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -400,7 +400,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -467,7 +467,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -534,7 +534,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -601,7 +601,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -668,7 +668,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -735,7 +735,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -802,7 +802,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -869,7 +869,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -936,7 +936,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -1003,7 +1003,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -1070,7 +1070,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -1137,7 +1137,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -1204,7 +1204,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -1271,7 +1271,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -1338,7 +1338,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail
@@ -1378,6 +1378,7 @@ record_sets:
     end_date: '2026-03-31'
     basis: calendar
     source_period_label: Quarter 1 2026
+    notes: Publisher marks the 2026 Q1 observation provisional.
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -1405,7 +1406,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic gas consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 22
     table_record_kind: detail

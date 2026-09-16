@@ -14,5 +14,5 @@ files:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/desnz/desnz-qep-gas-annual-bills-2026/2026/680e8d3522ac82c365cd2b4c9020ac30901c0813b59fd012c50278bf9c3285b2/table_231.xlsx
-        uri: r2://ledger-raw/raw/desnz/desnz-qep-gas-annual-bills-2026/2026/680e8d3522ac82c365cd2b4c9020ac30901c0813b59fd012c50278bf9c3285b2/table_231.xlsx
+        key: raw/uk/desnz/desnz-qep-gas-annual-bills-2026/2026/680e8d3522ac82c365cd2b4c9020ac30901c0813b59fd012c50278bf9c3285b2/table_231.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-qep-gas-annual-bills-2026/2026/680e8d3522ac82c365cd2b4c9020ac30901c0813b59fd012c50278bf9c3285b2/table_231.xlsx

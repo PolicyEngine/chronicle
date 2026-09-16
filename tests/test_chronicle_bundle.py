@@ -132,7 +132,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 339801,
+        "fact_count": 339441,
         "geography_count": 12586,
         "period_count": 492,
         "semantic_duplicate_key_count": 177,
@@ -143,9 +143,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # keeps as published: areas two packages name differently, values two
         # packages word differently, and groupby rows that drift inside one
         # package (chronicle#265, #266).
-        "warning_count": 173,
+        "warning_count": 171,
     }
-    assert len(rows) == 339801
+    assert len(rows) == 339441
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -177,7 +177,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 339801
+    assert coverage["fact_count"] == 339441
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -189,7 +189,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "cms_medicaid": 515,
         "cms_medicare": 1,
         "cms_nhe": 3,
-        "desnz": 5726,
+        "desnz": 5697,
         "dfe": 770,
         "dfc_ni": 1189,
         "dfi_ni": 24,
@@ -214,7 +214,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "obr": 319,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 85261,
+        "ons": 84930,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
@@ -1018,14 +1018,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     issue_270_period_increments = {
         "calendar_year:2020": 4,
-        "calendar_year:2021": 4307,
+        "calendar_year:2021": 3976,
         "calendar_year:2022": 422,
-        "calendar_year:2023": 1736,
-        "calendar_year:2024": 1970,
-        "calendar_year:2025": 278,
-        "fiscal_year:2023": 272,
-        "fiscal_year:2024": 272,
-        "fiscal_year:2025": 272,
+        "calendar_year:2023": 1733,
+        "calendar_year:2024": 1960,
+        "calendar_year:2025": 274,
+        "fiscal_year:2023": 268,
+        "fiscal_year:2024": 268,
+        "fiscal_year:2025": 268,
         "quarter:2020-Q1": 4,
         "quarter:2020-Q2": 4,
         "quarter:2020-Q3": 4,
@@ -1079,7 +1079,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "family": 1299,
         "firm": 1439,
         "government": 2313,
-        "household": 53881,
+        "household": 53521,
         "institutional_sector": 1185,
         "pension_plan": 2,
         "person": 64993,
@@ -1092,7 +1092,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 145,
         "conflicting_groupby_value_label": 16,
-        "conflicting_value_label_across_packages": 11,
+        "conflicting_value_label_across_packages": 9,
         "duplicate_semantic_fact_key": 1,
     }
     assert [
@@ -1132,8 +1132,6 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "age=85_plus",
         "age=age_20",
         "age=age_21",
-        "desnz.energy_trends.series=domestic_consumption",
-        "fuel=electricity",
         "household_type=couple_3_plus_children_households",
         "measure=country_total",
         "ons.household_type=couple_3_plus_children_households",

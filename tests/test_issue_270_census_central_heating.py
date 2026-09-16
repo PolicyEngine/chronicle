@@ -24,7 +24,6 @@ from chronicle.sources.rows import build_source_row_key, validate_source_rows
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 
 ONS_CATEGORIES = {
-    "does_not_apply": "Does not apply",
     "no_central_heating": "No central heating",
     "mains_gas_only": "Mains gas only",
     "tank_or_bottled_gas_only": "Tank or bottled gas only",
@@ -72,7 +71,7 @@ CENSUS_PACKAGES = {
         "path": Path("packages/ons/census2021_ts046_central_heating_ltla"),
         "data_path": Path("db/data/ons/census2021_ts046_central_heating_ltla"),
         "year": 2021,
-        "fact_count": 4_303,
+        "fact_count": 3_972,
         "geography_count": 331,
         "geography_prefix": ("E", "W"),
         "geography_vintage": "census_2021_ltla",
@@ -197,6 +196,19 @@ def test_census_heating_categories_are_preserved_in_source_rows(census_package):
         assert {
             row.source_row_dimensions["heating_type"] for row in record_set.rows
         } == {category}
+
+
+def test_ons_all_zero_does_not_apply_category_is_not_emitted():
+    package = load_source_package("ons-census2021-ts046-central-heating-ltla")
+    facts = package.build_facts(2021)
+
+    assert "does_not_apply" not in package.dimension_value_labels["heating_type"]
+    assert "does_not_apply" not in {fact.filters["heating_type"] for fact in facts}
+    assert not [
+        fact
+        for fact in facts
+        if fact.source_record_id.startswith("ons.census2021.ts046.does_not_apply.")
+    ]
 
 
 def test_census_heating_facts_cover_each_publisher_geography(census_package):

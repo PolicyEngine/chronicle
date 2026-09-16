@@ -1,8 +1,12 @@
 # DESNZ publishes this QEP table at calendar-year and financial-year grains. The
 # workbook does not publish quarterly unit-cost or fixed-cost observations, so
-# this package does not create them. Unit and fixed costs are price components,
-# so they do not carry a bill-consumption filter. The separate annual-bill facts
-# preserve DESNZ's 3,400 kWh electricity and 11,200 kWh gas assumptions.
+# this package does not create them. This issue's payment-method scope is
+# standard metering; Economy 7 is a separate tariff/metering arrangement
+# outside that scope. Unit and fixed costs are price components, so they do not
+# carry a bill-consumption filter. The separate annual-bill facts preserve
+# DESNZ's 3,400 kWh electricity and 11,200 kWh gas assumptions.
+# Northern Ireland's 23 explicit zero fixed-cost cells are omitted under the
+# all-zero observation rule; its non-zero 2023 standard-credit cell is retained.
 schema_version: ledger.source_package.v1
 package_id: desnz-qep-electricity-unit-fixed-costs-2026
 label: DESNZ QEP standard electricity average variable unit and fixed costs by payment method and price
@@ -16,7 +20,7 @@ dimension_labels:
   metering_arrangement: Metering arrangement
 dimension_value_labels:
   fuel:
-    electricity: Standard electricity
+    electricity: Electricity
   payment_method:
     standard_credit: Standard credit
     direct_debit: Direct debit
@@ -213,24 +217,6 @@ record_sets:
       label: reference period
     - column: C
       expected_value: 'North West '
-      label: publisher price area
-  - value_id: northern_ireland
-    label: Northern Ireland
-    ordinal: 7
-    row_number: 229
-    expected_row_header_column: B
-    expected_row_header: Northern Ireland
-    geography_id: N92000002
-    geography_level: country
-    geography_name: Northern Ireland
-    geography_vintage: current
-    table_record_kind: detail
-    guard_cells:
-    - column: A
-      expected_value: 2023
-      label: reference period
-    - column: C
-      expected_value: 'Northern Ireland '
       label: publisher price area
   - value_id: south_east
     label: South East
@@ -601,6 +587,207 @@ record_sets:
       operator: ==
       value: fixed_cost
       label: Price component
+- record_set_id: desnz.qep.table_2_2_4.cy2023.northern_ireland
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.cy2023.northern_ireland.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.cy2023
+  sheet_name: 2.2.4
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-01-01'
+    end_date: '2023-12-31'
+    basis: calendar
+    source_period_label: '2023'
+    notes: The period value stores the publisher's calendar year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 229
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: reference period
+    - column: C
+      expected_value: 'Northern Ireland '
+      label: publisher price area
+
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: standard_credit_fixed_cost
+    label: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    ordinal: 1
+    column: E
+    source_column_id: standard_credit_fixed_cost
+    concept: desnz.qep.domestic_electricity_fixed_cost
+    source_concept: desnz.qep.domestic_electricity_fixed_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average fixed cost (\xA3/year)[Note 3]"
+    unit: gbp_per_year
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Credit: Average fixed cost (\xA3/year)[Note 3]"
+    filters:
+      payment_method: standard_credit
+      price_component: fixed_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: fixed_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
 - record_set_id: desnz.qep.table_2_2_4.cy2024
   provenance_class: survey_aggregate
   assertion: observation
@@ -767,24 +954,6 @@ record_sets:
       label: reference period
     - column: C
       expected_value: North West
-      label: publisher price area
-  - value_id: northern_ireland
-    label: Northern Ireland
-    ordinal: 7
-    row_number: 245
-    expected_row_header_column: B
-    expected_row_header: Northern Ireland
-    geography_id: N92000002
-    geography_level: country
-    geography_name: Northern Ireland
-    geography_vintage: current
-    table_record_kind: detail
-    guard_cells:
-    - column: A
-      expected_value: 2024
-      label: reference period
-    - column: C
-      expected_value: Northern Ireland
       label: publisher price area
   - value_id: south_east
     label: South East
@@ -1155,6 +1324,179 @@ record_sets:
       operator: ==
       value: fixed_cost
       label: Price component
+- record_set_id: desnz.qep.table_2_2_4.cy2024.northern_ireland
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.cy2024.northern_ireland.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.cy2024
+  sheet_name: 2.2.4
+  period_type: calendar_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-01-01'
+    end_date: '2024-12-31'
+    basis: calendar
+    source_period_label: '2024'
+    notes: The period value stores the publisher's calendar year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 245
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: reference period
+    - column: C
+      expected_value: Northern Ireland
+      label: publisher price area
+
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
 - record_set_id: desnz.qep.table_2_2_4.cy2025
   provenance_class: survey_aggregate
   assertion: observation
@@ -1321,24 +1663,6 @@ record_sets:
       label: reference period
     - column: C
       expected_value: North West
-      label: publisher price area
-  - value_id: northern_ireland
-    label: Northern Ireland
-    ordinal: 7
-    row_number: 261
-    expected_row_header_column: B
-    expected_row_header: Northern Ireland
-    geography_id: N92000002
-    geography_level: country
-    geography_name: Northern Ireland
-    geography_vintage: current
-    table_record_kind: detail
-    guard_cells:
-    - column: A
-      expected_value: 2025
-      label: reference period
-    - column: C
-      expected_value: Northern Ireland
       label: publisher price area
   - value_id: south_east
     label: South East
@@ -1709,6 +2033,179 @@ record_sets:
       operator: ==
       value: fixed_cost
       label: Price component
+- record_set_id: desnz.qep.table_2_2_4.cy2025.northern_ireland
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.cy2025.northern_ireland.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.cy2025
+  sheet_name: 2.2.4
+  period_type: calendar_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-01-01'
+    end_date: '2025-12-31'
+    basis: calendar
+    source_period_label: '2025'
+    notes: The period value stores the publisher's calendar year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 261
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: reference period
+    - column: C
+      expected_value: Northern Ireland
+      label: publisher price area
+
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 13
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
 - record_set_id: desnz.qep.table_2_2_4.fy2023
   provenance_class: survey_aggregate
   assertion: observation
@@ -1875,24 +2372,6 @@ record_sets:
       label: reference period
     - column: C
       expected_value: North West
-      label: publisher price area
-  - value_id: northern_ireland
-    label: Northern Ireland
-    ordinal: 7
-    row_number: 52
-    expected_row_header_column: B
-    expected_row_header: Northern Ireland
-    geography_id: N92000002
-    geography_level: country
-    geography_name: Northern Ireland
-    geography_vintage: current
-    table_record_kind: detail
-    guard_cells:
-    - column: A
-      expected_value: 2023/24
-      label: reference period
-    - column: C
-      expected_value: Northern Ireland
       label: publisher price area
   - value_id: south_east
     label: South East
@@ -2263,6 +2742,179 @@ record_sets:
       operator: ==
       value: fixed_cost
       label: Price component
+- record_set_id: desnz.qep.table_2_2_4.fy2023.northern_ireland
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.fy2023.northern_ireland.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.fy2023
+  sheet_name: 2.2.4 (Financial Year)
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023/24
+    notes: The period value stores the opening year of the publisher's financial-year label.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 52
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023/24
+      label: reference period
+    - column: C
+      expected_value: Northern Ireland
+      label: publisher price area
+
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
 - record_set_id: desnz.qep.table_2_2_4.fy2024
   provenance_class: survey_aggregate
   assertion: observation
@@ -2429,24 +3081,6 @@ record_sets:
       label: reference period
     - column: C
       expected_value: North West
-      label: publisher price area
-  - value_id: northern_ireland
-    label: Northern Ireland
-    ordinal: 7
-    row_number: 68
-    expected_row_header_column: B
-    expected_row_header: Northern Ireland
-    geography_id: N92000002
-    geography_level: country
-    geography_name: Northern Ireland
-    geography_vintage: current
-    table_record_kind: detail
-    guard_cells:
-    - column: A
-      expected_value: 2024/25
-      label: reference period
-    - column: C
-      expected_value: Northern Ireland
       label: publisher price area
   - value_id: south_east
     label: South East
@@ -2817,6 +3451,179 @@ record_sets:
       operator: ==
       value: fixed_cost
       label: Price component
+- record_set_id: desnz.qep.table_2_2_4.fy2024.northern_ireland
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.fy2024.northern_ireland.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.fy2024
+  sheet_name: 2.2.4 (Financial Year)
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024/25
+    notes: The period value stores the opening year of the publisher's financial-year label.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 68
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024/25
+      label: reference period
+    - column: C
+      expected_value: Northern Ireland
+      label: publisher price area
+
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
 - record_set_id: desnz.qep.table_2_2_4.fy2025
   provenance_class: survey_aggregate
   assertion: observation
@@ -2983,24 +3790,6 @@ record_sets:
       label: reference period
     - column: C
       expected_value: North West
-      label: publisher price area
-  - value_id: northern_ireland
-    label: Northern Ireland
-    ordinal: 7
-    row_number: 84
-    expected_row_header_column: B
-    expected_row_header: Northern Ireland
-    geography_id: N92000002
-    geography_level: country
-    geography_name: Northern Ireland
-    geography_vintage: current
-    table_record_kind: detail
-    guard_cells:
-    - column: A
-      expected_value: 2025/26
-      label: reference period
-    - column: C
-      expected_value: Northern Ireland
       label: publisher price area
   - value_id: south_east
     label: South East
@@ -3370,4 +4159,177 @@ record_sets:
     - variable: price_component
       operator: ==
       value: fixed_cost
+      label: Price component
+- record_set_id: desnz.qep.table_2_2_4.fy2025.northern_ireland
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_2_4.fy2025.northern_ireland.v1
+  source_record_id_prefix: desnz.qep.table_2_2_4.fy2025
+  sheet_name: 2.2.4 (Financial Year)
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2026-03-31'
+    basis: fiscal
+    source_period_label: 2025/26
+    notes: The period value stores the opening year of the publisher's financial-year label.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    vat_treatment: including_vat
+    metering_arrangement: standard
+  shared_constraints:
+  - variable: fuel
+    operator: ==
+    value: electricity
+    label: Fuel
+  - variable: vat_treatment
+    operator: ==
+    value: including_vat
+    label: VAT treatment
+  - variable: metering_arrangement
+    operator: ==
+    value: standard
+    label: Metering arrangement
+  rows:
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 7
+    row_number: 84
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2025/26
+      label: reference period
+    - column: C
+      expected_value: Northern Ireland
+      label: publisher price area
+
+  measures:
+  - measure_id: standard_credit_variable_unit_cost
+    label: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Credit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: standard_credit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: standard_credit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: direct_debit_variable_unit_cost
+    label: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 2
+    column: F
+    source_column_id: direct_debit_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Direct debit: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: direct_debit
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: direct_debit
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: prepayment_variable_unit_cost
+    label: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 4
+    column: H
+    source_column_id: prepayment_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Prepayment: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: prepayment
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: prepayment
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
+      label: Price component
+  - measure_id: overall_variable_unit_cost
+    label: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    ordinal: 6
+    column: J
+    source_column_id: overall_variable_unit_cost
+    concept: desnz.qep.domestic_electricity_variable_unit_cost
+    source_concept: desnz.qep.domestic_electricity_variable_unit_cost
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+    concept_evidence_notes: "table.2.2.4, Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    unit: gbp_per_kwh
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 12
+    expected_column_header: "Overall: Average variable unit price (\xA3/kWh)[Note 2]"
+    filters:
+      payment_method: all
+      price_component: variable_unit_cost
+    constraints:
+    - variable: payment_method
+      operator: ==
+      value: all
+      label: Payment method
+    - variable: price_component
+      operator: ==
+      value: variable_unit_cost
       label: Price component

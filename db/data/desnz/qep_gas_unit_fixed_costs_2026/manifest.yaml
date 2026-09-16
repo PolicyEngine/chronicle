@@ -15,5 +15,5 @@ files:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/desnz/desnz-qep-gas-unit-fixed-costs-2026/2026/e08e813e9f7e1b85457ab73aecc3d3e39c59b517d801cd03360ec919177a5ad8/table_234.xlsx
-        uri: r2://ledger-raw/raw/desnz/desnz-qep-gas-unit-fixed-costs-2026/2026/e08e813e9f7e1b85457ab73aecc3d3e39c59b517d801cd03360ec919177a5ad8/table_234.xlsx
+        key: raw/uk/desnz/desnz-qep-gas-unit-fixed-costs-2026/2026/e08e813e9f7e1b85457ab73aecc3d3e39c59b517d801cd03360ec919177a5ad8/table_234.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-qep-gas-unit-fixed-costs-2026/2026/e08e813e9f7e1b85457ab73aecc3d3e39c59b517d801cd03360ec919177a5ad8/table_234.xlsx

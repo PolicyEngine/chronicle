@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+from pathlib import Path
+import subprocess
 
 import pytest
 import yaml
@@ -24,6 +26,11 @@ from chronicle.artifacts import (
 )
 from chronicle.epoch import Epoch
 from chronicle.harness import main as harness_main
+
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+DESNZ_DATA_ROOT = REPOSITORY_ROOT / "db/data/desnz"
+MAX_TRACKED_FILE_SIZE_BYTES = 100 * 1024 * 1024
 
 
 def test_build_r2_key_is_content_addressed():
@@ -90,6 +97,7 @@ def test_build_artifact_key_rejects_unknown_build_epoch():
     ("source_id", "package_path", "expected_country"),
     [
         ("ird", "db/data/ird/wff", "nz"),
+        ("desnz", "db/data/desnz/qep", "uk"),
         ("ons", "db/data/ons/mye", "uk"),
         ("irs_soi", "db/data/irs_soi/table_1_1", None),
         ("irs_soi", "/work/ons/chronicle/db/data/irs_soi/table_1_1", None),
@@ -126,9 +134,69 @@ def test_country_aware_r2_keys_preserve_legacy_us_layout():
         build_id="ledger.build.v1:abc123",
         artifact_name="facts.jsonl",
     )
+    desnz_key = build_r2_key(
+        source_id="desnz",
+        package_id="desnz-qep",
+        year=2026,
+        sha256="def456",
+        filename="qep.xlsx",
+    )
 
     assert nz_key.startswith("raw/nz/ird/")
     assert uk_key.startswith("derived/uk/ons/")
+    assert desnz_key == "raw/uk/desnz/desnz-qep/2026/def456/qep.xlsx"
+
+
+def test_all_desnz_manifests_use_canonical_uk_r2_keys_and_pinned_bytes():
+    manifests = sorted(DESNZ_DATA_ROOT.glob("*/manifest.yaml"))
+
+    assert len(manifests) == 14
+    for manifest_path in manifests:
+        manifest = yaml.safe_load(manifest_path.read_text())
+        for year, artifact in manifest["files"].items():
+            local_path = manifest_path.parent / artifact["filename"]
+            payload = local_path.read_bytes()
+            expected_key = build_r2_key(
+                source_id=manifest["source_id"],
+                package_id=manifest["package_id"],
+                year=year,
+                sha256=artifact["sha256"],
+                filename=artifact["filename"],
+                package_path=manifest_path,
+            )
+
+            assert len(payload) == artifact["size_bytes"]
+            assert hashlib.sha256(payload).hexdigest() == artifact["sha256"]
+            assert artifact["storage"]["r2"] == {
+                "provider": "r2",
+                "bucket": "ledger-raw",
+                "key": expected_key,
+                "uri": f"r2://ledger-raw/{expected_key}",
+            }
+
+
+def test_every_tracked_file_stays_below_githubs_individual_file_ceiling():
+    tracked = subprocess.run(
+        ["git", "ls-files", "-z"],
+        cwd=REPOSITORY_ROOT,
+        check=True,
+        capture_output=True,
+    ).stdout.split(b"\0")
+    paths = [REPOSITORY_ROOT / path.decode() for path in tracked if path]
+    source_artifacts = [
+        path
+        for path in paths
+        if path.is_file()
+        and path.is_relative_to(REPOSITORY_ROOT / "db/data")
+        and path.name != "manifest.yaml"
+    ]
+
+    assert any(path.is_relative_to(DESNZ_DATA_ROOT) for path in source_artifacts)
+    assert not [
+        (path.relative_to(REPOSITORY_ROOT), path.stat().st_size)
+        for path in paths
+        if path.is_file() and path.stat().st_size >= MAX_TRACKED_FILE_SIZE_BYTES
+    ]
 
 
 def test_country_aware_r2_prefix_rejects_wrong_country():
@@ -297,6 +365,7 @@ def test_publish_source_artifacts_uses_country_for_each_manifest(tmp_path):
     wrangler.chmod(0o755)
     for publisher, package_id, year in (
         ("ird", "ird-wff", 2024),
+        ("desnz", "desnz-qep", 2026),
         ("ons", "ons-mye", 2024),
         ("irs_soi", "soi-table", 2023),
     ):
@@ -316,6 +385,7 @@ def test_publish_source_artifacts_uses_country_for_each_manifest(tmp_path):
     assert report.valid
     commands = log.read_text()
     assert "ledger-raw/raw/nz/ird/ird-wff/2024/" in commands
+    assert "ledger-raw/raw/uk/desnz/desnz-qep/2026/" in commands
     assert "ledger-raw/raw/uk/ons/ons-mye/2024/" in commands
     assert "ledger-raw/raw/irs_soi/soi-table/2023/" in commands
 

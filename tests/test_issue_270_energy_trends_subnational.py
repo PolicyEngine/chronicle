@@ -21,7 +21,7 @@ PACKAGES = {
     "desnz-energy-trends-domestic-gas-2026": 21,
     "desnz-energy-trends-domestic-electricity-2026": 22,
     "desnz-subnational-electricity-consumption-2024": 1464,
-    "desnz-subnational-gas-consumption-2024": 1458,
+    "desnz-subnational-gas-consumption-2024": 1452,
 }
 
 
@@ -96,6 +96,34 @@ def test_energy_trends_preserves_representative_publisher_values():
     ].value == pytest.approx(21_221_400_000)
 
 
+def test_energy_trends_uses_one_fuel_neutral_series_label():
+    facts = [
+        *_facts(PACKAGE_GAS),
+        *_facts(PACKAGE_ELECTRICITY),
+    ]
+
+    assert {
+        fact.layout.groupby_value_label
+        for fact in facts
+        if fact.layout.groupby_value_id == "domestic_consumption"
+    } == {"Domestic consumption"}
+
+
+def test_latest_energy_trends_quarters_keep_provisional_status_in_notes():
+    gas = {fact.source_record_id: fact for fact in _facts(PACKAGE_GAS)}
+    electricity = {fact.source_record_id: fact for fact in _facts(PACKAGE_ELECTRICITY)}
+
+    latest = (
+        gas[
+            "desnz.energy_trends.4_1.domestic.2026_q1.domestic_consumption.consumption"
+        ],
+        electricity[
+            "desnz.energy_trends.5_5.domestic.2026_q2.domestic_consumption.consumption"
+        ],
+    )
+    assert all("provisional" in fact.period_coverage.notes.lower() for fact in latest)
+
+
 PACKAGE_GAS = "desnz-energy-trends-domestic-gas-2026"
 PACKAGE_ELECTRICITY = "desnz-energy-trends-domestic-electricity-2026"
 PACKAGE_SUBNATIONAL_ELECTRICITY = "desnz-subnational-electricity-consumption-2024"
@@ -103,15 +131,20 @@ PACKAGE_SUBNATIONAL_GAS = "desnz-subnational-gas-consumption-2024"
 
 
 @pytest.mark.parametrize(
-    "alias",
-    [PACKAGE_SUBNATIONAL_ELECTRICITY, PACKAGE_SUBNATIONAL_GAS],
+    ("alias", "expected_fact_count", "expected_geography_count"),
+    [
+        (PACKAGE_SUBNATIONAL_ELECTRICITY, 732, 366),
+        (PACKAGE_SUBNATIONAL_GAS, 726, 363),
+    ],
 )
-def test_subnational_packages_cover_the_published_geographies(alias):
+def test_subnational_packages_cover_the_published_geographies(
+    alias, expected_fact_count, expected_geography_count
+):
     facts = _facts(alias)
     facts_2024 = [fact for fact in facts if fact.period.value == 2024]
 
-    assert len(facts_2024) == 732
-    assert len({fact.geography.id for fact in facts_2024}) == 366
+    assert len(facts_2024) == expected_fact_count
+    assert len({fact.geography.id for fact in facts_2024}) == expected_geography_count
     assert all(re.fullmatch(r"[A-Z][0-9]{8}", fact.geography.id) for fact in facts_2024)
     assert {fact.geography.level for fact in facts_2024} == {
         "country",
@@ -141,18 +174,43 @@ def test_subnational_packages_keep_units_reference_periods_and_weather_basis():
         for fact in electricity
         if fact.period.value == 2024 and fact.geography.id == "K03000001"
     )
-    gas_2024 = next(
+    gas_reference_facts = [
         fact
         for fact in gas
-        if fact.period.value == 2024 and fact.geography.id == "K03000001"
-    )
+        if fact.geography.id == "K03000001" and fact.filters["metric"] == "meter_count"
+    ]
     assert electricity_2024.period_coverage.start_date == "2024-02-01"
     assert electricity_2024.period_coverage.end_date == "2025-01-31"
-    assert gas_2024.period_coverage.start_date is None
-    assert gas_2024.period_coverage.end_date is None
-    assert "mid-May 2024 to mid-May 2025" in (
-        gas_2024.period_coverage.source_period_label
+    assert {fact.period.type for fact in gas_reference_facts} == {"calendar_year"}
+    assert {fact.period_coverage.basis for fact in gas_reference_facts} == {
+        "survey_reference"
+    }
+    assert all(fact.period_coverage.start_date is None for fact in gas_reference_facts)
+    assert all(fact.period_coverage.end_date is None for fact in gas_reference_facts)
+    assert {
+        fact.period_coverage.source_period_label for fact in gas_reference_facts
+    } == {
+        "2023 (mid-May 2023 to mid-May 2024)",
+        "2024 (mid-May 2024 to mid-May 2025)",
+    }
+    assert all(
+        "not exact dates" in fact.period_coverage.notes
+        and "calendar_year identity" in fact.period_coverage.notes
+        for fact in gas_reference_facts
     )
+
+
+def test_subnational_gas_omits_blank_and_zero_non_gas_island_rows():
+    facts = _facts(PACKAGE_SUBNATIONAL_GAS)
+    excluded_geographies = {"E06000053", "S12000023", "S12000027"}
+
+    assert not [
+        fact
+        for fact in facts
+        if fact.geography.id in excluded_geographies
+        and fact.period.value in {2023, 2024}
+    ]
+    assert all(fact.value != 0 for fact in facts)
 
 
 def test_subnational_packages_preserve_representative_great_britain_values():

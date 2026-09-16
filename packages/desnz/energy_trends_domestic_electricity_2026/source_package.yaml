@@ -71,7 +71,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 33
     table_record_kind: detail
@@ -136,7 +136,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 34
     table_record_kind: detail
@@ -201,7 +201,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 35
     table_record_kind: detail
@@ -266,7 +266,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 36
     table_record_kind: detail
@@ -331,7 +331,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 115
     table_record_kind: detail
@@ -396,7 +396,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 116
     table_record_kind: detail
@@ -461,7 +461,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 117
     table_record_kind: detail
@@ -526,7 +526,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 118
     table_record_kind: detail
@@ -591,7 +591,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 119
     table_record_kind: detail
@@ -656,7 +656,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 120
     table_record_kind: detail
@@ -721,7 +721,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 121
     table_record_kind: detail
@@ -786,7 +786,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 122
     table_record_kind: detail
@@ -851,7 +851,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 123
     table_record_kind: detail
@@ -916,7 +916,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 124
     table_record_kind: detail
@@ -981,7 +981,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 125
     table_record_kind: detail
@@ -1046,7 +1046,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 126
     table_record_kind: detail
@@ -1111,7 +1111,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 127
     table_record_kind: detail
@@ -1176,7 +1176,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 128
     table_record_kind: detail
@@ -1241,7 +1241,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 129
     table_record_kind: detail
@@ -1306,7 +1306,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 130
     table_record_kind: detail
@@ -1371,7 +1371,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 131
     table_record_kind: detail
@@ -1409,6 +1409,7 @@ record_sets:
     end_date: '2026-06-30'
     basis: calendar
     source_period_label: Quarter 2 2026
+    notes: Publisher marks the 2026 Q2 observation provisional.
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -1436,7 +1437,7 @@ record_sets:
     label: Temperature adjustment
   rows:
   - value_id: domestic_consumption
-    label: Domestic electricity consumption
+    label: Domestic consumption
     ordinal: 0
     row_number: 132
     table_record_kind: detail
