@@ -686,7 +686,10 @@ record_sets:
     concept_relation: source_label
     concept_authority: desnz
     concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
-    concept_evidence_notes: "table.2.2.4, Credit: Average fixed cost (\xA3/year)[Note 3]"
+    concept_evidence_notes: >-
+      table.2.2.4, Credit: Average fixed cost (£/year)[Note 3]. The literal
+      0.00052 GBP/year source cell is retained even though DESNZ Note 3
+      describes Northern Ireland fixed cost as zero.
     unit: gbp_per_year
     aggregation: mean
     expected_cell_type: number

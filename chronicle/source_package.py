@@ -89,8 +89,11 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "hmrc-spi-income-bands-2023-24": Path("hmrc/spi_income_bands_2023_24"),
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
+    "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
+    "hmrc-cgt-carried-interest-2026": Path("hmrc/cgt_carried_interest_2026"),
     "hmrc-cgt-country-region-2026": Path("hmrc/cgt_country_region_2026"),
     "hmrc-cgt-gain-by-income-2026": Path("hmrc/cgt_gain_by_income_2026"),
+    "hmrc-cgt-residential-property-2026": Path("hmrc/cgt_residential_property_2026"),
     "hmrc-cgt-size-of-gain-2026": Path("hmrc/cgt_size_of_gain_2026"),
     "hmrc-cgt-statistics-2026": Path("hmrc/cgt_statistics_2026"),
     "hmrc-spi-income-by-area-2023-24": Path("hmrc/spi_income_by_area_2023_24"),
@@ -147,9 +150,7 @@ SOURCE_PACKAGE_ALIASES = {
     "dft-bus0415-fares-index-2026": Path("dft/bus0415_fares_index_2026"),
     "dft-bus05i-revenue-support-2025": Path("dft/bus05i_revenue_support_2025"),
     "dft-veh1103-cars-fuel-type-2025": Path("dft/veh1103_cars_fuel_type_2025"),
-    "dft-nts0313-mode-use-frequency-2025": Path(
-        "dft/nts0313_mode_use_frequency_2025"
-    ),
+    "dft-nts0313-mode-use-frequency-2025": Path("dft/nts0313_mode_use_frequency_2025"),
     "dft-nts0621-local-bus-use-frequency-2025": Path(
         "dft/nts0621_local_bus_use_frequency_2025"
     ),

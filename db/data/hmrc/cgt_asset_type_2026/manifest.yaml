@@ -1,0 +1,19 @@
+source_id: hmrc
+package_id: hmrc-cgt-asset-type-2026
+dataset: hmrc_hmrc-cgt-asset-type-2026
+source_page: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+table: 'Capital Gains Tax statistics Table 7: taxpayer disposals, disposal proceeds
+  and gains by asset type and period of ownership'
+files:
+  2026:
+    filename: Table_7_2026_Statistics_by_asset_type_in_the_2023_to_2024_tax_year.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a7b2487423b0bdba0290ecb/Table_7_2026_Statistics_by_asset_type_in_the_2023_to_2024_tax_year.ods
+    sha256: a27ad79c3c67178e8b808c0561201dd6585b472d7919c0043fdc44142460b2bd
+    size_bytes: 11181
+    fetched_at: '2026-09-16T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-cgt-asset-type-2026/2026/a27ad79c3c67178e8b808c0561201dd6585b472d7919c0043fdc44142460b2bd/Table_7_2026_Statistics_by_asset_type_in_the_2023_to_2024_tax_year.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-cgt-asset-type-2026/2026/a27ad79c3c67178e8b808c0561201dd6585b472d7919c0043fdc44142460b2bd/Table_7_2026_Statistics_by_asset_type_in_the_2023_to_2024_tax_year.ods
