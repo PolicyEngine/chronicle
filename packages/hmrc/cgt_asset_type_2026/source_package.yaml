@@ -3,6 +3,8 @@
 # source measures requested by issue 272: disposals, proceeds, and gains. The
 # publisher's percentages and gains-to-proceeds ratios remain available as
 # source cells and are not promoted to facts.
+# The unfiltered Table 7 total uses hmrc.cgt_gains_total, matching Table 1's
+# canonical concept, while filtered asset-category rows use hmrc.cgt_gains.
 schema_version: ledger.source_package.v1
 package_id: hmrc-cgt-asset-type-2026
 label: 'HMRC Capital Gains Tax statistics 2026, Table 7: taxpayer disposals,
@@ -179,11 +181,33 @@ record_sets:
     value_scale: 1000000
     expected_cell_type: number
 
-- <<: *record_set_base
-  record_set_id: hmrc.cgt_table7_2026.asset_category_total.ty2023
-  provenance_class: survey_aggregate
+- record_set_id: hmrc.cgt_table7_2026.asset_category_total.ty2023
+  provenance_class: administrative
+  assertion: observation
   record_set_spec_id: hmrc.cgt_table7_2026.asset_category_total.ty2023.v1
   source_record_id_prefix: hmrc.cgt_table7_2026.asset_category.ty2023
+  sheet_name: Table_7_1_2023-24
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    notes: >-
+      HMRC describes Table 7 as sample-based best estimates from taxpayers'
+      Self Assessment additional-information pages plus information from the
+      Capital Gains Tax on UK Property service. The estimates are more variable
+      than HMRC's administrative-data tables. They cover UK and non-UK assets,
+      and gains are before the Annual Exempt Amount.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_asset_category
   rows:
   - value_id: total
     label: Total

@@ -89,9 +89,20 @@ def test_table_7_emits_only_source_measures_and_keeps_unknown_periods():
 
     assert {fact.period.type for fact in facts} == {"tax_year"}
     assert {fact.period.value for fact in facts} == {2023}
-    assert {fact.provenance_class for fact in facts} == {"survey_aggregate"}
-    assert len({fact.survey_instrument for fact in facts}) == 1
-    assert None not in {fact.survey_instrument for fact in facts}
+    assert {fact.provenance_class for fact in facts} == {
+        "administrative",
+        "survey_aggregate",
+    }
+    assert {
+        fact.survey_instrument
+        for fact in facts
+        if fact.provenance_class == "survey_aggregate"
+    } == {"HMRC Capital Gains Tax survey and Self Assessment sample"}
+    assert {
+        fact.survey_instrument
+        for fact in facts
+        if fact.provenance_class == "administrative"
+    } == {None}
     assert {fact.measure.unit for fact in facts} == {"count", "gbp"}
     assert {fact.measure.concept for fact in facts} == {
         "hmrc.cgt_disposals",
