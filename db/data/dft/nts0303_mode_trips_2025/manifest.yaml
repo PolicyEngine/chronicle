@@ -1,0 +1,18 @@
+source_id: dft
+package_id: dft-nts0303-mode-trips-2025
+dataset: dft_dft-nts0303-mode-trips-2025
+source_page: https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+table: 'NTS0303a: Average number of trips by main mode (trips per person per year): England, 2002 onwards'
+files:
+  2025:
+    filename: nts0303.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a9eca62474b8101ece4642e/nts0303.ods
+    sha256: 6dee1fabbae1721674f5298c83df4d66b72b0fe5c49dcbca7952b80677ae00a7
+    size_bytes: 59919
+    fetched_at: '2026-09-17T12:27:48+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dft/dft-nts0303-mode-trips-2025/2025/6dee1fabbae1721674f5298c83df4d66b72b0fe5c49dcbca7952b80677ae00a7/nts0303.ods
+        uri: r2://ledger-raw/raw/uk/dft/dft-nts0303-mode-trips-2025/2025/6dee1fabbae1721674f5298c83df4d66b72b0fe5c49dcbca7952b80677ae00a7/nts0303.ods

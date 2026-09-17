@@ -2,7 +2,7 @@ source_id: dft
 package_id: dft-bus05i-revenue-support-2025
 dataset: dft_dft-bus05i-revenue-support-2025
 source_page: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
-table: BUS05ai passenger fare receipts and BUS05bi total estimated net support
+table: BUS05ai operating revenue and BUS05bi support components and total net support
 files:
   2025:
     filename: bus05i.ods

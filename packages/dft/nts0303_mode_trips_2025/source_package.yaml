@@ -1,0 +1,322 @@
+# DfT National Travel Survey table NTS0303a publishes weighted average trips
+# per person per year for England by main mode. This package keeps the three
+# latest complete calendar years and the two local-bus columns alongside the
+# publisher's all-modes total. The overall rows are the table's unfiltered
+# England population aggregate; no age or sex filter is asserted because the
+# source table does not carry either dimension.
+#
+# Values come directly from the numeric ODS cells without rounding, preserving
+# the precision in the publisher artifact. DfT cautions that in 2025 most travel
+# diaries changed from paper to digital. The change reduced the overall average
+# number of trips recorded per person, with the largest effects on short walks,
+# car trips, and shopping, personal-business, and leisure trips; interview-based
+# statistics are unaffected. Comparisons involving 2025 should account for this
+# discontinuity in diary collection.
+schema_version: ledger.source_package.v1
+package_id: dft-nts0303-mode-trips-2025
+label: DfT NTS0303a trips per person by main mode, England, 2023 to 2025
+dimension_labels:
+  'dft.survey_year': 'Survey year'
+artifact:
+  source_name: dft
+  source_table: 'NTS0303a: Average number of trips by main mode (trips per person per year): England, 2002 onwards'
+  resource_package: db
+  resource_directory: data/dft/nts0303_mode_trips_2025
+  manifest: manifest.yaml
+  vintage: '2025'
+  extracted_at: '2026-09-17'
+  extraction_method: ODS whole-workbook used-range cell parse
+  parser: ods_used_range
+  artifact_year: 2025
+record_sets:
+- record_set_id: dft.nts0303a.mode_trips.cy2023
+  provenance_class: survey_aggregate
+  survey_instrument: National Travel Survey
+  assertion: observation
+  record_set_spec_id: dft.nts0303a.mode_trips.cy2023.v1
+  source_record_id_prefix: dft.nts0303a.mode_trips.cy2023
+  sheet_name: NTS0303a_trips
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-01-01'
+    end_date: '2023-12-31'
+    basis: survey_reference
+    source_period_label: '2023'
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: travel_behavior
+  groupby_dimension: dft.survey_year
+  rows:
+  - value_id: cy2023
+    label: '2023'
+    ordinal: 0
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: 2023
+    table_record_kind: total
+    source_row_dimensions:
+      survey_year: 2023
+  measures:
+  - measure_id: bus_in_london_trips_per_person
+    label: Bus in London trips per person per year
+    ordinal: 0
+    column: I
+    source_column_id: bus_in_london_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Bus in London
+    concept: dft.bus_in_london_trips_per_person
+    source_concept: dft.bus_in_london_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0303a, 2023; weighted average trips
+      per person per year for England residents, read at the precision stored
+      in the published ODS. DfT notes that most travel diaries changed from
+      paper to digital in 2025, reducing recorded trips per person and creating
+      a discontinuity in comparisons with that year.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: other_local_bus_trips_per_person
+    label: Other local bus trips per person per year
+    ordinal: 1
+    column: J
+    source_column_id: other_local_bus_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Other local bus
+    concept: dft.other_local_bus_trips_per_person
+    source_concept: dft.other_local_bus_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0303a, 2023; weighted average trips
+      per person per year for England residents, read at the precision stored
+      in the published ODS. DfT notes that most travel diaries changed from
+      paper to digital in 2025, reducing recorded trips per person and creating
+      a discontinuity in comparisons with that year.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: all_modes_trips_per_person
+    label: All modes trips per person per year
+    ordinal: 2
+    column: P
+    source_column_id: all_modes_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: All modes
+    concept: dft.all_modes_trips_per_person
+    source_concept: dft.all_modes_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0303a, 2023; weighted average trips
+      by all main modes per person per year for England residents, read at the
+      precision stored in the published ODS. DfT notes that most travel diaries
+      changed from paper to digital in 2025, reducing recorded trips per person
+      and creating a discontinuity in comparisons with that year.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: dft.nts0303a.mode_trips.cy2024
+  provenance_class: survey_aggregate
+  survey_instrument: National Travel Survey
+  assertion: observation
+  record_set_spec_id: dft.nts0303a.mode_trips.cy2024.v1
+  source_record_id_prefix: dft.nts0303a.mode_trips.cy2024
+  sheet_name: NTS0303a_trips
+  period_type: calendar_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-01-01'
+    end_date: '2024-12-31'
+    basis: survey_reference
+    source_period_label: '2024'
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: travel_behavior
+  groupby_dimension: dft.survey_year
+  rows:
+  - value_id: cy2024
+    label: '2024'
+    ordinal: 0
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: 2024
+    table_record_kind: total
+    source_row_dimensions:
+      survey_year: 2024
+  measures:
+  - measure_id: bus_in_london_trips_per_person
+    label: Bus in London trips per person per year
+    ordinal: 0
+    column: I
+    source_column_id: bus_in_london_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Bus in London
+    concept: dft.bus_in_london_trips_per_person
+    source_concept: dft.bus_in_london_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0303a, 2024; weighted average trips
+      per person per year for England residents, read at the precision stored
+      in the published ODS. DfT notes that most travel diaries changed from
+      paper to digital in 2025, reducing recorded trips per person and creating
+      a discontinuity in comparisons with that year.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: other_local_bus_trips_per_person
+    label: Other local bus trips per person per year
+    ordinal: 1
+    column: J
+    source_column_id: other_local_bus_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Other local bus
+    concept: dft.other_local_bus_trips_per_person
+    source_concept: dft.other_local_bus_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0303a, 2024; weighted average trips
+      per person per year for England residents, read at the precision stored
+      in the published ODS. DfT notes that most travel diaries changed from
+      paper to digital in 2025, reducing recorded trips per person and creating
+      a discontinuity in comparisons with that year.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: all_modes_trips_per_person
+    label: All modes trips per person per year
+    ordinal: 2
+    column: P
+    source_column_id: all_modes_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: All modes
+    concept: dft.all_modes_trips_per_person
+    source_concept: dft.all_modes_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0303a, 2024; weighted average trips
+      by all main modes per person per year for England residents, read at the
+      precision stored in the published ODS. DfT notes that most travel diaries
+      changed from paper to digital in 2025, reducing recorded trips per person
+      and creating a discontinuity in comparisons with that year.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: dft.nts0303a.mode_trips.cy2025
+  provenance_class: survey_aggregate
+  survey_instrument: National Travel Survey
+  assertion: observation
+  record_set_spec_id: dft.nts0303a.mode_trips.cy2025.v1
+  source_record_id_prefix: dft.nts0303a.mode_trips.cy2025
+  sheet_name: NTS0303a_trips
+  period_type: calendar_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-01-01'
+    end_date: '2025-12-31'
+    basis: survey_reference
+    source_period_label: '2025'
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: travel_behavior
+  groupby_dimension: dft.survey_year
+  rows:
+  - value_id: cy2025
+    label: '2025'
+    ordinal: 0
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: 2025
+    table_record_kind: total
+    source_row_dimensions:
+      survey_year: 2025
+  measures:
+  - measure_id: bus_in_london_trips_per_person
+    label: Bus in London trips per person per year
+    ordinal: 0
+    column: I
+    source_column_id: bus_in_london_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Bus in London
+    concept: dft.bus_in_london_trips_per_person
+    source_concept: dft.bus_in_london_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0303a, 2025; weighted average trips
+      per person per year for England residents, read at the precision stored
+      in the published ODS. In 2025 most travel diaries changed from paper to
+      digital; DfT says this reduced the overall average number of recorded
+      trips per person and most notably affected short walks, car trips, and
+      shopping, personal-business, and leisure trips.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: other_local_bus_trips_per_person
+    label: Other local bus trips per person per year
+    ordinal: 1
+    column: J
+    source_column_id: other_local_bus_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Other local bus
+    concept: dft.other_local_bus_trips_per_person
+    source_concept: dft.other_local_bus_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0303a, 2025; weighted average trips
+      per person per year for England residents, read at the precision stored
+      in the published ODS. In 2025 most travel diaries changed from paper to
+      digital; DfT says this reduced the overall average number of recorded
+      trips per person and most notably affected short walks, car trips, and
+      shopping, personal-business, and leisure trips.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: all_modes_trips_per_person
+    label: All modes trips per person per year
+    ordinal: 2
+    column: P
+    source_column_id: all_modes_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: All modes
+    concept: dft.all_modes_trips_per_person
+    source_concept: dft.all_modes_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0303a, 2025; weighted average trips
+      by all main modes per person per year for England residents, read at the
+      precision stored in the published ODS. In 2025 most travel diaries
+      changed from paper to digital; DfT says this reduced the overall average
+      number of recorded trips per person and most notably affected short
+      walks, car trips, and shopping, personal-business, and leisure trips.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number

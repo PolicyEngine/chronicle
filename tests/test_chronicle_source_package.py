@@ -356,17 +356,17 @@ def test_hmrc_cgt_size_of_gain_package_builds_microcosm_visible_band_facts():
     assert row["observed_measure"]["source_concept"] == ("hmrc.cgt_gains_individuals")
 
 
-def test_dft_bus05i_package_preserves_2023_to_2025_receipts_and_support():
+def test_dft_bus05i_package_preserves_2023_to_2025_revenue_and_support():
     """BUS05i facts retain publisher periods and area definitions."""
     report = validate_source_package("dft-bus05i-revenue-support-2025", year=2025)
 
     assert report.valid
     assert report.counts == {
-        "record_set_count": 6,
-        "row_count": 24,
-        "measure_count": 6,
-        "source_record_count": 24,
-        "source_region_count": 6,
+        "record_set_count": 12,
+        "row_count": 48,
+        "measure_count": 18,
+        "source_record_count": 78,
+        "source_region_count": 12,
     }
 
     facts = load_source_package("dft-bus05i-revenue-support-2025").build_facts(2025)
@@ -385,7 +385,7 @@ def test_dft_bus05i_package_preserves_2023_to_2025_receipts_and_support():
         and fact.geography.id == "E12000007"
     )
 
-    assert len(facts) == 24
+    assert len(facts) == 78
     assert {fact.period.value for fact in facts} == {2023, 2024, 2025}
     assert {fact.period.type for fact in facts} == {"fiscal_year"}
     assert england_receipts.value == pytest.approx(3_417_388_656.43538)

@@ -1,0 +1,18 @@
+source_id: dft
+package_id: dft-nts0601-age-mode-trips-2025
+dataset: dft_dft-nts0601-age-mode-trips-2025
+source_page: https://www.gov.uk/government/statistical-data-sets/nts06-age-gender-and-modal-breakdown
+table: 'NTS0601a: Average number of trips by sex, age and main mode (trips per person per year): England, 2002 onwards'
+files:
+  2025:
+    filename: nts0601.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a9eca60f222242033e4642b/nts0601.ods
+    sha256: 9040dfe7e68231f1d1271e349a369ac47b8c78d1f9299ac3bc705b2682ebf1b3
+    size_bytes: 548534
+    fetched_at: '2026-09-17T12:27:48+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dft/dft-nts0601-age-mode-trips-2025/2025/9040dfe7e68231f1d1271e349a369ac47b8c78d1f9299ac3bc705b2682ebf1b3/nts0601.ods
+        uri: r2://ledger-raw/raw/uk/dft/dft-nts0601-age-mode-trips-2025/2025/9040dfe7e68231f1d1271e349a369ac47b8c78d1f9299ac3bc705b2682ebf1b3/nts0601.ods

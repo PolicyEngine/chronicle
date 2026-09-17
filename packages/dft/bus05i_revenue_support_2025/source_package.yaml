@@ -1,9 +1,15 @@
+# BUS05ai provides fare receipts and gross operating revenue. BUS05bi provides
+# net public transport support (predominantly tendered or supported services),
+# concessionary travel reimbursement, Bus Service Operators Grant and total
+# estimated net support. Metropolitan/non-metropolitan gross operating revenue
+# cells are publisher-marked [z], so only England, London and England outside
+# London emit that measure. Chronicle does not construct component sums.
 schema_version: ledger.source_package.v1
 package_id: dft-bus05i-revenue-support-2025
-label: DfT BUS05i passenger fare receipts and net support for local bus services, years ending March 2023
-  to 2025
+label: DfT BUS05i local-bus passenger fare receipts, support components, operating revenue and net support,
+  years ending March 2023 to 2025
 dimension_labels:
-  'dft.bus_area': 'Local bus statistics area'
+  dft.bus_area: Local bus statistics area
 artifact:
   source_name: dft
   source_table: BUS05i estimated operating revenue and net support for local bus services
@@ -504,6 +510,618 @@ record_sets:
     concept_authority: dft
     concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
     concept_evidence_notes: DfT BUS05bi, year ending March 2025; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: dft.bus05i.bus05bi.support_components.fy2023
+  provenance_class: administrative
+  record_set_spec_id: dft.bus05i.bus05bi.support_components.fy2023.v1
+  source_record_id_prefix: dft.bus05i.bus05bi.support_components.fy2023
+  sheet_name: BUS05bi
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2023
+    start_date: '2022-04-01'
+    end_date: '2023-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: england
+    label: England
+    ordinal: 0
+    row_number: 27
+    expected_row_header_column: B
+    expected_row_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 1
+    row_number: 48
+    expected_row_header_column: B
+    expected_row_header: English non-metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 2
+    row_number: 69
+    expected_row_header_column: B
+    expected_row_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: london
+    label: London
+    ordinal: 3
+    row_number: 90
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 4
+    row_number: 111
+    expected_row_header_column: B
+    expected_row_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: net_public_transport_support
+    label: Net public transport support
+    ordinal: 0
+    column: C
+    source_column_id: net_public_transport_support
+    expected_column_header_row: 8
+    expected_column_header: Net Public Transport Support [note 15]
+    concept: dft.local_bus_net_public_transport_support
+    source_concept: dft.local_bus_net_public_transport_support
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05bi, year ending March 2023; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: concessionary_travel_reimbursement
+    label: Concessionary travel reimbursement
+    ordinal: 1
+    column: D
+    source_column_id: concessionary_travel_reimbursement
+    expected_column_header_row: 8
+    expected_column_header: Concessionary Travel [note 5]
+    concept: dft.local_bus_concessionary_travel_reimbursement
+    source_concept: dft.local_bus_concessionary_travel_reimbursement
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05bi, year ending March 2023; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: bus_service_operators_grant
+    label: Bus Service Operators Grant
+    ordinal: 2
+    column: E
+    source_column_id: bus_service_operators_grant
+    expected_column_header_row: 8
+    expected_column_header: Bus Service Operators Grant [note 6]
+    concept: dft.local_bus_bus_service_operators_grant
+    source_concept: dft.local_bus_bus_service_operators_grant
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05bi, year ending March 2023; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: dft.bus05i.bus05ai.gross_operating_revenue.fy2023
+  provenance_class: administrative
+  record_set_spec_id: dft.bus05i.bus05ai.gross_operating_revenue.fy2023.v1
+  source_record_id_prefix: dft.bus05i.bus05ai.gross_operating_revenue.fy2023
+  sheet_name: BUS05ai
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2023
+    start_date: '2022-04-01'
+    end_date: '2023-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: england
+    label: England
+    ordinal: 0
+    row_number: 27
+    expected_row_header_column: B
+    expected_row_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: london
+    label: London
+    ordinal: 1
+    row_number: 90
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 2
+    row_number: 111
+    expected_row_header_column: B
+    expected_row_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: total_estimated_operating_revenue
+    label: Total estimated operating revenue
+    ordinal: 0
+    column: I
+    source_column_id: total_estimated_operating_revenue
+    expected_column_header_row: 8
+    expected_column_header: Total estimated operating revenue [note 1]
+    concept: dft.local_bus_total_estimated_operating_revenue
+    source_concept: dft.local_bus_total_estimated_operating_revenue
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05ai, year ending March 2023; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: dft.bus05i.bus05bi.support_components.fy2024
+  provenance_class: administrative
+  record_set_spec_id: dft.bus05i.bus05bi.support_components.fy2024.v1
+  source_record_id_prefix: dft.bus05i.bus05bi.support_components.fy2024
+  sheet_name: BUS05bi
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2024
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: england
+    label: England
+    ordinal: 0
+    row_number: 28
+    expected_row_header_column: B
+    expected_row_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 1
+    row_number: 49
+    expected_row_header_column: B
+    expected_row_header: English non-metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 2
+    row_number: 70
+    expected_row_header_column: B
+    expected_row_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: london
+    label: London
+    ordinal: 3
+    row_number: 91
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 4
+    row_number: 112
+    expected_row_header_column: B
+    expected_row_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: net_public_transport_support
+    label: Net public transport support
+    ordinal: 0
+    column: C
+    source_column_id: net_public_transport_support
+    expected_column_header_row: 8
+    expected_column_header: Net Public Transport Support [note 15]
+    concept: dft.local_bus_net_public_transport_support
+    source_concept: dft.local_bus_net_public_transport_support
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05bi, year ending March 2024; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: concessionary_travel_reimbursement
+    label: Concessionary travel reimbursement
+    ordinal: 1
+    column: D
+    source_column_id: concessionary_travel_reimbursement
+    expected_column_header_row: 8
+    expected_column_header: Concessionary Travel [note 5]
+    concept: dft.local_bus_concessionary_travel_reimbursement
+    source_concept: dft.local_bus_concessionary_travel_reimbursement
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05bi, year ending March 2024; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: bus_service_operators_grant
+    label: Bus Service Operators Grant
+    ordinal: 2
+    column: E
+    source_column_id: bus_service_operators_grant
+    expected_column_header_row: 8
+    expected_column_header: Bus Service Operators Grant [note 6]
+    concept: dft.local_bus_bus_service_operators_grant
+    source_concept: dft.local_bus_bus_service_operators_grant
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05bi, year ending March 2024; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: dft.bus05i.bus05ai.gross_operating_revenue.fy2024
+  provenance_class: administrative
+  record_set_spec_id: dft.bus05i.bus05ai.gross_operating_revenue.fy2024.v1
+  source_record_id_prefix: dft.bus05i.bus05ai.gross_operating_revenue.fy2024
+  sheet_name: BUS05ai
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2024
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: england
+    label: England
+    ordinal: 0
+    row_number: 28
+    expected_row_header_column: B
+    expected_row_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: london
+    label: London
+    ordinal: 1
+    row_number: 91
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 2
+    row_number: 112
+    expected_row_header_column: B
+    expected_row_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: total_estimated_operating_revenue
+    label: Total estimated operating revenue
+    ordinal: 0
+    column: I
+    source_column_id: total_estimated_operating_revenue
+    expected_column_header_row: 8
+    expected_column_header: Total estimated operating revenue [note 1]
+    concept: dft.local_bus_total_estimated_operating_revenue
+    source_concept: dft.local_bus_total_estimated_operating_revenue
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05ai, year ending March 2024; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: dft.bus05i.bus05bi.support_components.fy2025
+  provenance_class: administrative
+  record_set_spec_id: dft.bus05i.bus05bi.support_components.fy2025.v1
+  source_record_id_prefix: dft.bus05i.bus05bi.support_components.fy2025
+  sheet_name: BUS05bi
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2025
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: england
+    label: England
+    ordinal: 0
+    row_number: 29
+    expected_row_header_column: B
+    expected_row_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 1
+    row_number: 50
+    expected_row_header_column: B
+    expected_row_header: English non-metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 2
+    row_number: 71
+    expected_row_header_column: B
+    expected_row_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: london
+    label: London
+    ordinal: 3
+    row_number: 92
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 4
+    row_number: 113
+    expected_row_header_column: B
+    expected_row_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: net_public_transport_support
+    label: Net public transport support
+    ordinal: 0
+    column: C
+    source_column_id: net_public_transport_support
+    expected_column_header_row: 8
+    expected_column_header: Net Public Transport Support [note 15]
+    concept: dft.local_bus_net_public_transport_support
+    source_concept: dft.local_bus_net_public_transport_support
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05bi, year ending March 2025; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: concessionary_travel_reimbursement
+    label: Concessionary travel reimbursement
+    ordinal: 1
+    column: D
+    source_column_id: concessionary_travel_reimbursement
+    expected_column_header_row: 8
+    expected_column_header: Concessionary Travel [note 5]
+    concept: dft.local_bus_concessionary_travel_reimbursement
+    source_concept: dft.local_bus_concessionary_travel_reimbursement
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05bi, year ending March 2025; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: bus_service_operators_grant
+    label: Bus Service Operators Grant
+    ordinal: 2
+    column: E
+    source_column_id: bus_service_operators_grant
+    expected_column_header_row: 8
+    expected_column_header: Bus Service Operators Grant [note 6]
+    concept: dft.local_bus_bus_service_operators_grant
+    source_concept: dft.local_bus_bus_service_operators_grant
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05bi, year ending March 2025; values are GBP millions.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: dft.bus05i.bus05ai.gross_operating_revenue.fy2025
+  provenance_class: administrative
+  record_set_spec_id: dft.bus05i.bus05ai.gross_operating_revenue.fy2025.v1
+  source_record_id_prefix: dft.bus05i.bus05ai.gross_operating_revenue.fy2025
+  sheet_name: BUS05ai
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2025
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: england
+    label: England
+    ordinal: 0
+    row_number: 29
+    expected_row_header_column: B
+    expected_row_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: london
+    label: London
+    ordinal: 1
+    row_number: 92
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 2
+    row_number: 113
+    expected_row_header_column: B
+    expected_row_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: total_estimated_operating_revenue
+    label: Total estimated operating revenue
+    ordinal: 0
+    column: I
+    source_column_id: total_estimated_operating_revenue
+    expected_column_header_row: 8
+    expected_column_header: Total estimated operating revenue [note 1]
+    concept: dft.local_bus_total_estimated_operating_revenue
+    source_concept: dft.local_bus_total_estimated_operating_revenue
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+    concept_evidence_notes: DfT BUS05ai, year ending March 2025; values are GBP millions.
     unit: gbp
     aggregation: sum
     expected_cell_type: number
