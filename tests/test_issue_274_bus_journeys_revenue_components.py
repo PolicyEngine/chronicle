@@ -5,7 +5,10 @@ from __future__ import annotations
 import pytest
 
 from chronicle.bundle import UK_BUNDLE_SOURCES, build_bundle
-from chronicle.consumer_contract import validate_consumer_fact_contract
+from chronicle.consumer_contract import (
+    consumer_fact_rows,
+    validate_consumer_fact_contract,
+)
 from chronicle.core import validate_facts
 from chronicle.source_package import (
     SOURCE_PACKAGE_ALIASES,
@@ -29,6 +32,140 @@ EXPECTED_FACT_COUNTS = {
     "dft-bus05i-revenue-support-2025": 78,
     "dft-nts0303-mode-trips-2025": 9,
     "dft-nts0601-age-mode-trips-2025": 81,
+}
+
+LEGACY_BUS05_FACT_KEYS = {
+    "dft.bus05i.bus05ai.fare_receipts.fy2023.england.passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:a80c1fdac1658daddcb7e7ff",
+        "ledger.semantic_fact.v2:00d8d9d2379db72608394280",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2023.england_outside_london."
+    "passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:9328a861a0b4ed62357e19e2",
+        "ledger.semantic_fact.v2:c863134e679b8ede3a502606",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2023.english_metropolitan_areas."
+    "passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:d6efd4d0fa84bfb1ef2882d2",
+        "ledger.semantic_fact.v2:555c41a2249e0060efcc49c4",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2023.english_non_metropolitan_areas."
+    "passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:4175a90f074112d800ddb3df",
+        "ledger.semantic_fact.v2:67ab51e28deee30aa40d9681",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2023.london.passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:dd2f3034c9cb6369e0f75eea",
+        "ledger.semantic_fact.v2:f64077ddfaccc7560bdda1ac",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2024.england.passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:a042884c4d97209c3db1a40d",
+        "ledger.semantic_fact.v2:4b913b97a0513b3bd606d077",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2024.england_outside_london."
+    "passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:edba4d0a19a1c09ab1aaadfc",
+        "ledger.semantic_fact.v2:0299e3715f9735dc7eff4d42",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2024.english_metropolitan_areas."
+    "passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:66463024aed5e1ff4d738ffd",
+        "ledger.semantic_fact.v2:9c5ea7202e38b7b1248be897",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2024.english_non_metropolitan_areas."
+    "passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:bfb9b1b1c64d459bcbc39bd3",
+        "ledger.semantic_fact.v2:3df10d6bf7c0029defce9cc4",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2024.london.passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:ebf1639656d41b2f42dcd9ad",
+        "ledger.semantic_fact.v2:2a8ec7218e9f86856385450b",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2025.england.passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:2ece7c3d283b6de43b30389f",
+        "ledger.semantic_fact.v2:9760cf3d8cd14de93b09968f",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2025.england_outside_london."
+    "passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:465d300355c85e7c498397dd",
+        "ledger.semantic_fact.v2:79496e0e39d6a38e3fa97c67",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2025.english_metropolitan_areas."
+    "passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:98a9d82e78c19322b71b3ae0",
+        "ledger.semantic_fact.v2:266e53fe8d7bceb31c51efec",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2025.english_non_metropolitan_areas."
+    "passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:65aae4855ef3826563da85fd",
+        "ledger.semantic_fact.v2:f17af3091a6632c961c1ead9",
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2025.london.passenger_fare_receipts": (
+        "ledger.aggregate_fact.v2:33611c64d2048fe660501802",
+        "ledger.semantic_fact.v2:8587d34e39717bcb3abf7e1b",
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2023.england.total_estimated_net_support": (
+        "ledger.aggregate_fact.v2:e89c824a7e7b414503746541",
+        "ledger.semantic_fact.v2:e4cd5838d7b6607a9191c51f",
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2023.england_outside_london."
+    "total_estimated_net_support": (
+        "ledger.aggregate_fact.v2:555920791138ab05c843c05d",
+        "ledger.semantic_fact.v2:54a806e5080b33ea05fefa59",
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2023.london.total_estimated_net_support": (
+        "ledger.aggregate_fact.v2:eb637416cc203d3c477c00eb",
+        "ledger.semantic_fact.v2:5ce675da4a86f56f4169328e",
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2024.england.total_estimated_net_support": (
+        "ledger.aggregate_fact.v2:1085667f2638aadc22f148df",
+        "ledger.semantic_fact.v2:f14f4f17d7b674b74c18b3fb",
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2024.england_outside_london."
+    "total_estimated_net_support": (
+        "ledger.aggregate_fact.v2:12efc43d192b68eb7c8bc4ee",
+        "ledger.semantic_fact.v2:6482e359ce082e8fb83bb779",
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2024.london.total_estimated_net_support": (
+        "ledger.aggregate_fact.v2:cb4fb0903abe0119a044bbb3",
+        "ledger.semantic_fact.v2:1371ba021ea12057a7917bc3",
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2025.england.total_estimated_net_support": (
+        "ledger.aggregate_fact.v2:a12dfcdc0662c8a5e48bf003",
+        "ledger.semantic_fact.v2:d6c31dbfd7e23d0a705861ca",
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2025.england_outside_london."
+    "total_estimated_net_support": (
+        "ledger.aggregate_fact.v2:7ab0c5007c9a6ad38aaa1468",
+        "ledger.semantic_fact.v2:55f8ff103004096b2a950d9f",
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2025.london.total_estimated_net_support": (
+        "ledger.aggregate_fact.v2:d8e40cee2fc723b719ff4680",
+        "ledger.semantic_fact.v2:a338ed4747a2538f660d0fff",
+    ),
+}
+
+LEGACY_BUS05_SOURCE_RELEASE_KEY = "ledger.source_release.v2:21f7bbdcd26157d5d0b65bfb"
+
+LEGACY_BUS05_SOURCE_SERIES_KEYS = {
+    "dft.bus05i.bus05ai.fare_receipts.fy2023": (
+        "ledger.source_series.v2:689f0930b7ad31dc92324238"
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2024": (
+        "ledger.source_series.v2:648a78df7b7055e02caadbdb"
+    ),
+    "dft.bus05i.bus05ai.fare_receipts.fy2025": (
+        "ledger.source_series.v2:dcd1cb4f226766f54fc13529"
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2023": (
+        "ledger.source_series.v2:1494efcfe52e4b386170d251"
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2024": (
+        "ledger.source_series.v2:e4e5a0c3a7bab20538ec93df"
+    ),
+    "dft.bus05i.bus05bi.net_support.fy2025": (
+        "ledger.source_series.v2:2517821a79e8144ebd372c1c"
+    ),
 }
 
 REPRESENTATIVE_PUBLISHER_FACTS = {
@@ -148,13 +285,45 @@ def test_issue_274_packages_preserve_representative_publisher_values(alias, expe
 
 
 def test_issue_274_facts_declare_exact_period_coverage():
-    for alias in ISSUE_274_ARTIFACT_YEARS:
-        facts = _facts(alias)
+    dfi_alias = "dfi-ni-bus-concessionary-journeys-2024-25"
+    nts_aliases = {
+        "dft-nts0303-mode-trips-2025",
+        "dft-nts0601-age-mode-trips-2025",
+    }
 
-        assert all(fact.period_coverage is not None for fact in facts)
-        assert all(fact.period_coverage.start_date for fact in facts)
-        assert all(fact.period_coverage.end_date for fact in facts)
-        assert all(fact.period_coverage.basis for fact in facts)
+    for alias in ISSUE_274_ARTIFACT_YEARS:
+        for fact in _facts(alias):
+            year = fact.period.value
+            if alias == dfi_alias:
+                expected = (
+                    f"{year}-04-01",
+                    f"{year + 1}-03-31",
+                    "fiscal",
+                    f"{year}-{str(year + 1)[-2:]}",
+                )
+            elif alias in nts_aliases:
+                expected = (
+                    f"{year}-01-01",
+                    f"{year}-12-31",
+                    "survey_reference",
+                    str(year),
+                )
+            else:
+                expected = (
+                    f"{year - 1}-04-01",
+                    f"{year}-03-31",
+                    "fiscal",
+                    f"Year ending March {year}",
+                )
+
+            coverage = fact.period_coverage
+            assert coverage is not None
+            assert (
+                coverage.start_date,
+                coverage.end_date,
+                coverage.basis,
+                coverage.source_period_label,
+            ) == expected, fact.source_record_id
 
 
 def test_bus01_carries_total_and_published_concessionary_journey_series():
@@ -252,6 +421,35 @@ def test_bus05_carries_each_published_support_component_and_gross_revenue():
         "E12000007",
         "dft:england_outside_london",
     }
+
+
+def test_bus05_preserves_pre_issue_274_consumer_identity_keys():
+    rows = consumer_fact_rows(_facts("dft-bus05i-revenue-support-2025"))
+    legacy_rows = {
+        row["lineage"]["source_record_id"]: row
+        for row in rows
+        if ".fare_receipts." in row["lineage"]["source_record_id"]
+        or ".net_support." in row["lineage"]["source_record_id"]
+    }
+
+    assert set(legacy_rows) == set(LEGACY_BUS05_FACT_KEYS)
+    for source_record_id, (
+        aggregate_key,
+        semantic_key,
+    ) in LEGACY_BUS05_FACT_KEYS.items():
+        row = legacy_rows[source_record_id]
+        source_series_id = source_record_id.rsplit(".", 2)[0]
+        assert (
+            row["aggregate_fact_key"],
+            row["semantic_fact_key"],
+            row["source_release_key"],
+            row["source_series_key"],
+        ) == (
+            aggregate_key,
+            semantic_key,
+            LEGACY_BUS05_SOURCE_RELEASE_KEY,
+            LEGACY_BUS05_SOURCE_SERIES_KEYS[source_series_id],
+        )
 
 
 def test_nts0303_and_nts0601_cover_requested_years_modes_and_ages():
