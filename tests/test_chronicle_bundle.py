@@ -135,20 +135,20 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 339948,
-        "geography_count": 12586,
+        "fact_count": 340926,
+        "geography_count": 12589,
         "period_count": 493,
-        "semantic_duplicate_key_count": 213,
+        "semantic_duplicate_key_count": 217,
         "skipped_source_count": 10,
         "source_count": 50,
-        "source_package_count": 217,
+        "source_package_count": 221,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: areas two packages name differently, values two
         # packages word differently, and groupby rows that drift inside one
         # package (chronicle#265, #266).
         "warning_count": 171,
     }
-    assert len(rows) == 339948
+    assert len(rows) == 340926
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -166,7 +166,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 217
+    assert source_packages["source_package_count"] == 221
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -180,7 +180,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 339948
+    assert coverage["fact_count"] == 340926
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -195,8 +195,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "desnz": 5697,
         "dfe": 770,
         "dfc_ni": 1189,
-        "dfi_ni": 24,
-        "dft": 1799,
+        "dfi_ni": 30,
+        "dft": 2771,
         "dwp": 13384,
         "eurostat": 207,
         "federal_reserve": 1,
@@ -234,7 +234,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9325,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 212
+    assert len(table_counts) == 216
     assert (
         table_counts[
             "dwp:Households on Universal Credit by family type, "
@@ -265,7 +265,33 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         table_counts[
             "dft:BUS05i estimated operating revenue and net support for local bus services"
         ]
-        == 24
+        == 102
+    )
+    assert (
+        table_counts[
+            "dft:BUS01a passenger journeys and BUS01c concessionary passenger journeys"
+        ]
+        == 804
+    )
+    assert (
+        table_counts[
+            "dft:NTS0303a: Average number of trips by main mode (trips per person "
+            "per year): England, 2002 onwards"
+        ]
+        == 9
+    )
+    assert (
+        table_counts[
+            "dft:NTS0601a: Average number of trips by sex, age and main mode "
+            "(trips per person per year): England, 2002 onwards"
+        ]
+        == 81
+    )
+    assert (
+        table_counts[
+            "dfi_ni:Public Transport Statistics Northern Ireland 2024-25 Figure 6"
+        ]
+        == 6
     )
     assert (
         table_counts[
@@ -1085,6 +1111,17 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in issue_272_tax_year_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    for year in range(2005, 2026):
+        count = 16 if year <= 2007 else 42
+        if 2019 <= year <= 2024:
+            count += 1
+        if 2023 <= year <= 2025:
+            count += 26
+        key = f"fiscal_year:{year}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    for year in (2023, 2024, 2025):
+        key = f"calendar_year:{year}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + 30
     year, month = 2023, 4
     while (year, month) <= (2026, 3):
         key = f"month:{year}-{month:02d}"
@@ -1104,10 +1141,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
     assert coverage["counts"]["by_geography"]["country:K02000001"] == 8270
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 3365
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 3533
     assert coverage["counts"]["by_geography"]["country:K03000001"] == 7988
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
-    assert len(coverage["counts"]["by_geography"]) == 12586
+    assert len(coverage["counts"]["by_geography"]) == 12589
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 7071,
         "dwelling": 152487,
@@ -1115,15 +1152,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "firm": 1439,
         "government": 2313,
         "household": 53521,
-        "institutional_sector": 1185,
+        "institutional_sector": 1263,
         "pension_plan": 2,
-        "person": 65061,
+        "person": 65961,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 40934,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 213
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 217
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 145,
         "conflicting_groupby_value_label": 16,
@@ -1186,14 +1223,19 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "'hmrc-child-benefit-august-2025', "
         "'mhclg-ehs-weekly-housing-costs-2023-24', "
         "'ons-pipr-rents-by-area-june-2026', 'voa-council-tax-bands-2025']; "
-        "'Yorkshire and the Humber' in ['hmrc-cgt-country-region-2026', "
+        "'Yorkshire and the Humber' in ['dft-bus01-passenger-journeys-2025', "
+        "'hmrc-cgt-country-region-2026', "
         "'hmrc-spi-income-by-area-2023-24', 'ons-mye-2023-england-regions', "
         "'ons-mye-2024-uk']."
     ]
     for source in (
         "dfe-funded-early-education-childcare-2026",
+        "dfi-ni-bus-concessionary-journeys-2024-25",
+        "dft-bus01-passenger-journeys-2025",
         "dft-bus0415-fares-index-2026",
         "dft-bus05i-revenue-support-2025",
+        "dft-nts0303-mode-trips-2025",
+        "dft-nts0601-age-mode-trips-2025",
         "dft-nts0705-local-bus-trips-2024",
         "dwp-hb-claimants-client-type-tenure-accommodation-type-september-2025-february-2026",
         "dwp-hb-claimants-client-type-tenure-january-2023-february-2026",

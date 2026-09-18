@@ -1,0 +1,442 @@
+# Figure 6 publishes bus full-fare concession journeys alongside paid and
+# subsidised-school journeys. This package reuses the pinned official workbook
+# from the figures 3 and 4 package without changing those facts' identities.
+# Chronicle preserves the publisher's SmartPass measure and does not infer a
+# fare-paying remainder from total journeys.
+schema_version: ledger.source_package.v1
+package_id: dfi-ni-bus-concessionary-journeys-2024-25
+label: DfI Northern Ireland Translink bus full-fare concession journeys, 2019-20 to 2024-25
+dimension_labels:
+  dfi_ni.travel_status: Passenger travel status
+dimension_value_labels:
+  transport_mode:
+    bus: Bus
+  travel_status:
+    full_fare_concession: Full-fare concession
+artifact:
+  source_name: dfi_ni
+  source_table: Public Transport Statistics Northern Ireland 2024-25 Figure 6
+  resource_package: db
+  resource_directory: data/dfi_ni/public_transport_statistics_2024_25
+  manifest: manifest.yaml
+  vintage: '2024_25'
+  extracted_at: '2026-09-09'
+  extraction_method: XLSX whole-workbook used-range cell parse
+  parser: xlsx_used_range
+  artifact_year: 2025
+record_sets:
+- record_set_id: dfi_ni.public_transport.figure_6.fy2019
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_6.fy2019.v1
+  source_record_id_prefix: dfi_ni.public_transport.figure_6.fy2019
+  sheet_name: Fig6
+  period_type: fiscal_year
+  period: 2019
+  period_coverage:
+    start_date: '2019-04-01'
+    end_date: '2020-03-31'
+    basis: fiscal
+    source_period_label: 2019-20
+    notes: period.value stores the opening year of the publisher fiscal-year label.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.travel_status
+  shared_filters:
+    transport_mode: bus
+  shared_constraints:
+  - variable: transport_mode
+    operator: ==
+    value: bus
+    label: Transport mode
+  rows:
+  - value_id: full_fare_concession
+    label: Full-fare concessions
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: '*Full-fare concessions'
+    table_record_kind: detail
+    source_row_dimensions:
+      travel_status: full_fare_concession
+    filters:
+      travel_status: full_fare_concession
+    constraints:
+    - variable: travel_status
+      operator: ==
+      value: full_fare_concession
+      label: Passenger travel status
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Bus Passenger Journeys
+      label: transport mode section
+  measures:
+  - measure_id: passenger_journeys
+    label: Full-fare concession passenger journeys
+    ordinal: 0
+    column: B
+    source_column_id: passenger_journeys
+    expected_column_header_row: 4
+    expected_column_header: 2019-20
+    concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    source_concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2024-25
+    concept_evidence_notes: DfI Figure 6, bus passenger journeys, Full-fare concessions; values are millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: dfi_ni.public_transport.figure_6.fy2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_6.fy2020.v1
+  source_record_id_prefix: dfi_ni.public_transport.figure_6.fy2020
+  sheet_name: Fig6
+  period_type: fiscal_year
+  period: 2020
+  period_coverage:
+    start_date: '2020-04-01'
+    end_date: '2021-03-31'
+    basis: fiscal
+    source_period_label: 2020-21
+    notes: period.value stores the opening year of the publisher fiscal-year label.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.travel_status
+  shared_filters:
+    transport_mode: bus
+  shared_constraints:
+  - variable: transport_mode
+    operator: ==
+    value: bus
+    label: Transport mode
+  rows:
+  - value_id: full_fare_concession
+    label: Full-fare concessions
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: '*Full-fare concessions'
+    table_record_kind: detail
+    source_row_dimensions:
+      travel_status: full_fare_concession
+    filters:
+      travel_status: full_fare_concession
+    constraints:
+    - variable: travel_status
+      operator: ==
+      value: full_fare_concession
+      label: Passenger travel status
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Bus Passenger Journeys
+      label: transport mode section
+  measures:
+  - measure_id: passenger_journeys
+    label: Full-fare concession passenger journeys
+    ordinal: 0
+    column: C
+    source_column_id: passenger_journeys
+    expected_column_header_row: 4
+    expected_column_header: 2020-21
+    concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    source_concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2024-25
+    concept_evidence_notes: DfI Figure 6, bus passenger journeys, Full-fare concessions; values are millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: dfi_ni.public_transport.figure_6.fy2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_6.fy2021.v1
+  source_record_id_prefix: dfi_ni.public_transport.figure_6.fy2021
+  sheet_name: Fig6
+  period_type: fiscal_year
+  period: 2021
+  period_coverage:
+    start_date: '2021-04-01'
+    end_date: '2022-03-31'
+    basis: fiscal
+    source_period_label: 2021-22
+    notes: period.value stores the opening year of the publisher fiscal-year label.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.travel_status
+  shared_filters:
+    transport_mode: bus
+  shared_constraints:
+  - variable: transport_mode
+    operator: ==
+    value: bus
+    label: Transport mode
+  rows:
+  - value_id: full_fare_concession
+    label: Full-fare concessions
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: '*Full-fare concessions'
+    table_record_kind: detail
+    source_row_dimensions:
+      travel_status: full_fare_concession
+    filters:
+      travel_status: full_fare_concession
+    constraints:
+    - variable: travel_status
+      operator: ==
+      value: full_fare_concession
+      label: Passenger travel status
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Bus Passenger Journeys
+      label: transport mode section
+  measures:
+  - measure_id: passenger_journeys
+    label: Full-fare concession passenger journeys
+    ordinal: 0
+    column: D
+    source_column_id: passenger_journeys
+    expected_column_header_row: 4
+    expected_column_header: 2021-22
+    concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    source_concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2024-25
+    concept_evidence_notes: DfI Figure 6, bus passenger journeys, Full-fare concessions; values are millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    round_to: 1
+- record_set_id: dfi_ni.public_transport.figure_6.fy2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_6.fy2022.v1
+  source_record_id_prefix: dfi_ni.public_transport.figure_6.fy2022
+  sheet_name: Fig6
+  period_type: fiscal_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-04-01'
+    end_date: '2023-03-31'
+    basis: fiscal
+    source_period_label: 2022-23
+    notes: period.value stores the opening year of the publisher fiscal-year label.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.travel_status
+  shared_filters:
+    transport_mode: bus
+  shared_constraints:
+  - variable: transport_mode
+    operator: ==
+    value: bus
+    label: Transport mode
+  rows:
+  - value_id: full_fare_concession
+    label: Full-fare concessions
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: '*Full-fare concessions'
+    table_record_kind: detail
+    source_row_dimensions:
+      travel_status: full_fare_concession
+    filters:
+      travel_status: full_fare_concession
+    constraints:
+    - variable: travel_status
+      operator: ==
+      value: full_fare_concession
+      label: Passenger travel status
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Bus Passenger Journeys
+      label: transport mode section
+  measures:
+  - measure_id: passenger_journeys
+    label: Full-fare concession passenger journeys
+    ordinal: 0
+    column: E
+    source_column_id: passenger_journeys
+    expected_column_header_row: 4
+    expected_column_header: 2022-23
+    concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    source_concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2024-25
+    concept_evidence_notes: DfI Figure 6, bus passenger journeys, Full-fare concessions; values are millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: dfi_ni.public_transport.figure_6.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_6.fy2023.v1
+  source_record_id_prefix: dfi_ni.public_transport.figure_6.fy2023
+  sheet_name: Fig6
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24
+    notes: period.value stores the opening year of the publisher fiscal-year label.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.travel_status
+  shared_filters:
+    transport_mode: bus
+  shared_constraints:
+  - variable: transport_mode
+    operator: ==
+    value: bus
+    label: Transport mode
+  rows:
+  - value_id: full_fare_concession
+    label: Full-fare concessions
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: '*Full-fare concessions'
+    table_record_kind: detail
+    source_row_dimensions:
+      travel_status: full_fare_concession
+    filters:
+      travel_status: full_fare_concession
+    constraints:
+    - variable: travel_status
+      operator: ==
+      value: full_fare_concession
+      label: Passenger travel status
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Bus Passenger Journeys
+      label: transport mode section
+  measures:
+  - measure_id: passenger_journeys
+    label: Full-fare concession passenger journeys
+    ordinal: 0
+    column: F
+    source_column_id: passenger_journeys
+    expected_column_header_row: 4
+    expected_column_header: 2023-24
+    concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    source_concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2024-25
+    concept_evidence_notes: DfI Figure 6, bus passenger journeys, Full-fare concessions; values are millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: dfi_ni.public_transport.figure_6.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_6.fy2024.v1
+  source_record_id_prefix: dfi_ni.public_transport.figure_6.fy2024
+  sheet_name: Fig6
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25
+    notes: period.value stores the opening year of the publisher fiscal-year label.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.travel_status
+  shared_filters:
+    transport_mode: bus
+  shared_constraints:
+  - variable: transport_mode
+    operator: ==
+    value: bus
+    label: Transport mode
+  rows:
+  - value_id: full_fare_concession
+    label: Full-fare concessions
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: '*Full-fare concessions'
+    table_record_kind: detail
+    source_row_dimensions:
+      travel_status: full_fare_concession
+    filters:
+      travel_status: full_fare_concession
+    constraints:
+    - variable: travel_status
+      operator: ==
+      value: full_fare_concession
+      label: Passenger travel status
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Bus Passenger Journeys
+      label: transport mode section
+  measures:
+  - measure_id: passenger_journeys
+    label: Full-fare concession passenger journeys
+    ordinal: 0
+    column: G
+    source_column_id: passenger_journeys
+    expected_column_header_row: 4
+    expected_column_header: 2024-25
+    concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    source_concept: dfi_ni.translink_bus.full_fare_concession_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2024-25
+    concept_evidence_notes: DfI Figure 6, bus passenger journeys, Full-fare concessions; values are millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000

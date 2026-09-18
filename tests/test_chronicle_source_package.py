@@ -33,6 +33,7 @@ from chronicle.source_package import (
 )
 from chronicle.sources.cells import build_source_cell_key, validate_source_cells
 from chronicle.sources.rows import validate_source_rows
+from chronicle.sources.specs import resolve_source_record
 from chronicle.suite import build_source_suite
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -244,9 +245,7 @@ def test_hmrc_cgt_reuses_one_publisher_series_across_definition_years():
     package = load_source_package("hmrc-cgt-statistics-2026")
     package_facts = package.build_facts(2026)
     facts = [
-        fact
-        for fact in package_facts
-        if fact.measure.concept == "hmrc.cgt_tax_total"
+        fact for fact in package_facts if fact.measure.concept == "hmrc.cgt_tax_total"
     ]
 
     assert {fact.entity.name for fact in package_facts} == {"tax_unit"}
@@ -356,17 +355,17 @@ def test_hmrc_cgt_size_of_gain_package_builds_microcosm_visible_band_facts():
     assert row["observed_measure"]["source_concept"] == ("hmrc.cgt_gains_individuals")
 
 
-def test_dft_bus05i_package_preserves_2023_to_2025_receipts_and_support():
+def test_dft_bus05i_package_preserves_2023_to_2025_revenue_and_support():
     """BUS05i facts retain publisher periods and area definitions."""
     report = validate_source_package("dft-bus05i-revenue-support-2025", year=2025)
 
     assert report.valid
     assert report.counts == {
-        "record_set_count": 6,
-        "row_count": 24,
-        "measure_count": 6,
-        "source_record_count": 24,
-        "source_region_count": 6,
+        "record_set_count": 21,
+        "row_count": 81,
+        "measure_count": 27,
+        "source_record_count": 102,
+        "source_region_count": 21,
     }
 
     facts = load_source_package("dft-bus05i-revenue-support-2025").build_facts(2025)
@@ -384,8 +383,13 @@ def test_dft_bus05i_package_preserves_2023_to_2025_receipts_and_support():
         and fact.period.value == 2025
         and fact.geography.id == "E12000007"
     )
+    england_components = {
+        fact.measure.concept: fact.value
+        for fact in facts
+        if fact.period.value == 2025 and fact.geography.id == "E92000001"
+    }
 
-    assert len(facts) == 24
+    assert len(facts) == 102
     assert {fact.period.value for fact in facts} == {2023, 2024, 2025}
     assert {fact.period.type for fact in facts} == {"fiscal_year"}
     assert england_receipts.value == pytest.approx(3_417_388_656.43538)
@@ -395,6 +399,41 @@ def test_dft_bus05i_package_preserves_2023_to_2025_receipts_and_support():
     assert england_receipts.period_coverage.start_date == "2024-04-01"
     assert england_receipts.period_coverage.end_date == "2025-03-31"
     assert london_support.value == pytest.approx(1_130_214_000)
+    assert england_components["dft.local_bus_gross_public_transport_support"] == (
+        1_584_976_000
+    )
+    assert england_components[
+        "dft.local_bus_additional_funding_to_operators"
+    ] == pytest.approx(84_539_980.19)
+    assert england_components["dft.local_bus_fare_cap"] == pytest.approx(515_693_216.6)
+    assert not any(
+        fact.measure.concept == "dft.local_bus_bus_service_operators_grant"
+        and fact.geography.id == "E12000007"
+        for fact in facts
+    )
+
+
+def test_dfi_scaled_count_rounds_without_a_divisor():
+    package = load_source_package("dfi-ni-bus-concessionary-journeys-2024-25")
+    cells = package.build_source_cells(2025)
+    spec = next(
+        spec
+        for spec in package.build_source_record_specs(2025)
+        if spec.source_record_id
+        == (
+            "dfi_ni.public_transport.figure_6.fy2021.full_fare_concession."
+            "passenger_journeys"
+        )
+    )
+
+    record = resolve_source_record(cells, spec)
+
+    assert spec.divisor_selector is None
+    assert spec.value_scale == 1_000_000
+    assert spec.round_to == 1
+    assert record.value == 6_179_000
+    assert type(record.value) is int
+    assert record.source_cell_addresses == ("D7", "D4", "A4")
 
 
 def test_dft_nts0705_package_preserves_2023_and_2024_income_quintile_facts():

@@ -1,0 +1,18 @@
+source_id: dft
+package_id: dft-bus01-passenger-journeys-2025
+dataset: dft_dft-bus01-passenger-journeys-2025
+source_page: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+table: BUS01a passenger journeys and BUS01c concessionary passenger journeys
+files:
+  2025:
+    filename: bus01.ods
+    source_url: https://assets.publishing.service.gov.uk/media/69c11f97cfa346b9d4704a50/bus01.ods
+    sha256: 51b5aa5e5e2113c9376ed63071891e144421ed205c60cb94e1eb0d723ac0f9c8
+    size_bytes: 159820
+    fetched_at: '2026-09-17T12:27:47+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dft/dft-bus01-passenger-journeys-2025/2025/51b5aa5e5e2113c9376ed63071891e144421ed205c60cb94e1eb0d723ac0f9c8/bus01.ods
+        uri: r2://ledger-raw/raw/uk/dft/dft-bus01-passenger-journeys-2025/2025/51b5aa5e5e2113c9376ed63071891e144421ed205c60cb94e1eb0d723ac0f9c8/bus01.ods

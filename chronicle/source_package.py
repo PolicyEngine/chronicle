@@ -147,10 +147,16 @@ SOURCE_PACKAGE_ALIASES = {
     "dfe-funded-early-education-childcare-2026": Path(
         "dfe/funded_early_education_childcare_2026"
     ),
+    "dfi-ni-bus-concessionary-journeys-2024-25": Path(
+        "dfi_ni/bus_concessionary_journeys_2024_25"
+    ),
+    "dft-bus01-passenger-journeys-2025": Path("dft/bus01_passenger_journeys_2025"),
     "dft-bus0415-fares-index-2026": Path("dft/bus0415_fares_index_2026"),
     "dft-bus05i-revenue-support-2025": Path("dft/bus05i_revenue_support_2025"),
     "dft-veh1103-cars-fuel-type-2025": Path("dft/veh1103_cars_fuel_type_2025"),
+    "dft-nts0303-mode-trips-2025": Path("dft/nts0303_mode_trips_2025"),
     "dft-nts0313-mode-use-frequency-2025": Path("dft/nts0313_mode_use_frequency_2025"),
+    "dft-nts0601-age-mode-trips-2025": Path("dft/nts0601_age_mode_trips_2025"),
     "dft-nts0621-local-bus-use-frequency-2025": Path(
         "dft/nts0621_local_bus_use_frequency_2025"
     ),

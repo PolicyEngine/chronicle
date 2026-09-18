@@ -1,0 +1,710 @@
+# DfT National Travel Survey table NTS0601a publishes weighted average trips
+# per person per year by sex, age, and main mode. This package selects the
+# publisher's "All people" rows for each of its eight detailed age bands plus
+# the all-ages total in calendar years 2023 through 2025. Note 7 says that from
+# 2024 "All people" also includes the fewer than 0.1% of cases whose sex was not
+# recorded.
+#
+# Values come directly from the numeric ODS cells without rounding, preserving
+# the precision in the publisher artifact. DfT cautions that in 2025 most travel
+# diaries changed from paper to digital. The change reduced the overall average
+# number of trips recorded per person, with the largest effects on short walks,
+# car trips, and shopping, personal-business, and leisure trips; interview-based
+# statistics are unaffected. Comparisons involving 2025 should account for this
+# discontinuity in diary collection.
+schema_version: ledger.source_package.v1
+package_id: dft-nts0601-age-mode-trips-2025
+label: DfT NTS0601a trips per person by age and main mode, all people, England, 2023 to 2025
+dimension_labels:
+  'dft.age_band': 'Age band'
+dimension_value_labels:
+  'sex':
+    'All people': 'All people'
+  'age_band':
+    '0 to 16': 'Age 0 to 16'
+    '17 to 20': 'Age 17 to 20'
+    '21 to 29': 'Age 21 to 29'
+    '30 to 39': 'Age 30 to 39'
+    '40 to 49': 'Age 40 to 49'
+    '50 to 59': 'Age 50 to 59'
+    '60 to 69': 'Age 60 to 69'
+    '70 and over': 'Age 70 and over'
+    'All Ages': 'All ages'
+artifact:
+  source_name: dft
+  source_table: 'NTS0601a: Average number of trips by sex, age and main mode (trips per person per year): England, 2002 onwards'
+  resource_package: db
+  resource_directory: data/dft/nts0601_age_mode_trips_2025
+  manifest: manifest.yaml
+  vintage: '2025'
+  extracted_at: '2026-09-17'
+  extraction_method: ODS whole-workbook used-range cell parse
+  parser: ods_used_range
+  artifact_year: 2025
+record_sets:
+- record_set_id: dft.nts0601a.mode_trips_by_age.cy2023
+  provenance_class: survey_aggregate
+  survey_instrument: National Travel Survey
+  assertion: observation
+  record_set_spec_id: dft.nts0601a.mode_trips_by_age.cy2023.v1
+  source_record_id_prefix: dft.nts0601a.mode_trips_by_age.cy2023
+  sheet_name: NTS0601a_trips
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-01-01'
+    end_date: '2023-12-31'
+    basis: survey_reference
+    source_period_label: '2023'
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: travel_behavior
+  groupby_dimension: dft.age_band
+  shared_filters:
+    sex: All people
+  shared_constraints:
+  - variable: sex
+    operator: ==
+    value: All people
+    label: Sex
+  rows:
+  - &age_0_to_16
+    value_id: age_0_to_16
+    label: Age 0 to 16
+    ordinal: 0
+    row_number: 574
+    expected_row_header_column: C
+    expected_row_header: 0 to 16
+    table_record_kind: detail
+    source_row_dimensions:
+      age_band: 0 to 16
+    filters:
+      age_band: 0 to 16
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: 0 to 16
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 0
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 17
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - &age_17_to_20
+    value_id: age_17_to_20
+    label: Age 17 to 20
+    ordinal: 1
+    row_number: 575
+    expected_row_header_column: C
+    expected_row_header: 17 to 20
+    table_record_kind: detail
+    source_row_dimensions:
+      age_band: 17 to 20
+    filters:
+      age_band: 17 to 20
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: 17 to 20
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 17
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 21
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - &age_21_to_29
+    value_id: age_21_to_29
+    label: Age 21 to 29
+    ordinal: 2
+    row_number: 576
+    expected_row_header_column: C
+    expected_row_header: 21 to 29
+    table_record_kind: detail
+    source_row_dimensions:
+      age_band: 21 to 29
+    filters:
+      age_band: 21 to 29
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: 21 to 29
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 21
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 30
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - &age_30_to_39
+    value_id: age_30_to_39
+    label: Age 30 to 39
+    ordinal: 3
+    row_number: 577
+    expected_row_header_column: C
+    expected_row_header: 30 to 39
+    table_record_kind: detail
+    source_row_dimensions:
+      age_band: 30 to 39
+    filters:
+      age_band: 30 to 39
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: 30 to 39
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 30
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 40
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - &age_40_to_49
+    value_id: age_40_to_49
+    label: Age 40 to 49
+    ordinal: 4
+    row_number: 578
+    expected_row_header_column: C
+    expected_row_header: 40 to 49
+    table_record_kind: detail
+    source_row_dimensions:
+      age_band: 40 to 49
+    filters:
+      age_band: 40 to 49
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: 40 to 49
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 40
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 50
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - &age_50_to_59
+    value_id: age_50_to_59
+    label: Age 50 to 59
+    ordinal: 5
+    row_number: 579
+    expected_row_header_column: C
+    expected_row_header: 50 to 59
+    table_record_kind: detail
+    source_row_dimensions:
+      age_band: 50 to 59
+    filters:
+      age_band: 50 to 59
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: 50 to 59
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 50
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 60
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - &age_60_to_69
+    value_id: age_60_to_69
+    label: Age 60 to 69
+    ordinal: 6
+    row_number: 580
+    expected_row_header_column: C
+    expected_row_header: 60 to 69
+    table_record_kind: detail
+    source_row_dimensions:
+      age_band: 60 to 69
+    filters:
+      age_band: 60 to 69
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: 60 to 69
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 60
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 70
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - &age_70_and_over
+    value_id: age_70_and_over
+    label: Age 70 and over
+    ordinal: 7
+    row_number: 581
+    expected_row_header_column: C
+    expected_row_header: 70 and over
+    table_record_kind: detail
+    source_row_dimensions:
+      age_band: 70 and over
+    filters:
+      age_band: 70 and over
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: 70 and over
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 70
+      unit: years
+      label: Age lower bound
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - &all_ages
+    value_id: all_ages
+    label: All ages
+    ordinal: 8
+    row_number: 582
+    expected_row_header_column: C
+    expected_row_header: All Ages
+    table_record_kind: total
+    source_row_dimensions:
+      age_band: All Ages
+    filters:
+      age_band: All Ages
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: All Ages
+      label: Age band
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  measures:
+  - &bus_in_london
+    measure_id: bus_in_london_trips_per_person
+    label: Bus in London trips per person per year
+    ordinal: 0
+    column: K
+    source_column_id: bus_in_london_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Bus in London
+    concept: dft.bus_in_london_trips_per_person
+    source_concept: dft.bus_in_london_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts06-age-gender-and-modal-breakdown
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0601a, All people, 2023; weighted
+      average trips per person per year for England residents by the published
+      age bands, read at the precision stored in the ODS. DfT notes that most
+      travel diaries changed from paper to digital in 2025, reducing recorded
+      trips per person and creating a discontinuity in comparisons with that
+      year.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+  - &other_local_bus
+    measure_id: other_local_bus_trips_per_person
+    label: Other local bus trips per person per year
+    ordinal: 1
+    column: L
+    source_column_id: other_local_bus_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Other local bus
+    concept: dft.other_local_bus_trips_per_person
+    source_concept: dft.other_local_bus_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts06-age-gender-and-modal-breakdown
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0601a, All people, 2023; weighted
+      average trips per person per year for England residents by the published
+      age bands, read at the precision stored in the ODS. DfT notes that most
+      travel diaries changed from paper to digital in 2025, reducing recorded
+      trips per person and creating a discontinuity in comparisons with that
+      year.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+  - &all_modes
+    measure_id: all_modes_trips_per_person
+    label: All modes trips per person per year
+    ordinal: 2
+    column: R
+    source_column_id: all_modes_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: All modes
+    concept: dft.all_modes_trips_per_person
+    source_concept: dft.all_modes_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts06-age-gender-and-modal-breakdown
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0601a, All people, 2023; weighted
+      average trips by all main modes per person per year for England residents
+      by the published age bands, read at the precision stored in the ODS. DfT
+      notes that most travel diaries changed from paper to digital in 2025,
+      reducing recorded trips per person and creating a discontinuity in
+      comparisons with that year.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: dft.nts0601a.mode_trips_by_age.cy2024
+  provenance_class: survey_aggregate
+  survey_instrument: National Travel Survey
+  assertion: observation
+  record_set_spec_id: dft.nts0601a.mode_trips_by_age.cy2024.v1
+  source_record_id_prefix: dft.nts0601a.mode_trips_by_age.cy2024
+  sheet_name: NTS0601a_trips
+  period_type: calendar_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-01-01'
+    end_date: '2024-12-31'
+    basis: survey_reference
+    source_period_label: '2024'
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: travel_behavior
+  groupby_dimension: dft.age_band
+  shared_filters:
+    sex: All people
+  shared_constraints:
+  - variable: sex
+    operator: ==
+    value: All people
+    label: Sex
+  rows:
+  - <<: *age_0_to_16
+    row_number: 601
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_17_to_20
+    row_number: 602
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_21_to_29
+    row_number: 603
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_30_to_39
+    row_number: 604
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_40_to_49
+    row_number: 605
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_50_to_59
+    row_number: 606
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_60_to_69
+    row_number: 607
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_70_and_over
+    row_number: 608
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *all_ages
+    row_number: 609
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  measures:
+  - <<: *bus_in_london
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0601a, All people, 2024; weighted
+      average trips per person per year for England residents by the published
+      age bands, read at the precision stored in the ODS. DfT notes that most
+      travel diaries changed from paper to digital in 2025, reducing recorded
+      trips per person and creating a discontinuity in comparisons with that
+      year.
+  - <<: *other_local_bus
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0601a, All people, 2024; weighted
+      average trips per person per year for England residents by the published
+      age bands, read at the precision stored in the ODS. DfT notes that most
+      travel diaries changed from paper to digital in 2025, reducing recorded
+      trips per person and creating a discontinuity in comparisons with that
+      year.
+  - <<: *all_modes
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0601a, All people, 2024; weighted
+      average trips by all main modes per person per year for England residents
+      by the published age bands, read at the precision stored in the ODS. DfT
+      notes that most travel diaries changed from paper to digital in 2025,
+      reducing recorded trips per person and creating a discontinuity in
+      comparisons with that year.
+- record_set_id: dft.nts0601a.mode_trips_by_age.cy2025
+  provenance_class: survey_aggregate
+  survey_instrument: National Travel Survey
+  assertion: observation
+  record_set_spec_id: dft.nts0601a.mode_trips_by_age.cy2025.v1
+  source_record_id_prefix: dft.nts0601a.mode_trips_by_age.cy2025
+  sheet_name: NTS0601a_trips
+  period_type: calendar_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-01-01'
+    end_date: '2025-12-31'
+    basis: survey_reference
+    source_period_label: '2025'
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: travel_behavior
+  groupby_dimension: dft.age_band
+  shared_filters:
+    sex: All people
+  shared_constraints:
+  - variable: sex
+    operator: ==
+    value: All people
+    label: Sex
+  rows:
+  - <<: *age_0_to_16
+    row_number: 628
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_17_to_20
+    row_number: 629
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_21_to_29
+    row_number: 630
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_30_to_39
+    row_number: 631
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_40_to_49
+    row_number: 632
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_50_to_59
+    row_number: 633
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_60_to_69
+    row_number: 634
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *age_70_and_over
+    row_number: 635
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  - <<: *all_ages
+    row_number: 636
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: survey year
+    - column: B
+      expected_value: All people
+      label: sex
+  measures:
+  - <<: *bus_in_london
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0601a, All people, 2025; weighted
+      average trips per person per year for England residents by the published
+      age bands, read at the precision stored in the ODS. In 2025 most travel
+      diaries changed from paper to digital; DfT says this reduced the overall
+      average number of recorded trips per person and most notably affected
+      short walks, car trips, and shopping, personal-business, and leisure
+      trips.
+  - <<: *other_local_bus
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0601a, All people, 2025; weighted
+      average trips per person per year for England residents by the published
+      age bands, read at the precision stored in the ODS. In 2025 most travel
+      diaries changed from paper to digital; DfT says this reduced the overall
+      average number of recorded trips per person and most notably affected
+      short walks, car trips, and shopping, personal-business, and leisure
+      trips.
+  - <<: *all_modes
+    concept_evidence_notes: >-
+      DfT National Travel Survey table NTS0601a, All people, 2025; weighted
+      average trips by all main modes per person per year for England residents
+      by the published age bands, read at the precision stored in the ODS. In
+      2025 most travel diaries changed from paper to digital; DfT says this
+      reduced the overall average number of recorded trips per person and most
+      notably affected short walks, car trips, and shopping, personal-business,
+      and leisure trips.
