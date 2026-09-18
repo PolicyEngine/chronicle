@@ -293,7 +293,14 @@ def test_issue_274_facts_declare_exact_period_coverage():
 
     for alias in ISSUE_274_ARTIFACT_YEARS:
         for fact in _facts(alias):
-            year = fact.period.value
+            period_identity_prefix = "cy" if alias in nts_aliases else "fy"
+            period_identity = fact.layout.record_set_id.rsplit(".", 1)[-1]
+            assert period_identity[:2] == period_identity_prefix
+            publisher_year = period_identity[2:]
+            assert len(publisher_year) == 4 and publisher_year.isdecimal()
+            year = int(publisher_year)
+            assert fact.period.value == year, fact.source_record_id
+
             if alias == dfi_alias:
                 expected = (
                     f"{year}-04-01",
