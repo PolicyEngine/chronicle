@@ -4,6 +4,10 @@
 # the three published urban-rural classes, plus BUS01c concessionary passenger
 # journeys for the 13 requested geographies, across all published years.
 # London appears once, as one of the nine standard regions.
+# Excluded source columns: Scotland, Wales and Great Britain (BUS01a Q:S;
+# BUS01c O:Q). This England package carries the publisher's England totals and
+# English subgeographies; the devolved-country and Great Britain totals are
+# intentionally outside its declared scope.
 #
 # Excluded optional sheets: BUS01b passenger journeys per head; BUS01d
 # concessionary journeys as a percentage; BUS01e passenger journeys by local
@@ -297,7 +301,7 @@ record_sets:
     guard_cells: *bus01a_fy2005_guards
   - &bus01a_other_predominantly_urban_areas
     value_id: other_predominantly_urban_areas
-    label: "Other predominantly urban areas [note 2]"
+    label: "Other predominantly urban areas"
     ordinal: 13
     row_number: 9
     column: M
@@ -308,7 +312,7 @@ record_sets:
     expected_column_header: "Other predominantly urban areas [note 2]"
     geography_id: "dft:other_predominantly_urban_areas"
     geography_level: statistical_scope
-    geography_name: "Other predominantly urban areas [note 2]"
+    geography_name: "Other predominantly urban areas"
     geography_vintage: current
     table_record_kind: total
     guard_cells: *bus01a_fy2005_guards

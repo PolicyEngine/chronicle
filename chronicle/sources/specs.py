@@ -471,8 +471,8 @@ def resolve_source_record(
                 f"{divisor!r}."
             )
         value = value / divisor
-        if spec.round_to is not None:
-            value = round(value / spec.round_to) * spec.round_to
+    if spec.round_to is not None:
+        value = round(value / spec.round_to) * spec.round_to
     lineage_cells = [
         *value_cells,
         *divisor_cells,

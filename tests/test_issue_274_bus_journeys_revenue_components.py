@@ -29,7 +29,7 @@ ISSUE_274_ARTIFACT_YEARS = {
 EXPECTED_FACT_COUNTS = {
     "dfi-ni-bus-concessionary-journeys-2024-25": 6,
     "dft-bus01-passenger-journeys-2025": 804,
-    "dft-bus05i-revenue-support-2025": 78,
+    "dft-bus05i-revenue-support-2025": 102,
     "dft-nts0303-mode-trips-2025": 9,
     "dft-nts0601-age-mode-trips-2025": 81,
 }
@@ -165,6 +165,81 @@ LEGACY_BUS05_SOURCE_SERIES_KEYS = {
     ),
     "dft.bus05i.bus05bi.net_support.fy2025": (
         "ledger.source_series.v2:2517821a79e8144ebd372c1c"
+    ),
+}
+
+SURVIVING_BUS05_BSOG_FACT_KEYS = {
+    "dft.bus05i.bus05bi.support_components.fy2023.england."
+    "bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:912897a280c8279d662e1e5f",
+        "ledger.semantic_fact.v2:a4df9df1f725fa6f920e420e",
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2023.england_outside_london."
+    "bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:5e0e0e3df357b26e40069e78",
+        "ledger.semantic_fact.v2:e28d7f381e6fe3ece61c4c2e",
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2023.english_metropolitan_areas."
+    "bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:41a523dec28b47dc039afdc7",
+        "ledger.semantic_fact.v2:b77d762db9e016046e4ae3e7",
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2023."
+    "english_non_metropolitan_areas.bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:c806498ebf28e5718ec5ef4e",
+        "ledger.semantic_fact.v2:3acc382a60e700e63fbf4103",
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2024.england."
+    "bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:61cb62f5a76864b9007701f7",
+        "ledger.semantic_fact.v2:01ec07ef9ccf59cefcb0fcc4",
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2024.england_outside_london."
+    "bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:60a3f4e2d46db42110b71fca",
+        "ledger.semantic_fact.v2:0f273941b8978aeeaee754be",
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2024.english_metropolitan_areas."
+    "bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:fadf51f7438fbd35dd7828cb",
+        "ledger.semantic_fact.v2:64f3e9c5595695b7c457efc7",
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2024."
+    "english_non_metropolitan_areas.bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:0f7655db6bdf56160bbaf68f",
+        "ledger.semantic_fact.v2:5eaaf087e9c7fe48e0a597cd",
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2025.england."
+    "bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:46b3743626f4382a99ecf5db",
+        "ledger.semantic_fact.v2:679659a46c816a1d1c7908a1",
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2025.england_outside_london."
+    "bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:ecad41cd51caeef445e1a2e1",
+        "ledger.semantic_fact.v2:83fd63b303cd7774dc201600",
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2025.english_metropolitan_areas."
+    "bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:520cf7eca036c9e0f531c30f",
+        "ledger.semantic_fact.v2:d7560731eb61c6f61ce58d06",
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2025."
+    "english_non_metropolitan_areas.bus_service_operators_grant": (
+        "ledger.aggregate_fact.v2:8f8ca87c0e29b6f85beddc12",
+        "ledger.semantic_fact.v2:0948700e70bd9234e2e3c06e",
+    ),
+}
+
+SURVIVING_BUS05_BSOG_SOURCE_SERIES_KEYS = {
+    "dft.bus05i.bus05bi.support_components.fy2023": (
+        "ledger.source_series.v2:e2457b8eb0639eed5d1d88a9"
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2024": (
+        "ledger.source_series.v2:1da78aed6e202be8ecdf57e9"
+    ),
+    "dft.bus05i.bus05bi.support_components.fy2025": (
+        "ledger.source_series.v2:24be27d8aeb8ce457353b24a"
     ),
 }
 
@@ -371,7 +446,9 @@ def test_bus01_carries_total_and_published_concessionary_journey_series():
 
 
 def test_bus01_carries_published_urban_rural_totals_without_inventing_splits():
-    facts = _facts("dft-bus01-passenger-journeys-2025")
+    alias = "dft-bus01-passenger-journeys-2025"
+    package = load_source_package(alias)
+    facts = _facts(alias)
     urban_rural = [
         fact for fact in facts if fact.geography.id in BUS01_URBAN_RURAL_GEOGRAPHIES
     ]
@@ -397,30 +474,89 @@ def test_bus01_carries_published_urban_rural_totals_without_inventing_splits():
         }
     )
 
+    other_urban = [
+        fact
+        for fact in urban_rural
+        if fact.geography.id == "dft:other_predominantly_urban_areas"
+    ]
+    assert {fact.geography.name for fact in other_urban} == {
+        "Other predominantly urban areas"
+    }
+    assert all("[note 2]" not in fact.label for fact in other_urban)
+
+    guarded_rows = [
+        row
+        for record_set in package.build_source_record_set_specs(2025)
+        for row in record_set.rows
+        if row.value_id == "other_predominantly_urban_areas"
+    ]
+    assert {row.label for row in guarded_rows} == {"Other predominantly urban areas"}
+    assert {row.expected_column_header for row in guarded_rows} == {
+        "Other predominantly urban areas [note 2]"
+    }
+
 
 def test_bus05_carries_each_published_support_component_and_gross_revenue():
     facts = _facts("dft-bus05i-revenue-support-2025")
-    support_concepts = {
-        "dft.local_bus_net_public_transport_support",
-        "dft.local_bus_concessionary_travel_reimbursement",
-        "dft.local_bus_bus_service_operators_grant",
+    component_geographies = {
+        "dft.local_bus_net_public_transport_support": {
+            "E92000001",
+            "E12000007",
+            "dft:england_outside_london",
+            "dft:english_metropolitan_areas",
+            "dft:english_non_metropolitan_areas",
+        },
+        "dft.local_bus_concessionary_travel_reimbursement": {
+            "E92000001",
+            "E12000007",
+            "dft:england_outside_london",
+            "dft:english_metropolitan_areas",
+            "dft:english_non_metropolitan_areas",
+        },
+        "dft.local_bus_gross_public_transport_support": {
+            "E92000001",
+            "E12000007",
+            "dft:england_outside_london",
+            "dft:english_metropolitan_areas",
+            "dft:english_non_metropolitan_areas",
+        },
+        "dft.local_bus_bus_service_operators_grant": {
+            "E92000001",
+            "dft:england_outside_london",
+            "dft:english_metropolitan_areas",
+            "dft:english_non_metropolitan_areas",
+        },
+        "dft.local_bus_additional_funding_to_operators": {
+            "E92000001",
+            "dft:england_outside_london",
+        },
+        "dft.local_bus_fare_cap": {
+            "E92000001",
+            "dft:england_outside_london",
+        },
     }
-    support = [fact for fact in facts if fact.measure.concept in support_concepts]
+    support = [fact for fact in facts if fact.measure.concept in component_geographies]
     gross_revenue = [
         fact
         for fact in facts
         if fact.measure.concept == "dft.local_bus_total_estimated_operating_revenue"
     ]
 
-    assert len(support) == 3 * 5 * 3
-    assert {fact.measure.concept for fact in support} == support_concepts
+    assert len(support) == 69
+    assert {fact.measure.concept for fact in support} == set(component_geographies)
     assert {fact.period.value for fact in support} == {2023, 2024, 2025}
-    assert {fact.geography.id for fact in support} == {
-        "E92000001",
-        "E12000007",
-        "dft:england_outside_london",
-        "dft:english_metropolitan_areas",
-        "dft:english_non_metropolitan_areas",
+    assert {
+        concept: {
+            fact.geography.id for fact in support if fact.measure.concept == concept
+        }
+        for concept in component_geographies
+    } == component_geographies
+    assert {
+        concept: sum(fact.measure.concept == concept for fact in support)
+        for concept in component_geographies
+    } == {
+        concept: len(geographies) * 3
+        for concept, geographies in component_geographies.items()
     }
     assert len(gross_revenue) == 3 * 3
     assert {fact.geography.id for fact in gross_revenue} == {
@@ -428,6 +564,56 @@ def test_bus05_carries_each_published_support_component_and_gross_revenue():
         "E12000007",
         "dft:england_outside_london",
     }
+
+    latest_england = {
+        fact.measure.concept: fact.value
+        for fact in facts
+        if fact.period.value == 2025 and fact.geography.id == "E92000001"
+    }
+    assert latest_england["dft.local_bus_gross_public_transport_support"] == (
+        1_584_976_000
+    )
+    assert latest_england[
+        "dft.local_bus_additional_funding_to_operators"
+    ] == pytest.approx(84_539_980.19)
+    assert latest_england["dft.local_bus_fare_cap"] == pytest.approx(515_693_216.6)
+
+
+def test_bus05_published_components_reconcile_to_published_totals():
+    facts = _facts("dft-bus05i-revenue-support-2025")
+    values = {
+        (fact.period.value, fact.geography.id, fact.measure.concept): fact.value
+        for fact in facts
+    }
+    net_components = {
+        "dft.local_bus_net_public_transport_support",
+        "dft.local_bus_concessionary_travel_reimbursement",
+        "dft.local_bus_bus_service_operators_grant",
+        "dft.local_bus_additional_funding_to_operators",
+        "dft.local_bus_fare_cap",
+    }
+    gross_components = {
+        "dft.local_bus_passenger_fare_receipts",
+        "dft.local_bus_gross_public_transport_support",
+        "dft.local_bus_concessionary_travel_reimbursement",
+        "dft.local_bus_bus_service_operators_grant",
+        "dft.local_bus_additional_funding_to_operators",
+        "dft.local_bus_fare_cap",
+    }
+
+    for fact in facts:
+        if fact.measure.concept == "dft.local_bus_total_estimated_net_support":
+            components = net_components
+        elif fact.measure.concept == "dft.local_bus_total_estimated_operating_revenue":
+            components = gross_components
+        else:
+            continue
+
+        component_sum = sum(
+            values.get((fact.period.value, fact.geography.id, concept), 0)
+            for concept in components
+        )
+        assert component_sum == pytest.approx(fact.value), fact.source_record_id
 
 
 def test_bus05_preserves_pre_issue_274_consumer_identity_keys():
@@ -456,6 +642,35 @@ def test_bus05_preserves_pre_issue_274_consumer_identity_keys():
             semantic_key,
             LEGACY_BUS05_SOURCE_RELEASE_KEY,
             LEGACY_BUS05_SOURCE_SERIES_KEYS[source_series_id],
+        )
+
+
+def test_bus05_preserves_surviving_bsog_consumer_identity_keys():
+    rows = consumer_fact_rows(_facts("dft-bus05i-revenue-support-2025"))
+    bsog_rows = {
+        row["lineage"]["source_record_id"]: row
+        for row in rows
+        if row["observed_measure"]["source_concept"]
+        == "dft.local_bus_bus_service_operators_grant"
+    }
+
+    assert set(bsog_rows) == set(SURVIVING_BUS05_BSOG_FACT_KEYS)
+    for source_record_id, (
+        aggregate_key,
+        semantic_key,
+    ) in SURVIVING_BUS05_BSOG_FACT_KEYS.items():
+        row = bsog_rows[source_record_id]
+        source_series_id = source_record_id.rsplit(".", 2)[0]
+        assert (
+            row["aggregate_fact_key"],
+            row["semantic_fact_key"],
+            row["source_release_key"],
+            row["source_series_key"],
+        ) == (
+            aggregate_key,
+            semantic_key,
+            LEGACY_BUS05_SOURCE_RELEASE_KEY,
+            SURVIVING_BUS05_BSOG_SOURCE_SERIES_KEYS[source_series_id],
         )
 
 
@@ -494,7 +709,9 @@ def test_nts0601_all_ages_rows_match_the_published_nts0303_totals():
 
 
 def test_dfi_carries_published_full_fare_concession_journeys_without_a_remainder():
-    facts = _facts("dfi-ni-bus-concessionary-journeys-2024-25")
+    alias = "dfi-ni-bus-concessionary-journeys-2024-25"
+    package = load_source_package(alias)
+    facts = _facts(alias)
     concession = [
         fact
         for fact in facts
@@ -508,6 +725,48 @@ def test_dfi_carries_published_full_fare_concession_journeys_without_a_remainder
     assert {tuple(sorted(fact.filters.items())) for fact in concession} == {
         (("transport_mode", "bus"), ("travel_status", "full_fare_concession"))
     }
+    values = {fact.period.value: fact.value for fact in concession}
+    assert values == {
+        2019: 10_855_000,
+        2020: 3_500_000,
+        2021: 6_179_000,
+        2022: 7_824_000,
+        2023: 8_642_000,
+        2024: 8_960_000,
+    }
+    assert all(type(value) is int for value in values.values())
+
+    round_to_by_record_set = {
+        record_set.record_set_id: record_set.measures[0].round_to
+        for record_set in package.build_source_record_set_specs(2025)
+    }
+    assert round_to_by_record_set == {
+        "dfi_ni.public_transport.figure_6.fy2019": None,
+        "dfi_ni.public_transport.figure_6.fy2020": None,
+        "dfi_ni.public_transport.figure_6.fy2021": 1,
+        "dfi_ni.public_transport.figure_6.fy2022": None,
+        "dfi_ni.public_transport.figure_6.fy2023": None,
+        "dfi_ni.public_transport.figure_6.fy2024": None,
+    }
+
+    fy2021 = next(fact for fact in concession if fact.period.value == 2021)
+    fy2021_row = consumer_fact_rows([fy2021])[0]
+    assert (
+        fy2021_row["lineage"]["source_record_id"],
+        fy2021_row["legacy_fact_key"],
+        fy2021_row["aggregate_fact_key"],
+        fy2021_row["semantic_fact_key"],
+        fy2021_row["source_release_key"],
+        fy2021_row["source_series_key"],
+    ) == (
+        "dfi_ni.public_transport.figure_6.fy2021.full_fare_concession."
+        "passenger_journeys",
+        "ledger.fact.v1:a4cd7fd8346c485e9519518c",
+        "ledger.aggregate_fact.v2:b957e464f7b52b76cd3d2aad",
+        "ledger.semantic_fact.v2:953236ab76764c187a659764",
+        "ledger.source_release.v2:d9a319cf282ce4cd26a6d9d7",
+        "ledger.source_series.v2:4fa313f3861bf251df4377f9",
+    )
 
     concepts = {fact.measure.concept for fact in facts}
     assert all("fare_paying" not in concept for concept in concepts)

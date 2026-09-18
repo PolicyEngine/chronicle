@@ -232,6 +232,7 @@ record_sets:
     aggregation: sum
     expected_cell_type: number
     value_scale: 1000000
+    round_to: 1
 - record_set_id: dfi_ni.public_transport.figure_6.fy2022
   provenance_class: administrative
   assertion: observation

@@ -150,9 +150,7 @@ SOURCE_PACKAGE_ALIASES = {
     "dfi-ni-bus-concessionary-journeys-2024-25": Path(
         "dfi_ni/bus_concessionary_journeys_2024_25"
     ),
-    "dft-bus01-passenger-journeys-2025": Path(
-        "dft/bus01_passenger_journeys_2025"
-    ),
+    "dft-bus01-passenger-journeys-2025": Path("dft/bus01_passenger_journeys_2025"),
     "dft-bus0415-fares-index-2026": Path("dft/bus0415_fares_index_2026"),
     "dft-bus05i-revenue-support-2025": Path("dft/bus05i_revenue_support_2025"),
     "dft-veh1103-cars-fuel-type-2025": Path("dft/veh1103_cars_fuel_type_2025"),

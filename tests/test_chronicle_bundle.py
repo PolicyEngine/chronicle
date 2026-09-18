@@ -135,7 +135,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 340902,
+        "fact_count": 340926,
         "geography_count": 12589,
         "period_count": 493,
         "semantic_duplicate_key_count": 217,
@@ -148,7 +148,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # package (chronicle#265, #266).
         "warning_count": 171,
     }
-    assert len(rows) == 340902
+    assert len(rows) == 340926
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -180,7 +180,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 340902
+    assert coverage["fact_count"] == 340926
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -196,7 +196,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dfe": 770,
         "dfc_ni": 1189,
         "dfi_ni": 30,
-        "dft": 2747,
+        "dft": 2771,
         "dwp": 13384,
         "eurostat": 207,
         "federal_reserve": 1,
@@ -265,7 +265,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         table_counts[
             "dft:BUS05i estimated operating revenue and net support for local bus services"
         ]
-        == 78
+        == 102
     )
     assert (
         table_counts[
@@ -1116,7 +1116,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if 2019 <= year <= 2024:
             count += 1
         if 2023 <= year <= 2025:
-            count += 18
+            count += 26
         key = f"fiscal_year:{year}"
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     for year in (2023, 2024, 2025):
@@ -1141,7 +1141,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
     assert coverage["counts"]["by_geography"]["country:K02000001"] == 8270
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 3524
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 3533
     assert coverage["counts"]["by_geography"]["country:K03000001"] == 7988
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
     assert len(coverage["counts"]["by_geography"]) == 12589
@@ -1152,7 +1152,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "firm": 1439,
         "government": 2313,
         "household": 53521,
-        "institutional_sector": 1239,
+        "institutional_sector": 1263,
         "pension_plan": 2,
         "person": 65961,
         "return": 14600,
