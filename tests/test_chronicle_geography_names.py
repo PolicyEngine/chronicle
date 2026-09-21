@@ -101,13 +101,17 @@ def test_an_identifier_the_register_does_not_carry_has_no_canonical_name():
 
 
 def test_every_register_source_is_a_pinned_artifact_at_the_manifest_checksum():
+    # Not every manifest names a package (the Eurostat ones predate the field),
+    # and glob order differs between filesystems, so index them first.
+    directories = {}
+    for path in sorted((_REPO_ROOT / "db" / "data").glob("*/*/manifest.yaml")):
+        package_id = (yaml.safe_load(path.read_text()) or {}).get("package_id")
+        if package_id:
+            directories[package_id] = path.parent
+
     assert _REGISTER["sources"]
     for source in _REGISTER["sources"]:
-        directory = next(
-            path.parent
-            for path in (_REPO_ROOT / "db" / "data").glob("*/*/manifest.yaml")
-            if yaml.safe_load(path.read_text())["package_id"] == source["package_id"]
-        )
+        directory = directories[source["package_id"]]
         manifest = yaml.safe_load((directory / "manifest.yaml").read_text())
         entry = next(iter(manifest["files"].values()))
         assert entry["filename"] == source["filename"]
