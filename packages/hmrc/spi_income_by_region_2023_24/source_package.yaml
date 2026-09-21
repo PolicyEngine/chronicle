@@ -11,6 +11,11 @@
 # 3.15 (hmrc-spi-income-by-area-2023-24) give counts, means and medians by
 # constituency and local authority, with no band axis and no income amounts.
 #
+# Rows carry HMRC's own wording for each area - 'Yorkshire and the Humber',
+# 'East of England' - and Chronicle's register gives every identifier one
+# canonical name on export (chronicle#281), so nothing here has to guess which
+# spelling a consumer wants.
+#
 # Worksheet note 1 records that sub-UK estimates allocate taxpayers by address
 # and carry larger sampling error than the UK figures. That is a consumer's
 # judgement against facts that exist, not a reason to drop them, so the rows
@@ -4077,14 +4082,14 @@ record_sets:
       value: female
       label: Sex
   - value_id: yorkshire_and_the_humber_all_band_12570
-    label: Yorkshire and The Humber, all taxpayers, total income from GBP 12 570
+    label: Yorkshire and the Humber, all taxpayers, total income from GBP 12 570
     ordinal: 142
     row_number: 152
     expected_row_header_column: C
     expected_row_header: 12570
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4103,14 +4108,14 @@ record_sets:
       value: 12570
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_all_band_15000
-    label: Yorkshire and The Humber, all taxpayers, total income from GBP 15 000
+    label: Yorkshire and the Humber, all taxpayers, total income from GBP 15 000
     ordinal: 143
     row_number: 153
     expected_row_header_column: C
     expected_row_header: 15000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4129,14 +4134,14 @@ record_sets:
       value: 15000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_all_band_20000
-    label: Yorkshire and The Humber, all taxpayers, total income from GBP 20 000
+    label: Yorkshire and the Humber, all taxpayers, total income from GBP 20 000
     ordinal: 144
     row_number: 154
     expected_row_header_column: C
     expected_row_header: 20000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4155,14 +4160,14 @@ record_sets:
       value: 20000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_all_band_30000
-    label: Yorkshire and The Humber, all taxpayers, total income from GBP 30 000
+    label: Yorkshire and the Humber, all taxpayers, total income from GBP 30 000
     ordinal: 145
     row_number: 155
     expected_row_header_column: C
     expected_row_header: 30000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4181,14 +4186,14 @@ record_sets:
       value: 30000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_all_band_40000
-    label: Yorkshire and The Humber, all taxpayers, total income from GBP 40 000
+    label: Yorkshire and the Humber, all taxpayers, total income from GBP 40 000
     ordinal: 146
     row_number: 156
     expected_row_header_column: C
     expected_row_header: 40000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4207,14 +4212,14 @@ record_sets:
       value: 40000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_all_band_50000
-    label: Yorkshire and The Humber, all taxpayers, total income from GBP 50 000
+    label: Yorkshire and the Humber, all taxpayers, total income from GBP 50 000
     ordinal: 147
     row_number: 157
     expected_row_header_column: C
     expected_row_header: 50000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4233,14 +4238,14 @@ record_sets:
       value: 50000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_all_band_70000
-    label: Yorkshire and The Humber, all taxpayers, total income from GBP 70 000
+    label: Yorkshire and the Humber, all taxpayers, total income from GBP 70 000
     ordinal: 148
     row_number: 158
     expected_row_header_column: C
     expected_row_header: 70000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4259,14 +4264,14 @@ record_sets:
       value: 70000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_all_band_100000
-    label: Yorkshire and The Humber, all taxpayers, total income from GBP 100 000
+    label: Yorkshire and the Humber, all taxpayers, total income from GBP 100 000
     ordinal: 149
     row_number: 159
     expected_row_header_column: C
     expected_row_header: 100000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4285,14 +4290,14 @@ record_sets:
       value: 100000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_all_band_150000
-    label: Yorkshire and The Humber, all taxpayers, total income from GBP 150 000
+    label: Yorkshire and the Humber, all taxpayers, total income from GBP 150 000
     ordinal: 150
     row_number: 160
     expected_row_header_column: C
     expected_row_header: 150000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4311,14 +4316,14 @@ record_sets:
       value: 150000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_all_band_200000
-    label: Yorkshire and The Humber, all taxpayers, total income from GBP 200 000
+    label: Yorkshire and the Humber, all taxpayers, total income from GBP 200 000
     ordinal: 151
     row_number: 161
     expected_row_header_column: C
     expected_row_header: 200000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4337,14 +4342,14 @@ record_sets:
       value: 200000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_all_all_ranges
-    label: Yorkshire and The Humber, all taxpayers, all ranges of total income
+    label: Yorkshire and the Humber, all taxpayers, all ranges of total income
     ordinal: 152
     row_number: 162
     expected_row_header_column: C
     expected_row_header: All Ranges
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: total
     guard_cells:
@@ -4357,14 +4362,14 @@ record_sets:
     filters:
       sex: all
   - value_id: yorkshire_and_the_humber_male_band_12570
-    label: Yorkshire and The Humber, male taxpayers, total income from GBP 12 570
+    label: Yorkshire and the Humber, male taxpayers, total income from GBP 12 570
     ordinal: 153
     row_number: 163
     expected_row_header_column: C
     expected_row_header: 12570
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4387,14 +4392,14 @@ record_sets:
       value: 12570
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_male_band_15000
-    label: Yorkshire and The Humber, male taxpayers, total income from GBP 15 000
+    label: Yorkshire and the Humber, male taxpayers, total income from GBP 15 000
     ordinal: 154
     row_number: 164
     expected_row_header_column: C
     expected_row_header: 15000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4417,14 +4422,14 @@ record_sets:
       value: 15000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_male_band_20000
-    label: Yorkshire and The Humber, male taxpayers, total income from GBP 20 000
+    label: Yorkshire and the Humber, male taxpayers, total income from GBP 20 000
     ordinal: 155
     row_number: 165
     expected_row_header_column: C
     expected_row_header: 20000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4447,14 +4452,14 @@ record_sets:
       value: 20000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_male_band_30000
-    label: Yorkshire and The Humber, male taxpayers, total income from GBP 30 000
+    label: Yorkshire and the Humber, male taxpayers, total income from GBP 30 000
     ordinal: 156
     row_number: 166
     expected_row_header_column: C
     expected_row_header: 30000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4477,14 +4482,14 @@ record_sets:
       value: 30000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_male_band_40000
-    label: Yorkshire and The Humber, male taxpayers, total income from GBP 40 000
+    label: Yorkshire and the Humber, male taxpayers, total income from GBP 40 000
     ordinal: 157
     row_number: 167
     expected_row_header_column: C
     expected_row_header: 40000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4507,14 +4512,14 @@ record_sets:
       value: 40000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_male_band_50000
-    label: Yorkshire and The Humber, male taxpayers, total income from GBP 50 000
+    label: Yorkshire and the Humber, male taxpayers, total income from GBP 50 000
     ordinal: 158
     row_number: 168
     expected_row_header_column: C
     expected_row_header: 50000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4537,14 +4542,14 @@ record_sets:
       value: 50000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_male_band_70000
-    label: Yorkshire and The Humber, male taxpayers, total income from GBP 70 000
+    label: Yorkshire and the Humber, male taxpayers, total income from GBP 70 000
     ordinal: 159
     row_number: 169
     expected_row_header_column: C
     expected_row_header: 70000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4567,14 +4572,14 @@ record_sets:
       value: 70000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_male_band_100000
-    label: Yorkshire and The Humber, male taxpayers, total income from GBP 100 000
+    label: Yorkshire and the Humber, male taxpayers, total income from GBP 100 000
     ordinal: 160
     row_number: 170
     expected_row_header_column: C
     expected_row_header: 100000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4597,14 +4602,14 @@ record_sets:
       value: 100000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_male_band_150000
-    label: Yorkshire and The Humber, male taxpayers, total income from GBP 150 000
+    label: Yorkshire and the Humber, male taxpayers, total income from GBP 150 000
     ordinal: 161
     row_number: 171
     expected_row_header_column: C
     expected_row_header: 150000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4627,14 +4632,14 @@ record_sets:
       value: 150000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_male_band_200000
-    label: Yorkshire and The Humber, male taxpayers, total income from GBP 200 000
+    label: Yorkshire and the Humber, male taxpayers, total income from GBP 200 000
     ordinal: 162
     row_number: 172
     expected_row_header_column: C
     expected_row_header: 200000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4657,14 +4662,14 @@ record_sets:
       value: 200000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_male_all_ranges
-    label: Yorkshire and The Humber, male taxpayers, all ranges of total income
+    label: Yorkshire and the Humber, male taxpayers, all ranges of total income
     ordinal: 163
     row_number: 173
     expected_row_header_column: C
     expected_row_header: All Ranges
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: total
     guard_cells:
@@ -4682,14 +4687,14 @@ record_sets:
       value: male
       label: Sex
   - value_id: yorkshire_and_the_humber_female_band_12570
-    label: Yorkshire and The Humber, female taxpayers, total income from GBP 12 570
+    label: Yorkshire and the Humber, female taxpayers, total income from GBP 12 570
     ordinal: 164
     row_number: 174
     expected_row_header_column: C
     expected_row_header: 12570
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4712,14 +4717,14 @@ record_sets:
       value: 12570
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_female_band_15000
-    label: Yorkshire and The Humber, female taxpayers, total income from GBP 15 000
+    label: Yorkshire and the Humber, female taxpayers, total income from GBP 15 000
     ordinal: 165
     row_number: 175
     expected_row_header_column: C
     expected_row_header: 15000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4742,14 +4747,14 @@ record_sets:
       value: 15000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_female_band_20000
-    label: Yorkshire and The Humber, female taxpayers, total income from GBP 20 000
+    label: Yorkshire and the Humber, female taxpayers, total income from GBP 20 000
     ordinal: 166
     row_number: 176
     expected_row_header_column: C
     expected_row_header: 20000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4772,14 +4777,14 @@ record_sets:
       value: 20000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_female_band_30000
-    label: Yorkshire and The Humber, female taxpayers, total income from GBP 30 000
+    label: Yorkshire and the Humber, female taxpayers, total income from GBP 30 000
     ordinal: 167
     row_number: 177
     expected_row_header_column: C
     expected_row_header: 30000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4802,14 +4807,14 @@ record_sets:
       value: 30000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_female_band_40000
-    label: Yorkshire and The Humber, female taxpayers, total income from GBP 40 000
+    label: Yorkshire and the Humber, female taxpayers, total income from GBP 40 000
     ordinal: 168
     row_number: 178
     expected_row_header_column: C
     expected_row_header: 40000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4832,14 +4837,14 @@ record_sets:
       value: 40000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_female_band_50000
-    label: Yorkshire and The Humber, female taxpayers, total income from GBP 50 000
+    label: Yorkshire and the Humber, female taxpayers, total income from GBP 50 000
     ordinal: 169
     row_number: 179
     expected_row_header_column: C
     expected_row_header: 50000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4862,14 +4867,14 @@ record_sets:
       value: 50000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_female_band_70000
-    label: Yorkshire and The Humber, female taxpayers, total income from GBP 70 000
+    label: Yorkshire and the Humber, female taxpayers, total income from GBP 70 000
     ordinal: 170
     row_number: 180
     expected_row_header_column: C
     expected_row_header: 70000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4892,14 +4897,14 @@ record_sets:
       value: 70000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_female_band_100000
-    label: Yorkshire and The Humber, female taxpayers, total income from GBP 100 000
+    label: Yorkshire and the Humber, female taxpayers, total income from GBP 100 000
     ordinal: 171
     row_number: 181
     expected_row_header_column: C
     expected_row_header: 100000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -4922,14 +4927,14 @@ record_sets:
       value: 100000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_female_all_ranges
-    label: Yorkshire and The Humber, female taxpayers, all ranges of total income
+    label: Yorkshire and the Humber, female taxpayers, all ranges of total income
     ordinal: 172
     row_number: 184
     expected_row_header_column: C
     expected_row_header: All Ranges
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: total
     guard_cells:
@@ -6687,14 +6692,14 @@ record_sets:
       value: female
       label: Sex
   - value_id: east_of_england_all_band_12570
-    label: East, all taxpayers, total income from GBP 12 570
+    label: East of England, all taxpayers, total income from GBP 12 570
     ordinal: 235
     row_number: 251
     expected_row_header_column: C
     expected_row_header: 12570
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -6713,14 +6718,14 @@ record_sets:
       value: 12570
       label: total_income_lower_bound
   - value_id: east_of_england_all_band_15000
-    label: East, all taxpayers, total income from GBP 15 000
+    label: East of England, all taxpayers, total income from GBP 15 000
     ordinal: 236
     row_number: 252
     expected_row_header_column: C
     expected_row_header: 15000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -6739,14 +6744,14 @@ record_sets:
       value: 15000
       label: total_income_lower_bound
   - value_id: east_of_england_all_band_20000
-    label: East, all taxpayers, total income from GBP 20 000
+    label: East of England, all taxpayers, total income from GBP 20 000
     ordinal: 237
     row_number: 253
     expected_row_header_column: C
     expected_row_header: 20000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -6765,14 +6770,14 @@ record_sets:
       value: 20000
       label: total_income_lower_bound
   - value_id: east_of_england_all_band_30000
-    label: East, all taxpayers, total income from GBP 30 000
+    label: East of England, all taxpayers, total income from GBP 30 000
     ordinal: 238
     row_number: 254
     expected_row_header_column: C
     expected_row_header: 30000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -6791,14 +6796,14 @@ record_sets:
       value: 30000
       label: total_income_lower_bound
   - value_id: east_of_england_all_band_40000
-    label: East, all taxpayers, total income from GBP 40 000
+    label: East of England, all taxpayers, total income from GBP 40 000
     ordinal: 239
     row_number: 255
     expected_row_header_column: C
     expected_row_header: 40000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -6817,14 +6822,14 @@ record_sets:
       value: 40000
       label: total_income_lower_bound
   - value_id: east_of_england_all_band_50000
-    label: East, all taxpayers, total income from GBP 50 000
+    label: East of England, all taxpayers, total income from GBP 50 000
     ordinal: 240
     row_number: 256
     expected_row_header_column: C
     expected_row_header: 50000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -6843,14 +6848,14 @@ record_sets:
       value: 50000
       label: total_income_lower_bound
   - value_id: east_of_england_all_band_70000
-    label: East, all taxpayers, total income from GBP 70 000
+    label: East of England, all taxpayers, total income from GBP 70 000
     ordinal: 241
     row_number: 257
     expected_row_header_column: C
     expected_row_header: 70000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -6869,14 +6874,14 @@ record_sets:
       value: 70000
       label: total_income_lower_bound
   - value_id: east_of_england_all_band_100000
-    label: East, all taxpayers, total income from GBP 100 000
+    label: East of England, all taxpayers, total income from GBP 100 000
     ordinal: 242
     row_number: 258
     expected_row_header_column: C
     expected_row_header: 100000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -6895,14 +6900,14 @@ record_sets:
       value: 100000
       label: total_income_lower_bound
   - value_id: east_of_england_all_band_150000
-    label: East, all taxpayers, total income from GBP 150 000
+    label: East of England, all taxpayers, total income from GBP 150 000
     ordinal: 243
     row_number: 259
     expected_row_header_column: C
     expected_row_header: 150000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -6921,14 +6926,14 @@ record_sets:
       value: 150000
       label: total_income_lower_bound
   - value_id: east_of_england_all_band_200000
-    label: East, all taxpayers, total income from GBP 200 000
+    label: East of England, all taxpayers, total income from GBP 200 000
     ordinal: 244
     row_number: 260
     expected_row_header_column: C
     expected_row_header: 200000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -6947,14 +6952,14 @@ record_sets:
       value: 200000
       label: total_income_lower_bound
   - value_id: east_of_england_all_all_ranges
-    label: East, all taxpayers, all ranges of total income
+    label: East of England, all taxpayers, all ranges of total income
     ordinal: 245
     row_number: 261
     expected_row_header_column: C
     expected_row_header: All Ranges
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: total
     guard_cells:
@@ -6967,14 +6972,14 @@ record_sets:
     filters:
       sex: all
   - value_id: east_of_england_male_band_12570
-    label: East, male taxpayers, total income from GBP 12 570
+    label: East of England, male taxpayers, total income from GBP 12 570
     ordinal: 246
     row_number: 262
     expected_row_header_column: C
     expected_row_header: 12570
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -6997,14 +7002,14 @@ record_sets:
       value: 12570
       label: total_income_lower_bound
   - value_id: east_of_england_male_band_15000
-    label: East, male taxpayers, total income from GBP 15 000
+    label: East of England, male taxpayers, total income from GBP 15 000
     ordinal: 247
     row_number: 263
     expected_row_header_column: C
     expected_row_header: 15000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7027,14 +7032,14 @@ record_sets:
       value: 15000
       label: total_income_lower_bound
   - value_id: east_of_england_male_band_20000
-    label: East, male taxpayers, total income from GBP 20 000
+    label: East of England, male taxpayers, total income from GBP 20 000
     ordinal: 248
     row_number: 264
     expected_row_header_column: C
     expected_row_header: 20000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7057,14 +7062,14 @@ record_sets:
       value: 20000
       label: total_income_lower_bound
   - value_id: east_of_england_male_band_30000
-    label: East, male taxpayers, total income from GBP 30 000
+    label: East of England, male taxpayers, total income from GBP 30 000
     ordinal: 249
     row_number: 265
     expected_row_header_column: C
     expected_row_header: 30000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7087,14 +7092,14 @@ record_sets:
       value: 30000
       label: total_income_lower_bound
   - value_id: east_of_england_male_band_40000
-    label: East, male taxpayers, total income from GBP 40 000
+    label: East of England, male taxpayers, total income from GBP 40 000
     ordinal: 250
     row_number: 266
     expected_row_header_column: C
     expected_row_header: 40000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7117,14 +7122,14 @@ record_sets:
       value: 40000
       label: total_income_lower_bound
   - value_id: east_of_england_male_band_50000
-    label: East, male taxpayers, total income from GBP 50 000
+    label: East of England, male taxpayers, total income from GBP 50 000
     ordinal: 251
     row_number: 267
     expected_row_header_column: C
     expected_row_header: 50000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7147,14 +7152,14 @@ record_sets:
       value: 50000
       label: total_income_lower_bound
   - value_id: east_of_england_male_band_70000
-    label: East, male taxpayers, total income from GBP 70 000
+    label: East of England, male taxpayers, total income from GBP 70 000
     ordinal: 252
     row_number: 268
     expected_row_header_column: C
     expected_row_header: 70000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7177,14 +7182,14 @@ record_sets:
       value: 70000
       label: total_income_lower_bound
   - value_id: east_of_england_male_band_100000
-    label: East, male taxpayers, total income from GBP 100 000
+    label: East of England, male taxpayers, total income from GBP 100 000
     ordinal: 253
     row_number: 269
     expected_row_header_column: C
     expected_row_header: 100000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7207,14 +7212,14 @@ record_sets:
       value: 100000
       label: total_income_lower_bound
   - value_id: east_of_england_male_band_150000
-    label: East, male taxpayers, total income from GBP 150 000
+    label: East of England, male taxpayers, total income from GBP 150 000
     ordinal: 254
     row_number: 270
     expected_row_header_column: C
     expected_row_header: 150000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7237,14 +7242,14 @@ record_sets:
       value: 150000
       label: total_income_lower_bound
   - value_id: east_of_england_male_band_200000
-    label: East, male taxpayers, total income from GBP 200 000
+    label: East of England, male taxpayers, total income from GBP 200 000
     ordinal: 255
     row_number: 271
     expected_row_header_column: C
     expected_row_header: 200000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7267,14 +7272,14 @@ record_sets:
       value: 200000
       label: total_income_lower_bound
   - value_id: east_of_england_male_all_ranges
-    label: East, male taxpayers, all ranges of total income
+    label: East of England, male taxpayers, all ranges of total income
     ordinal: 256
     row_number: 272
     expected_row_header_column: C
     expected_row_header: All Ranges
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: total
     guard_cells:
@@ -7292,14 +7297,14 @@ record_sets:
       value: male
       label: Sex
   - value_id: east_of_england_female_band_12570
-    label: East, female taxpayers, total income from GBP 12 570
+    label: East of England, female taxpayers, total income from GBP 12 570
     ordinal: 257
     row_number: 273
     expected_row_header_column: C
     expected_row_header: 12570
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7322,14 +7327,14 @@ record_sets:
       value: 12570
       label: total_income_lower_bound
   - value_id: east_of_england_female_band_15000
-    label: East, female taxpayers, total income from GBP 15 000
+    label: East of England, female taxpayers, total income from GBP 15 000
     ordinal: 258
     row_number: 274
     expected_row_header_column: C
     expected_row_header: 15000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7352,14 +7357,14 @@ record_sets:
       value: 15000
       label: total_income_lower_bound
   - value_id: east_of_england_female_band_20000
-    label: East, female taxpayers, total income from GBP 20 000
+    label: East of England, female taxpayers, total income from GBP 20 000
     ordinal: 259
     row_number: 275
     expected_row_header_column: C
     expected_row_header: 20000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7382,14 +7387,14 @@ record_sets:
       value: 20000
       label: total_income_lower_bound
   - value_id: east_of_england_female_band_30000
-    label: East, female taxpayers, total income from GBP 30 000
+    label: East of England, female taxpayers, total income from GBP 30 000
     ordinal: 260
     row_number: 276
     expected_row_header_column: C
     expected_row_header: 30000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7412,14 +7417,14 @@ record_sets:
       value: 30000
       label: total_income_lower_bound
   - value_id: east_of_england_female_band_40000
-    label: East, female taxpayers, total income from GBP 40 000
+    label: East of England, female taxpayers, total income from GBP 40 000
     ordinal: 261
     row_number: 277
     expected_row_header_column: C
     expected_row_header: 40000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7442,14 +7447,14 @@ record_sets:
       value: 40000
       label: total_income_lower_bound
   - value_id: east_of_england_female_band_50000
-    label: East, female taxpayers, total income from GBP 50 000
+    label: East of England, female taxpayers, total income from GBP 50 000
     ordinal: 262
     row_number: 278
     expected_row_header_column: C
     expected_row_header: 50000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7472,14 +7477,14 @@ record_sets:
       value: 50000
       label: total_income_lower_bound
   - value_id: east_of_england_female_band_70000
-    label: East, female taxpayers, total income from GBP 70 000
+    label: East of England, female taxpayers, total income from GBP 70 000
     ordinal: 263
     row_number: 279
     expected_row_header_column: C
     expected_row_header: 70000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7502,14 +7507,14 @@ record_sets:
       value: 70000
       label: total_income_lower_bound
   - value_id: east_of_england_female_band_100000
-    label: East, female taxpayers, total income from GBP 100 000
+    label: East of England, female taxpayers, total income from GBP 100 000
     ordinal: 264
     row_number: 280
     expected_row_header_column: C
     expected_row_header: 100000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7532,14 +7537,14 @@ record_sets:
       value: 100000
       label: total_income_lower_bound
   - value_id: east_of_england_female_band_150000
-    label: East, female taxpayers, total income from GBP 150 000
+    label: East of England, female taxpayers, total income from GBP 150 000
     ordinal: 265
     row_number: 281
     expected_row_header_column: C
     expected_row_header: 150000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7562,14 +7567,14 @@ record_sets:
       value: 150000
       label: total_income_lower_bound
   - value_id: east_of_england_female_band_200000
-    label: East, female taxpayers, total income from GBP 200 000
+    label: East of England, female taxpayers, total income from GBP 200 000
     ordinal: 266
     row_number: 282
     expected_row_header_column: C
     expected_row_header: 200000
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -7592,14 +7597,14 @@ record_sets:
       value: 200000
       label: total_income_lower_bound
   - value_id: east_of_england_female_all_ranges
-    label: East, female taxpayers, all ranges of total income
+    label: East of England, female taxpayers, all ranges of total income
     ordinal: 267
     row_number: 283
     expected_row_header_column: C
     expected_row_header: All Ranges
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
     table_record_kind: total
     guard_cells:
@@ -13575,14 +13580,14 @@ record_sets:
   groupby_dimension: hmrc.total_income_band_by_sex
   rows:
   - value_id: yorkshire_and_the_humber_female_band_150000
-    label: Yorkshire and The Humber, female taxpayers, total income from GBP 150 000
+    label: Yorkshire and the Humber, female taxpayers, total income from GBP 150 000
     ordinal: 0
     row_number: 182
     expected_row_header_column: C
     expected_row_header: 150000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -13605,14 +13610,14 @@ record_sets:
       value: 150000
       label: total_income_lower_bound
   - value_id: yorkshire_and_the_humber_female_band_200000
-    label: Yorkshire and The Humber, female taxpayers, total income from GBP 200 000
+    label: Yorkshire and the Humber, female taxpayers, total income from GBP 200 000
     ordinal: 1
     row_number: 183
     expected_row_header_column: C
     expected_row_header: 200000
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and The Humber
+    geography_name: Yorkshire and the Humber
     geography_vintage: current
     table_record_kind: detail
     guard_cells:
@@ -14409,4 +14414,3 @@ record_sets:
     aggregation: sum
     value_scale: 1000000
     expected_cell_type: number
-

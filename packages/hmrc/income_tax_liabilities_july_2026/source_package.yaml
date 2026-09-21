@@ -5462,7 +5462,7 @@ record_sets:
   period: 2023
   geography_id: E12000003
   geography_level: region
-  geography_name: Yorkshire and The Humber
+  geography_name: Yorkshire and the Humber
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -5510,7 +5510,7 @@ record_sets:
   period: 2023
   geography_id: E12000003
   geography_level: region
-  geography_name: Yorkshire and The Humber
+  geography_name: Yorkshire and the Humber
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -5796,7 +5796,7 @@ record_sets:
   period: 2024
   geography_id: E12000003
   geography_level: region
-  geography_name: Yorkshire and The Humber
+  geography_name: Yorkshire and the Humber
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -5843,7 +5843,7 @@ record_sets:
   period: 2024
   geography_id: E12000003
   geography_level: region
-  geography_name: Yorkshire and The Humber
+  geography_name: Yorkshire and the Humber
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -6129,7 +6129,7 @@ record_sets:
   period: 2025
   geography_id: E12000003
   geography_level: region
-  geography_name: Yorkshire and The Humber
+  geography_name: Yorkshire and the Humber
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -6176,7 +6176,7 @@ record_sets:
   period: 2025
   geography_id: E12000003
   geography_level: region
-  geography_name: Yorkshire and The Humber
+  geography_name: Yorkshire and the Humber
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -6462,7 +6462,7 @@ record_sets:
   period: 2026
   geography_id: E12000003
   geography_level: region
-  geography_name: Yorkshire and The Humber
+  geography_name: Yorkshire and the Humber
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -6509,7 +6509,7 @@ record_sets:
   period: 2026
   geography_id: E12000003
   geography_level: region
-  geography_name: Yorkshire and The Humber
+  geography_name: Yorkshire and the Humber
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -9464,7 +9464,7 @@ record_sets:
   period: 2023
   geography_id: E12000006
   geography_level: region
-  geography_name: East
+  geography_name: East of England
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -9512,7 +9512,7 @@ record_sets:
   period: 2023
   geography_id: E12000006
   geography_level: region
-  geography_name: East
+  geography_name: East of England
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -9798,7 +9798,7 @@ record_sets:
   period: 2024
   geography_id: E12000006
   geography_level: region
-  geography_name: East
+  geography_name: East of England
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -9845,7 +9845,7 @@ record_sets:
   period: 2024
   geography_id: E12000006
   geography_level: region
-  geography_name: East
+  geography_name: East of England
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -10131,7 +10131,7 @@ record_sets:
   period: 2025
   geography_id: E12000006
   geography_level: region
-  geography_name: East
+  geography_name: East of England
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -10178,7 +10178,7 @@ record_sets:
   period: 2025
   geography_id: E12000006
   geography_level: region
-  geography_name: East
+  geography_name: East of England
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -10464,7 +10464,7 @@ record_sets:
   period: 2026
   geography_id: E12000006
   geography_level: region
-  geography_name: East
+  geography_name: East of England
   geography_vintage: current
   entity: person
   entity_role: taxpayer
@@ -10511,7 +10511,7 @@ record_sets:
   period: 2026
   geography_id: E12000006
   geography_level: region
-  geography_name: East
+  geography_name: East of England
   geography_vintage: current
   entity: person
   entity_role: taxpayer
