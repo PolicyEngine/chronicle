@@ -34,8 +34,12 @@
 # entity. Both are the quotient of two ported series (GBP 49.81 billion over
 # 2.85 million individuals is the published GBP 17,500 for 2024-25), and
 # Chronicle does not store a value it can derive. Table 8 is a single tax year
-# (2024-25) by expense type and is ported whole, including the percentage of
-# landlords declaring, which is not derivable from the ported cells.
+# (2024-25) by expense type and is ported whole, including HMRC's published
+# percentage of landlords declaring each expense type. That percentage is
+# emitted as HMRC publishes it, not computed: dividing the ported counts
+# reproduces it only to rounding (1.15 million of 2.88 million is 39.9 against
+# the published 39.8 for residential finance costs), so it is a published value
+# in its own right rather than a quotient Chronicle could stand in for.
 #
 # HMRC counts 'tax entities' - individuals and partnerships - so the facts use
 # entity tax_unit with the publisher's split carried as a tax_entity_type
@@ -1756,7 +1760,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -1824,7 +1828,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -1835,7 +1839,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -1846,7 +1850,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -1958,7 +1962,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -2026,7 +2030,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -2037,7 +2041,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -2048,7 +2052,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -2160,7 +2164,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -2228,7 +2232,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -2239,7 +2243,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -2250,7 +2254,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -2362,7 +2366,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -2430,7 +2434,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -2441,7 +2445,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -2452,7 +2456,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -2564,7 +2568,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -2632,7 +2636,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -2643,7 +2647,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -2654,7 +2658,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -2766,7 +2770,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -2834,7 +2838,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -2845,7 +2849,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -2856,7 +2860,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -2968,7 +2972,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -3036,7 +3040,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -3047,7 +3051,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -3058,7 +3062,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -3170,7 +3174,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -3238,7 +3242,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -3249,7 +3253,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -3260,7 +3264,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -3372,7 +3376,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -3440,7 +3444,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -3451,7 +3455,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -3462,7 +3466,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -3574,7 +3578,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -3642,7 +3646,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -3653,7 +3657,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -3664,7 +3668,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -3776,7 +3780,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -3844,7 +3848,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -3855,7 +3859,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -3866,7 +3870,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -3978,7 +3982,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -4046,7 +4050,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -4057,7 +4061,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -4068,7 +4072,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -4180,7 +4184,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -4248,7 +4252,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -4259,7 +4263,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -4270,7 +4274,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -4382,7 +4386,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -4450,7 +4454,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -4461,7 +4465,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -4472,7 +4476,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -4584,7 +4588,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -4652,7 +4656,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -4663,7 +4667,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -4674,7 +4678,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -4786,7 +4790,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -4854,7 +4858,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -4865,7 +4869,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -4876,7 +4880,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -4988,7 +4992,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -5056,7 +5060,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -5067,7 +5071,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -5078,7 +5082,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -5190,7 +5194,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -5258,7 +5262,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -5269,7 +5273,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -5280,7 +5284,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -5392,7 +5396,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -5460,7 +5464,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -5471,7 +5475,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -5482,7 +5486,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
@@ -5594,7 +5598,7 @@ record_sets:
     table_record_kind: total
     geography_id: E12000006
     geography_level: region
-    geography_name: East
+    geography_name: East of England
     geography_vintage: current
   - value_id: e12000007
     label: London
@@ -5662,7 +5666,7 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: current
-  - value_id: hmrc:channel_islands
+  - value_id: hmrc_channel_islands
     label: Channel Islands
     ordinal: 12
     row_number: 16
@@ -5673,7 +5677,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Channel Islands
     geography_vintage: current
-  - value_id: hmrc:isle_of_man
+  - value_id: hmrc_isle_of_man
     label: Isle of Man
     ordinal: 13
     row_number: 17
@@ -5684,7 +5688,7 @@ record_sets:
     geography_level: statistical_scope
     geography_name: Isle of Man
     geography_vintage: current
-  - value_id: hmrc:landlord_region_unknown
+  - value_id: hmrc_landlord_region_unknown
     label: Unknown
     ordinal: 14
     row_number: 18
