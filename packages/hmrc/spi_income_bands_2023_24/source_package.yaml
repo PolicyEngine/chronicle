@@ -62,9 +62,9 @@ dimension_value_labels:
     'female': 'Female'
   'marginal_rate':
     'all': 'All rates'
-    'savers': "'Savers'"
-    'basic': 'Basic'
-    'higher': 'Higher'
+    'savers': 'Savers rate'
+    'basic': 'Basic rate'
+    'higher': 'Higher rate'
     'additional': 'Additional rate'
   'largest_income_source':
     'self_employment': 'Self-employment'
