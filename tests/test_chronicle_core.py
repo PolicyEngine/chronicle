@@ -463,10 +463,13 @@ def test_frozen_fixture_bytes_are_unchanged():
         ),
         fixture_root / "consumer_facts.jsonl": (
             # chronicle#266 re-pinned this from cc18841e… when the rows began
-            # carrying the publisher's geography name, and chronicle#265 again
-            # here, because the sample's own package now declares its dimension
-            # labels. The keys and values in them are unchanged.
-            "686ba7f0a357967ffa186cc38bf353a424e59d72074316d2e502ebc19af09c7c"
+            # carrying the publisher's geography name, chronicle#265 again
+            # because the sample's own package now declares its dimension
+            # labels, and chronicle#281 again for the v4 contract. Only the
+            # schema_version moved that last time: the three rows are IRS SOI
+            # and the geography register is UK-only. The keys and values in
+            # them are unchanged throughout.
+            "d02308d049edcd0e60b29d590211456c6427a505e1acf50f1ae71bbcd2962a8c"
         ),
         fixture_root / "source_cells" / "soi_table_1_1_2023_cells.jsonl": (
             "615639f21ee63e54595c677e24c3eddff484c00a795a2f91b45a8575f021c7e2"
