@@ -44,7 +44,7 @@ from policyengine_chronicle.consumer import (
 )
 
 CONSUMER_FACT_SCHEMA_PATH = (
-    Path(__file__).parents[1] / "docs" / "schemas" / "consumer_fact.v3.schema.json"
+    Path(__file__).parents[1] / "docs" / "schemas" / "consumer_fact.v4.schema.json"
 )
 CONSUMER_FACT_SAMPLE_PATH = (
     Path(__file__).parents[1] / "chronicle" / "fixtures" / "consumer_facts.jsonl"
@@ -331,7 +331,7 @@ def test_write_consumer_facts_jsonl_accepts_the_ledger_epoch_string(tmp_path):
         [_soi_agi_fact()], facts_path, emit_epoch="ledger"
     )
 
-    assert report.schema_version == "chronicle.consumer_fact.v3"
+    assert report.schema_version == "chronicle.consumer_fact.v4"
     assert facts_path.exists()
 
 

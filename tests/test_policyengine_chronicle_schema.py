@@ -196,7 +196,7 @@ def test_valid_fixture_rows_pass_validation():
     ]
 
     assert len(rows) == 3
-    assert {row["schema_version"] for row in rows} == {_V3}
+    assert {row["schema_version"] for row in rows} == {_V4}
     for line_number, row in enumerate(rows, start=1):
         validate_consumer_fact_row(row, line_number, _SAMPLE_PATH)
 
@@ -259,8 +259,8 @@ def test_all_chronicle_epoch_identifiers_pass_without_mutating_row():
     assert row == original
     normalized = normalize_consumer_fact_row_epochs(row, 2, _SAMPLE_PATH)
     # The row contract is not an epoch alias: a row keeps the contract it
-    # declares, here the v3 one the fixture was published under.
-    assert normalized["schema_version"] == _V3
+    # declares, here the v4 one the fixture was published under.
+    assert normalized["schema_version"] == _V4
     for field_name, domain_name in _TOP_LEVEL_KEY_DOMAINS.items():
         assert normalized[field_name].startswith(HASH_DOMAINS[domain_name].ledger + ":")
     assert normalized["concept_alignment"]["concept_alignment_key"].startswith(

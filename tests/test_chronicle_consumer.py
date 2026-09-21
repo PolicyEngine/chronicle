@@ -130,7 +130,7 @@ def test_artifact_build_load_round_trip_is_facts_only(tmp_path):
     }
     assert manifest == {
         "schema_version": "policyengine_ledger.consumer_artifact.v2",
-        "consumer_fact_schema_versions": ["chronicle.consumer_fact.v3"],
+        "consumer_fact_schema_versions": ["chronicle.consumer_fact.v4"],
         "consumer_fact_schema_sha256": CONSUMER_FACT_SCHEMA_SHA256,
         "fact_row_count": 2,
         "facts_sha256": hashlib.sha256(
@@ -139,7 +139,7 @@ def test_artifact_build_load_round_trip_is_facts_only(tmp_path):
     }
     assert (
         CONSUMER_FACT_SCHEMA_SHA256
-        == (CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION["chronicle.consumer_fact.v3"])
+        == (CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION["chronicle.consumer_fact.v4"])
     )
     assert {path.name for path in out_dir.iterdir()} == {
         "consumer_facts.jsonl",
@@ -257,14 +257,14 @@ def test_mixed_epoch_rows_are_emitted_ledger_keyed_in_one_artifact(tmp_path):
     artifact = load_consumer_artifact(out_dir)
 
     assert artifact.manifest["consumer_fact_schema_versions"] == [
-        "chronicle.consumer_fact.v3"
+        "chronicle.consumer_fact.v4"
     ]
     assert len(artifact.rows) == 2
     validator = Draft202012Validator(consumer_fact_schema())
     for line in (out_dir / "consumer_facts.jsonl").read_text().splitlines():
         row = json.loads(line)
         validator.validate(row)
-        assert row["schema_version"] == "chronicle.consumer_fact.v3"
+        assert row["schema_version"] == "chronicle.consumer_fact.v4"
         for field_name in _KEY_FIELDS:
             assert row[field_name].startswith("ledger.")
         assert all(
@@ -398,6 +398,7 @@ def test_artifact_load_unknown_row_schema_names_both_accepted_forms(tmp_path):
     assert "ledger.consumer_fact.v1" in message
     assert "chronicle.consumer_fact.v2" in message
     assert "chronicle.consumer_fact.v3" in message
+    assert "chronicle.consumer_fact.v4" in message
 
 
 def test_artifact_load_rejects_declared_row_schema_drift(tmp_path):

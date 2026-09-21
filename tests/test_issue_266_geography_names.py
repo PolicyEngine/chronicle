@@ -7,6 +7,12 @@ cannot be placed. Chronicle has always held the name the publisher gives an
 area; ``chronicle.consumer_fact.v3`` exports it. These tests pin that it rides
 on the row, never on a key, and that ``build-bundle`` refuses an unnamed
 sub-national geography.
+
+Chronicle's canonical name register (chronicle#281) answers first for the
+identifiers it carries, so the cases below that turn on a source naming an area
+badly or not at all use identifiers outside it - output-area-level codes, and
+the US areas whose publishers truncate their names. What the register answers
+for is pinned in ``test_chronicle_geography_names``.
 """
 
 from __future__ import annotations
@@ -128,20 +134,22 @@ def test_the_row_names_the_geography_its_publisher_names():
 
 @pytest.mark.parametrize("name", [None, "", "   "])
 def test_a_geography_the_source_does_not_name_exports_no_name(name):
-    row = consumer_fact_row(_fact(name=name))
+    row = consumer_fact_row(_fact(name=name, level="msoa", geography_id="E02000001"))
 
     assert "name" not in row["geography"]
     validate_consumer_fact_row(row, 1, "unnamed.jsonl")
 
 
 def test_the_geography_name_moves_no_key_and_nothing_else_on_the_row():
-    plain = consumer_fact_row(_fact())
-    named = consumer_fact_row(_fact(name="Bishop Auckland"))
+    plain = consumer_fact_row(_fact(level="msoa", geography_id="E02000001"))
+    named = consumer_fact_row(
+        _fact(name="Darlington 001", level="msoa", geography_id="E02000001")
+    )
 
     for field_name in (*_KEY_FIELDS, "value", "dimensions", "period", "entity"):
         assert named[field_name] == plain[field_name]
     assert {key: value for key, value in named.items() if plain.get(key) != value} == {
-        "geography": {**plain["geography"], "name": "Bishop Auckland"}
+        "geography": {**plain["geography"], "name": "Darlington 001"}
     }
 
 
@@ -177,9 +185,9 @@ def test_a_v2_row_may_not_carry_a_geography_name():
 
 def test_unnamed_areas_are_reported_once_each_and_country_rows_are_not():
     rows = [
-        consumer_fact_row(_fact()),
-        consumer_fact_row(_fact()),
-        consumer_fact_row(_fact(geography_id="E14001106")),
+        consumer_fact_row(_fact(level="msoa", geography_id="E02000001")),
+        consumer_fact_row(_fact(level="msoa", geography_id="E02000001")),
+        consumer_fact_row(_fact(level="msoa", geography_id="E02000002")),
         consumer_fact_row(_fact(level="country", geography_id="K03000001")),
         consumer_fact_row(_fact(name="Bishop Auckland")),
     ]
@@ -187,8 +195,8 @@ def test_unnamed_areas_are_reported_once_each_and_country_rows_are_not():
     errors = _geography_name_errors("dwp-uc-households-by-constituency-may-2025", rows)
 
     assert [error.key for error in errors] == [
-        "constituency:E14001101",
-        "constituency:E14001106",
+        "msoa:E02000001",
+        "msoa:E02000002",
     ]
     assert {error.code for error in errors} == {"missing_geography_name"}
     assert "2 fact(s)" in errors[0].message
@@ -256,14 +264,20 @@ def test_build_bundle_warns_when_two_packages_name_an_area_differently(tmp_path)
 
 def test_one_package_naming_an_area_twice_is_an_error():
     rows = [
-        consumer_fact_row(_fact(name="Bishop Auckland")),
-        consumer_fact_row(_fact(name="Bishop  Auckland")),
-        consumer_fact_row(_fact(geography_id="E14001106", name="Blaydon")),
+        consumer_fact_row(
+            _fact(name="Darlington 001", level="msoa", geography_id="E02000001")
+        ),
+        consumer_fact_row(
+            _fact(name="Darlington  001", level="msoa", geography_id="E02000001")
+        ),
+        consumer_fact_row(
+            _fact(name="Darlington 002", level="msoa", geography_id="E02000002")
+        ),
     ]
 
     errors = _geography_name_errors("dwp-uc-households-by-constituency-may-2025", rows)
 
     assert [(error.code, error.key) for error in errors] == [
-        ("conflicting_geography_name", "constituency:E14001101")
+        ("conflicting_geography_name", "msoa:E02000001")
     ]
     assert "one source states one name for an area" in errors[0].message
