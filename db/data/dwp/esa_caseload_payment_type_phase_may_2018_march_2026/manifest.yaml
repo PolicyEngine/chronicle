@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-esa-caseload-payment-type-phase-may-2018-march-2026
+dataset: dwp_dwp-esa-caseload-payment-type-phase-may-2018-march-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: Employment and Support Allowance caseload by payment type and phase of claim,
+  May 2018 to March 2026
+files:
+  2026:
+    filename: esa_caseload_by_payment_type_and_phase_may_2018_march_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: d15358ae87fe858ed9864b3eb327181b2c026a1c3d6cd3d77ebb38963b7aaa32
+    size_bytes: 18925
+    fetched_at: '2026-09-21T12:00:00Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-esa-caseload-payment-type-phase-may-2018-march-2026/2026/d15358ae87fe858ed9864b3eb327181b2c026a1c3d6cd3d77ebb38963b7aaa32/esa_caseload_by_payment_type_and_phase_may_2018_march_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-esa-caseload-payment-type-phase-may-2018-march-2026/2026/d15358ae87fe858ed9864b3eb327181b2c026a1c3d6cd3d77ebb38963b7aaa32/esa_caseload_by_payment_type_and_phase_may_2018_march_2026.json
