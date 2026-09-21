@@ -15,6 +15,17 @@
 # taxpayers with no Personal Allowance entitlement (Table 3.3 note 2). The
 # 'All ranges' rows are ported as table_record_kind: total.
 #
+# A band is both of its edges. Every banded row these record sets add carries
+# total_income_upper_bound beside total_income_lower_bound - the next band its
+# own block lists - and the last band a block lists is open, so it carries none.
+# Blocks do not all stop at GBP 1 000 000: Table 3.4's savers and basic blocks
+# stop at GBP 30 000, and their bands sum to the block total, so that band is
+# open there although it is GBP 30 000 to GBP 40 000 on Table 3.3. Without the
+# upper edge such rows shared a key with a different universe on another table
+# (the Income Tax liabilities package's bands are not these). The Table 3.6 and
+# 3.7 rows that predate them keep their original keys: they carry the income
+# components, which no other table restates, and Microcosm binds them.
+#
 # Table 3.3 bands the same taxpayers twice: the before-tax sheet by total
 # income before tax, the after-tax sheet by total income after the deduction
 # of tax (note 1), so an individual can fall in different bands on the two
@@ -51,7 +62,9 @@ dimension_labels:
   'hmrc.total_income_after_tax_band_by_sex': 'Total income after tax band by sex'
   'hmrc.marginal_rate_by_total_income_band': 'Marginal rate payable by total income band'
   'total_income_lower_bound': 'Total income lower bound (GBP)'
+  'total_income_upper_bound': 'Total income upper bound (GBP)'
   'total_income_after_tax_lower_bound': 'Total income after tax lower bound (GBP)'
+  'total_income_after_tax_upper_bound': 'Total income after tax upper bound (GBP)'
   'sex': 'Sex'
   'marginal_rate': 'Marginal rate payable'
   'largest_income_source': 'Largest source of income'
@@ -833,7 +846,7 @@ record_sets:
   groupby_dimension: hmrc.total_income_band_by_sex
   rows:
   - value_id: all_band_12570
-    label: All taxpayers, total income before tax from GBP 12 570
+    label: All taxpayers, total income before tax from GBP 12 570 to GBP 15 000
     ordinal: 0
     row_number: 7
     expected_row_header_column: A
@@ -846,13 +859,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 12570
+      total_income_upper_bound: 15000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 12570
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 15000
+      label: total_income_upper_bound
   - value_id: all_band_15000
-    label: All taxpayers, total income before tax from GBP 15 000
+    label: All taxpayers, total income before tax from GBP 15 000 to GBP 20 000
     ordinal: 1
     row_number: 8
     expected_row_header_column: A
@@ -865,13 +883,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 15000
+      total_income_upper_bound: 20000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 15000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 20000
+      label: total_income_upper_bound
   - value_id: all_band_20000
-    label: All taxpayers, total income before tax from GBP 20 000
+    label: All taxpayers, total income before tax from GBP 20 000 to GBP 30 000
     ordinal: 2
     row_number: 9
     expected_row_header_column: A
@@ -884,13 +907,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 20000
+      total_income_upper_bound: 30000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 20000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 30000
+      label: total_income_upper_bound
   - value_id: all_band_30000
-    label: All taxpayers, total income before tax from GBP 30 000
+    label: All taxpayers, total income before tax from GBP 30 000 to GBP 40 000
     ordinal: 3
     row_number: 10
     expected_row_header_column: A
@@ -903,13 +931,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 30000
+      total_income_upper_bound: 40000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 30000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 40000
+      label: total_income_upper_bound
   - value_id: all_band_40000
-    label: All taxpayers, total income before tax from GBP 40 000
+    label: All taxpayers, total income before tax from GBP 40 000 to GBP 50 000
     ordinal: 4
     row_number: 11
     expected_row_header_column: A
@@ -922,13 +955,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 40000
+      total_income_upper_bound: 50000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 40000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 50000
+      label: total_income_upper_bound
   - value_id: all_band_50000
-    label: All taxpayers, total income before tax from GBP 50 000
+    label: All taxpayers, total income before tax from GBP 50 000 to GBP 70 000
     ordinal: 5
     row_number: 12
     expected_row_header_column: A
@@ -941,13 +979,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 50000
+      total_income_upper_bound: 70000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 50000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 70000
+      label: total_income_upper_bound
   - value_id: all_band_70000
-    label: All taxpayers, total income before tax from GBP 70 000
+    label: All taxpayers, total income before tax from GBP 70 000 to GBP 100 000
     ordinal: 6
     row_number: 13
     expected_row_header_column: A
@@ -960,13 +1003,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 70000
+      total_income_upper_bound: 100000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 70000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 100000
+      label: total_income_upper_bound
   - value_id: all_band_100000
-    label: All taxpayers, total income before tax from GBP 100 000
+    label: All taxpayers, total income before tax from GBP 100 000 to GBP 150 000
     ordinal: 7
     row_number: 14
     expected_row_header_column: A
@@ -979,13 +1027,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 100000
+      total_income_upper_bound: 150000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 100000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 150000
+      label: total_income_upper_bound
   - value_id: all_band_150000
-    label: All taxpayers, total income before tax from GBP 150 000
+    label: All taxpayers, total income before tax from GBP 150 000 to GBP 200 000
     ordinal: 8
     row_number: 15
     expected_row_header_column: A
@@ -998,13 +1051,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 150000
+      total_income_upper_bound: 200000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 150000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 200000
+      label: total_income_upper_bound
   - value_id: all_band_200000
-    label: All taxpayers, total income before tax from GBP 200 000
+    label: All taxpayers, total income before tax from GBP 200 000 to GBP 300 000
     ordinal: 9
     row_number: 16
     expected_row_header_column: A
@@ -1017,13 +1075,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 200000
+      total_income_upper_bound: 300000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 200000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 300000
+      label: total_income_upper_bound
   - value_id: all_band_300000
-    label: All taxpayers, total income before tax from GBP 300 000
+    label: All taxpayers, total income before tax from GBP 300 000 to GBP 500 000
     ordinal: 10
     row_number: 17
     expected_row_header_column: A
@@ -1036,13 +1099,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 300000
+      total_income_upper_bound: 500000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 300000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 500000
+      label: total_income_upper_bound
   - value_id: all_band_500000
-    label: All taxpayers, total income before tax from GBP 500 000
+    label: All taxpayers, total income before tax from GBP 500 000 to GBP 1 000 000
     ordinal: 11
     row_number: 18
     expected_row_header_column: A
@@ -1055,13 +1123,18 @@ record_sets:
     filters:
       sex: all
       total_income_lower_bound: 500000
+      total_income_upper_bound: 1000000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 500000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 1000000
+      label: total_income_upper_bound
   - value_id: all_band_1000000
-    label: All taxpayers, total income before tax from GBP 1 000 000
+    label: All taxpayers, total income before tax of GBP 1 000 000 and over
     ordinal: 12
     row_number: 19
     expected_row_header_column: A
@@ -1093,7 +1166,7 @@ record_sets:
     filters:
       sex: all
   - value_id: male_band_12570
-    label: Male taxpayers, total income before tax from GBP 12 570
+    label: Male taxpayers, total income before tax from GBP 12 570 to GBP 15 000
     ordinal: 14
     row_number: 21
     expected_row_header_column: A
@@ -1106,6 +1179,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 12570
+      total_income_upper_bound: 15000
     constraints:
     - variable: sex
       operator: ==
@@ -1115,8 +1189,12 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 15000
+      label: total_income_upper_bound
   - value_id: male_band_15000
-    label: Male taxpayers, total income before tax from GBP 15 000
+    label: Male taxpayers, total income before tax from GBP 15 000 to GBP 20 000
     ordinal: 15
     row_number: 22
     expected_row_header_column: A
@@ -1129,6 +1207,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 15000
+      total_income_upper_bound: 20000
     constraints:
     - variable: sex
       operator: ==
@@ -1138,8 +1217,12 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 20000
+      label: total_income_upper_bound
   - value_id: male_band_20000
-    label: Male taxpayers, total income before tax from GBP 20 000
+    label: Male taxpayers, total income before tax from GBP 20 000 to GBP 30 000
     ordinal: 16
     row_number: 23
     expected_row_header_column: A
@@ -1152,6 +1235,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 20000
+      total_income_upper_bound: 30000
     constraints:
     - variable: sex
       operator: ==
@@ -1161,8 +1245,12 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 30000
+      label: total_income_upper_bound
   - value_id: male_band_30000
-    label: Male taxpayers, total income before tax from GBP 30 000
+    label: Male taxpayers, total income before tax from GBP 30 000 to GBP 40 000
     ordinal: 17
     row_number: 24
     expected_row_header_column: A
@@ -1175,6 +1263,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 30000
+      total_income_upper_bound: 40000
     constraints:
     - variable: sex
       operator: ==
@@ -1184,8 +1273,12 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 40000
+      label: total_income_upper_bound
   - value_id: male_band_40000
-    label: Male taxpayers, total income before tax from GBP 40 000
+    label: Male taxpayers, total income before tax from GBP 40 000 to GBP 50 000
     ordinal: 18
     row_number: 25
     expected_row_header_column: A
@@ -1198,6 +1291,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 40000
+      total_income_upper_bound: 50000
     constraints:
     - variable: sex
       operator: ==
@@ -1207,8 +1301,12 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 50000
+      label: total_income_upper_bound
   - value_id: male_band_50000
-    label: Male taxpayers, total income before tax from GBP 50 000
+    label: Male taxpayers, total income before tax from GBP 50 000 to GBP 70 000
     ordinal: 19
     row_number: 26
     expected_row_header_column: A
@@ -1221,6 +1319,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 50000
+      total_income_upper_bound: 70000
     constraints:
     - variable: sex
       operator: ==
@@ -1230,8 +1329,12 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 70000
+      label: total_income_upper_bound
   - value_id: male_band_70000
-    label: Male taxpayers, total income before tax from GBP 70 000
+    label: Male taxpayers, total income before tax from GBP 70 000 to GBP 100 000
     ordinal: 20
     row_number: 27
     expected_row_header_column: A
@@ -1244,6 +1347,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 70000
+      total_income_upper_bound: 100000
     constraints:
     - variable: sex
       operator: ==
@@ -1253,8 +1357,12 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 100000
+      label: total_income_upper_bound
   - value_id: male_band_100000
-    label: Male taxpayers, total income before tax from GBP 100 000
+    label: Male taxpayers, total income before tax from GBP 100 000 to GBP 150 000
     ordinal: 21
     row_number: 28
     expected_row_header_column: A
@@ -1267,6 +1375,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 100000
+      total_income_upper_bound: 150000
     constraints:
     - variable: sex
       operator: ==
@@ -1276,8 +1385,12 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 150000
+      label: total_income_upper_bound
   - value_id: male_band_150000
-    label: Male taxpayers, total income before tax from GBP 150 000
+    label: Male taxpayers, total income before tax from GBP 150 000 to GBP 200 000
     ordinal: 22
     row_number: 29
     expected_row_header_column: A
@@ -1290,6 +1403,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 150000
+      total_income_upper_bound: 200000
     constraints:
     - variable: sex
       operator: ==
@@ -1299,8 +1413,12 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 200000
+      label: total_income_upper_bound
   - value_id: male_band_200000
-    label: Male taxpayers, total income before tax from GBP 200 000
+    label: Male taxpayers, total income before tax from GBP 200 000 to GBP 300 000
     ordinal: 23
     row_number: 30
     expected_row_header_column: A
@@ -1313,6 +1431,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 200000
+      total_income_upper_bound: 300000
     constraints:
     - variable: sex
       operator: ==
@@ -1322,8 +1441,12 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 300000
+      label: total_income_upper_bound
   - value_id: male_band_300000
-    label: Male taxpayers, total income before tax from GBP 300 000
+    label: Male taxpayers, total income before tax from GBP 300 000 to GBP 500 000
     ordinal: 24
     row_number: 31
     expected_row_header_column: A
@@ -1336,6 +1459,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 300000
+      total_income_upper_bound: 500000
     constraints:
     - variable: sex
       operator: ==
@@ -1345,8 +1469,12 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 500000
+      label: total_income_upper_bound
   - value_id: male_band_500000
-    label: Male taxpayers, total income before tax from GBP 500 000
+    label: Male taxpayers, total income before tax from GBP 500 000 to GBP 1 000 000
     ordinal: 25
     row_number: 32
     expected_row_header_column: A
@@ -1359,6 +1487,7 @@ record_sets:
     filters:
       sex: male
       total_income_lower_bound: 500000
+      total_income_upper_bound: 1000000
     constraints:
     - variable: sex
       operator: ==
@@ -1368,8 +1497,12 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 1000000
+      label: total_income_upper_bound
   - value_id: male_band_1000000
-    label: Male taxpayers, total income before tax from GBP 1 000 000
+    label: Male taxpayers, total income before tax of GBP 1 000 000 and over
     ordinal: 26
     row_number: 33
     expected_row_header_column: A
@@ -1410,7 +1543,7 @@ record_sets:
       value: male
       label: Sex
   - value_id: female_band_12570
-    label: Female taxpayers, total income before tax from GBP 12 570
+    label: Female taxpayers, total income before tax from GBP 12 570 to GBP 15 000
     ordinal: 28
     row_number: 35
     expected_row_header_column: A
@@ -1423,6 +1556,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 12570
+      total_income_upper_bound: 15000
     constraints:
     - variable: sex
       operator: ==
@@ -1432,8 +1566,12 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 15000
+      label: total_income_upper_bound
   - value_id: female_band_15000
-    label: Female taxpayers, total income before tax from GBP 15 000
+    label: Female taxpayers, total income before tax from GBP 15 000 to GBP 20 000
     ordinal: 29
     row_number: 36
     expected_row_header_column: A
@@ -1446,6 +1584,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 15000
+      total_income_upper_bound: 20000
     constraints:
     - variable: sex
       operator: ==
@@ -1455,8 +1594,12 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 20000
+      label: total_income_upper_bound
   - value_id: female_band_20000
-    label: Female taxpayers, total income before tax from GBP 20 000
+    label: Female taxpayers, total income before tax from GBP 20 000 to GBP 30 000
     ordinal: 30
     row_number: 37
     expected_row_header_column: A
@@ -1469,6 +1612,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 20000
+      total_income_upper_bound: 30000
     constraints:
     - variable: sex
       operator: ==
@@ -1478,8 +1622,12 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 30000
+      label: total_income_upper_bound
   - value_id: female_band_30000
-    label: Female taxpayers, total income before tax from GBP 30 000
+    label: Female taxpayers, total income before tax from GBP 30 000 to GBP 40 000
     ordinal: 31
     row_number: 38
     expected_row_header_column: A
@@ -1492,6 +1640,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 30000
+      total_income_upper_bound: 40000
     constraints:
     - variable: sex
       operator: ==
@@ -1501,8 +1650,12 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 40000
+      label: total_income_upper_bound
   - value_id: female_band_40000
-    label: Female taxpayers, total income before tax from GBP 40 000
+    label: Female taxpayers, total income before tax from GBP 40 000 to GBP 50 000
     ordinal: 32
     row_number: 39
     expected_row_header_column: A
@@ -1515,6 +1668,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 40000
+      total_income_upper_bound: 50000
     constraints:
     - variable: sex
       operator: ==
@@ -1524,8 +1678,12 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 50000
+      label: total_income_upper_bound
   - value_id: female_band_50000
-    label: Female taxpayers, total income before tax from GBP 50 000
+    label: Female taxpayers, total income before tax from GBP 50 000 to GBP 70 000
     ordinal: 33
     row_number: 40
     expected_row_header_column: A
@@ -1538,6 +1696,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 50000
+      total_income_upper_bound: 70000
     constraints:
     - variable: sex
       operator: ==
@@ -1547,8 +1706,12 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 70000
+      label: total_income_upper_bound
   - value_id: female_band_70000
-    label: Female taxpayers, total income before tax from GBP 70 000
+    label: Female taxpayers, total income before tax from GBP 70 000 to GBP 100 000
     ordinal: 34
     row_number: 41
     expected_row_header_column: A
@@ -1561,6 +1724,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 70000
+      total_income_upper_bound: 100000
     constraints:
     - variable: sex
       operator: ==
@@ -1570,8 +1734,12 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 100000
+      label: total_income_upper_bound
   - value_id: female_band_100000
-    label: Female taxpayers, total income before tax from GBP 100 000
+    label: Female taxpayers, total income before tax from GBP 100 000 to GBP 150 000
     ordinal: 35
     row_number: 42
     expected_row_header_column: A
@@ -1584,6 +1752,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 100000
+      total_income_upper_bound: 150000
     constraints:
     - variable: sex
       operator: ==
@@ -1593,8 +1762,12 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 150000
+      label: total_income_upper_bound
   - value_id: female_band_150000
-    label: Female taxpayers, total income before tax from GBP 150 000
+    label: Female taxpayers, total income before tax from GBP 150 000 to GBP 200 000
     ordinal: 36
     row_number: 43
     expected_row_header_column: A
@@ -1607,6 +1780,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 150000
+      total_income_upper_bound: 200000
     constraints:
     - variable: sex
       operator: ==
@@ -1616,8 +1790,12 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 200000
+      label: total_income_upper_bound
   - value_id: female_band_200000
-    label: Female taxpayers, total income before tax from GBP 200 000
+    label: Female taxpayers, total income before tax from GBP 200 000 to GBP 300 000
     ordinal: 37
     row_number: 44
     expected_row_header_column: A
@@ -1630,6 +1808,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 200000
+      total_income_upper_bound: 300000
     constraints:
     - variable: sex
       operator: ==
@@ -1639,8 +1818,12 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 300000
+      label: total_income_upper_bound
   - value_id: female_band_300000
-    label: Female taxpayers, total income before tax from GBP 300 000
+    label: Female taxpayers, total income before tax from GBP 300 000 to GBP 500 000
     ordinal: 38
     row_number: 45
     expected_row_header_column: A
@@ -1653,6 +1836,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 300000
+      total_income_upper_bound: 500000
     constraints:
     - variable: sex
       operator: ==
@@ -1662,8 +1846,12 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 500000
+      label: total_income_upper_bound
   - value_id: female_band_500000
-    label: Female taxpayers, total income before tax from GBP 500 000
+    label: Female taxpayers, total income before tax from GBP 500 000 to GBP 1 000 000
     ordinal: 39
     row_number: 46
     expected_row_header_column: A
@@ -1676,6 +1864,7 @@ record_sets:
     filters:
       sex: female
       total_income_lower_bound: 500000
+      total_income_upper_bound: 1000000
     constraints:
     - variable: sex
       operator: ==
@@ -1685,8 +1874,12 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 1000000
+      label: total_income_upper_bound
   - value_id: female_band_1000000
-    label: Female taxpayers, total income before tax from GBP 1 000 000
+    label: Female taxpayers, total income before tax of GBP 1 000 000 and over
     ordinal: 40
     row_number: 47
     expected_row_header_column: A
@@ -1817,7 +2010,7 @@ record_sets:
   groupby_dimension: hmrc.total_income_after_tax_band_by_sex
   rows:
   - value_id: all_band_12570
-    label: All taxpayers, total income after tax from GBP 12 570
+    label: All taxpayers, total income after tax from GBP 12 570 to GBP 15 000
     ordinal: 0
     row_number: 7
     expected_row_header_column: A
@@ -1830,13 +2023,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 12570
+      total_income_after_tax_upper_bound: 15000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 12570
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 15000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_15000
-    label: All taxpayers, total income after tax from GBP 15 000
+    label: All taxpayers, total income after tax from GBP 15 000 to GBP 20 000
     ordinal: 1
     row_number: 8
     expected_row_header_column: A
@@ -1849,13 +2047,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 15000
+      total_income_after_tax_upper_bound: 20000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 15000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 20000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_20000
-    label: All taxpayers, total income after tax from GBP 20 000
+    label: All taxpayers, total income after tax from GBP 20 000 to GBP 30 000
     ordinal: 2
     row_number: 9
     expected_row_header_column: A
@@ -1868,13 +2071,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 20000
+      total_income_after_tax_upper_bound: 30000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 20000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 30000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_30000
-    label: All taxpayers, total income after tax from GBP 30 000
+    label: All taxpayers, total income after tax from GBP 30 000 to GBP 40 000
     ordinal: 3
     row_number: 10
     expected_row_header_column: A
@@ -1887,13 +2095,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 30000
+      total_income_after_tax_upper_bound: 40000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 30000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 40000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_40000
-    label: All taxpayers, total income after tax from GBP 40 000
+    label: All taxpayers, total income after tax from GBP 40 000 to GBP 50 000
     ordinal: 4
     row_number: 11
     expected_row_header_column: A
@@ -1906,13 +2119,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 40000
+      total_income_after_tax_upper_bound: 50000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 40000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 50000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_50000
-    label: All taxpayers, total income after tax from GBP 50 000
+    label: All taxpayers, total income after tax from GBP 50 000 to GBP 70 000
     ordinal: 5
     row_number: 12
     expected_row_header_column: A
@@ -1925,13 +2143,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 50000
+      total_income_after_tax_upper_bound: 70000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 50000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 70000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_70000
-    label: All taxpayers, total income after tax from GBP 70 000
+    label: All taxpayers, total income after tax from GBP 70 000 to GBP 100 000
     ordinal: 6
     row_number: 13
     expected_row_header_column: A
@@ -1944,13 +2167,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 70000
+      total_income_after_tax_upper_bound: 100000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 70000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 100000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_100000
-    label: All taxpayers, total income after tax from GBP 100 000
+    label: All taxpayers, total income after tax from GBP 100 000 to GBP 150 000
     ordinal: 7
     row_number: 14
     expected_row_header_column: A
@@ -1963,13 +2191,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 100000
+      total_income_after_tax_upper_bound: 150000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 100000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 150000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_150000
-    label: All taxpayers, total income after tax from GBP 150 000
+    label: All taxpayers, total income after tax from GBP 150 000 to GBP 200 000
     ordinal: 8
     row_number: 15
     expected_row_header_column: A
@@ -1982,13 +2215,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 150000
+      total_income_after_tax_upper_bound: 200000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 150000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 200000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_200000
-    label: All taxpayers, total income after tax from GBP 200 000
+    label: All taxpayers, total income after tax from GBP 200 000 to GBP 300 000
     ordinal: 9
     row_number: 16
     expected_row_header_column: A
@@ -2001,13 +2239,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 200000
+      total_income_after_tax_upper_bound: 300000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 200000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 300000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_300000
-    label: All taxpayers, total income after tax from GBP 300 000
+    label: All taxpayers, total income after tax from GBP 300 000 to GBP 500 000
     ordinal: 10
     row_number: 17
     expected_row_header_column: A
@@ -2020,13 +2263,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 300000
+      total_income_after_tax_upper_bound: 500000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 300000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 500000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_500000
-    label: All taxpayers, total income after tax from GBP 500 000
+    label: All taxpayers, total income after tax from GBP 500 000 to GBP 1 000 000
     ordinal: 11
     row_number: 18
     expected_row_header_column: A
@@ -2039,13 +2287,18 @@ record_sets:
     filters:
       sex: all
       total_income_after_tax_lower_bound: 500000
+      total_income_after_tax_upper_bound: 1000000
     constraints:
     - variable: total_income_after_tax_lower_bound
       operator: ==
       value: 500000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 1000000
+      label: total_income_after_tax_upper_bound
   - value_id: all_band_1000000
-    label: All taxpayers, total income after tax from GBP 1 000 000
+    label: All taxpayers, total income after tax of GBP 1 000 000 and over
     ordinal: 12
     row_number: 19
     expected_row_header_column: A
@@ -2077,7 +2330,7 @@ record_sets:
     filters:
       sex: all
   - value_id: male_band_12570
-    label: Male taxpayers, total income after tax from GBP 12 570
+    label: Male taxpayers, total income after tax from GBP 12 570 to GBP 15 000
     ordinal: 14
     row_number: 21
     expected_row_header_column: A
@@ -2090,6 +2343,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 12570
+      total_income_after_tax_upper_bound: 15000
     constraints:
     - variable: sex
       operator: ==
@@ -2099,8 +2353,12 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 15000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_15000
-    label: Male taxpayers, total income after tax from GBP 15 000
+    label: Male taxpayers, total income after tax from GBP 15 000 to GBP 20 000
     ordinal: 15
     row_number: 22
     expected_row_header_column: A
@@ -2113,6 +2371,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 15000
+      total_income_after_tax_upper_bound: 20000
     constraints:
     - variable: sex
       operator: ==
@@ -2122,8 +2381,12 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 20000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_20000
-    label: Male taxpayers, total income after tax from GBP 20 000
+    label: Male taxpayers, total income after tax from GBP 20 000 to GBP 30 000
     ordinal: 16
     row_number: 23
     expected_row_header_column: A
@@ -2136,6 +2399,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 20000
+      total_income_after_tax_upper_bound: 30000
     constraints:
     - variable: sex
       operator: ==
@@ -2145,8 +2409,12 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 30000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_30000
-    label: Male taxpayers, total income after tax from GBP 30 000
+    label: Male taxpayers, total income after tax from GBP 30 000 to GBP 40 000
     ordinal: 17
     row_number: 24
     expected_row_header_column: A
@@ -2159,6 +2427,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 30000
+      total_income_after_tax_upper_bound: 40000
     constraints:
     - variable: sex
       operator: ==
@@ -2168,8 +2437,12 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 40000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_40000
-    label: Male taxpayers, total income after tax from GBP 40 000
+    label: Male taxpayers, total income after tax from GBP 40 000 to GBP 50 000
     ordinal: 18
     row_number: 25
     expected_row_header_column: A
@@ -2182,6 +2455,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 40000
+      total_income_after_tax_upper_bound: 50000
     constraints:
     - variable: sex
       operator: ==
@@ -2191,8 +2465,12 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 50000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_50000
-    label: Male taxpayers, total income after tax from GBP 50 000
+    label: Male taxpayers, total income after tax from GBP 50 000 to GBP 70 000
     ordinal: 19
     row_number: 26
     expected_row_header_column: A
@@ -2205,6 +2483,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 50000
+      total_income_after_tax_upper_bound: 70000
     constraints:
     - variable: sex
       operator: ==
@@ -2214,8 +2493,12 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 70000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_70000
-    label: Male taxpayers, total income after tax from GBP 70 000
+    label: Male taxpayers, total income after tax from GBP 70 000 to GBP 100 000
     ordinal: 20
     row_number: 27
     expected_row_header_column: A
@@ -2228,6 +2511,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 70000
+      total_income_after_tax_upper_bound: 100000
     constraints:
     - variable: sex
       operator: ==
@@ -2237,8 +2521,12 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 100000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_100000
-    label: Male taxpayers, total income after tax from GBP 100 000
+    label: Male taxpayers, total income after tax from GBP 100 000 to GBP 150 000
     ordinal: 21
     row_number: 28
     expected_row_header_column: A
@@ -2251,6 +2539,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 100000
+      total_income_after_tax_upper_bound: 150000
     constraints:
     - variable: sex
       operator: ==
@@ -2260,8 +2549,12 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 150000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_150000
-    label: Male taxpayers, total income after tax from GBP 150 000
+    label: Male taxpayers, total income after tax from GBP 150 000 to GBP 200 000
     ordinal: 22
     row_number: 29
     expected_row_header_column: A
@@ -2274,6 +2567,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 150000
+      total_income_after_tax_upper_bound: 200000
     constraints:
     - variable: sex
       operator: ==
@@ -2283,8 +2577,12 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 200000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_200000
-    label: Male taxpayers, total income after tax from GBP 200 000
+    label: Male taxpayers, total income after tax from GBP 200 000 to GBP 300 000
     ordinal: 23
     row_number: 30
     expected_row_header_column: A
@@ -2297,6 +2595,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 200000
+      total_income_after_tax_upper_bound: 300000
     constraints:
     - variable: sex
       operator: ==
@@ -2306,8 +2605,12 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 300000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_300000
-    label: Male taxpayers, total income after tax from GBP 300 000
+    label: Male taxpayers, total income after tax from GBP 300 000 to GBP 500 000
     ordinal: 24
     row_number: 31
     expected_row_header_column: A
@@ -2320,6 +2623,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 300000
+      total_income_after_tax_upper_bound: 500000
     constraints:
     - variable: sex
       operator: ==
@@ -2329,8 +2633,12 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 500000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_500000
-    label: Male taxpayers, total income after tax from GBP 500 000
+    label: Male taxpayers, total income after tax from GBP 500 000 to GBP 1 000 000
     ordinal: 25
     row_number: 32
     expected_row_header_column: A
@@ -2343,6 +2651,7 @@ record_sets:
     filters:
       sex: male
       total_income_after_tax_lower_bound: 500000
+      total_income_after_tax_upper_bound: 1000000
     constraints:
     - variable: sex
       operator: ==
@@ -2352,8 +2661,12 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 1000000
+      label: total_income_after_tax_upper_bound
   - value_id: male_band_1000000
-    label: Male taxpayers, total income after tax from GBP 1 000 000
+    label: Male taxpayers, total income after tax of GBP 1 000 000 and over
     ordinal: 26
     row_number: 33
     expected_row_header_column: A
@@ -2394,7 +2707,7 @@ record_sets:
       value: male
       label: Sex
   - value_id: female_band_12570
-    label: Female taxpayers, total income after tax from GBP 12 570
+    label: Female taxpayers, total income after tax from GBP 12 570 to GBP 15 000
     ordinal: 28
     row_number: 35
     expected_row_header_column: A
@@ -2407,6 +2720,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 12570
+      total_income_after_tax_upper_bound: 15000
     constraints:
     - variable: sex
       operator: ==
@@ -2416,8 +2730,12 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 15000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_15000
-    label: Female taxpayers, total income after tax from GBP 15 000
+    label: Female taxpayers, total income after tax from GBP 15 000 to GBP 20 000
     ordinal: 29
     row_number: 36
     expected_row_header_column: A
@@ -2430,6 +2748,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 15000
+      total_income_after_tax_upper_bound: 20000
     constraints:
     - variable: sex
       operator: ==
@@ -2439,8 +2758,12 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 20000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_20000
-    label: Female taxpayers, total income after tax from GBP 20 000
+    label: Female taxpayers, total income after tax from GBP 20 000 to GBP 30 000
     ordinal: 30
     row_number: 37
     expected_row_header_column: A
@@ -2453,6 +2776,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 20000
+      total_income_after_tax_upper_bound: 30000
     constraints:
     - variable: sex
       operator: ==
@@ -2462,8 +2786,12 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 30000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_30000
-    label: Female taxpayers, total income after tax from GBP 30 000
+    label: Female taxpayers, total income after tax from GBP 30 000 to GBP 40 000
     ordinal: 31
     row_number: 38
     expected_row_header_column: A
@@ -2476,6 +2804,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 30000
+      total_income_after_tax_upper_bound: 40000
     constraints:
     - variable: sex
       operator: ==
@@ -2485,8 +2814,12 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 40000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_40000
-    label: Female taxpayers, total income after tax from GBP 40 000
+    label: Female taxpayers, total income after tax from GBP 40 000 to GBP 50 000
     ordinal: 32
     row_number: 39
     expected_row_header_column: A
@@ -2499,6 +2832,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 40000
+      total_income_after_tax_upper_bound: 50000
     constraints:
     - variable: sex
       operator: ==
@@ -2508,8 +2842,12 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 50000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_50000
-    label: Female taxpayers, total income after tax from GBP 50 000
+    label: Female taxpayers, total income after tax from GBP 50 000 to GBP 70 000
     ordinal: 33
     row_number: 40
     expected_row_header_column: A
@@ -2522,6 +2860,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 50000
+      total_income_after_tax_upper_bound: 70000
     constraints:
     - variable: sex
       operator: ==
@@ -2531,8 +2870,12 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 70000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_70000
-    label: Female taxpayers, total income after tax from GBP 70 000
+    label: Female taxpayers, total income after tax from GBP 70 000 to GBP 100 000
     ordinal: 34
     row_number: 41
     expected_row_header_column: A
@@ -2545,6 +2888,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 70000
+      total_income_after_tax_upper_bound: 100000
     constraints:
     - variable: sex
       operator: ==
@@ -2554,8 +2898,12 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 100000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_100000
-    label: Female taxpayers, total income after tax from GBP 100 000
+    label: Female taxpayers, total income after tax from GBP 100 000 to GBP 150 000
     ordinal: 35
     row_number: 42
     expected_row_header_column: A
@@ -2568,6 +2916,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 100000
+      total_income_after_tax_upper_bound: 150000
     constraints:
     - variable: sex
       operator: ==
@@ -2577,8 +2926,12 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 150000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_150000
-    label: Female taxpayers, total income after tax from GBP 150 000
+    label: Female taxpayers, total income after tax from GBP 150 000 to GBP 200 000
     ordinal: 36
     row_number: 43
     expected_row_header_column: A
@@ -2591,6 +2944,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 150000
+      total_income_after_tax_upper_bound: 200000
     constraints:
     - variable: sex
       operator: ==
@@ -2600,8 +2954,12 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 200000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_200000
-    label: Female taxpayers, total income after tax from GBP 200 000
+    label: Female taxpayers, total income after tax from GBP 200 000 to GBP 300 000
     ordinal: 37
     row_number: 44
     expected_row_header_column: A
@@ -2614,6 +2972,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 200000
+      total_income_after_tax_upper_bound: 300000
     constraints:
     - variable: sex
       operator: ==
@@ -2623,8 +2982,12 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 300000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_300000
-    label: Female taxpayers, total income after tax from GBP 300 000
+    label: Female taxpayers, total income after tax from GBP 300 000 to GBP 500 000
     ordinal: 38
     row_number: 45
     expected_row_header_column: A
@@ -2637,6 +3000,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 300000
+      total_income_after_tax_upper_bound: 500000
     constraints:
     - variable: sex
       operator: ==
@@ -2646,8 +3010,12 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 500000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_500000
-    label: Female taxpayers, total income after tax from GBP 500 000
+    label: Female taxpayers, total income after tax from GBP 500 000 to GBP 1 000 000
     ordinal: 39
     row_number: 46
     expected_row_header_column: A
@@ -2660,6 +3028,7 @@ record_sets:
     filters:
       sex: female
       total_income_after_tax_lower_bound: 500000
+      total_income_after_tax_upper_bound: 1000000
     constraints:
     - variable: sex
       operator: ==
@@ -2669,8 +3038,12 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_after_tax_lower_bound
+    - variable: total_income_after_tax_upper_bound
+      operator: ==
+      value: 1000000
+      label: total_income_after_tax_upper_bound
   - value_id: female_band_1000000
-    label: Female taxpayers, total income after tax from GBP 1 000 000
+    label: Female taxpayers, total income after tax of GBP 1 000 000 and over
     ordinal: 40
     row_number: 47
     expected_row_header_column: A
@@ -2801,7 +3174,7 @@ record_sets:
   groupby_dimension: hmrc.marginal_rate_by_total_income_band
   rows:
   - value_id: savers_band_15000
-    label: Savers rate taxpayers, total income from GBP 15 000
+    label: Savers rate taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 0
     row_number: 7
     expected_row_header_column: B
@@ -2814,6 +3187,7 @@ record_sets:
     filters:
       marginal_rate: savers
       total_income_lower_bound: 15000
+      total_income_upper_bound: 20000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -2823,6 +3197,10 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 20000
+      label: total_income_upper_bound
   - value_id: savers_all_ranges
     label: Savers rate taxpayers, all ranges of total income
     ordinal: 1
@@ -2842,7 +3220,7 @@ record_sets:
       value: savers
       label: Marginal rate payable
   - value_id: basic_band_12570
-    label: Basic rate taxpayers, total income from GBP 12 570
+    label: Basic rate taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 2
     row_number: 11
     expected_row_header_column: B
@@ -2855,6 +3233,7 @@ record_sets:
     filters:
       marginal_rate: basic
       total_income_lower_bound: 12570
+      total_income_upper_bound: 15000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -2864,8 +3243,12 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 15000
+      label: total_income_upper_bound
   - value_id: basic_band_15000
-    label: Basic rate taxpayers, total income from GBP 15 000
+    label: Basic rate taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 3
     row_number: 12
     expected_row_header_column: B
@@ -2878,6 +3261,7 @@ record_sets:
     filters:
       marginal_rate: basic
       total_income_lower_bound: 15000
+      total_income_upper_bound: 20000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -2887,8 +3271,12 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 20000
+      label: total_income_upper_bound
   - value_id: basic_band_20000
-    label: Basic rate taxpayers, total income from GBP 20 000
+    label: Basic rate taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 4
     row_number: 13
     expected_row_header_column: B
@@ -2901,6 +3289,7 @@ record_sets:
     filters:
       marginal_rate: basic
       total_income_lower_bound: 20000
+      total_income_upper_bound: 30000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -2910,8 +3299,12 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 30000
+      label: total_income_upper_bound
   - value_id: basic_band_30000
-    label: Basic rate taxpayers, total income from GBP 30 000
+    label: Basic rate taxpayers, total income of GBP 30 000 and over
     ordinal: 5
     row_number: 14
     expected_row_header_column: B
@@ -2952,7 +3345,7 @@ record_sets:
       value: basic
       label: Marginal rate payable
   - value_id: higher_band_40000
-    label: Higher rate taxpayers, total income from GBP 40 000
+    label: Higher rate taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 7
     row_number: 19
     expected_row_header_column: B
@@ -2965,6 +3358,7 @@ record_sets:
     filters:
       marginal_rate: higher
       total_income_lower_bound: 40000
+      total_income_upper_bound: 50000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -2974,8 +3368,12 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 50000
+      label: total_income_upper_bound
   - value_id: higher_band_50000
-    label: Higher rate taxpayers, total income from GBP 50 000
+    label: Higher rate taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 8
     row_number: 20
     expected_row_header_column: B
@@ -2988,6 +3386,7 @@ record_sets:
     filters:
       marginal_rate: higher
       total_income_lower_bound: 50000
+      total_income_upper_bound: 70000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -2997,8 +3396,12 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 70000
+      label: total_income_upper_bound
   - value_id: higher_band_70000
-    label: Higher rate taxpayers, total income from GBP 70 000
+    label: Higher rate taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 9
     row_number: 21
     expected_row_header_column: B
@@ -3011,6 +3414,7 @@ record_sets:
     filters:
       marginal_rate: higher
       total_income_lower_bound: 70000
+      total_income_upper_bound: 100000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -3020,8 +3424,12 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 100000
+      label: total_income_upper_bound
   - value_id: higher_band_100000
-    label: Higher rate taxpayers, total income from GBP 100 000
+    label: Higher rate taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 10
     row_number: 22
     expected_row_header_column: B
@@ -3034,6 +3442,7 @@ record_sets:
     filters:
       marginal_rate: higher
       total_income_lower_bound: 100000
+      total_income_upper_bound: 150000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -3043,6 +3452,10 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 150000
+      label: total_income_upper_bound
   - value_id: higher_all_ranges
     label: Higher rate taxpayers, all ranges of total income
     ordinal: 11
@@ -3062,7 +3475,7 @@ record_sets:
       value: higher
       label: Marginal rate payable
   - value_id: additional_band_100000
-    label: Additional rate rate taxpayers, total income from GBP 100 000
+    label: Additional rate taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 12
     row_number: 30
     expected_row_header_column: B
@@ -3075,6 +3488,7 @@ record_sets:
     filters:
       marginal_rate: additional
       total_income_lower_bound: 100000
+      total_income_upper_bound: 150000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -3084,8 +3498,12 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 150000
+      label: total_income_upper_bound
   - value_id: additional_band_150000
-    label: Additional rate rate taxpayers, total income from GBP 150 000
+    label: Additional rate taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 13
     row_number: 31
     expected_row_header_column: B
@@ -3098,6 +3516,7 @@ record_sets:
     filters:
       marginal_rate: additional
       total_income_lower_bound: 150000
+      total_income_upper_bound: 200000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -3107,8 +3526,12 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 200000
+      label: total_income_upper_bound
   - value_id: additional_band_200000
-    label: Additional rate rate taxpayers, total income from GBP 200 000
+    label: Additional rate taxpayers, total income from GBP 200 000 to GBP 300 000
     ordinal: 14
     row_number: 32
     expected_row_header_column: B
@@ -3121,6 +3544,7 @@ record_sets:
     filters:
       marginal_rate: additional
       total_income_lower_bound: 200000
+      total_income_upper_bound: 300000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -3130,8 +3554,12 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 300000
+      label: total_income_upper_bound
   - value_id: additional_band_300000
-    label: Additional rate rate taxpayers, total income from GBP 300 000
+    label: Additional rate taxpayers, total income from GBP 300 000 to GBP 500 000
     ordinal: 15
     row_number: 33
     expected_row_header_column: B
@@ -3144,6 +3572,7 @@ record_sets:
     filters:
       marginal_rate: additional
       total_income_lower_bound: 300000
+      total_income_upper_bound: 500000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -3153,8 +3582,12 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 500000
+      label: total_income_upper_bound
   - value_id: additional_band_500000
-    label: Additional rate rate taxpayers, total income from GBP 500 000
+    label: Additional rate taxpayers, total income from GBP 500 000 to GBP 1 000 000
     ordinal: 16
     row_number: 34
     expected_row_header_column: B
@@ -3167,6 +3600,7 @@ record_sets:
     filters:
       marginal_rate: additional
       total_income_lower_bound: 500000
+      total_income_upper_bound: 1000000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -3176,8 +3610,12 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 1000000
+      label: total_income_upper_bound
   - value_id: additional_all_ranges
-    label: Additional rate rate taxpayers, all ranges of total income
+    label: Additional rate taxpayers, all ranges of total income
     ordinal: 17
     row_number: 36
     expected_row_header_column: B
@@ -3463,7 +3901,7 @@ record_sets:
   groupby_dimension: hmrc.marginal_rate_by_total_income_band
   rows:
   - value_id: savers_band_12570
-    label: Savers rate taxpayers, total income from GBP 12 570
+    label: Savers rate taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 0
     row_number: 6
     expected_row_header_column: B
@@ -3476,6 +3914,7 @@ record_sets:
     filters:
       marginal_rate: savers
       total_income_lower_bound: 12570
+      total_income_upper_bound: 15000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -3485,8 +3924,12 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 15000
+      label: total_income_upper_bound
   - value_id: savers_band_20000
-    label: Savers rate taxpayers, total income from GBP 20 000
+    label: Savers rate taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 1
     row_number: 8
     expected_row_header_column: B
@@ -3499,6 +3942,7 @@ record_sets:
     filters:
       marginal_rate: savers
       total_income_lower_bound: 20000
+      total_income_upper_bound: 30000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -3508,8 +3952,12 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 30000
+      label: total_income_upper_bound
   - value_id: savers_band_30000
-    label: Savers rate taxpayers, total income from GBP 30 000
+    label: Savers rate taxpayers, total income of GBP 30 000 and over
     ordinal: 2
     row_number: 9
     expected_row_header_column: B
@@ -3687,7 +4135,7 @@ record_sets:
   groupby_dimension: hmrc.marginal_rate_by_total_income_band
   rows:
   - value_id: additional_band_1000000
-    label: Additional rate rate taxpayers, total income from GBP 1 000 000
+    label: Additional rate taxpayers, total income of GBP 1 000 000 and over
     ordinal: 0
     row_number: 35
     expected_row_header_column: B
@@ -3940,7 +4388,7 @@ record_sets:
   groupby_dimension: hmrc.marginal_rate_by_total_income_band
   rows:
   - value_id: higher_band_150000
-    label: Higher rate taxpayers, total income from GBP 150 000
+    label: Higher rate taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 0
     row_number: 23
     expected_row_header_column: B
@@ -3953,6 +4401,7 @@ record_sets:
     filters:
       marginal_rate: higher
       total_income_lower_bound: 150000
+      total_income_upper_bound: 200000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -3962,6 +4411,10 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 200000
+      label: total_income_upper_bound
   measures:
   - measure_id: self_employment_count
     label: Taxpayers whose largest source is self-employment (count)
@@ -4168,7 +4621,7 @@ record_sets:
   groupby_dimension: hmrc.marginal_rate_by_total_income_band
   rows:
   - value_id: higher_band_200000
-    label: Higher rate taxpayers, total income from GBP 200 000
+    label: Higher rate taxpayers, total income from GBP 200 000 to GBP 300 000
     ordinal: 0
     row_number: 24
     expected_row_header_column: B
@@ -4181,6 +4634,7 @@ record_sets:
     filters:
       marginal_rate: higher
       total_income_lower_bound: 200000
+      total_income_upper_bound: 300000
     constraints:
     - variable: marginal_rate
       operator: ==
@@ -4190,6 +4644,10 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 300000
+      label: total_income_upper_bound
   measures:
   - measure_id: employment_count
     label: Taxpayers whose largest source is employment (count)
@@ -4295,7 +4753,7 @@ record_sets:
   groupby_dimension: hmrc.total_income_band
   rows:
   - value_id: band_12570
-    label: Total income from GBP 12 570
+    label: Total income from GBP 12 570 to GBP 15 000
     ordinal: 0
     row_number: 6
     expected_row_header_column: A
@@ -4303,13 +4761,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 12570
+      total_income_upper_bound: 15000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 12570
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 15000
+      label: total_income_upper_bound
   - value_id: band_15000
-    label: Total income from GBP 15 000
+    label: Total income from GBP 15 000 to GBP 20 000
     ordinal: 1
     row_number: 7
     expected_row_header_column: A
@@ -4317,13 +4780,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 15000
+      total_income_upper_bound: 20000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 15000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 20000
+      label: total_income_upper_bound
   - value_id: band_20000
-    label: Total income from GBP 20 000
+    label: Total income from GBP 20 000 to GBP 30 000
     ordinal: 2
     row_number: 8
     expected_row_header_column: A
@@ -4331,13 +4799,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 20000
+      total_income_upper_bound: 30000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 20000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 30000
+      label: total_income_upper_bound
   - value_id: band_30000
-    label: Total income from GBP 30 000
+    label: Total income from GBP 30 000 to GBP 40 000
     ordinal: 3
     row_number: 9
     expected_row_header_column: A
@@ -4345,13 +4818,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 30000
+      total_income_upper_bound: 40000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 30000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 40000
+      label: total_income_upper_bound
   - value_id: band_40000
-    label: Total income from GBP 40 000
+    label: Total income from GBP 40 000 to GBP 50 000
     ordinal: 4
     row_number: 10
     expected_row_header_column: A
@@ -4359,13 +4837,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 40000
+      total_income_upper_bound: 50000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 40000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 50000
+      label: total_income_upper_bound
   - value_id: band_50000
-    label: Total income from GBP 50 000
+    label: Total income from GBP 50 000 to GBP 70 000
     ordinal: 5
     row_number: 11
     expected_row_header_column: A
@@ -4373,13 +4856,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 50000
+      total_income_upper_bound: 70000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 50000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 70000
+      label: total_income_upper_bound
   - value_id: band_70000
-    label: Total income from GBP 70 000
+    label: Total income from GBP 70 000 to GBP 100 000
     ordinal: 6
     row_number: 12
     expected_row_header_column: A
@@ -4387,13 +4875,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 70000
+      total_income_upper_bound: 100000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 70000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 100000
+      label: total_income_upper_bound
   - value_id: band_100000
-    label: Total income from GBP 100 000
+    label: Total income from GBP 100 000 to GBP 150 000
     ordinal: 7
     row_number: 13
     expected_row_header_column: A
@@ -4401,13 +4894,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 100000
+      total_income_upper_bound: 150000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 100000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 150000
+      label: total_income_upper_bound
   - value_id: band_150000
-    label: Total income from GBP 150 000
+    label: Total income from GBP 150 000 to GBP 200 000
     ordinal: 8
     row_number: 14
     expected_row_header_column: A
@@ -4415,13 +4913,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 150000
+      total_income_upper_bound: 200000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 150000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 200000
+      label: total_income_upper_bound
   - value_id: band_200000
-    label: Total income from GBP 200 000
+    label: Total income from GBP 200 000 to GBP 300 000
     ordinal: 9
     row_number: 15
     expected_row_header_column: A
@@ -4429,13 +4932,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 200000
+      total_income_upper_bound: 300000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 200000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 300000
+      label: total_income_upper_bound
   - value_id: band_300000
-    label: Total income from GBP 300 000
+    label: Total income from GBP 300 000 to GBP 500 000
     ordinal: 10
     row_number: 16
     expected_row_header_column: A
@@ -4443,13 +4951,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 300000
+      total_income_upper_bound: 500000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 300000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 500000
+      label: total_income_upper_bound
   - value_id: band_500000
-    label: Total income from GBP 500 000
+    label: Total income from GBP 500 000 to GBP 1 000 000
     ordinal: 11
     row_number: 17
     expected_row_header_column: A
@@ -4457,11 +4970,16 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 500000
+      total_income_upper_bound: 1000000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 500000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 1000000
+      label: total_income_upper_bound
   - value_id: all_ranges
     label: All ranges of total income
     ordinal: 12
@@ -4713,7 +5231,7 @@ record_sets:
   groupby_dimension: hmrc.total_income_band
   rows:
   - value_id: band_1000000
-    label: Total income from GBP 1 000 000
+    label: Total income of GBP 1 000 000 and over
     ordinal: 0
     row_number: 18
     expected_row_header_column: A
@@ -4951,7 +5469,7 @@ record_sets:
   groupby_dimension: hmrc.total_income_band
   rows:
   - value_id: band_12570
-    label: Total income from GBP 12 570
+    label: Total income from GBP 12 570 to GBP 15 000
     ordinal: 0
     row_number: 6
     expected_row_header_column: A
@@ -4959,13 +5477,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 12570
+      total_income_upper_bound: 15000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 12570
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 15000
+      label: total_income_upper_bound
   - value_id: band_15000
-    label: Total income from GBP 15 000
+    label: Total income from GBP 15 000 to GBP 20 000
     ordinal: 1
     row_number: 7
     expected_row_header_column: A
@@ -4973,13 +5496,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 15000
+      total_income_upper_bound: 20000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 15000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 20000
+      label: total_income_upper_bound
   - value_id: band_20000
-    label: Total income from GBP 20 000
+    label: Total income from GBP 20 000 to GBP 30 000
     ordinal: 2
     row_number: 8
     expected_row_header_column: A
@@ -4987,13 +5515,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 20000
+      total_income_upper_bound: 30000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 20000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 30000
+      label: total_income_upper_bound
   - value_id: band_30000
-    label: Total income from GBP 30 000
+    label: Total income from GBP 30 000 to GBP 40 000
     ordinal: 3
     row_number: 9
     expected_row_header_column: A
@@ -5001,13 +5534,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 30000
+      total_income_upper_bound: 40000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 30000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 40000
+      label: total_income_upper_bound
   - value_id: band_40000
-    label: Total income from GBP 40 000
+    label: Total income from GBP 40 000 to GBP 50 000
     ordinal: 4
     row_number: 10
     expected_row_header_column: A
@@ -5015,13 +5553,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 40000
+      total_income_upper_bound: 50000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 40000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 50000
+      label: total_income_upper_bound
   - value_id: band_50000
-    label: Total income from GBP 50 000
+    label: Total income from GBP 50 000 to GBP 70 000
     ordinal: 5
     row_number: 11
     expected_row_header_column: A
@@ -5029,13 +5572,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 50000
+      total_income_upper_bound: 70000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 50000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 70000
+      label: total_income_upper_bound
   - value_id: band_70000
-    label: Total income from GBP 70 000
+    label: Total income from GBP 70 000 to GBP 100 000
     ordinal: 6
     row_number: 12
     expected_row_header_column: A
@@ -5043,13 +5591,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 70000
+      total_income_upper_bound: 100000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 70000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 100000
+      label: total_income_upper_bound
   - value_id: band_100000
-    label: Total income from GBP 100 000
+    label: Total income from GBP 100 000 to GBP 150 000
     ordinal: 7
     row_number: 13
     expected_row_header_column: A
@@ -5057,13 +5610,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 100000
+      total_income_upper_bound: 150000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 100000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 150000
+      label: total_income_upper_bound
   - value_id: band_150000
-    label: Total income from GBP 150 000
+    label: Total income from GBP 150 000 to GBP 200 000
     ordinal: 8
     row_number: 14
     expected_row_header_column: A
@@ -5071,13 +5629,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 150000
+      total_income_upper_bound: 200000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 150000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 200000
+      label: total_income_upper_bound
   - value_id: band_200000
-    label: Total income from GBP 200 000
+    label: Total income from GBP 200 000 to GBP 300 000
     ordinal: 9
     row_number: 15
     expected_row_header_column: A
@@ -5085,13 +5648,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 200000
+      total_income_upper_bound: 300000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 200000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 300000
+      label: total_income_upper_bound
   - value_id: band_300000
-    label: Total income from GBP 300 000
+    label: Total income from GBP 300 000 to GBP 500 000
     ordinal: 10
     row_number: 16
     expected_row_header_column: A
@@ -5099,13 +5667,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 300000
+      total_income_upper_bound: 500000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 300000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 500000
+      label: total_income_upper_bound
   - value_id: band_500000
-    label: Total income from GBP 500 000
+    label: Total income from GBP 500 000 to GBP 1 000 000
     ordinal: 11
     row_number: 17
     expected_row_header_column: A
@@ -5113,13 +5686,18 @@ record_sets:
     table_record_kind: detail
     filters:
       total_income_lower_bound: 500000
+      total_income_upper_bound: 1000000
     constraints:
     - variable: total_income_lower_bound
       operator: ==
       value: 500000
       label: total_income_lower_bound
+    - variable: total_income_upper_bound
+      operator: ==
+      value: 1000000
+      label: total_income_upper_bound
   - value_id: band_1000000
-    label: Total income from GBP 1 000 000
+    label: Total income of GBP 1 000 000 and over
     ordinal: 12
     row_number: 18
     expected_row_header_column: A
