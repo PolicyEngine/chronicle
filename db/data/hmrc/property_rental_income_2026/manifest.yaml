@@ -11,3 +11,9 @@ files:
     sha256: 87627fbf6122a88f9d20ce7c98d31c103d423fb10d66d661d87324d67227c846
     size_bytes: 14181
     fetched_at: '2026-09-21T11:13:11+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-property-rental-income-2026/2026/87627fbf6122a88f9d20ce7c98d31c103d423fb10d66d661d87324d67227c846/property_rental_income_statistics_tables_2026.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-property-rental-income-2026/2026/87627fbf6122a88f9d20ce7c98d31c103d423fb10d66d661d87324d67227c846/property_rental_income_statistics_tables_2026.ods

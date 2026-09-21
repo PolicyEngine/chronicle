@@ -11,3 +11,9 @@ files:
     sha256: 705fb8fb5ace47e37eafe0b3817d5a6de538ce8fb2a67746e8f92d15ecd616e6
     size_bytes: 1646400
     fetched_at: '2026-09-21T11:13:19+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-benefit-expenditure-caseload-spring-2026/2026/705fb8fb5ace47e37eafe0b3817d5a6de538ce8fb2a67746e8f92d15ecd616e6/outturn-and-forecast-tables-spring-forecast-2026.ods
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-benefit-expenditure-caseload-spring-2026/2026/705fb8fb5ace47e37eafe0b3817d5a6de538ce8fb2a67746e8f92d15ecd616e6/outturn-and-forecast-tables-spring-forecast-2026.ods

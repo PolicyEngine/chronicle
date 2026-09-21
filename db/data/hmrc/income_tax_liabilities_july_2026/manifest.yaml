@@ -11,3 +11,9 @@ files:
     sha256: 40e1c7bb75d484132e8329fcac75f16e1a96305302fc422ee446a688d52bdbc2
     size_bytes: 93036
     fetched_at: '2026-09-21T11:13:04+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-income-tax-liabilities-july-2026/2026/40e1c7bb75d484132e8329fcac75f16e1a96305302fc422ee446a688d52bdbc2/Collated_Income_Tax_liabilities_statistics_tables_-_2.1_to_2.6.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-income-tax-liabilities-july-2026/2026/40e1c7bb75d484132e8329fcac75f16e1a96305302fc422ee446a688d52bdbc2/Collated_Income_Tax_liabilities_statistics_tables_-_2.1_to_2.6.ods
