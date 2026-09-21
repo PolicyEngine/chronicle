@@ -135,20 +135,21 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 340926,
-        "geography_count": 12589,
-        "period_count": 493,
-        "semantic_duplicate_key_count": 217,
+        "fact_count": 351259,
+        "geography_count": 12592,
+        "period_count": 494,
+        "semantic_duplicate_key_count": 535,
         "skipped_source_count": 10,
         "source_count": 50,
-        "source_package_count": 221,
+        "source_package_count": 226,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
-        # keeps as published: areas two packages name differently, values two
-        # packages word differently, and groupby rows that drift inside one
-        # package (chronicle#265, #266).
-        "warning_count": 171,
+        # keeps as published: values two packages word differently, groupby
+        # rows that drift inside one package (chronicle#265, #266), and the
+        # areas the canonical name register does not yet carry - every UK one
+        # it does has stopped warning (chronicle#281).
+        "warning_count": 76,
     }
-    assert len(rows) == 340926
+    assert len(rows) == 351259
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -166,7 +167,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 221
+    assert source_packages["source_package_count"] == 226
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -180,7 +181,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 340926
+    assert coverage["fact_count"] == 351259
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -197,13 +198,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dfc_ni": 1189,
         "dfi_ni": 30,
         "dft": 2771,
-        "dwp": 13384,
+        "dwp": 15494,
         "eurostat": 207,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 22994,
+        "hmrc": 31217,
         "ici": 12,
         "irs_soi": 40063,
         "isc": 2,
@@ -234,7 +235,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9325,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 216
+    assert len(table_counts) == 221
     assert (
         table_counts[
             "dwp:Households on Universal Credit by family type, "
@@ -1127,6 +1128,60 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         key = f"month:{year}-{month:02d}"
         expected_period_counts[key] = expected_period_counts.get(key, 0) + 5
         year, month = (year + 1, 1) if month == 12 else (year, month + 1)
+    # The income packages of chronicle#280: the SPI 2023-24 band and region
+    # tables, the HMRC Income Tax liabilities outturn and projections, the
+    # property rental income series, the DWP outturn and forecast tables and
+    # the quarterly ESA caseload cube.
+    issue_280_period_increments = {
+        "fiscal_year:2023": 283,
+        "fiscal_year:2024": 289,
+        "fiscal_year:2025": 289,
+        "fiscal_year:2026": 289,
+        "tax_year:2020": 82,
+        "tax_year:2021": 82,
+        "tax_year:2022": 82,
+        "tax_year:2023": 6941,
+        "tax_year:2024": 416,
+        "tax_year:2025": 310,
+        "tax_year:2026": 310,
+    }
+    for month in (
+        "2018-05",
+        "2018-08",
+        "2018-11",
+        "2019-02",
+        "2019-05",
+        "2019-08",
+        "2019-11",
+        "2020-02",
+        "2020-05",
+        "2020-08",
+        "2020-11",
+        "2021-02",
+        "2021-05",
+        "2021-08",
+        "2021-11",
+        "2022-02",
+        "2022-05",
+        "2022-08",
+        "2022-11",
+        "2023-02",
+        "2023-05",
+        "2023-08",
+        "2023-11",
+        "2024-02",
+        "2024-05",
+        "2024-08",
+        "2024-11",
+        "2025-02",
+        "2025-05",
+        "2025-08",
+        "2025-11",
+        "2026-03",
+    ):
+        issue_280_period_increments[f"month:{month}"] = 30
+    for key, count in issue_280_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
     assert coverage["counts"]["by_geography"]["country:BE"] == 4888
     assert coverage["counts"]["by_geography"]["country:DE"] == 36
@@ -1140,29 +1195,29 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 8270
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 3533
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 7988
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 10500
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 4053
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 10098
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
-    assert len(coverage["counts"]["by_geography"]) == 12589
+    assert len(coverage["counts"]["by_geography"]) == 12592
     assert coverage["counts"]["by_entity"] == {
-        "benefit_unit": 7071,
+        "benefit_unit": 7288,
         "dwelling": 152487,
         "family": 1299,
         "firm": 1439,
-        "government": 2313,
+        "government": 2906,
         "household": 53521,
         "institutional_sector": 1263,
         "pension_plan": 2,
-        "person": 65961,
+        "person": 75050,
         "return": 14600,
         "social_protection_scheme": 36,
-        "tax_unit": 40934,
+        "tax_unit": 41368,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 217
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
-        "conflicting_geography_name_across_packages": 145,
+        "conflicting_geography_name_across_packages": 50,
         "conflicting_groupby_value_label": 16,
         "conflicting_value_label_across_packages": 9,
         "duplicate_semantic_fact_key": 1,
@@ -1180,21 +1235,18 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             ),
         }
     ]
-    # chronicle#266: the areas whose publishers name them differently, kept as
-    # each publisher writes them. DESNZ and ONS write "Yorkshire and The
-    # Humber" where HMRC writes "the"; the IRS truncates county names to
-    # twenty characters.
+    # chronicle#266 kept each publisher's wording, and chronicle#281's register
+    # now answers with one name for every identifier it carries. What is left is
+    # what it does not: the IRS truncating county names to twenty characters.
+    # The 95 UK areas that warned here - local authorities, constituencies,
+    # regions and countries - no longer do.
     geography_names = [
         warning
         for warning in summary["warnings"]
         if warning["code"] == "conflicting_geography_name_across_packages"
     ]
     assert Counter(warning["key"].split(":")[0] for warning in geography_names) == {
-        "local_authority": 88,
         "county": 50,
-        "constituency": 2,
-        "country": 3,
-        "region": 2,
     }
     assert sorted(
         warning["key"]
