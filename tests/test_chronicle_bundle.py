@@ -135,10 +135,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 351259,
+        "fact_count": 350767,
         "geography_count": 12592,
         "period_count": 494,
-        "semantic_duplicate_key_count": 535,
+        "semantic_duplicate_key_count": 467,
         "skipped_source_count": 10,
         "source_count": 50,
         "source_package_count": 226,
@@ -149,7 +149,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # it does has stopped warning (chronicle#281).
         "warning_count": 76,
     }
-    assert len(rows) == 351259
+    assert len(rows) == 350767
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -181,7 +181,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 351259
+    assert coverage["fact_count"] == 350767
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -198,7 +198,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dfc_ni": 1189,
         "dfi_ni": 30,
         "dft": 2771,
-        "dwp": 15494,
+        "dwp": 15002,
         "eurostat": 207,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
@@ -1133,10 +1133,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # property rental income series, the DWP outturn and forecast tables and
     # the quarterly ESA caseload cube.
     issue_280_period_increments = {
-        "fiscal_year:2023": 283,
-        "fiscal_year:2024": 289,
-        "fiscal_year:2025": 289,
-        "fiscal_year:2026": 289,
+        "fiscal_year:2023": 216,
+        "fiscal_year:2024": 222,
+        "fiscal_year:2025": 222,
+        "fiscal_year:2026": 222,
         "tax_year:2020": 82,
         "tax_year:2021": 82,
         "tax_year:2022": 82,
@@ -1179,7 +1179,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "2025-11",
         "2026-03",
     ):
-        issue_280_period_increments[f"month:{month}"] = 30
+        issue_280_period_increments[f"month:{month}"] = 23
     for key, count in issue_280_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
@@ -1197,25 +1197,25 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert coverage["counts"]["by_geography"]["country:K02000001"] == 10500
     assert coverage["counts"]["by_geography"]["country:E92000001"] == 4053
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 10098
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 9606
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
     assert len(coverage["counts"]["by_geography"]) == 12592
     assert coverage["counts"]["by_entity"] == {
-        "benefit_unit": 7288,
+        "benefit_unit": 7280,
         "dwelling": 152487,
         "family": 1299,
         "firm": 1439,
-        "government": 2906,
+        "government": 2790,
         "household": 53521,
         "institutional_sector": 1263,
         "pension_plan": 2,
-        "person": 75050,
+        "person": 74682,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 41368,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 535
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 467
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 50,
         "conflicting_groupby_value_label": 16,

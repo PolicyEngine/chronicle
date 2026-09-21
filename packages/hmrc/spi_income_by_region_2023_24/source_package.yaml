@@ -90,7 +90,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band_by_sex
   rows:
-  - value_id: united_kingdom_all_band_12570
+  - value_id: united_kingdom_all_band_12570_15000
     label: United Kingdom, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 0
     row_number: 6
@@ -121,7 +121,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_15000
+  - value_id: united_kingdom_all_band_15000_20000
     label: United Kingdom, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 1
     row_number: 7
@@ -152,7 +152,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_20000
+  - value_id: united_kingdom_all_band_20000_30000
     label: United Kingdom, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 2
     row_number: 8
@@ -183,7 +183,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_30000
+  - value_id: united_kingdom_all_band_30000_40000
     label: United Kingdom, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 3
     row_number: 9
@@ -214,7 +214,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_40000
+  - value_id: united_kingdom_all_band_40000_50000
     label: United Kingdom, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 4
     row_number: 10
@@ -245,7 +245,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_50000
+  - value_id: united_kingdom_all_band_50000_70000
     label: United Kingdom, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 5
     row_number: 11
@@ -276,7 +276,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_70000
+  - value_id: united_kingdom_all_band_70000_100000
     label: United Kingdom, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 6
     row_number: 12
@@ -307,7 +307,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_100000
+  - value_id: united_kingdom_all_band_100000_150000
     label: United Kingdom, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 7
     row_number: 13
@@ -338,7 +338,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_150000
+  - value_id: united_kingdom_all_band_150000_200000
     label: United Kingdom, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 8
     row_number: 14
@@ -369,7 +369,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_200000
+  - value_id: united_kingdom_all_band_200000_300000
     label: United Kingdom, all taxpayers, total income from GBP 200 000 to GBP 300 000
     ordinal: 9
     row_number: 15
@@ -400,7 +400,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_300000
+  - value_id: united_kingdom_all_band_300000_500000
     label: United Kingdom, all taxpayers, total income from GBP 300 000 to GBP 500 000
     ordinal: 10
     row_number: 16
@@ -431,7 +431,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_500000
+  - value_id: united_kingdom_all_band_500000_1000000
     label: United Kingdom, all taxpayers, total income from GBP 500 000 to GBP 1 000 000
     ordinal: 11
     row_number: 17
@@ -462,7 +462,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_upper_bound
-  - value_id: united_kingdom_all_band_1000000
+  - value_id: united_kingdom_all_band_1000000_plus
     label: United Kingdom, all taxpayers, total income of GBP 1 000 000 and over
     ordinal: 12
     row_number: 18
@@ -508,7 +508,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: united_kingdom_male_band_12570
+  - value_id: united_kingdom_male_band_12570_15000
     label: United Kingdom, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 14
     row_number: 20
@@ -543,7 +543,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: united_kingdom_male_band_15000
+  - value_id: united_kingdom_male_band_15000_20000
     label: United Kingdom, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 15
     row_number: 21
@@ -578,7 +578,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: united_kingdom_male_band_20000
+  - value_id: united_kingdom_male_band_20000_30000
     label: United Kingdom, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 16
     row_number: 22
@@ -613,7 +613,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: united_kingdom_male_band_30000
+  - value_id: united_kingdom_male_band_30000_40000
     label: United Kingdom, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 17
     row_number: 23
@@ -648,7 +648,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: united_kingdom_male_band_40000
+  - value_id: united_kingdom_male_band_40000_50000
     label: United Kingdom, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 18
     row_number: 24
@@ -683,7 +683,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: united_kingdom_male_band_50000
+  - value_id: united_kingdom_male_band_50000_70000
     label: United Kingdom, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 19
     row_number: 25
@@ -718,7 +718,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: united_kingdom_male_band_70000
+  - value_id: united_kingdom_male_band_70000_100000
     label: United Kingdom, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 20
     row_number: 26
@@ -753,7 +753,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: united_kingdom_male_band_100000
+  - value_id: united_kingdom_male_band_100000_150000
     label: United Kingdom, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 21
     row_number: 27
@@ -788,7 +788,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: united_kingdom_male_band_150000
+  - value_id: united_kingdom_male_band_150000_200000
     label: United Kingdom, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 22
     row_number: 28
@@ -823,7 +823,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: united_kingdom_male_band_200000
+  - value_id: united_kingdom_male_band_200000_300000
     label: United Kingdom, male taxpayers, total income from GBP 200 000 to GBP 300 000
     ordinal: 23
     row_number: 29
@@ -858,7 +858,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_upper_bound
-  - value_id: united_kingdom_male_band_300000
+  - value_id: united_kingdom_male_band_300000_500000
     label: United Kingdom, male taxpayers, total income from GBP 300 000 to GBP 500 000
     ordinal: 24
     row_number: 30
@@ -893,7 +893,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_upper_bound
-  - value_id: united_kingdom_male_band_500000
+  - value_id: united_kingdom_male_band_500000_plus
     label: United Kingdom, male taxpayers, total income of GBP 500 000 and over
     ordinal: 25
     row_number: 31
@@ -948,7 +948,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: united_kingdom_female_band_12570
+  - value_id: united_kingdom_female_band_12570_15000
     label: United Kingdom, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 27
     row_number: 33
@@ -983,7 +983,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: united_kingdom_female_band_15000
+  - value_id: united_kingdom_female_band_15000_20000
     label: United Kingdom, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 28
     row_number: 34
@@ -1018,7 +1018,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: united_kingdom_female_band_20000
+  - value_id: united_kingdom_female_band_20000_30000
     label: United Kingdom, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 29
     row_number: 35
@@ -1053,7 +1053,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: united_kingdom_female_band_30000
+  - value_id: united_kingdom_female_band_30000_40000
     label: United Kingdom, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 30
     row_number: 36
@@ -1088,7 +1088,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: united_kingdom_female_band_40000
+  - value_id: united_kingdom_female_band_40000_50000
     label: United Kingdom, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 31
     row_number: 37
@@ -1123,7 +1123,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: united_kingdom_female_band_50000
+  - value_id: united_kingdom_female_band_50000_70000
     label: United Kingdom, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 32
     row_number: 38
@@ -1158,7 +1158,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: united_kingdom_female_band_70000
+  - value_id: united_kingdom_female_band_70000_100000
     label: United Kingdom, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 33
     row_number: 39
@@ -1193,7 +1193,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: united_kingdom_female_band_100000
+  - value_id: united_kingdom_female_band_100000_150000
     label: United Kingdom, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 34
     row_number: 40
@@ -1228,7 +1228,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: united_kingdom_female_band_150000
+  - value_id: united_kingdom_female_band_150000_200000
     label: United Kingdom, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 35
     row_number: 41
@@ -1263,7 +1263,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: united_kingdom_female_band_200000
+  - value_id: united_kingdom_female_band_200000_300000
     label: United Kingdom, female taxpayers, total income from GBP 200 000 to GBP 300 000
     ordinal: 36
     row_number: 42
@@ -1298,7 +1298,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_upper_bound
-  - value_id: united_kingdom_female_band_300000
+  - value_id: united_kingdom_female_band_300000_500000
     label: United Kingdom, female taxpayers, total income from GBP 300 000 to GBP 500 000
     ordinal: 37
     row_number: 43
@@ -1333,7 +1333,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_upper_bound
-  - value_id: united_kingdom_female_band_500000
+  - value_id: united_kingdom_female_band_500000_plus
     label: United Kingdom, female taxpayers, total income of GBP 500 000 and over
     ordinal: 38
     row_number: 44
@@ -1388,7 +1388,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: england_all_band_12570
+  - value_id: england_all_band_12570_15000
     label: England, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 40
     row_number: 46
@@ -1419,7 +1419,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: england_all_band_15000
+  - value_id: england_all_band_15000_20000
     label: England, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 41
     row_number: 47
@@ -1450,7 +1450,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: england_all_band_20000
+  - value_id: england_all_band_20000_30000
     label: England, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 42
     row_number: 48
@@ -1481,7 +1481,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: england_all_band_30000
+  - value_id: england_all_band_30000_40000
     label: England, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 43
     row_number: 49
@@ -1512,7 +1512,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: england_all_band_40000
+  - value_id: england_all_band_40000_50000
     label: England, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 44
     row_number: 50
@@ -1543,7 +1543,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: england_all_band_50000
+  - value_id: england_all_band_50000_70000
     label: England, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 45
     row_number: 51
@@ -1574,7 +1574,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: england_all_band_70000
+  - value_id: england_all_band_70000_100000
     label: England, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 46
     row_number: 52
@@ -1605,7 +1605,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: england_all_band_100000
+  - value_id: england_all_band_100000_150000
     label: England, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 47
     row_number: 53
@@ -1636,7 +1636,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: england_all_band_150000
+  - value_id: england_all_band_150000_200000
     label: England, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 48
     row_number: 54
@@ -1667,7 +1667,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: england_all_band_200000
+  - value_id: england_all_band_200000_300000
     label: England, all taxpayers, total income from GBP 200 000 to GBP 300 000
     ordinal: 49
     row_number: 55
@@ -1698,7 +1698,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_upper_bound
-  - value_id: england_all_band_300000
+  - value_id: england_all_band_300000_500000
     label: England, all taxpayers, total income from GBP 300 000 to GBP 500 000
     ordinal: 50
     row_number: 56
@@ -1729,7 +1729,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_upper_bound
-  - value_id: england_all_band_500000
+  - value_id: england_all_band_500000_1000000
     label: England, all taxpayers, total income from GBP 500 000 to GBP 1 000 000
     ordinal: 51
     row_number: 57
@@ -1760,7 +1760,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_upper_bound
-  - value_id: england_all_band_1000000
+  - value_id: england_all_band_1000000_plus
     label: England, all taxpayers, total income of GBP 1 000 000 and over
     ordinal: 52
     row_number: 58
@@ -1806,7 +1806,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: england_male_band_12570
+  - value_id: england_male_band_12570_15000
     label: England, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 54
     row_number: 60
@@ -1841,7 +1841,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: england_male_band_15000
+  - value_id: england_male_band_15000_20000
     label: England, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 55
     row_number: 61
@@ -1876,7 +1876,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: england_male_band_20000
+  - value_id: england_male_band_20000_30000
     label: England, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 56
     row_number: 62
@@ -1911,7 +1911,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: england_male_band_30000
+  - value_id: england_male_band_30000_40000
     label: England, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 57
     row_number: 63
@@ -1946,7 +1946,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: england_male_band_40000
+  - value_id: england_male_band_40000_50000
     label: England, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 58
     row_number: 64
@@ -1981,7 +1981,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: england_male_band_50000
+  - value_id: england_male_band_50000_70000
     label: England, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 59
     row_number: 65
@@ -2016,7 +2016,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: england_male_band_70000
+  - value_id: england_male_band_70000_100000
     label: England, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 60
     row_number: 66
@@ -2051,7 +2051,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: england_male_band_100000
+  - value_id: england_male_band_100000_150000
     label: England, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 61
     row_number: 67
@@ -2086,7 +2086,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: england_male_band_150000
+  - value_id: england_male_band_150000_200000
     label: England, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 62
     row_number: 68
@@ -2121,7 +2121,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: england_male_band_200000
+  - value_id: england_male_band_200000_300000
     label: England, male taxpayers, total income from GBP 200 000 to GBP 300 000
     ordinal: 63
     row_number: 69
@@ -2156,7 +2156,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_upper_bound
-  - value_id: england_male_band_300000
+  - value_id: england_male_band_300000_500000
     label: England, male taxpayers, total income from GBP 300 000 to GBP 500 000
     ordinal: 64
     row_number: 70
@@ -2191,7 +2191,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_upper_bound
-  - value_id: england_male_band_500000
+  - value_id: england_male_band_500000_plus
     label: England, male taxpayers, total income of GBP 500 000 and over
     ordinal: 65
     row_number: 71
@@ -2246,7 +2246,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: england_female_band_12570
+  - value_id: england_female_band_12570_15000
     label: England, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 67
     row_number: 73
@@ -2281,7 +2281,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: england_female_band_15000
+  - value_id: england_female_band_15000_20000
     label: England, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 68
     row_number: 74
@@ -2316,7 +2316,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: england_female_band_20000
+  - value_id: england_female_band_20000_30000
     label: England, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 69
     row_number: 75
@@ -2351,7 +2351,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: england_female_band_30000
+  - value_id: england_female_band_30000_40000
     label: England, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 70
     row_number: 76
@@ -2386,7 +2386,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: england_female_band_40000
+  - value_id: england_female_band_40000_50000
     label: England, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 71
     row_number: 77
@@ -2421,7 +2421,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: england_female_band_50000
+  - value_id: england_female_band_50000_70000
     label: England, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 72
     row_number: 78
@@ -2456,7 +2456,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: england_female_band_70000
+  - value_id: england_female_band_70000_100000
     label: England, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 73
     row_number: 79
@@ -2491,7 +2491,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: england_female_band_100000
+  - value_id: england_female_band_100000_150000
     label: England, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 74
     row_number: 80
@@ -2526,7 +2526,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: england_female_band_150000
+  - value_id: england_female_band_150000_200000
     label: England, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 75
     row_number: 81
@@ -2561,7 +2561,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: england_female_band_200000
+  - value_id: england_female_band_200000_300000
     label: England, female taxpayers, total income from GBP 200 000 to GBP 300 000
     ordinal: 76
     row_number: 82
@@ -2596,7 +2596,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_upper_bound
-  - value_id: england_female_band_300000
+  - value_id: england_female_band_300000_500000
     label: England, female taxpayers, total income from GBP 300 000 to GBP 500 000
     ordinal: 77
     row_number: 83
@@ -2631,7 +2631,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_upper_bound
-  - value_id: england_female_band_500000
+  - value_id: england_female_band_500000_plus
     label: England, female taxpayers, total income of GBP 500 000 and over
     ordinal: 78
     row_number: 84
@@ -2686,7 +2686,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: north_east_all_band_12570
+  - value_id: north_east_all_band_12570_15000
     label: North East, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 80
     row_number: 86
@@ -2717,7 +2717,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: north_east_all_band_15000
+  - value_id: north_east_all_band_15000_20000
     label: North East, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 81
     row_number: 87
@@ -2748,7 +2748,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: north_east_all_band_20000
+  - value_id: north_east_all_band_20000_30000
     label: North East, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 82
     row_number: 88
@@ -2779,7 +2779,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: north_east_all_band_30000
+  - value_id: north_east_all_band_30000_40000
     label: North East, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 83
     row_number: 89
@@ -2810,7 +2810,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: north_east_all_band_40000
+  - value_id: north_east_all_band_40000_50000
     label: North East, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 84
     row_number: 90
@@ -2841,7 +2841,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: north_east_all_band_50000
+  - value_id: north_east_all_band_50000_70000
     label: North East, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 85
     row_number: 91
@@ -2872,7 +2872,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: north_east_all_band_70000
+  - value_id: north_east_all_band_70000_100000
     label: North East, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 86
     row_number: 92
@@ -2903,7 +2903,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: north_east_all_band_100000
+  - value_id: north_east_all_band_100000_150000
     label: North East, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 87
     row_number: 93
@@ -2934,7 +2934,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: north_east_all_band_150000
+  - value_id: north_east_all_band_150000_200000
     label: North East, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 88
     row_number: 94
@@ -2965,7 +2965,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: north_east_all_band_200000
+  - value_id: north_east_all_band_200000_plus
     label: North East, all taxpayers, total income of GBP 200 000 and over
     ordinal: 89
     row_number: 95
@@ -3011,7 +3011,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: north_east_male_band_12570
+  - value_id: north_east_male_band_12570_15000
     label: North East, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 91
     row_number: 97
@@ -3046,7 +3046,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: north_east_male_band_15000
+  - value_id: north_east_male_band_15000_20000
     label: North East, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 92
     row_number: 98
@@ -3081,7 +3081,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: north_east_male_band_20000
+  - value_id: north_east_male_band_20000_30000
     label: North East, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 93
     row_number: 99
@@ -3116,7 +3116,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: north_east_male_band_30000
+  - value_id: north_east_male_band_30000_40000
     label: North East, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 94
     row_number: 100
@@ -3151,7 +3151,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: north_east_male_band_40000
+  - value_id: north_east_male_band_40000_50000
     label: North East, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 95
     row_number: 101
@@ -3186,7 +3186,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: north_east_male_band_50000
+  - value_id: north_east_male_band_50000_70000
     label: North East, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 96
     row_number: 102
@@ -3221,7 +3221,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: north_east_male_band_70000
+  - value_id: north_east_male_band_70000_100000
     label: North East, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 97
     row_number: 103
@@ -3256,7 +3256,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: north_east_male_band_100000
+  - value_id: north_east_male_band_100000_150000
     label: North East, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 98
     row_number: 104
@@ -3316,7 +3316,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: north_east_female_band_12570
+  - value_id: north_east_female_band_12570_15000
     label: North East, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 100
     row_number: 108
@@ -3351,7 +3351,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: north_east_female_band_15000
+  - value_id: north_east_female_band_15000_20000
     label: North East, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 101
     row_number: 109
@@ -3386,7 +3386,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: north_east_female_band_20000
+  - value_id: north_east_female_band_20000_30000
     label: North East, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 102
     row_number: 110
@@ -3421,7 +3421,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: north_east_female_band_30000
+  - value_id: north_east_female_band_30000_40000
     label: North East, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 103
     row_number: 111
@@ -3456,7 +3456,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: north_east_female_band_40000
+  - value_id: north_east_female_band_40000_50000
     label: North East, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 104
     row_number: 112
@@ -3491,7 +3491,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: north_east_female_band_50000
+  - value_id: north_east_female_band_50000_70000
     label: North East, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 105
     row_number: 113
@@ -3526,7 +3526,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: north_east_female_band_70000
+  - value_id: north_east_female_band_70000_100000
     label: North East, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 106
     row_number: 114
@@ -3561,7 +3561,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: north_east_female_band_100000
+  - value_id: north_east_female_band_100000_150000
     label: North East, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 107
     row_number: 115
@@ -3621,7 +3621,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: north_west_all_band_12570
+  - value_id: north_west_all_band_12570_15000
     label: North West, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 109
     row_number: 119
@@ -3652,7 +3652,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: north_west_all_band_15000
+  - value_id: north_west_all_band_15000_20000
     label: North West, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 110
     row_number: 120
@@ -3683,7 +3683,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: north_west_all_band_20000
+  - value_id: north_west_all_band_20000_30000
     label: North West, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 111
     row_number: 121
@@ -3714,7 +3714,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: north_west_all_band_30000
+  - value_id: north_west_all_band_30000_40000
     label: North West, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 112
     row_number: 122
@@ -3745,7 +3745,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: north_west_all_band_40000
+  - value_id: north_west_all_band_40000_50000
     label: North West, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 113
     row_number: 123
@@ -3776,7 +3776,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: north_west_all_band_50000
+  - value_id: north_west_all_band_50000_70000
     label: North West, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 114
     row_number: 124
@@ -3807,7 +3807,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: north_west_all_band_70000
+  - value_id: north_west_all_band_70000_100000
     label: North West, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 115
     row_number: 125
@@ -3838,7 +3838,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: north_west_all_band_100000
+  - value_id: north_west_all_band_100000_150000
     label: North West, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 116
     row_number: 126
@@ -3869,7 +3869,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: north_west_all_band_150000
+  - value_id: north_west_all_band_150000_200000
     label: North West, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 117
     row_number: 127
@@ -3900,7 +3900,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: north_west_all_band_200000
+  - value_id: north_west_all_band_200000_plus
     label: North West, all taxpayers, total income of GBP 200 000 and over
     ordinal: 118
     row_number: 128
@@ -3946,7 +3946,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: north_west_male_band_12570
+  - value_id: north_west_male_band_12570_15000
     label: North West, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 120
     row_number: 130
@@ -3981,7 +3981,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: north_west_male_band_15000
+  - value_id: north_west_male_band_15000_20000
     label: North West, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 121
     row_number: 131
@@ -4016,7 +4016,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: north_west_male_band_20000
+  - value_id: north_west_male_band_20000_30000
     label: North West, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 122
     row_number: 132
@@ -4051,7 +4051,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: north_west_male_band_30000
+  - value_id: north_west_male_band_30000_40000
     label: North West, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 123
     row_number: 133
@@ -4086,7 +4086,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: north_west_male_band_40000
+  - value_id: north_west_male_band_40000_50000
     label: North West, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 124
     row_number: 134
@@ -4121,7 +4121,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: north_west_male_band_50000
+  - value_id: north_west_male_band_50000_70000
     label: North West, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 125
     row_number: 135
@@ -4156,7 +4156,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: north_west_male_band_70000
+  - value_id: north_west_male_band_70000_100000
     label: North West, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 126
     row_number: 136
@@ -4191,7 +4191,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: north_west_male_band_100000
+  - value_id: north_west_male_band_100000_150000
     label: North West, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 127
     row_number: 137
@@ -4226,7 +4226,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: north_west_male_band_150000
+  - value_id: north_west_male_band_150000_200000
     label: North West, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 128
     row_number: 138
@@ -4261,7 +4261,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: north_west_male_band_200000
+  - value_id: north_west_male_band_200000_plus
     label: North West, male taxpayers, total income of GBP 200 000 and over
     ordinal: 129
     row_number: 139
@@ -4316,7 +4316,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: north_west_female_band_12570
+  - value_id: north_west_female_band_12570_15000
     label: North West, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 131
     row_number: 141
@@ -4351,7 +4351,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: north_west_female_band_15000
+  - value_id: north_west_female_band_15000_20000
     label: North West, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 132
     row_number: 142
@@ -4386,7 +4386,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: north_west_female_band_20000
+  - value_id: north_west_female_band_20000_30000
     label: North West, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 133
     row_number: 143
@@ -4421,7 +4421,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: north_west_female_band_30000
+  - value_id: north_west_female_band_30000_40000
     label: North West, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 134
     row_number: 144
@@ -4456,7 +4456,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: north_west_female_band_40000
+  - value_id: north_west_female_band_40000_50000
     label: North West, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 135
     row_number: 145
@@ -4491,7 +4491,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: north_west_female_band_50000
+  - value_id: north_west_female_band_50000_70000
     label: North West, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 136
     row_number: 146
@@ -4526,7 +4526,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: north_west_female_band_70000
+  - value_id: north_west_female_band_70000_100000
     label: North West, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 137
     row_number: 147
@@ -4561,7 +4561,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: north_west_female_band_100000
+  - value_id: north_west_female_band_100000_150000
     label: North West, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 138
     row_number: 148
@@ -4596,7 +4596,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: north_west_female_band_150000
+  - value_id: north_west_female_band_150000_200000
     label: North West, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 139
     row_number: 149
@@ -4631,7 +4631,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: north_west_female_band_200000
+  - value_id: north_west_female_band_200000_plus
     label: North West, female taxpayers, total income of GBP 200 000 and over
     ordinal: 140
     row_number: 150
@@ -4686,7 +4686,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: yorkshire_and_the_humber_all_band_12570
+  - value_id: yorkshire_and_the_humber_all_band_12570_15000
     label: Yorkshire and the Humber, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 142
     row_number: 152
@@ -4717,7 +4717,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_all_band_15000
+  - value_id: yorkshire_and_the_humber_all_band_15000_20000
     label: Yorkshire and the Humber, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 143
     row_number: 153
@@ -4748,7 +4748,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_all_band_20000
+  - value_id: yorkshire_and_the_humber_all_band_20000_30000
     label: Yorkshire and the Humber, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 144
     row_number: 154
@@ -4779,7 +4779,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_all_band_30000
+  - value_id: yorkshire_and_the_humber_all_band_30000_40000
     label: Yorkshire and the Humber, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 145
     row_number: 155
@@ -4810,7 +4810,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_all_band_40000
+  - value_id: yorkshire_and_the_humber_all_band_40000_50000
     label: Yorkshire and the Humber, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 146
     row_number: 156
@@ -4841,7 +4841,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_all_band_50000
+  - value_id: yorkshire_and_the_humber_all_band_50000_70000
     label: Yorkshire and the Humber, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 147
     row_number: 157
@@ -4872,7 +4872,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_all_band_70000
+  - value_id: yorkshire_and_the_humber_all_band_70000_100000
     label: Yorkshire and the Humber, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 148
     row_number: 158
@@ -4903,7 +4903,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_all_band_100000
+  - value_id: yorkshire_and_the_humber_all_band_100000_150000
     label: Yorkshire and the Humber, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 149
     row_number: 159
@@ -4934,7 +4934,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_all_band_150000
+  - value_id: yorkshire_and_the_humber_all_band_150000_200000
     label: Yorkshire and the Humber, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 150
     row_number: 160
@@ -4965,7 +4965,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_all_band_200000
+  - value_id: yorkshire_and_the_humber_all_band_200000_plus
     label: Yorkshire and the Humber, all taxpayers, total income of GBP 200 000 and over
     ordinal: 151
     row_number: 161
@@ -5011,7 +5011,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: yorkshire_and_the_humber_male_band_12570
+  - value_id: yorkshire_and_the_humber_male_band_12570_15000
     label: Yorkshire and the Humber, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 153
     row_number: 163
@@ -5046,7 +5046,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_male_band_15000
+  - value_id: yorkshire_and_the_humber_male_band_15000_20000
     label: Yorkshire and the Humber, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 154
     row_number: 164
@@ -5081,7 +5081,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_male_band_20000
+  - value_id: yorkshire_and_the_humber_male_band_20000_30000
     label: Yorkshire and the Humber, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 155
     row_number: 165
@@ -5116,7 +5116,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_male_band_30000
+  - value_id: yorkshire_and_the_humber_male_band_30000_40000
     label: Yorkshire and the Humber, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 156
     row_number: 166
@@ -5151,7 +5151,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_male_band_40000
+  - value_id: yorkshire_and_the_humber_male_band_40000_50000
     label: Yorkshire and the Humber, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 157
     row_number: 167
@@ -5186,7 +5186,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_male_band_50000
+  - value_id: yorkshire_and_the_humber_male_band_50000_70000
     label: Yorkshire and the Humber, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 158
     row_number: 168
@@ -5221,7 +5221,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_male_band_70000
+  - value_id: yorkshire_and_the_humber_male_band_70000_100000
     label: Yorkshire and the Humber, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 159
     row_number: 169
@@ -5256,7 +5256,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_male_band_100000
+  - value_id: yorkshire_and_the_humber_male_band_100000_150000
     label: Yorkshire and the Humber, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 160
     row_number: 170
@@ -5291,7 +5291,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_male_band_150000
+  - value_id: yorkshire_and_the_humber_male_band_150000_200000
     label: Yorkshire and the Humber, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 161
     row_number: 171
@@ -5326,7 +5326,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_male_band_200000
+  - value_id: yorkshire_and_the_humber_male_band_200000_plus
     label: Yorkshire and the Humber, male taxpayers, total income of GBP 200 000 and over
     ordinal: 162
     row_number: 172
@@ -5381,7 +5381,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: yorkshire_and_the_humber_female_band_12570
+  - value_id: yorkshire_and_the_humber_female_band_12570_15000
     label: Yorkshire and the Humber, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 164
     row_number: 174
@@ -5416,7 +5416,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_female_band_15000
+  - value_id: yorkshire_and_the_humber_female_band_15000_20000
     label: Yorkshire and the Humber, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 165
     row_number: 175
@@ -5451,7 +5451,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_female_band_20000
+  - value_id: yorkshire_and_the_humber_female_band_20000_30000
     label: Yorkshire and the Humber, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 166
     row_number: 176
@@ -5486,7 +5486,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_female_band_30000
+  - value_id: yorkshire_and_the_humber_female_band_30000_40000
     label: Yorkshire and the Humber, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 167
     row_number: 177
@@ -5521,7 +5521,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_female_band_40000
+  - value_id: yorkshire_and_the_humber_female_band_40000_50000
     label: Yorkshire and the Humber, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 168
     row_number: 178
@@ -5556,7 +5556,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_female_band_50000
+  - value_id: yorkshire_and_the_humber_female_band_50000_70000
     label: Yorkshire and the Humber, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 169
     row_number: 179
@@ -5591,7 +5591,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_female_band_70000
+  - value_id: yorkshire_and_the_humber_female_band_70000_100000
     label: Yorkshire and the Humber, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 170
     row_number: 180
@@ -5626,7 +5626,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_female_band_100000
+  - value_id: yorkshire_and_the_humber_female_band_100000_150000
     label: Yorkshire and the Humber, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 171
     row_number: 181
@@ -5686,7 +5686,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: east_midlands_all_band_12570
+  - value_id: east_midlands_all_band_12570_15000
     label: East Midlands, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 173
     row_number: 185
@@ -5717,7 +5717,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: east_midlands_all_band_15000
+  - value_id: east_midlands_all_band_15000_20000
     label: East Midlands, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 174
     row_number: 186
@@ -5748,7 +5748,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: east_midlands_all_band_20000
+  - value_id: east_midlands_all_band_20000_30000
     label: East Midlands, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 175
     row_number: 187
@@ -5779,7 +5779,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: east_midlands_all_band_30000
+  - value_id: east_midlands_all_band_30000_40000
     label: East Midlands, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 176
     row_number: 188
@@ -5810,7 +5810,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: east_midlands_all_band_40000
+  - value_id: east_midlands_all_band_40000_50000
     label: East Midlands, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 177
     row_number: 189
@@ -5841,7 +5841,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: east_midlands_all_band_50000
+  - value_id: east_midlands_all_band_50000_70000
     label: East Midlands, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 178
     row_number: 190
@@ -5872,7 +5872,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: east_midlands_all_band_70000
+  - value_id: east_midlands_all_band_70000_100000
     label: East Midlands, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 179
     row_number: 191
@@ -5903,7 +5903,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: east_midlands_all_band_100000
+  - value_id: east_midlands_all_band_100000_150000
     label: East Midlands, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 180
     row_number: 192
@@ -5934,7 +5934,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: east_midlands_all_band_150000
+  - value_id: east_midlands_all_band_150000_200000
     label: East Midlands, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 181
     row_number: 193
@@ -5965,7 +5965,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: east_midlands_all_band_200000
+  - value_id: east_midlands_all_band_200000_plus
     label: East Midlands, all taxpayers, total income of GBP 200 000 and over
     ordinal: 182
     row_number: 194
@@ -6011,7 +6011,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: east_midlands_male_band_12570
+  - value_id: east_midlands_male_band_12570_15000
     label: East Midlands, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 184
     row_number: 196
@@ -6046,7 +6046,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: east_midlands_male_band_15000
+  - value_id: east_midlands_male_band_15000_20000
     label: East Midlands, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 185
     row_number: 197
@@ -6081,7 +6081,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: east_midlands_male_band_20000
+  - value_id: east_midlands_male_band_20000_30000
     label: East Midlands, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 186
     row_number: 198
@@ -6116,7 +6116,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: east_midlands_male_band_30000
+  - value_id: east_midlands_male_band_30000_40000
     label: East Midlands, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 187
     row_number: 199
@@ -6151,7 +6151,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: east_midlands_male_band_40000
+  - value_id: east_midlands_male_band_40000_50000
     label: East Midlands, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 188
     row_number: 200
@@ -6186,7 +6186,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: east_midlands_male_band_50000
+  - value_id: east_midlands_male_band_50000_70000
     label: East Midlands, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 189
     row_number: 201
@@ -6221,7 +6221,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: east_midlands_male_band_70000
+  - value_id: east_midlands_male_band_70000_100000
     label: East Midlands, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 190
     row_number: 202
@@ -6256,7 +6256,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: east_midlands_male_band_100000
+  - value_id: east_midlands_male_band_100000_150000
     label: East Midlands, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 191
     row_number: 203
@@ -6291,7 +6291,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: east_midlands_male_band_150000
+  - value_id: east_midlands_male_band_150000_200000
     label: East Midlands, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 192
     row_number: 204
@@ -6326,7 +6326,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: east_midlands_male_band_200000
+  - value_id: east_midlands_male_band_200000_plus
     label: East Midlands, male taxpayers, total income of GBP 200 000 and over
     ordinal: 193
     row_number: 205
@@ -6381,7 +6381,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: east_midlands_female_band_12570
+  - value_id: east_midlands_female_band_12570_15000
     label: East Midlands, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 195
     row_number: 207
@@ -6416,7 +6416,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: east_midlands_female_band_15000
+  - value_id: east_midlands_female_band_15000_20000
     label: East Midlands, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 196
     row_number: 208
@@ -6451,7 +6451,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: east_midlands_female_band_20000
+  - value_id: east_midlands_female_band_20000_30000
     label: East Midlands, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 197
     row_number: 209
@@ -6486,7 +6486,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: east_midlands_female_band_30000
+  - value_id: east_midlands_female_band_30000_40000
     label: East Midlands, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 198
     row_number: 210
@@ -6521,7 +6521,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: east_midlands_female_band_40000
+  - value_id: east_midlands_female_band_40000_50000
     label: East Midlands, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 199
     row_number: 211
@@ -6556,7 +6556,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: east_midlands_female_band_50000
+  - value_id: east_midlands_female_band_50000_70000
     label: East Midlands, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 200
     row_number: 212
@@ -6591,7 +6591,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: east_midlands_female_band_70000
+  - value_id: east_midlands_female_band_70000_100000
     label: East Midlands, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 201
     row_number: 213
@@ -6626,7 +6626,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: east_midlands_female_band_100000
+  - value_id: east_midlands_female_band_100000_150000
     label: East Midlands, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 202
     row_number: 214
@@ -6686,7 +6686,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: west_midlands_all_band_12570
+  - value_id: west_midlands_all_band_12570_15000
     label: West Midlands, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 204
     row_number: 218
@@ -6717,7 +6717,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: west_midlands_all_band_15000
+  - value_id: west_midlands_all_band_15000_20000
     label: West Midlands, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 205
     row_number: 219
@@ -6748,7 +6748,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: west_midlands_all_band_20000
+  - value_id: west_midlands_all_band_20000_30000
     label: West Midlands, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 206
     row_number: 220
@@ -6779,7 +6779,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: west_midlands_all_band_30000
+  - value_id: west_midlands_all_band_30000_40000
     label: West Midlands, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 207
     row_number: 221
@@ -6810,7 +6810,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: west_midlands_all_band_40000
+  - value_id: west_midlands_all_band_40000_50000
     label: West Midlands, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 208
     row_number: 222
@@ -6841,7 +6841,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: west_midlands_all_band_50000
+  - value_id: west_midlands_all_band_50000_70000
     label: West Midlands, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 209
     row_number: 223
@@ -6872,7 +6872,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: west_midlands_all_band_70000
+  - value_id: west_midlands_all_band_70000_100000
     label: West Midlands, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 210
     row_number: 224
@@ -6903,7 +6903,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: west_midlands_all_band_100000
+  - value_id: west_midlands_all_band_100000_150000
     label: West Midlands, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 211
     row_number: 225
@@ -6934,7 +6934,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: west_midlands_all_band_150000
+  - value_id: west_midlands_all_band_150000_200000
     label: West Midlands, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 212
     row_number: 226
@@ -6965,7 +6965,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: west_midlands_all_band_200000
+  - value_id: west_midlands_all_band_200000_plus
     label: West Midlands, all taxpayers, total income of GBP 200 000 and over
     ordinal: 213
     row_number: 227
@@ -7011,7 +7011,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: west_midlands_male_band_12570
+  - value_id: west_midlands_male_band_12570_15000
     label: West Midlands, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 215
     row_number: 229
@@ -7046,7 +7046,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: west_midlands_male_band_15000
+  - value_id: west_midlands_male_band_15000_20000
     label: West Midlands, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 216
     row_number: 230
@@ -7081,7 +7081,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: west_midlands_male_band_20000
+  - value_id: west_midlands_male_band_20000_30000
     label: West Midlands, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 217
     row_number: 231
@@ -7116,7 +7116,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: west_midlands_male_band_30000
+  - value_id: west_midlands_male_band_30000_40000
     label: West Midlands, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 218
     row_number: 232
@@ -7151,7 +7151,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: west_midlands_male_band_40000
+  - value_id: west_midlands_male_band_40000_50000
     label: West Midlands, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 219
     row_number: 233
@@ -7186,7 +7186,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: west_midlands_male_band_50000
+  - value_id: west_midlands_male_band_50000_70000
     label: West Midlands, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 220
     row_number: 234
@@ -7221,7 +7221,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: west_midlands_male_band_70000
+  - value_id: west_midlands_male_band_70000_100000
     label: West Midlands, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 221
     row_number: 235
@@ -7256,7 +7256,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: west_midlands_male_band_100000
+  - value_id: west_midlands_male_band_100000_150000
     label: West Midlands, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 222
     row_number: 236
@@ -7291,7 +7291,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: west_midlands_male_band_150000
+  - value_id: west_midlands_male_band_150000_200000
     label: West Midlands, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 223
     row_number: 237
@@ -7326,7 +7326,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: west_midlands_male_band_200000
+  - value_id: west_midlands_male_band_200000_plus
     label: West Midlands, male taxpayers, total income of GBP 200 000 and over
     ordinal: 224
     row_number: 238
@@ -7381,7 +7381,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: west_midlands_female_band_12570
+  - value_id: west_midlands_female_band_12570_15000
     label: West Midlands, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 226
     row_number: 240
@@ -7416,7 +7416,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: west_midlands_female_band_15000
+  - value_id: west_midlands_female_band_15000_20000
     label: West Midlands, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 227
     row_number: 241
@@ -7451,7 +7451,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: west_midlands_female_band_20000
+  - value_id: west_midlands_female_band_20000_30000
     label: West Midlands, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 228
     row_number: 242
@@ -7486,7 +7486,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: west_midlands_female_band_30000
+  - value_id: west_midlands_female_band_30000_40000
     label: West Midlands, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 229
     row_number: 243
@@ -7521,7 +7521,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: west_midlands_female_band_40000
+  - value_id: west_midlands_female_band_40000_50000
     label: West Midlands, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 230
     row_number: 244
@@ -7556,7 +7556,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: west_midlands_female_band_50000
+  - value_id: west_midlands_female_band_50000_70000
     label: West Midlands, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 231
     row_number: 245
@@ -7591,7 +7591,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: west_midlands_female_band_70000
+  - value_id: west_midlands_female_band_70000_100000
     label: West Midlands, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 232
     row_number: 246
@@ -7626,7 +7626,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: west_midlands_female_band_100000
+  - value_id: west_midlands_female_band_100000_150000
     label: West Midlands, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 233
     row_number: 247
@@ -7686,7 +7686,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: east_of_england_all_band_12570
+  - value_id: east_of_england_all_band_12570_15000
     label: East of England, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 235
     row_number: 251
@@ -7717,7 +7717,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: east_of_england_all_band_15000
+  - value_id: east_of_england_all_band_15000_20000
     label: East of England, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 236
     row_number: 252
@@ -7748,7 +7748,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: east_of_england_all_band_20000
+  - value_id: east_of_england_all_band_20000_30000
     label: East of England, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 237
     row_number: 253
@@ -7779,7 +7779,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: east_of_england_all_band_30000
+  - value_id: east_of_england_all_band_30000_40000
     label: East of England, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 238
     row_number: 254
@@ -7810,7 +7810,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: east_of_england_all_band_40000
+  - value_id: east_of_england_all_band_40000_50000
     label: East of England, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 239
     row_number: 255
@@ -7841,7 +7841,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: east_of_england_all_band_50000
+  - value_id: east_of_england_all_band_50000_70000
     label: East of England, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 240
     row_number: 256
@@ -7872,7 +7872,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: east_of_england_all_band_70000
+  - value_id: east_of_england_all_band_70000_100000
     label: East of England, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 241
     row_number: 257
@@ -7903,7 +7903,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: east_of_england_all_band_100000
+  - value_id: east_of_england_all_band_100000_150000
     label: East of England, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 242
     row_number: 258
@@ -7934,7 +7934,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: east_of_england_all_band_150000
+  - value_id: east_of_england_all_band_150000_200000
     label: East of England, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 243
     row_number: 259
@@ -7965,7 +7965,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: east_of_england_all_band_200000
+  - value_id: east_of_england_all_band_200000_plus
     label: East of England, all taxpayers, total income of GBP 200 000 and over
     ordinal: 244
     row_number: 260
@@ -8011,7 +8011,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: east_of_england_male_band_12570
+  - value_id: east_of_england_male_band_12570_15000
     label: East of England, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 246
     row_number: 262
@@ -8046,7 +8046,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: east_of_england_male_band_15000
+  - value_id: east_of_england_male_band_15000_20000
     label: East of England, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 247
     row_number: 263
@@ -8081,7 +8081,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: east_of_england_male_band_20000
+  - value_id: east_of_england_male_band_20000_30000
     label: East of England, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 248
     row_number: 264
@@ -8116,7 +8116,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: east_of_england_male_band_30000
+  - value_id: east_of_england_male_band_30000_40000
     label: East of England, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 249
     row_number: 265
@@ -8151,7 +8151,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: east_of_england_male_band_40000
+  - value_id: east_of_england_male_band_40000_50000
     label: East of England, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 250
     row_number: 266
@@ -8186,7 +8186,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: east_of_england_male_band_50000
+  - value_id: east_of_england_male_band_50000_70000
     label: East of England, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 251
     row_number: 267
@@ -8221,7 +8221,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: east_of_england_male_band_70000
+  - value_id: east_of_england_male_band_70000_100000
     label: East of England, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 252
     row_number: 268
@@ -8256,7 +8256,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: east_of_england_male_band_100000
+  - value_id: east_of_england_male_band_100000_150000
     label: East of England, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 253
     row_number: 269
@@ -8291,7 +8291,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: east_of_england_male_band_150000
+  - value_id: east_of_england_male_band_150000_200000
     label: East of England, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 254
     row_number: 270
@@ -8326,7 +8326,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: east_of_england_male_band_200000
+  - value_id: east_of_england_male_band_200000_plus
     label: East of England, male taxpayers, total income of GBP 200 000 and over
     ordinal: 255
     row_number: 271
@@ -8381,7 +8381,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: east_of_england_female_band_12570
+  - value_id: east_of_england_female_band_12570_15000
     label: East of England, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 257
     row_number: 273
@@ -8416,7 +8416,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: east_of_england_female_band_15000
+  - value_id: east_of_england_female_band_15000_20000
     label: East of England, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 258
     row_number: 274
@@ -8451,7 +8451,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: east_of_england_female_band_20000
+  - value_id: east_of_england_female_band_20000_30000
     label: East of England, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 259
     row_number: 275
@@ -8486,7 +8486,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: east_of_england_female_band_30000
+  - value_id: east_of_england_female_band_30000_40000
     label: East of England, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 260
     row_number: 276
@@ -8521,7 +8521,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: east_of_england_female_band_40000
+  - value_id: east_of_england_female_band_40000_50000
     label: East of England, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 261
     row_number: 277
@@ -8556,7 +8556,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: east_of_england_female_band_50000
+  - value_id: east_of_england_female_band_50000_70000
     label: East of England, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 262
     row_number: 278
@@ -8591,7 +8591,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: east_of_england_female_band_70000
+  - value_id: east_of_england_female_band_70000_100000
     label: East of England, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 263
     row_number: 279
@@ -8626,7 +8626,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: east_of_england_female_band_100000
+  - value_id: east_of_england_female_band_100000_150000
     label: East of England, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 264
     row_number: 280
@@ -8661,7 +8661,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: east_of_england_female_band_150000
+  - value_id: east_of_england_female_band_150000_200000
     label: East of England, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 265
     row_number: 281
@@ -8696,7 +8696,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: east_of_england_female_band_200000
+  - value_id: east_of_england_female_band_200000_plus
     label: East of England, female taxpayers, total income of GBP 200 000 and over
     ordinal: 266
     row_number: 282
@@ -8751,7 +8751,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: london_all_band_12570
+  - value_id: london_all_band_12570_15000
     label: London, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 268
     row_number: 284
@@ -8782,7 +8782,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: london_all_band_15000
+  - value_id: london_all_band_15000_20000
     label: London, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 269
     row_number: 285
@@ -8813,7 +8813,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: london_all_band_20000
+  - value_id: london_all_band_20000_30000
     label: London, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 270
     row_number: 286
@@ -8844,7 +8844,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: london_all_band_30000
+  - value_id: london_all_band_30000_40000
     label: London, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 271
     row_number: 287
@@ -8875,7 +8875,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: london_all_band_40000
+  - value_id: london_all_band_40000_50000
     label: London, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 272
     row_number: 288
@@ -8906,7 +8906,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: london_all_band_50000
+  - value_id: london_all_band_50000_70000
     label: London, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 273
     row_number: 289
@@ -8937,7 +8937,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: london_all_band_70000
+  - value_id: london_all_band_70000_100000
     label: London, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 274
     row_number: 290
@@ -8968,7 +8968,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: london_all_band_100000
+  - value_id: london_all_band_100000_150000
     label: London, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 275
     row_number: 291
@@ -8999,7 +8999,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: london_all_band_150000
+  - value_id: london_all_band_150000_200000
     label: London, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 276
     row_number: 292
@@ -9030,7 +9030,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: london_all_band_200000
+  - value_id: london_all_band_200000_plus
     label: London, all taxpayers, total income of GBP 200 000 and over
     ordinal: 277
     row_number: 293
@@ -9076,7 +9076,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: london_male_band_12570
+  - value_id: london_male_band_12570_15000
     label: London, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 279
     row_number: 295
@@ -9111,7 +9111,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: london_male_band_15000
+  - value_id: london_male_band_15000_20000
     label: London, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 280
     row_number: 296
@@ -9146,7 +9146,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: london_male_band_20000
+  - value_id: london_male_band_20000_30000
     label: London, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 281
     row_number: 297
@@ -9181,7 +9181,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: london_male_band_30000
+  - value_id: london_male_band_30000_40000
     label: London, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 282
     row_number: 298
@@ -9216,7 +9216,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: london_male_band_40000
+  - value_id: london_male_band_40000_50000
     label: London, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 283
     row_number: 299
@@ -9251,7 +9251,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: london_male_band_50000
+  - value_id: london_male_band_50000_70000
     label: London, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 284
     row_number: 300
@@ -9286,7 +9286,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: london_male_band_70000
+  - value_id: london_male_band_70000_100000
     label: London, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 285
     row_number: 301
@@ -9321,7 +9321,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: london_male_band_100000
+  - value_id: london_male_band_100000_150000
     label: London, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 286
     row_number: 302
@@ -9356,7 +9356,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: london_male_band_150000
+  - value_id: london_male_band_150000_200000
     label: London, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 287
     row_number: 303
@@ -9391,7 +9391,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: london_male_band_200000
+  - value_id: london_male_band_200000_plus
     label: London, male taxpayers, total income of GBP 200 000 and over
     ordinal: 288
     row_number: 304
@@ -9446,7 +9446,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: london_female_band_12570
+  - value_id: london_female_band_12570_15000
     label: London, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 290
     row_number: 306
@@ -9481,7 +9481,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: london_female_band_15000
+  - value_id: london_female_band_15000_20000
     label: London, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 291
     row_number: 307
@@ -9516,7 +9516,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: london_female_band_20000
+  - value_id: london_female_band_20000_30000
     label: London, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 292
     row_number: 308
@@ -9551,7 +9551,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: london_female_band_30000
+  - value_id: london_female_band_30000_40000
     label: London, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 293
     row_number: 309
@@ -9586,7 +9586,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: london_female_band_40000
+  - value_id: london_female_band_40000_50000
     label: London, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 294
     row_number: 310
@@ -9621,7 +9621,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: london_female_band_50000
+  - value_id: london_female_band_50000_70000
     label: London, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 295
     row_number: 311
@@ -9656,7 +9656,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: london_female_band_70000
+  - value_id: london_female_band_70000_100000
     label: London, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 296
     row_number: 312
@@ -9691,7 +9691,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: london_female_band_100000
+  - value_id: london_female_band_100000_150000
     label: London, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 297
     row_number: 313
@@ -9726,7 +9726,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: london_female_band_150000
+  - value_id: london_female_band_150000_200000
     label: London, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 298
     row_number: 314
@@ -9761,7 +9761,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: london_female_band_200000
+  - value_id: london_female_band_200000_plus
     label: London, female taxpayers, total income of GBP 200 000 and over
     ordinal: 299
     row_number: 315
@@ -9816,7 +9816,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: south_east_all_band_12570
+  - value_id: south_east_all_band_12570_15000
     label: South East, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 301
     row_number: 317
@@ -9847,7 +9847,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: south_east_all_band_15000
+  - value_id: south_east_all_band_15000_20000
     label: South East, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 302
     row_number: 318
@@ -9878,7 +9878,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: south_east_all_band_20000
+  - value_id: south_east_all_band_20000_30000
     label: South East, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 303
     row_number: 319
@@ -9909,7 +9909,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: south_east_all_band_30000
+  - value_id: south_east_all_band_30000_40000
     label: South East, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 304
     row_number: 320
@@ -9940,7 +9940,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: south_east_all_band_40000
+  - value_id: south_east_all_band_40000_50000
     label: South East, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 305
     row_number: 321
@@ -9971,7 +9971,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: south_east_all_band_50000
+  - value_id: south_east_all_band_50000_70000
     label: South East, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 306
     row_number: 322
@@ -10002,7 +10002,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: south_east_all_band_70000
+  - value_id: south_east_all_band_70000_100000
     label: South East, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 307
     row_number: 323
@@ -10033,7 +10033,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: south_east_all_band_100000
+  - value_id: south_east_all_band_100000_150000
     label: South East, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 308
     row_number: 324
@@ -10064,7 +10064,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: south_east_all_band_150000
+  - value_id: south_east_all_band_150000_200000
     label: South East, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 309
     row_number: 325
@@ -10095,7 +10095,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: south_east_all_band_200000
+  - value_id: south_east_all_band_200000_plus
     label: South East, all taxpayers, total income of GBP 200 000 and over
     ordinal: 310
     row_number: 326
@@ -10141,7 +10141,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: south_east_male_band_12570
+  - value_id: south_east_male_band_12570_15000
     label: South East, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 312
     row_number: 328
@@ -10176,7 +10176,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: south_east_male_band_15000
+  - value_id: south_east_male_band_15000_20000
     label: South East, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 313
     row_number: 329
@@ -10211,7 +10211,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: south_east_male_band_20000
+  - value_id: south_east_male_band_20000_30000
     label: South East, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 314
     row_number: 330
@@ -10246,7 +10246,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: south_east_male_band_30000
+  - value_id: south_east_male_band_30000_40000
     label: South East, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 315
     row_number: 331
@@ -10281,7 +10281,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: south_east_male_band_40000
+  - value_id: south_east_male_band_40000_50000
     label: South East, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 316
     row_number: 332
@@ -10316,7 +10316,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: south_east_male_band_50000
+  - value_id: south_east_male_band_50000_70000
     label: South East, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 317
     row_number: 333
@@ -10351,7 +10351,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: south_east_male_band_70000
+  - value_id: south_east_male_band_70000_100000
     label: South East, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 318
     row_number: 334
@@ -10386,7 +10386,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: south_east_male_band_100000
+  - value_id: south_east_male_band_100000_150000
     label: South East, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 319
     row_number: 335
@@ -10421,7 +10421,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: south_east_male_band_150000
+  - value_id: south_east_male_band_150000_200000
     label: South East, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 320
     row_number: 336
@@ -10456,7 +10456,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: south_east_male_band_200000
+  - value_id: south_east_male_band_200000_plus
     label: South East, male taxpayers, total income of GBP 200 000 and over
     ordinal: 321
     row_number: 337
@@ -10511,7 +10511,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: south_east_female_band_12570
+  - value_id: south_east_female_band_12570_15000
     label: South East, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 323
     row_number: 339
@@ -10546,7 +10546,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: south_east_female_band_15000
+  - value_id: south_east_female_band_15000_20000
     label: South East, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 324
     row_number: 340
@@ -10581,7 +10581,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: south_east_female_band_20000
+  - value_id: south_east_female_band_20000_30000
     label: South East, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 325
     row_number: 341
@@ -10616,7 +10616,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: south_east_female_band_30000
+  - value_id: south_east_female_band_30000_40000
     label: South East, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 326
     row_number: 342
@@ -10651,7 +10651,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: south_east_female_band_40000
+  - value_id: south_east_female_band_40000_50000
     label: South East, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 327
     row_number: 343
@@ -10686,7 +10686,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: south_east_female_band_50000
+  - value_id: south_east_female_band_50000_70000
     label: South East, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 328
     row_number: 344
@@ -10721,7 +10721,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: south_east_female_band_70000
+  - value_id: south_east_female_band_70000_100000
     label: South East, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 329
     row_number: 345
@@ -10756,7 +10756,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: south_east_female_band_100000
+  - value_id: south_east_female_band_100000_150000
     label: South East, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 330
     row_number: 346
@@ -10791,7 +10791,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: south_east_female_band_150000
+  - value_id: south_east_female_band_150000_200000
     label: South East, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 331
     row_number: 347
@@ -10826,7 +10826,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: south_east_female_band_200000
+  - value_id: south_east_female_band_200000_plus
     label: South East, female taxpayers, total income of GBP 200 000 and over
     ordinal: 332
     row_number: 348
@@ -10881,7 +10881,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: south_west_all_band_12570
+  - value_id: south_west_all_band_12570_15000
     label: South West, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 334
     row_number: 350
@@ -10912,7 +10912,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: south_west_all_band_15000
+  - value_id: south_west_all_band_15000_20000
     label: South West, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 335
     row_number: 351
@@ -10943,7 +10943,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: south_west_all_band_20000
+  - value_id: south_west_all_band_20000_30000
     label: South West, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 336
     row_number: 352
@@ -10974,7 +10974,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: south_west_all_band_30000
+  - value_id: south_west_all_band_30000_40000
     label: South West, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 337
     row_number: 353
@@ -11005,7 +11005,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: south_west_all_band_40000
+  - value_id: south_west_all_band_40000_50000
     label: South West, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 338
     row_number: 354
@@ -11036,7 +11036,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: south_west_all_band_50000
+  - value_id: south_west_all_band_50000_70000
     label: South West, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 339
     row_number: 355
@@ -11067,7 +11067,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: south_west_all_band_70000
+  - value_id: south_west_all_band_70000_100000
     label: South West, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 340
     row_number: 356
@@ -11098,7 +11098,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: south_west_all_band_100000
+  - value_id: south_west_all_band_100000_150000
     label: South West, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 341
     row_number: 357
@@ -11129,7 +11129,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: south_west_all_band_150000
+  - value_id: south_west_all_band_150000_200000
     label: South West, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 342
     row_number: 358
@@ -11160,7 +11160,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: south_west_all_band_200000
+  - value_id: south_west_all_band_200000_plus
     label: South West, all taxpayers, total income of GBP 200 000 and over
     ordinal: 343
     row_number: 359
@@ -11206,7 +11206,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: south_west_male_band_12570
+  - value_id: south_west_male_band_12570_15000
     label: South West, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 345
     row_number: 361
@@ -11241,7 +11241,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: south_west_male_band_15000
+  - value_id: south_west_male_band_15000_20000
     label: South West, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 346
     row_number: 362
@@ -11276,7 +11276,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: south_west_male_band_20000
+  - value_id: south_west_male_band_20000_30000
     label: South West, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 347
     row_number: 363
@@ -11311,7 +11311,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: south_west_male_band_30000
+  - value_id: south_west_male_band_30000_40000
     label: South West, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 348
     row_number: 364
@@ -11346,7 +11346,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: south_west_male_band_40000
+  - value_id: south_west_male_band_40000_50000
     label: South West, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 349
     row_number: 365
@@ -11381,7 +11381,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: south_west_male_band_50000
+  - value_id: south_west_male_band_50000_70000
     label: South West, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 350
     row_number: 366
@@ -11416,7 +11416,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: south_west_male_band_70000
+  - value_id: south_west_male_band_70000_100000
     label: South West, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 351
     row_number: 367
@@ -11451,7 +11451,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: south_west_male_band_100000
+  - value_id: south_west_male_band_100000_150000
     label: South West, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 352
     row_number: 368
@@ -11486,7 +11486,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: south_west_male_band_150000
+  - value_id: south_west_male_band_150000_200000
     label: South West, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 353
     row_number: 369
@@ -11521,7 +11521,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: south_west_male_band_200000
+  - value_id: south_west_male_band_200000_plus
     label: South West, male taxpayers, total income of GBP 200 000 and over
     ordinal: 354
     row_number: 370
@@ -11576,7 +11576,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: south_west_female_band_12570
+  - value_id: south_west_female_band_12570_15000
     label: South West, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 356
     row_number: 372
@@ -11611,7 +11611,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: south_west_female_band_15000
+  - value_id: south_west_female_band_15000_20000
     label: South West, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 357
     row_number: 373
@@ -11646,7 +11646,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: south_west_female_band_20000
+  - value_id: south_west_female_band_20000_30000
     label: South West, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 358
     row_number: 374
@@ -11681,7 +11681,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: south_west_female_band_30000
+  - value_id: south_west_female_band_30000_40000
     label: South West, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 359
     row_number: 375
@@ -11716,7 +11716,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: south_west_female_band_40000
+  - value_id: south_west_female_band_40000_50000
     label: South West, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 360
     row_number: 376
@@ -11751,7 +11751,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: south_west_female_band_50000
+  - value_id: south_west_female_band_50000_70000
     label: South West, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 361
     row_number: 377
@@ -11786,7 +11786,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: south_west_female_band_70000
+  - value_id: south_west_female_band_70000_100000
     label: South West, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 362
     row_number: 378
@@ -11821,7 +11821,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: south_west_female_band_100000
+  - value_id: south_west_female_band_100000_150000
     label: South West, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 363
     row_number: 379
@@ -11856,7 +11856,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: south_west_female_band_150000
+  - value_id: south_west_female_band_150000_200000
     label: South West, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 364
     row_number: 380
@@ -11891,7 +11891,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: south_west_female_band_200000
+  - value_id: south_west_female_band_200000_plus
     label: South West, female taxpayers, total income of GBP 200 000 and over
     ordinal: 365
     row_number: 381
@@ -11946,7 +11946,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: wales_all_band_12570
+  - value_id: wales_all_band_12570_15000
     label: Wales, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 367
     row_number: 383
@@ -11977,7 +11977,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: wales_all_band_15000
+  - value_id: wales_all_band_15000_20000
     label: Wales, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 368
     row_number: 384
@@ -12008,7 +12008,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: wales_all_band_20000
+  - value_id: wales_all_band_20000_30000
     label: Wales, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 369
     row_number: 385
@@ -12039,7 +12039,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: wales_all_band_30000
+  - value_id: wales_all_band_30000_40000
     label: Wales, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 370
     row_number: 386
@@ -12070,7 +12070,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: wales_all_band_40000
+  - value_id: wales_all_band_40000_50000
     label: Wales, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 371
     row_number: 387
@@ -12101,7 +12101,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: wales_all_band_50000
+  - value_id: wales_all_band_50000_70000
     label: Wales, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 372
     row_number: 388
@@ -12132,7 +12132,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: wales_all_band_70000
+  - value_id: wales_all_band_70000_100000
     label: Wales, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 373
     row_number: 389
@@ -12163,7 +12163,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: wales_all_band_100000
+  - value_id: wales_all_band_100000_150000
     label: Wales, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 374
     row_number: 390
@@ -12194,7 +12194,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: wales_all_band_150000
+  - value_id: wales_all_band_150000_200000
     label: Wales, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 375
     row_number: 391
@@ -12225,7 +12225,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: wales_all_band_200000
+  - value_id: wales_all_band_200000_plus
     label: Wales, all taxpayers, total income of GBP 200 000 and over
     ordinal: 376
     row_number: 392
@@ -12271,7 +12271,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: wales_male_band_12570
+  - value_id: wales_male_band_12570_15000
     label: Wales, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 378
     row_number: 394
@@ -12306,7 +12306,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: wales_male_band_15000
+  - value_id: wales_male_band_15000_20000
     label: Wales, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 379
     row_number: 395
@@ -12341,7 +12341,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: wales_male_band_20000
+  - value_id: wales_male_band_20000_30000
     label: Wales, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 380
     row_number: 396
@@ -12376,7 +12376,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: wales_male_band_30000
+  - value_id: wales_male_band_30000_40000
     label: Wales, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 381
     row_number: 397
@@ -12411,7 +12411,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: wales_male_band_40000
+  - value_id: wales_male_band_40000_50000
     label: Wales, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 382
     row_number: 398
@@ -12446,7 +12446,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: wales_male_band_50000
+  - value_id: wales_male_band_50000_70000
     label: Wales, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 383
     row_number: 399
@@ -12481,7 +12481,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: wales_male_band_70000
+  - value_id: wales_male_band_70000_100000
     label: Wales, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 384
     row_number: 400
@@ -12516,7 +12516,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: wales_male_band_100000
+  - value_id: wales_male_band_100000_150000
     label: Wales, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 385
     row_number: 401
@@ -12576,7 +12576,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: wales_female_band_12570
+  - value_id: wales_female_band_12570_15000
     label: Wales, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 387
     row_number: 405
@@ -12611,7 +12611,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: wales_female_band_15000
+  - value_id: wales_female_band_15000_20000
     label: Wales, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 388
     row_number: 406
@@ -12646,7 +12646,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: wales_female_band_20000
+  - value_id: wales_female_band_20000_30000
     label: Wales, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 389
     row_number: 407
@@ -12681,7 +12681,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: wales_female_band_30000
+  - value_id: wales_female_band_30000_40000
     label: Wales, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 390
     row_number: 408
@@ -12716,7 +12716,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: wales_female_band_40000
+  - value_id: wales_female_band_40000_50000
     label: Wales, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 391
     row_number: 409
@@ -12751,7 +12751,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: wales_female_band_50000
+  - value_id: wales_female_band_50000_70000
     label: Wales, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 392
     row_number: 410
@@ -12786,7 +12786,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: wales_female_band_70000
+  - value_id: wales_female_band_70000_100000
     label: Wales, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 393
     row_number: 411
@@ -12821,7 +12821,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: wales_female_band_100000
+  - value_id: wales_female_band_100000_150000
     label: Wales, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 394
     row_number: 412
@@ -12881,7 +12881,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: scotland_all_band_12570
+  - value_id: scotland_all_band_12570_15000
     label: Scotland, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 396
     row_number: 416
@@ -12912,7 +12912,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: scotland_all_band_15000
+  - value_id: scotland_all_band_15000_20000
     label: Scotland, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 397
     row_number: 417
@@ -12943,7 +12943,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: scotland_all_band_20000
+  - value_id: scotland_all_band_20000_30000
     label: Scotland, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 398
     row_number: 418
@@ -12974,7 +12974,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: scotland_all_band_30000
+  - value_id: scotland_all_band_30000_40000
     label: Scotland, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 399
     row_number: 419
@@ -13005,7 +13005,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: scotland_all_band_40000
+  - value_id: scotland_all_band_40000_50000
     label: Scotland, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 400
     row_number: 420
@@ -13036,7 +13036,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: scotland_all_band_50000
+  - value_id: scotland_all_band_50000_70000
     label: Scotland, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 401
     row_number: 421
@@ -13067,7 +13067,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: scotland_all_band_70000
+  - value_id: scotland_all_band_70000_100000
     label: Scotland, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 402
     row_number: 422
@@ -13098,7 +13098,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: scotland_all_band_100000
+  - value_id: scotland_all_band_100000_150000
     label: Scotland, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 403
     row_number: 423
@@ -13129,7 +13129,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: scotland_all_band_150000
+  - value_id: scotland_all_band_150000_200000
     label: Scotland, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 404
     row_number: 424
@@ -13160,7 +13160,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: scotland_all_band_200000
+  - value_id: scotland_all_band_200000_plus
     label: Scotland, all taxpayers, total income of GBP 200 000 and over
     ordinal: 405
     row_number: 425
@@ -13206,7 +13206,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: scotland_male_band_12570
+  - value_id: scotland_male_band_12570_15000
     label: Scotland, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 407
     row_number: 427
@@ -13241,7 +13241,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: scotland_male_band_15000
+  - value_id: scotland_male_band_15000_20000
     label: Scotland, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 408
     row_number: 428
@@ -13276,7 +13276,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: scotland_male_band_20000
+  - value_id: scotland_male_band_20000_30000
     label: Scotland, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 409
     row_number: 429
@@ -13311,7 +13311,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: scotland_male_band_30000
+  - value_id: scotland_male_band_30000_40000
     label: Scotland, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 410
     row_number: 430
@@ -13346,7 +13346,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: scotland_male_band_40000
+  - value_id: scotland_male_band_40000_50000
     label: Scotland, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 411
     row_number: 431
@@ -13381,7 +13381,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: scotland_male_band_50000
+  - value_id: scotland_male_band_50000_70000
     label: Scotland, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 412
     row_number: 432
@@ -13416,7 +13416,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: scotland_male_band_70000
+  - value_id: scotland_male_band_70000_100000
     label: Scotland, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 413
     row_number: 433
@@ -13451,7 +13451,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: scotland_male_band_100000
+  - value_id: scotland_male_band_100000_150000
     label: Scotland, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 414
     row_number: 434
@@ -13486,7 +13486,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: scotland_male_band_150000
+  - value_id: scotland_male_band_150000_200000
     label: Scotland, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 415
     row_number: 435
@@ -13521,7 +13521,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: scotland_male_band_200000
+  - value_id: scotland_male_band_200000_plus
     label: Scotland, male taxpayers, total income of GBP 200 000 and over
     ordinal: 416
     row_number: 436
@@ -13576,7 +13576,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: scotland_female_band_12570
+  - value_id: scotland_female_band_12570_15000
     label: Scotland, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 418
     row_number: 438
@@ -13611,7 +13611,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: scotland_female_band_15000
+  - value_id: scotland_female_band_15000_20000
     label: Scotland, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 419
     row_number: 439
@@ -13646,7 +13646,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: scotland_female_band_20000
+  - value_id: scotland_female_band_20000_30000
     label: Scotland, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 420
     row_number: 440
@@ -13681,7 +13681,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: scotland_female_band_30000
+  - value_id: scotland_female_band_30000_40000
     label: Scotland, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 421
     row_number: 441
@@ -13716,7 +13716,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: scotland_female_band_40000
+  - value_id: scotland_female_band_40000_50000
     label: Scotland, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 422
     row_number: 442
@@ -13751,7 +13751,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: scotland_female_band_50000
+  - value_id: scotland_female_band_50000_70000
     label: Scotland, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 423
     row_number: 443
@@ -13786,7 +13786,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: scotland_female_band_70000
+  - value_id: scotland_female_band_70000_100000
     label: Scotland, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 424
     row_number: 444
@@ -13821,7 +13821,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: scotland_female_band_100000
+  - value_id: scotland_female_band_100000_150000
     label: Scotland, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 425
     row_number: 445
@@ -13881,7 +13881,7 @@ record_sets:
       operator: ==
       value: female
       label: Sex
-  - value_id: northern_ireland_all_band_12570
+  - value_id: northern_ireland_all_band_12570_15000
     label: Northern Ireland, all taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 427
     row_number: 449
@@ -13912,7 +13912,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: northern_ireland_all_band_15000
+  - value_id: northern_ireland_all_band_15000_20000
     label: Northern Ireland, all taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 428
     row_number: 450
@@ -13943,7 +13943,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: northern_ireland_all_band_20000
+  - value_id: northern_ireland_all_band_20000_30000
     label: Northern Ireland, all taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 429
     row_number: 451
@@ -13974,7 +13974,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: northern_ireland_all_band_30000
+  - value_id: northern_ireland_all_band_30000_40000
     label: Northern Ireland, all taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 430
     row_number: 452
@@ -14005,7 +14005,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: northern_ireland_all_band_40000
+  - value_id: northern_ireland_all_band_40000_50000
     label: Northern Ireland, all taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 431
     row_number: 453
@@ -14036,7 +14036,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: northern_ireland_all_band_50000
+  - value_id: northern_ireland_all_band_50000_70000
     label: Northern Ireland, all taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 432
     row_number: 454
@@ -14067,7 +14067,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: northern_ireland_all_band_70000
+  - value_id: northern_ireland_all_band_70000_100000
     label: Northern Ireland, all taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 433
     row_number: 455
@@ -14098,7 +14098,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: northern_ireland_all_band_100000
+  - value_id: northern_ireland_all_band_100000_150000
     label: Northern Ireland, all taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 434
     row_number: 456
@@ -14129,7 +14129,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_upper_bound
-  - value_id: northern_ireland_all_band_150000
+  - value_id: northern_ireland_all_band_150000_200000
     label: Northern Ireland, all taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 435
     row_number: 457
@@ -14160,7 +14160,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: northern_ireland_all_band_200000
+  - value_id: northern_ireland_all_band_200000_plus
     label: Northern Ireland, all taxpayers, total income of GBP 200 000 and over
     ordinal: 436
     row_number: 458
@@ -14206,7 +14206,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: northern_ireland_male_band_12570
+  - value_id: northern_ireland_male_band_12570_15000
     label: Northern Ireland, male taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 438
     row_number: 460
@@ -14241,7 +14241,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: northern_ireland_male_band_15000
+  - value_id: northern_ireland_male_band_15000_20000
     label: Northern Ireland, male taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 439
     row_number: 461
@@ -14276,7 +14276,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: northern_ireland_male_band_20000
+  - value_id: northern_ireland_male_band_20000_30000
     label: Northern Ireland, male taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 440
     row_number: 462
@@ -14311,7 +14311,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: northern_ireland_male_band_30000
+  - value_id: northern_ireland_male_band_30000_40000
     label: Northern Ireland, male taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 441
     row_number: 463
@@ -14346,7 +14346,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: northern_ireland_male_band_40000
+  - value_id: northern_ireland_male_band_40000_50000
     label: Northern Ireland, male taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 442
     row_number: 464
@@ -14381,7 +14381,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: northern_ireland_male_band_50000
+  - value_id: northern_ireland_male_band_50000_70000
     label: Northern Ireland, male taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 443
     row_number: 465
@@ -14416,7 +14416,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: northern_ireland_male_band_70000
+  - value_id: northern_ireland_male_band_70000_100000
     label: Northern Ireland, male taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 444
     row_number: 466
@@ -14451,7 +14451,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_upper_bound
-  - value_id: northern_ireland_male_band_100000
+  - value_id: northern_ireland_male_band_100000_150000
     label: Northern Ireland, male taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 445
     row_number: 467
@@ -14511,7 +14511,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: northern_ireland_female_band_12570
+  - value_id: northern_ireland_female_band_12570_15000
     label: Northern Ireland, female taxpayers, total income from GBP 12 570 to GBP 15 000
     ordinal: 447
     row_number: 471
@@ -14546,7 +14546,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: northern_ireland_female_band_15000
+  - value_id: northern_ireland_female_band_15000_20000
     label: Northern Ireland, female taxpayers, total income from GBP 15 000 to GBP 20 000
     ordinal: 448
     row_number: 472
@@ -14581,7 +14581,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: northern_ireland_female_band_20000
+  - value_id: northern_ireland_female_band_20000_30000
     label: Northern Ireland, female taxpayers, total income from GBP 20 000 to GBP 30 000
     ordinal: 449
     row_number: 473
@@ -14616,7 +14616,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_upper_bound
-  - value_id: northern_ireland_female_band_30000
+  - value_id: northern_ireland_female_band_30000_40000
     label: Northern Ireland, female taxpayers, total income from GBP 30 000 to GBP 40 000
     ordinal: 450
     row_number: 474
@@ -14651,7 +14651,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_upper_bound
-  - value_id: northern_ireland_female_band_40000
+  - value_id: northern_ireland_female_band_40000_50000
     label: Northern Ireland, female taxpayers, total income from GBP 40 000 to GBP 50 000
     ordinal: 451
     row_number: 475
@@ -14686,7 +14686,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: northern_ireland_female_band_50000
+  - value_id: northern_ireland_female_band_50000_70000
     label: Northern Ireland, female taxpayers, total income from GBP 50 000 to GBP 70 000
     ordinal: 452
     row_number: 476
@@ -14721,7 +14721,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_upper_bound
-  - value_id: northern_ireland_female_band_70000
+  - value_id: northern_ireland_female_band_70000_100000
     label: Northern Ireland, female taxpayers, total income from GBP 70 000 to GBP 100 000
     ordinal: 453
     row_number: 477
@@ -15021,7 +15021,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band_by_sex
   rows:
-  - value_id: north_east_male_band_150000
+  - value_id: north_east_male_band_150000_200000
     label: North East, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 0
     row_number: 105
@@ -15056,7 +15056,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: north_east_male_band_200000
+  - value_id: north_east_male_band_200000_plus
     label: North East, male taxpayers, total income of GBP 200 000 and over
     ordinal: 1
     row_number: 106
@@ -15086,7 +15086,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: north_east_female_band_150000
+  - value_id: north_east_female_band_150000_200000
     label: North East, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 2
     row_number: 116
@@ -15121,7 +15121,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: north_east_female_band_200000
+  - value_id: north_east_female_band_200000_plus
     label: North East, female taxpayers, total income of GBP 200 000 and over
     ordinal: 3
     row_number: 117
@@ -15151,7 +15151,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: wales_male_band_150000
+  - value_id: wales_male_band_150000_200000
     label: Wales, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 4
     row_number: 402
@@ -15186,7 +15186,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: wales_male_band_200000
+  - value_id: wales_male_band_200000_plus
     label: Wales, male taxpayers, total income of GBP 200 000 and over
     ordinal: 5
     row_number: 403
@@ -15216,7 +15216,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: wales_female_band_150000
+  - value_id: wales_female_band_150000_200000
     label: Wales, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 6
     row_number: 413
@@ -15251,7 +15251,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: wales_female_band_200000
+  - value_id: wales_female_band_200000_plus
     label: Wales, female taxpayers, total income of GBP 200 000 and over
     ordinal: 7
     row_number: 414
@@ -15281,7 +15281,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: northern_ireland_male_band_150000
+  - value_id: northern_ireland_male_band_150000_200000
     label: Northern Ireland, male taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 8
     row_number: 468
@@ -15316,7 +15316,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: northern_ireland_male_band_200000
+  - value_id: northern_ireland_male_band_200000_plus
     label: Northern Ireland, male taxpayers, total income of GBP 200 000 and over
     ordinal: 9
     row_number: 469
@@ -15514,7 +15514,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band_by_sex
   rows:
-  - value_id: yorkshire_and_the_humber_female_band_150000
+  - value_id: yorkshire_and_the_humber_female_band_150000_200000
     label: Yorkshire and the Humber, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 0
     row_number: 182
@@ -15549,7 +15549,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: yorkshire_and_the_humber_female_band_200000
+  - value_id: yorkshire_and_the_humber_female_band_200000_plus
     label: Yorkshire and the Humber, female taxpayers, total income of GBP 200 000 and over
     ordinal: 1
     row_number: 183
@@ -15579,7 +15579,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: east_midlands_female_band_150000
+  - value_id: east_midlands_female_band_150000_200000
     label: East Midlands, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 2
     row_number: 215
@@ -15614,7 +15614,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: east_midlands_female_band_200000
+  - value_id: east_midlands_female_band_200000_plus
     label: East Midlands, female taxpayers, total income of GBP 200 000 and over
     ordinal: 3
     row_number: 216
@@ -15644,7 +15644,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: west_midlands_female_band_150000
+  - value_id: west_midlands_female_band_150000_200000
     label: West Midlands, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 4
     row_number: 248
@@ -15679,7 +15679,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: west_midlands_female_band_200000
+  - value_id: west_midlands_female_band_200000_plus
     label: West Midlands, female taxpayers, total income of GBP 200 000 and over
     ordinal: 5
     row_number: 249
@@ -15709,7 +15709,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: scotland_female_band_150000
+  - value_id: scotland_female_band_150000_200000
     label: Scotland, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 6
     row_number: 446
@@ -15744,7 +15744,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: scotland_female_band_200000
+  - value_id: scotland_female_band_200000_plus
     label: Scotland, female taxpayers, total income of GBP 200 000 and over
     ordinal: 7
     row_number: 447
@@ -15774,7 +15774,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: northern_ireland_female_band_100000
+  - value_id: northern_ireland_female_band_100000_150000
     label: Northern Ireland, female taxpayers, total income from GBP 100 000 to GBP 150 000
     ordinal: 8
     row_number: 478
@@ -16031,7 +16031,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band_by_sex
   rows:
-  - value_id: northern_ireland_female_band_150000
+  - value_id: northern_ireland_female_band_150000_200000
     label: Northern Ireland, female taxpayers, total income from GBP 150 000 to GBP 200 000
     ordinal: 0
     row_number: 479
@@ -16216,7 +16216,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band_by_sex
   rows:
-  - value_id: northern_ireland_female_band_200000
+  - value_id: northern_ireland_female_band_200000_plus
     label: Northern Ireland, female taxpayers, total income of GBP 200 000 and over
     ordinal: 0
     row_number: 480

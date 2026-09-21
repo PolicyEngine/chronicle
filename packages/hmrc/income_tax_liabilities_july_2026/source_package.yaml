@@ -23224,7 +23224,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_12570
+  - value_id: band_12570_15000
     label: Total income from GBP 12 570 to GBP 15 000
     ordinal: 0
     row_number: 4
@@ -23243,7 +23243,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: band_15000
+  - value_id: band_15000_20000
     label: Total income from GBP 15 000 to GBP 20 000
     ordinal: 1
     row_number: 5
@@ -23262,7 +23262,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: band_20000
+  - value_id: band_20000_30000
     label: Total income from GBP 20 000 to GBP 30 000
     ordinal: 2
     row_number: 6
@@ -23500,7 +23500,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_500000
+  - value_id: band_500000_1000000
     label: Total income from GBP 500 000 to GBP 1 000 000
     ordinal: 0
     row_number: 12
@@ -23519,7 +23519,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_upper_bound
-  - value_id: band_1000000
+  - value_id: band_1000000_2000000
     label: Total income from GBP 1 000 000 to GBP 2 000 000
     ordinal: 1
     row_number: 13
@@ -23538,7 +23538,7 @@ record_sets:
       operator: ==
       value: 2000000
       label: total_income_upper_bound
-  - value_id: band_2000000
+  - value_id: band_2000000_plus
     label: Total income of GBP 2 000 000 and over
     ordinal: 2
     row_number: 14
@@ -23707,7 +23707,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_100000
+  - value_id: band_100000_150000
     label: Total income from GBP 100 000 to GBP 150 000
     ordinal: 0
     row_number: 9
@@ -24080,7 +24080,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_30000
+  - value_id: band_30000_50000
     label: Total income from GBP 30 000 to GBP 50 000
     ordinal: 0
     row_number: 7
@@ -24099,7 +24099,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_upper_bound
-  - value_id: band_50000
+  - value_id: band_50000_100000
     label: Total income from GBP 50 000 to GBP 100 000
     ordinal: 1
     row_number: 8
@@ -24401,7 +24401,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_150000
+  - value_id: band_150000_200000
     label: Total income from GBP 150 000 to GBP 200 000
     ordinal: 0
     row_number: 10
@@ -24420,7 +24420,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: band_200000
+  - value_id: band_200000_500000
     label: Total income from GBP 200 000 to GBP 500 000
     ordinal: 1
     row_number: 11
@@ -24657,7 +24657,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_12570
+  - value_id: band_12570_15000
     label: Total income from GBP 12 570 to GBP 15 000
     ordinal: 0
     row_number: 4
@@ -24676,7 +24676,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: band_15000
+  - value_id: band_15000_20000
     label: Total income from GBP 15 000 to GBP 20 000
     ordinal: 1
     row_number: 5
@@ -24695,7 +24695,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: band_20000
+  - value_id: band_20000_30000
     label: Total income from GBP 20 000 to GBP 30 000
     ordinal: 2
     row_number: 6
@@ -24932,7 +24932,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_500000
+  - value_id: band_500000_1000000
     label: Total income from GBP 500 000 to GBP 1 000 000
     ordinal: 0
     row_number: 12
@@ -24951,7 +24951,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_upper_bound
-  - value_id: band_1000000
+  - value_id: band_1000000_2000000
     label: Total income from GBP 1 000 000 to GBP 2 000 000
     ordinal: 1
     row_number: 13
@@ -24970,7 +24970,7 @@ record_sets:
       operator: ==
       value: 2000000
       label: total_income_upper_bound
-  - value_id: band_2000000
+  - value_id: band_2000000_plus
     label: Total income of GBP 2 000 000 and over
     ordinal: 2
     row_number: 14
@@ -25138,7 +25138,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_50000
+  - value_id: band_50000_100000
     label: Total income from GBP 50 000 to GBP 100 000
     ordinal: 0
     row_number: 8
@@ -25510,7 +25510,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_150000
+  - value_id: band_150000_200000
     label: Total income from GBP 150 000 to GBP 200 000
     ordinal: 0
     row_number: 10
@@ -25529,7 +25529,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: band_200000
+  - value_id: band_200000_500000
     label: Total income from GBP 200 000 to GBP 500 000
     ordinal: 1
     row_number: 11
@@ -25766,7 +25766,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_30000
+  - value_id: band_30000_50000
     label: Total income from GBP 30 000 to GBP 50 000
     ordinal: 0
     row_number: 7
@@ -26067,7 +26067,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_100000
+  - value_id: band_100000_150000
     label: Total income from GBP 100 000 to GBP 150 000
     ordinal: 0
     row_number: 9
@@ -26368,7 +26368,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_12570
+  - value_id: band_12570_15000
     label: Total income from GBP 12 570 to GBP 15 000
     ordinal: 0
     row_number: 4
@@ -26387,7 +26387,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: band_15000
+  - value_id: band_15000_20000
     label: Total income from GBP 15 000 to GBP 20 000
     ordinal: 1
     row_number: 5
@@ -26406,7 +26406,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: band_20000
+  - value_id: band_20000_30000
     label: Total income from GBP 20 000 to GBP 30 000
     ordinal: 2
     row_number: 6
@@ -26643,7 +26643,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_500000
+  - value_id: band_500000_1000000
     label: Total income from GBP 500 000 to GBP 1 000 000
     ordinal: 0
     row_number: 12
@@ -26662,7 +26662,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_upper_bound
-  - value_id: band_1000000
+  - value_id: band_1000000_2000000
     label: Total income from GBP 1 000 000 to GBP 2 000 000
     ordinal: 1
     row_number: 13
@@ -26681,7 +26681,7 @@ record_sets:
       operator: ==
       value: 2000000
       label: total_income_upper_bound
-  - value_id: band_2000000
+  - value_id: band_2000000_plus
     label: Total income of GBP 2 000 000 and over
     ordinal: 2
     row_number: 14
@@ -26849,7 +26849,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_50000
+  - value_id: band_50000_100000
     label: Total income from GBP 50 000 to GBP 100 000
     ordinal: 0
     row_number: 8
@@ -27221,7 +27221,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_150000
+  - value_id: band_150000_200000
     label: Total income from GBP 150 000 to GBP 200 000
     ordinal: 0
     row_number: 10
@@ -27240,7 +27240,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: band_200000
+  - value_id: band_200000_500000
     label: Total income from GBP 200 000 to GBP 500 000
     ordinal: 1
     row_number: 11
@@ -27477,7 +27477,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_30000
+  - value_id: band_30000_50000
     label: Total income from GBP 30 000 to GBP 50 000
     ordinal: 0
     row_number: 7
@@ -27778,7 +27778,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_100000
+  - value_id: band_100000_150000
     label: Total income from GBP 100 000 to GBP 150 000
     ordinal: 0
     row_number: 9
@@ -28079,7 +28079,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_12570
+  - value_id: band_12570_15000
     label: Total income from GBP 12 570 to GBP 15 000
     ordinal: 0
     row_number: 4
@@ -28098,7 +28098,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_upper_bound
-  - value_id: band_15000
+  - value_id: band_15000_20000
     label: Total income from GBP 15 000 to GBP 20 000
     ordinal: 1
     row_number: 5
@@ -28117,7 +28117,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_upper_bound
-  - value_id: band_20000
+  - value_id: band_20000_30000
     label: Total income from GBP 20 000 to GBP 30 000
     ordinal: 2
     row_number: 6
@@ -28354,7 +28354,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_500000
+  - value_id: band_500000_1000000
     label: Total income from GBP 500 000 to GBP 1 000 000
     ordinal: 0
     row_number: 12
@@ -28373,7 +28373,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_upper_bound
-  - value_id: band_1000000
+  - value_id: band_1000000_2000000
     label: Total income from GBP 1 000 000 to GBP 2 000 000
     ordinal: 1
     row_number: 13
@@ -28392,7 +28392,7 @@ record_sets:
       operator: ==
       value: 2000000
       label: total_income_upper_bound
-  - value_id: band_2000000
+  - value_id: band_2000000_plus
     label: Total income of GBP 2 000 000 and over
     ordinal: 2
     row_number: 14
@@ -28560,7 +28560,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_50000
+  - value_id: band_50000_100000
     label: Total income from GBP 50 000 to GBP 100 000
     ordinal: 0
     row_number: 8
@@ -28932,7 +28932,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_150000
+  - value_id: band_150000_200000
     label: Total income from GBP 150 000 to GBP 200 000
     ordinal: 0
     row_number: 10
@@ -28951,7 +28951,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_upper_bound
-  - value_id: band_200000
+  - value_id: band_200000_500000
     label: Total income from GBP 200 000 to GBP 500 000
     ordinal: 1
     row_number: 11
@@ -29188,7 +29188,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_30000
+  - value_id: band_30000_50000
     label: Total income from GBP 30 000 to GBP 50 000
     ordinal: 0
     row_number: 7
@@ -29489,7 +29489,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band
   rows:
-  - value_id: band_100000
+  - value_id: band_100000_150000
     label: Total income from GBP 100 000 to GBP 150 000
     ordinal: 0
     row_number: 9
