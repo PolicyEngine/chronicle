@@ -1215,7 +1215,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "tax_unit": 41368,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 217
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 535
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 50,
         "conflicting_groupby_value_label": 16,
@@ -1263,23 +1263,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "us:statutes/26/62#adjusted_gross_income=all",
         "us:statutes/26/62#adjusted_gross_income=under_1",
     ]
+    # E12000003 is the case chronicle#281 was opened on: six packages wrote
+    # "Yorkshire and The Humber" and five "Yorkshire and the Humber". The
+    # register carries the identifier, so the export names it once and the
+    # warning is gone. Each package still states its own wording, which the
+    # row keeps as geography.publisher_name.
     assert [
-        warning["message"]
-        for warning in geography_names
-        if warning["key"] == "region:E12000003"
-    ] == [
-        "Packages name geography 'E12000003' at level 'region' differently: "
-        "'Yorkshire and The Humber' in "
-        "['desnz-subnational-electricity-consumption-2024', "
-        "'desnz-subnational-gas-consumption-2024', "
-        "'hmrc-child-benefit-august-2025', "
-        "'mhclg-ehs-weekly-housing-costs-2023-24', "
-        "'ons-pipr-rents-by-area-june-2026', 'voa-council-tax-bands-2025']; "
-        "'Yorkshire and the Humber' in ['dft-bus01-passenger-journeys-2025', "
-        "'hmrc-cgt-country-region-2026', "
-        "'hmrc-spi-income-by-area-2023-24', 'ons-mye-2023-england-regions', "
-        "'ons-mye-2024-uk']."
-    ]
+        warning for warning in geography_names if warning["key"] == "region:E12000003"
+    ] == []
+    assert {warning["key"].split(":")[1][0] for warning in geography_names} == {"0"}
     for source in (
         "dfe-funded-early-education-childcare-2026",
         "dfi-ni-bus-concessionary-journeys-2024-25",
