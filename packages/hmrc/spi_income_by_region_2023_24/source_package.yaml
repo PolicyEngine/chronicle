@@ -52,8 +52,8 @@ dimension_value_labels:
     'female': 'Female'
 artifact:
   source_name: hmrc
-  source_table: 'SPI collated Tables 3.1 to 3.11, tax year 2023-24: income by range of total
-    income'
+  source_table: 'SPI collated Tables 3.1 to 3.11, tax year 2023-24: Table 3.11 income and
+    tax by sex, region and country'
   resource_package: db
   resource_directory: data/hmrc/spi_income_bands_2023_24
   manifest: manifest.yaml

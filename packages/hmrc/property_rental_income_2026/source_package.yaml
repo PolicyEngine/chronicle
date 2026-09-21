@@ -49,6 +49,7 @@ label: 'HMRC property rental income statistics 2026: unincorporated landlords, g
   property income, furnished holiday lettings and allowable expenses, tax years 2020-21 to
   2024-25'
 dimension_labels:
+  'geography': 'Geography'
   'hmrc.tax_entity_type': 'Type of tax entity'
   'hmrc.property_income_type': 'Type of property income'
   'hmrc.property_income_band': 'Property income band'
