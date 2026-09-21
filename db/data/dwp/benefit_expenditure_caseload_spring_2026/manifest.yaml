@@ -1,0 +1,13 @@
+source_id: dwp
+package_id: dwp-benefit-expenditure-caseload-spring-2026
+dataset: dwp_dwp-benefit-expenditure-caseload-spring-2026
+source_page: https://www.gov.uk/government/publications/benefit-expenditure-and-caseload-tables-2026
+table: 'DWP benefit expenditure and caseload tables 2026: outturn and forecast, Spring
+  Forecast 2026'
+files:
+  2026:
+    filename: outturn-and-forecast-tables-spring-forecast-2026.ods
+    source_url: https://assets.publishing.service.gov.uk/media/69dcdc56d3e08b8871b66628/outturn-and-forecast-tables-spring-forecast-2026.ods
+    sha256: 705fb8fb5ace47e37eafe0b3817d5a6de538ce8fb2a67746e8f92d15ecd616e6
+    size_bytes: 1646400
+    fetched_at: '2026-09-21T11:13:19+00:00'

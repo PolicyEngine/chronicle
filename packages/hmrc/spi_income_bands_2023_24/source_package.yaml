@@ -1,20 +1,74 @@
-# SPI 2023-24 Tables 3.6/3.7: 13 total-income bands x 7 income types,
-# counts (thousands, 1e3) + amounts (GBP million, 1e6); means are derivable
-# and not ported. tax_year period 2023 (opening year; uk-data maps to 2024).
-# Band lower bounds are numeric ODS cells, so numeric row-header guards
-# work here. uk-data's 1.9x property-income scale (SPI-vs-ITSA coverage)
-# and its uprated projections are populace-side adjustments, not facts.
-# Same artifact populace's national HMRC stage parses (hmrc_income.py).
-# Also not ported from Table 3.7: the 'Other income' Number/Amount pair
-# (columns K/L) and both sheets' total-count column N - named exclusions,
-# backfill candidates, not derivable from the ported columns.
+# SPI 2023-24 Tables 3.3 to 3.8, the band-grain sheets of the collated
+# workbook: 13 total-income bands carrying income types, total income, tax,
+# deductions and reliefs, in counts (thousands, 1e3) and amounts (GBP million,
+# 1e6). Means, average rates and percentage-distribution columns are derived
+# from the ported pairs and are not facts here. tax_year period 2023 (opening
+# year; uk-data maps to 2024). Band lower bounds are numeric ODS cells, so
+# numeric row-header guards work here. uk-data's 1.9x property-income scale
+# (SPI-vs-ITSA coverage) and its uprated projections are populace-side
+# adjustments, not facts. Same artifact populace's national HMRC stage parses
+# (hmrc_income.py); Table 3.11's region cut of the same workbook is the
+# hmrc-spi-income-by-region-2023-24 package.
+#
+# Every sheet covers UK taxpayers only - individuals with some liability to
+# tax - so the counts are taxpayers, not adults, and the lowest band can hold
+# taxpayers with no Personal Allowance entitlement (Table 3.3 note 2). The
+# 'All ranges' rows are ported as table_record_kind: total.
+#
+# Table 3.3 bands the same taxpayers twice: the before-tax sheet by total
+# income before tax, the after-tax sheet by total income after the deduction
+# of tax (note 1), so an individual can fall in different bands on the two
+# sheets. The two are separate record sets, each filtering and constraining on
+# its own bound - total_income_lower_bound and
+# total_income_after_tax_lower_bound - so the banding measure is declared on
+# every fact and the two banded populations cannot be read as one series.
+#
+# Table 3.4 analyses tax by marginal rate payable and by the publisher's
+# classification of each taxpayer's largest income source (note 2a), carried
+# as a measure-level largest_income_source filter over the same taxpayer-count
+# and tax-amount concepts the other sheets use. HMRC writes '[Not available]'
+# where it suppresses a cell, most often a small higher-rate or savers-rate
+# cell; no fact is emitted for those, and rows are grouped into subsets by
+# which measures they carry, so a suppressed cell is visible as the difference
+# between the subsets rather than as a zero. Seven wholly suppressed rows of
+# Table 3.4 select nothing at all. The same grouping covers Table 3.5, whose
+# GBP 1 000 000 band has no personal-allowances cell.
+#
+# Table 3.5's 'Other income' pair is the publisher's own restatement of Table
+# 3.7's 'Total property, interest, dividend and other income' - the same
+# values column for column - so it carries that concept with an exact relation
+# and the evidence on the measure, not a second concept. Table 3.7's 'Other
+# income' [Note 6] pair is a different thing: the trust, estate, foreign and
+# other taxable income residual, which keeps hmrc.spi_other_income_*.
 schema_version: ledger.source_package.v1
 package_id: hmrc-spi-income-bands-2023-24
-label: 'HMRC Survey of Personal Incomes 2023-24: income counts and amounts by range of total
-  income (Tables 3.6 and 3.7)'
+label: 'HMRC Survey of Personal Incomes 2023-24: income, tax, deductions and reliefs by
+  range of total income (Tables 3.3 to 3.8)'
 dimension_labels:
   'hmrc.total_income_band': 'Total income band'
+  'hmrc.total_income_band_by_sex': 'Total income band by sex'
+  'hmrc.marginal_rate_by_total_income_band': 'Marginal rate payable by total income band'
   'total_income_lower_bound': 'Total income lower bound (GBP)'
+  'total_income_after_tax_lower_bound': 'Total income after tax lower bound (GBP)'
+  'sex': 'Sex'
+  'marginal_rate': 'Marginal rate payable'
+  'largest_income_source': 'Largest source of income'
+dimension_value_labels:
+  'sex':
+    'all': 'All'
+    'male': 'Male'
+    'female': 'Female'
+  'marginal_rate':
+    'all': 'All rates'
+    'savers': "'Savers'"
+    'basic': 'Basic'
+    'higher': 'Higher'
+    'additional': 'Additional rate'
+  'largest_income_source':
+    'self_employment': 'Self-employment'
+    'employment': 'Employment'
+    'pension': 'Pension'
+    'property_interest_dividend_other': 'Property, interest, dividend and other income'
 artifact:
   source_name: hmrc
   source_table: 'SPI collated Tables 3.1 to 3.11, tax year 2023-24: income by range of total
@@ -683,6 +737,4551 @@ record_sets:
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
     concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_7, column: Dividends (Amount)
       [Note 5]; taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: other_income_count
+    label: Other income (count)
+    ordinal: 6
+    column: K
+    source_column_id: other_income_count
+    expected_column_header_row: 5
+    expected_column_header: Other income (Number of individuals) [Note 6]
+    concept: hmrc.spi_other_income_count
+    source_concept: hmrc.spi_other_income_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_7, column: Other income (Number of
+      individuals) [Note 6]; taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: other_income_amount
+    label: Other income (amount)
+    ordinal: 7
+    column: L
+    source_column_id: other_income_amount
+    expected_column_header_row: 5
+    expected_column_header: Other income (Amount) [Note 6]
+    concept: hmrc.spi_other_income_amount
+    source_concept: hmrc.spi_other_income_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_7, column: Other income (Amount)
+      [Note 6]; taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: property_interest_dividend_other_income_count
+    label: Total property, interest, dividend and other income (count)
+    ordinal: 8
+    column: N
+    source_column_id: property_interest_dividend_other_income_count
+    expected_column_header_row: 5
+    expected_column_header: Total property, interest, dividend and other income (Number of individuals)
+    concept: hmrc.spi_property_interest_dividend_other_income_count
+    source_concept: hmrc.spi_property_interest_dividend_other_income_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_7, column: Total property, interest,
+      dividend and other income (Number of individuals); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: property_interest_dividend_other_income_amount
+    label: Total property, interest, dividend and other income (amount)
+    ordinal: 9
+    column: O
+    source_column_id: property_interest_dividend_other_income_amount
+    expected_column_header_row: 5
+    expected_column_header: Total property, interest, dividend and other income (Amount)
+    concept: hmrc.spi_property_interest_dividend_other_income_amount
+    source_concept: hmrc.spi_property_interest_dividend_other_income_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_7, column: Total property, interest,
+      dividend and other income (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_3_before_tax
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_3_before_tax.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_3_before_tax
+  sheet_name: Table_3_3_before_tax
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: personal_incomes
+  groupby_dimension: hmrc.total_income_band_by_sex
+  rows:
+  - value_id: All taxpayers_band_12570
+    label: All taxpayers, total income before tax from GBP 12 570
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: 12570
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 12570
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 12570
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_15000
+    label: All taxpayers, total income before tax from GBP 15 000
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: 15000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 15000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 15000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_20000
+    label: All taxpayers, total income before tax from GBP 20 000
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: 20000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 20000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 20000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_30000
+    label: All taxpayers, total income before tax from GBP 30 000
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 30000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 30000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 30000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_40000
+    label: All taxpayers, total income before tax from GBP 40 000
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: 40000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 40000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 40000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_50000
+    label: All taxpayers, total income before tax from GBP 50 000
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: 50000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 50000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 50000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_70000
+    label: All taxpayers, total income before tax from GBP 70 000
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 70000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 70000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 70000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_100000
+    label: All taxpayers, total income before tax from GBP 100 000
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 100000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 100000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 100000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_150000
+    label: All taxpayers, total income before tax from GBP 150 000
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 150000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 150000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 150000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_200000
+    label: All taxpayers, total income before tax from GBP 200 000
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 200000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 200000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 200000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_300000
+    label: All taxpayers, total income before tax from GBP 300 000
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 300000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 300000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 300000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_500000
+    label: All taxpayers, total income before tax from GBP 500 000
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: 500000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 500000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 500000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_band_1000000
+    label: All taxpayers, total income before tax from GBP 1 000 000
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: 1000000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_lower_bound: 1000000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 1000000
+      label: total_income_lower_bound
+  - value_id: All taxpayers_all_ranges
+    label: All taxpayers, all ranges of total income before tax
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: All ranges
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+  - value_id: Male taxpayers_band_12570
+    label: Male taxpayers, total income before tax from GBP 12 570
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: 12570
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 12570
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 12570
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_15000
+    label: Male taxpayers, total income before tax from GBP 15 000
+    ordinal: 15
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: 15000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 15000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 15000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_20000
+    label: Male taxpayers, total income before tax from GBP 20 000
+    ordinal: 16
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: 20000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 20000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 20000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_30000
+    label: Male taxpayers, total income before tax from GBP 30 000
+    ordinal: 17
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: 30000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 30000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 30000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_40000
+    label: Male taxpayers, total income before tax from GBP 40 000
+    ordinal: 18
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: 40000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 40000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 40000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_50000
+    label: Male taxpayers, total income before tax from GBP 50 000
+    ordinal: 19
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: 50000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 50000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 50000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_70000
+    label: Male taxpayers, total income before tax from GBP 70 000
+    ordinal: 20
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: 70000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 70000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 70000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_100000
+    label: Male taxpayers, total income before tax from GBP 100 000
+    ordinal: 21
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: 100000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 100000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 100000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_150000
+    label: Male taxpayers, total income before tax from GBP 150 000
+    ordinal: 22
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: 150000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 150000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 150000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_200000
+    label: Male taxpayers, total income before tax from GBP 200 000
+    ordinal: 23
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: 200000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 200000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 200000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_300000
+    label: Male taxpayers, total income before tax from GBP 300 000
+    ordinal: 24
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: 300000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 300000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 300000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_500000
+    label: Male taxpayers, total income before tax from GBP 500 000
+    ordinal: 25
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: 500000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 500000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 500000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_band_1000000
+    label: Male taxpayers, total income before tax from GBP 1 000 000
+    ordinal: 26
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: 1000000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_lower_bound: 1000000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 1000000
+      label: total_income_lower_bound
+  - value_id: Male taxpayers_all_ranges
+    label: Male taxpayers, all ranges of total income before tax
+    ordinal: 27
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: All ranges
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+  - value_id: Female taxpayers_band_12570
+    label: Female taxpayers, total income before tax from GBP 12 570
+    ordinal: 28
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: 12570
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 12570
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 12570
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_15000
+    label: Female taxpayers, total income before tax from GBP 15 000
+    ordinal: 29
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: 15000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 15000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 15000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_20000
+    label: Female taxpayers, total income before tax from GBP 20 000
+    ordinal: 30
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: 20000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 20000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 20000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_30000
+    label: Female taxpayers, total income before tax from GBP 30 000
+    ordinal: 31
+    row_number: 38
+    expected_row_header_column: A
+    expected_row_header: 30000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 30000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 30000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_40000
+    label: Female taxpayers, total income before tax from GBP 40 000
+    ordinal: 32
+    row_number: 39
+    expected_row_header_column: A
+    expected_row_header: 40000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 40000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 40000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_50000
+    label: Female taxpayers, total income before tax from GBP 50 000
+    ordinal: 33
+    row_number: 40
+    expected_row_header_column: A
+    expected_row_header: 50000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 50000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 50000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_70000
+    label: Female taxpayers, total income before tax from GBP 70 000
+    ordinal: 34
+    row_number: 41
+    expected_row_header_column: A
+    expected_row_header: 70000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 70000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 70000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_100000
+    label: Female taxpayers, total income before tax from GBP 100 000
+    ordinal: 35
+    row_number: 42
+    expected_row_header_column: A
+    expected_row_header: 100000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 100000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 100000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_150000
+    label: Female taxpayers, total income before tax from GBP 150 000
+    ordinal: 36
+    row_number: 43
+    expected_row_header_column: A
+    expected_row_header: 150000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 150000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 150000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_200000
+    label: Female taxpayers, total income before tax from GBP 200 000
+    ordinal: 37
+    row_number: 44
+    expected_row_header_column: A
+    expected_row_header: 200000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 200000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 200000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_300000
+    label: Female taxpayers, total income before tax from GBP 300 000
+    ordinal: 38
+    row_number: 45
+    expected_row_header_column: A
+    expected_row_header: 300000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 300000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 300000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_500000
+    label: Female taxpayers, total income before tax from GBP 500 000
+    ordinal: 39
+    row_number: 46
+    expected_row_header_column: A
+    expected_row_header: 500000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 500000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 500000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_band_1000000
+    label: Female taxpayers, total income before tax from GBP 1 000 000
+    ordinal: 40
+    row_number: 47
+    expected_row_header_column: A
+    expected_row_header: 1000000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_lower_bound: 1000000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 1000000
+      label: total_income_lower_bound
+  - value_id: Female taxpayers_all_ranges
+    label: Female taxpayers, all ranges of total income before tax
+    ordinal: 41
+    row_number: 48
+    expected_row_header_column: A
+    expected_row_header: All ranges
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+  measures:
+  - measure_id: taxpayer_count
+    label: Taxpayers (count)
+    ordinal: 0
+    column: C
+    source_column_id: taxpayer_count
+    expected_column_header_row: 6
+    expected_column_header: No of taxpayers
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_3_before_tax, column: No of taxpayers;
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_income_before_tax_amount
+    label: Total income before tax (amount)
+    ordinal: 1
+    column: D
+    source_column_id: total_income_before_tax_amount
+    expected_column_header_row: 6
+    expected_column_header: Total income before tax
+    concept: hmrc.spi_total_income_before_tax_amount
+    source_concept: hmrc.spi_total_income_before_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_3_before_tax, column: Total income
+      before tax; taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_tax_amount
+    label: Total tax (amount)
+    ordinal: 2
+    column: E
+    source_column_id: total_tax_amount
+    expected_column_header_row: 6
+    expected_column_header: Total tax
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_3_before_tax, column: Total tax;
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_income_after_tax_amount
+    label: Total income after tax (amount)
+    ordinal: 3
+    column: F
+    source_column_id: total_income_after_tax_amount
+    expected_column_header_row: 6
+    expected_column_header: Total income after tax
+    concept: hmrc.spi_total_income_after_tax_amount
+    source_concept: hmrc.spi_total_income_after_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_3_before_tax, column: Total income
+      after tax; taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_3_after_tax
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_3_after_tax.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_3_after_tax
+  sheet_name: Table_3_3_after_tax
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: personal_incomes
+  groupby_dimension: hmrc.total_income_band_by_sex
+  rows:
+  - value_id: All taxpayers_band_12570
+    label: All taxpayers, total income after tax from GBP 12 570
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: 12570
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 12570
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 12570
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_15000
+    label: All taxpayers, total income after tax from GBP 15 000
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: 15000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 15000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 15000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_20000
+    label: All taxpayers, total income after tax from GBP 20 000
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: 20000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 20000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 20000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_30000
+    label: All taxpayers, total income after tax from GBP 30 000
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 30000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 30000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 30000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_40000
+    label: All taxpayers, total income after tax from GBP 40 000
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: 40000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 40000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 40000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_50000
+    label: All taxpayers, total income after tax from GBP 50 000
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: 50000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 50000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 50000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_70000
+    label: All taxpayers, total income after tax from GBP 70 000
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 70000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 70000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 70000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_100000
+    label: All taxpayers, total income after tax from GBP 100 000
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 100000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 100000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 100000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_150000
+    label: All taxpayers, total income after tax from GBP 150 000
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 150000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 150000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 150000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_200000
+    label: All taxpayers, total income after tax from GBP 200 000
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 200000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 200000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 200000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_300000
+    label: All taxpayers, total income after tax from GBP 300 000
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 300000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 300000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 300000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_500000
+    label: All taxpayers, total income after tax from GBP 500 000
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: 500000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 500000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 500000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_band_1000000
+    label: All taxpayers, total income after tax from GBP 1 000 000
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: 1000000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+      total_income_after_tax_lower_bound: 1000000
+    constraints:
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 1000000
+      label: total_income_after_tax_lower_bound
+  - value_id: All taxpayers_all_ranges
+    label: All taxpayers, all ranges of total income after tax
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: All ranges
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: All
+      label: population
+    filters:
+      sex: all
+  - value_id: Male taxpayers_band_12570
+    label: Male taxpayers, total income after tax from GBP 12 570
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: 12570
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 12570
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 12570
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_15000
+    label: Male taxpayers, total income after tax from GBP 15 000
+    ordinal: 15
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: 15000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 15000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 15000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_20000
+    label: Male taxpayers, total income after tax from GBP 20 000
+    ordinal: 16
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: 20000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 20000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 20000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_30000
+    label: Male taxpayers, total income after tax from GBP 30 000
+    ordinal: 17
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: 30000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 30000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 30000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_40000
+    label: Male taxpayers, total income after tax from GBP 40 000
+    ordinal: 18
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: 40000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 40000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 40000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_50000
+    label: Male taxpayers, total income after tax from GBP 50 000
+    ordinal: 19
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: 50000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 50000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 50000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_70000
+    label: Male taxpayers, total income after tax from GBP 70 000
+    ordinal: 20
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: 70000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 70000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 70000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_100000
+    label: Male taxpayers, total income after tax from GBP 100 000
+    ordinal: 21
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: 100000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 100000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 100000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_150000
+    label: Male taxpayers, total income after tax from GBP 150 000
+    ordinal: 22
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: 150000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 150000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 150000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_200000
+    label: Male taxpayers, total income after tax from GBP 200 000
+    ordinal: 23
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: 200000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 200000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 200000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_300000
+    label: Male taxpayers, total income after tax from GBP 300 000
+    ordinal: 24
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: 300000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 300000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 300000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_500000
+    label: Male taxpayers, total income after tax from GBP 500 000
+    ordinal: 25
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: 500000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 500000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 500000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_band_1000000
+    label: Male taxpayers, total income after tax from GBP 1 000 000
+    ordinal: 26
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: 1000000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+      total_income_after_tax_lower_bound: 1000000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 1000000
+      label: total_income_after_tax_lower_bound
+  - value_id: Male taxpayers_all_ranges
+    label: Male taxpayers, all ranges of total income after tax
+    ordinal: 27
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: All ranges
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Male
+      label: population
+    filters:
+      sex: male
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+  - value_id: Female taxpayers_band_12570
+    label: Female taxpayers, total income after tax from GBP 12 570
+    ordinal: 28
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: 12570
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 12570
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 12570
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_15000
+    label: Female taxpayers, total income after tax from GBP 15 000
+    ordinal: 29
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: 15000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 15000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 15000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_20000
+    label: Female taxpayers, total income after tax from GBP 20 000
+    ordinal: 30
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: 20000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 20000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 20000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_30000
+    label: Female taxpayers, total income after tax from GBP 30 000
+    ordinal: 31
+    row_number: 38
+    expected_row_header_column: A
+    expected_row_header: 30000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 30000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 30000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_40000
+    label: Female taxpayers, total income after tax from GBP 40 000
+    ordinal: 32
+    row_number: 39
+    expected_row_header_column: A
+    expected_row_header: 40000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 40000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 40000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_50000
+    label: Female taxpayers, total income after tax from GBP 50 000
+    ordinal: 33
+    row_number: 40
+    expected_row_header_column: A
+    expected_row_header: 50000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 50000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 50000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_70000
+    label: Female taxpayers, total income after tax from GBP 70 000
+    ordinal: 34
+    row_number: 41
+    expected_row_header_column: A
+    expected_row_header: 70000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 70000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 70000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_100000
+    label: Female taxpayers, total income after tax from GBP 100 000
+    ordinal: 35
+    row_number: 42
+    expected_row_header_column: A
+    expected_row_header: 100000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 100000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 100000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_150000
+    label: Female taxpayers, total income after tax from GBP 150 000
+    ordinal: 36
+    row_number: 43
+    expected_row_header_column: A
+    expected_row_header: 150000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 150000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 150000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_200000
+    label: Female taxpayers, total income after tax from GBP 200 000
+    ordinal: 37
+    row_number: 44
+    expected_row_header_column: A
+    expected_row_header: 200000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 200000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 200000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_300000
+    label: Female taxpayers, total income after tax from GBP 300 000
+    ordinal: 38
+    row_number: 45
+    expected_row_header_column: A
+    expected_row_header: 300000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 300000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 300000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_500000
+    label: Female taxpayers, total income after tax from GBP 500 000
+    ordinal: 39
+    row_number: 46
+    expected_row_header_column: A
+    expected_row_header: 500000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 500000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 500000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_band_1000000
+    label: Female taxpayers, total income after tax from GBP 1 000 000
+    ordinal: 40
+    row_number: 47
+    expected_row_header_column: A
+    expected_row_header: 1000000
+    table_record_kind: detail
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+      total_income_after_tax_lower_bound: 1000000
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+    - variable: total_income_after_tax_lower_bound
+      operator: ==
+      value: 1000000
+      label: total_income_after_tax_lower_bound
+  - value_id: Female taxpayers_all_ranges
+    label: Female taxpayers, all ranges of total income after tax
+    ordinal: 41
+    row_number: 48
+    expected_row_header_column: A
+    expected_row_header: All ranges
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Female
+      label: population
+    filters:
+      sex: female
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+  measures:
+  - measure_id: taxpayer_count
+    label: Taxpayers (count)
+    ordinal: 0
+    column: C
+    source_column_id: taxpayer_count
+    expected_column_header_row: 6
+    expected_column_header: No of taxpayers
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_3_after_tax, column: No of taxpayers;
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_income_before_tax_amount
+    label: Total income before tax (amount)
+    ordinal: 1
+    column: D
+    source_column_id: total_income_before_tax_amount
+    expected_column_header_row: 6
+    expected_column_header: Total income before tax
+    concept: hmrc.spi_total_income_before_tax_amount
+    source_concept: hmrc.spi_total_income_before_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_3_after_tax, column: Total income
+      before tax; taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_tax_amount
+    label: Total tax (amount)
+    ordinal: 2
+    column: E
+    source_column_id: total_tax_amount
+    expected_column_header_row: 6
+    expected_column_header: Total tax
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_3_after_tax, column: Total tax;
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_income_after_tax_amount
+    label: Total income after tax (amount)
+    ordinal: 3
+    column: F
+    source_column_id: total_income_after_tax_amount
+    expected_column_header_row: 6
+    expected_column_header: Total income after tax
+    concept: hmrc.spi_total_income_after_tax_amount
+    source_concept: hmrc.spi_total_income_after_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_3_after_tax, column: Total income
+      after tax; taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_4
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_4.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_4
+  sheet_name: Table_3_4
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: personal_incomes
+  groupby_dimension: hmrc.marginal_rate_by_total_income_band
+  rows:
+  - value_id: Savers rate taxpayers_band_15000
+    label: Savers rate taxpayers, total income from GBP 15 000
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: 15000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Savers
+      label: marginal rate payable
+    filters:
+      marginal_rate: savers
+      total_income_lower_bound: 15000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: savers
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 15000
+      label: total_income_lower_bound
+  - value_id: Savers rate taxpayers_all_ranges
+    label: Savers rate taxpayers, all ranges of total income
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: Total (Savers)
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: Savers
+      label: marginal rate payable
+    filters:
+      marginal_rate: savers
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: savers
+      label: Marginal rate payable
+  - value_id: Basic rate taxpayers_band_12570
+    label: Basic rate taxpayers, total income from GBP 12 570
+    ordinal: 2
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: 12570
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Basic
+      label: marginal rate payable
+    filters:
+      marginal_rate: basic
+      total_income_lower_bound: 12570
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: basic
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 12570
+      label: total_income_lower_bound
+  - value_id: Basic rate taxpayers_band_15000
+    label: Basic rate taxpayers, total income from GBP 15 000
+    ordinal: 3
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: 15000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Basic
+      label: marginal rate payable
+    filters:
+      marginal_rate: basic
+      total_income_lower_bound: 15000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: basic
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 15000
+      label: total_income_lower_bound
+  - value_id: Basic rate taxpayers_band_20000
+    label: Basic rate taxpayers, total income from GBP 20 000
+    ordinal: 4
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: 20000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Basic
+      label: marginal rate payable
+    filters:
+      marginal_rate: basic
+      total_income_lower_bound: 20000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: basic
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 20000
+      label: total_income_lower_bound
+  - value_id: Basic rate taxpayers_band_30000
+    label: Basic rate taxpayers, total income from GBP 30 000
+    ordinal: 5
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: 30000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Basic
+      label: marginal rate payable
+    filters:
+      marginal_rate: basic
+      total_income_lower_bound: 30000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: basic
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 30000
+      label: total_income_lower_bound
+  - value_id: Basic rate taxpayers_all_ranges
+    label: Basic rate taxpayers, all ranges of total income
+    ordinal: 6
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: Total (Basic)
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: Basic
+      label: marginal rate payable
+    filters:
+      marginal_rate: basic
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: basic
+      label: Marginal rate payable
+  - value_id: Higher rate taxpayers_band_40000
+    label: Higher rate taxpayers, total income from GBP 40 000
+    ordinal: 7
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: 40000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Higher
+      label: marginal rate payable
+    filters:
+      marginal_rate: higher
+      total_income_lower_bound: 40000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: higher
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 40000
+      label: total_income_lower_bound
+  - value_id: Higher rate taxpayers_band_50000
+    label: Higher rate taxpayers, total income from GBP 50 000
+    ordinal: 8
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: 50000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Higher
+      label: marginal rate payable
+    filters:
+      marginal_rate: higher
+      total_income_lower_bound: 50000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: higher
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 50000
+      label: total_income_lower_bound
+  - value_id: Higher rate taxpayers_band_70000
+    label: Higher rate taxpayers, total income from GBP 70 000
+    ordinal: 9
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: 70000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Higher
+      label: marginal rate payable
+    filters:
+      marginal_rate: higher
+      total_income_lower_bound: 70000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: higher
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 70000
+      label: total_income_lower_bound
+  - value_id: Higher rate taxpayers_band_100000
+    label: Higher rate taxpayers, total income from GBP 100 000
+    ordinal: 10
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: 100000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Higher
+      label: marginal rate payable
+    filters:
+      marginal_rate: higher
+      total_income_lower_bound: 100000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: higher
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 100000
+      label: total_income_lower_bound
+  - value_id: Higher rate taxpayers_all_ranges
+    label: Higher rate taxpayers, all ranges of total income
+    ordinal: 11
+    row_number: 28
+    expected_row_header_column: B
+    expected_row_header: Total (Higher)
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: Higher
+      label: marginal rate payable
+    filters:
+      marginal_rate: higher
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: higher
+      label: Marginal rate payable
+  - value_id: Additional rate rate taxpayers_band_100000
+    label: Additional rate rate taxpayers, total income from GBP 100 000
+    ordinal: 12
+    row_number: 30
+    expected_row_header_column: B
+    expected_row_header: 100000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Additional rate [Note 3, 4]
+      label: marginal rate payable
+    filters:
+      marginal_rate: additional
+      total_income_lower_bound: 100000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: additional
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 100000
+      label: total_income_lower_bound
+  - value_id: Additional rate rate taxpayers_band_150000
+    label: Additional rate rate taxpayers, total income from GBP 150 000
+    ordinal: 13
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: 150000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Additional rate [Note 3, 4]
+      label: marginal rate payable
+    filters:
+      marginal_rate: additional
+      total_income_lower_bound: 150000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: additional
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 150000
+      label: total_income_lower_bound
+  - value_id: Additional rate rate taxpayers_band_200000
+    label: Additional rate rate taxpayers, total income from GBP 200 000
+    ordinal: 14
+    row_number: 32
+    expected_row_header_column: B
+    expected_row_header: 200000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Additional rate [Note 3, 4]
+      label: marginal rate payable
+    filters:
+      marginal_rate: additional
+      total_income_lower_bound: 200000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: additional
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 200000
+      label: total_income_lower_bound
+  - value_id: Additional rate rate taxpayers_band_300000
+    label: Additional rate rate taxpayers, total income from GBP 300 000
+    ordinal: 15
+    row_number: 33
+    expected_row_header_column: B
+    expected_row_header: 300000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Additional rate [Note 3, 4]
+      label: marginal rate payable
+    filters:
+      marginal_rate: additional
+      total_income_lower_bound: 300000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: additional
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 300000
+      label: total_income_lower_bound
+  - value_id: Additional rate rate taxpayers_band_500000
+    label: Additional rate rate taxpayers, total income from GBP 500 000
+    ordinal: 16
+    row_number: 34
+    expected_row_header_column: B
+    expected_row_header: 500000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Additional rate [Note 3, 4]
+      label: marginal rate payable
+    filters:
+      marginal_rate: additional
+      total_income_lower_bound: 500000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: additional
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 500000
+      label: total_income_lower_bound
+  - value_id: Additional rate rate taxpayers_all_ranges
+    label: Additional rate rate taxpayers, all ranges of total income
+    ordinal: 17
+    row_number: 36
+    expected_row_header_column: B
+    expected_row_header: Total (Additional)
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: Additional rate [Note 3, 4]
+      label: marginal rate payable
+    filters:
+      marginal_rate: additional
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: additional
+      label: Marginal rate payable
+  - value_id: All rates_all_ranges
+    label: All rates, all ranges of total income
+    ordinal: 18
+    row_number: 37
+    expected_row_header_column: B
+    expected_row_header: All Taxpayers
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: All rates
+      label: marginal rate payable
+    filters:
+      marginal_rate: all
+  measures:
+  - measure_id: self_employment_count
+    label: Taxpayers whose largest source is self-employment (count)
+    ordinal: 0
+    column: C
+    source_column_id: self_employment_count
+    expected_column_header_row: 5
+    expected_column_header: Self-employment (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Self-employment (Number);
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: self_employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: self_employment
+      label: Largest source of income
+  - measure_id: self_employment_tax_amount
+    label: Tax of taxpayers whose largest source is self-employment (amount)
+    ordinal: 1
+    column: D
+    source_column_id: self_employment_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Self-employment (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Self-employment (Amount);
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: self_employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: self_employment
+      label: Largest source of income
+  - measure_id: employment_count
+    label: Taxpayers whose largest source is employment (count)
+    ordinal: 2
+    column: E
+    source_column_id: employment_count
+    expected_column_header_row: 5
+    expected_column_header: Employment (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Employment (Number);
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: employment
+      label: Largest source of income
+  - measure_id: employment_tax_amount
+    label: Tax of taxpayers whose largest source is employment (amount)
+    ordinal: 3
+    column: F
+    source_column_id: employment_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Employment (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Employment (Amount);
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: employment
+      label: Largest source of income
+  - measure_id: pension_count
+    label: Taxpayers whose largest source is pension (count)
+    ordinal: 4
+    column: G
+    source_column_id: pension_count
+    expected_column_header_row: 5
+    expected_column_header: Pension (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Pension (Number); taxpayers
+      in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: pension
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: pension
+      label: Largest source of income
+  - measure_id: pension_tax_amount
+    label: Tax of taxpayers whose largest source is pension (amount)
+    ordinal: 5
+    column: H
+    source_column_id: pension_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Pension (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Pension (Amount); taxpayers
+      in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: pension
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: pension
+      label: Largest source of income
+  - measure_id: property_interest_dividend_other_count
+    label: Taxpayers whose largest source is property, interest, dividend and other income (count)
+    ordinal: 6
+    column: I
+    source_column_id: property_interest_dividend_other_count
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Property, interest,
+      dividend and other income (Number); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: property_interest_dividend_other
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: property_interest_dividend_other
+      label: Largest source of income
+  - measure_id: property_interest_dividend_other_tax_amount
+    label: Tax of taxpayers whose largest source is property, interest, dividend and other income
+      (amount)
+    ordinal: 7
+    column: J
+    source_column_id: property_interest_dividend_other_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Property, interest,
+      dividend and other income (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: property_interest_dividend_other
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: property_interest_dividend_other
+      label: Largest source of income
+  - measure_id: total_taxpayer_count
+    label: All taxpayers (count)
+    ordinal: 8
+    column: K
+    source_column_id: total_taxpayer_count
+    expected_column_header_row: 5
+    expected_column_header: Total number of taxpayers
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Total number of taxpayers;
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_tax_amount
+    label: All tax (amount)
+    ordinal: 9
+    column: L
+    source_column_id: total_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Total amount of tax
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Total amount of tax;
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_4.subset_1
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_4.subset_1.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_4.subset_1
+  sheet_name: Table_3_4
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: personal_incomes
+  groupby_dimension: hmrc.marginal_rate_by_total_income_band
+  rows:
+  - value_id: Savers rate taxpayers_band_12570
+    label: Savers rate taxpayers, total income from GBP 12 570
+    ordinal: 0
+    row_number: 6
+    expected_row_header_column: B
+    expected_row_header: 12570
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Savers
+      label: marginal rate payable
+    filters:
+      marginal_rate: savers
+      total_income_lower_bound: 12570
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: savers
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 12570
+      label: total_income_lower_bound
+  - value_id: Savers rate taxpayers_band_20000
+    label: Savers rate taxpayers, total income from GBP 20 000
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: 20000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Savers
+      label: marginal rate payable
+    filters:
+      marginal_rate: savers
+      total_income_lower_bound: 20000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: savers
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 20000
+      label: total_income_lower_bound
+  - value_id: Savers rate taxpayers_band_30000
+    label: Savers rate taxpayers, total income from GBP 30 000
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: 30000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Savers
+      label: marginal rate payable
+    filters:
+      marginal_rate: savers
+      total_income_lower_bound: 30000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: savers
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 30000
+      label: total_income_lower_bound
+  measures:
+  - measure_id: employment_count
+    label: Taxpayers whose largest source is employment (count)
+    ordinal: 0
+    column: E
+    source_column_id: employment_count
+    expected_column_header_row: 5
+    expected_column_header: Employment (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Employment (Number);
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: employment
+      label: Largest source of income
+  - measure_id: employment_tax_amount
+    label: Tax of taxpayers whose largest source is employment (amount)
+    ordinal: 1
+    column: F
+    source_column_id: employment_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Employment (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Employment (Amount);
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: employment
+      label: Largest source of income
+  - measure_id: property_interest_dividend_other_count
+    label: Taxpayers whose largest source is property, interest, dividend and other income (count)
+    ordinal: 2
+    column: I
+    source_column_id: property_interest_dividend_other_count
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Property, interest,
+      dividend and other income (Number); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: property_interest_dividend_other
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: property_interest_dividend_other
+      label: Largest source of income
+  - measure_id: property_interest_dividend_other_tax_amount
+    label: Tax of taxpayers whose largest source is property, interest, dividend and other income
+      (amount)
+    ordinal: 3
+    column: J
+    source_column_id: property_interest_dividend_other_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Property, interest,
+      dividend and other income (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: property_interest_dividend_other
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: property_interest_dividend_other
+      label: Largest source of income
+  - measure_id: total_taxpayer_count
+    label: All taxpayers (count)
+    ordinal: 4
+    column: K
+    source_column_id: total_taxpayer_count
+    expected_column_header_row: 5
+    expected_column_header: Total number of taxpayers
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Total number of taxpayers;
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_tax_amount
+    label: All tax (amount)
+    ordinal: 5
+    column: L
+    source_column_id: total_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Total amount of tax
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Total amount of tax;
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_4.subset_2
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_4.subset_2.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_4.subset_2
+  sheet_name: Table_3_4
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: personal_incomes
+  groupby_dimension: hmrc.marginal_rate_by_total_income_band
+  rows:
+  - value_id: Additional rate rate taxpayers_band_1000000
+    label: Additional rate rate taxpayers, total income from GBP 1 000 000
+    ordinal: 0
+    row_number: 35
+    expected_row_header_column: B
+    expected_row_header: 1000000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Additional rate [Note 3, 4]
+      label: marginal rate payable
+    filters:
+      marginal_rate: additional
+      total_income_lower_bound: 1000000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: additional
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 1000000
+      label: total_income_lower_bound
+  measures:
+  - measure_id: self_employment_count
+    label: Taxpayers whose largest source is self-employment (count)
+    ordinal: 0
+    column: C
+    source_column_id: self_employment_count
+    expected_column_header_row: 5
+    expected_column_header: Self-employment (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Self-employment (Number);
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: self_employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: self_employment
+      label: Largest source of income
+  - measure_id: self_employment_tax_amount
+    label: Tax of taxpayers whose largest source is self-employment (amount)
+    ordinal: 1
+    column: D
+    source_column_id: self_employment_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Self-employment (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Self-employment (Amount);
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: self_employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: self_employment
+      label: Largest source of income
+  - measure_id: employment_count
+    label: Taxpayers whose largest source is employment (count)
+    ordinal: 2
+    column: E
+    source_column_id: employment_count
+    expected_column_header_row: 5
+    expected_column_header: Employment (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Employment (Number);
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: employment
+      label: Largest source of income
+  - measure_id: employment_tax_amount
+    label: Tax of taxpayers whose largest source is employment (amount)
+    ordinal: 3
+    column: F
+    source_column_id: employment_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Employment (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Employment (Amount);
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: employment
+      label: Largest source of income
+  - measure_id: pension_tax_amount
+    label: Tax of taxpayers whose largest source is pension (amount)
+    ordinal: 4
+    column: H
+    source_column_id: pension_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Pension (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Pension (Amount); taxpayers
+      in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: pension
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: pension
+      label: Largest source of income
+  - measure_id: property_interest_dividend_other_count
+    label: Taxpayers whose largest source is property, interest, dividend and other income (count)
+    ordinal: 5
+    column: I
+    source_column_id: property_interest_dividend_other_count
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Property, interest,
+      dividend and other income (Number); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: property_interest_dividend_other
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: property_interest_dividend_other
+      label: Largest source of income
+  - measure_id: property_interest_dividend_other_tax_amount
+    label: Tax of taxpayers whose largest source is property, interest, dividend and other income
+      (amount)
+    ordinal: 6
+    column: J
+    source_column_id: property_interest_dividend_other_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Property, interest,
+      dividend and other income (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: property_interest_dividend_other
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: property_interest_dividend_other
+      label: Largest source of income
+  - measure_id: total_taxpayer_count
+    label: All taxpayers (count)
+    ordinal: 7
+    column: K
+    source_column_id: total_taxpayer_count
+    expected_column_header_row: 5
+    expected_column_header: Total number of taxpayers
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Total number of taxpayers;
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_tax_amount
+    label: All tax (amount)
+    ordinal: 8
+    column: L
+    source_column_id: total_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Total amount of tax
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Total amount of tax;
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_4.subset_3
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_4.subset_3.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_4.subset_3
+  sheet_name: Table_3_4
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: personal_incomes
+  groupby_dimension: hmrc.marginal_rate_by_total_income_band
+  rows:
+  - value_id: Higher rate taxpayers_band_150000
+    label: Higher rate taxpayers, total income from GBP 150 000
+    ordinal: 0
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: 150000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Higher
+      label: marginal rate payable
+    filters:
+      marginal_rate: higher
+      total_income_lower_bound: 150000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: higher
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 150000
+      label: total_income_lower_bound
+  measures:
+  - measure_id: self_employment_count
+    label: Taxpayers whose largest source is self-employment (count)
+    ordinal: 0
+    column: C
+    source_column_id: self_employment_count
+    expected_column_header_row: 5
+    expected_column_header: Self-employment (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Self-employment (Number);
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: self_employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: self_employment
+      label: Largest source of income
+  - measure_id: self_employment_tax_amount
+    label: Tax of taxpayers whose largest source is self-employment (amount)
+    ordinal: 1
+    column: D
+    source_column_id: self_employment_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Self-employment (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Self-employment (Amount);
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: self_employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: self_employment
+      label: Largest source of income
+  - measure_id: employment_count
+    label: Taxpayers whose largest source is employment (count)
+    ordinal: 2
+    column: E
+    source_column_id: employment_count
+    expected_column_header_row: 5
+    expected_column_header: Employment (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Employment (Number);
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: employment
+      label: Largest source of income
+  - measure_id: employment_tax_amount
+    label: Tax of taxpayers whose largest source is employment (amount)
+    ordinal: 3
+    column: F
+    source_column_id: employment_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Employment (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Employment (Amount);
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: employment
+      label: Largest source of income
+  - measure_id: property_interest_dividend_other_count
+    label: Taxpayers whose largest source is property, interest, dividend and other income (count)
+    ordinal: 4
+    column: I
+    source_column_id: property_interest_dividend_other_count
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Property, interest,
+      dividend and other income (Number); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: property_interest_dividend_other
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: property_interest_dividend_other
+      label: Largest source of income
+  - measure_id: property_interest_dividend_other_tax_amount
+    label: Tax of taxpayers whose largest source is property, interest, dividend and other income
+      (amount)
+    ordinal: 5
+    column: J
+    source_column_id: property_interest_dividend_other_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Property, interest,
+      dividend and other income (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: property_interest_dividend_other
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: property_interest_dividend_other
+      label: Largest source of income
+  - measure_id: total_taxpayer_count
+    label: All taxpayers (count)
+    ordinal: 6
+    column: K
+    source_column_id: total_taxpayer_count
+    expected_column_header_row: 5
+    expected_column_header: Total number of taxpayers
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Total number of taxpayers;
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_tax_amount
+    label: All tax (amount)
+    ordinal: 7
+    column: L
+    source_column_id: total_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Total amount of tax
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Total amount of tax;
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_4.subset_4
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_4.subset_4.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_4.subset_4
+  sheet_name: Table_3_4
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: personal_incomes
+  groupby_dimension: hmrc.marginal_rate_by_total_income_band
+  rows:
+  - value_id: Higher rate taxpayers_band_200000
+    label: Higher rate taxpayers, total income from GBP 200 000
+    ordinal: 0
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: 200000
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: Higher
+      label: marginal rate payable
+    filters:
+      marginal_rate: higher
+      total_income_lower_bound: 200000
+    constraints:
+    - variable: marginal_rate
+      operator: ==
+      value: higher
+      label: Marginal rate payable
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 200000
+      label: total_income_lower_bound
+  measures:
+  - measure_id: employment_count
+    label: Taxpayers whose largest source is employment (count)
+    ordinal: 0
+    column: E
+    source_column_id: employment_count
+    expected_column_header_row: 5
+    expected_column_header: Employment (Number)
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Employment (Number);
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters:
+      largest_income_source: employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: employment
+      label: Largest source of income
+  - measure_id: employment_tax_amount
+    label: Tax of taxpayers whose largest source is employment (amount)
+    ordinal: 1
+    column: F
+    source_column_id: employment_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Employment (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Employment (Amount);
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      largest_income_source: employment
+    constraints:
+    - variable: largest_income_source
+      operator: ==
+      value: employment
+      label: Largest source of income
+  - measure_id: total_taxpayer_count
+    label: All taxpayers (count)
+    ordinal: 2
+    column: K
+    source_column_id: total_taxpayer_count
+    expected_column_header_row: 5
+    expected_column_header: Total number of taxpayers
+    concept: hmrc.spi_taxpayer_count
+    source_concept: hmrc.spi_taxpayer_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Total number of taxpayers;
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_tax_amount
+    label: All tax (amount)
+    ordinal: 3
+    column: L
+    source_column_id: total_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Total amount of tax
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_4, column: Total amount of tax;
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_5
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_5.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_5
+  sheet_name: Table_3_5
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: personal_incomes
+  groupby_dimension: hmrc.total_income_band
+  rows:
+  - value_id: band_12570
+    label: Total income from GBP 12 570
+    ordinal: 0
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: 12570
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 12570
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 12570
+      label: total_income_lower_bound
+  - value_id: band_15000
+    label: Total income from GBP 15 000
+    ordinal: 1
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: 15000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 15000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 15000
+      label: total_income_lower_bound
+  - value_id: band_20000
+    label: Total income from GBP 20 000
+    ordinal: 2
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: 20000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 20000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 20000
+      label: total_income_lower_bound
+  - value_id: band_30000
+    label: Total income from GBP 30 000
+    ordinal: 3
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: 30000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 30000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 30000
+      label: total_income_lower_bound
+  - value_id: band_40000
+    label: Total income from GBP 40 000
+    ordinal: 4
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 40000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 40000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 40000
+      label: total_income_lower_bound
+  - value_id: band_50000
+    label: Total income from GBP 50 000
+    ordinal: 5
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: 50000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 50000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 50000
+      label: total_income_lower_bound
+  - value_id: band_70000
+    label: Total income from GBP 70 000
+    ordinal: 6
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: 70000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 70000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 70000
+      label: total_income_lower_bound
+  - value_id: band_100000
+    label: Total income from GBP 100 000
+    ordinal: 7
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 100000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 100000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 100000
+      label: total_income_lower_bound
+  - value_id: band_150000
+    label: Total income from GBP 150 000
+    ordinal: 8
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 150000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 150000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 150000
+      label: total_income_lower_bound
+  - value_id: band_200000
+    label: Total income from GBP 200 000
+    ordinal: 9
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 200000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 200000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 200000
+      label: total_income_lower_bound
+  - value_id: band_300000
+    label: Total income from GBP 300 000
+    ordinal: 10
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 300000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 300000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 300000
+      label: total_income_lower_bound
+  - value_id: band_500000
+    label: Total income from GBP 500 000
+    ordinal: 11
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 500000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 500000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 500000
+      label: total_income_lower_bound
+  - value_id: all_ranges
+    label: All ranges of total income
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: All ranges
+    table_record_kind: total
+    filters: {}
+  measures:
+  - measure_id: profit_employment_pension_income_count
+    label: Profit, employment and pension income (count)
+    ordinal: 0
+    column: B
+    source_column_id: profit_employment_pension_income_count
+    expected_column_header_row: 5
+    expected_column_header: Profit, employment and pension income (Number of individuals)
+    concept: hmrc.spi_profit_employment_pension_income_count
+    source_concept: hmrc.spi_profit_employment_pension_income_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Profit, employment and
+      pension income (Number of individuals); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: profit_employment_pension_income_amount
+    label: Profit, employment and pension income (amount)
+    ordinal: 1
+    column: C
+    source_column_id: profit_employment_pension_income_amount
+    expected_column_header_row: 5
+    expected_column_header: Profit, employment and pension income (Amount)
+    concept: hmrc.spi_profit_employment_pension_income_amount
+    source_concept: hmrc.spi_profit_employment_pension_income_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Profit, employment and
+      pension income (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: other_income_count
+    label: Property, interest, dividend and other income (count)
+    ordinal: 2
+    column: E
+    source_column_id: other_income_count
+    expected_column_header_row: 5
+    expected_column_header: Other income (Number of individuals) [Note 1]
+    concept: hmrc.spi_property_interest_dividend_other_income_count
+    source_concept: hmrc.spi_table_3_5_other_income_count
+    concept_relation: exact
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Other income (Number
+      of individuals) [Note 1]. Table 3.5 splits total income into profit, employment and pension
+      income and this residual, which the publisher restates column by column as Table 3.7''s ''Total
+      property, interest, dividend and other income'' (both give 1 380 thousand individuals and GBP
+      1 120 million in the GBP 12 570 band and 22 400 thousand and GBP 125 000 million over all ranges);
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: other_income_amount
+    label: Property, interest, dividend and other income (amount)
+    ordinal: 3
+    column: F
+    source_column_id: other_income_amount
+    expected_column_header_row: 5
+    expected_column_header: Other income (Amount) [Note 1]
+    concept: hmrc.spi_property_interest_dividend_other_income_amount
+    source_concept: hmrc.spi_table_3_5_other_income_amount
+    concept_relation: exact
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Other income (Amount)
+      [Note 1]. Table 3.5 splits total income into profit, employment and pension income and this
+      residual, which the publisher restates column by column as Table 3.7''s ''Total property, interest,
+      dividend and other income'' (both give 1 380 thousand individuals and GBP 1 120 million in
+      the GBP 12 570 band and 22 400 thousand and GBP 125 000 million over all ranges); taxpayers
+      in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_income_before_tax_count
+    label: Total income before tax (count)
+    ordinal: 4
+    column: H
+    source_column_id: total_income_before_tax_count
+    expected_column_header_row: 5
+    expected_column_header: Total income before tax (Number of individuals)
+    concept: hmrc.spi_total_income_before_tax_count
+    source_concept: hmrc.spi_total_income_before_tax_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total income before
+      tax (Number of individuals); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_income_before_tax_amount
+    label: Total income before tax (amount)
+    ordinal: 5
+    column: I
+    source_column_id: total_income_before_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Total income before tax (Amount)
+    concept: hmrc.spi_total_income_before_tax_amount
+    source_concept: hmrc.spi_total_income_before_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total income before
+      tax (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_deductions_and_reliefs_count
+    label: Total deductions and reliefs (count)
+    ordinal: 6
+    column: K
+    source_column_id: total_deductions_and_reliefs_count
+    expected_column_header_row: 5
+    expected_column_header: Total deductions and reliefs (Number of individuals)
+    concept: hmrc.spi_total_deductions_and_reliefs_count
+    source_concept: hmrc.spi_total_deductions_and_reliefs_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total deductions and
+      reliefs (Number of individuals); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_deductions_and_reliefs_amount
+    label: Total deductions and reliefs (amount)
+    ordinal: 7
+    column: L
+    source_column_id: total_deductions_and_reliefs_amount
+    expected_column_header_row: 5
+    expected_column_header: Total deductions and reliefs (Amount)
+    concept: hmrc.spi_total_deductions_and_reliefs_amount
+    source_concept: hmrc.spi_total_deductions_and_reliefs_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total deductions and
+      reliefs (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: personal_allowances_amount
+    label: Personal allowances (amount)
+    ordinal: 8
+    column: N
+    source_column_id: personal_allowances_amount
+    expected_column_header_row: 5
+    expected_column_header: Personal allowances (Amount)
+    concept: hmrc.spi_personal_allowances_amount
+    source_concept: hmrc.spi_personal_allowances_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Personal allowances
+      (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_tax_count
+    label: Total tax (count)
+    ordinal: 9
+    column: O
+    source_column_id: total_tax_count
+    expected_column_header_row: 5
+    expected_column_header: Total tax (Number of individuals)
+    concept: hmrc.spi_total_tax_count
+    source_concept: hmrc.spi_total_tax_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total tax (Number of
+      individuals); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_tax_amount
+    label: Total tax (amount)
+    ordinal: 10
+    column: P
+    source_column_id: total_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Total tax (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total tax (Amount);
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_income_after_tax_amount
+    label: Total income after tax (amount)
+    ordinal: 11
+    column: R
+    source_column_id: total_income_after_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Total income after tax (Amount)
+    concept: hmrc.spi_total_income_after_tax_amount
+    source_concept: hmrc.spi_total_income_after_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total income after tax
+      (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_5.subset_1
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_5.subset_1.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_5.subset_1
+  sheet_name: Table_3_5
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: personal_incomes
+  groupby_dimension: hmrc.total_income_band
+  rows:
+  - value_id: band_1000000
+    label: Total income from GBP 1 000 000
+    ordinal: 0
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: 1000000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 1000000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 1000000
+      label: total_income_lower_bound
+  measures:
+  - measure_id: profit_employment_pension_income_count
+    label: Profit, employment and pension income (count)
+    ordinal: 0
+    column: B
+    source_column_id: profit_employment_pension_income_count
+    expected_column_header_row: 5
+    expected_column_header: Profit, employment and pension income (Number of individuals)
+    concept: hmrc.spi_profit_employment_pension_income_count
+    source_concept: hmrc.spi_profit_employment_pension_income_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Profit, employment and
+      pension income (Number of individuals); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: profit_employment_pension_income_amount
+    label: Profit, employment and pension income (amount)
+    ordinal: 1
+    column: C
+    source_column_id: profit_employment_pension_income_amount
+    expected_column_header_row: 5
+    expected_column_header: Profit, employment and pension income (Amount)
+    concept: hmrc.spi_profit_employment_pension_income_amount
+    source_concept: hmrc.spi_profit_employment_pension_income_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Profit, employment and
+      pension income (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: other_income_count
+    label: Property, interest, dividend and other income (count)
+    ordinal: 2
+    column: E
+    source_column_id: other_income_count
+    expected_column_header_row: 5
+    expected_column_header: Other income (Number of individuals) [Note 1]
+    concept: hmrc.spi_property_interest_dividend_other_income_count
+    source_concept: hmrc.spi_table_3_5_other_income_count
+    concept_relation: exact
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Other income (Number
+      of individuals) [Note 1]. Table 3.5 splits total income into profit, employment and pension
+      income and this residual, which the publisher restates column by column as Table 3.7''s ''Total
+      property, interest, dividend and other income'' (both give 1 380 thousand individuals and GBP
+      1 120 million in the GBP 12 570 band and 22 400 thousand and GBP 125 000 million over all ranges);
+      taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: other_income_amount
+    label: Property, interest, dividend and other income (amount)
+    ordinal: 3
+    column: F
+    source_column_id: other_income_amount
+    expected_column_header_row: 5
+    expected_column_header: Other income (Amount) [Note 1]
+    concept: hmrc.spi_property_interest_dividend_other_income_amount
+    source_concept: hmrc.spi_table_3_5_other_income_amount
+    concept_relation: exact
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Other income (Amount)
+      [Note 1]. Table 3.5 splits total income into profit, employment and pension income and this
+      residual, which the publisher restates column by column as Table 3.7''s ''Total property, interest,
+      dividend and other income'' (both give 1 380 thousand individuals and GBP 1 120 million in
+      the GBP 12 570 band and 22 400 thousand and GBP 125 000 million over all ranges); taxpayers
+      in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_income_before_tax_count
+    label: Total income before tax (count)
+    ordinal: 4
+    column: H
+    source_column_id: total_income_before_tax_count
+    expected_column_header_row: 5
+    expected_column_header: Total income before tax (Number of individuals)
+    concept: hmrc.spi_total_income_before_tax_count
+    source_concept: hmrc.spi_total_income_before_tax_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total income before
+      tax (Number of individuals); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_income_before_tax_amount
+    label: Total income before tax (amount)
+    ordinal: 5
+    column: I
+    source_column_id: total_income_before_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Total income before tax (Amount)
+    concept: hmrc.spi_total_income_before_tax_amount
+    source_concept: hmrc.spi_total_income_before_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total income before
+      tax (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_deductions_and_reliefs_count
+    label: Total deductions and reliefs (count)
+    ordinal: 6
+    column: K
+    source_column_id: total_deductions_and_reliefs_count
+    expected_column_header_row: 5
+    expected_column_header: Total deductions and reliefs (Number of individuals)
+    concept: hmrc.spi_total_deductions_and_reliefs_count
+    source_concept: hmrc.spi_total_deductions_and_reliefs_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total deductions and
+      reliefs (Number of individuals); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_deductions_and_reliefs_amount
+    label: Total deductions and reliefs (amount)
+    ordinal: 7
+    column: L
+    source_column_id: total_deductions_and_reliefs_amount
+    expected_column_header_row: 5
+    expected_column_header: Total deductions and reliefs (Amount)
+    concept: hmrc.spi_total_deductions_and_reliefs_amount
+    source_concept: hmrc.spi_total_deductions_and_reliefs_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total deductions and
+      reliefs (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_tax_count
+    label: Total tax (count)
+    ordinal: 8
+    column: O
+    source_column_id: total_tax_count
+    expected_column_header_row: 5
+    expected_column_header: Total tax (Number of individuals)
+    concept: hmrc.spi_total_tax_count
+    source_concept: hmrc.spi_total_tax_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total tax (Number of
+      individuals); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_tax_amount
+    label: Total tax (amount)
+    ordinal: 9
+    column: P
+    source_column_id: total_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Total tax (Amount)
+    concept: hmrc.spi_total_tax_amount
+    source_concept: hmrc.spi_total_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total tax (Amount);
+      taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_income_after_tax_amount
+    label: Total income after tax (amount)
+    ordinal: 10
+    column: R
+    source_column_id: total_income_after_tax_amount
+    expected_column_header_row: 5
+    expected_column_header: Total income after tax (Amount)
+    concept: hmrc.spi_total_income_after_tax_amount
+    source_concept: hmrc.spi_total_income_after_tax_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_5, column: Total income after tax
+      (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_8
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_8.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_8
+  sheet_name: Table_3_8
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: personal_incomes
+  groupby_dimension: hmrc.total_income_band
+  rows:
+  - value_id: band_12570
+    label: Total income from GBP 12 570
+    ordinal: 0
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: 12570
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 12570
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 12570
+      label: total_income_lower_bound
+  - value_id: band_15000
+    label: Total income from GBP 15 000
+    ordinal: 1
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: 15000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 15000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 15000
+      label: total_income_lower_bound
+  - value_id: band_20000
+    label: Total income from GBP 20 000
+    ordinal: 2
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: 20000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 20000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 20000
+      label: total_income_lower_bound
+  - value_id: band_30000
+    label: Total income from GBP 30 000
+    ordinal: 3
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: 30000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 30000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 30000
+      label: total_income_lower_bound
+  - value_id: band_40000
+    label: Total income from GBP 40 000
+    ordinal: 4
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 40000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 40000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 40000
+      label: total_income_lower_bound
+  - value_id: band_50000
+    label: Total income from GBP 50 000
+    ordinal: 5
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: 50000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 50000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 50000
+      label: total_income_lower_bound
+  - value_id: band_70000
+    label: Total income from GBP 70 000
+    ordinal: 6
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: 70000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 70000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 70000
+      label: total_income_lower_bound
+  - value_id: band_100000
+    label: Total income from GBP 100 000
+    ordinal: 7
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 100000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 100000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 100000
+      label: total_income_lower_bound
+  - value_id: band_150000
+    label: Total income from GBP 150 000
+    ordinal: 8
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 150000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 150000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 150000
+      label: total_income_lower_bound
+  - value_id: band_200000
+    label: Total income from GBP 200 000
+    ordinal: 9
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 200000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 200000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 200000
+      label: total_income_lower_bound
+  - value_id: band_300000
+    label: Total income from GBP 300 000
+    ordinal: 10
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 300000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 300000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 300000
+      label: total_income_lower_bound
+  - value_id: band_500000
+    label: Total income from GBP 500 000
+    ordinal: 11
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 500000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 500000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 500000
+      label: total_income_lower_bound
+  - value_id: band_1000000
+    label: Total income from GBP 1 000 000
+    ordinal: 12
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: 1000000
+    table_record_kind: detail
+    filters:
+      total_income_lower_bound: 1000000
+    constraints:
+    - variable: total_income_lower_bound
+      operator: ==
+      value: 1000000
+      label: total_income_lower_bound
+  - value_id: all_ranges
+    label: All ranges of total income
+    ordinal: 13
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: All ranges
+    table_record_kind: total
+    filters: {}
+  measures:
+  - measure_id: net_pay_pension_contributions_count
+    label: Contributions to Net Pay pensions (count)
+    ordinal: 0
+    column: B
+    source_column_id: net_pay_pension_contributions_count
+    expected_column_header_row: 5
+    expected_column_header: Contributions to Net Pay pensions (Number of individuals) [Note 1]
+    concept: hmrc.spi_net_pay_pension_contributions_count
+    source_concept: hmrc.spi_net_pay_pension_contributions_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_8, column: Contributions to Net
+      Pay pensions (Number of individuals) [Note 1]; taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: net_pay_pension_contributions_amount
+    label: Contributions to Net Pay pensions (amount)
+    ordinal: 1
+    column: C
+    source_column_id: net_pay_pension_contributions_amount
+    expected_column_header_row: 5
+    expected_column_header: Contributions to Net Pay pensions (Amount) [Note 1]
+    concept: hmrc.spi_net_pay_pension_contributions_amount
+    source_concept: hmrc.spi_net_pay_pension_contributions_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_8, column: Contributions to Net
+      Pay pensions (Amount) [Note 1]; taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: relief_at_source_pension_contributions_count
+    label: Contributions to Relief at Source pensions (count)
+    ordinal: 2
+    column: E
+    source_column_id: relief_at_source_pension_contributions_count
+    expected_column_header_row: 5
+    expected_column_header: Contributions to Relief at Source pensions (Number of individuals) [Note
+      2]
+    concept: hmrc.spi_relief_at_source_pension_contributions_count
+    source_concept: hmrc.spi_relief_at_source_pension_contributions_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_8, column: Contributions to Relief
+      at Source pensions (Number of individuals) [Note 2]; taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: relief_at_source_pension_contributions_amount
+    label: Contributions to Relief at Source pensions (amount)
+    ordinal: 3
+    column: F
+    source_column_id: relief_at_source_pension_contributions_amount
+    expected_column_header_row: 5
+    expected_column_header: Contributions to Relief at Source pensions (Amount) [Note 2]
+    concept: hmrc.spi_relief_at_source_pension_contributions_amount
+    source_concept: hmrc.spi_relief_at_source_pension_contributions_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_8, column: Contributions to Relief
+      at Source pensions (Amount) [Note 2]; taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: other_deductions_and_reliefs_count
+    label: All other interest, charges and deductions (count)
+    ordinal: 4
+    column: H
+    source_column_id: other_deductions_and_reliefs_count
+    expected_column_header_row: 5
+    expected_column_header: All other interest, charges and deductions (Number of individuals) [Note
+      4, 5]
+    concept: hmrc.spi_other_deductions_and_reliefs_count
+    source_concept: hmrc.spi_other_deductions_and_reliefs_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_8, column: All other interest,
+      charges and deductions (Number of individuals) [Note 4, 5]; taxpayers in thousands, amounts
+      GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: other_deductions_and_reliefs_amount
+    label: All other interest, charges and deductions (amount)
+    ordinal: 5
+    column: I
+    source_column_id: other_deductions_and_reliefs_amount
+    expected_column_header_row: 5
+    expected_column_header: All other interest, charges and deductions (Amount) [Note 4, 5]
+    concept: hmrc.spi_other_deductions_and_reliefs_amount
+    source_concept: hmrc.spi_other_deductions_and_reliefs_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_8, column: All other interest,
+      charges and deductions (Amount) [Note 4, 5]; taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_deductions_and_reliefs_count
+    label: Total deductions and reliefs (count)
+    ordinal: 6
+    column: K
+    source_column_id: total_deductions_and_reliefs_count
+    expected_column_header_row: 5
+    expected_column_header: Total deductions and reliefs (Number of individuals)
+    concept: hmrc.spi_total_deductions_and_reliefs_count
+    source_concept: hmrc.spi_total_deductions_and_reliefs_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_8, column: Total deductions and
+      reliefs (Number of individuals); taxpayers in thousands, amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_deductions_and_reliefs_amount
+    label: Total deductions and reliefs (amount)
+    ordinal: 7
+    column: L
+    source_column_id: total_deductions_and_reliefs_amount
+    expected_column_header_row: 5
+    expected_column_header: Total deductions and reliefs (Amount)
+    concept: hmrc.spi_total_deductions_and_reliefs_amount
+    source_concept: hmrc.spi_total_deductions_and_reliefs_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_8, column: Total deductions and
+      reliefs (Amount); taxpayers in thousands, amounts GBP million.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
