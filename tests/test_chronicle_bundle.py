@@ -18,7 +18,7 @@ from chronicle.bundle import (
     build_bundle,
     build_bundle_coverage,
 )
-from chronicle.epoch import HASH_DOMAINS, Epoch
+from chronicle.epoch import CONSUMER_FACT_EMIT_SCHEMA_VERSION, HASH_DOMAINS, Epoch
 from chronicle.harness import build_bundle_dir
 from chronicle.harness import main as harness_main
 
@@ -1699,7 +1699,7 @@ def test_bundle_jsonl_ingestion_accepts_chronicle_only_rows(tmp_path):
     loaded = load_bundle_jsonl(path)
 
     assert loaded == [row]
-    assert loaded[0]["schema_version"] == "chronicle.consumer_fact.v3"
+    assert loaded[0]["schema_version"] == CONSUMER_FACT_EMIT_SCHEMA_VERSION
     assert loaded[0]["aggregate_fact_key"].startswith("chronicle.aggregate_fact.v3:")
 
 
@@ -1718,7 +1718,9 @@ def test_bundle_jsonl_ingestion_accepts_mixed_epoch_rows(tmp_path):
 
     assert loaded == [ledger_row, chronicle_row]
     # Both rows use the same row contract; their keys are in different epochs.
-    assert {row["schema_version"] for row in loaded} == {"chronicle.consumer_fact.v3"}
+    assert {row["schema_version"] for row in loaded} == {
+        CONSUMER_FACT_EMIT_SCHEMA_VERSION
+    }
     assert loaded[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert loaded[1]["aggregate_fact_key"].startswith("chronicle.aggregate_fact.v3:")
 
