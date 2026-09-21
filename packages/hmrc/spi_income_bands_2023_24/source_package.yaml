@@ -20,8 +20,9 @@
 # of tax (note 1), so an individual can fall in different bands on the two
 # sheets. The two are separate record sets, each filtering and constraining on
 # its own bound - total_income_lower_bound and
-# total_income_after_tax_lower_bound - so the banding measure is declared on
-# every fact and the two banded populations cannot be read as one series.
+# total_income_after_tax_lower_bound - and grouping on its own axis, so the
+# banding measure is declared on every fact and the two banded populations
+# cannot be read as one series.
 #
 # Table 3.4 analyses tax by marginal rate payable and by the publisher's
 # classification of each taxpayer's largest income source (note 2a), carried
@@ -47,6 +48,7 @@ label: 'HMRC Survey of Personal Incomes 2023-24: income, tax, deductions and rel
 dimension_labels:
   'hmrc.total_income_band': 'Total income band'
   'hmrc.total_income_band_by_sex': 'Total income band by sex'
+  'hmrc.total_income_after_tax_band_by_sex': 'Total income after tax band by sex'
   'hmrc.marginal_rate_by_total_income_band': 'Marginal rate payable by total income band'
   'total_income_lower_bound': 'Total income lower bound (GBP)'
   'total_income_after_tax_lower_bound': 'Total income after tax lower bound (GBP)'
@@ -830,7 +832,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.total_income_band_by_sex
   rows:
-  - value_id: All taxpayers_band_12570
+  - value_id: all_band_12570
     label: All taxpayers, total income before tax from GBP 12 570
     ordinal: 0
     row_number: 7
@@ -849,7 +851,7 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_15000
+  - value_id: all_band_15000
     label: All taxpayers, total income before tax from GBP 15 000
     ordinal: 1
     row_number: 8
@@ -868,7 +870,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_20000
+  - value_id: all_band_20000
     label: All taxpayers, total income before tax from GBP 20 000
     ordinal: 2
     row_number: 9
@@ -887,7 +889,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_30000
+  - value_id: all_band_30000
     label: All taxpayers, total income before tax from GBP 30 000
     ordinal: 3
     row_number: 10
@@ -906,7 +908,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_40000
+  - value_id: all_band_40000
     label: All taxpayers, total income before tax from GBP 40 000
     ordinal: 4
     row_number: 11
@@ -925,7 +927,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_50000
+  - value_id: all_band_50000
     label: All taxpayers, total income before tax from GBP 50 000
     ordinal: 5
     row_number: 12
@@ -944,7 +946,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_70000
+  - value_id: all_band_70000
     label: All taxpayers, total income before tax from GBP 70 000
     ordinal: 6
     row_number: 13
@@ -963,7 +965,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_100000
+  - value_id: all_band_100000
     label: All taxpayers, total income before tax from GBP 100 000
     ordinal: 7
     row_number: 14
@@ -982,7 +984,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_150000
+  - value_id: all_band_150000
     label: All taxpayers, total income before tax from GBP 150 000
     ordinal: 8
     row_number: 15
@@ -1001,7 +1003,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_200000
+  - value_id: all_band_200000
     label: All taxpayers, total income before tax from GBP 200 000
     ordinal: 9
     row_number: 16
@@ -1020,7 +1022,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_300000
+  - value_id: all_band_300000
     label: All taxpayers, total income before tax from GBP 300 000
     ordinal: 10
     row_number: 17
@@ -1039,7 +1041,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_500000
+  - value_id: all_band_500000
     label: All taxpayers, total income before tax from GBP 500 000
     ordinal: 11
     row_number: 18
@@ -1058,7 +1060,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_lower_bound
-  - value_id: All taxpayers_band_1000000
+  - value_id: all_band_1000000
     label: All taxpayers, total income before tax from GBP 1 000 000
     ordinal: 12
     row_number: 19
@@ -1077,7 +1079,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_lower_bound
-  - value_id: All taxpayers_all_ranges
+  - value_id: all_all_ranges
     label: All taxpayers, all ranges of total income before tax
     ordinal: 13
     row_number: 20
@@ -1090,7 +1092,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: Male taxpayers_band_12570
+  - value_id: male_band_12570
     label: Male taxpayers, total income before tax from GBP 12 570
     ordinal: 14
     row_number: 21
@@ -1113,7 +1115,7 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_15000
+  - value_id: male_band_15000
     label: Male taxpayers, total income before tax from GBP 15 000
     ordinal: 15
     row_number: 22
@@ -1136,7 +1138,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_20000
+  - value_id: male_band_20000
     label: Male taxpayers, total income before tax from GBP 20 000
     ordinal: 16
     row_number: 23
@@ -1159,7 +1161,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_30000
+  - value_id: male_band_30000
     label: Male taxpayers, total income before tax from GBP 30 000
     ordinal: 17
     row_number: 24
@@ -1182,7 +1184,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_40000
+  - value_id: male_band_40000
     label: Male taxpayers, total income before tax from GBP 40 000
     ordinal: 18
     row_number: 25
@@ -1205,7 +1207,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_50000
+  - value_id: male_band_50000
     label: Male taxpayers, total income before tax from GBP 50 000
     ordinal: 19
     row_number: 26
@@ -1228,7 +1230,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_70000
+  - value_id: male_band_70000
     label: Male taxpayers, total income before tax from GBP 70 000
     ordinal: 20
     row_number: 27
@@ -1251,7 +1253,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_100000
+  - value_id: male_band_100000
     label: Male taxpayers, total income before tax from GBP 100 000
     ordinal: 21
     row_number: 28
@@ -1274,7 +1276,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_150000
+  - value_id: male_band_150000
     label: Male taxpayers, total income before tax from GBP 150 000
     ordinal: 22
     row_number: 29
@@ -1297,7 +1299,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_200000
+  - value_id: male_band_200000
     label: Male taxpayers, total income before tax from GBP 200 000
     ordinal: 23
     row_number: 30
@@ -1320,7 +1322,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_300000
+  - value_id: male_band_300000
     label: Male taxpayers, total income before tax from GBP 300 000
     ordinal: 24
     row_number: 31
@@ -1343,7 +1345,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_500000
+  - value_id: male_band_500000
     label: Male taxpayers, total income before tax from GBP 500 000
     ordinal: 25
     row_number: 32
@@ -1366,7 +1368,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_band_1000000
+  - value_id: male_band_1000000
     label: Male taxpayers, total income before tax from GBP 1 000 000
     ordinal: 26
     row_number: 33
@@ -1389,7 +1391,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_lower_bound
-  - value_id: Male taxpayers_all_ranges
+  - value_id: male_all_ranges
     label: Male taxpayers, all ranges of total income before tax
     ordinal: 27
     row_number: 34
@@ -1407,7 +1409,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: Female taxpayers_band_12570
+  - value_id: female_band_12570
     label: Female taxpayers, total income before tax from GBP 12 570
     ordinal: 28
     row_number: 35
@@ -1430,7 +1432,7 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_15000
+  - value_id: female_band_15000
     label: Female taxpayers, total income before tax from GBP 15 000
     ordinal: 29
     row_number: 36
@@ -1453,7 +1455,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_20000
+  - value_id: female_band_20000
     label: Female taxpayers, total income before tax from GBP 20 000
     ordinal: 30
     row_number: 37
@@ -1476,7 +1478,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_30000
+  - value_id: female_band_30000
     label: Female taxpayers, total income before tax from GBP 30 000
     ordinal: 31
     row_number: 38
@@ -1499,7 +1501,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_40000
+  - value_id: female_band_40000
     label: Female taxpayers, total income before tax from GBP 40 000
     ordinal: 32
     row_number: 39
@@ -1522,7 +1524,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_50000
+  - value_id: female_band_50000
     label: Female taxpayers, total income before tax from GBP 50 000
     ordinal: 33
     row_number: 40
@@ -1545,7 +1547,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_70000
+  - value_id: female_band_70000
     label: Female taxpayers, total income before tax from GBP 70 000
     ordinal: 34
     row_number: 41
@@ -1568,7 +1570,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_100000
+  - value_id: female_band_100000
     label: Female taxpayers, total income before tax from GBP 100 000
     ordinal: 35
     row_number: 42
@@ -1591,7 +1593,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_150000
+  - value_id: female_band_150000
     label: Female taxpayers, total income before tax from GBP 150 000
     ordinal: 36
     row_number: 43
@@ -1614,7 +1616,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_200000
+  - value_id: female_band_200000
     label: Female taxpayers, total income before tax from GBP 200 000
     ordinal: 37
     row_number: 44
@@ -1637,7 +1639,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_300000
+  - value_id: female_band_300000
     label: Female taxpayers, total income before tax from GBP 300 000
     ordinal: 38
     row_number: 45
@@ -1660,7 +1662,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_500000
+  - value_id: female_band_500000
     label: Female taxpayers, total income before tax from GBP 500 000
     ordinal: 39
     row_number: 46
@@ -1683,7 +1685,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_band_1000000
+  - value_id: female_band_1000000
     label: Female taxpayers, total income before tax from GBP 1 000 000
     ordinal: 40
     row_number: 47
@@ -1706,7 +1708,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_lower_bound
-  - value_id: Female taxpayers_all_ranges
+  - value_id: female_all_ranges
     label: Female taxpayers, all ranges of total income before tax
     ordinal: 41
     row_number: 48
@@ -1812,9 +1814,9 @@ record_sets:
   entity: person
   entity_role: taxpayer
   domain: personal_incomes
-  groupby_dimension: hmrc.total_income_band_by_sex
+  groupby_dimension: hmrc.total_income_after_tax_band_by_sex
   rows:
-  - value_id: All taxpayers_band_12570
+  - value_id: all_band_12570
     label: All taxpayers, total income after tax from GBP 12 570
     ordinal: 0
     row_number: 7
@@ -1833,7 +1835,7 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_15000
+  - value_id: all_band_15000
     label: All taxpayers, total income after tax from GBP 15 000
     ordinal: 1
     row_number: 8
@@ -1852,7 +1854,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_20000
+  - value_id: all_band_20000
     label: All taxpayers, total income after tax from GBP 20 000
     ordinal: 2
     row_number: 9
@@ -1871,7 +1873,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_30000
+  - value_id: all_band_30000
     label: All taxpayers, total income after tax from GBP 30 000
     ordinal: 3
     row_number: 10
@@ -1890,7 +1892,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_40000
+  - value_id: all_band_40000
     label: All taxpayers, total income after tax from GBP 40 000
     ordinal: 4
     row_number: 11
@@ -1909,7 +1911,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_50000
+  - value_id: all_band_50000
     label: All taxpayers, total income after tax from GBP 50 000
     ordinal: 5
     row_number: 12
@@ -1928,7 +1930,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_70000
+  - value_id: all_band_70000
     label: All taxpayers, total income after tax from GBP 70 000
     ordinal: 6
     row_number: 13
@@ -1947,7 +1949,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_100000
+  - value_id: all_band_100000
     label: All taxpayers, total income after tax from GBP 100 000
     ordinal: 7
     row_number: 14
@@ -1966,7 +1968,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_150000
+  - value_id: all_band_150000
     label: All taxpayers, total income after tax from GBP 150 000
     ordinal: 8
     row_number: 15
@@ -1985,7 +1987,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_200000
+  - value_id: all_band_200000
     label: All taxpayers, total income after tax from GBP 200 000
     ordinal: 9
     row_number: 16
@@ -2004,7 +2006,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_300000
+  - value_id: all_band_300000
     label: All taxpayers, total income after tax from GBP 300 000
     ordinal: 10
     row_number: 17
@@ -2023,7 +2025,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_500000
+  - value_id: all_band_500000
     label: All taxpayers, total income after tax from GBP 500 000
     ordinal: 11
     row_number: 18
@@ -2042,7 +2044,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_band_1000000
+  - value_id: all_band_1000000
     label: All taxpayers, total income after tax from GBP 1 000 000
     ordinal: 12
     row_number: 19
@@ -2061,7 +2063,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_after_tax_lower_bound
-  - value_id: All taxpayers_all_ranges
+  - value_id: all_all_ranges
     label: All taxpayers, all ranges of total income after tax
     ordinal: 13
     row_number: 20
@@ -2074,7 +2076,7 @@ record_sets:
       label: population
     filters:
       sex: all
-  - value_id: Male taxpayers_band_12570
+  - value_id: male_band_12570
     label: Male taxpayers, total income after tax from GBP 12 570
     ordinal: 14
     row_number: 21
@@ -2097,7 +2099,7 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_15000
+  - value_id: male_band_15000
     label: Male taxpayers, total income after tax from GBP 15 000
     ordinal: 15
     row_number: 22
@@ -2120,7 +2122,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_20000
+  - value_id: male_band_20000
     label: Male taxpayers, total income after tax from GBP 20 000
     ordinal: 16
     row_number: 23
@@ -2143,7 +2145,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_30000
+  - value_id: male_band_30000
     label: Male taxpayers, total income after tax from GBP 30 000
     ordinal: 17
     row_number: 24
@@ -2166,7 +2168,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_40000
+  - value_id: male_band_40000
     label: Male taxpayers, total income after tax from GBP 40 000
     ordinal: 18
     row_number: 25
@@ -2189,7 +2191,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_50000
+  - value_id: male_band_50000
     label: Male taxpayers, total income after tax from GBP 50 000
     ordinal: 19
     row_number: 26
@@ -2212,7 +2214,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_70000
+  - value_id: male_band_70000
     label: Male taxpayers, total income after tax from GBP 70 000
     ordinal: 20
     row_number: 27
@@ -2235,7 +2237,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_100000
+  - value_id: male_band_100000
     label: Male taxpayers, total income after tax from GBP 100 000
     ordinal: 21
     row_number: 28
@@ -2258,7 +2260,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_150000
+  - value_id: male_band_150000
     label: Male taxpayers, total income after tax from GBP 150 000
     ordinal: 22
     row_number: 29
@@ -2281,7 +2283,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_200000
+  - value_id: male_band_200000
     label: Male taxpayers, total income after tax from GBP 200 000
     ordinal: 23
     row_number: 30
@@ -2304,7 +2306,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_300000
+  - value_id: male_band_300000
     label: Male taxpayers, total income after tax from GBP 300 000
     ordinal: 24
     row_number: 31
@@ -2327,7 +2329,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_500000
+  - value_id: male_band_500000
     label: Male taxpayers, total income after tax from GBP 500 000
     ordinal: 25
     row_number: 32
@@ -2350,7 +2352,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_band_1000000
+  - value_id: male_band_1000000
     label: Male taxpayers, total income after tax from GBP 1 000 000
     ordinal: 26
     row_number: 33
@@ -2373,7 +2375,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_after_tax_lower_bound
-  - value_id: Male taxpayers_all_ranges
+  - value_id: male_all_ranges
     label: Male taxpayers, all ranges of total income after tax
     ordinal: 27
     row_number: 34
@@ -2391,7 +2393,7 @@ record_sets:
       operator: ==
       value: male
       label: Sex
-  - value_id: Female taxpayers_band_12570
+  - value_id: female_band_12570
     label: Female taxpayers, total income after tax from GBP 12 570
     ordinal: 28
     row_number: 35
@@ -2414,7 +2416,7 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_15000
+  - value_id: female_band_15000
     label: Female taxpayers, total income after tax from GBP 15 000
     ordinal: 29
     row_number: 36
@@ -2437,7 +2439,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_20000
+  - value_id: female_band_20000
     label: Female taxpayers, total income after tax from GBP 20 000
     ordinal: 30
     row_number: 37
@@ -2460,7 +2462,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_30000
+  - value_id: female_band_30000
     label: Female taxpayers, total income after tax from GBP 30 000
     ordinal: 31
     row_number: 38
@@ -2483,7 +2485,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_40000
+  - value_id: female_band_40000
     label: Female taxpayers, total income after tax from GBP 40 000
     ordinal: 32
     row_number: 39
@@ -2506,7 +2508,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_50000
+  - value_id: female_band_50000
     label: Female taxpayers, total income after tax from GBP 50 000
     ordinal: 33
     row_number: 40
@@ -2529,7 +2531,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_70000
+  - value_id: female_band_70000
     label: Female taxpayers, total income after tax from GBP 70 000
     ordinal: 34
     row_number: 41
@@ -2552,7 +2554,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_100000
+  - value_id: female_band_100000
     label: Female taxpayers, total income after tax from GBP 100 000
     ordinal: 35
     row_number: 42
@@ -2575,7 +2577,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_150000
+  - value_id: female_band_150000
     label: Female taxpayers, total income after tax from GBP 150 000
     ordinal: 36
     row_number: 43
@@ -2598,7 +2600,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_200000
+  - value_id: female_band_200000
     label: Female taxpayers, total income after tax from GBP 200 000
     ordinal: 37
     row_number: 44
@@ -2621,7 +2623,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_300000
+  - value_id: female_band_300000
     label: Female taxpayers, total income after tax from GBP 300 000
     ordinal: 38
     row_number: 45
@@ -2644,7 +2646,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_500000
+  - value_id: female_band_500000
     label: Female taxpayers, total income after tax from GBP 500 000
     ordinal: 39
     row_number: 46
@@ -2667,7 +2669,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_band_1000000
+  - value_id: female_band_1000000
     label: Female taxpayers, total income after tax from GBP 1 000 000
     ordinal: 40
     row_number: 47
@@ -2690,7 +2692,7 @@ record_sets:
       operator: ==
       value: 1000000
       label: total_income_after_tax_lower_bound
-  - value_id: Female taxpayers_all_ranges
+  - value_id: female_all_ranges
     label: Female taxpayers, all ranges of total income after tax
     ordinal: 41
     row_number: 48
@@ -2798,7 +2800,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.marginal_rate_by_total_income_band
   rows:
-  - value_id: Savers rate taxpayers_band_15000
+  - value_id: savers_band_15000
     label: Savers rate taxpayers, total income from GBP 15 000
     ordinal: 0
     row_number: 7
@@ -2821,7 +2823,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_lower_bound
-  - value_id: Savers rate taxpayers_all_ranges
+  - value_id: savers_all_ranges
     label: Savers rate taxpayers, all ranges of total income
     ordinal: 1
     row_number: 10
@@ -2839,7 +2841,7 @@ record_sets:
       operator: ==
       value: savers
       label: Marginal rate payable
-  - value_id: Basic rate taxpayers_band_12570
+  - value_id: basic_band_12570
     label: Basic rate taxpayers, total income from GBP 12 570
     ordinal: 2
     row_number: 11
@@ -2862,7 +2864,7 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_lower_bound
-  - value_id: Basic rate taxpayers_band_15000
+  - value_id: basic_band_15000
     label: Basic rate taxpayers, total income from GBP 15 000
     ordinal: 3
     row_number: 12
@@ -2885,7 +2887,7 @@ record_sets:
       operator: ==
       value: 15000
       label: total_income_lower_bound
-  - value_id: Basic rate taxpayers_band_20000
+  - value_id: basic_band_20000
     label: Basic rate taxpayers, total income from GBP 20 000
     ordinal: 4
     row_number: 13
@@ -2908,7 +2910,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_lower_bound
-  - value_id: Basic rate taxpayers_band_30000
+  - value_id: basic_band_30000
     label: Basic rate taxpayers, total income from GBP 30 000
     ordinal: 5
     row_number: 14
@@ -2931,7 +2933,7 @@ record_sets:
       operator: ==
       value: 30000
       label: total_income_lower_bound
-  - value_id: Basic rate taxpayers_all_ranges
+  - value_id: basic_all_ranges
     label: Basic rate taxpayers, all ranges of total income
     ordinal: 6
     row_number: 15
@@ -2949,7 +2951,7 @@ record_sets:
       operator: ==
       value: basic
       label: Marginal rate payable
-  - value_id: Higher rate taxpayers_band_40000
+  - value_id: higher_band_40000
     label: Higher rate taxpayers, total income from GBP 40 000
     ordinal: 7
     row_number: 19
@@ -2972,7 +2974,7 @@ record_sets:
       operator: ==
       value: 40000
       label: total_income_lower_bound
-  - value_id: Higher rate taxpayers_band_50000
+  - value_id: higher_band_50000
     label: Higher rate taxpayers, total income from GBP 50 000
     ordinal: 8
     row_number: 20
@@ -2995,7 +2997,7 @@ record_sets:
       operator: ==
       value: 50000
       label: total_income_lower_bound
-  - value_id: Higher rate taxpayers_band_70000
+  - value_id: higher_band_70000
     label: Higher rate taxpayers, total income from GBP 70 000
     ordinal: 9
     row_number: 21
@@ -3018,7 +3020,7 @@ record_sets:
       operator: ==
       value: 70000
       label: total_income_lower_bound
-  - value_id: Higher rate taxpayers_band_100000
+  - value_id: higher_band_100000
     label: Higher rate taxpayers, total income from GBP 100 000
     ordinal: 10
     row_number: 22
@@ -3041,7 +3043,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_lower_bound
-  - value_id: Higher rate taxpayers_all_ranges
+  - value_id: higher_all_ranges
     label: Higher rate taxpayers, all ranges of total income
     ordinal: 11
     row_number: 28
@@ -3059,7 +3061,7 @@ record_sets:
       operator: ==
       value: higher
       label: Marginal rate payable
-  - value_id: Additional rate rate taxpayers_band_100000
+  - value_id: additional_band_100000
     label: Additional rate rate taxpayers, total income from GBP 100 000
     ordinal: 12
     row_number: 30
@@ -3082,7 +3084,7 @@ record_sets:
       operator: ==
       value: 100000
       label: total_income_lower_bound
-  - value_id: Additional rate rate taxpayers_band_150000
+  - value_id: additional_band_150000
     label: Additional rate rate taxpayers, total income from GBP 150 000
     ordinal: 13
     row_number: 31
@@ -3105,7 +3107,7 @@ record_sets:
       operator: ==
       value: 150000
       label: total_income_lower_bound
-  - value_id: Additional rate rate taxpayers_band_200000
+  - value_id: additional_band_200000
     label: Additional rate rate taxpayers, total income from GBP 200 000
     ordinal: 14
     row_number: 32
@@ -3128,7 +3130,7 @@ record_sets:
       operator: ==
       value: 200000
       label: total_income_lower_bound
-  - value_id: Additional rate rate taxpayers_band_300000
+  - value_id: additional_band_300000
     label: Additional rate rate taxpayers, total income from GBP 300 000
     ordinal: 15
     row_number: 33
@@ -3151,7 +3153,7 @@ record_sets:
       operator: ==
       value: 300000
       label: total_income_lower_bound
-  - value_id: Additional rate rate taxpayers_band_500000
+  - value_id: additional_band_500000
     label: Additional rate rate taxpayers, total income from GBP 500 000
     ordinal: 16
     row_number: 34
@@ -3174,7 +3176,7 @@ record_sets:
       operator: ==
       value: 500000
       label: total_income_lower_bound
-  - value_id: Additional rate rate taxpayers_all_ranges
+  - value_id: additional_all_ranges
     label: Additional rate rate taxpayers, all ranges of total income
     ordinal: 17
     row_number: 36
@@ -3192,7 +3194,7 @@ record_sets:
       operator: ==
       value: additional
       label: Marginal rate payable
-  - value_id: All rates_all_ranges
+  - value_id: all_all_ranges
     label: All rates, all ranges of total income
     ordinal: 18
     row_number: 37
@@ -3460,7 +3462,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.marginal_rate_by_total_income_band
   rows:
-  - value_id: Savers rate taxpayers_band_12570
+  - value_id: savers_band_12570
     label: Savers rate taxpayers, total income from GBP 12 570
     ordinal: 0
     row_number: 6
@@ -3483,7 +3485,7 @@ record_sets:
       operator: ==
       value: 12570
       label: total_income_lower_bound
-  - value_id: Savers rate taxpayers_band_20000
+  - value_id: savers_band_20000
     label: Savers rate taxpayers, total income from GBP 20 000
     ordinal: 1
     row_number: 8
@@ -3506,7 +3508,7 @@ record_sets:
       operator: ==
       value: 20000
       label: total_income_lower_bound
-  - value_id: Savers rate taxpayers_band_30000
+  - value_id: savers_band_30000
     label: Savers rate taxpayers, total income from GBP 30 000
     ordinal: 2
     row_number: 9
@@ -3684,7 +3686,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.marginal_rate_by_total_income_band
   rows:
-  - value_id: Additional rate rate taxpayers_band_1000000
+  - value_id: additional_band_1000000
     label: Additional rate rate taxpayers, total income from GBP 1 000 000
     ordinal: 0
     row_number: 35
@@ -3937,7 +3939,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.marginal_rate_by_total_income_band
   rows:
-  - value_id: Higher rate taxpayers_band_150000
+  - value_id: higher_band_150000
     label: Higher rate taxpayers, total income from GBP 150 000
     ordinal: 0
     row_number: 23
@@ -4165,7 +4167,7 @@ record_sets:
   domain: personal_incomes
   groupby_dimension: hmrc.marginal_rate_by_total_income_band
   rows:
-  - value_id: Higher rate taxpayers_band_200000
+  - value_id: higher_band_200000
     label: Higher rate taxpayers, total income from GBP 200 000
     ordinal: 0
     row_number: 24
