@@ -77,7 +77,9 @@ UK_BUNDLE_SOURCES = (
     "dft-nts0705-local-bus-trips-2024",
     "dft-veh1103-cars-fuel-type-2025",
     "dwp-benefit-cap-november-2025",
+    "dwp-benefit-expenditure-caseload-spring-2026",
     "dwp-benefit-statistics-february-2026",
+    "dwp-esa-caseload-payment-type-phase-may-2018-march-2026",
     "dwp-hb-claimants-client-type-tenure-accommodation-type-september-2025-february-2026",
     "dwp-hb-claimants-client-type-tenure-january-2023-february-2026",
     "dwp-pip-daily-living-foi-2025",
@@ -112,10 +114,13 @@ UK_BUNDLE_SOURCES = (
     "hmrc-cgt-statistics-2026",
     "hmrc-child-benefit-august-2025",
     "hmrc-hydrocarbon-oils-quantities-june-2026",
+    "hmrc-income-tax-liabilities-july-2026",
+    "hmrc-property-rental-income-2026",
     "hmrc-salary-sacrifice-reform-2029-headcounts",
     "hmrc-salary-sacrifice-relief-2024-25",
     "hmrc-spi-income-bands-2023-24",
     "hmrc-spi-income-by-area-2023-24",
+    "hmrc-spi-income-by-region-2023-24",
     "hmrc-tax-free-childcare-march-2026",
     "hmrc-vat-firm-sector-targets-2024-25",
     "hmrc-vat-firm-targets-2024-25",
@@ -566,7 +571,9 @@ def _geography_name_errors(
         for (level, geography_id), count in sorted(unnamed.items())
     ]
     # Two publishers may name one area differently and both be right, but one
-    # package naming it twice is a package that disagrees with itself.
+    # package naming it twice is a package that disagrees with itself. Rows the
+    # register names carry its one name, so this reaches only the identifiers
+    # it does not carry (chronicle#281).
     errors.extend(
         BuildBundleIssue(
             code="conflicting_geography_name",
@@ -672,14 +679,18 @@ def _cross_package_value_label_warnings(
 def _cross_package_geography_name_warnings(
     names_by_area: dict[tuple[str, str], dict[str, list[str]]],
 ) -> list[BuildBundleIssue]:
-    """Report an area two packages name differently (chronicle#266).
+    """Report an area two packages still name differently (chronicle#266).
 
-    Chronicle keeps each publisher's own text, so these are warnings, not
-    errors: the IRS truncates county names to twenty characters, and ONS writes
-    "Yorkshire and The Humber" where HMRC writes "the". A Microcosm target that
-    selects facts from two such packages for one area sees both names and
-    refuses them, so the bundle says where that can happen rather than choosing
-    a spelling on the publishers' behalf.
+    Chronicle's register answers with one name per identifier where it carries
+    one, so for those areas this cannot fire: the export names them from the
+    register and keeps each publisher's own text as ``geography.publisher_name``
+    (chronicle#281). What is left is the areas the register has yet to reach -
+    the IRS truncating county names to twenty characters, a publisher naming an
+    identifier no ONS lookup Chronicle pins states - so the warning has become
+    the register's coverage report. A Microcosm target that selects facts from
+    two such packages for one area still sees both names and refuses them,
+    which is why the bundle says where that can happen rather than choosing a
+    spelling on the publishers' behalf.
     """
     return [
         BuildBundleIssue(

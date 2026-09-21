@@ -88,6 +88,17 @@ SOURCE_PACKAGE_ALIASES = {
         "bea/regional_personal_income_state"
     ),
     "hmrc-spi-income-bands-2023-24": Path("hmrc/spi_income_bands_2023_24"),
+    "hmrc-spi-income-by-region-2023-24": Path("hmrc/spi_income_by_region_2023_24"),
+    "hmrc-income-tax-liabilities-july-2026": Path(
+        "hmrc/income_tax_liabilities_july_2026"
+    ),
+    "hmrc-property-rental-income-2026": Path("hmrc/property_rental_income_2026"),
+    "dwp-benefit-expenditure-caseload-spring-2026": Path(
+        "dwp/benefit_expenditure_caseload_spring_2026"
+    ),
+    "dwp-esa-caseload-payment-type-phase-may-2018-march-2026": Path(
+        "dwp/esa_caseload_payment_type_phase_may_2018_march_2026"
+    ),
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-carried-interest-2026": Path("hmrc/cgt_carried_interest_2026"),
