@@ -1,3 +1,7 @@
+# HMRC writes each English region as 'England - <region>'. A row's geography
+# name is that text without the prefix, so E12000003 is HMRC's 'Yorkshire &
+# Humber'; the export names it from the register and keeps this as
+# publisher_name (chronicle#281).
 schema_version: ledger.source_package.v1
 package_id: hmrc-cgt-country-region-2026
 label: 'HMRC Capital Gains Tax statistics 2026, Table 5: taxpayers, gains and liabilities by UK country
@@ -80,7 +84,7 @@ record_sets:
     expected_row_header: England - Yorkshire & Humber
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and the Humber
+    geography_name: Yorkshire & Humber
     geography_vintage: current
     table_record_kind: detail
   - value_id: east_midlands
@@ -311,7 +315,7 @@ record_sets:
     expected_row_header: England - Yorkshire & Humber
     geography_id: E12000003
     geography_level: region
-    geography_name: Yorkshire and the Humber
+    geography_name: Yorkshire & Humber
     geography_vintage: current
     table_record_kind: detail
   - value_id: east_midlands

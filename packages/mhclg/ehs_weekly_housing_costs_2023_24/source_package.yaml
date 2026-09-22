@@ -945,7 +945,7 @@ record_sets:
     expected_row_header: East
     table_record_kind: total
     geography_id: E12000006
-    geography_name: East of England
+    geography_name: East
     geography_level: region
     geography_vintage: current
   - value_id: region_e12000007

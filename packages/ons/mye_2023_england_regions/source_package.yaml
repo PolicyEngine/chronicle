@@ -6,6 +6,8 @@
 # artifact. One record set per age keeps single-age facts identity-distinct
 # (age enters fact filters; sex enters fact filters for the cloned
 # Female/Male sheets; geography enters via per-row overrides).
+# Area names are ONS's capitals in title case, so E12000006 is 'East' as
+# ONS writes it here; the register supplies 'East of England' (chronicle#281).
 ---
 schema_version: ledger.source_package.v1
 package_id: ons-mye-2023-england-regions
@@ -138,7 +140,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: total
     guard_cells:
@@ -345,7 +347,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -578,7 +580,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -811,7 +813,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -1044,7 +1046,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -1277,7 +1279,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -1510,7 +1512,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -1743,7 +1745,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -1976,7 +1978,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -2209,7 +2211,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -2442,7 +2444,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -2675,7 +2677,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -2908,7 +2910,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -3141,7 +3143,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -3374,7 +3376,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -3607,7 +3609,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -3840,7 +3842,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -4073,7 +4075,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -4306,7 +4308,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -4539,7 +4541,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -4772,7 +4774,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -5005,7 +5007,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -5238,7 +5240,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -5471,7 +5473,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -5704,7 +5706,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -5937,7 +5939,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -6170,7 +6172,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -6403,7 +6405,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -6636,7 +6638,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -6869,7 +6871,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -7102,7 +7104,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -7335,7 +7337,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -7568,7 +7570,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -7801,7 +7803,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -8034,7 +8036,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -8267,7 +8269,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -8500,7 +8502,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -8733,7 +8735,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -8966,7 +8968,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -9199,7 +9201,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -9432,7 +9434,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -9665,7 +9667,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -9898,7 +9900,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -10131,7 +10133,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -10364,7 +10366,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -10597,7 +10599,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -10830,7 +10832,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -11063,7 +11065,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -11296,7 +11298,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -11529,7 +11531,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -11762,7 +11764,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -11995,7 +11997,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -12228,7 +12230,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -12461,7 +12463,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -12694,7 +12696,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -12927,7 +12929,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -13160,7 +13162,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -13393,7 +13395,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -13626,7 +13628,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -13859,7 +13861,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -14092,7 +14094,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -14325,7 +14327,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -14558,7 +14560,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -14791,7 +14793,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -15024,7 +15026,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -15257,7 +15259,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -15490,7 +15492,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -15723,7 +15725,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -15956,7 +15958,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -16189,7 +16191,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -16422,7 +16424,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -16655,7 +16657,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -16888,7 +16890,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -17121,7 +17123,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -17354,7 +17356,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -17587,7 +17589,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -17820,7 +17822,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -18053,7 +18055,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -18286,7 +18288,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -18519,7 +18521,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -18752,7 +18754,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -18985,7 +18987,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -19218,7 +19220,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -19451,7 +19453,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -19684,7 +19686,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -19917,7 +19919,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -20150,7 +20152,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -20383,7 +20385,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -20616,7 +20618,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -20849,7 +20851,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -21082,7 +21084,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -21315,7 +21317,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -21515,7 +21517,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: total
     guard_cells:
@@ -21729,7 +21731,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -21969,7 +21971,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -22209,7 +22211,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -22449,7 +22451,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -22689,7 +22691,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -22929,7 +22931,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -23169,7 +23171,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -23409,7 +23411,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -23649,7 +23651,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -23889,7 +23891,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -24129,7 +24131,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -24369,7 +24371,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -24609,7 +24611,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -24849,7 +24851,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -25089,7 +25091,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -25329,7 +25331,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -25569,7 +25571,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -25809,7 +25811,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -26049,7 +26051,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -26289,7 +26291,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -26529,7 +26531,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -26769,7 +26771,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -27009,7 +27011,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -27249,7 +27251,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -27489,7 +27491,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -27729,7 +27731,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -27969,7 +27971,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -28209,7 +28211,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -28449,7 +28451,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -28689,7 +28691,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -28929,7 +28931,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -29169,7 +29171,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -29409,7 +29411,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -29649,7 +29651,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -29889,7 +29891,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -30129,7 +30131,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -30369,7 +30371,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -30609,7 +30611,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -30849,7 +30851,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -31089,7 +31091,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -31329,7 +31331,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -31569,7 +31571,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -31809,7 +31811,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -32049,7 +32051,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -32289,7 +32291,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -32529,7 +32531,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -32769,7 +32771,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -33009,7 +33011,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -33249,7 +33251,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -33489,7 +33491,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -33729,7 +33731,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -33969,7 +33971,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -34209,7 +34211,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -34449,7 +34451,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -34689,7 +34691,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -34929,7 +34931,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -35169,7 +35171,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -35409,7 +35411,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -35649,7 +35651,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -35889,7 +35891,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -36129,7 +36131,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -36369,7 +36371,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -36609,7 +36611,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -36849,7 +36851,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -37089,7 +37091,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -37329,7 +37331,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -37569,7 +37571,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -37809,7 +37811,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -38049,7 +38051,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -38289,7 +38291,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -38529,7 +38531,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -38769,7 +38771,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -39009,7 +39011,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -39249,7 +39251,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -39489,7 +39491,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -39729,7 +39731,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -39969,7 +39971,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -40209,7 +40211,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -40449,7 +40451,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -40689,7 +40691,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -40929,7 +40931,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -41169,7 +41171,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -41409,7 +41411,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -41649,7 +41651,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -41889,7 +41891,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -42129,7 +42131,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -42369,7 +42371,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -42609,7 +42611,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -42849,7 +42851,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -43089,7 +43091,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -43329,7 +43331,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -43536,7 +43538,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: total
     guard_cells:
@@ -43750,7 +43752,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -43990,7 +43992,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -44230,7 +44232,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -44470,7 +44472,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -44710,7 +44712,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -44950,7 +44952,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -45190,7 +45192,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -45430,7 +45432,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -45670,7 +45672,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -45910,7 +45912,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -46150,7 +46152,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -46390,7 +46392,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -46630,7 +46632,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -46870,7 +46872,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -47110,7 +47112,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -47350,7 +47352,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -47590,7 +47592,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -47830,7 +47832,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -48070,7 +48072,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -48310,7 +48312,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -48550,7 +48552,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -48790,7 +48792,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -49030,7 +49032,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -49270,7 +49272,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -49510,7 +49512,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -49750,7 +49752,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -49990,7 +49992,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -50230,7 +50232,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -50470,7 +50472,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -50710,7 +50712,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -50950,7 +50952,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -51190,7 +51192,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -51430,7 +51432,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -51670,7 +51672,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -51910,7 +51912,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -52150,7 +52152,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -52390,7 +52392,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -52630,7 +52632,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -52870,7 +52872,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -53110,7 +53112,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -53350,7 +53352,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -53590,7 +53592,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -53830,7 +53832,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -54070,7 +54072,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -54310,7 +54312,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -54550,7 +54552,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -54790,7 +54792,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -55030,7 +55032,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -55270,7 +55272,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -55510,7 +55512,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -55750,7 +55752,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -55990,7 +55992,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -56230,7 +56232,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -56470,7 +56472,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -56710,7 +56712,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -56950,7 +56952,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -57190,7 +57192,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -57430,7 +57432,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -57670,7 +57672,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -57910,7 +57912,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -58150,7 +58152,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -58390,7 +58392,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -58630,7 +58632,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -58870,7 +58872,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -59110,7 +59112,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -59350,7 +59352,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -59590,7 +59592,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -59830,7 +59832,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -60070,7 +60072,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -60310,7 +60312,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -60550,7 +60552,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -60790,7 +60792,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -61030,7 +61032,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -61270,7 +61272,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -61510,7 +61512,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -61750,7 +61752,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -61990,7 +61992,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -62230,7 +62232,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -62470,7 +62472,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -62710,7 +62712,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -62950,7 +62952,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -63190,7 +63192,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -63430,7 +63432,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -63670,7 +63672,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -63910,7 +63912,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -64150,7 +64152,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -64390,7 +64392,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -64630,7 +64632,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -64870,7 +64872,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -65110,7 +65112,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
@@ -65350,7 +65352,7 @@ record_sets:
     expected_row_header: E12000006
     geography_id: E12000006
     geography_level: region
-    geography_name: East of England
+    geography_name: East
     geography_vintage: gss_2023
     table_record_kind: detail
     guard_cells:
