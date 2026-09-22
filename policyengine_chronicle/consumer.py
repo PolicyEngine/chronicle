@@ -257,18 +257,30 @@ def _assert_finite_numbers(value: Any, *, line_number: int, path: Path) -> None:
             _assert_finite_numbers(item, line_number=line_number, path=path)
 
 
+#: Geography fields that ride on consumer rows as display metadata and never
+#: enter a fact key (chronicle#266 ``name``, chronicle#281 ``publisher_name``).
+_GEOGRAPHY_DISPLAY_KEYS = frozenset({"name", "publisher_name"})
+
+
 def _geography_key_payload(row: dict[str, Any]) -> Any:
     """Return the row's geography as the fact key hashes it.
 
     The publisher's ``name`` rides on v3 rows as display metadata
     (chronicle#266) and has never been part of a key, so it is dropped here:
-    a v2 row and the v3 row that names its geography hash alike.
+    a v2 row and the v3 row that names its geography hash alike. The v4 row
+    (chronicle#281) adds the publisher's own text as ``publisher_name`` where
+    the register renames the area; it is display metadata too and the emitter
+    hashes ``level``, ``id`` and ``vintage`` only, so it is dropped likewise.
     """
 
     geography = row.get("geography")
     if not isinstance(geography, dict):
         return geography
-    return {key: value for key, value in geography.items() if key != "name"}
+    return {
+        key: value
+        for key, value in geography.items()
+        if key not in _GEOGRAPHY_DISPLAY_KEYS
+    }
 
 
 def _recompute_aggregate_fact_key(row: dict[str, Any]) -> str:
