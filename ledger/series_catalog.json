@@ -1,9 +1,9 @@
 {
   "comment": "Canonical series catalog. One row per (concept, geography level/id/vintage, entity) identity. UUID authority is the append-only ledger/series_uuid_registry.jsonl (digest below): a uuid is minted once, inherited from the registry on every regeneration, and changes only through explicit, chained supersede/retire/revive/succeeds events recorded there (live bindings and rows stay in bijection). Consumers reference series by uuid or concept only. Regenerate with scripts/build_series_catalog.py; verify with --check. Aliases are curated identity statements (plus observed spellings of the same identity) and inherit only within one (geography, entity) slice; aliases listed in ambiguous_aliases match multiple rows and never drive inheritance. source_concepts are publisher labels — provenance, never identity. Cross-spelling and cross-vintage merges are manual curation: delete the absorbed row, alias its concept on the survivor, regenerate with --allow-remint.",
   "generator_version": 3,
-  "observations_sha256": "2da302b25d15386aeab7089a199edf79e395a33eca5e6b35c023d3fbc45d3bce",
-  "observation_rows": 221,
-  "current_assertion_rows": 221,
+  "observations_sha256": "c813f885461e0e2593afdb8fcb8e6ffabec3bb8fcee8c542dc58cca96b64f904",
+  "observation_rows": 228,
+  "current_assertion_rows": 228,
   "docket_seed_sha256": "5914192517350e0166045afd9064a515ea312acbea1844d9cb594cc9f525dbb9",
   "uuid_registry_sha256": "6cf24b1eff573ac6e8d7de21c7f3e0091bb92a96e72fa2073379be59fbffd683",
   "suspect_segments": [
@@ -87,7 +87,10 @@
       "census.m3.durable_goods_shipments_mom",
       "census.new_residential_sales.new_single_family_houses_sold_saar",
       "fed.g17.capacity_utilization.manufacturing",
-      "fed.g17.manufacturing_production_mom"
+      "fed.g17.manufacturing_production_mom",
+      "fed.g19.consumer_credit_nonrevolving_annual_rate",
+      "fed.g19.consumer_credit_revolving_annual_rate",
+      "fed.g19.consumer_credit_total_annual_rate"
     ],
     "2026_q2": [
       "bls.eci.private_wages_salaries_qoq",
@@ -244,6 +247,14 @@
       "us.dol.initial_claims.sa"
     ],
     "week_2026-08-22": [
+      "dol.eta.continued_claims.sa",
+      "us.dol.initial_claims.sa"
+    ],
+    "week_2026-08-29": [
+      "dol.eta.continued_claims.sa",
+      "us.dol.initial_claims.sa"
+    ],
+    "week_2026-09-05": [
       "dol.eta.continued_claims.sa",
       "us.dol.initial_claims.sa"
     ],
@@ -3147,8 +3158,8 @@
         "dol.eta.continued_claims.sa.{P}.first_print"
       ],
       "first_observed_period": "2026-06-27",
-      "last_observed_period": "2026-08-22",
-      "observation_count": 9
+      "last_observed_period": "2026-09-05",
+      "observation_count": 11
     },
     {
       "uuid": "32b335ea-b2dd-4fba-8321-e9751df19318",
@@ -3754,7 +3765,8 @@
         "federal_reserve_g19"
       ],
       "aliases": [
-        "fed.g19.consumer_credit_nonrevolving_annual_rate.2026_06"
+        "fed.g19.consumer_credit_nonrevolving_annual_rate.2026_06",
+        "fed.g19.consumer_credit_nonrevolving_annual_rate.2026_07"
       ],
       "source_concepts": [
         "NONREVSLAR"
@@ -3763,8 +3775,8 @@
         "fed.g19.consumer_credit_nonrevolving_annual_rate.{P}.first_print"
       ],
       "first_observed_period": "2026-06",
-      "last_observed_period": "2026-06",
-      "observation_count": 1
+      "last_observed_period": "2026-07",
+      "observation_count": 2
     },
     {
       "uuid": "8a82c6a5-7c83-4ac8-ab5b-7dd6eaf97e8f",
@@ -3789,7 +3801,8 @@
         "federal_reserve_g19"
       ],
       "aliases": [
-        "fed.g19.consumer_credit_revolving_annual_rate.2026_06"
+        "fed.g19.consumer_credit_revolving_annual_rate.2026_06",
+        "fed.g19.consumer_credit_revolving_annual_rate.2026_07"
       ],
       "source_concepts": [
         "REVOLSLAR"
@@ -3798,8 +3811,8 @@
         "fed.g19.consumer_credit_revolving_annual_rate.{P}.first_print"
       ],
       "first_observed_period": "2026-06",
-      "last_observed_period": "2026-06",
-      "observation_count": 1
+      "last_observed_period": "2026-07",
+      "observation_count": 2
     },
     {
       "uuid": "dac76c03-0630-4859-898d-b4849383d147",
@@ -3824,7 +3837,8 @@
         "federal_reserve_g19"
       ],
       "aliases": [
-        "fed.g19.consumer_credit_total_annual_rate.2026_06"
+        "fed.g19.consumer_credit_total_annual_rate.2026_06",
+        "fed.g19.consumer_credit_total_annual_rate.2026_07"
       ],
       "source_concepts": [
         "TOTALSLAR"
@@ -3833,8 +3847,8 @@
         "fed.g19.consumer_credit_total_annual_rate.{P}.first_print"
       ],
       "first_observed_period": "2026-06",
-      "last_observed_period": "2026-06",
-      "observation_count": 1
+      "last_observed_period": "2026-07",
+      "observation_count": 2
     },
     {
       "uuid": "3b195edb-1b2d-4380-8267-43084fe3cbeb",
@@ -7160,8 +7174,8 @@
         "us.dol.initial_claims.sa.{P}"
       ],
       "first_observed_period": "2026-06-20",
-      "last_observed_period": "2026-08-22",
-      "observation_count": 9
+      "last_observed_period": "2026-09-05",
+      "observation_count": 11
     },
     {
       "uuid": "830e68bb-9ed6-493c-a8a4-440ba8e53f76",
