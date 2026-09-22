@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+from dataclasses import replace
 
 import pytest
+from jsonschema import Draft202012Validator
 
 from chronicle.consumer_contract import consumer_fact_rows
 from chronicle.core import (
@@ -18,13 +20,12 @@ from chronicle.core import (
     SourceProvenance,
     SourceRecordLayout,
 )
-from chronicle.harness import main
 from chronicle.epoch import Epoch
+from chronicle.harness import main
 from policyengine_chronicle.consumer import (
     build_consumer_artifact,
     load_consumer_artifact,
 )
-from jsonschema import Draft202012Validator
 from policyengine_chronicle.schema import (
     CONSUMER_FACT_SCHEMA_SHA256,
     CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION,
@@ -500,6 +501,36 @@ def test_load_rejects_a_forged_identity_key(tmp_path):
 
     with pytest.raises(ValueError, match="identity key does not match the row"):
         load_consumer_artifact(out_dir)
+
+
+def test_build_and_load_accept_a_v4_row_whose_register_name_differs_from_the_publisher(
+    tmp_path,
+):
+    """A v4 row carries ``geography.publisher_name`` where the register renames
+    the area (chronicle#281). The emitter hashes level, id and vintage only, so
+    the validator's recomputed key must drop that display field too; before the
+    fix every renamed-geography row failed the identity check at export."""
+    fact = replace(
+        _fact(value=100, period_value=2023),
+        geography=GeographyDimension(
+            level="country",
+            id="E06000001",
+            vintage="2020_census",
+            name="Hartlepool UA",
+        ),
+    )
+    (row,) = consumer_fact_rows([fact])
+    assert row["geography"]["name"] == "Hartlepool"
+    assert row["geography"]["publisher_name"] == "Hartlepool UA"
+
+    facts_path = tmp_path / "consumer_facts.jsonl"
+    _write_rows(facts_path, [row])
+    out_dir = tmp_path / "artifact"
+    build_consumer_artifact(out_dir, facts_path=facts_path)
+
+    (loaded,) = load_consumer_artifact(out_dir).rows
+    assert loaded["aggregate_fact_key"] == row["aggregate_fact_key"]
+    assert loaded["geography"]["publisher_name"] == "Hartlepool UA"
 
 
 def test_load_rejects_a_false_manifest_row_count(tmp_path):
