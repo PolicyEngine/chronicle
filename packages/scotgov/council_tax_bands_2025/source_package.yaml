@@ -4,8 +4,9 @@
 # local-authority rows; the parser reads the publisher's cached computed
 # values (total 2,623,149). The 32 council-area rows are ported too, in their
 # own record set with the same concepts, measure ids and period (chronicle#262),
-# so each council leg parents under the Scotland row; codes and canonical names
-# come from scotgov-band-d-equivalents-2025.
+# so each council leg parents under the Scotland row; codes come from
+# scotgov-band-d-equivalents-2025, and geography names are the publisher's, '&'
+# spellings included, with the register supplying the ONS name (chronicle#281).
 # policyengine-uk-data downloads this workbook at runtime and falls back to
 # hardcoded 2024-25 band shares x a hardcoded total when gov.scot blocks the
 # fetch - that fallback is uk-data-computed and excluded per the facts-only
@@ -278,7 +279,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -311,7 +312,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -498,7 +499,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038

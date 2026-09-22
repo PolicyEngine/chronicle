@@ -3,8 +3,9 @@
 # statistical return, by council tax band A-H plus total, for Scotland and the 32
 # council areas (chronicle#262). Same concepts, measure ids and record-set shape as
 # scotgov-council-tax-bands-2025; the Scotland row is the publisher's in-workbook sum
-# of the council rows (checked cell for cell). Council codes and canonical names come
-# from scotgov-band-d-equivalents-2025; guards carry the publisher's '&' spellings.
+# of the council rows (checked cell for cell). Council codes come from
+# scotgov-band-d-equivalents-2025; guards and geography names carry the publisher's
+# '&' spellings, and the register supplies the ONS name (chronicle#281).
 # Period: the count month, 2024-09. Excluded: the valuation band ranges and the
 # ratio-to-Band-D rows, and the source and re-ordering notes below the councils.
 schema_version: ledger.source_package.v1
@@ -255,7 +256,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -288,7 +289,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -475,7 +476,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038

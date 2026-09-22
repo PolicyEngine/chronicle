@@ -30,15 +30,18 @@ _SAMPLE_PATH = _REPO_ROOT / "chronicle" / "fixtures" / "consumer_facts.jsonl"
 _V1 = SCHEMA_IDS["consumer_fact"].ledger
 _V2 = SCHEMA_IDS["consumer_fact"].chronicle
 _V3 = "chronicle.consumer_fact.v3"
+_V4 = "chronicle.consumer_fact.v4"
 _SCHEMA_FILES = {
     _V1: "consumer_fact.v1.schema.json",
     _V2: "consumer_fact.v2.schema.json",
     _V3: "consumer_fact.v3.schema.json",
+    _V4: "consumer_fact.v4.schema.json",
 }
 _FROZEN_SCHEMA_SHA256 = {
     _V1: "72ad3149564f8aab3e9bb6de5ea25950c8e19a3e8402e2cdcfc52d250bc8ee82",
     _V2: "6a42e4a54b9758eaa1219489c318131429a3200fef6205e6700651d46bde068d",
     _V3: "bdb51e2a8115634633ba7448c4005930fd9c0bfbade5e1b079b6bc24da485d3d",
+    _V4: "cc9efb90e9c73913bc76a89e9df435a9ca6ff49942e63dc8d2bf183c65a70224",
 }
 
 _TOP_LEVEL_KEY_DOMAINS = {
@@ -102,7 +105,7 @@ def _v1_row(index=0):
     return row
 
 
-@pytest.mark.parametrize("schema_version", [_V1, _V2, _V3])
+@pytest.mark.parametrize("schema_version", [_V1, _V2, _V3, _V4])
 def test_packaged_schema_is_byte_identical_to_docs_schema(schema_version):
     filename = _SCHEMA_FILES[schema_version]
     docs_bytes = (_REPO_ROOT / "docs" / "schemas" / filename).read_bytes()
@@ -121,11 +124,31 @@ def test_packaged_schema_is_byte_identical_to_docs_schema(schema_version):
     )
 
 
-def test_emitted_schema_is_the_v3_contract():
-    assert CONSUMER_FACT_SCHEMA_SHA256 == _FROZEN_SCHEMA_SHA256[_V3]
+def test_emitted_schema_is_the_v4_contract():
+    assert CONSUMER_FACT_SCHEMA_SHA256 == _FROZEN_SCHEMA_SHA256[_V4]
     assert dict(CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION) == _FROZEN_SCHEMA_SHA256
-    assert consumer_fact_schema() == consumer_fact_schema(_V3)
-    assert tuple(CONSUMER_FACT_ROW_CONTRACTS) == (_V1, _V2, _V3)
+    assert consumer_fact_schema() == consumer_fact_schema(_V4)
+    assert tuple(CONSUMER_FACT_ROW_CONTRACTS) == (_V1, _V2, _V3, _V4)
+
+
+def test_v4_schema_is_v3_plus_the_publishers_own_geography_name():
+    v3 = copy.deepcopy(consumer_fact_schema(_V3))
+    v4 = copy.deepcopy(consumer_fact_schema(_V4))
+
+    assert v4["properties"]["schema_version"] == {"const": _V4}
+    assert v4["required"] == v3["required"]
+    assert set(v4["properties"]) == set(v3["properties"])
+    geography_v3 = v3["properties"]["geography"]["properties"]
+    geography_v4 = v4["properties"]["geography"]["properties"]
+    assert set(geography_v4) - set(geography_v3) == {"publisher_name"}
+    assert geography_v4["publisher_name"]["$ref"] == "#/$defs/label"
+    for schema in (v3, v4):
+        for key in ("$id", "title", "description"):
+            schema.pop(key, None)
+        schema["properties"].pop("schema_version")
+        schema["properties"]["geography"]["properties"].pop("publisher_name", None)
+        schema["properties"]["geography"]["properties"]["name"].pop("description")
+    assert v4 == v3
 
 
 def test_consumer_fact_schema_is_the_v1_contract_row():
@@ -173,12 +196,12 @@ def test_valid_fixture_rows_pass_validation():
     ]
 
     assert len(rows) == 3
-    assert {row["schema_version"] for row in rows} == {_V3}
+    assert {row["schema_version"] for row in rows} == {_V4}
     for line_number, row in enumerate(rows, start=1):
         validate_consumer_fact_row(row, line_number, _SAMPLE_PATH)
 
 
-@pytest.mark.parametrize("schema_version", [_V2, _V3])
+@pytest.mark.parametrize("schema_version", [_V2, _V3, _V4])
 def test_a_v1_row_validates_as_v1_and_restamped_under_each_successor(schema_version):
     row = _v1_row()
 
@@ -236,8 +259,8 @@ def test_all_chronicle_epoch_identifiers_pass_without_mutating_row():
     assert row == original
     normalized = normalize_consumer_fact_row_epochs(row, 2, _SAMPLE_PATH)
     # The row contract is not an epoch alias: a row keeps the contract it
-    # declares, here the v3 one the fixture was published under.
-    assert normalized["schema_version"] == _V3
+    # declares, here the v4 one the fixture was published under.
+    assert normalized["schema_version"] == _V4
     for field_name, domain_name in _TOP_LEVEL_KEY_DOMAINS.items():
         assert normalized[field_name].startswith(HASH_DOMAINS[domain_name].ledger + ":")
     assert normalized["concept_alignment"]["concept_alignment_key"].startswith(

@@ -30,6 +30,7 @@ from chronicle.epoch import (
     Epoch,
     hash_domain,
 )
+from chronicle.geography_names import canonical_geography_name
 from chronicle.store import fact_to_mapping
 
 CONSUMER_FACT_SCHEMA_VERSION = CONSUMER_FACT_EMIT_SCHEMA_VERSION
@@ -855,16 +856,32 @@ def _geography_payload(fact: AggregateFact) -> dict[str, Any]:
 
 
 def _geography_row_payload(fact: AggregateFact) -> dict[str, Any]:
-    """Return the exported geography, named as the publisher names it.
+    """Return the exported geography, named once per identifier.
 
     The name is display metadata (chronicle#266), so it rides on the row and
-    never on :func:`_geography_payload`, which the fact keys hash. A source that
-    states no name for a geography exports none: Microcosm's geography catalog
-    covers the identifiers it already knows, and an identifier is not a name.
+    never on :func:`_geography_payload`, which the fact keys hash. Where
+    Chronicle's register carries the identifier, its name is exported and the
+    publisher's own text rides alongside it as ``publisher_name``, so a
+    consumer selecting facts from two packages for one area sees one name and
+    still knows what each publisher called it (chronicle#281). Elsewhere the
+    publisher's name is exported as before, and a source that states no name
+    exports none: Microcosm's geography catalog covers the identifiers it
+    already knows, and an identifier is not a name.
     """
 
-    name = (fact.geography.name or "").strip()
-    return _clean({**_geography_payload(fact), "name": name or None})
+    publisher_name = (fact.geography.name or "").strip()
+    canonical = canonical_geography_name(fact.geography.id)
+    return _clean(
+        {
+            **_geography_payload(fact),
+            "name": canonical or publisher_name or None,
+            "publisher_name": (
+                publisher_name
+                if canonical and publisher_name and publisher_name != canonical
+                else None
+            ),
+        }
+    )
 
 
 def _aggregation_payload(fact: AggregateFact) -> dict[str, Any]:

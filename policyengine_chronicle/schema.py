@@ -6,7 +6,10 @@ validate each fact row against the exact contract it claims: the frozen
 ``consumer_fact.v2`` schema, v1 plus optional dimension and value labels
 (chronicle#261), for ``chronicle.consumer_fact.v2`` rows, and the
 ``consumer_fact.v3`` schema, v2 plus the publisher's geography name
-(chronicle#266), for ``chronicle.consumer_fact.v3`` rows. The packaged schema
+(chronicle#266), for ``chronicle.consumer_fact.v3`` rows, and the
+``consumer_fact.v4`` schema, v3 with one name per geography identifier and the
+publisher's own text beside it (chronicle#281), for
+``chronicle.consumer_fact.v4`` rows. The packaged schema
 bytes are the single source of truth: each artifact manifest records the sha256
 of the schema its rows use, and a load rejects any manifest that claims a
 different one.
@@ -36,6 +39,7 @@ _SCHEMA_RESOURCES = MappingProxyType(
         SCHEMA_IDS["consumer_fact"].ledger: "consumer_fact.v1.schema.json",
         SCHEMA_IDS["consumer_fact"].chronicle: "consumer_fact.v2.schema.json",
         "chronicle.consumer_fact.v3": "consumer_fact.v3.schema.json",
+        "chronicle.consumer_fact.v4": "consumer_fact.v4.schema.json",
     }
 )
 
@@ -145,8 +149,9 @@ def normalize_consumer_fact_row_epochs(
     independently, and normalizes only the copy it returns. The caller's row is
     never mutated, and mixed-epoch rows remain valid. ``schema_version`` must
     name a row contract in :data:`CONSUMER_FACT_ROW_CONTRACTS` but is kept as it
-    is: v1, v2 (optional labels) and v3 (the publisher's geography name) are
-    distinct contracts, so each row validates against its own schema.
+    is: v1, v2 (optional labels), v3 (the publisher's geography name) and v4
+    (one name per geography identifier) are distinct contracts, so each row
+    validates against its own schema.
     """
 
     normalized = deepcopy(row)
