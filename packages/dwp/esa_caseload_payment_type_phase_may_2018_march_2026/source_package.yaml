@@ -35,6 +35,10 @@
 # category is (the #239 award-band ruling): the Unknown payment type against each phase
 # and against the phase total, and contributions-based and both-types claimants against
 # Unknown phase. That is 224 cells; the 736 facts here are every other published cell.
+# A series that is zero in some months but not all is kept as published, zeros
+# included, since the ruling covers only all-zero categories: 41 cells in three
+# series, 30 of them in the income-based, unknown-phase series, which is non-zero
+# in two months.
 schema_version: ledger.source_package.v1
 package_id: dwp-esa-caseload-payment-type-phase-may-2018-march-2026
 label: 'DWP Stat-Xplore: Employment and Support Allowance caseload by payment type and phase

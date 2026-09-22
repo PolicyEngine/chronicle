@@ -40,6 +40,10 @@
 # welfare worksheets. That is 268 cells; the 882 facts here are every other
 # ported cell. The workbook still carries those lines for the years they were
 # paid.
+# A line that is zero in some ported years but not all is kept as published,
+# zeros included, since the ruling covers only all-zero categories: 18 cells on
+# 11 lines, most of them income-based ESA, income-based Jobseeker's Allowance
+# and Income Support, which reach zero by 2026-27.
 #
 # Forecast years are model_output and source_projection; outturn years are
 # administrative observations. The Notes tab states the coverage: Great
