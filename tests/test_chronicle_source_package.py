@@ -355,6 +355,101 @@ def test_hmrc_cgt_size_of_gain_package_builds_microcosm_visible_band_facts():
     assert row["observed_measure"]["source_concept"] == ("hmrc.cgt_gains_individuals")
 
 
+def test_hmrc_cgt_badr_ir_table4_preserves_bands_totals_and_suppression():
+    """Table 4 values follow HMRC's 2026 workbook, including its suppressed cells."""
+    workbook = (
+        REPO_ROOT
+        / "db/data/hmrc/cgt_badr_ir_2026"
+        / "Table_4_2026_Business_asset_disposal_and_investors_reliefs.ods"
+    )
+    assert hashlib.sha256(workbook.read_bytes()).hexdigest() == (
+        "7bd0098913e44e3c79a533690cd25ee08f627cd72935c46a874a7eab5442d5ca"
+    )
+    package = load_source_package("hmrc-cgt-badr-ir-2026")
+    report = validate_source_package("hmrc-cgt-badr-ir-2026", year=2026)
+    assert report.valid, report.errors
+
+    cells = package.build_source_cells(2026)
+    facts = package.build_facts(2026, cells=cells)
+    assert validate_source_cells(cells).valid
+    assert validate_facts(facts).valid
+    assert validate_consumer_fact_contract(facts).valid
+    assert len(facts) == 126  # 4 x 11 x 3 cells less 6 publisher suppressions.
+    assert {fact.period.value for fact in facts} == {2021, 2022, 2023, 2024}
+    assert {fact.period.type for fact in facts} == {"tax_year"}
+    assert {fact.provenance_class for fact in facts} == {"administrative"}
+    assert {fact.entity.name for fact in facts} == {"person"}
+    assert {fact.entity.role for fact in facts} == {"taxpayer"}
+    assert {fact.measure.concept for fact in facts} == {
+        "hmrc.cgt_badr_ir_taxpayers",
+        "hmrc.cgt_badr_ir_qualifying_gains",
+        "hmrc.cgt_badr_ir_tax",
+    }
+
+    by_id = {fact.source_record_id: fact for fact in facts}
+    prefix = "hmrc.cgt_badr_ir_2026.table4_1.ty2024"
+    assert by_id[f"{prefix}.gain_1000000_plus.gains"].value == 6_787_000_000
+    assert by_id[f"{prefix}.individuals_total.gains"].value == 18_443_000_000
+    assert by_id[f"{prefix}.individuals_total.tax"].value == 1_821_000_000
+    assert by_id[f"{prefix}.all_total.gains"].value == 18_475_000_000
+    assert by_id[f"{prefix}.trusts_total.gains"].value == 32_000_000
+    assert by_id[f"{prefix}.individuals_total.taxpayers"].value == 61_000
+    published_2024_bands = (
+        ("gain_0_to_9999", 5, 32, 2),
+        ("gain_10000_to_24999", 8, 129, 11),
+        ("gain_25000_to_49999", 6, 224, 21),
+        ("gain_50000_to_99999", 8, 575, 55),
+        ("gain_100000_to_249999", 11, 1_866, 182),
+        ("gain_250000_to_499999", 8, 2_901, 285),
+        ("gain_500000_to_999999", 8, 5_929, 588),
+        ("gain_1000000_plus", 7, 6_787, 678),
+    )
+    for band, taxpayers, gains, tax in published_2024_bands:
+        assert by_id[f"{prefix}.{band}.taxpayers"].value == taxpayers * 1_000
+        assert by_id[f"{prefix}.{band}.gains"].value == gains * 1_000_000
+        assert by_id[f"{prefix}.{band}.tax"].value == tax * 1_000_000
+    assert by_id[f"{prefix}.gain_1000000_plus.gains"].filters == {
+        "cgt_badr_ir_gain_band": "gain_1000000_plus",
+        "taxpayer_type": "individuals",
+    }
+    assert by_id[f"{prefix}.individuals_total.gains"].filters == {
+        "cgt_badr_ir_gain_band": "total",
+        "taxpayer_type": "individuals",
+    }
+
+    assert all(".trusts_total.taxpayers" not in key for key in by_id)
+    for year, table in ((2021, "4_4"), (2022, "4_3")):
+        assert (
+            f"hmrc.cgt_badr_ir_2026.table{table}.ty{year}.gain_0_to_9999.tax"
+            not in by_id
+        )
+    for year, table, taxpayers, gains, tax in (
+        (2021, "4_4", 48, 12_708, 1_220),
+        (2022, "4_3", 45, 12_606, 1_211),
+        (2023, "4_2", 42, 11_036, 1_077),
+    ):
+        total = f"hmrc.cgt_badr_ir_2026.table{table}.ty{year}.individuals_total"
+        assert by_id[f"{total}.taxpayers"].value == taxpayers * 1_000
+        assert by_id[f"{total}.gains"].value == gains * 1_000_000
+        assert by_id[f"{total}.tax"].value == tax * 1_000_000
+    source_cells = {(cell.sheet_name, cell.address): cell for cell in cells}
+    for sheet, row in (
+        ("4_1_2024-25", 17),
+        ("4_2_2023-24", 17),
+        ("4_3_2022-23", 17),
+        ("4_4_2021-22", 16),
+    ):
+        assert source_cells[(sheet, f"B{row}")].raw_value == "[Fewer than 1]"
+    assert source_cells[("4_3_2022-23", "D8")].raw_value == "[Less than 1]"
+    assert source_cells[("4_4_2021-22", "D7")].raw_value == "[Less than 1]"
+    assert by_id[f"{prefix}.individuals_total.gains"].period_coverage.start_date == (
+        "2024-04-06"
+    )
+    assert by_id[f"{prefix}.individuals_total.gains"].period_coverage.end_date == (
+        "2025-04-05"
+    )
+
+
 def test_dft_bus05i_package_preserves_2023_to_2025_revenue_and_support():
     """BUS05i facts retain publisher periods and area definitions."""
     report = validate_source_package("dft-bus05i-revenue-support-2025", year=2025)

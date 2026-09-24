@@ -101,6 +101,7 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
+    "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),
     "hmrc-cgt-carried-interest-2026": Path("hmrc/cgt_carried_interest_2026"),
     "hmrc-cgt-country-region-2026": Path("hmrc/cgt_country_region_2026"),
     "hmrc-cgt-gain-by-income-2026": Path("hmrc/cgt_gain_by_income_2026"),
