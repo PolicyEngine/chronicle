@@ -825,6 +825,39 @@ county names to twenty characters, and ONS writes "Yorkshire and The Humber"
 where HMRC writes "the" — Chronicle keeps each publisher's text and warns, the
 same way it does for a groupby value's row labels.
 
+### Pinned artifacts and year labels
+
+`artifact.artifact_year` pins the file. A package with `artifact_year: 2022`
+reads the manifest's 2022 file at every `--year`, but each `{year}` and
+`{filing_year}` in the package still renders from `--year`. So a pinned package
+writes its labels as literals (`period: '2022'`, `record_set_id:
+irs_soi.ty2022.…`, `vintage: tax_year_2022`, `legal_vintage: tax_year_2022`)
+unless `--year` also changes what it reads, through `column_by_year`,
+`sheet_name_by_year` or a `selected_rows` filter on `{year}`. Otherwise a
+`--year 2023` build would stamp the 2022 file's facts as 2023 (chronicle#117).
+A consumer that wants a value at another period declares that alignment
+itself; Chronicle records the publisher's period.
+
+The harness enforces the rule. For a build at year Y other than the artifact
+year A, it compares what each record set selects at Y and at A: the artifact's
+parser, sheet, archive member and rendered `selected_rows`, and the record
+set's sheet, rows, columns, value scaling and guard cells. If a record set
+selects the same cells at both years while any other rendered field differs
+(period, record ids, `vintage`, `source_table`, `legal_vintage`, filters,
+constraints or notes), then:
+
+- the build refuses with `ArtifactYearRestampError`;
+- `validate-package` reports `artifact_year_restamp`;
+- a default `build-bundle` skips the package for that year and gives the reason
+  under `skipped_sources`;
+- an explicit `build-bundle --source` fails the bundle.
+
+The check compiles record-set specs only and never parses the artifact.
+Year-selecting pinned packages still build at other years and read that
+year's column, sheet or rows. A year the file does not cover fails with its
+own error, such as `No source artifact for year 2027` or a selected-row
+mismatch.
+
 Agents may add new package directories and YAML specs. They should not modify
 `chronicle.core`, `chronicle.database`, or `chronicle.suite` unless the package cannot be
 expressed in the current contract and the failure is documented in the build
