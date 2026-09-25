@@ -9,7 +9,7 @@ artifact:
   resource_package: db
   resource_directory: data/ici/fact_book_table_30
   manifest: manifest.yaml
-  vintage: calendar_year_{year}
+  vintage: calendar_year_2026
   extracted_at: "2026-07-02"
   extraction_method: xlsx whole-workbook used-range cell parse
   parser: xlsx_used_range

@@ -1392,6 +1392,36 @@ def test_bea_regional_state_personal_income_components_build_2024_facts():
     assert validate_consumer_fact_contract(facts).valid
 
 
+def test_bea_regional_state_personal_income_components_read_the_requested_year():
+    # SAINC5N__ALL_AREAS_1998_2025.csv carries one column per year, 1998 (I)
+    # to 2025 (AJ). A --year 2023 build must read the 2023 column, not
+    # restamp the 2024 column as 2023 (chronicle#117).
+    package = load_source_package("bea-regional-state-personal-income-components-2024")
+    facts_2023 = {fact.source_record_id: fact for fact in package.build_facts(2023)}
+    facts_2025 = {fact.source_record_id: fact for fact in package.build_facts(2025)}
+
+    assert len(facts_2023) == len(facts_2025) == 416
+    assert {fact.period.value for fact in facts_2023.values()} == {2023}
+    us_income = facts_2023["bea_regional.cy2023.state_personal_income.us.amount"]
+    assert us_income.value == 23_577_208_000_000
+    assert us_income.layout.source_column_id == "2023"
+    assert (
+        facts_2023["bea_regional.cy2023.state_wages_salaries.ca.amount"].value
+        == 1_666_632_928_000
+    )
+    assert (
+        facts_2023["bea_regional.cy2023.state_residence_adjustment.ca.amount"].value
+        == -2_381_165_000
+    )
+    assert (
+        facts_2025["bea_regional.cy2025.state_personal_income.us.amount"].value
+        == 26_109_831_238_000
+    )
+    for year in (1997, 2026):
+        with pytest.raises(ValueError, match=f"No source artifact for year {year}"):
+            package.build_facts(year)
+
+
 def test_bea_regional_state_personal_income_components_validate_counts():
     report = validate_source_package(
         "bea-regional-state-personal-income-components-2024",
