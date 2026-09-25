@@ -93,6 +93,7 @@ def test_build_bundle_dir_uk_suite_uses_curated_sources(tmp_path, monkeypatch):
     assert "hmrc-cgt-size-of-gain-2025" not in UK_BUNDLE_SOURCES
     assert "hmrc-cgt-asset-type-2026" in UK_BUNDLE_SOURCES
     assert "hmrc-cgt-residential-property-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-cgt-badr-ir-2026" in UK_BUNDLE_SOURCES
     assert "hmrc-cgt-carried-interest-2026" in UK_BUNDLE_SOURCES
     assert tuple(captured["sources"]) == UK_BUNDLE_SOURCES
     assert captured["output_dir"] == tmp_path / "bundle"
@@ -135,13 +136,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 350767,
+        "fact_count": 350893,
         "geography_count": 12592,
         "period_count": 494,
         "semantic_duplicate_key_count": 467,
         "skipped_source_count": 10,
         "source_count": 50,
-        "source_package_count": 226,
+        "source_package_count": 227,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -149,7 +150,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # it does has stopped warning (chronicle#281).
         "warning_count": 76,
     }
-    assert len(rows) == 350767
+    assert len(rows) == 350893
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -167,7 +168,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 226
+    assert source_packages["source_package_count"] == 227
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -181,7 +182,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 350767
+    assert coverage["fact_count"] == 350893
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -204,7 +205,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fpb_economic_outlook": 1000,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 31217,
+        "hmrc": 31343,
         "ici": 12,
         "irs_soi": 40063,
         "isc": 2,
@@ -235,7 +236,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9325,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 221
+    assert len(table_counts) == 222
+    assert (
+        table_counts[
+            "hmrc:Capital Gains Tax statistics Table 4: BADR and Investors' "
+            "Relief by size of qualifying gain"
+        ]
+        == 126
+    )
     assert (
         table_counts[
             "dwp:Households on Universal Credit by family type, "
@@ -941,10 +949,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "tax_year:2018": 11,
         "tax_year:2019": 11,
         "tax_year:2020": 11,
-        "tax_year:2021": 11,
-        "tax_year:2022": 41239,
-        "tax_year:2023": 63310,
-        "tax_year:2024": 296,
+        "tax_year:2021": 42,
+        "tax_year:2022": 41270,
+        "tax_year:2023": 63342,
+        "tax_year:2024": 328,
     }
     for fiscal_year in range(2017, 2026):
         key = f"fiscal_year:{fiscal_year}"
@@ -1195,7 +1203,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 10500
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 10626
     assert coverage["counts"]["by_geography"]["country:E92000001"] == 4053
     assert coverage["counts"]["by_geography"]["country:K03000001"] == 9606
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
@@ -1209,7 +1217,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 53521,
         "institutional_sector": 1263,
         "pension_plan": 2,
-        "person": 74682,
+        "person": 74808,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 41368,
@@ -1296,6 +1304,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dfc-ni-uc-statistics-may-2026",
         "hmrc-cgt-age-2026",
         "hmrc-cgt-asset-type-2026",
+        "hmrc-cgt-badr-ir-2026",
         "hmrc-cgt-carried-interest-2026",
         "hmrc-cgt-country-region-2026",
         "hmrc-cgt-gain-by-income-2026",
