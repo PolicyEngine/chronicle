@@ -106,6 +106,7 @@ UK_BUNDLE_SOURCES = (
     "dwp-uc-two-child-limit-2025",
     "hmrc-cgt-age-2026",
     "hmrc-cgt-asset-type-2026",
+    "hmrc-cgt-badr-ir-2026",
     "hmrc-cgt-carried-interest-2026",
     "hmrc-cgt-country-region-2026",
     "hmrc-cgt-gain-by-income-2026",
