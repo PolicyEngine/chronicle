@@ -152,6 +152,12 @@ rows:
         label: end age
 ```
 
+Package YAML renders a digit-only string such as `'2024'` to the integer 2024,
+while a delimited file's header row keeps the text `2024`. A guard that expects
+an integer therefore also matches a cell holding exactly that integer's digits,
+so a year-selecting package can check a CSV year header with
+`expected_column_header_by_year`. `02024`, `2024.0` and booleans still fail.
+
 Use `range_label_guards` when a fact sums a dense row range and interior labels
 are part of the fact definition. Endpoint guards catch off-by-one boundaries,
 but they do not catch an inserted, duplicated, or shifted interior label. Range
