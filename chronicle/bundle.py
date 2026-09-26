@@ -12,6 +12,7 @@ from typing import Any, Callable, Sequence
 from chronicle.dimension_labels import dimension_label_issues, dimension_labels_by_id
 from chronicle.epoch import canonicalize_key, schema_id
 from chronicle.source_package import (
+    ARTIFACT_YEAR_RESTAMP_CODE,
     SOURCE_PACKAGE_ALIASES,
     assert_alias_map_covers_packages,
     validate_source_package,
@@ -801,10 +802,18 @@ def _resolve_bundle_sources(
         if report.valid or explicit or not _source_unavailable_for_year(report, year):
             build_sources.append(source)
             continue
+        restamp = any(
+            error.code == ARTIFACT_YEAR_RESTAMP_CODE for error in report.errors
+        )
         skipped_sources.append(
             SkippedSourceReport(
                 source=source,
-                reason="source package is not available for requested year",
+                reason=(
+                    "source package pins another year's artifact and would only "
+                    f"relabel it as {year} ({ARTIFACT_YEAR_RESTAMP_CODE})"
+                    if restamp
+                    else "source package is not available for requested year"
+                ),
                 validation=report.to_dict(),
             )
         )
@@ -812,13 +821,20 @@ def _resolve_bundle_sources(
 
 
 def _source_unavailable_for_year(report: Any, year: int) -> bool:
+    """Whether every validation error says the package has no data for ``year``.
+
+    That is either no artifact or column for the year, or a pinned artifact that
+    the year would only relabel (``artifact_year_restamp``): the package holds
+    no facts for the requested year either way.
+    """
     unavailable_messages = {repr(str(year)), f"No source artifact for year {year}"}
     unavailable_codes = {
         "record_set_compile_failed",
         "source_artifact_unavailable",
     }
     return bool(report.errors) and all(
-        error.code in unavailable_codes and error.message in unavailable_messages
+        error.code == ARTIFACT_YEAR_RESTAMP_CODE
+        or (error.code in unavailable_codes and error.message in unavailable_messages)
         for error in report.errors
     )
 
