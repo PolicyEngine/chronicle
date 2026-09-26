@@ -36,7 +36,7 @@ them to model variables.
 |---|---|---|
 | Population by age, sex, state, and congressional district | Census PEP and ACS demographics | `census-pep-2024-national-age-sex`, `census-pep-2024-state-age-sex`, `census-acs-s0101-national-age-2024`, `census-acs-s0101-state-age-2024`, `census-acs-s0101-congressional-district-age-2024` |
 | NIPA personal income, transfers, taxes, and pensions | BEA NIPA full-population aggregates | `bea-nipa-total-wages-salaries`, `bea-nipa-personal-income-components`, `bea-nipa-personal-income-disposition`, `bea-nipa-pension-contributions` |
-| SOI filer income, taxes, deductions, and credits | IRS SOI administrative totals | `soi-table-1-1`, `soi-table-1-2`, `soi-table-1-4`, `soi-table-2-1`, `soi-table-2-5`, `soi-table-2-5-eitc-agi-children-2023`, `soi-table-4-3`, `soi-state-2022`, `soi-historic-table-2`, `soi-historic-table-2-state-agi-2022`, `soi-historic-table-2-state-broad-2022`, `soi-historic-table-2-state-eitc-2022`, `soi-w2-statistics-2020` |
+| SOI filer income, taxes, deductions, and credits | IRS SOI administrative totals | `soi-table-1-1`, `soi-table-1-2`, `soi-table-1-4`, `soi-table-2-1`, `soi-table-2-5`, `soi-table-2-5-eitc-agi-children-2023`, `soi-table-4-3`, `soi-state-2022`, `soi-historic-table-2`, `soi-historic-table-2-state-agi-2022`, `soi-historic-table-2-state-agi-2023`, `soi-historic-table-2-state-broad-2022`, `soi-historic-table-2-state-eitc-2022`, `soi-w2-statistics-2020` |
 | Social Security and SSI | SSA administrative totals | `ssa-annual-statistical-supplement-2025`, `ssa-ssi-table-7b1-2024` |
 | SNAP | USDA FNS administrative totals | `usda-snap-fy69-to-current` |
 | TANF | HHS ACF caseload and financial totals | `hhs-acf-tanf-caseload-2024`, `hhs-acf-tanf-financial-2024` |

@@ -37,3 +37,15 @@ files:
         bucket: ledger-raw
         key: raw/irs_soi/soi-historic-table-2/2022/f72f83339c36af889cf0ba98acdfab8e3d18051f88cb181f46db2ddc4ae498bb/22in55cmcsv.csv
         uri: r2://ledger-raw/raw/irs_soi/soi-historic-table-2/2022/f72f83339c36af889cf0ba98acdfab8e3d18051f88cb181f46db2ddc4ae498bb/22in55cmcsv.csv
+  2023:
+    filename: 23in55cmcsv.csv
+    source_url: https://www.irs.gov/pub/irs-soi/23in55cmcsv.csv
+    sha256: d1f7c8901fcefb2c46f5dd14f22715b7c8513794ce7b9ea6a6a947f1c548668f
+    size_bytes: 757078
+    fetched_at: '2026-09-26T05:03:44+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-historic-table-2/2023/d1f7c8901fcefb2c46f5dd14f22715b7c8513794ce7b9ea6a6a947f1c548668f/23in55cmcsv.csv
+        uri: r2://ledger-raw/raw/irs_soi/soi-historic-table-2/2023/d1f7c8901fcefb2c46f5dd14f22715b7c8513794ce7b9ea6a6a947f1c548668f/23in55cmcsv.csv

@@ -364,6 +364,9 @@ SOURCE_PACKAGE_ALIASES = {
     "soi-historic-table-2-state-agi-2022": Path(
         "irs_soi/historic_table_2_state_agi_2022"
     ),
+    "soi-historic-table-2-state-agi-2023": Path(
+        "irs_soi/historic_table_2_state_agi_2023"
+    ),
     "soi-historic-table-2-state-broad-2022": Path(
         "irs_soi/historic_table_2_state_broad_2022"
     ),
