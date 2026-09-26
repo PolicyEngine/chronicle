@@ -1592,6 +1592,13 @@ def test_national_soi_source_package_aliases_validate_fixture_counts():
             "source_record_count": 1836,
             "source_region_count": 51,
         },
+        "soi-historic-table-2-state-agi-2023": {
+            "record_set_count": 51,
+            "row_count": 510,
+            "measure_count": 102,
+            "source_record_count": 1020,
+            "source_region_count": 51,
+        },
         "soi-historic-table-2-state-broad-2022": {
             "record_set_count": 51,
             "row_count": 51,
