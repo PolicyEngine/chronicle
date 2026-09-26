@@ -136,13 +136,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 350893,
+        "fact_count": 351913,
         "geography_count": 12592,
         "period_count": 494,
         "semantic_duplicate_key_count": 467,
         "skipped_source_count": 10,
         "source_count": 50,
-        "source_package_count": 227,
+        "source_package_count": 228,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -150,7 +150,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # it does has stopped warning (chronicle#281).
         "warning_count": 76,
     }
-    assert len(rows) == 350893
+    assert len(rows) == 351913
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -168,7 +168,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 227
+    assert source_packages["source_package_count"] == 228
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -182,7 +182,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 350893
+    assert coverage["fact_count"] == 351913
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -207,7 +207,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hhs_acf_tanf": 110,
         "hmrc": 31343,
         "ici": 12,
-        "irs_soi": 40063,
+        "irs_soi": 41083,
         "isc": 2,
         "jrc_euromod_be": 90,
         "kff": 52,
