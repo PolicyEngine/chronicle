@@ -47,6 +47,18 @@ STUBS = {
 STUB_BY_VALUE_ID = {value_id: stub for stub, (value_id, _, _) in STUBS.items()}
 MEASURE_COLUMNS = {"return_count": ("N1", 1), "adjusted_gross_income": ("A00100", 1000)}
 NON_STATE_ROWS = {"US", "OA", "PR"}
+# Census state FIPS codes (50 states and DC), independent of the package.
+STATE_FIPS = {
+    "AL": "01", "AK": "02", "AZ": "04", "AR": "05", "CA": "06", "CO": "08",
+    "CT": "09", "DE": "10", "DC": "11", "FL": "12", "GA": "13", "HI": "15",
+    "ID": "16", "IL": "17", "IN": "18", "IA": "19", "KS": "20", "KY": "21",
+    "LA": "22", "ME": "23", "MD": "24", "MA": "25", "MI": "26", "MN": "27",
+    "MS": "28", "MO": "29", "MT": "30", "NE": "31", "NV": "32", "NH": "33",
+    "NJ": "34", "NM": "35", "NY": "36", "NC": "37", "ND": "38", "OH": "39",
+    "OK": "40", "OR": "41", "PA": "42", "RI": "44", "SC": "45", "SD": "46",
+    "TN": "47", "TX": "48", "UT": "49", "VT": "50", "VA": "51", "WA": "53",
+    "WV": "54", "WI": "55", "WY": "56",
+}  # fmt: skip
 
 
 def _publisher_cells() -> dict[tuple[str, int], dict[str, int]]:
@@ -161,13 +173,23 @@ def test_building_at_another_year_does_not_relabel_the_2023_file(facts, build_ye
 
 
 def test_each_fact_is_exactly_one_publisher_cell(facts):
-    """Invariant: value == the named CSV cell x value_scale, one row per fact."""
+    """Invariant: value == the named CSV cell x value_scale, one row per fact,
+    and the fact's own geography, band filter and AGI bounds are that cell's."""
     publisher = _publisher_cells()
+    seen = set()
     for fact in facts:
         state, band, measure = _parts(fact)
+        stub = STUB_BY_VALUE_ID[band]
         column, scale = MEASURE_COLUMNS[measure]
         assert len(fact.source_row_keys) == 1, fact.source_record_id
-        assert fact.value == publisher[(state, STUB_BY_VALUE_ID[band])][column] * scale
+        assert fact.value == publisher[(state, stub)][column] * scale
+        assert fact.geography.id == f"0400000US{STATE_FIPS[state]}", fact
+        assert fact.geography.level == "state"
+        assert fact.filters == {"filing_status": "all", "income_range": band}
+        assert _bounds(fact) == STUBS[stub][1:], fact.source_record_id
+        assert fact.layout.source_column_id == column
+        seen.add((state, stub, measure))
+    assert len(seen) == len(facts) == 51 * 10 * 2
 
 
 def test_bands_partition_the_agi_line_in_every_state(facts):
