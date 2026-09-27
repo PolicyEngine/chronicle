@@ -5,31 +5,35 @@ publisher: Social Security Administration
 source_page: https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
 files:
   2024:
-    filename: ssi_table_7b1_2024.csv
+    filename: 7b.xlsx
+    source_url: https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.xlsx
+    sha256: 6363d2efb1e9f76a672ef380ad41e6a2426ebe63c86a31d5dd78534a3aa31bd6
+    size_bytes: 52436
+    fetched_at: '2026-09-26'
+    source_urls:
+    - https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.xlsx
+    - https://web.archive.org/web/20260101161550id_/https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.xlsx
+    - https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
+    notes: 'SSA''s own workbook for Annual Statistical Supplement 2025 section 7.B (sheets 7.B1, 7.B3, 7.B7, 7.B8, 7.B9); the package parses sheet 7.B1. These bytes equal the file ssa.gov served on 2026-09-26 (Last-Modified Mon, 15 Dec 2025 15:08:03 GMT) and every Wayback id_ capture of the same URL from 2026-01-01 on. ssa.gov answers non-browser clients with HTTP 403; the Wayback id_ URL returns the same bytes. The earlier 22 May 2025 upload differs only in the SOURCE-note wording of sheets 7.B1 and 7.B7. Payments are thousands of dollars (footnote a: totals do not necessarily equal the sum of rounded components). All areas includes the Northern Mariana Islands row, which this package does not emit.'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/ssa/ssa-ssi-table-7b1-2024/2024/6363d2efb1e9f76a672ef380ad41e6a2426ebe63c86a31d5dd78534a3aa31bd6/7b.xlsx
+        uri: r2://ledger-raw/raw/ssa/ssa-ssi-table-7b1-2024/2024/6363d2efb1e9f76a672ef380ad41e6a2426ebe63c86a31d5dd78534a3aa31bd6/7b.xlsx
+  source_capture:
+    filename: 7b_wayback_20260101161547.html
     source_url: https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
-    sha256: 4935f2b90d5abedc869e660f8a68df33b6f935630ebab2b159c09de7e4bf2401
-    size_bytes: 13990
+    sha256: 0e88bd5e7c365f175504e4279c23255058d78ae4d6c47ac7b488758c3d9945dc
+    size_bytes: 72888
+    fetched_at: '2026-09-26'
+    source_urls:
+    - https://web.archive.org/web/20260101161547id_/https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
+    - https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
+    notes: Wayback Machine id_ capture of the Table 7.B web page, kept as an independent rendering of Table 7.B1 for the package's cross-format fidelity test. Not a fact artifact. The page carries per-request tracking script, so whole-file hashes differ between captures; the table markup does not.
     storage:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/ssa/ssa-ssi-table-7b1-2024/2024/4935f2b90d5abedc869e660f8a68df33b6f935630ebab2b159c09de7e4bf2401/ssi_table_7b1_2024.csv
-        uri: r2://ledger-raw/raw/ssa/ssa-ssi-table-7b1-2024/2024/4935f2b90d5abedc869e660f8a68df33b6f935630ebab2b159c09de7e4bf2401/ssi_table_7b1_2024.csv
-    source_urls:
-    - https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
-    notes: Extracted selected 2024 All areas, state, and DC rows from SSA Annual Statistical
-      Supplement 2025 Table 7.B1. Payment rows retain source table thousands of dollars.
-  extracted_targets:
-    filename: ssi_table_7b1_2024.csv
-    source_urls:
-    - https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
-    notes: Extracted selected 2024 SSI recipient and payment rows from SSA Annual
-      Statistical Supplement 2025 Table 7.B1.
-    sha256: 4935f2b90d5abedc869e660f8a68df33b6f935630ebab2b159c09de7e4bf2401
-    size_bytes: 13990
-    storage:
-      r2:
-        provider: r2
-        bucket: ledger-raw
-        key: raw/ssa/ssa-ssi-table-7b1-2024/extracted_targets/4935f2b90d5abedc869e660f8a68df33b6f935630ebab2b159c09de7e4bf2401/ssi_table_7b1_2024.csv
-        uri: r2://ledger-raw/raw/ssa/ssa-ssi-table-7b1-2024/extracted_targets/4935f2b90d5abedc869e660f8a68df33b6f935630ebab2b159c09de7e4bf2401/ssi_table_7b1_2024.csv
+        key: raw/ssa/ssa-ssi-table-7b1-2024/source_capture/0e88bd5e7c365f175504e4279c23255058d78ae4d6c47ac7b488758c3d9945dc/7b_wayback_20260101161547.html
+        uri: r2://ledger-raw/raw/ssa/ssa-ssi-table-7b1-2024/source_capture/0e88bd5e7c365f175504e4279c23255058d78ae4d6c47ac7b488758c3d9945dc/7b_wayback_20260101161547.html
