@@ -14,6 +14,8 @@ any other field differs.
 
 from __future__ import annotations
 
+import copy
+
 import functools
 import hashlib
 import itertools
@@ -583,6 +585,114 @@ def test_explicit_source_that_would_restamp_fails_the_bundle(
 
 
 # --- property: exhaustive enumeration ----------------------------------------
+
+
+def _package_from(payload: dict, content: bytes, filename: str) -> SourcePackage:
+    artifact = dict(payload["artifact"])
+    selected_rows = tuple(artifact.pop("selected_rows", ()))
+    return SourcePackage(
+        package_id=payload["package_id"],
+        label=None,
+        artifact=_PinnedInlineArtifact(
+            content=content,
+            filename=filename,
+            selected_rows=selected_rows,
+            **artifact,
+        ),
+        record_sets=tuple(DeclarativeRecordSet(rs) for rs in payload["record_sets"]),
+        package_path=Path("synthetic"),
+        dimension_labels=payload["dimension_labels"],
+    )
+
+
+def _assert_guard_agrees_with_built_facts(package: SourcePackage, year: int) -> None:
+    restamped = _restamped_facts(
+        _unguarded_facts(package, year), _unguarded_facts(package, ARTIFACT_YEAR)
+    )
+    assert bool(artifact_year_restamp_issues(package, year)) == bool(restamped)
+
+
+def test_a_fixed_selected_row_beside_a_year_row_is_refused():
+    # One selected_rows entry follows {year} and one is fixed; the fixed row's
+    # facts would be relabelled even though the extract as a whole moves.
+    payload = _payload(frozenset({"period", "record_ids"}), "selected_rows")
+    payload["artifact"]["selected_rows"] = [
+        {"Item": "Total", "Period": "all"},
+        {"Item": "Returns", "Period": "{year}"},
+    ]
+    fixed = copy.deepcopy(payload["record_sets"][0])
+    fixed["record_set_id"] = fixed["source_record_id_prefix"] = "test.ty{year}.total"
+    fixed["rows"][0].update(value_id="total", label="Total", row_number=2)
+    by_year = copy.deepcopy(payload["record_sets"][0])
+    by_year["rows"][0].update(row_number=3)
+    payload["record_sets"] = [fixed, by_year]
+    package = _package_from(
+        payload, (_long_csv().decode() + "Total,all,999\n").encode(), "long.csv"
+    )
+    issues = artifact_year_restamp_issues(package, 2024)
+    assert [issue.record_set_id for issue in issues] == ["test.ty2024.total"]
+    _assert_guard_agrees_with_built_facts(package, 2024)
+
+
+def test_a_fixed_measure_beside_a_year_selected_measure_is_refused():
+    payload = _payload(frozenset({"period", "record_ids"}), "column_by_year")
+    by_year = payload["record_sets"][0]["measures"][0]
+    fixed = copy.deepcopy(by_year)
+    fixed.pop("column_by_year")
+    fixed.update(
+        measure_id="base", label="Base", ordinal=1, column=WIDE_COLUMNS[ARTIFACT_YEAR]
+    )
+    payload["record_sets"][0]["measures"].append(fixed)
+    package = _package_from(payload, _wide_csv(), "wide.csv")
+    (issue,) = artifact_year_restamp_issues(package, 2024)
+    assert "period" in issue.message
+    _assert_guard_agrees_with_built_facts(package, 2024)
+    with pytest.raises(ArtifactYearRestampError):
+        package.build_facts(2024)
+
+
+@pytest.mark.parametrize("templated", [frozenset(), frozenset({"legal_vintage"})])
+def test_a_fixed_cell_is_refused_when_anything_else_in_its_record_set_moves(
+    templated,
+):
+    # Every fact carries a hash of its whole record set, so a fixed-column
+    # measure beside a year-selected one is relabelled by the other measure's
+    # column or label alone. Split fixed and year-selected cells into separate
+    # record sets.
+    payload = _payload(templated, "column_by_year")
+    fixed = copy.deepcopy(payload["record_sets"][0]["measures"][0])
+    fixed.pop("column_by_year")
+    fixed.update(
+        measure_id="base",
+        label="Base",
+        ordinal=1,
+        column=WIDE_COLUMNS[ARTIFACT_YEAR],
+        legal_vintage=f"tax_year_{ARTIFACT_YEAR}",
+    )
+    payload["record_sets"][0]["measures"].append(fixed)
+    package = _package_from(payload, _wide_csv(), "wide.csv")
+    assert artifact_year_restamp_issues(package, 2024)
+    _assert_guard_agrees_with_built_facts(package, 2024)
+    split = copy.deepcopy(payload)
+    alone = copy.deepcopy(split["record_sets"][0])
+    alone["record_set_id"] = alone["source_record_id_prefix"] = "test.ty2021.base"
+    alone["measures"] = [split["record_sets"][0]["measures"].pop()]
+    split["record_sets"].append(alone)
+    split_package = _package_from(split, _wide_csv(), "wide.csv")
+    assert artifact_year_restamp_issues(split_package, 2024) == []
+    _assert_guard_agrees_with_built_facts(split_package, 2024)
+
+
+def test_a_delimited_files_virtual_sheet_name_is_a_label():
+    # A delimited file has no sheets: a {year} sheet name reads the same cells
+    # under a new name, so it is a relabel, not a selection.
+    payload = _payload(frozenset({"period", "record_ids"}), "none")
+    payload["artifact"]["sheet_name"] = "synthetic {year}"
+    payload["record_sets"][0]["sheet_name"] = "synthetic {year}"
+    package = _package_from(payload, _wide_csv(), "wide.csv")
+    assert artifact_year_restamp_issues(package, 2024)
+    with pytest.raises(ArtifactYearRestampError):
+        package.build_facts(2024)
 
 
 def test_guard_matches_the_restamp_invariant_over_every_synthetic_combination():

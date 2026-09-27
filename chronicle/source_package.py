@@ -1453,6 +1453,8 @@ def _restamp_issues(
             artifact, artifact_year
         ):
             return []
+        entries_at_year = _selected_row_entries(artifact, year)
+        entries_at_artifact_year = _selected_row_entries(artifact, artifact_year)
         specs_at_year = package._compile_record_set_specs(year)
         specs_at_artifact_year = package._compile_record_set_specs(artifact_year)
     except (KeyError, TypeError, ValueError):
@@ -1460,10 +1462,13 @@ def _restamp_issues(
         # selects by year (for example a column_by_year without that year). A
         # build at a year that cannot compile fails with its own error.
         return []
+    sheet_selects = _sheet_name_selects(artifact)
     artifact_moves = []
-    for name in _ARTIFACT_LABEL_FIELDS:
-        at_artifact_year = _render_string(getattr(artifact, name), year=artifact_year)
-        at_year = _render_string(getattr(artifact, name), year=year)
+    label_fields = _ARTIFACT_LABEL_FIELDS + (() if sheet_selects else ("sheet_name",))
+    for name in label_fields:
+        value = getattr(artifact, name)
+        at_artifact_year = _render_string(value, year=artifact_year) if value else value
+        at_year = _render_string(value, year=year) if value else value
         if at_artifact_year != at_year:
             artifact_moves.append((f"artifact.{name}", at_artifact_year, at_year))
     issues = []
@@ -1472,15 +1477,16 @@ def _restamp_issues(
         specs_at_artifact_year,
         strict=True,
     ):
-        if _record_set_selection(spec_at_year) != _record_set_selection(
-            spec_at_artifact_year
-        ):
+        moves = _restamped_cell_moves(
+            spec_at_year,
+            spec_at_artifact_year,
+            entries_at_year=entries_at_year,
+            entries_at_artifact_year=entries_at_artifact_year,
+            sheet_selects=sheet_selects,
+        )
+        if moves is None:
             continue
-        moves = [*artifact_moves]
-        if spec_at_year != spec_at_artifact_year:
-            moves.extend(
-                _changed_leaves(asdict(spec_at_artifact_year), asdict(spec_at_year))
-            )
+        moves = [*artifact_moves, *moves]
         if not moves:
             continue
         issues.append(
@@ -1497,6 +1503,106 @@ def _restamp_issues(
             )
         )
     return issues
+
+
+def _restamped_cell_moves(
+    spec_at_year: SourceRecordSetSpec,
+    spec_at_artifact_year: SourceRecordSetSpec,
+    *,
+    entries_at_year: tuple[Any, ...],
+    entries_at_artifact_year: tuple[Any, ...],
+    sheet_selects: bool,
+) -> list[tuple[str, Any, Any]] | None:
+    """The record set's moved fields when some cell is read alike at both years.
+
+    A record set builds one fact per (row, measure) cell. A cell is read alike
+    when its row, its measure, its guard cells, the record set's sheet (for a
+    spreadsheet) and the ``selected_rows`` entries its rows come from all
+    render the same at both years. Returns ``None`` when no cell is read alike.
+    Otherwise it returns every field of the record set that differs. Each
+    fact carries ``layout.record_set_spec_hash``, a hash of the whole compiled
+    record set, so any difference relabels the alike cells' facts. One
+    year-selected measure beside a fixed one, or one ``{year}`` selected row
+    beside a fixed one, therefore no longer hides the fixed cells
+    (chronicle#292 review).
+    """
+
+    if sheet_selects and spec_at_year.sheet_name != spec_at_artifact_year.sheet_name:
+        return None
+    rows_alike = any(
+        _row_selection(row_at_year, entries_at_year)
+        == _row_selection(row_at_artifact_year, entries_at_artifact_year)
+        for row_at_year, row_at_artifact_year in zip(
+            spec_at_year.rows, spec_at_artifact_year.rows, strict=True
+        )
+    )
+    measures_alike = any(
+        _measure_selection(measure_at_year)
+        == _measure_selection(measure_at_artifact_year)
+        for measure_at_year, measure_at_artifact_year in zip(
+            spec_at_year.measures, spec_at_artifact_year.measures, strict=True
+        )
+    )
+    if not (rows_alike and measures_alike):
+        return None
+    return _changed_leaves(asdict(spec_at_artifact_year), asdict(spec_at_year))
+
+
+def _row_selection(row: Any, entries: tuple[Any, ...]) -> tuple[Any, ...]:
+    """What a record-set row reads: its cells, guards and source rows."""
+
+    referenced = {row.row_number, row.row_end_number or row.row_number}
+    if row.row_end_number:
+        referenced.update(range(row.row_number, row.row_end_number + 1))
+    referenced.update(
+        guard.row
+        for guard in row.guard_cells
+        if isinstance(guard.row, int) and not isinstance(guard.row, bool)
+    )
+    return (
+        tuple(getattr(row, name) for name in _ROW_SELECTION_FIELDS),
+        tuple(
+            (guard.column, guard.expected_value, guard.row) for guard in row.guard_cells
+        ),
+        tuple(
+            (guard.column, guard.expected_values) for guard in row.range_label_guards
+        ),
+        tuple(
+            _selected_row_entry(entries, row_number)
+            for row_number in sorted(number for number in referenced if number)
+        ),
+    )
+
+
+def _measure_selection(measure: Any) -> tuple[Any, ...]:
+    return tuple(getattr(measure, name) for name in _MEASURE_SELECTION_FIELDS)
+
+
+def _selected_row_entries(artifact: SourceArtifactSpec, year: int) -> tuple[Any, ...]:
+    return tuple(
+        tuple((key, str(_render_value(value, year=year))) for key, value in row.items())
+        for row in artifact.selected_rows
+    )
+
+
+def _selected_row_entry(entries: tuple[Any, ...], row_number: int) -> Any:
+    # A selected_rows extract numbers its rows from 2 in declaration order
+    # (row 1 is the header): row r reads entry r - 2.
+    if not entries:
+        return None
+    index = row_number - 2
+    return entries[index] if 0 <= index < len(entries) else ("row", row_number)
+
+
+def _sheet_name_selects(artifact: SourceArtifactSpec) -> bool:
+    """Whether the artifact's sheet name picks data (a spreadsheet) or only labels.
+
+    Delimited text, JSON, HTML and PDF parsers name a virtual sheet; reading the
+    same bytes under another sheet name reads the same cells.
+    """
+
+    parser = str(artifact.parser or "")
+    return any(kind in parser for kind in ("xls", "ods"))
 
 
 def _declarations_depend_on_year(package: SourcePackage) -> bool:
@@ -1520,37 +1626,15 @@ def _mentions_year(value: Any) -> bool:
 
 
 def _artifact_selection(artifact: SourceArtifactSpec, year: int) -> tuple[Any, ...]:
+    """What the artifact reads apart from ``selected_rows`` (compared per row)."""
+
+    sheet_name = None
+    if artifact.sheet_name and _sheet_name_selects(artifact):
+        sheet_name = _render_string(artifact.sheet_name, year=year)
     return (
         tuple(getattr(artifact, name) for name in _ARTIFACT_SELECTION_FIELDS),
-        _render_string(artifact.sheet_name, year=year) if artifact.sheet_name else None,
-        tuple(
-            {key: str(_render_value(value, year=year)) for key, value in row.items()}
-            for row in artifact.selected_rows
-        ),
-    )
-
-
-def _record_set_selection(spec: SourceRecordSetSpec) -> tuple[Any, ...]:
-    return (
-        tuple(getattr(spec, name) for name in _RECORD_SET_SELECTION_FIELDS),
-        tuple(
-            (
-                tuple(getattr(row, name) for name in _ROW_SELECTION_FIELDS),
-                tuple(
-                    (guard.column, guard.expected_value, guard.row)
-                    for guard in row.guard_cells
-                ),
-                tuple(
-                    (guard.column, guard.expected_values)
-                    for guard in row.range_label_guards
-                ),
-            )
-            for row in spec.rows
-        ),
-        tuple(
-            tuple(getattr(measure, name) for name in _MEASURE_SELECTION_FIELDS)
-            for measure in spec.measures
-        ),
+        sheet_name,
+        len(artifact.selected_rows),
     )
 
 
