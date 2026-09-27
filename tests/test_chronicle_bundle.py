@@ -139,7 +139,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fact_count": 350893,
         "geography_count": 12592,
         "period_count": 494,
-        "semantic_duplicate_key_count": 467,
+        # 467 before chronicle#292 moved the congressional-district and
+        # state_2022 rows from their ty2023 restamp to TY2022, where 1,560 CD
+        # state-total and US rows now share semantic keys with the Historic
+        # Table 2 rows for the same TY2022 cells (two IRS publications of one
+        # cell), net of ty2023 collisions the restamp had made.
+        "semantic_duplicate_key_count": 2022,
         "skipped_source_count": 10,
         "source_count": 50,
         "source_package_count": 227,
@@ -948,10 +953,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "tax_year:2017": 9,
         "tax_year:2018": 11,
         "tax_year:2019": 11,
-        "tax_year:2020": 11,
+        "tax_year:2020": 16,
         "tax_year:2021": 42,
-        "tax_year:2022": 41270,
-        "tax_year:2023": 63342,
+        # chronicle#292: 26,888 CD, state and IRA facts move from their
+        # ty2023 restamp to TY2022, and the 5 W-2 facts to TY2020.
+        "tax_year:2022": 68158,
+        "tax_year:2023": 36449,
         "tax_year:2024": 328,
     }
     for fiscal_year in range(2017, 2026):
@@ -1223,7 +1230,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "tax_unit": 41368,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 467
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2022
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 50,
         "conflicting_groupby_value_label": 16,
