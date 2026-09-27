@@ -683,6 +683,29 @@ def test_a_fixed_cell_is_refused_when_anything_else_in_its_record_set_moves(
     _assert_guard_agrees_with_built_facts(split_package, 2024)
 
 
+def test_a_row_column_that_overrides_a_year_selected_measure_is_refused():
+    # The compiler reads row.column before measure.column, so a fixed row
+    # column is read alike even though the measure's column follows the year.
+    payload = _payload(frozenset({"period", "record_ids"}), "column_by_year")
+    payload["record_sets"][0]["rows"][0]["column"] = WIDE_COLUMNS[ARTIFACT_YEAR]
+    package = _package_from(payload, _wide_csv(), "wide.csv")
+    assert artifact_year_restamp_issues(package, 2024)
+    _assert_guard_agrees_with_built_facts(package, 2024)
+
+
+def test_an_unused_artifact_sheet_name_on_a_used_range_parser_is_ignored():
+    # Used-range spreadsheet parsers read the record set's sheet; a {year}
+    # artifact sheet_name selects nothing and must not hide a fixed sheet.
+    payload = _payload(frozenset({"period", "record_ids"}), "sheet_name_by_year")
+    record_set = payload["record_sets"][0]
+    record_set.pop("sheet_name_by_year")
+    record_set["sheet_name"] = f"TY{ARTIFACT_YEAR}"
+    payload["artifact"]["sheet_name"] = "TY{year}"
+    package = _package_from(payload, *_artifact_bytes("sheet_name_by_year"))
+    assert artifact_year_restamp_issues(package, 2024)
+    _assert_guard_agrees_with_built_facts(package, 2024)
+
+
 def test_a_delimited_files_virtual_sheet_name_is_a_label():
     # A delimited file has no sheets: a {year} sheet name reads the same cells
     # under a new name, so it is a relabel, not a selection.

@@ -140,10 +140,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "geography_count": 12592,
         "period_count": 494,
         # 467 before chronicle#292 moved the congressional-district and
-        # state_2022 rows from their ty2023 restamp to TY2022, where 1,560 CD
-        # state-total and US rows now share semantic keys with the Historic
+        # state_2022 rows from their ty2023 restamp to TY2022. There the CD
+        # file's state-total and US rows share semantic keys with the Historic
         # Table 2 rows for the same TY2022 cells (two IRS publications of one
-        # cell), net of ty2023 collisions the restamp had made.
+        # cell): 1,560 new duplicate keys among the changed packages' own
+        # builds, for a bundle-wide net of +1,555.
         "semantic_duplicate_key_count": 2022,
         "skipped_source_count": 10,
         "source_count": 50,

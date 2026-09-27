@@ -1345,12 +1345,13 @@ class SourcePackage:
 
 ARTIFACT_YEAR_RESTAMP_CODE = "artifact_year_restamp"
 
-# The declarations that decide what a build reads: which cells, the value taken
-# from them, and what each guard cell must hold. A pinned package always reads
+# The declarations that decide what a build reads: which file, sheet and
+# selected rows, and per (row, measure) cell the column, rows, header and guard
+# expectations and value scaling (_cell_selection). A pinned package always reads
 # the file of its ``artifact_year``, so when these render the same at two build
 # years, both builds read the same cells. Every other compiled field (period,
 # record ids, legal_vintage, filters, constraints, geography, concept and layout
-# labels) only names or dates the facts built from those cells.
+# labels) names or dates the facts built from those cells.
 _ARTIFACT_SELECTION_FIELDS = (
     "parser",
     "archive_member",
@@ -1359,29 +1360,6 @@ _ARTIFACT_SELECTION_FIELDS = (
     "header_row",
 )
 _ARTIFACT_LABEL_FIELDS = ("vintage", "source_table")
-_RECORD_SET_SELECTION_FIELDS = ("sheet_name",)
-# A row's label doubles as its row-header guard when expected_row_header is
-# unset. It counts as a label here, so a {year} row label over a fixed row is
-# refused as a restamp rather than left to fail that header check.
-_ROW_SELECTION_FIELDS = (
-    "row_number",
-    "row_end_number",
-    "column",
-    "value_scale",
-    "expected_row_header",
-    "expected_row_header_column",
-    "expected_column_header_row",
-    "expected_column_header",
-)
-_MEASURE_SELECTION_FIELDS = (
-    "column",
-    "divisor_column",
-    "value_scale",
-    "round_to",
-    "expected_cell_type",
-    "expected_column_header_row",
-    "expected_column_header",
-)
 _RESTAMP_MESSAGE_MOVES = 6
 
 
@@ -1464,7 +1442,9 @@ def _restamp_issues(
         return []
     sheet_selects = _sheet_name_selects(artifact)
     artifact_moves = []
-    label_fields = _ARTIFACT_LABEL_FIELDS + (() if sheet_selects else ("sheet_name",))
+    label_fields = _ARTIFACT_LABEL_FIELDS + (
+        ("sheet_name",) if _artifact_sheet_role(artifact) == "label" else ()
+    )
     for name in label_fields:
         value = getattr(artifact, name)
         at_artifact_year = _render_string(value, year=artifact_year) if value else value
@@ -1529,29 +1509,35 @@ def _restamped_cell_moves(
 
     if sheet_selects and spec_at_year.sheet_name != spec_at_artifact_year.sheet_name:
         return None
-    rows_alike = any(
-        _row_selection(row_at_year, entries_at_year)
-        == _row_selection(row_at_artifact_year, entries_at_artifact_year)
+    alike = any(
+        _cell_selection(row_at_year, measure_at_year, entries_at_year)
+        == _cell_selection(
+            row_at_artifact_year, measure_at_artifact_year, entries_at_artifact_year
+        )
         for row_at_year, row_at_artifact_year in zip(
             spec_at_year.rows, spec_at_artifact_year.rows, strict=True
         )
-    )
-    measures_alike = any(
-        _measure_selection(measure_at_year)
-        == _measure_selection(measure_at_artifact_year)
         for measure_at_year, measure_at_artifact_year in zip(
             spec_at_year.measures, spec_at_artifact_year.measures, strict=True
         )
     )
-    if not (rows_alike and measures_alike):
+    if not alike:
         return None
     return _changed_leaves(asdict(spec_at_artifact_year), asdict(spec_at_year))
 
 
-def _row_selection(row: Any, entries: tuple[Any, ...]) -> tuple[Any, ...]:
-    """What a record-set row reads: its cells, guards and source rows."""
+def _cell_selection(
+    row: Any, measure: Any, entries: tuple[Any, ...]
+) -> tuple[Any, ...]:
+    """What one (row, measure) cell reads, resolved as the compiler resolves it.
 
-    referenced = {row.row_number, row.row_end_number or row.row_number}
+    ``compile_source_record_set_specs`` reads ``row.column or measure.column``
+    and lets a row's column-header expectation override the measure's, so a
+    fixed row column is read alike even when the measure's column follows the
+    year.
+    """
+
+    referenced = {row.row_number}
     if row.row_end_number:
         referenced.update(range(row.row_number, row.row_end_number + 1))
     referenced.update(
@@ -1560,7 +1546,26 @@ def _row_selection(row: Any, entries: tuple[Any, ...]) -> tuple[Any, ...]:
         if isinstance(guard.row, int) and not isinstance(guard.row, bool)
     )
     return (
-        tuple(getattr(row, name) for name in _ROW_SELECTION_FIELDS),
+        row.column or measure.column,
+        (
+            row.expected_column_header_row
+            if row.expected_column_header_row is not None
+            else measure.expected_column_header_row
+        ),
+        (
+            row.expected_column_header
+            if row.expected_column_header is not None
+            else measure.expected_column_header
+        ),
+        row.row_number,
+        row.row_end_number,
+        row.value_scale,
+        row.expected_row_header,
+        row.expected_row_header_column,
+        measure.divisor_column,
+        measure.value_scale,
+        measure.round_to,
+        measure.expected_cell_type,
         tuple(
             (guard.column, guard.expected_value, guard.row) for guard in row.guard_cells
         ),
@@ -1572,10 +1577,6 @@ def _row_selection(row: Any, entries: tuple[Any, ...]) -> tuple[Any, ...]:
             for row_number in sorted(number for number in referenced if number)
         ),
     )
-
-
-def _measure_selection(measure: Any) -> tuple[Any, ...]:
-    return tuple(getattr(measure, name) for name in _MEASURE_SELECTION_FIELDS)
 
 
 def _selected_row_entries(artifact: SourceArtifactSpec, year: int) -> tuple[Any, ...]:
@@ -1595,7 +1596,7 @@ def _selected_row_entry(entries: tuple[Any, ...], row_number: int) -> Any:
 
 
 def _sheet_name_selects(artifact: SourceArtifactSpec) -> bool:
-    """Whether the artifact's sheet name picks data (a spreadsheet) or only labels.
+    """Whether a record set's sheet name picks data (a spreadsheet) or only labels.
 
     Delimited text, JSON, HTML and PDF parsers name a virtual sheet; reading the
     same bytes under another sheet name reads the same cells.
@@ -1603,6 +1604,23 @@ def _sheet_name_selects(artifact: SourceArtifactSpec) -> bool:
 
     parser = str(artifact.parser or "")
     return any(kind in parser for kind in ("xls", "ods"))
+
+
+def _artifact_sheet_role(artifact: SourceArtifactSpec) -> str:
+    """What the artifact-level ``sheet_name`` does for this parser.
+
+    ``xlsx_table_full_rows`` reads the named sheet ("selects"). The used-range
+    spreadsheet parsers never read it; their record sets name the sheet
+    ("unused"). Every other parser names a virtual sheet with it, a label on
+    each cell ("label").
+    """
+
+    parser = str(artifact.parser or "")
+    if parser == "xlsx_table_full_rows":
+        return "selects"
+    if "used_range" in parser:
+        return "unused"
+    return "label"
 
 
 def _declarations_depend_on_year(package: SourcePackage) -> bool:
@@ -1629,7 +1647,7 @@ def _artifact_selection(artifact: SourceArtifactSpec, year: int) -> tuple[Any, .
     """What the artifact reads apart from ``selected_rows`` (compared per row)."""
 
     sheet_name = None
-    if artifact.sheet_name and _sheet_name_selects(artifact):
+    if artifact.sheet_name and _artifact_sheet_role(artifact) == "selects":
         sheet_name = _render_string(artifact.sheet_name, year=year)
     return (
         tuple(getattr(artifact, name) for name in _ARTIFACT_SELECTION_FIELDS),
