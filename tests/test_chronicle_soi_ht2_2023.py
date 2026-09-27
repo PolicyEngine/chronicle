@@ -65,6 +65,82 @@ STATE_BY_FIPS = {
     "47": "TN", "48": "TX", "49": "UT", "50": "VT", "51": "VA", "53": "WA",
     "54": "WV", "55": "WI", "56": "WY",
 }  # fmt: skip
+# The CSV variable each measure must read, from the IRS documentation guide
+# for the TY2023 state data (23incmdocguide.doc; its TY2022 guide agrees).
+# This is the semantic check: the per-cell test only proves each fact equals
+# the variable its package names.
+DOCUMENTED_VARIABLE = {
+    "return_count": "N1",
+    "tax_filer_individual_count": "N2",
+    "adjusted_gross_income": "A00100",
+    "income_tax_before_credits_returns": "N05800",
+    "income_tax_before_credits_amount": "A05800",
+    "premium_tax_credit_returns": "N85770",
+    "premium_tax_credit_amount": "A85770",
+    "eitc_claims": "N59660",
+    "eitc_amount": "A59660",
+    "real_estate_taxes_claims": "N18500",
+    "real_estate_taxes_amount": "A18500",
+    "limited_state_local_taxes_returns": "N18460",
+    "limited_state_local_taxes_amount": "A18460",
+    "total_income_returns": "N02650",
+    "total_income_amount": "A02650",
+    "wages_salaries_returns": "N00200",
+    "wages_salaries_amount": "A00200",
+    "taxable_interest_returns": "N00300",
+    "taxable_interest_amount": "A00300",
+    "tax_exempt_interest_returns": "N00400",
+    "tax_exempt_interest_amount": "A00400",
+    "ordinary_dividends_returns": "N00600",
+    "ordinary_dividends_amount": "A00600",
+    "qualified_dividends_returns": "N00650",
+    "qualified_dividends_amount": "A00650",
+    "schedule_c_income_returns": "N00900",
+    "schedule_c_income_amount": "A00900",
+    "net_capital_gains_returns": "N01000",
+    "net_capital_gains_amount": "A01000",
+    "taxable_ira_distributions_returns": "N01400",
+    "taxable_ira_distributions_amount": "A01400",
+    "taxable_pension_income_returns": "N01700",
+    "taxable_pension_income_amount": "A01700",
+    "unemployment_compensation_returns": "N02300",
+    "unemployment_compensation_amount": "A02300",
+    "taxable_social_security_returns": "N02500",
+    "taxable_social_security_amount": "A02500",
+    "partnership_scorp_income_returns": "N26270",
+    "partnership_scorp_income_amount": "A26270",
+    "itemized_deductions_returns": "N04470",
+    "itemized_deductions_amount": "A04470",
+    "medical_dental_expense_returns": "N17000",
+    "medical_dental_expense_amount": "A17000",
+    "taxable_income_returns": "N04800",
+    "taxable_income_amount": "A04800",
+    "income_tax_liability_returns": "N06500",
+    "income_tax_liability_amount": "A06500",
+    "qbi_claims": "N04475",
+    "qbi_amount": "A04475",
+    "rental_royalty_income_returns": "N25870",
+    "rental_royalty_income_amount": "A25870",
+    "ctc_claims": "N07225",
+    "ctc_amount": "A07225",
+    "actc_claims": "N11070",
+    "actc_amount": "A11070",
+    "eitc_no_children_claims": "N59661",
+    "eitc_no_children_amount": "A59661",
+    "eitc_one_child_claims": "N59662",
+    "eitc_one_child_amount": "A59662",
+    "eitc_two_children_claims": "N59663",
+    "eitc_two_children_amount": "A59663",
+    "eitc_three_or_more_children_claims": "N59664",
+    "eitc_three_or_more_children_amount": "A59664",
+}
+# TY2022's QBI measures read N03270/A03270, which both guides define as the
+# self-employment health insurance deduction; the QBI deduction is
+# N04475/A04475. The TY2023 packages read the documented variables.
+TY2022_QBI_CORRECTION = {
+    "qbi_claims": ("N03270", "N04475"),
+    "qbi_amount": ("A03270", "A04475"),
+}
 # The publisher rounds return counts to tens, so a sum of n count cells can
 # miss its published total by up to 5n.
 ROUNDING_PER_COUNT_CELL = 5
@@ -151,6 +227,10 @@ def test_packages_emit_their_fact_counts_and_published_totals(built):
     assert by_id[f"{prefix}.adjusted_gross_income"].value == 15_234_086_106_000
     assert by_id[f"{prefix}.eitc_claims"].value == 23_923_110
     assert by_id[f"{prefix}.eitc_amount"].value == 65_006_308_000
+    # The qualified business income deduction (N04475/A04475), not the
+    # self-employment health insurance deduction TY2022 reads.
+    assert by_id[f"{prefix}.qbi_claims"].value == 26_391_030
+    assert by_id[f"{prefix}.qbi_amount"].value == 213_733_168_000
 
 
 @pytest.mark.parametrize("package_id", sorted(PACKAGES))
@@ -196,6 +276,16 @@ def test_every_measure_column_heads_its_variable(package_id):
 
 
 @pytest.mark.parametrize("package_id", sorted(PACKAGES))
+def test_every_measure_reads_its_documented_variable(package_id):
+    for record_set in _package_yaml(package_id)["record_sets"]:
+        for measure in record_set["measures"]:
+            assert (
+                measure["source_column_id"]
+                == DOCUMENTED_VARIABLE[measure["measure_id"]]
+            ), (package_id, measure["measure_id"])
+
+
+@pytest.mark.parametrize("package_id", sorted(PACKAGES))
 def test_packages_mirror_their_2022_twins(package_id):
     """Differential: with year labels removed and each column replaced by the
     variable it heads in its own year's file, the TY2023 declarations equal the
@@ -214,9 +304,12 @@ def test_packages_mirror_their_2022_twins(package_id):
                 assert str(year) in str(record_set.pop(key))
             for measure in record_set["measures"]:
                 column = measure.pop("column")
-                measure["variable"] = headers[year][
-                    column_index_from_string(column) - 1
-                ]
+                variable = headers[year][column_index_from_string(column) - 1]
+                if year == 2022 and measure["measure_id"] in TY2022_QBI_CORRECTION:
+                    wrong, right = TY2022_QBI_CORRECTION[measure["measure_id"]]
+                    assert variable == wrong
+                    variable = right
+                measure["variable"] = variable
                 measure.pop("legal_vintage", None)
                 for key in (
                     "source_column_id",

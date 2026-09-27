@@ -692,25 +692,25 @@ record_sets:
   - measure_id: qbi_claims
     label: Returns with qualified business income deduction
     ordinal: 45
-    column: BF
-    source_column_id: N03270
+    column: CT
+    source_column_id: N04475
     concept: irs_soi.returns_with_qualified_business_income_deduction
     unit: count
     aggregation: sum
     expected_cell_type: number
     expected_column_header_row: 1
-    expected_column_header: N03270
+    expected_column_header: N04475
   - measure_id: qbi_amount
     label: Qualified business income deduction
     ordinal: 46
-    column: BG
-    source_column_id: A03270
+    column: CU
+    source_column_id: A04475
     concept: irs_soi.qualified_business_income_deduction
     unit: usd
     aggregation: sum
     expected_cell_type: number
     expected_column_header_row: 1
-    expected_column_header: A03270
+    expected_column_header: A04475
     value_scale: 1000
   - measure_id: rental_royalty_income_returns
     label: Returns with rental and royalty net income less loss
