@@ -1,0 +1,953 @@
+schema_version: ledger.source_package.v1
+package_id: soi-historic-table-2-2023
+label: IRS SOI Historic Table 2 national AGI and tax-credit records for 2023
+dimension_labels:
+  'filing_status': 'Filing status'
+  'income_range': 'Income range'
+  'us:statutes/26/62#adjusted_gross_income': 'Adjusted gross income'
+dimension_value_labels:
+  'filing_status':
+    'all': 'All filing statuses'
+  'income_range':
+    '100k_to_200k': '$100,000 under $200,000'
+    '10k_to_25k': '$10,000 under $25,000'
+    '1_to_10k': '$1 under $10,000'
+    '1m_plus': '$1,000,000 or more'
+    '200k_to_500k': '$200,000 under $500,000'
+    '25k_to_50k': '$25,000 under $50,000'
+    '500k_to_1m': '$500,000 under $1,000,000'
+    '50k_to_75k': '$50,000 under $75,000'
+    '75k_to_100k': '$75,000 under $100,000'
+    'all': 'All income ranges'
+    'under_1': 'No adjusted gross income'
+artifact:
+  source_name: irs_soi
+  source_table: Historic Table 2
+  resource_package: db
+  resource_directory: data/irs_soi/historic_table_2
+  manifest: manifest.yaml
+  vintage: tax_year_2023
+  extracted_at: "2026-09-26"
+  extraction_method: full CSV row parse with selected source-record cells
+  parser: delimited_text_full_rows
+  sheet_name: in55cmcsv
+  artifact_year: 2023
+  selected_rows:
+    - STATE: US
+      AGI_STUB: 0
+    - STATE: US
+      AGI_STUB: 1
+    - STATE: US
+      AGI_STUB: 2
+    - STATE: US
+      AGI_STUB: 3
+    - STATE: US
+      AGI_STUB: 4
+    - STATE: US
+      AGI_STUB: 5
+    - STATE: US
+      AGI_STUB: 6
+    - STATE: US
+      AGI_STUB: 7
+    - STATE: US
+      AGI_STUB: 8
+    - STATE: US
+      AGI_STUB: 9
+    - STATE: US
+      AGI_STUB: 10
+record_sets:
+  - record_set_id: irs_soi.ty2023.historic_table_2.us
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.historic_table_2.us.v1
+    source_record_id_prefix: irs_soi.ty2023.historic_table_2.us
+    sheet_name: in55cmcsv
+    period_type: tax_year
+    period: 2023
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: all_individual_income_tax_returns
+    groupby_dimension: us:statutes/26/62#adjusted_gross_income
+    rows:
+      - value_id: all
+        label: All returns
+        ordinal: 0
+        row_number: 2
+        expected_row_header_column: B
+        expected_row_header: 0
+        filters:
+          filing_status: all
+          income_range: all
+        table_record_kind: total
+      - value_id: under_1
+        label: No adjusted gross income
+        ordinal: 1
+        row_number: 3
+        expected_row_header_column: B
+        expected_row_header: 1
+        filters:
+          filing_status: all
+          income_range: under_1
+        constraints:
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: <
+            value: 1
+            unit: usd
+            label: Adjusted gross income upper bound
+      - value_id: 1_to_10k
+        label: $1 under $10,000
+        ordinal: 2
+        row_number: 4
+        expected_row_header_column: B
+        expected_row_header: 2
+        filters:
+          filing_status: all
+          income_range: 1_to_10k
+        constraints:
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: ">="
+            value: 1
+            unit: usd
+            label: Adjusted gross income lower bound
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: <
+            value: 10000
+            unit: usd
+            label: Adjusted gross income upper bound
+      - value_id: 10k_to_25k
+        label: $10,000 under $25,000
+        ordinal: 3
+        row_number: 5
+        expected_row_header_column: B
+        expected_row_header: 3
+        filters:
+          filing_status: all
+          income_range: 10k_to_25k
+        constraints:
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: ">="
+            value: 10000
+            unit: usd
+            label: Adjusted gross income lower bound
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: <
+            value: 25000
+            unit: usd
+            label: Adjusted gross income upper bound
+      - value_id: 25k_to_50k
+        label: $25,000 under $50,000
+        ordinal: 4
+        row_number: 6
+        expected_row_header_column: B
+        expected_row_header: 4
+        filters:
+          filing_status: all
+          income_range: 25k_to_50k
+        constraints:
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: ">="
+            value: 25000
+            unit: usd
+            label: Adjusted gross income lower bound
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: <
+            value: 50000
+            unit: usd
+            label: Adjusted gross income upper bound
+      - value_id: 50k_to_75k
+        label: $50,000 under $75,000
+        ordinal: 5
+        row_number: 7
+        expected_row_header_column: B
+        expected_row_header: 5
+        filters:
+          filing_status: all
+          income_range: 50k_to_75k
+        constraints:
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: ">="
+            value: 50000
+            unit: usd
+            label: Adjusted gross income lower bound
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: <
+            value: 75000
+            unit: usd
+            label: Adjusted gross income upper bound
+      - value_id: 75k_to_100k
+        label: $75,000 under $100,000
+        ordinal: 6
+        row_number: 8
+        expected_row_header_column: B
+        expected_row_header: 6
+        filters:
+          filing_status: all
+          income_range: 75k_to_100k
+        constraints:
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: ">="
+            value: 75000
+            unit: usd
+            label: Adjusted gross income lower bound
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: <
+            value: 100000
+            unit: usd
+            label: Adjusted gross income upper bound
+      - value_id: 100k_to_200k
+        label: $100,000 under $200,000
+        ordinal: 7
+        row_number: 9
+        expected_row_header_column: B
+        expected_row_header: 7
+        filters:
+          filing_status: all
+          income_range: 100k_to_200k
+        constraints:
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: ">="
+            value: 100000
+            unit: usd
+            label: Adjusted gross income lower bound
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: <
+            value: 200000
+            unit: usd
+            label: Adjusted gross income upper bound
+      - value_id: 200k_to_500k
+        label: $200,000 under $500,000
+        ordinal: 8
+        row_number: 10
+        expected_row_header_column: B
+        expected_row_header: 8
+        filters:
+          filing_status: all
+          income_range: 200k_to_500k
+        constraints:
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: ">="
+            value: 200000
+            unit: usd
+            label: Adjusted gross income lower bound
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: <
+            value: 500000
+            unit: usd
+            label: Adjusted gross income upper bound
+      - value_id: 500k_to_1m
+        label: $500,000 under $1,000,000
+        ordinal: 9
+        row_number: 11
+        expected_row_header_column: B
+        expected_row_header: 9
+        filters:
+          filing_status: all
+          income_range: 500k_to_1m
+        constraints:
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: ">="
+            value: 500000
+            unit: usd
+            label: Adjusted gross income lower bound
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: <
+            value: 1000000
+            unit: usd
+            label: Adjusted gross income upper bound
+      - value_id: 1m_plus
+        label: $1,000,000 or more
+        ordinal: 10
+        row_number: 12
+        expected_row_header_column: B
+        expected_row_header: 10
+        filters:
+          filing_status: all
+          income_range: 1m_plus
+        constraints:
+          - variable: us:statutes/26/62#adjusted_gross_income
+            operator: ">="
+            value: 1000000
+            unit: usd
+            label: Adjusted gross income lower bound
+    measures:
+      - measure_id: return_count
+        label: Number of returns
+        ordinal: 0
+        column: C
+        source_column_id: N1
+        concept: irs_soi.individual_income_tax_returns
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N1
+      - measure_id: tax_filer_individual_count
+        label: Number of individuals
+        ordinal: 1
+        column: L
+        source_column_id: N2
+        concept: irs_soi.tax_filer_individuals
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N2
+      - measure_id: adjusted_gross_income
+        label: Adjusted gross income
+        ordinal: 2
+        column: T
+        source_column_id: A00100
+        concept: us:statutes/26/62#adjusted_gross_income
+        source_concept: irs_soi.adjusted_gross_income
+        concept_relation: exact
+        concept_authority: ledger-us
+        concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
+        concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
+        legal_vintage: tax_year_2023
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A00100
+      - measure_id: income_tax_before_credits_returns
+        label: Returns with income tax before credits
+        ordinal: 3
+        column: CX
+        source_column_id: N05800
+        concept: irs_soi.returns_with_income_tax_before_credits
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N05800
+      - measure_id: income_tax_before_credits_amount
+        label: Income tax before credits
+        ordinal: 4
+        column: CY
+        source_column_id: A05800
+        concept: irs_soi.income_tax_before_credits
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A05800
+      - measure_id: premium_tax_credit_returns
+        label: Returns with premium tax credit
+        ordinal: 5
+        column: DV
+        source_column_id: N85770
+        concept: irs_soi.returns_with_premium_tax_credit
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N85770
+      - measure_id: premium_tax_credit_amount
+        label: Premium tax credit
+        ordinal: 6
+        column: DW
+        source_column_id: A85770
+        concept: irs_soi.premium_tax_credit
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A85770
+      - measure_id: eitc_claims
+        label: Returns with earned income credit
+        ordinal: 7
+        column: EB
+        source_column_id: N59660
+        concept: irs_soi.returns_with_earned_income_credit
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N59660
+      - measure_id: eitc_amount
+        label: Earned income credit
+        ordinal: 8
+        column: EC
+        source_column_id: A59660
+        concept: irs_soi.earned_income_credit
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A59660
+      - measure_id: real_estate_taxes_claims
+        label: Returns with real estate taxes
+        ordinal: 9
+        column: BZ
+        source_column_id: N18500
+        concept: irs_soi.returns_with_real_estate_taxes
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N18500
+      - measure_id: real_estate_taxes_amount
+        label: Real estate taxes
+        ordinal: 10
+        column: CA
+        source_column_id: A18500
+        concept: irs_soi.real_estate_taxes
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A18500
+      - measure_id: limited_state_local_taxes_returns
+        label: Returns with limited state and local taxes
+        ordinal: 11
+        column: CB
+        source_column_id: N18460
+        concept: irs_soi.returns_with_limited_state_local_taxes
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N18460
+      - measure_id: limited_state_local_taxes_amount
+        label: Limited state and local taxes
+        ordinal: 12
+        column: CC
+        source_column_id: A18460
+        concept: irs_soi.limited_state_local_taxes
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A18460
+
+      - measure_id: total_income_returns
+        label: Returns with total income
+        ordinal: 13
+        column: U
+        source_column_id: N02650
+        concept: irs_soi.returns_with_total_income
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N02650
+
+      - measure_id: total_income_amount
+        label: Total income
+        ordinal: 14
+        column: V
+        source_column_id: A02650
+        concept: irs_soi.total_income
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A02650
+        value_scale: 1000
+
+      - measure_id: wages_salaries_returns
+        label: Returns with salaries and wages
+        ordinal: 15
+        column: W
+        source_column_id: N00200
+        concept: irs_soi.returns_with_total_wages
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N00200
+
+      - measure_id: wages_salaries_amount
+        label: Salaries and wages
+        ordinal: 16
+        column: X
+        source_column_id: A00200
+        concept: us:statutes/26/62#input.wages
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A00200
+        value_scale: 1000
+        source_concept: irs_soi.total_wages
+        concept_relation: broad_match
+        concept_authority: ledger-us
+        concept_evidence_url: https://www.irs.gov/statistics/soi-tax-stats-historic-table-2
+        concept_evidence_notes: IRS SOI Historic Table 2 labels this measure salaries and wages for individual income tax returns. Ledger treats the SOI wage measure as a broad match to the wage input of IRC section 62 adjusted gross income.
+        legal_vintage: tax_year_2023
+
+      - measure_id: taxable_interest_returns
+        label: Returns with taxable interest
+        ordinal: 17
+        column: Y
+        source_column_id: N00300
+        concept: irs_soi.returns_with_taxable_interest
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N00300
+
+      - measure_id: taxable_interest_amount
+        label: Taxable interest
+        ordinal: 18
+        column: Z
+        source_column_id: A00300
+        concept: irs_soi.taxable_interest
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A00300
+        value_scale: 1000
+
+      - measure_id: tax_exempt_interest_returns
+        label: Returns with tax-exempt interest
+        ordinal: 19
+        column: AA
+        source_column_id: N00400
+        concept: irs_soi.returns_with_tax_exempt_interest
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N00400
+
+      - measure_id: tax_exempt_interest_amount
+        label: Tax-exempt interest
+        ordinal: 20
+        column: AB
+        source_column_id: A00400
+        concept: irs_soi.tax_exempt_interest
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A00400
+        value_scale: 1000
+
+      - measure_id: ordinary_dividends_returns
+        label: Returns with ordinary dividends
+        ordinal: 21
+        column: AC
+        source_column_id: N00600
+        concept: irs_soi.returns_with_ordinary_dividends
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N00600
+
+      - measure_id: ordinary_dividends_amount
+        label: Ordinary dividends
+        ordinal: 22
+        column: AD
+        source_column_id: A00600
+        concept: irs_soi.ordinary_dividends
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A00600
+        value_scale: 1000
+
+      - measure_id: qualified_dividends_returns
+        label: Returns with qualified dividends
+        ordinal: 23
+        column: AE
+        source_column_id: N00650
+        concept: irs_soi.returns_with_qualified_dividends
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N00650
+
+      - measure_id: qualified_dividends_amount
+        label: Qualified dividends
+        ordinal: 24
+        column: AF
+        source_column_id: A00650
+        concept: irs_soi.qualified_dividends
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A00650
+        value_scale: 1000
+
+      - measure_id: schedule_c_income_returns
+        label: Returns with business or profession net income less loss
+        ordinal: 25
+        column: AI
+        source_column_id: N00900
+        concept: irs_soi.returns_with_schedule_c_income
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N00900
+
+      - measure_id: schedule_c_income_amount
+        label: Business or profession net income less loss
+        ordinal: 26
+        column: AJ
+        source_column_id: A00900
+        concept: irs_soi.schedule_c_income
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A00900
+        value_scale: 1000
+
+      - measure_id: net_capital_gains_returns
+        label: Returns with taxable net capital gains
+        ordinal: 27
+        column: AK
+        source_column_id: N01000
+        concept: irs_soi.returns_with_taxable_net_capital_gains
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N01000
+
+      - measure_id: net_capital_gains_amount
+        label: Taxable net capital gains
+        ordinal: 28
+        column: AL
+        source_column_id: A01000
+        concept: irs_soi.taxable_net_capital_gains
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A01000
+        value_scale: 1000
+
+      - measure_id: taxable_ira_distributions_returns
+        label: Returns with taxable IRA distributions
+        ordinal: 29
+        column: AM
+        source_column_id: N01400
+        concept: irs_soi.returns_with_taxable_ira_distributions
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N01400
+
+      - measure_id: taxable_ira_distributions_amount
+        label: Taxable IRA distributions
+        ordinal: 30
+        column: AN
+        source_column_id: A01400
+        concept: irs_soi.taxable_ira_distributions
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A01400
+        value_scale: 1000
+
+      - measure_id: taxable_pension_income_returns
+        label: Returns with taxable pension income
+        ordinal: 31
+        column: AO
+        source_column_id: N01700
+        concept: irs_soi.returns_with_taxable_pension_income
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N01700
+
+      - measure_id: taxable_pension_income_amount
+        label: Taxable pension income
+        ordinal: 32
+        column: AP
+        source_column_id: A01700
+        concept: irs_soi.taxable_pension_income
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A01700
+        value_scale: 1000
+
+      - measure_id: unemployment_compensation_returns
+        label: Returns with unemployment compensation
+        ordinal: 33
+        column: AR
+        source_column_id: N02300
+        concept: irs_soi.returns_with_unemployment_compensation
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N02300
+
+      - measure_id: unemployment_compensation_amount
+        label: Unemployment compensation
+        ordinal: 34
+        column: AS
+        source_column_id: A02300
+        concept: irs_soi.unemployment_compensation
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A02300
+        value_scale: 1000
+
+      - measure_id: taxable_social_security_returns
+        label: Returns with taxable Social Security benefits
+        ordinal: 35
+        column: AT
+        source_column_id: N02500
+        concept: irs_soi.returns_with_taxable_social_security_benefits
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N02500
+
+      - measure_id: taxable_social_security_amount
+        label: Taxable Social Security benefits
+        ordinal: 36
+        column: AU
+        source_column_id: A02500
+        concept: irs_soi.taxable_social_security_benefits
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A02500
+        value_scale: 1000
+
+      - measure_id: partnership_scorp_income_returns
+        label: Returns with partnership and S corporation net income less loss
+        ordinal: 37
+        column: AV
+        source_column_id: N26270
+        concept: irs_soi.returns_with_partnership_scorp_income
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N26270
+
+      - measure_id: partnership_scorp_income_amount
+        label: Partnership and S corporation net income less loss
+        ordinal: 38
+        column: AW
+        source_column_id: A26270
+        concept: irs_soi.partnership_scorp_income
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A26270
+        value_scale: 1000
+
+      - measure_id: itemized_deductions_returns
+        label: Returns with total itemized deductions
+        ordinal: 39
+        column: BR
+        source_column_id: N04470
+        concept: irs_soi.returns_with_itemized_deductions
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N04470
+
+      - measure_id: itemized_deductions_amount
+        label: Total itemized deductions
+        ordinal: 40
+        column: BS
+        source_column_id: A04470
+        concept: irs_soi.total_itemized_deductions
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A04470
+        value_scale: 1000
+
+      - measure_id: medical_dental_expense_returns
+        label: Returns with medical and dental expense deductions
+        ordinal: 41
+        column: BT
+        source_column_id: N17000
+        concept: irs_soi.returns_with_medical_dental_expense_deduction
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N17000
+
+      - measure_id: medical_dental_expense_amount
+        label: Medical and dental expense deductions
+        ordinal: 42
+        column: BU
+        source_column_id: A17000
+        concept: irs_soi.medical_dental_expense_deduction
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A17000
+        value_scale: 1000
+
+      - measure_id: taxable_income_returns
+        label: Returns with taxable income
+        ordinal: 43
+        column: CV
+        source_column_id: N04800
+        concept: irs_soi.returns_with_taxable_income
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N04800
+
+      - measure_id: taxable_income_amount
+        label: Taxable income
+        ordinal: 44
+        column: CW
+        source_column_id: A04800
+        concept: irs_soi.taxable_income
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A04800
+        value_scale: 1000
+
+      - measure_id: income_tax_liability_returns
+        label: Returns with total income tax
+        ordinal: 45
+        column: ET
+        source_column_id: N06500
+        concept: irs_soi.returns_with_total_income_tax
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N06500
+
+      - measure_id: income_tax_liability_amount
+        label: Total income tax
+        ordinal: 46
+        column: EU
+        source_column_id: A06500
+        concept: irs_soi.total_income_tax
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A06500
+        value_scale: 1000
+      - measure_id: qbi_claims
+        label: Returns with qualified business income deduction
+        ordinal: 47
+        column: CT
+        source_column_id: N04475
+        concept: irs_soi.returns_with_qualified_business_income_deduction
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N04475
+      - measure_id: qbi_amount
+        label: Qualified business income deduction
+        ordinal: 48
+        column: CU
+        source_column_id: A04475
+        concept: irs_soi.qualified_business_income_deduction
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A04475
+        value_scale: 1000
+      - measure_id: rental_royalty_income_returns
+        label: Returns with rental and royalty net income less loss
+        ordinal: 49
+        column: AX
+        source_column_id: N25870
+        concept: irs_soi.returns_with_rental_royalty_income
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N25870
+      - measure_id: rental_royalty_income_amount
+        label: Rental and royalty net income less loss
+        ordinal: 50
+        column: AY
+        source_column_id: A25870
+        concept: irs_soi.rental_royalty_income
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A25870
+        value_scale: 1000
+      - measure_id: ctc_claims
+        label: Returns with child tax credit
+        ordinal: 51
+        column: DN
+        source_column_id: N07225
+        concept: irs_soi.returns_with_child_tax_credit
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N07225
+      - measure_id: ctc_amount
+        label: Child tax credit
+        ordinal: 52
+        column: DO
+        source_column_id: A07225
+        concept: irs_soi.child_tax_credit
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A07225
+        value_scale: 1000
+      - measure_id: actc_claims
+        label: Returns with additional child tax credit
+        ordinal: 53
+        column: EN
+        source_column_id: N11070
+        concept: irs_soi.returns_with_additional_child_tax_credit
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: N11070
+      - measure_id: actc_amount
+        label: Additional child tax credit
+        ordinal: 54
+        column: EO
+        source_column_id: A11070
+        concept: irs_soi.additional_child_tax_credit
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 1
+        expected_column_header: A11070
+        value_scale: 1000

@@ -1,6 +1,6 @@
 schema_version: ledger.source_package.v1
 package_id: soi-historic-table-2-state-agi-2023
-label: IRS SOI Historic Table 2 state AGI-band return counts and AGI for 2023
+label: IRS SOI Historic Table 2 state AGI-band return counts, AGI and taxable interest for 2023
 dimension_labels:
   'filing_status': 'Filing status'
   'income_range': 'Income range'
@@ -1321,6 +1321,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ak
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -1589,6 +1612,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.az
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -1857,6 +1903,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ar
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -2125,6 +2194,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ca
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -2393,6 +2485,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.co
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -2661,6 +2776,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ct
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -2929,6 +3067,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.de
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -3197,6 +3358,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.dc
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -3465,6 +3649,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.fl
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -3733,6 +3940,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ga
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -4001,6 +4231,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.hi
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -4269,6 +4522,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.id
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -4537,6 +4813,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.il
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -4805,6 +5104,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.in
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -5073,6 +5395,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ia
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -5341,6 +5686,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ks
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -5609,6 +5977,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ky
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -5877,6 +6268,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.la
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -6145,6 +6559,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.me
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -6413,6 +6850,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.md
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -6681,6 +7141,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ma
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -6949,6 +7432,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.mi
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -7217,6 +7723,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.mn
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -7485,6 +8014,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ms
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -7753,6 +8305,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.mo
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -8021,6 +8596,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.mt
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -8289,6 +8887,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ne
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -8557,6 +9178,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.nv
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -8825,6 +9469,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.nh
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -9093,6 +9760,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.nj
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -9361,6 +10051,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.nm
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -9629,6 +10342,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ny
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -9897,6 +10633,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.nc
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -10165,6 +10924,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.nd
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -10433,6 +11215,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.oh
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -10701,6 +11506,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ok
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -10969,6 +11797,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.or
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -11237,6 +12088,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.pa
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -11505,6 +12379,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ri
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -11773,6 +12670,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.sc
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -12041,6 +12961,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.sd
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -12309,6 +13252,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.tn
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -12577,6 +13543,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.tx
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -12845,6 +13834,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.ut
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -13113,6 +14125,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.vt
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -13381,6 +14416,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.va
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -13649,6 +14707,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.wa
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -13917,6 +14998,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.wv
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -14185,6 +15289,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.wi
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -14453,6 +15580,29 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300
 - record_set_id: irs_soi.ty2023.historic_table_2.state_agi.wy
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_agi_counts_and_amounts.v1
@@ -14721,3 +15871,26 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: A00100
+  - measure_id: taxable_interest_returns
+    label: Returns with taxable interest
+    ordinal: 2
+    column: Y
+    source_column_id: N00300
+    concept: irs_soi.returns_with_taxable_interest
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00300
+  - measure_id: taxable_interest_amount
+    label: Taxable interest
+    ordinal: 3
+    column: Z
+    source_column_id: A00300
+    concept: irs_soi.taxable_interest
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00300

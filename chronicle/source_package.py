@@ -361,6 +361,7 @@ SOURCE_PACKAGE_ALIASES = {
     "soi-county-2022": Path("irs_soi/county_2022"),
     "soi-congressional-district-2022": Path("irs_soi/congressional_district_2022"),
     "soi-historic-table-2": Path("irs_soi/historic_table_2"),
+    "soi-historic-table-2-2023": Path("irs_soi/historic_table_2_2023"),
     "soi-historic-table-2-state-agi-2022": Path(
         "irs_soi/historic_table_2_state_agi_2022"
     ),
@@ -370,8 +371,14 @@ SOURCE_PACKAGE_ALIASES = {
     "soi-historic-table-2-state-broad-2022": Path(
         "irs_soi/historic_table_2_state_broad_2022"
     ),
+    "soi-historic-table-2-state-broad-2023": Path(
+        "irs_soi/historic_table_2_state_broad_2023"
+    ),
     "soi-historic-table-2-state-eitc-2022": Path(
         "irs_soi/historic_table_2_state_eitc_2022"
+    ),
+    "soi-historic-table-2-state-eitc-2023": Path(
+        "irs_soi/historic_table_2_state_eitc_2023"
     ),
     "soi-w2-statistics-2020": Path("irs_soi/w2_statistics_2020"),
     "soi-ira-traditional-contributions-2022": Path(
