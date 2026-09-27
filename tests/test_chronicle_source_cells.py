@@ -421,3 +421,111 @@ def test_source_cells_from_xlsx_rejects_a_sheet_the_workbook_does_not_carry():
             artifact,
             sheets=("UKPC", "Renamed_by_publisher"),
         )
+
+
+def _test_artifact() -> SourceArtifactMetadata:
+    return SourceArtifactMetadata(
+        source_name="irs_soi",
+        source_table="test",
+        source_file="test.xlsx",
+        url="https://example.test/test.xlsx",
+        vintage="test",
+        sha256="abc123",
+        size_bytes=10,
+        extracted_at="2026-09-27",
+        extraction_method="test",
+    )
+
+
+def _workbook_bytes(data_extent: tuple[int, int], merged: list[str]) -> bytes:
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    for row in range(1, data_extent[0] + 1):
+        for column in range(1, data_extent[1] + 1):
+            sheet.cell(row=row, column=column, value=row * 100 + column)
+    for cell_range in merged:
+        sheet.merge_cells(cell_range)
+    buffer = BytesIO()
+    workbook.save(buffer)
+    return buffer.getvalue()
+
+
+def test_source_cells_from_xlsx_ignores_a_row_merged_to_the_sheet_edge():
+    """23in54us.xlsx (TY2023) merges its footnote row A179:XFD179. openpyxl
+    fills all 16,384 columns with MergedCell placeholders, so the used range
+    grew to ~70 million cells; the parse now stops at the file's own cells."""
+    content = _workbook_bytes((4, 5), ["A6:XFD6"])
+
+    cells = source_cells_from_xlsx(content, _test_artifact())
+
+    assert {(cell.row_number, cell.column_number) for cell in cells} == {
+        (row, column) for row in range(1, 7) for column in range(1, 6)
+    }
+    assert {cell.address: cell.raw_value for cell in cells}["C2"] == 203
+
+
+def test_xlsx_used_range_bounds_equal_openpyxl_without_an_edge_merge():
+    """Invariant: a sheet with no merged range reaching column XFD or the last
+    row keeps openpyxl's (max_row, max_column), whether its merged ranges sit
+    inside the data or run past it; with one, only its placeholders stop
+    counting."""
+    from chronicle.sources.cells import _xlsx_used_range_bounds
+
+    layouts = [
+        ((rows, columns), merged)
+        for rows in (1, 3)
+        for columns in (1, 4)
+        for merged in (
+            [],
+            ["A1:B1"],
+            [f"A{rows + 2}:F{rows + 2}"],
+            [f"B{rows + 1}:B{rows + 4}"],
+            ["C2:H9"],
+        )
+    ]
+    for extent, merged in layouts:
+        sheet = openpyxl.load_workbook(BytesIO(_workbook_bytes(extent, merged))).active
+        assert _xlsx_used_range_bounds(sheet) == (sheet.max_row, sheet.max_column), (
+            extent,
+            merged,
+        )
+
+        edge = openpyxl.load_workbook(
+            BytesIO(_workbook_bytes(extent, [*merged, "A20:XFD20"]))
+        ).active
+        assert edge.max_column == 16_384
+        assert _xlsx_used_range_bounds(edge) == (
+            max(sheet.max_row, 20),
+            sheet.max_column,
+        ), (extent, merged)
+
+
+def test_xlsx_used_range_bounds_ignore_a_column_merged_to_the_last_row():
+    """The row edge works like the column edge. A stub stands in for the
+    sheet: openpyxl would materialise over a million MergedCells for a real
+    A1:A1048576 merge."""
+    from types import SimpleNamespace
+
+    from openpyxl.cell.cell import MergedCell
+    from openpyxl.worksheet.cell_range import CellRange
+
+    from chronicle.sources.cells import _xlsx_used_range_bounds
+
+    real = openpyxl.Workbook().active
+    cells = {
+        (row, column): real.cell(row=row, column=column)
+        for row in (1, 2, 3)
+        for column in (1, 2)
+    }
+    cells.update(
+        {(row, 4): MergedCell(real, row=row, column=4) for row in range(5, 60)}
+    )
+    cells[(4, 4)] = real.cell(row=4, column=4)  # the merge's anchor
+    sheet = SimpleNamespace(
+        merged_cells=SimpleNamespace(ranges=[CellRange("D4:D1048576")]),
+        _cells=cells,
+        max_row=1_048_576,
+        max_column=4,
+    )
+
+    assert _xlsx_used_range_bounds(sheet) == (4, 4)

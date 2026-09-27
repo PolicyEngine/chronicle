@@ -1657,6 +1657,20 @@ def test_national_soi_source_package_aliases_validate_fixture_counts():
             "source_record_count": 2,
             "source_region_count": 1,
         },
+        "soi-ira-traditional-contributions-2023": {
+            "record_set_count": 1,
+            "row_count": 1,
+            "measure_count": 2,
+            "source_record_count": 2,
+            "source_region_count": 1,
+        },
+        "soi-ira-roth-contributions-2023": {
+            "record_set_count": 1,
+            "row_count": 1,
+            "measure_count": 2,
+            "source_record_count": 2,
+            "source_region_count": 1,
+        },
     }
 
     for package_id, counts in expected_counts.items():

@@ -358,6 +358,7 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "soi-table-4-3": Path("irs_soi/table_4_3"),
     "soi-state-2022": Path("irs_soi/state_2022"),
+    "soi-state-2023": Path("irs_soi/state_2023"),
     "soi-county-2022": Path("irs_soi/county_2022"),
     "soi-congressional-district-2022": Path("irs_soi/congressional_district_2022"),
     "soi-historic-table-2": Path("irs_soi/historic_table_2"),
@@ -374,7 +375,11 @@ SOURCE_PACKAGE_ALIASES = {
     "soi-ira-traditional-contributions-2022": Path(
         "irs_soi/ira_traditional_contributions_2022"
     ),
+    "soi-ira-traditional-contributions-2023": Path(
+        "irs_soi/ira_traditional_contributions_2023"
+    ),
     "soi-ira-roth-contributions-2022": Path("irs_soi/ira_roth_contributions_2022"),
+    "soi-ira-roth-contributions-2023": Path("irs_soi/ira_roth_contributions_2023"),
     "ssa-annual-statistical-supplement-2025": Path(
         "ssa/annual_statistical_supplement_2025"
     ),
