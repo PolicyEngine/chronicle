@@ -1190,6 +1190,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         issue_280_period_increments[f"month:{month}"] = 23
     for key, count in issue_280_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#291: IRS SOI Historic Table 2 TY2023 state AGI-band facts.
+    expected_period_counts["tax_year:2023"] += 1020
     assert coverage["counts"]["by_period"] == expected_period_counts
     assert coverage["counts"]["by_geography"]["country:BE"] == 4888
     assert coverage["counts"]["by_geography"]["country:DE"] == 36
@@ -1199,7 +1201,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["nuts1:BE3"] == 3662
     assert coverage["counts"]["by_geography"]["commune:11002"] == 1
     assert coverage["counts"]["by_geography"]["country:0100000US"] == 2109
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 229
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 249
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
@@ -1220,7 +1222,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "person": 74808,
         "return": 14600,
         "social_protection_scheme": 36,
-        "tax_unit": 41368,
+        "tax_unit": 42388,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 467
