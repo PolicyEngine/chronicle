@@ -1,8 +1,9 @@
 """IRS SOI Historic Table 2 TY2023 state AGI-band package.
 
 The package emits, for 50 states and DC, one fact per published cell of
-``23in55cmcsv.csv``: return count (N1) and AGI (A00100) for each of the ten
-AGI stubs, with stub 9 ($500k-$1M) and stub 10 ($1M+) as separate facts.
+``23in55cmcsv.csv``: return count (N1), AGI (A00100), returns with taxable
+interest (N00300) and taxable interest (A00300) for each of the ten AGI stubs,
+with stub 9 ($500k-$1M) and stub 10 ($1M+) as separate facts.
 These tests read the publisher CSV directly with the standard library, so the
 values they check do not depend on Chronicle's own row parser.
 """
@@ -45,7 +46,13 @@ STUBS = {
     10: ("1m_plus", 1_000_000, math.inf),
 }
 STUB_BY_VALUE_ID = {value_id: stub for stub, (value_id, _, _) in STUBS.items()}
-MEASURE_COLUMNS = {"return_count": ("N1", 1), "adjusted_gross_income": ("A00100", 1000)}
+MEASURE_COLUMNS = {
+    "return_count": ("N1", 1),
+    "adjusted_gross_income": ("A00100", 1000),
+    "taxable_interest_returns": ("N00300", 1),
+    "taxable_interest_amount": ("A00300", 1000),
+}
+COUNT_MEASURES = {"return_count", "taxable_interest_returns"}
 NON_STATE_ROWS = {"US", "OA", "PR"}
 # Census state FIPS codes (50 states and DC), independent of the package.
 STATE_FIPS = {
@@ -65,7 +72,8 @@ def _publisher_cells() -> dict[tuple[str, int], dict[str, int]]:
     with CSV_2023.open(newline="", encoding="utf-8-sig") as handle:
         return {
             (row["STATE"], int(row["AGI_STUB"])): {
-                column: int(row[column].replace(",", "")) for column in ("N1", "A00100")
+                column: int(row[column].replace(",", ""))
+                for column, _ in MEASURE_COLUMNS.values()
             }
             for row in csv.DictReader(handle)
         }
@@ -113,7 +121,7 @@ def test_state_agi_2023_package_builds_split_top_bands(facts, tmp_path):
     by_id = {fact.source_record_id: fact for fact in facts}
     prefix = "irs_soi.ty2023.historic_table_2.state_agi"
 
-    assert len(facts) == 1_020
+    assert len(facts) == 2_040
     assert by_id[f"{prefix}.co.1m_plus.adjusted_gross_income"].value == (47_266_883_000)
     assert by_id[f"{prefix}.co.1m_plus.return_count"].value == 15_610
     assert by_id[f"{prefix}.co.500k_to_1m.adjusted_gross_income"].value == (
@@ -128,6 +136,9 @@ def test_state_agi_2023_package_builds_split_top_bands(facts, tmp_path):
     assert co_top.geography.id == "0400000US08"
     assert co_top.filters == {"filing_status": "all", "income_range": "1m_plus"}
     assert co_top.layout.source_column_id == "A00100"
+    assert by_id[f"{prefix}.co.1m_plus.taxable_interest_amount"].value == (
+        _publisher_cells()[("CO", 10)]["A00300"] * 1000
+    )
     assert _bounds(co_top) == (1_000_000, math.inf)
     assert _bounds(by_id[f"{prefix}.co.500k_to_1m.return_count"]) == (
         500_000,
@@ -189,7 +200,7 @@ def test_each_fact_is_exactly_one_publisher_cell(facts):
         assert _bounds(fact) == STUBS[stub][1:], fact.source_record_id
         assert fact.layout.source_column_id == column
         seen.add((state, stub, measure))
-    assert len(seen) == len(facts) == 51 * 10 * 2
+    assert len(seen) == len(facts) == 51 * 10 * len(MEASURE_COLUMNS)
 
 
 def test_bands_partition_the_agi_line_in_every_state(facts):
@@ -200,7 +211,7 @@ def test_bands_partition_the_agi_line_in_every_state(facts):
         state, _, measure = _parts(fact)
         by_cell.setdefault((state, measure), []).append(_bounds(fact))
 
-    assert len(by_cell) == 51 * 2
+    assert len(by_cell) == 51 * len(MEASURE_COLUMNS)
     for key, intervals in by_cell.items():
         intervals.sort()
         assert intervals[0][0] == -math.inf, key
@@ -211,9 +222,9 @@ def test_bands_partition_the_agi_line_in_every_state(facts):
 
 
 def test_bands_add_up_to_the_publishers_state_total(facts):
-    """Invariant: AGI bands sum exactly to the published stub-0 total; counts,
-    rounded to tens by the publisher, sum to it within the rounding of eleven
-    cells."""
+    """Invariant: dollar bands (AGI, taxable interest) sum exactly to the
+    published stub-0 total; counts, rounded to tens by the publisher, sum to it
+    within the rounding of eleven cells."""
     publisher = _publisher_cells()
     totals: dict[tuple[str, str], int] = {}
     for fact in facts:
@@ -223,13 +234,14 @@ def test_bands_add_up_to_the_publishers_state_total(facts):
     states = {state for state, _ in publisher} - NON_STATE_ROWS
     assert len(states) == 51
     for state in states:
-        assert totals[(state, "adjusted_gross_income")] == (
-            publisher[(state, 0)]["A00100"] * 1000
-        )
-        count_gap = totals[(state, "return_count")] - publisher[(state, 0)]["N1"]
-        assert abs(count_gap) <= 55, state
+        for measure, (column, scale) in MEASURE_COLUMNS.items():
+            published = publisher[(state, 0)][column] * scale
+            if measure in COUNT_MEASURES:
+                assert abs(totals[(state, measure)] - published) <= 55, state
+            else:
+                assert totals[(state, measure)] == published, (state, measure)
     for fact in facts:
-        if _parts(fact)[2] == "return_count":
+        if _parts(fact)[2] in COUNT_MEASURES:
             assert fact.value % 10 == 0, fact.source_record_id
 
 
@@ -253,4 +265,4 @@ def test_2023_ids_parallel_the_2022_package_except_the_split_top_band(facts):
     }
 
     assert ids_2023 == ids_2022
-    assert len(ids_2022) == 51 * 9 * 2
+    assert len(ids_2022) == 51 * 9 * len(MEASURE_COLUMNS)
