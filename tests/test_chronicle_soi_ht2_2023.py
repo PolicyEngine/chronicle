@@ -285,6 +285,16 @@ def test_every_measure_reads_its_documented_variable(package_id):
             ), (package_id, measure["measure_id"])
 
 
+def test_documented_variables_cover_exactly_the_packaged_measures():
+    measure_ids = {
+        measure["measure_id"]
+        for package_id in PACKAGES
+        for record_set in _package_yaml(package_id)["record_sets"]
+        for measure in record_set["measures"]
+    }
+    assert measure_ids == set(DOCUMENTED_VARIABLE)
+
+
 @pytest.mark.parametrize("package_id", sorted(PACKAGES))
 def test_packages_mirror_their_2022_twins(package_id):
     """Differential: with year labels removed and each column replaced by the
