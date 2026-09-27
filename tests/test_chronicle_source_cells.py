@@ -498,3 +498,34 @@ def test_xlsx_used_range_bounds_equal_openpyxl_without_an_edge_merge():
             max(sheet.max_row, 20),
             sheet.max_column,
         ), (extent, merged)
+
+
+def test_xlsx_used_range_bounds_ignore_a_column_merged_to_the_last_row():
+    """The row edge works like the column edge. A stub stands in for the
+    sheet: openpyxl would materialise over a million MergedCells for a real
+    A1:A1048576 merge."""
+    from types import SimpleNamespace
+
+    from openpyxl.cell.cell import MergedCell
+    from openpyxl.worksheet.cell_range import CellRange
+
+    from chronicle.sources.cells import _xlsx_used_range_bounds
+
+    real = openpyxl.Workbook().active
+    cells = {
+        (row, column): real.cell(row=row, column=column)
+        for row in (1, 2, 3)
+        for column in (1, 2)
+    }
+    cells.update(
+        {(row, 4): MergedCell(real, row=row, column=4) for row in range(5, 60)}
+    )
+    cells[(4, 4)] = real.cell(row=4, column=4)  # the merge's anchor
+    sheet = SimpleNamespace(
+        merged_cells=SimpleNamespace(ranges=[CellRange("D4:D1048576")]),
+        _cells=cells,
+        max_row=1_048_576,
+        max_column=4,
+    )
+
+    assert _xlsx_used_range_bounds(sheet) == (4, 4)

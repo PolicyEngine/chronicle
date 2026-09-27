@@ -158,7 +158,7 @@ def test_each_fact_is_its_publisher_cell(built, package_id):
         if fact.measure.legal_vintage is not None:
             assert fact.measure.legal_vintage == "tax_year_2023"
     for record_id, value in PUBLISHED.items():
-        if record_id in facts:
+        if record_id.startswith(tuple(f"irs_soi.ty2023.{s}" for s in expected)):
             assert facts[record_id].value == value
 
 
@@ -187,6 +187,15 @@ def test_state_totals_equal_the_historic_table_2_us_row(built):
     }
     for measure, (variable, scale) in variables.items():
         assert by_measure[measure] == int(us[variable].replace(",", "")) * scale
+
+
+def test_every_published_spot_value_belongs_to_a_package():
+    ids = {
+        f"irs_soi.ty2023.{suffix}"
+        for package in PACKAGES.values()
+        for suffix in package[6]
+    }
+    assert set(PUBLISHED) <= ids
 
 
 @pytest.mark.parametrize("build_year", [2022, 2024])
