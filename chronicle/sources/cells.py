@@ -18,6 +18,7 @@ from xml.etree import ElementTree
 from zipfile import ZipFile
 
 import openpyxl
+from openpyxl.cell.cell import MergedCell
 import xlrd
 
 from chronicle.epoch import EMIT_EPOCH, HASH_DOMAINS, Epoch, hash_domain
@@ -172,8 +173,9 @@ def source_cells_from_xlsx(
         if sheets and sheet.title not in sheets:
             continue
         formula_sheet = formula_workbook[sheet.title]
-        for row_index in range(1, sheet.max_row + 1):
-            for column_index in range(1, sheet.max_column + 1):
+        max_row, max_column = _xlsx_used_range_bounds(sheet)
+        for row_index in range(1, max_row + 1):
+            for column_index in range(1, max_column + 1):
                 cell = sheet.cell(row=row_index, column=column_index)
                 formula_cell = formula_sheet.cell(
                     row=row_index,
@@ -197,6 +199,48 @@ def source_cells_from_xlsx(
                     )
                 )
     return cells
+
+
+# The last column (XFD) and row an .xlsx worksheet can address.
+_XLSX_MAX_COLUMN = 16_384
+_XLSX_MAX_ROW = 1_048_576
+
+
+def _xlsx_used_range_bounds(sheet: Any) -> tuple[int, int]:
+    """Return the (max_row, max_column) of a worksheet's used range.
+
+    This is openpyxl's ``(sheet.max_row, sheet.max_column)`` unless the sheet
+    has a merged range that runs to the worksheet edge. openpyxl fills every
+    position of a merged range with a ``MergedCell`` placeholder, so one
+    footnote row merged across the whole sheet width (``A179:XFD179`` in the
+    IRS's TY2023 ``23in54us.xlsx``) stretches ``max_column`` to 16,384 and the
+    used range to about 70 million empty cells. Such an edge-to-edge range is
+    sheet-width formatting, not table extent: its placeholders do not widen
+    the bounds, while its anchor cell and every other cell still do. Sheets
+    without one keep openpyxl's bounds exactly.
+    """
+    edge_ranges = [
+        cell_range
+        for cell_range in sheet.merged_cells.ranges
+        if cell_range.max_col >= _XLSX_MAX_COLUMN or cell_range.max_row >= _XLSX_MAX_ROW
+    ]
+    if not edge_ranges:
+        return sheet.max_row, sheet.max_column
+
+    def edge_placeholder(row_index: int, column_index: int, cell: Any) -> bool:
+        return isinstance(cell, MergedCell) and any(
+            cell_range.min_row <= row_index <= cell_range.max_row
+            and cell_range.min_col <= column_index <= cell_range.max_col
+            for cell_range in edge_ranges
+        )
+
+    max_row = max_column = 1
+    for (row_index, column_index), cell in sheet._cells.items():
+        if edge_placeholder(row_index, column_index, cell):
+            continue
+        max_row = max(max_row, row_index)
+        max_column = max(max_column, column_index)
+    return max_row, max_column
 
 
 def source_cells_from_ods(
