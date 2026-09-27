@@ -1,0 +1,21 @@
+source_id: irs_soi
+package_id: soi-ira-traditional-contributions-2023
+dataset: irs_soi_traditional_ira_contributions_2023
+source_page: https://www.irs.gov/statistics/soi-tax-stats-accumulation-and-distribution-of-individual-retirement-arrangements
+table: Table 5. Taxpayers with Traditional Individual Retirement Arrangement (IRA)
+  Plan Contributions, by Size of Contribution and Age of Taxpayer
+files:
+  2023:
+    filename: 23in05ira.xlsx
+    source_url: https://www.irs.gov/pub/irs-soi/23in05ira.xlsx
+    sha256: 17b02670eeb35dab5d3f8be6a26333d527993f8b22933fa77bb3a06f3c8ad143
+    size_bytes: 11345
+    fetched_at: '2026-09-27T05:55:45+00:00'
+    source_table: Table 5. Taxpayers with Traditional Individual Retirement Arrangement
+      (IRA) Plan Contributions, by Size of Contribution and Age of Taxpayer
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-ira-traditional-contributions-2023/2023/17b02670eeb35dab5d3f8be6a26333d527993f8b22933fa77bb3a06f3c8ad143/23in05ira.xlsx
+        uri: r2://ledger-raw/raw/irs_soi/soi-ira-traditional-contributions-2023/2023/17b02670eeb35dab5d3f8be6a26333d527993f8b22933fa77bb3a06f3c8ad143/23in05ira.xlsx

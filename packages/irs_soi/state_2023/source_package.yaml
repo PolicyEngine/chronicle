@@ -1,0 +1,228 @@
+schema_version: ledger.source_package.v1
+package_id: soi-state-2023
+label: IRS SOI 2023 state-data United States totals
+dimension_labels:
+  'filing_status': 'Filing status'
+  'income_range': 'Income range'
+  'irs_soi.state_table_measure': 'State table measure'
+  'us.tax.earned_income_credit_qualifying_children': 'EITC qualifying children'
+dimension_value_labels:
+  'filing_status':
+    'all': 'All filing statuses'
+  'income_range':
+    'all': 'All income ranges'
+artifact:
+  source_name: irs_soi
+  source_table: Historic Table 2 state data, United States total
+  resource_package: db
+  resource_directory: data/irs_soi/state_2023
+  manifest: manifest.yaml
+  vintage: tax_year_2023
+  extracted_at: "2026-09-27"
+  extraction_method: xlsx whole-workbook used-range cell parse
+  parser: xlsx_used_range
+  artifact_year: 2023
+record_sets:
+  - record_set_id: irs_soi.ty2023.state_2023.us.return_count
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.state_2022.us.return_count.v1
+    source_record_id_prefix: irs_soi.ty2023.state_2023.us.return_count
+    sheet_name: Sheet1
+    period_type: tax_year
+    period: "2023"
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: all_individual_income_tax_returns
+    groupby_dimension: irs_soi.state_table_measure
+    rows:
+      - value_id: all_returns
+        label: All returns
+        ordinal: 0
+        row_number: 9
+        expected_row_header_column: A
+        expected_row_header: Number of returns [1]
+        filters:
+          filing_status: all
+          income_range: all
+        guard_cells:
+          - column: B
+            row: 3
+            expected_value: "UNITED STATES "
+            label: geography section
+        table_record_kind: total
+    measures:
+      - measure_id: return_count
+        label: Number of returns
+        ordinal: 0
+        column: B
+        source_column_id: all_returns
+        expected_column_header_row: 4
+        expected_column_header: All returns
+        concept: irs_soi.individual_income_tax_returns
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: irs_soi.ty2023.state_2023.us.adjusted_gross_income
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.state_2022.us.adjusted_gross_income.v1
+    source_record_id_prefix: irs_soi.ty2023.state_2023.us.adjusted_gross_income
+    sheet_name: Sheet1
+    period_type: tax_year
+    period: "2023"
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: all_individual_income_tax_returns
+    groupby_dimension: irs_soi.state_table_measure
+    rows:
+      - value_id: all_returns
+        label: All returns
+        ordinal: 0
+        row_number: 26
+        expected_row_header_column: A
+        expected_row_header: Adjusted gross income (AGI) [6]
+        filters:
+          filing_status: all
+          income_range: all
+        guard_cells:
+          - column: B
+            row: 3
+            expected_value: "UNITED STATES "
+            label: geography section
+        table_record_kind: total
+    measures:
+      - measure_id: amount
+        label: Adjusted gross income
+        ordinal: 0
+        column: B
+        source_column_id: all_returns
+        expected_column_header_row: 4
+        expected_column_header: All returns
+        concept: us:statutes/26/62#adjusted_gross_income
+        source_concept: irs_soi.adjusted_gross_income
+        concept_relation: exact
+        concept_authority: ledger-us
+        concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
+        concept_evidence_notes: >
+          IRS SOI Historic Table 2 state-data files report adjusted gross
+          income for individual income tax returns; IRC section 62 defines
+          adjusted gross income. This Ledger assertion treats the SOI AGI row
+          as exactly adopting that legal concept for the tax-year source
+          record.
+        legal_vintage: tax_year_2023
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+        expected_cell_type: number
+  - record_set_id: irs_soi.ty2023.state_2023.us.eitc_three_or_more_children_returns
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.state_2022.us.eitc_three_or_more_children_returns.v1
+    source_record_id_prefix: irs_soi.ty2023.state_2023.us.eitc_three_or_more_children_returns
+    sheet_name: Sheet1
+    period_type: tax_year
+    period: "2023"
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: all_individual_income_tax_returns
+    groupby_dimension: us.tax.earned_income_credit_qualifying_children
+    rows:
+      - value_id: three_or_more_qualifying_children
+        label: Three or more qualifying children
+        ordinal: 0
+        row_number: 146
+        expected_row_header_column: A
+        expected_row_header: "         Earned income credit with three or more qualifying children:  Number"
+        filters:
+          filing_status: all
+          income_range: all
+        constraints:
+          - variable: us.tax.earned_income_credit_qualifying_children
+            operator: ">="
+            value: 3
+            unit: count
+            label: Earned income credit qualifying children lower bound
+        guard_cells:
+          - column: B
+            row: 3
+            expected_value: "UNITED STATES "
+            label: geography section
+          - column: A
+            row: 138
+            expected_value: "Earned income credit:  [10] Number"
+            label: earned income credit section
+    measures:
+      - measure_id: return_count
+        label: Returns with earned income credit
+        ordinal: 0
+        column: B
+        source_column_id: all_returns
+        expected_column_header_row: 4
+        expected_column_header: All returns
+        concept: irs_soi.returns_with_earned_income_credit
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: irs_soi.ty2023.state_2023.us.eitc_three_or_more_children_amount
+    provenance_class: administrative
+    record_set_spec_id: irs_soi.state_2022.us.eitc_three_or_more_children_amount.v1
+    source_record_id_prefix: irs_soi.ty2023.state_2023.us.eitc_three_or_more_children_amount
+    sheet_name: Sheet1
+    period_type: tax_year
+    period: "2023"
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: tax_unit
+    entity_role: filing_unit
+    domain: all_individual_income_tax_returns
+    groupby_dimension: us.tax.earned_income_credit_qualifying_children
+    rows:
+      - value_id: three_or_more_qualifying_children
+        label: Three or more qualifying children
+        ordinal: 0
+        row_number: 147
+        expected_row_header_column: A
+        expected_row_header: "     Amount"
+        filters:
+          filing_status: all
+          income_range: all
+        constraints:
+          - variable: us.tax.earned_income_credit_qualifying_children
+            operator: ">="
+            value: 3
+            unit: count
+            label: Earned income credit qualifying children lower bound
+        guard_cells:
+          - column: B
+            row: 3
+            expected_value: "UNITED STATES "
+            label: geography section
+          - column: A
+            row: 146
+            expected_value: "         Earned income credit with three or more qualifying children:  Number"
+            label: earned income credit qualifying children row
+    measures:
+      - measure_id: amount
+        label: Earned income credit
+        ordinal: 0
+        column: B
+        source_column_id: all_returns
+        expected_column_header_row: 4
+        expected_column_header: All returns
+        concept: irs_soi.earned_income_credit
+        unit: usd
+        aggregation: sum
+        value_scale: 1000
+        expected_cell_type: number
