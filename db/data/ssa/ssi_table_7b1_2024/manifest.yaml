@@ -14,7 +14,15 @@ files:
     - https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.xlsx
     - https://web.archive.org/web/20260101161550id_/https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.xlsx
     - https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
-    notes: 'SSA''s own workbook for Annual Statistical Supplement 2025 section 7.B (sheets 7.B1, 7.B3, 7.B7, 7.B8, 7.B9); the package parses sheet 7.B1. These bytes equal the file ssa.gov served on 2026-09-26 (Last-Modified Mon, 15 Dec 2025 15:08:03 GMT) and every Wayback id_ capture of the same URL from 2026-01-01 on. ssa.gov answers non-browser clients with HTTP 403; the Wayback id_ URL returns the same bytes. The earlier 22 May 2025 upload differs only in the SOURCE-note wording of sheets 7.B1 and 7.B7. Payments are thousands of dollars (footnote a: totals do not necessarily equal the sum of rounded components). All areas includes the Northern Mariana Islands row, which this package does not emit.'
+    notes: 'SSA''s own workbook for Annual Statistical Supplement 2025 section 7.B
+      (sheets 7.B1, 7.B3, 7.B7, 7.B8, 7.B9); the package parses sheet 7.B1. These
+      bytes equal the file ssa.gov served on 2026-09-26 (Last-Modified Mon, 15 Dec
+      2025 15:08:03 GMT) and every Wayback id_ capture of the same URL from 2026-01-01
+      on. ssa.gov answers non-browser clients with HTTP 403; the Wayback id_ URL returns
+      the same bytes. The earlier 22 May 2025 upload differs only in the SOURCE-note
+      wording of sheets 7.B1 and 7.B7. Payments are thousands of dollars (footnote
+      a: totals do not necessarily equal the sum of rounded components). All areas
+      includes the Northern Mariana Islands row, which this package does not emit.'
     storage:
       r2:
         provider: r2
@@ -30,7 +38,10 @@ files:
     source_urls:
     - https://web.archive.org/web/20260101161547id_/https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
     - https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
-    notes: Wayback Machine id_ capture of the Table 7.B web page, kept as an independent rendering of Table 7.B1 for the package's cross-format fidelity test. Not a fact artifact. The page carries per-request tracking script, so whole-file hashes differ between captures; the table markup does not.
+    notes: Wayback Machine id_ capture of the Table 7.B web page, kept as an independent
+      rendering of Table 7.B1 for the package's cross-format fidelity test. Not a
+      fact artifact. The page carries per-request tracking script, so whole-file hashes
+      differ between captures; the table markup does not.
     storage:
       r2:
         provider: r2
