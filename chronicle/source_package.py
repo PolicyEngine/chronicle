@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import os
-from dataclasses import dataclass, replace
+from dataclasses import asdict, dataclass, field, replace
 from importlib.resources import files
 from io import BytesIO
 from pathlib import Path
@@ -1227,9 +1227,18 @@ class SourcePackage:
     # (chronicle#261); see chronicle.dimension_labels for the other sources.
     dimension_labels: dict[str, str] | None = None
     dimension_value_labels: dict[str, dict[str, str]] | None = None
+    # Memo of artifact_year_restamp_issues by build year. The verdict depends
+    # only on the package's declarations, which a loaded package never changes.
+    _restamp_issues_by_year: dict[Any, tuple[SourcePackageIssue, ...]] = field(
+        default_factory=dict,
+        init=False,
+        repr=False,
+        compare=False,
+    )
 
     def build_source_rows(self, year: int) -> list[SourceRow]:
         """Build full source rows for row-oriented artifacts."""
+        self._require_year_reads_its_own_data(year)
         return self.artifact.build_source_rows(year)
 
     def build_source_cells(
@@ -1239,6 +1248,7 @@ class SourcePackage:
         source_rows: list[SourceRow] | None = None,
     ) -> list[SourceCell]:
         """Build whole-artifact source cells for this package."""
+        self._require_year_reads_its_own_data(year)
         return self.artifact.build_source_cells(year, source_rows=source_rows)
 
     def build_source_record_set_specs(
@@ -1246,7 +1256,18 @@ class SourcePackage:
         year: int,
     ) -> list[SourceRecordSetSpec]:
         """Build compact record-set specs for this package."""
+        self._require_year_reads_its_own_data(year)
+        return self._compile_record_set_specs(year)
+
+    def _compile_record_set_specs(self, year: int) -> list[SourceRecordSetSpec]:
+        """Compile record-set specs without the artifact-year restamp guard."""
         return [record_set.to_record_set_spec(year) for record_set in self.record_sets]
+
+    def _require_year_reads_its_own_data(self, year: int) -> None:
+        """Refuse a build whose year would only relabel the pinned artifact."""
+        issues = artifact_year_restamp_issues(self, year)
+        if issues:
+            raise ArtifactYearRestampError(self, year, issues)
 
     def build_source_regions(self, year: int):
         """Build source-region specs implied by the package record sets."""
@@ -1320,6 +1341,369 @@ class SourcePackage:
             field_labels=self.artifact.source_column_labels(year),
             source_rows=source_rows,
         )
+
+
+ARTIFACT_YEAR_RESTAMP_CODE = "artifact_year_restamp"
+
+# The declarations that decide what a build reads: which file, sheet and
+# selected rows, and per (row, measure) cell the column, rows, header and guard
+# expectations and value scaling (_cell_selection). A pinned package always reads
+# the file of its ``artifact_year``, so when these render the same at two build
+# years, both builds read the same cells. Every other compiled field (period,
+# record ids, legal_vintage, filters, constraints, geography, concept and layout
+# labels) names or dates the facts built from those cells.
+_ARTIFACT_SELECTION_FIELDS = (
+    "parser",
+    "archive_member",
+    "sheets",
+    "delimiter",
+    "header_row",
+)
+_ARTIFACT_LABEL_FIELDS = ("vintage", "source_table")
+_RESTAMP_MESSAGE_MOVES = 6
+
+
+class ArtifactYearRestampError(ValueError):
+    """A pinned-artifact build whose year would only relabel another year's data.
+
+    ``artifact_year`` pins which file a package reads. When a build at another
+    year selects exactly the cells the ``artifact_year`` build selects, every
+    ``{year}`` label it renders (period, record ids, vintage, legal_vintage)
+    would restamp that file's facts as the requested year.
+    """
+
+    def __init__(
+        self,
+        package: SourcePackage,
+        year: int,
+        issues: list[SourcePackageIssue] | tuple[SourcePackageIssue, ...],
+    ) -> None:
+        self.package_id = package.package_id
+        self.artifact_year = package.artifact.artifact_year
+        self.year = year
+        self.issues = tuple(issues)
+        more = len(self.issues) - 1
+        suffix = f" ({more} more record set(s) affected.)" if more else ""
+        super().__init__(f"{self.issues[0].message}{suffix}")
+
+
+def artifact_year_restamp_issues(
+    package: SourcePackage,
+    year: int,
+) -> list[SourcePackageIssue]:
+    """Return restamp issues for building a pinned package at ``year``.
+
+    A package pinned to ``artifact_year`` A reads A's file at every build year.
+    A build at year Y != A is a restamp when a record set selects the same cells
+    at Y as at A (same artifact and record-set selection) while any label the
+    build renders differs, such as the period, record ids, artifact vintage or
+    legal_vintage. Packages whose selection follows the year
+    (``column_by_year``, ``sheet_name_by_year``, ``selected_rows`` that filter
+    on ``{year}``, or a guard cell whose expected value follows the year) pass;
+    a build at a year their file does not cover then fails with its own error.
+    The check compiles record-set specs only and never parses the artifact.
+    """
+    artifact_year = package.artifact.artifact_year
+    if (
+        artifact_year is None
+        or not isinstance(year, int)
+        or isinstance(year, bool)
+        or year == artifact_year
+    ):
+        return []
+    cached = package._restamp_issues_by_year.get(year)
+    if cached is None:
+        cached = tuple(_restamp_issues(package, year, artifact_year))
+        package._restamp_issues_by_year[year] = cached
+    return list(cached)
+
+
+def _restamp_issues(
+    package: SourcePackage,
+    year: int,
+    artifact_year: int,
+) -> list[SourcePackageIssue]:
+    if not _declarations_depend_on_year(package):
+        return []  # every declaration renders the same at every year
+    artifact = package.artifact
+    try:
+        if _artifact_selection(artifact, year) != _artifact_selection(
+            artifact, artifact_year
+        ):
+            return []
+        entries_at_year = _selected_row_entries(artifact, year)
+        entries_at_artifact_year = _selected_row_entries(artifact, artifact_year)
+        specs_at_year = package._compile_record_set_specs(year)
+        specs_at_artifact_year = package._compile_record_set_specs(artifact_year)
+    except (KeyError, TypeError, ValueError):
+        # A declaration that renders or compiles at only one of the two years
+        # selects by year (for example a column_by_year without that year). A
+        # build at a year that cannot compile fails with its own error.
+        return []
+    sheet_selects = _sheet_name_selects(artifact)
+    artifact_moves = []
+    label_fields = _ARTIFACT_LABEL_FIELDS + (
+        ("sheet_name",) if _artifact_sheet_role(artifact) == "label" else ()
+    )
+    for name in label_fields:
+        value = getattr(artifact, name)
+        at_artifact_year = _render_string(value, year=artifact_year) if value else value
+        at_year = _render_string(value, year=year) if value else value
+        if at_artifact_year != at_year:
+            artifact_moves.append((f"artifact.{name}", at_artifact_year, at_year))
+    issues = []
+    for spec_at_year, spec_at_artifact_year in zip(
+        specs_at_year,
+        specs_at_artifact_year,
+        strict=True,
+    ):
+        moves = _restamped_cell_moves(
+            spec_at_year,
+            spec_at_artifact_year,
+            entries_at_year=entries_at_year,
+            entries_at_artifact_year=entries_at_artifact_year,
+            sheet_selects=sheet_selects,
+        )
+        if moves is None:
+            continue
+        moves = [*artifact_moves, *moves]
+        if not moves:
+            continue
+        issues.append(
+            SourcePackageIssue(
+                code=ARTIFACT_YEAR_RESTAMP_CODE,
+                message=_restamp_message(
+                    package,
+                    year=year,
+                    artifact_year=artifact_year,
+                    record_set_id=spec_at_artifact_year.record_set_id,
+                    moves=moves,
+                ),
+                record_set_id=spec_at_year.record_set_id,
+            )
+        )
+    return issues
+
+
+def _restamped_cell_moves(
+    spec_at_year: SourceRecordSetSpec,
+    spec_at_artifact_year: SourceRecordSetSpec,
+    *,
+    entries_at_year: tuple[Any, ...],
+    entries_at_artifact_year: tuple[Any, ...],
+    sheet_selects: bool,
+) -> list[tuple[str, Any, Any]] | None:
+    """The record set's moved fields when some cell is read alike at both years.
+
+    A record set builds one fact per (row, measure) cell. A cell is read alike
+    when its row, its measure, its guard cells, the record set's sheet (for a
+    spreadsheet) and the ``selected_rows`` entries its rows come from all
+    render the same at both years. Returns ``None`` when no cell is read alike.
+    Otherwise it returns every field of the record set that differs. Each
+    fact carries ``layout.record_set_spec_hash``, a hash of the whole compiled
+    record set, so any difference relabels the alike cells' facts. One
+    year-selected measure beside a fixed one, or one ``{year}`` selected row
+    beside a fixed one, therefore no longer hides the fixed cells
+    (chronicle#292 review).
+    """
+
+    if sheet_selects and spec_at_year.sheet_name != spec_at_artifact_year.sheet_name:
+        return None
+    alike = any(
+        _cell_selection(row_at_year, measure_at_year, entries_at_year)
+        == _cell_selection(
+            row_at_artifact_year, measure_at_artifact_year, entries_at_artifact_year
+        )
+        for row_at_year, row_at_artifact_year in zip(
+            spec_at_year.rows, spec_at_artifact_year.rows, strict=True
+        )
+        for measure_at_year, measure_at_artifact_year in zip(
+            spec_at_year.measures, spec_at_artifact_year.measures, strict=True
+        )
+    )
+    if not alike:
+        return None
+    return _changed_leaves(asdict(spec_at_artifact_year), asdict(spec_at_year))
+
+
+def _cell_selection(
+    row: Any, measure: Any, entries: tuple[Any, ...]
+) -> tuple[Any, ...]:
+    """What one (row, measure) cell reads, resolved as the compiler resolves it.
+
+    ``compile_source_record_set_specs`` reads ``row.column or measure.column``
+    and lets a row's column-header expectation override the measure's, so a
+    fixed row column is read alike even when the measure's column follows the
+    year.
+    """
+
+    referenced = {row.row_number}
+    if row.row_end_number:
+        referenced.update(range(row.row_number, row.row_end_number + 1))
+    referenced.update(
+        guard.row
+        for guard in row.guard_cells
+        if isinstance(guard.row, int) and not isinstance(guard.row, bool)
+    )
+    return (
+        row.column or measure.column,
+        (
+            row.expected_column_header_row
+            if row.expected_column_header_row is not None
+            else measure.expected_column_header_row
+        ),
+        (
+            row.expected_column_header
+            if row.expected_column_header is not None
+            else measure.expected_column_header
+        ),
+        row.row_number,
+        row.row_end_number,
+        row.value_scale,
+        row.expected_row_header,
+        row.expected_row_header_column,
+        measure.divisor_column,
+        measure.value_scale,
+        measure.round_to,
+        measure.expected_cell_type,
+        tuple(
+            (guard.column, guard.expected_value, guard.row) for guard in row.guard_cells
+        ),
+        tuple(
+            (guard.column, guard.expected_values) for guard in row.range_label_guards
+        ),
+        tuple(
+            _selected_row_entry(entries, row_number)
+            for row_number in sorted(number for number in referenced if number)
+        ),
+    )
+
+
+def _selected_row_entries(artifact: SourceArtifactSpec, year: int) -> tuple[Any, ...]:
+    return tuple(
+        tuple((key, str(_render_value(value, year=year))) for key, value in row.items())
+        for row in artifact.selected_rows
+    )
+
+
+def _selected_row_entry(entries: tuple[Any, ...], row_number: int) -> Any:
+    # A selected_rows extract numbers its rows from 2 in declaration order
+    # (row 1 is the header): row r reads entry r - 2.
+    if not entries:
+        return None
+    index = row_number - 2
+    return entries[index] if 0 <= index < len(entries) else ("row", row_number)
+
+
+def _sheet_name_selects(artifact: SourceArtifactSpec) -> bool:
+    """Whether a record set's sheet name picks data (a spreadsheet) or only labels.
+
+    Delimited text, JSON, HTML and PDF parsers name a virtual sheet; reading the
+    same bytes under another sheet name reads the same cells.
+    """
+
+    parser = str(artifact.parser or "")
+    return any(kind in parser for kind in ("xls", "ods"))
+
+
+def _artifact_sheet_role(artifact: SourceArtifactSpec) -> str:
+    """What the artifact-level ``sheet_name`` does for this parser.
+
+    ``xlsx_table_full_rows`` reads the named sheet ("selects"). The used-range
+    spreadsheet parsers never read it; their record sets name the sheet
+    ("unused"). Every other parser names a virtual sheet with it, a label on
+    each cell ("label").
+    """
+
+    parser = str(artifact.parser or "")
+    if parser == "xlsx_table_full_rows":
+        return "selects"
+    if "used_range" in parser:
+        return "unused"
+    return "label"
+
+
+def _declarations_depend_on_year(package: SourcePackage) -> bool:
+    """Whether any declaration renders ``{year}``/``{filing_year}`` or is by-year."""
+    return _mentions_year(asdict(package.artifact)) or any(
+        _mentions_year(record_set.payload) for record_set in package.record_sets
+    )
+
+
+def _mentions_year(value: Any) -> bool:
+    if isinstance(value, str):
+        return "{year" in value or "{filing_year" in value
+    if isinstance(value, dict):
+        return any(
+            (isinstance(key, str) and key.endswith("_by_year")) or _mentions_year(item)
+            for key, item in value.items()
+        )
+    if isinstance(value, list | tuple):
+        return any(_mentions_year(item) for item in value)
+    return False
+
+
+def _artifact_selection(artifact: SourceArtifactSpec, year: int) -> tuple[Any, ...]:
+    """What the artifact reads apart from ``selected_rows`` (compared per row)."""
+
+    sheet_name = None
+    if artifact.sheet_name and _artifact_sheet_role(artifact) == "selects":
+        sheet_name = _render_string(artifact.sheet_name, year=year)
+    return (
+        tuple(getattr(artifact, name) for name in _ARTIFACT_SELECTION_FIELDS),
+        sheet_name,
+        len(artifact.selected_rows),
+    )
+
+
+def _changed_leaves(
+    before: Any,
+    after: Any,
+    path: str = "",
+) -> list[tuple[str, Any, Any]]:
+    if isinstance(before, dict) and isinstance(after, dict):
+        changes = []
+        for key in dict.fromkeys([*before, *after]):
+            child = f"{path}.{key}" if path else str(key)
+            changes.extend(_changed_leaves(before.get(key), after.get(key), child))
+        return changes
+    if (
+        isinstance(before, list | tuple)
+        and isinstance(after, list | tuple)
+        and len(before) == len(after)
+    ):
+        changes = []
+        for index, (item_before, item_after) in enumerate(
+            zip(before, after, strict=True)
+        ):
+            changes.extend(_changed_leaves(item_before, item_after, f"{path}[{index}]"))
+        return changes
+    return [] if before == after else [(path, before, after)]
+
+
+def _restamp_message(
+    package: SourcePackage,
+    *,
+    year: int,
+    artifact_year: int,
+    record_set_id: str,
+    moves: list[tuple[str, Any, Any]],
+) -> str:
+    shown = "; ".join(
+        f"{path} {before!r} -> {after!r}"
+        for path, before, after in moves[:_RESTAMP_MESSAGE_MOVES]
+    )
+    if len(moves) > _RESTAMP_MESSAGE_MOVES:
+        shown += f"; and {len(moves) - _RESTAMP_MESSAGE_MOVES} more"
+    return (
+        f"Source package {package.package_id!r} pins artifact_year "
+        f"{artifact_year}, so a build at year {year} reads the same cells as "
+        f"the {artifact_year} build of record set {record_set_id!r} but "
+        f"relabels them: {shown}. Write year labels as literals (for example "
+        f"period: '{artifact_year}'), or select the year's data with "
+        "column_by_year, sheet_name_by_year or a {year}-templated "
+        "selected_rows filter."
+    )
 
 
 def load_source_package(source: str | Path) -> SourcePackage:
@@ -1454,7 +1838,7 @@ def validate_source_package(
         )
 
     try:
-        record_sets = package.build_source_record_set_specs(year)
+        record_sets = package._compile_record_set_specs(year)
     except (KeyError, TypeError, ValueError) as exc:
         errors.append(
             SourcePackageIssue(
@@ -1471,6 +1855,9 @@ def validate_source_package(
             warnings=tuple(warnings),
         )
 
+    # A pinned package that would only relabel its artifact at this year is
+    # invalid here; the build methods refuse it with ArtifactYearRestampError.
+    errors.extend(artifact_year_restamp_issues(package, year))
     counts["record_set_count"] = len(record_sets)
     record_set_ids: dict[str, list[int]] = {}
     source_record_ids: dict[str, list[int]] = {}

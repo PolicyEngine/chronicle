@@ -199,7 +199,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
   - measure_id: total_income_returns
     label: Returns with total income
     ordinal: 3
@@ -251,7 +251,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://www.irs.gov/statistics/soi-tax-stats-historic-table-2
     concept_evidence_notes: IRS SOI Historic Table 2 labels this measure salaries and wages for individual income tax returns. Ledger treats the SOI wage measure as a broad match to the wage input of IRC section 62 adjusted gross income.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
   - measure_id: taxable_interest_returns
     label: Returns with taxable interest
     ordinal: 7

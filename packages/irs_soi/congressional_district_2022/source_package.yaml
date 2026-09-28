@@ -19,7 +19,7 @@ artifact:
   resource_package: db
   resource_directory: data/irs_soi/congressional_district_2022
   manifest: manifest.yaml
-  vintage: tax_year_{year}
+  vintage: tax_year_2022
   extracted_at: '2026-05-11'
   extraction_method: full CSV row parse with all-return national, state, and congressional district facts
   parser: delimited_text_full_rows
@@ -1467,13 +1467,13 @@ artifact:
     CONG_DISTRICT: 0
     agi_stub: 0
 record_sets:
-- record_set_id: irs_soi.ty{year}.congressional_district_2022.all_returns
+- record_set_id: irs_soi.ty2022.congressional_district_2022.all_returns
   provenance_class: administrative
   record_set_spec_id: irs_soi.congressional_district_2022.all_returns.v1
-  source_record_id_prefix: irs_soi.ty{year}.congressional_district_2022.all_returns
+  source_record_id_prefix: irs_soi.ty2022.congressional_district_2022.all_returns
   sheet_name: incd2022
   period_type: tax_year
-  period: '{year}'
+  period: '2022'
   geography_id: 0100000US
   geography_level: country
   geography_name: United States
@@ -14003,7 +14003,7 @@ record_sets:
     concept_evidence_notes: IRS SOI congressional district files report adjusted gross income for individual
       income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the
       SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000

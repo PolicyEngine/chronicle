@@ -17,19 +17,19 @@ artifact:
   resource_package: db
   resource_directory: data/irs_soi/state_2022
   manifest: manifest.yaml
-  vintage: tax_year_{year}
+  vintage: tax_year_2022
   extracted_at: "2026-05-11"
   extraction_method: xlsx whole-workbook used-range cell parse
   parser: xlsx_used_range
   artifact_year: 2022
 record_sets:
-  - record_set_id: irs_soi.ty{year}.state_2022.us.return_count
+  - record_set_id: irs_soi.ty2022.state_2022.us.return_count
     provenance_class: administrative
     record_set_spec_id: irs_soi.state_2022.us.return_count.v1
-    source_record_id_prefix: irs_soi.ty{year}.state_2022.us.return_count
+    source_record_id_prefix: irs_soi.ty2022.state_2022.us.return_count
     sheet_name: Sheet1
     period_type: tax_year
-    period: "{year}"
+    period: "2022"
     geography_id: 0100000US
     geography_level: country
     geography_name: United States
@@ -66,13 +66,13 @@ record_sets:
         unit: count
         aggregation: sum
         expected_cell_type: number
-  - record_set_id: irs_soi.ty{year}.state_2022.us.adjusted_gross_income
+  - record_set_id: irs_soi.ty2022.state_2022.us.adjusted_gross_income
     provenance_class: administrative
     record_set_spec_id: irs_soi.state_2022.us.adjusted_gross_income.v1
-    source_record_id_prefix: irs_soi.ty{year}.state_2022.us.adjusted_gross_income
+    source_record_id_prefix: irs_soi.ty2022.state_2022.us.adjusted_gross_income
     sheet_name: Sheet1
     period_type: tax_year
-    period: "{year}"
+    period: "2022"
     geography_id: 0100000US
     geography_level: country
     geography_name: United States
@@ -116,18 +116,18 @@ record_sets:
           adjusted gross income. This Ledger assertion treats the SOI AGI row
           as exactly adopting that legal concept for the tax-year source
           record.
-        legal_vintage: tax_year_{year}
+        legal_vintage: tax_year_2022
         unit: usd
         aggregation: sum
         value_scale: 1000
         expected_cell_type: number
-  - record_set_id: irs_soi.ty{year}.state_2022.us.eitc_three_or_more_children_returns
+  - record_set_id: irs_soi.ty2022.state_2022.us.eitc_three_or_more_children_returns
     provenance_class: administrative
     record_set_spec_id: irs_soi.state_2022.us.eitc_three_or_more_children_returns.v1
-    source_record_id_prefix: irs_soi.ty{year}.state_2022.us.eitc_three_or_more_children_returns
+    source_record_id_prefix: irs_soi.ty2022.state_2022.us.eitc_three_or_more_children_returns
     sheet_name: Sheet1
     period_type: tax_year
-    period: "{year}"
+    period: "2022"
     geography_id: 0100000US
     geography_level: country
     geography_name: United States
@@ -173,13 +173,13 @@ record_sets:
         unit: count
         aggregation: sum
         expected_cell_type: number
-  - record_set_id: irs_soi.ty{year}.state_2022.us.eitc_three_or_more_children_amount
+  - record_set_id: irs_soi.ty2022.state_2022.us.eitc_three_or_more_children_amount
     provenance_class: administrative
     record_set_spec_id: irs_soi.state_2022.us.eitc_three_or_more_children_amount.v1
-    source_record_id_prefix: irs_soi.ty{year}.state_2022.us.eitc_three_or_more_children_amount
+    source_record_id_prefix: irs_soi.ty2022.state_2022.us.eitc_three_or_more_children_amount
     sheet_name: Sheet1
     period_type: tax_year
-    period: "{year}"
+    period: "2022"
     geography_id: 0100000US
     geography_level: country
     geography_name: United States
