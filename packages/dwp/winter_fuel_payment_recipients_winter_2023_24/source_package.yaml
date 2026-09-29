@@ -9,14 +9,19 @@
 #
 # The DWP year label ('2023 / 2024') becomes fiscal_year 2023, the financial year the payments
 # fall in. England, Wales and Scotland are rows with their own GSS codes; the Great Britain
-# total, regions and local areas are in dwp-winter-fuel-payment-statistics-winter-2023-24.
+# total and the regions are ported from the winter's statistics workbook
+# (dwp-winter-fuel-payment-statistics-winter-2023-24), whose local tables are not ported.
 # Age band (65 to 69 up to 90 and over), amount and gender request total: true.
-# Winter 2023 to 2024: 11,586,201 recipients in the three countries (the workbook's Great
-# Britain row, 11,589,506, also counts recipients with an unknown region).
+# Winter 2023 to 2024: 11,586,201 recipients in the three countries. The workbook's Great
+# Britain row, 11,589,506, is higher because its country cells are higher than the cube's in
+# every country (England by 2,848, Wales by 155, Scotland by 311; the workbook header
+# compares them); DWP does not say why the two releases differ.
 #
-# Of 960 series, 672 are zero and are not ported (the GBP 100, 150 and
-# 200 amounts, which belong to later winters, and the Unknown items). The 288 facts
-# are every other cell.
+# Of 960 series, 672 are zero and are not ported: the GBP 100, 150 and
+# 200 amounts, which belong to later winters; the Unknown items; and the amounts never paid
+# at an age - GBP 300 and GBP 350 below 80 (except GBP 350 to some English women aged 75 to
+# 79), GBP 250 and GBP 500 at 85 and over, and GBP 600 to Welsh and Scottish men aged 65 to
+# 69. The 288 facts are every other cell.
 schema_version: ledger.source_package.v1
 package_id: dwp-winter-fuel-payment-recipients-winter-2023-24
 label: 'DWP Stat-Xplore: Winter Fuel Payment recipients by country, age band, amount and gender, Great Britain, winter 2023 to 2024'

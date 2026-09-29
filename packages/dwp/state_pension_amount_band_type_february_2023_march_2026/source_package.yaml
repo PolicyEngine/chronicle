@@ -15,7 +15,9 @@
 # people living abroad (1,093,218 at March 2026) and cases with an unknown address (7,278)
 # are separate items of that field and are not requested, so the facts are Great Britain
 # residents only: 12,207,303 at March 2026, against 13,307,794 in all, the compendium's
-# 13.3 million. Northern Ireland pensions are paid by DfC, not DWP, and are in no cell here.
+# 13.3 million (the three items sum to 13,307,799: Stat-Xplore perturbs each cell
+# independently, so a total is DWP's own cell, not a sum). Northern Ireland pensions are
+# paid by DfC, not DWP, and are in no cell here.
 # Annotation VI: the Shetland Islands' cases from August 2023 to August 2024 sit in the
 # unknown-geography item; totals are unaffected.
 #

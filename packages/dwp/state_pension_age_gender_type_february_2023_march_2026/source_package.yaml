@@ -13,7 +13,9 @@
 # people living abroad (1,093,218 at March 2026) and cases with an unknown address (7,278)
 # are separate items of that field and are not requested, so the facts are Great Britain
 # residents only: 12,207,303 at March 2026, against 13,307,794 in all, the compendium's
-# 13.3 million. Northern Ireland pensions are paid by DfC, not DWP, and are in no cell here.
+# 13.3 million (the three items sum to 13,307,799: Stat-Xplore perturbs each cell
+# independently, so a total is DWP's own cell, not a sum). Northern Ireland pensions are
+# paid by DfC, not DWP, and are in no cell here.
 # Annotation VI: the Shetland Islands' cases from August 2023 to August 2024 sit in the
 # unknown-geography item; totals are unaffected.
 #
@@ -32,11 +34,14 @@
 # summation is emitted, and a mean total is DWP's own mean over the pooled cases.
 #
 # Of 528 category series, 332 are zero in every month and are not
-# ported (the #239 ruling on all-zero categories): ages 60 to 65, below State Pension age
-# for the whole window, the Unknown gender and the Unknown type, in every combination. The
-# 4879 facts are every other cell (217 of them published zeros inside
-# a kept series) and a mean for each cell with at least one case; 217 mean cells
-# over no cases (DWP returns 0) emit no fact.
+# ported (the #239 ruling on all-zero categories): every series at ages 60 to 65, below
+# State Pension age for the whole window; the Unknown type at every age and gender; the
+# Unknown gender, except at an unknown or all ages for the new State Pension and all types;
+# the pre-2016 State Pension at 66 and 68, and for men at 67 and 69; and the new State
+# Pension, which began in April 2016, at 77 and over, and for women at 76. The 4879
+# facts are every other cell (217 of them published zeros inside a kept
+# series) and a mean for each cell with at least one case; 217 mean cells over
+# no cases (DWP returns 0) emit no fact.
 schema_version: ledger.source_package.v1
 package_id: dwp-state-pension-age-gender-type-february-2023-march-2026
 label: 'DWP Stat-Xplore: State Pension recipients and mean weekly amount by single year of age, gender and type of pension, Great Britain residents, February 2023 to March 2026'

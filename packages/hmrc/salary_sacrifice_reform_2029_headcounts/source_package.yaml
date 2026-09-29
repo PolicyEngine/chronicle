@@ -10,8 +10,8 @@
 # (2025) with UK geography inferred from the NICs scope; policyengine-uk-data's {2024: ...} keying plus
 # its 2.4%-per-year growth extension are populace-side declarations excluded
 # per the facts-only ADR. uk-data tags these targets 'obr'; the publisher is
-# HMRC (relabel recorded in docs/pe-uk-source-checklist.md). The paper's
-# NI-relief companions (GBP 1.2bn employee / 2.9bn employer) cite the
+# HMRC (relabel recorded in docs/pe-uk-source-checklist.md). uk-data's
+# NI-relief companion targets (GBP 1.2bn employee / 2.9bn employer) cite the
 # separate 2025 SPP Review PDF, whose uk-data asset link is dead with no
 # Wayback copy. The same two values are HMRC private pension statistics
 # Table 6.2's NICs relief on salary-sacrificed contributions in 2023-24,

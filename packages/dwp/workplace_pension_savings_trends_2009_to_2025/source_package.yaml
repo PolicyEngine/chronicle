@@ -77,7 +77,7 @@ dimension_value_labels:
   gender:
     Male: Male
     Female: Female
-    all: All genders
+    all: Total
   saver_population:
     eligible_savers: Eligible savers
     all_savers: All savers

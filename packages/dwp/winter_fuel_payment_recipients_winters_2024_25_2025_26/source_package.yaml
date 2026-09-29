@@ -11,17 +11,20 @@
 # The DWP year label ('2025 / 2026') becomes fiscal_year with the opening year, the financial
 # year the payments fall in, as DWP's expenditure and caseload tables book Winter Fuel
 # Payment; period_coverage keeps the publisher's label and the qualifying week. England and
-# Wales are rows with their own GSS codes; the England and Wales total (and the region,
-# local authority and constituency tables, and beneficiaries) are in each winter's
-# statistics workbook (dwp-winter-fuel-payment-statistics-winter-2025-26 and siblings).
-# Age band, amount and gender request total: true, so DWP emits the margins; those rows sit
-# in .total record sets. Winter 2025 to 2026: 10,866,262 recipients in England and Wales
-# (the workbook's 10,872,496 also counts 6,233 recipients with an unknown region).
+# Wales are rows with their own GSS codes; the England and Wales total, the regions and
+# beneficiaries are ported from each winter's statistics workbook
+# (dwp-winter-fuel-payment-statistics-winter-2025-26 and siblings), whose local authority and
+# constituency tables are not ported. Age band, amount and gender request total: true, so
+# DWP emits the margins; those rows sit in .total record sets. Winter 2025 to 2026:
+# 10,866,262 recipients in England and Wales (the workbook's 10,872,496 also counts the
+# 6,233 recipients its region table places in an unknown region, to within one).
 #
-# Of 384 series, 210 are zero in both winters and are not ported (the
-# Unknown age, amount and gender items). A series zero in one winter but not the other is
-# kept as published - the GBP 100 and GBP 150 amounts did not exist in winter 2024 to 2025 -
-# so 66 facts are published zeros.
+# Of 384 series, 210 are zero in both winters and are not ported: the
+# Unknown age, amount and gender items, and the amounts never paid at an age - GBP 150 below
+# 80 and GBP 100 at 80 and over. A series zero in one winter but not the other is kept as
+# published - the GBP 100 and GBP 150 amounts did not exist in winter 2024 to 2025, and no
+# one aged 80 or over was paid GBP 200 that winter - so 66 facts are
+# published zeros.
 schema_version: ledger.source_package.v1
 package_id: dwp-winter-fuel-payment-recipients-winters-2024-25-2025-26
 label: 'DWP Stat-Xplore: Winter Fuel Payment recipients by country, age band, amount and gender, England and Wales, winters 2024 to 2025 and 2025 to 2026'

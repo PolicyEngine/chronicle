@@ -2040,7 +2040,7 @@ record_sets:
             unit: years
             label: Age lower bound
       - value_id: all_ages
-        label: All ages
+        label: All
         ordinal: 6
         row_number: 11
         expected_row_header_column: A

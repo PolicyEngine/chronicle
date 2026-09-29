@@ -13,10 +13,14 @@
 # fiscal_year 2023.
 #
 # The Wales and Scotland rows restate cells of the Stat-Xplore cube in
-# dwp-winter-fuel-payment-recipients-winter-2023-24, which applies its disclosure control
-# separately: 16 of them differ, by at most 311 recipients or 0.07 per cent (Scotland
-# 1,012,884 here against 1,012,573). Both are DWP's published cells and are kept as published;
-# for winters 2024 to 2025 and 2025 to 2026 the workbook and the cube agree cell for cell.
+# dwp-winter-fuel-payment-recipients-winter-2023-24, and every one of them differs: the 28
+# cells that match one to one (the total, each sex, each sex by age band to 79 and each
+# amount, in both countries) and the four 80-and-over cells against the sum of the cube's
+# three bands. The workbook is higher in 28 of the 32, by at most 311 recipients (Scotland's
+# total, 1,012,884 here against 1,012,573) or 0.07 per cent (Wales at GBP 300); DWP does not
+# say why the two releases differ. Both are DWP's published cells and are kept as
+# published; for winters 2024 to 2025 and 2025 to 2026 the workbook and the cube agree cell
+# for cell.
 schema_version: ledger.source_package.v1
 package_id: dwp-winter-fuel-payment-statistics-winter-2023-24
 label: DWP Winter Fuel Payment recipients and beneficiaries by region, winter 2023 to 2024

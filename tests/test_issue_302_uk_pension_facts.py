@@ -176,7 +176,8 @@ def test_state_pension_march_2026_great_britain_residents(built):
     facts = built(SP_AGE)
     march = dict(period="2026-03", age_bands_and_single_year="all", gender="all")
 
-    # Residents only: 13,307,794 cases in all, less 1,093,218 abroad and 7,278 unknown.
+    # Residents only: 13,307,794 cases in all, of which 1,093,218 live abroad and 7,278
+    # have no known address (the three items sum to 5 more: Stat-Xplore perturbs each cell).
     assert (
         _value(facts, measure_id="total_recipients", category_of_pension="all", **march)
         == 12_207_303
@@ -628,6 +629,35 @@ def test_dwp_forecast_tables_run_to_2030_31(built):
         benefit_forecast_line="state_pension__total",
     ) == pytest.approx(180.7e9, rel=1e-3)
     assert {fact.period.value for fact in facts} == set(range(2023, 2031))
+
+    # The Notes tab: Scottish cases leave a benefit's lines when executive competence
+    # moves to the Scottish Government, so those lines cover England and Wales from then.
+    def geography(line, year):
+        # a line may carry both an expenditure and a caseload fact in a year
+        (geography_id,) = {
+            f.geography.id
+            for f in facts
+            if f.filters["benefit_forecast_line"] == line and f.period.value == year
+        }
+        return geography_id
+
+    wfp = "caseloads_by_benefit__winter_fuel_payments"
+    assert geography(wfp, 2023) == "K03000001"
+    assert geography(wfp, 2024) == "K04000001"
+    for line in (
+        "caseloads_by_benefit__attendance_allowance",
+        "caseloads_by_benefit__carer_s_allowance",
+        "disability_benefits__personal_independence_payment__in_payment",
+    ):
+        assert geography(line, 2023) == "K04000001"
+    # Lines that mix moved and unmoved benefits, and those paid abroad, keep the frame.
+    for line in (
+        "caseloads_by_benefit__industrial_injuries_benefits",
+        "disability_benefits__total",
+        "disability_benefits__disability_living_allowance__outside_uk",
+        "caseloads_by_benefit__pension_credit",
+    ):
+        assert geography(line, 2030) == "K03000001"
 
 
 def _statxplore_response():
