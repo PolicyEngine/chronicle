@@ -31,11 +31,12 @@ capital gain (less loss) amount", both from Form 1040 line 7, "Capital gain or
 without a Schedule D.
 
 - The Historic Table 2 packages had borrowed the concept of Table 1.4 columns
-  37/38, "Sales of capital assets reported on Form 1040, Schedule D: Taxable
+  37/38 (25/26 before TY2022), "Sales of capital assets reported on Form 1040, Schedule D: Taxable
   net gain", which counts only Schedule D returns with a gain. For TY2022 the
   two counts are 30,465,850 and 12,915,122 returns. Historic Table 2's US count
   equals Table 1.4's capital-gain-distribution, taxable-net-gain and
-  taxable-net-loss returns combined to within 0.25% in every year TY2020–TY2023.
+  taxable-net-loss returns combined to within 0.25% in every year TY2020–TY2023
+  (the TY2022 identity is checked in CI against Chronicle's registered files).
 - The congressional-district ids read as a gain-only amount. IRC section
   1222(11) and the Publication 1304 Explanation of Terms both use "net capital
   gain" for a positive amount only.
@@ -45,29 +46,31 @@ without a Schedule D.
   (TY2022: 26,480,998), so the phrase alone does not identify the population.
 
 **Semantic keys.** Historic Table 2 and the congressional-district file now
-share one concept for the same IRS variable. That was already the case for 19 of
-the 31 IRS columns the national package shares with the congressional-district
-file (24 of 36 for the state package); the capital-gains pair was 2 of the same
-12 exceptions in both. Their TY2022 state and US rows therefore share semantic
+share one concept for the same IRS variable. Before this change that held for 26
+of the 38 IRS variables the national package shares with the
+congressional-district file (24 of 36 for the state package); the capital-gains
+pair was 2 of the same 12 exceptions in both. Their TY2022 state and US rows therefore share semantic
 keys, which adds 104 semantic-duplicate keys to the default bundle (51 states
 and the US, returns and amount). The values differ: the IRS guide for the
 congressional-district file says its state totals "may not be comparable to
 State totals published elsewhere by SOI because of disclosure protection
 procedures or the exclusion of returns that did not match based on the ZIP
-code." Historic Table 2 and Table 1.4 rows for the same year can no longer share
-a semantic key. In the default bundle they did not collide, because Historic
-Table 2 builds at TY2022 and Table 1.4 at TY2023, but a same-year build did.
+code." Historic Table 2 and Table 1.4 capital-gain rows for the same year can
+no longer share a semantic key. In the default bundle they did not collide,
+because Historic Table 2 builds at TY2022 and Table 1.4 at TY2023, but a TY2022
+build of both did.
 
 **Unchanged.** Table 1.4 keeps `irs_soi.returns_with_taxable_net_capital_gains`
 / `irs_soi.taxable_net_capital_gains`. `measure_id` stays
 `net_capital_gains_returns` / `net_capital_gains_amount` in all four packages
 because Microcosm selects on it, so one `measure_id` still names two different
 measures; chronicle#307 tracks giving them distinct ids together with the
-Microcosm selector change, and the 10 other columns the two files label with
-different concepts.
+Microcosm selector change, and the 10 other IRS columns that Historic Table 2
+and the congressional-district file still label with different concepts.
 
 **Pinned by** `tests/test_chronicle_soi_capital_gain_concepts.py`: every
-`irs_soi` package that reads `N01000`/`A01000` (any vintage) must declare the
-new concept, only Table 1.4 may declare the Schedule D gain concept, the retired
+`irs_soi` measure (any vintage) that names `N01000`/`A01000` in its
+`source_column_id` or `expected_column_header` guard must declare the new
+concept, only Table 1.4 may declare the Schedule D gain concept, the retired
 ids may not reappear, and the consumer selector (`source_measure_id`) and
 published values are unchanged.
