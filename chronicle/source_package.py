@@ -99,6 +99,36 @@ SOURCE_PACKAGE_ALIASES = {
     "dwp-esa-caseload-payment-type-phase-may-2018-march-2026": Path(
         "dwp/esa_caseload_payment_type_phase_may_2018_march_2026"
     ),
+    # chronicle#302: UK pension facts (State Pension, Pension Credit, NI, workplace
+    # pensions, salary sacrifice, Winter Fuel Payment).
+    "dwp-pension-credit-amount-band-type-february-2023-march-2026": Path(
+        "dwp/pension_credit_amount_band_type_february_2023_march_2026"
+    ),
+    "dwp-pension-credit-gender-type-february-2023-march-2026": Path(
+        "dwp/pension_credit_gender_type_february_2023_march_2026"
+    ),
+    "dwp-pension-credit-region-type-february-2023-march-2026": Path(
+        "dwp/pension_credit_region_type_february_2023_march_2026"
+    ),
+    "dwp-pension-credit-type-partner-age-february-2023-march-2026": Path(
+        "dwp/pension_credit_type_partner_age_february_2023_march_2026"
+    ),
+    "dwp-state-pension-age-gender-type-february-2023-march-2026": Path(
+        "dwp/state_pension_age_gender_type_february_2023_march_2026"
+    ),
+    "dwp-state-pension-amount-band-type-february-2023-march-2026": Path(
+        "dwp/state_pension_amount_band_type_february_2023_march_2026"
+    ),
+    "dwp-state-pension-category-protected-payment-february-2023-march-2026": Path(
+        "dwp/state_pension_category_protected_payment_february_2023_march_2026"
+    ),
+    "dwp-state-pension-region-type-gender-february-2023-march-2026": Path(
+        "dwp/state_pension_region_type_gender_february_2023_march_2026"
+    ),
+    "hmrc-pension-contribution-relief-2023-24": Path(
+        "hmrc/pension_contribution_relief_2023_24"
+    ),
+    # end chronicle#302
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),
