@@ -57,6 +57,7 @@ def _subject_line(clone: pathlib.Path, candidate: str, base: str | None) -> str:
         line += f" base commit {base} tree {_git(clone, 'rev-parse', base + '^{tree}')}"
     return line
 
+
 # A commit id of the right shape that no repository holds.
 ABSENT_OBJECT_ID = "0" * 40
 
@@ -940,6 +941,242 @@ def test_a_true_append_is_accepted_end_to_end(tmp_path):
     assert completed.returncode == 0, completed.stdout + completed.stderr
     assert f"+{APPENDED_ROW_COUNT} appended vs base" in completed.stdout
     _assert_nothing_left_behind(clone, tmp_path / "tmp")
+
+
+# Files that decide a verdict when they sit in the judging checkout, one per
+# way in: the pins the shim imports, the uv inputs the workflow provisions the
+# judge from, and files that are not there today but would be read if added.
+# Until 2026-09-29 the first three were off the gate surface, so a resolver-
+# shaped append that also edited them was judged as plain data and never named
+# them (PolicyEngine/chronicle#299 review).
+GATE_DECIDERS = (
+    "scripts/receipt_pins.py",
+    "pyproject.toml",
+    "uv.lock",
+    "uv.toml",
+    ".python-version",
+    "scripts/sitecustomize.py",
+    ".venv/lib/python3.14/site-packages/zz_injected.pth",
+)
+
+
+def _change_gate_decider(relative: str):
+    """Return a mutation that changes one decider, or adds it if absent."""
+
+    def mutate(root: pathlib.Path) -> None:
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8") as handle:
+            handle.write("# a change riding the proposal\n")
+
+    return mutate
+
+
+def _copy_existing_gate_deciders(root: pathlib.Path) -> None:
+    """Put the repository's own copy of every decider it has into the base."""
+
+    for relative in GATE_DECIDERS:
+        source = ROOT / relative
+        if source.is_file():
+            destination = root / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, destination)
+
+
+@pytest.mark.parametrize("relative", GATE_DECIDERS)
+def test_an_append_that_also_changes_a_gate_decider_is_refused_as_mixed(
+    tmp_path, relative
+):
+    """The witnessed append plus one decider change cannot pass as data.
+
+    The refusal comes before any ledger check and names the decider, so a trust
+    change can no longer ride an append that the resolver merges on its own.
+    """
+
+    clone, base, candidate = _replay_latest_release(
+        tmp_path,
+        prepare=_copy_existing_gate_deciders,
+        mutate=_change_gate_decider(relative),
+    )
+
+    completed = _run_shim(
+        clone, commit=candidate, base_ref=base, temporary_root=tmp_path / "tmp"
+    )
+
+    assert completed.returncode == 1, completed.stdout + completed.stderr
+    assert completed.stdout == ""
+    assert f"{FAILED}mixed data/gate proposal is forbidden: " in completed.stderr
+    assert (
+        f"; GATE_SURFACE changes={[relative]!r}; split them into separate pull requests"
+    ) in completed.stderr
+    _assert_nothing_left_behind(clone, tmp_path / "tmp")
+
+
+@pytest.mark.parametrize("relative", GATE_DECIDERS)
+def test_a_gate_decider_change_alone_is_a_named_gate_only_proposal(tmp_path, relative):
+    clone, base = _replay_current_state(tmp_path)
+    _copy_existing_gate_deciders(clone)
+    base = _commit(clone, "deciders in the base")
+    _change_gate_decider(relative)(clone)
+    candidate = _commit(clone, f"change {relative}")
+
+    completed = _run_shim(
+        clone, commit=candidate, base_ref=base, temporary_root=tmp_path / "tmp"
+    )
+
+    assert completed.returncode == 0, completed.stdout + completed.stderr
+    assert completed.stdout.splitlines() == [
+        "thesis-facts append check OK: gate-only proposal; DATA_SURFACE "
+        f"unchanged; GATE_SURFACE changes={[relative]!r}",
+        _subject_line(clone, candidate, base),
+    ]
+    _assert_nothing_left_behind(clone, tmp_path / "tmp")
+
+
+def test_an_append_beside_unchanged_gate_deciders_still_passes(tmp_path):
+    """The resolver's shape: ledger and release files only, deciders untouched."""
+
+    clone, base, candidate = _replay_latest_release(
+        tmp_path, prepare=_copy_existing_gate_deciders
+    )
+    changed = set(_git(clone, "diff", "--name-only", base, candidate).splitlines())
+    assert changed and all(
+        path.startswith(("ledger/", "releases/manifests/")) for path in changed
+    ), changed
+
+    completed = _run_shim(
+        clone, commit=candidate, base_ref=base, temporary_root=tmp_path / "tmp"
+    )
+
+    assert completed.returncode == 0, completed.stdout + completed.stderr
+    assert completed.stdout == (
+        f"{APPEND_GATE_OK}\n{_subject_line(clone, candidate, base)}\n"
+    )
+    _assert_nothing_left_behind(clone, tmp_path / "tmp")
+
+
+OPENED_FILES_DRIVER = """\
+import json
+import os
+import pathlib
+import sys
+
+opened = set()
+
+
+def _record(event, arguments):
+    if event == "open" and isinstance(arguments[0], (str, bytes, os.PathLike)):
+        opened.add(os.fsdecode(arguments[0]))
+
+
+sys.addaudithook(_record)
+sys.path.insert(0, {scripts!r})
+
+import check_thesis_facts_append as shim  # noqa: E402
+
+try:
+    code = shim.main()
+finally:
+    opened.update(
+        getattr(module, "__file__", None) or "" for module in list(sys.modules.values())
+    )
+    pathlib.Path({report!r}).write_text(json.dumps(sorted(opened)), encoding="utf-8")
+raise SystemExit(code)
+"""
+
+
+def test_every_file_the_gate_reads_from_its_own_checkout_is_on_the_gate_surface(
+    tmp_path,
+):
+    """The invariant behind GATE_SURFACE, measured on an accepting run.
+
+    Every file the gate process opens or imports from inside the judging
+    checkout is on the surface. That is the pins, the gate's scripts, the
+    trust anchors, and the installed receipt wheel, which lives in the
+    checkout's own .venv just as it does in the workflow's base-gate clone.
+    """
+
+    from receipt.append_gate import _matches_surface
+
+    from scripts.receipt_pins import APPEND_GATE_SPEC
+
+    clone, base, candidate = _replay_latest_release(tmp_path)
+    report = tmp_path / "opened.json"
+    driver = tmp_path / "driver" / "driver.py"
+    driver.parent.mkdir()
+    driver.write_text(
+        OPENED_FILES_DRIVER.format(scripts=str(SHIM_SCRIPTS), report=str(report)),
+        encoding="utf-8",
+    )
+
+    completed = subprocess.run(
+        [
+            sys.executable,
+            str(driver),
+            "--root",
+            str(clone),
+            "--commit",
+            candidate,
+            "--base-ref",
+            base,
+        ],
+        cwd=clone,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stdout + completed.stderr
+
+    root = ROOT.resolve()
+    inside = set()
+    for name in json.loads(report.read_text(encoding="utf-8")):
+        if not name:
+            continue
+        path = pathlib.Path(name)
+        if not path.is_absolute():
+            path = clone / path
+        resolved = path.resolve()
+        if resolved.is_relative_to(root):
+            inside.add(resolved.relative_to(root).as_posix())
+    assert "scripts/receipt_pins.py" in inside
+    assert any(path.startswith("releases/anchors/") for path in inside), inside
+    off_surface = sorted(
+        path
+        for path in inside
+        if not _matches_surface(path, APPEND_GATE_SPEC.gate_surface)
+    )
+    assert off_surface == [], off_surface
+
+
+def test_the_gate_surface_covers_the_judges_import_path_and_environment():
+    """What a run cannot show: files that would decide a verdict if added.
+
+    The judge runs a script in scripts/, so scripts/ is sys.path[0], and both
+    pull request jobs also put it on PYTHONPATH, where a sitecustomize.py runs
+    at startup. The whole directory is therefore on the surface, not just the
+    files imported today. The judge's environment comes from the base's own
+    uv project, so its inputs are on the surface too.
+    """
+
+    from scripts.receipt_pins import APPEND_GATE_SPEC
+
+    workflow = (ROOT / ".github" / "workflows" / "thesis-facts-append.yml").read_text(
+        encoding="utf-8"
+    )
+    assert 'PYTHONPATH="$base_gate/scripts"' in workflow
+    assert 'uv sync --locked --no-dev --project "$base_gate"' in workflow
+    assert SHIM.parent.relative_to(ROOT).as_posix() == "scripts"
+    for required in (
+        "scripts/**",
+        ".github/workflows/thesis-facts-append.yml",
+        "pyproject.toml",
+        "uv.lock",
+        "uv.toml",
+        ".python-version",
+        ".venv/**",
+        "releases/anchors/**",
+    ):
+        assert required in APPEND_GATE_SPEC.gate_surface, required
 
 
 def test_the_scratch_directory_is_private_to_the_run(tmp_path):

@@ -571,4 +571,9 @@ environment. Verification machinery is consumed from the `receipt`
 package with this repository's trust pins committed in
 `scripts/receipt_pins.py`; see `releases/README.md` (immutable
 post-genesis, like everything under `releases/`) for the schema, offline
-verification procedure, and security limits.
+verification procedure, and security limits. The gate surface in that file
+lists every base-checkout file that can decide a verdict: all of `scripts/`,
+the append workflow, the anchors, and the uv inputs that build the gate's
+environment (`pyproject.toml`, `uv.lock`, `uv.toml`, `.python-version`,
+`.venv/`). The gate refuses a pull request that changes any of them together
+with the ledger, and names them when a pull request changes only them.

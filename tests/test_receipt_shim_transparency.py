@@ -113,6 +113,54 @@ def test_original_oracle_fixtures_are_authenticated(name: str) -> None:
     assert _sha256(ORIGINAL_FIXTURES / name) == ORIGINAL_HASHES[name]
 
 
+def _original_surface(name: str) -> frozenset[str]:
+    """Read one surface literal from the authenticated original gate."""
+
+    import ast
+
+    module = ast.parse(
+        (ORIGINAL_FIXTURES / "check_thesis_facts_append.py").read_text(encoding="utf-8")
+    )
+    for node in module.body:
+        if (
+            isinstance(node, ast.Assign)
+            and [getattr(target, "id", None) for target in node.targets] == [name]
+            and isinstance(node.value, ast.Call)
+        ):
+            return frozenset(ast.literal_eval(node.value.args[0]))
+    raise AssertionError(f"{name} not found in the original gate")
+
+
+def test_the_shim_gate_surface_deliberately_widens_the_originals() -> None:
+    """The one place the pair is meant to disagree about classification.
+
+    The originals' GATE_SURFACE predates scripts/receipt_pins.py, where the
+    shim's trust pins now live, and never listed the uv inputs that provision
+    the judge. The shim's surface covers every original entry and adds those,
+    so a proposal that changes one of them is refused as mixed (with rows) or
+    named as gate-only (alone), where the original judged it as plain data.
+    No case in this file changes such a file, so the byte-identity asserted
+    here is unaffected; tests/test_thesis_append_shim_isolation.py holds the
+    shim to the wider surface.
+    """
+
+    from receipt.append_gate import _matches_surface
+
+    from scripts.receipt_pins import APPEND_GATE_SPEC
+
+    original_gate = _original_surface("GATE_SURFACE")
+    shim_gate = APPEND_GATE_SPEC.gate_surface
+    for entry in original_gate:
+        if entry.endswith("/**"):
+            assert entry in shim_gate, entry
+        else:
+            assert _matches_surface(entry, shim_gate), entry
+    assert _original_surface("DATA_SURFACE") == APPEND_GATE_SPEC.data_surface
+    for widened in ("scripts/receipt_pins.py", "pyproject.toml", "uv.lock"):
+        assert not _matches_surface(widened, original_gate), widened
+        assert _matches_surface(widened, shim_gate), widened
+
+
 @pytest.fixture(scope="session")
 def original_oracle(tmp_path_factory: pytest.TempPathFactory) -> pathlib.Path:
     """Copy the authenticated original scripts into one executable tree."""
