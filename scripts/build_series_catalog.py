@@ -1445,7 +1445,8 @@ def _append_gate_helpers():
         )
     except ImportError as exc:  # pragma: no cover - environment guard
         raise SystemExit(
-            "cannot import the supersede-aware current view from "
+            "cannot import the append gate's content address and "
+            "supersede-aware current view from "
             f"check_thesis_facts_append (receipt package required): {exc}"
         )
     return effective_current_rows, expected_assertion_version_id
@@ -1485,14 +1486,16 @@ def check_assertion_versions(rows: list[dict]) -> list[str]:
     """Enforce the append gate's supersede preconditions; return every id.
 
     The gate (receipt ``check_rows``) reserves the effective id of EVERY
-    row, versioned or not, and resolves corrections against those ids.
-    This check does the same, so a gate-accepted correction of a prefix
-    row is accepted here too. It refuses what the current view cannot
-    represent: two rows with one effective id (identical unversioned rows,
-    or a correction restoring an earlier value), a link to no row's id, a
-    self-link and a cycle. The gate refuses each of these as well. Its
-    remaining link rules (the target is the active version of the same
-    record, on an earlier line) are the gate's alone.
+    row, versioned or not, and a correction names the effective id of the
+    version it replaces. This check reserves the same ids, so a
+    gate-accepted correction of a prefix row is accepted here too. It
+    refuses the part of the gate's rules the current view relies on: two
+    rows with one effective id (identical unversioned rows, or a row
+    restating an earlier row's exact addressed content), a link to no
+    row's id, a self-link and a cycle. The gate refuses each of these as
+    well. Its other rules (an explicit id equals the content address; a
+    link names the active version of the same record, on an earlier line,
+    so no version is superseded twice) are the gate's alone.
     """
     ids: list[str] = []
     owner: dict[str, int] = {}
@@ -1571,7 +1574,7 @@ def build_catalog(
     # the ledger's aggregate-fact validation uses), or superseded
     # assertions would keep stale identities alive forever. The imported
     # helper assumes append-gate-validated input; standalone runs get the
-    # same preconditions enforced by check_assertion_versions.
+    # preconditions it relies on from check_assertion_versions.
     check_assertion_versions(rows)
     effective_current_rows, _ = _append_gate_helpers()
     current_rows = effective_current_rows(rows)

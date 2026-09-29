@@ -22,8 +22,9 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-# The gate's own effective-id rule, private to receipt: the differential
-# oracle for the generator's copy of it.
+# receipt's effective-id rule (private; effective_current_rows uses it, and
+# check_rows reserves the same id inline after requiring an explicit id to
+# equal the content address): the differential oracle for the generator's.
 from receipt.append_gate import _effective_assertion_id
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -2206,10 +2207,12 @@ def test_assertion_version_preconditions(tmp_path: pathlib.Path) -> None:
 # The append gate (receipt check_rows) gives EVERY journal row one effective
 # assertion version id: its explicit assertionVersion.id, or, for a row
 # without one (the whole immutable prefix), its recomputed av2 content
-# address. It reserves every such id and resolves corrections against them.
-# The generator's preconditions must accept whatever the gate accepts, and
-# refuse a duplicate id, a self-link, an unresolvable link and a cycle
-# exactly when the gate refuses for that reason. 2026-09-29 repro: six
+# address. It reserves every such id and a correction names one of them.
+# The generator's preconditions must accept whatever the gate accepts; on
+# journals whose explicit ids are their content addresses (the gate's first
+# row rule), refuse a duplicate id, a self-link, an unresolvable link and a
+# cycle exactly when the gate refuses for that reason; and with any defects
+# at all, refuse only what the gate refuses. 2026-09-29 repro: six
 # corrections of the June 2026 Table A-19 prefix rows passed the gate and
 # were refused here as superseding an "unknown version", which would have
 # failed every later resolver append.
@@ -2289,8 +2292,11 @@ def _gate_reason(rows: list[dict], refusal: str | None) -> str | None:
     the gate's own effective ids: this row (self), no row (unknown), or a
     row whose chain leads back here (cycle). Every other refusal (a link to
     a non-active, other-record or later version outside a cycle, a missing
-    link, an id that is not the content address) is a rule the gate alone
-    enforces, which the generator must accept: None.
+    link) is a rule the gate alone enforces, which the generator must
+    accept: None. So is an explicit id that is not the content address,
+    but the generator trusts explicit ids, so such a journal can still be
+    refused there for a duplicate or orphaned link; journals with one are
+    held only to containment.
     """
     if refusal is None:
         return None
@@ -2397,6 +2403,8 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
     assert len(occupations) == 6
     assert all(series["unit"] == "millions" for series in occupations)
     assert catalog["observation_rows"] == len(journal)
+    # Each correction replaces its target, so the current count is the
+    # live ledger's.
     assert catalog["current_assertion_rows"] == len(
         gate.effective_current_rows(rows)
     )
@@ -2489,12 +2497,16 @@ def _gate_valid_journals(draw) -> tuple[list[dict], int]:
 MUTATIONS = (
     "unknown", "self", "cycle", "relink", "unlink", "duplicate", "restore"
 )
+# An explicit id that is not the row's content address: the gate refuses
+# it outright, and only containment is claimed for it.
+ANY_MUTATION = (*MUTATIONS, "reid")
 
 
 def _mutate(draw, kind: str, rows: list[dict], prefix: int):
     """Apply one defect. Only ``supersedes`` changes, which leaves every id
     alone, or a row is added: a copy of any row, or an A -> B -> A
-    restore."""
+    restore. The exception is "reid", which rewrites one explicit id to
+    another row's id or to an address no row has."""
     ids = [_address(row) for row in rows]
     versioned = [i for i, row in enumerate(rows) if "assertionVersion" in row]
     if kind == "unknown" and versioned:
@@ -2535,14 +2547,20 @@ def _mutate(draw, kind: str, rows: list[dict], prefix: int):
                 "id": ids[chain[0]], "supersedes": ids[chain[-1]]
             }
             rows.append(first)
+    elif kind == "reid" and versioned:
+        i = draw(st.sampled_from(versioned))
+        stray = "av2:" + hashlib.sha256(
+            draw(st.binary(min_size=1, max_size=8))
+        ).hexdigest()
+        rows[i]["assertionVersion"]["id"] = draw(st.sampled_from([*ids, stray]))
     return rows, prefix
 
 
 @st.composite
-def _mutated_journals(draw, max_mutations: int):
+def _mutated_journals(draw, max_mutations: int, kinds=MUTATIONS):
     rows, prefix = draw(_gate_valid_journals())
     rows = copy.deepcopy(rows)
-    kinds = draw(st.lists(st.sampled_from(MUTATIONS), max_size=max_mutations))
+    kinds = draw(st.lists(st.sampled_from(kinds), max_size=max_mutations))
     for kind in kinds:
         rows, prefix = _mutate(draw, kind, rows, prefix)
     return rows, prefix
@@ -2575,10 +2593,11 @@ def test_generator_refuses_iff_the_gate_does_for_that_reason(journal) -> None:
 
 
 @PROPERTY_SETTINGS
-@given(_mutated_journals(max_mutations=3))
+@given(_mutated_journals(max_mutations=3, kinds=ANY_MUTATION))
 def test_generator_refusals_are_gate_refusals(journal) -> None:
-    # Invariant, with several defects: every generator refusal is a gate
-    # refusal, and a gate refusal for a generator reason is refused here.
+    # Invariant, with several defects, ids rewritten away from their content
+    # addresses included: every generator refusal is a gate refusal, and a
+    # gate refusal for a generator reason is refused here.
     rows, prefix = journal
     refusal = _gate_refusal(rows, prefix)
     generator = _generator_refusal(rows)
