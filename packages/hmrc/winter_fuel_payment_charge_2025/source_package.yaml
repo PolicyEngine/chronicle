@@ -21,13 +21,6 @@ label: 'HMRC Winter Fuel Payments charge: individuals with total income over GBP
   charge, by recovery route, tax year 2025-26 (estimate)'
 dimension_labels:
   charge_recovery_group: Charge recovery group
-dimension_value_labels:
-  charge_recovery_group:
-    all: All individuals liable to the charge
-    paye_only: PAYE only
-    self_assessment: Self Assessment
-    self_assessment_with_paye: Self Assessment with PAYE income
-    self_employed: Self-employed
 artifact:
   source_name: hmrc
   source_table: 'Winter Fuel Payments charge: tax information and impact note'

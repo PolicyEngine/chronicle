@@ -84,7 +84,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 12
         expected_row_header_column: A
@@ -195,7 +195,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 12
         expected_row_header_column: A
@@ -237,7 +237,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 13
         expected_row_header_column: A
@@ -261,7 +261,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 13
         expected_row_header_column: A
@@ -285,7 +285,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 14
         expected_row_header_column: A
@@ -309,7 +309,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 14
         expected_row_header_column: A
@@ -333,7 +333,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 15
         expected_row_header_column: A
@@ -357,7 +357,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 15
         expected_row_header_column: A
@@ -381,7 +381,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-02-29
+        label: Northern Ireland
         ordinal: 0
         row_number: 16
         expected_row_header_column: A
@@ -405,7 +405,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-02-29
+        label: Northern Ireland
         ordinal: 0
         row_number: 16
         expected_row_header_column: A
@@ -429,7 +429,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 17
         expected_row_header_column: A
@@ -453,7 +453,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 17
         expected_row_header_column: A
@@ -477,7 +477,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 18
         expected_row_header_column: A
@@ -501,7 +501,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 18
         expected_row_header_column: A
@@ -525,7 +525,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 19
         expected_row_header_column: A
@@ -549,7 +549,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 19
         expected_row_header_column: A
@@ -573,7 +573,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 20
         expected_row_header_column: A
@@ -597,7 +597,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 20
         expected_row_header_column: A
@@ -621,7 +621,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 21
         expected_row_header_column: A
@@ -645,7 +645,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 21
         expected_row_header_column: A
@@ -669,7 +669,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 22
         expected_row_header_column: A
@@ -693,7 +693,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 22
         expected_row_header_column: A
@@ -717,7 +717,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 23
         expected_row_header_column: A
@@ -741,7 +741,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 23
         expected_row_header_column: A
@@ -765,7 +765,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 24
         expected_row_header_column: A
@@ -789,7 +789,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 24
         expected_row_header_column: A
@@ -813,7 +813,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 25
         expected_row_header_column: A
@@ -837,7 +837,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 25
         expected_row_header_column: A
@@ -861,7 +861,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 12
         expected_row_header_column: A
@@ -902,7 +902,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 13
         expected_row_header_column: A
@@ -926,7 +926,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 14
         expected_row_header_column: A
@@ -950,7 +950,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 15
         expected_row_header_column: A
@@ -974,7 +974,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-02-29
+        label: Northern Ireland
         ordinal: 0
         row_number: 16
         expected_row_header_column: A
@@ -998,7 +998,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 17
         expected_row_header_column: A
@@ -1022,7 +1022,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 18
         expected_row_header_column: A
@@ -1046,7 +1046,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 19
         expected_row_header_column: A
@@ -1070,7 +1070,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 20
         expected_row_header_column: A
@@ -1094,7 +1094,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 21
         expected_row_header_column: A
@@ -1118,7 +1118,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 22
         expected_row_header_column: A
@@ -1142,7 +1142,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 23
         expected_row_header_column: A
@@ -1166,7 +1166,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 24
         expected_row_header_column: A
@@ -1190,7 +1190,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 25
         expected_row_header_column: A
@@ -1214,7 +1214,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 12
         expected_row_header_column: A
@@ -1322,7 +1322,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 12
         expected_row_header_column: A
@@ -1363,7 +1363,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 13
         expected_row_header_column: A
@@ -1387,7 +1387,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 13
         expected_row_header_column: A
@@ -1411,7 +1411,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 14
         expected_row_header_column: A
@@ -1435,7 +1435,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 14
         expected_row_header_column: A
@@ -1459,7 +1459,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 15
         expected_row_header_column: A
@@ -1483,7 +1483,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 15
         expected_row_header_column: A
@@ -1507,7 +1507,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-02-29
+        label: Northern Ireland
         ordinal: 0
         row_number: 16
         expected_row_header_column: A
@@ -1531,7 +1531,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-02-29
+        label: Northern Ireland
         ordinal: 0
         row_number: 16
         expected_row_header_column: A
@@ -1555,7 +1555,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 17
         expected_row_header_column: A
@@ -1579,7 +1579,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 17
         expected_row_header_column: A
@@ -1603,7 +1603,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 18
         expected_row_header_column: A
@@ -1627,7 +1627,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 18
         expected_row_header_column: A
@@ -1651,7 +1651,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 19
         expected_row_header_column: A
@@ -1675,7 +1675,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 19
         expected_row_header_column: A
@@ -1699,7 +1699,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 20
         expected_row_header_column: A
@@ -1723,7 +1723,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 20
         expected_row_header_column: A
@@ -1747,7 +1747,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 21
         expected_row_header_column: A
@@ -1771,7 +1771,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 21
         expected_row_header_column: A
@@ -1795,7 +1795,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 22
         expected_row_header_column: A
@@ -1819,7 +1819,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 22
         expected_row_header_column: A
@@ -1843,7 +1843,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 23
         expected_row_header_column: A
@@ -1867,7 +1867,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 23
         expected_row_header_column: A
@@ -1891,7 +1891,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 24
         expected_row_header_column: A
@@ -1915,7 +1915,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 24
         expected_row_header_column: A
@@ -1939,7 +1939,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 25
         expected_row_header_column: A
@@ -1963,7 +1963,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 25
         expected_row_header_column: A
@@ -1987,7 +1987,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 12
         expected_row_header_column: A
@@ -2095,7 +2095,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 12
         expected_row_header_column: A
@@ -2136,7 +2136,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 13
         expected_row_header_column: A
@@ -2160,7 +2160,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 13
         expected_row_header_column: A
@@ -2184,7 +2184,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 14
         expected_row_header_column: A
@@ -2208,7 +2208,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 14
         expected_row_header_column: A
@@ -2232,7 +2232,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 15
         expected_row_header_column: A
@@ -2256,7 +2256,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2023-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 15
         expected_row_header_column: A
@@ -2280,7 +2280,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-02-29
+        label: Northern Ireland
         ordinal: 0
         row_number: 16
         expected_row_header_column: A
@@ -2304,7 +2304,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-02-29
+        label: Northern Ireland
         ordinal: 0
         row_number: 16
         expected_row_header_column: A
@@ -2328,7 +2328,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 17
         expected_row_header_column: A
@@ -2352,7 +2352,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 17
         expected_row_header_column: A
@@ -2376,7 +2376,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 18
         expected_row_header_column: A
@@ -2400,7 +2400,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 18
         expected_row_header_column: A
@@ -2424,7 +2424,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 19
         expected_row_header_column: A
@@ -2448,7 +2448,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2024-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 19
         expected_row_header_column: A
@@ -2472,7 +2472,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 20
         expected_row_header_column: A
@@ -2496,7 +2496,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 20
         expected_row_header_column: A
@@ -2520,7 +2520,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 21
         expected_row_header_column: A
@@ -2544,7 +2544,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 21
         expected_row_header_column: A
@@ -2568,7 +2568,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 22
         expected_row_header_column: A
@@ -2592,7 +2592,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-08-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 22
         expected_row_header_column: A
@@ -2616,7 +2616,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 23
         expected_row_header_column: A
@@ -2640,7 +2640,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2025-11-30
+        label: Northern Ireland
         ordinal: 0
         row_number: 23
         expected_row_header_column: A
@@ -2664,7 +2664,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 24
         expected_row_header_column: A
@@ -2688,7 +2688,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-02-28
+        label: Northern Ireland
         ordinal: 0
         row_number: 24
         expected_row_header_column: A
@@ -2712,7 +2712,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 25
         expected_row_header_column: A
@@ -2736,7 +2736,7 @@ record_sets:
     groupby_dimension: geography
     rows:
       - value_id: northern_ireland
-        label: Northern Ireland, 2026-05-31
+        label: Northern Ireland
         ordinal: 0
         row_number: 25
         expected_row_header_column: A

@@ -184,7 +184,7 @@ record_sets:
   groupby_dimension: hmrc.salary_sacrifice_threshold_position
   rows:
     - value_id: all
-      label: Forgone NICs through salary sacrifice for pensions, 2023-24
+      label: National Insurance contributions forgone through salary sacrifice for pensions
       ordinal: 0
       row_number: 19
       expected_row_header_column: D
@@ -242,7 +242,7 @@ record_sets:
   groupby_dimension: hmrc.salary_sacrifice_threshold_position
   rows:
     - value_id: all
-      label: Forgone NICs through salary sacrifice for pensions expected by 2030-31 without the measure
+      label: National Insurance contributions forgone through salary sacrifice for pensions
       ordinal: 0
       row_number: 21
       expected_row_header_column: D
