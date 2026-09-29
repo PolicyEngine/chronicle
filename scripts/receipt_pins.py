@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 
 from receipt.append_gate import AppendGateSpec
-from receipt.release_chain import AnchorSpec, ChainSpec
+from receipt.release_chain import AnchorSpec, ChainSpec, PinnedSigner
 
 
 LEDGER_SPEC = ChainSpec(
@@ -44,6 +44,28 @@ LEDGER_SPEC = ChainSpec(
             ),
             signer_spki_sha256=(
                 "7abda95ed7301ac94bded350babc319903d0b4f16c4e7e39346dba5f9e992b72"
+            ),
+            # DigiCert moved timestamp.digicert.com to a new responder under the
+            # same pinned root in early September 2026. Releases 0000 to 0020
+            # carry receipts from the responder pinned above, so both are pinned.
+            # "DigiCert SHA256 RSA4096 Timestamp Responder 2026 1", serial
+            # 084FDC334F7E454EDBC30F8FF9921835, issued by "DigiCert Trusted G4
+            # TimeStamping RSA4096 SHA256 2025 CA1", valid 2026-08-05 to
+            # 2037-11-04, extended key usage Time Stamping (critical). The
+            # digests match the receipt the gate refused on 2026-09-27
+            # (0021-a49e4e1aa0f35949.digicert.tsr) and a receipt fetched
+            # independently on 2026-09-28 (tests/fixtures/production_tsa); both
+            # verify under the pinned root at their own signing time. The
+            # thesis repository pins the same responder (ThesisInstitute/thesis#255).
+            additional_signers=(
+                PinnedSigner(
+                    certificate_sha256=(
+                        "2da09da7f4131f9fe72db6c5e6e9c9656755af043f1ea742cc0d2120e141ebfc"
+                    ),
+                    spki_sha256=(
+                        "753596b60a629061144cbd312017bbfb77510eac20b7eadc5fafb7cabe142fd5"
+                    ),
+                ),
             ),
         ),
     },

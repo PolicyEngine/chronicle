@@ -13,3 +13,7 @@ releases/anchors/*.pem text eol=lf
 
 # RFC 3161 timestamp responses are DER binary.
 releases/manifests/*.tsr binary
+
+# A real RFC 3161 receipt timestamps these exact bytes (tests/test_production_tsa_pins.py).
+tests/fixtures/production_tsa/digicert-2026-responder-probe.txt -text
+tests/fixtures/production_tsa/*.tsr binary

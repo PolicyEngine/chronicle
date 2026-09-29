@@ -246,4 +246,5 @@ jobs:
             tests/test_thesis_append_adversarial.py \
             tests/test_thesis_append_shim_isolation.py \
             tests/test_receipt_shim_transparency.py \
+            tests/test_production_tsa_pins.py \
             -q
