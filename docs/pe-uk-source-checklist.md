@@ -216,7 +216,11 @@ packages and 3 extended ones add 57,252 facts.
 - **DWP benefit expenditure and caseload tables, Spring 2026:** the seven
   families already ported now run to 2030-31, and Tables 1c and 2c (caseloads by
   benefit and the pensioner blocks) and the Disability_benefits sheet are added
-  (`dwp-benefit-expenditure-caseload-spring-2026`, 882 facts to 2,674).
+  (`dwp-benefit-expenditure-caseload-spring-2026`, 882 facts to 2,674). Lines for
+  benefits whose Scottish cases moved to the Scottish Government (Carer's
+  Allowance, DLA, PIP, Attendance Allowance, Severe Disablement Allowance, and
+  Winter Fuel Payments from 2024-25) carry England and Wales, as the Notes tab
+  describes them.
 
 Not ported: the pension rows of the February 2026 HTML summary
 (`dwp-benefit-statistics-february-2026`). The summaries ended in May 2026 and
