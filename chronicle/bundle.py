@@ -88,7 +88,7 @@ UK_BUNDLE_SOURCES = (
     "dwp-hb-claimants-client-type-tenure-january-2023-february-2026",
     "dwp-pension-credit-amount-band-type-february-2023-march-2026",
     "dwp-pension-credit-gender-type-february-2023-march-2026",
-    "dwp-pension-credit-region-type-february-2023-march-2026",
+    "dwp-pension-credit-region-type-partner-age-february-2023-march-2026",
     "dwp-pension-credit-type-partner-age-february-2023-march-2026",
     "dwp-pip-daily-living-foi-2025",
     "dwp-state-pension-age-gender-type-february-2023-march-2026",

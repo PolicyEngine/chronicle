@@ -116,8 +116,8 @@ SOURCE_PACKAGE_ALIASES = {
     "dwp-pension-credit-gender-type-february-2023-march-2026": Path(
         "dwp/pension_credit_gender_type_february_2023_march_2026"
     ),
-    "dwp-pension-credit-region-type-february-2023-march-2026": Path(
-        "dwp/pension_credit_region_type_february_2023_march_2026"
+    "dwp-pension-credit-region-type-partner-age-february-2023-march-2026": Path(
+        "dwp/pension_credit_region_type_partner_age_february_2023_march_2026"
     ),
     "dwp-pension-credit-type-partner-age-february-2023-march-2026": Path(
         "dwp/pension_credit_type_partner_age_february_2023_march_2026"
