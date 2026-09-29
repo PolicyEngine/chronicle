@@ -782,6 +782,10 @@ def test_committed_catalog_is_current_and_valid() -> None:
     # Occurrences as of 55bbf3d: both August keys map to
     # dol.eta.continued_claims.sa (joined week_2026-08-15 at d77afe2) and
     # us.dol.initial_claims.sa.
+    # Extended 2026-09-29 to the catalog at 598f394, whose eight-row
+    # first-print append first spelled week_2026-08-29 and week_2026-09-05
+    # (both claims series) and week_2026-09-12 (us.dol.initial_claims.sa
+    # only). Each is the row's own week_ending period, so the strips stand.
     # EVERY stripped spelling is auditable, mapped to the canonical
     # concepts it touched — a statute or edition label colliding with a
     # period spelling can only be caught here.
@@ -794,7 +798,8 @@ def test_committed_catalog_is_current_and_valid() -> None:
         "week_2026-06-20", "week_2026-06-27", "week_2026-07-04",
         "week_2026-07-11", "week_2026-07-13", "week_2026-07-18",
         "week_2026-07-25", "week_2026-08-01", "week_2026-08-08",
-        "week_2026-08-15", "week_2026-08-22", "week_2026_06_13",
+        "week_2026-08-15", "week_2026-08-22", "week_2026-08-29",
+        "week_2026-09-05", "week_2026-09-12", "week_2026_06_13",
         "week_ending_2026_06_06",
     ]
     assert committed["stripped_segments"]["after_mpc_june_2026"] == [
