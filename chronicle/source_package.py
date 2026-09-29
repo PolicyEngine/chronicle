@@ -167,14 +167,59 @@ SOURCE_PACKAGE_ALIASES = {
     "ons-ashe-employee-contribution-bands-by-age-2024-qualifying-earnings": Path(
         "ons/ashe_employee_contribution_bands_by_age_2024_qualifying_earnings"
     ),
+    "ons-ashe-employee-contribution-bands-by-business-size-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_business_size_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-business-size-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_business_size_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employee-contribution-bands-by-industry-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_industry_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-industry-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_industry_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employee-contribution-bands-by-occupation-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_occupation_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-occupation-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_occupation_2024_qualifying_earnings"
+    ),
     "ons-ashe-employer-contribution-bands-by-age-2024-full-pay": Path(
         "ons/ashe_employer_contribution_bands_by_age_2024_full_pay"
     ),
     "ons-ashe-employer-contribution-bands-by-age-2024-qualifying-earnings": Path(
         "ons/ashe_employer_contribution_bands_by_age_2024_qualifying_earnings"
     ),
+    "ons-ashe-employer-contribution-bands-by-business-size-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_business_size_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-business-size-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_business_size_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employer-contribution-bands-by-industry-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_industry_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-industry-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_industry_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employer-contribution-bands-by-occupation-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_occupation_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-occupation-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_occupation_2024_qualifying_earnings"
+    ),
     "ons-ashe-pension-membership-by-age-earnings-2024": Path(
         "ons/ashe_pension_membership_by_age_earnings_2024"
+    ),
+    "ons-ashe-pension-membership-by-business-size-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_business_size_earnings_2024"
+    ),
+    "ons-ashe-pension-membership-by-industry-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_industry_earnings_2024"
+    ),
+    "ons-ashe-pension-membership-by-occupation-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_occupation_earnings_2024"
     ),
     "ons-employee-workplace-pensions-summary-2024": Path(
         "ons/employee_workplace_pensions_summary_2024"
