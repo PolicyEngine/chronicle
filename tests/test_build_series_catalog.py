@@ -10,17 +10,27 @@ period tokens silently stripped).
 
 from __future__ import annotations
 
+import copy
 import doctest
+import hashlib
 import json
 import pathlib
+import re
 import sys
 
 import pytest
+from hypothesis import given, settings
+from hypothesis import strategies as st
+
+# The gate's own effective-id rule, private to receipt: the differential
+# oracle for the generator's copy of it.
+from receipt.append_gate import _effective_assertion_id
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import build_series_catalog as bsc  # noqa: E402
+import check_thesis_facts_append as gate  # noqa: E402
 
 PERIOD_SEGMENTS = [
     "fy2026",
@@ -2191,6 +2201,391 @@ def test_assertion_version_preconditions(tmp_path: pathlib.Path) -> None:
     f["assertionVersion"] = {"id": "w", "supersedes": "missing"}
     with pytest.raises(SystemExit, match="unknown version"):
         _build(tmp_path, [f])
+
+
+# The append gate (receipt check_rows) gives EVERY journal row one effective
+# assertion version id: its explicit assertionVersion.id, or, for a row
+# without one (the whole immutable prefix), its recomputed av2 content
+# address. It reserves every such id and resolves corrections against them.
+# The generator's preconditions must accept whatever the gate accepts, and
+# refuse a duplicate id, a self-link, an unresolvable link and a cycle
+# exactly when the gate refuses for that reason. 2026-09-29 repro: six
+# corrections of the June 2026 Table A-19 prefix rows passed the gate and
+# were refused here as superseding an "unknown version", which would have
+# failed every later resolver append.
+
+PREFIX_LINE_COUNT = json.loads(
+    (ROOT / "ledger" / "immutable_prefix.json").read_text(encoding="utf-8")
+)["prefixLineCount"]
+
+
+def _address(row: dict) -> str:
+    return _effective_assertion_id(row, gate.APPEND_GATE_SPEC)
+
+
+def _journal_row(
+    record: str,
+    value: float,
+    supersedes: str | None = None,
+    *,
+    versioned: bool = True,
+) -> dict:
+    """A row check_rows accepts; ``versioned=False`` is a prefix-style row."""
+    row = _row("agency.rate", rid=record)
+    row["value"] = value
+    row.update(
+        retrievedAt="2026-06-01T00:00:00Z",
+        sourceVintage="first_print",
+        ledgerRepoSha="0" * 40,
+        responseArchive={"sha256": "0" * 64},
+    )
+    if versioned:
+        # The content address excludes the link, so relinking keeps the id.
+        row["assertionVersion"] = {
+            "id": gate.expected_assertion_version_id(row),
+            "supersedes": supersedes,
+        }
+    return row
+
+
+def _gate_refusal(rows: list[dict], prefix_count: int) -> str | None:
+    try:
+        gate.check_rows([json.dumps(row) for row in rows], prefix_count)
+    except gate.AppendError as exc:
+        return str(exc)
+    return None
+
+
+GENERATOR_REASONS = {
+    "duplicates row": "duplicate",
+    "supersedes itself": "self",
+    "supersedes unknown version": "unknown",
+    "supersede cycle": "cycle",
+}
+
+
+def _generator_refusal(rows: list[dict]) -> str | None:
+    """The generator's refusal reason, or its raw message if unclassified."""
+    try:
+        bsc.check_assertion_versions(rows)
+    except SystemExit as exc:
+        message = str(exc)
+        return next(
+            (reason for text, reason in GENERATOR_REASONS.items()
+             if text in message),
+            message,
+        )
+    return None
+
+
+GATE_LINK_REFUSAL = re.compile(r"line (\d+) supersedes (\S+) but ")
+
+
+def _gate_reason(rows: list[dict], refusal: str | None) -> str | None:
+    """Classify the gate's refusal by the generator's reasons.
+
+    The gate names only the first line it refuses. A restated id is a
+    duplicate. A refused link is classified by where its target lies among
+    the gate's own effective ids: this row (self), no row (unknown), or a
+    row whose chain leads back here (cycle). Every other refusal (a link to
+    a non-active, other-record or later version outside a cycle, a missing
+    link, an id that is not the content address) is a rule the gate alone
+    enforces, which the generator must accept: None.
+    """
+    if refusal is None:
+        return None
+    if " restates assertion version " in refusal:
+        return "duplicate"
+    match = GATE_LINK_REFUSAL.match(refusal)
+    if match is None:
+        return None
+    ids = [_address(row) for row in rows]
+    own, target = ids[int(match[1]) - 1], match[2]
+    if target == own:
+        return "self"
+    if target not in ids:
+        return "unknown"
+    links = {
+        ids[index]: (row.get("assertionVersion") or {}).get("supersedes")
+        for index, row in enumerate(rows)
+    }
+    cursor, seen = target, set()
+    while cursor is not None and cursor not in seen:
+        if cursor == own:
+            return "cycle"
+        seen.add(cursor)
+        cursor = links.get(cursor)
+    return None
+
+
+def _relink(row: dict, target: str | None) -> None:
+    row["assertionVersion"]["supersedes"] = target
+
+
+def test_live_ledger_reserves_the_gates_ids() -> None:
+    # Regression on the live ledger: the gate accepts it, and every row,
+    # the prefix rows without assertionVersion included, gets the gate's
+    # effective id. test_committed_catalog_is_current_and_valid pins the
+    # catalog bytes, which this change leaves identical.
+    lines = bsc.OBSERVATIONS.read_text(encoding="utf-8").splitlines()
+    rows = [json.loads(line) for line in lines]
+    assert all(
+        "assertionVersion" not in row for row in rows[:PREFIX_LINE_COUNT]
+    )
+    gate.check_rows(lines, PREFIX_LINE_COUNT)
+    assert bsc.check_assertion_versions(rows) == [_address(r) for r in rows]
+
+
+def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
+    tmp_path: pathlib.Path,
+) -> None:
+    # The 2026-09-29 repro on the live ledger. SYNTHETIC corrections: the
+    # restatement in millions is the repro's, not a chosen remedy (that is
+    # decision d397), and each archive digest is synthetic so no real
+    # correction can share its content address. Each supersedes the active
+    # version of its June record, which is the prefix row's av2 address
+    # until a real correction lands.
+    lines = bsc.OBSERVATIONS.read_text(encoding="utf-8").splitlines()
+    rows = [json.loads(line) for line in lines]
+    june = [
+        row for row in rows[:PREFIX_LINE_COUNT]
+        if row["source_record_id"].startswith(
+            "bls.cps.employed_people_by_occupation."
+        )
+        and row["source_record_id"].endswith(".june_2026.first_print")
+    ]
+    assert len(june) == 6
+    assert all("assertionVersion" not in row for row in june)
+    corrections = []
+    for original in june:
+        record = original["source_record_id"]
+        active = [r for r in rows if r["source_record_id"] == record][-1]
+        correction = copy.deepcopy(original)
+        correction["value"] = round(original["value"] / 1000, 3)
+        correction["measure"]["unit"] = "millions"
+        correction["responseArchive"]["sha256"] = hashlib.sha256(
+            f"synthetic correction of {record}".encode()
+        ).hexdigest()
+        correction["assertionVersion"] = {
+            "id": gate.expected_assertion_version_id(correction),
+            "supersedes": _address(active),
+        }
+        corrections.append(correction)
+    journal = rows + corrections
+
+    assert _gate_refusal(journal, PREFIX_LINE_COUNT) is None
+    ids = bsc.check_assertion_versions(journal)
+    assert ids == [_address(row) for row in journal]
+
+    observations = tmp_path / "obs.jsonl"
+    observations.write_text(
+        "".join(json.dumps(row) + "\n" for row in journal), encoding="utf-8"
+    )
+    catalog, plan = bsc.build_catalog(
+        observations,
+        bsc.DOCKET_SEED,
+        bsc.ExistingCatalog(bsc.CATALOG),
+        bsc.UuidRegistry.load(bsc.UUID_REGISTRY),
+    )
+    assert not plan["mints"] and not plan["supersedes"] and not plan["dropped"]
+    occupations = [
+        series for series in catalog["series"]
+        if series["concept"].startswith(
+            "bls.cps.employed_people_by_occupation."
+        )
+    ]
+    assert len(occupations) == 6
+    assert all(series["unit"] == "millions" for series in occupations)
+    assert catalog["observation_rows"] == len(journal)
+    assert catalog["current_assertion_rows"] == len(
+        gate.effective_current_rows(rows)
+    )
+
+
+def test_every_rows_effective_id_is_reserved() -> None:
+    # A row without assertionVersion reserves its content address exactly
+    # as the gate does, so two identical such rows, a versioned re-append
+    # of one, and an A -> B -> A restore of one all collide. So does an
+    # A -> B -> A restore among versioned rows.
+    legacy = _journal_row("rec.a", 1.0, versioned=False)
+    reissued = copy.deepcopy(legacy)
+    reissued["assertionVersion"] = {"id": _address(legacy), "supersedes": None}
+    b = _journal_row("rec.a", 2.0, _address(legacy))
+    restore = copy.deepcopy(legacy)
+    restore["assertionVersion"] = {
+        "id": _address(legacy), "supersedes": _address(b)
+    }
+    a2 = _journal_row("rec.b", 1.0)
+    b2 = _journal_row("rec.b", 2.0, _address(a2))
+    back = _journal_row("rec.b", 1.0, _address(b2))
+    for journal, prefix, match in (
+        ([legacy, copy.deepcopy(legacy)], 2, "row 1: .* duplicates row 0"),
+        ([legacy, reissued], 1, "row 1: .* duplicates row 0"),
+        ([legacy, b, restore], 1, "row 2: .* duplicates row 0"),
+        ([a2, b2, back], 0, "row 2: .* duplicates row 0"),
+    ):
+        assert _gate_reason(journal, _gate_refusal(journal, prefix)) == (
+            "duplicate"
+        )
+        with pytest.raises(SystemExit, match=match):
+            bsc.check_assertion_versions(journal)
+
+
+def test_link_refusals_fire_where_the_gate_refuses() -> None:
+    legacy = _journal_row("rec.a", 1.0, versioned=False)
+    unknown = _journal_row("rec.a", 2.0, "av2:" + "f" * 64)
+    # A near miss: the address the prefix row would have at another value.
+    near = _journal_row("rec.a", 2.0, _address(dict(legacy, value=3.0)))
+    itself = _journal_row("rec.a", 2.0)
+    _relink(itself, _address(itself))
+    x, y = (_journal_row(f"rec.{n}", 1.0) for n in "xy")
+    _relink(x, _address(y))
+    _relink(y, _address(x))
+    two_cycle = [legacy, x, y]
+    p, q, r = (_journal_row(f"rec.{n}", 1.0) for n in "pqr")
+    _relink(p, _address(q))
+    _relink(q, _address(r))
+    _relink(r, _address(p))
+    three_cycle = [legacy, p, q, r]
+    for journal, match, reason in (
+        ([legacy, unknown], "supersedes unknown version", "unknown"),
+        ([legacy, near], "supersedes unknown version", "unknown"),
+        ([legacy, itself], "supersedes itself", "self"),
+        (two_cycle, "supersede cycle", "cycle"),
+        (three_cycle, "supersede cycle", "cycle"),
+    ):
+        assert _gate_reason(journal, _gate_refusal(journal, 1)) == reason
+        with pytest.raises(SystemExit, match=match):
+            bsc.check_assertion_versions(journal)
+
+
+@st.composite
+def _gate_valid_journals(draw) -> tuple[list[dict], int]:
+    """A journal check_rows accepts: prefix-style rows without
+    assertionVersion, then versioned appends, each a new record or a
+    correction of a record's active version (a prefix row's by its
+    content address)."""
+    prefix = draw(st.integers(0, 4))
+    steps = draw(st.lists(st.one_of(st.none(), st.integers(0, 7)), max_size=8))
+    rows: list[dict] = []
+    active: dict[str, str] = {}
+    for _ in range(prefix):
+        row = _journal_row(f"rec.{len(active)}", float(len(rows)),
+                           versioned=False)
+        rows.append(row)
+        active[row["source_record_id"]] = _address(row)
+    for step in steps:
+        if step is None or not active:
+            record, supersedes = f"rec.{len(active)}", None
+        else:
+            record = sorted(active)[step % len(active)]
+            supersedes = active[record]
+        row = _journal_row(record, float(len(rows)), supersedes)
+        rows.append(row)
+        active[record] = _address(row)
+    return rows, prefix
+
+
+MUTATIONS = (
+    "unknown", "self", "cycle", "relink", "unlink", "duplicate", "restore"
+)
+
+
+def _mutate(draw, kind: str, rows: list[dict], prefix: int):
+    """Apply one defect. Only ``supersedes`` changes, which leaves every id
+    alone, or a row is added: a copy of any row, or an A -> B -> A
+    restore."""
+    ids = [_address(row) for row in rows]
+    versioned = [i for i, row in enumerate(rows) if "assertionVersion" in row]
+    if kind == "unknown" and versioned:
+        target = "av2:" + hashlib.sha256(
+            draw(st.binary(min_size=1, max_size=8))
+        ).hexdigest()
+        _relink(rows[draw(st.sampled_from(versioned))], target)
+    elif kind == "self" and versioned:
+        i = draw(st.sampled_from(versioned))
+        _relink(rows[i], ids[i])
+    elif kind == "cycle" and len(versioned) >= 2:
+        ring = sorted(draw(st.lists(st.sampled_from(versioned), min_size=2,
+                                    max_size=3, unique=True)))
+        for a, b in zip(ring, ring[1:] + ring[:1]):
+            _relink(rows[a], ids[b])
+    elif kind == "relink" and versioned and len(rows) >= 2:
+        # Any other row, earlier or later: the valid target, a stale or
+        # other-record version, or a forward link that may close a cycle.
+        i = draw(st.sampled_from(versioned))
+        j = draw(st.sampled_from([k for k in range(len(rows)) if k != i]))
+        _relink(rows[i], ids[j])
+    elif kind == "unlink" and versioned:
+        _relink(rows[draw(st.sampled_from(versioned))], None)
+    elif kind == "duplicate" and rows:
+        j = draw(st.integers(0, len(rows) - 1))
+        at = draw(st.integers(j + 1, len(rows)))
+        rows.insert(at, copy.deepcopy(rows[j]))
+        prefix += at < prefix
+    elif kind == "restore":
+        versions: dict[str, list[int]] = {}
+        for i, row in enumerate(rows):
+            versions.setdefault(row["source_record_id"], []).append(i)
+        chains = [v for _, v in sorted(versions.items()) if len(v) >= 2]
+        if chains:
+            chain = draw(st.sampled_from(chains))
+            first = copy.deepcopy(rows[chain[0]])
+            first["assertionVersion"] = {
+                "id": ids[chain[0]], "supersedes": ids[chain[-1]]
+            }
+            rows.append(first)
+    return rows, prefix
+
+
+@st.composite
+def _mutated_journals(draw, max_mutations: int):
+    rows, prefix = draw(_gate_valid_journals())
+    rows = copy.deepcopy(rows)
+    kinds = draw(st.lists(st.sampled_from(MUTATIONS), max_size=max_mutations))
+    for kind in kinds:
+        rows, prefix = _mutate(draw, kind, rows, prefix)
+    return rows, prefix
+
+
+PROPERTY_SETTINGS = settings(
+    max_examples=400, deadline=None, derandomize=True, database=None
+)
+
+
+@PROPERTY_SETTINGS
+@given(_gate_valid_journals())
+def test_gate_accepted_journals_pass_the_preconditions(journal) -> None:
+    # Invariant: the gate accepts => the generator accepts, and both assign
+    # every row the same effective id.
+    rows, prefix = journal
+    assert _gate_refusal(rows, prefix) is None
+    assert bsc.check_assertion_versions(rows) == [_address(r) for r in rows]
+
+
+@PROPERTY_SETTINGS
+@given(_mutated_journals(max_mutations=1))
+def test_generator_refuses_iff_the_gate_does_for_that_reason(journal) -> None:
+    # Invariant, on journals with at most one defect: the generator refuses
+    # for reason R exactly when the gate's refusal classifies as R, and
+    # accepts every journal the gate accepts or refuses for its own rules.
+    rows, prefix = journal
+    refusal = _gate_refusal(rows, prefix)
+    assert _generator_refusal(rows) == _gate_reason(rows, refusal), refusal
+
+
+@PROPERTY_SETTINGS
+@given(_mutated_journals(max_mutations=3))
+def test_generator_refusals_are_gate_refusals(journal) -> None:
+    # Invariant, with several defects: every generator refusal is a gate
+    # refusal, and a gate refusal for a generator reason is refused here.
+    rows, prefix = journal
+    refusal = _gate_refusal(rows, prefix)
+    generator = _generator_refusal(rows)
+    if generator is not None:
+        assert refusal is not None
+    if _gate_reason(rows, refusal) is not None:
+        assert generator is not None
 
 
 def test_cross_dimension_ambiguous_alias_never_steals(
