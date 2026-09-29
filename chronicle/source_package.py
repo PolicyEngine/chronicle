@@ -131,6 +131,21 @@ SOURCE_PACKAGE_ALIASES = {
     "dwp-state-pension-region-type-gender-february-2023-march-2026": Path(
         "dwp/state_pension_region_type_gender_february_2023_march_2026"
     ),
+    "dwp-winter-fuel-payment-recipients-winter-2023-24": Path(
+        "dwp/winter_fuel_payment_recipients_winter_2023_24"
+    ),
+    "dwp-winter-fuel-payment-recipients-winters-2024-25-2025-26": Path(
+        "dwp/winter_fuel_payment_recipients_winters_2024_25_2025_26"
+    ),
+    "dwp-winter-fuel-payment-statistics-winter-2023-24": Path(
+        "dwp/winter_fuel_payment_statistics_winter_2023_24"
+    ),
+    "dwp-winter-fuel-payment-statistics-winter-2024-25": Path(
+        "dwp/winter_fuel_payment_statistics_winter_2024_25"
+    ),
+    "dwp-winter-fuel-payment-statistics-winter-2025-26": Path(
+        "dwp/winter_fuel_payment_statistics_winter_2025_26"
+    ),
     "hmrc-pension-contribution-relief-2023-24": Path(
         "hmrc/pension_contribution_relief_2023_24"
     ),

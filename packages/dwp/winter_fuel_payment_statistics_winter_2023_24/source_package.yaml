@@ -1,0 +1,1040 @@
+# DWP 'Winter Fuel Payment statistics for winter 2023 to 2024' (24 September 2024),
+# caseload workbook, for PolicyEngine/chronicle#302 section 6. Winter Fuel Payment was then
+# paid across Great Britain, at GBP 250 to GBP 600: every payment included an additional
+# Pensioner Cost of Living Payment of GBP 150 or GBP 300.
+#
+# Ported for Great Britain, the nine English regions, Wales and Scotland: Table 1 (recipients by
+# sex and by sex and age band - up to 69, 70 to 74, 75 to 79, 80 and over) and Table 4's
+# all-ages columns (recipients at each amount, GBP 250 to GBP 600; its all-amounts column
+# restates Table 1's total, and its age-band-by-amount columns are not ported). The 'All
+# Cases' row adds the EEA, Switzerland and unknown regions (11,626,099 against Great
+# Britain's 11,589,506) and has no single GSS code, so it is not ported; neither are the EEA
+# tables nor the local tables. This release publishes no beneficiary count. The winter becomes
+# fiscal_year 2023.
+#
+# The Wales and Scotland rows restate cells of the Stat-Xplore cube in
+# dwp-winter-fuel-payment-recipients-winter-2023-24, which applies its disclosure control
+# separately: 16 of them differ, by at most 311 recipients or 0.07 per cent (Scotland
+# 1,012,884 here against 1,012,573). Both are DWP's published cells and are kept as published;
+# for winters 2024 to 2025 and 2025 to 2026 the workbook and the cube agree cell for cell.
+schema_version: ledger.source_package.v1
+package_id: dwp-winter-fuel-payment-statistics-winter-2023-24
+label: DWP Winter Fuel Payment recipients and beneficiaries by region, winter 2023 to 2024
+dimension_labels:
+  geography: Geography
+  gender: Gender
+  age_band: Age band
+  amount: Amount
+dimension_value_labels:
+  gender:
+    Male: Male
+    Female: Female
+  age_band:
+    up to 69: up to 69
+    70 to 74: 70 to 74
+    75 to 79: 75 to 79
+    80 and over: 80 and over
+  amount:
+    £250: £250
+    £300: £300
+    £350: £350
+    £500: £500
+    £600: £600
+artifact:
+  source_name: dwp
+  source_table: Winter Fuel Payment statistics for winter 2023 to 2024
+  resource_package: db
+  resource_directory: data/dwp/winter_fuel_payment_statistics_winter_2023_24
+  manifest: manifest.yaml
+  vintage: winter_fuel_payment_statistics_winter_2023_24
+  extracted_at: '2026-09-29'
+  extraction_method: ODS whole-workbook used-range cell parse; facts from the region tables
+  parser: ods_used_range
+  artifact_year: 2026
+record_sets:
+  - record_set_id: dwp.wfp_statistics.winter_2023_24.recipients_by_region
+    provenance_class: administrative
+    record_set_spec_id: dwp.wfp_statistics.winter_2023_24.recipients_by_region.v1
+    source_record_id_prefix: dwp.wfp_statistics.winter_2023_24.recipients_by_region
+    sheet_name: 1_Region
+    period_type: fiscal_year
+    period: 2023
+    period_coverage:
+      start_date: '2023-04-01'
+      end_date: '2024-03-31'
+      basis: fiscal
+      source_period_label: winter 2023 to 2024
+      notes: 'Winter 2023 to 2024 (DWP year ''2023 / 2024''): qualifying week 18 to 24 September 2023,
+        paid from November 2023; period.value stores the financial year the payments fall in, as DWP''s
+        expenditure and caseload tables book them.'
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    entity: person
+    entity_role: winter_fuel_payment_recipient
+    domain: winter_fuel_payment
+    groupby_dimension: geography
+    rows:
+      - value_id: k03000001
+        label: Great Britain
+        ordinal: 0
+        row_number: 10
+        expected_row_header_column: A
+        expected_row_header: Great Britain
+        geography_id: K03000001
+        geography_level: country
+        geography_name: Great Britain
+        geography_vintage: current
+        table_record_kind: total
+      - value_id: e12000001
+        label: North East
+        ordinal: 1
+        row_number: 11
+        expected_row_header_column: A
+        expected_row_header: North East
+        geography_id: E12000001
+        geography_level: region
+        geography_name: North East
+        geography_vintage: current
+        table_record_kind: total
+      - value_id: e12000002
+        label: North West
+        ordinal: 2
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: North West
+        geography_id: E12000002
+        geography_level: region
+        geography_name: North West
+        geography_vintage: current
+        table_record_kind: total
+      - value_id: e12000003
+        label: Yorkshire and the Humber
+        ordinal: 3
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: Yorkshire and the Humber
+        geography_id: E12000003
+        geography_level: region
+        geography_name: Yorkshire and the Humber
+        geography_vintage: current
+        table_record_kind: total
+      - value_id: e12000004
+        label: East Midlands
+        ordinal: 4
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: East Midlands
+        geography_id: E12000004
+        geography_level: region
+        geography_name: East Midlands
+        geography_vintage: current
+        table_record_kind: total
+      - value_id: e12000005
+        label: West Midlands
+        ordinal: 5
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: West Midlands
+        geography_id: E12000005
+        geography_level: region
+        geography_name: West Midlands
+        geography_vintage: current
+        table_record_kind: total
+      - value_id: e12000006
+        label: East
+        ordinal: 6
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: East
+        geography_id: E12000006
+        geography_level: region
+        geography_name: East
+        geography_vintage: current
+        table_record_kind: total
+      - value_id: e12000007
+        label: London
+        ordinal: 7
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: London
+        geography_id: E12000007
+        geography_level: region
+        geography_name: London
+        geography_vintage: current
+        table_record_kind: total
+      - value_id: e12000008
+        label: South East
+        ordinal: 8
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: South East
+        geography_id: E12000008
+        geography_level: region
+        geography_name: South East
+        geography_vintage: current
+        table_record_kind: total
+      - value_id: e12000009
+        label: South West
+        ordinal: 9
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: South West
+        geography_id: E12000009
+        geography_level: region
+        geography_name: South West
+        geography_vintage: current
+        table_record_kind: total
+      - value_id: w92000004
+        label: Wales
+        ordinal: 10
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: Wales
+        geography_id: W92000004
+        geography_level: country
+        geography_name: Wales
+        geography_vintage: current
+        table_record_kind: total
+      - value_id: s92000003
+        label: Scotland
+        ordinal: 11
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: Scotland
+        geography_id: S92000003
+        geography_level: country
+        geography_name: Scotland
+        geography_vintage: current
+        table_record_kind: total
+    measures:
+      - measure_id: recipients
+        label: Winter Fuel Payment recipients
+        ordinal: 0
+        column: B
+        source_column_id: recipients
+        expected_column_header_row: 8
+        expected_column_header: Total
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 1, recipients by sex and age band.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dwp.wfp_statistics.winter_2023_24.recipients_by_region_sex_age
+    provenance_class: administrative
+    record_set_spec_id: dwp.wfp_statistics.winter_2023_24.recipients_by_region_sex_age.v1
+    source_record_id_prefix: dwp.wfp_statistics.winter_2023_24.recipients_by_region_sex_age
+    sheet_name: 1_Region
+    period_type: fiscal_year
+    period: 2023
+    period_coverage:
+      start_date: '2023-04-01'
+      end_date: '2024-03-31'
+      basis: fiscal
+      source_period_label: winter 2023 to 2024
+      notes: 'Winter 2023 to 2024 (DWP year ''2023 / 2024''): qualifying week 18 to 24 September 2023,
+        paid from November 2023; period.value stores the financial year the payments fall in, as DWP''s
+        expenditure and caseload tables book them.'
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    entity: person
+    entity_role: winter_fuel_payment_recipient
+    domain: winter_fuel_payment
+    groupby_dimension: geography
+    rows:
+      - value_id: k03000001
+        label: Great Britain
+        ordinal: 0
+        row_number: 10
+        expected_row_header_column: A
+        expected_row_header: Great Britain
+        geography_id: K03000001
+        geography_level: country
+        geography_name: Great Britain
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000001
+        label: North East
+        ordinal: 1
+        row_number: 11
+        expected_row_header_column: A
+        expected_row_header: North East
+        geography_id: E12000001
+        geography_level: region
+        geography_name: North East
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000002
+        label: North West
+        ordinal: 2
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: North West
+        geography_id: E12000002
+        geography_level: region
+        geography_name: North West
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000003
+        label: Yorkshire and the Humber
+        ordinal: 3
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: Yorkshire and the Humber
+        geography_id: E12000003
+        geography_level: region
+        geography_name: Yorkshire and the Humber
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000004
+        label: East Midlands
+        ordinal: 4
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: East Midlands
+        geography_id: E12000004
+        geography_level: region
+        geography_name: East Midlands
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000005
+        label: West Midlands
+        ordinal: 5
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: West Midlands
+        geography_id: E12000005
+        geography_level: region
+        geography_name: West Midlands
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000006
+        label: East
+        ordinal: 6
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: East
+        geography_id: E12000006
+        geography_level: region
+        geography_name: East
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000007
+        label: London
+        ordinal: 7
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: London
+        geography_id: E12000007
+        geography_level: region
+        geography_name: London
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000008
+        label: South East
+        ordinal: 8
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: South East
+        geography_id: E12000008
+        geography_level: region
+        geography_name: South East
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000009
+        label: South West
+        ordinal: 9
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: South West
+        geography_id: E12000009
+        geography_level: region
+        geography_name: South West
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: w92000004
+        label: Wales
+        ordinal: 10
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: Wales
+        geography_id: W92000004
+        geography_level: country
+        geography_name: Wales
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: s92000003
+        label: Scotland
+        ordinal: 11
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: Scotland
+        geography_id: S92000003
+        geography_level: country
+        geography_name: Scotland
+        geography_vintage: current
+        table_record_kind: detail
+    measures:
+      - measure_id: recipients_male
+        label: Winter Fuel Payment recipients, male
+        ordinal: 0
+        column: C
+        source_column_id: recipients_male
+        source_column_dimensions:
+          gender: Male
+        filters:
+          gender: Male
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Male
+            label: Gender
+        expected_column_header_row: 8
+        expected_column_header: Male
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 1, recipients by sex and age band.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_female
+        label: Winter Fuel Payment recipients, female
+        ordinal: 1
+        column: D
+        source_column_id: recipients_female
+        source_column_dimensions:
+          gender: Female
+        filters:
+          gender: Female
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Female
+            label: Gender
+        expected_column_header_row: 8
+        expected_column_header: Female
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 1, recipients by sex and age band.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_male_up_to_69
+        label: Winter Fuel Payment recipients, male up to 69
+        ordinal: 2
+        column: E
+        source_column_id: recipients_male_up_to_69
+        source_column_dimensions:
+          gender: Male
+          age_band: up to 69
+        filters:
+          gender: Male
+          age_band: up to 69
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Male
+            label: Gender
+          - variable: age_band
+            operator: ==
+            value: up to 69
+            label: Age band
+          - variable: age
+            operator: <
+            value: 70
+            unit: years
+            label: Age upper bound
+        expected_column_header_row: 8
+        expected_column_header: Male up to 69
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 1, recipients by sex and age band.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_male_70_to_74
+        label: Winter Fuel Payment recipients, male 70 to 74
+        ordinal: 3
+        column: F
+        source_column_id: recipients_male_70_to_74
+        source_column_dimensions:
+          gender: Male
+          age_band: 70 to 74
+        filters:
+          gender: Male
+          age_band: 70 to 74
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Male
+            label: Gender
+          - variable: age_band
+            operator: ==
+            value: 70 to 74
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 70
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 75
+            unit: years
+            label: Age upper bound
+        expected_column_header_row: 8
+        expected_column_header: Male 70 to 74
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 1, recipients by sex and age band.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_male_75_to_79
+        label: Winter Fuel Payment recipients, male 75 to 79
+        ordinal: 4
+        column: G
+        source_column_id: recipients_male_75_to_79
+        source_column_dimensions:
+          gender: Male
+          age_band: 75 to 79
+        filters:
+          gender: Male
+          age_band: 75 to 79
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Male
+            label: Gender
+          - variable: age_band
+            operator: ==
+            value: 75 to 79
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 75
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 80
+            unit: years
+            label: Age upper bound
+        expected_column_header_row: 8
+        expected_column_header: Male 75 to 79
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 1, recipients by sex and age band.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_male_80_and_over
+        label: Winter Fuel Payment recipients, male 80 and over
+        ordinal: 5
+        column: H
+        source_column_id: recipients_male_80_and_over
+        source_column_dimensions:
+          gender: Male
+          age_band: 80 and over
+        filters:
+          gender: Male
+          age_band: 80 and over
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Male
+            label: Gender
+          - variable: age_band
+            operator: ==
+            value: 80 and over
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 80
+            unit: years
+            label: Age lower bound
+        expected_column_header_row: 8
+        expected_column_header: Male 80 and over
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 1, recipients by sex and age band.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_female_up_to_69
+        label: Winter Fuel Payment recipients, female up to 69
+        ordinal: 6
+        column: I
+        source_column_id: recipients_female_up_to_69
+        source_column_dimensions:
+          gender: Female
+          age_band: up to 69
+        filters:
+          gender: Female
+          age_band: up to 69
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Female
+            label: Gender
+          - variable: age_band
+            operator: ==
+            value: up to 69
+            label: Age band
+          - variable: age
+            operator: <
+            value: 70
+            unit: years
+            label: Age upper bound
+        expected_column_header_row: 8
+        expected_column_header: Female up to 69
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 1, recipients by sex and age band.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_female_70_to_74
+        label: Winter Fuel Payment recipients, female 70 to 74
+        ordinal: 7
+        column: J
+        source_column_id: recipients_female_70_to_74
+        source_column_dimensions:
+          gender: Female
+          age_band: 70 to 74
+        filters:
+          gender: Female
+          age_band: 70 to 74
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Female
+            label: Gender
+          - variable: age_band
+            operator: ==
+            value: 70 to 74
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 70
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 75
+            unit: years
+            label: Age upper bound
+        expected_column_header_row: 8
+        expected_column_header: Female 70 to 74
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 1, recipients by sex and age band.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_female_75_to_79
+        label: Winter Fuel Payment recipients, female 75 to 79
+        ordinal: 8
+        column: K
+        source_column_id: recipients_female_75_to_79
+        source_column_dimensions:
+          gender: Female
+          age_band: 75 to 79
+        filters:
+          gender: Female
+          age_band: 75 to 79
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Female
+            label: Gender
+          - variable: age_band
+            operator: ==
+            value: 75 to 79
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 75
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 80
+            unit: years
+            label: Age upper bound
+        expected_column_header_row: 8
+        expected_column_header: Female 75 to 79
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 1, recipients by sex and age band.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_female_80_and_over
+        label: Winter Fuel Payment recipients, female 80 and over
+        ordinal: 9
+        column: L
+        source_column_id: recipients_female_80_and_over
+        source_column_dimensions:
+          gender: Female
+          age_band: 80 and over
+        filters:
+          gender: Female
+          age_band: 80 and over
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Female
+            label: Gender
+          - variable: age_band
+            operator: ==
+            value: 80 and over
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 80
+            unit: years
+            label: Age lower bound
+        expected_column_header_row: 8
+        expected_column_header: Female 80 and over
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 1, recipients by sex and age band.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dwp.wfp_statistics.winter_2023_24.recipients_by_region_amount
+    provenance_class: administrative
+    record_set_spec_id: dwp.wfp_statistics.winter_2023_24.recipients_by_region_amount.v1
+    source_record_id_prefix: dwp.wfp_statistics.winter_2023_24.recipients_by_region_amount
+    sheet_name: 4_Region_Amount
+    period_type: fiscal_year
+    period: 2023
+    period_coverage:
+      start_date: '2023-04-01'
+      end_date: '2024-03-31'
+      basis: fiscal
+      source_period_label: winter 2023 to 2024
+      notes: 'Winter 2023 to 2024 (DWP year ''2023 / 2024''): qualifying week 18 to 24 September 2023,
+        paid from November 2023; period.value stores the financial year the payments fall in, as DWP''s
+        expenditure and caseload tables book them.'
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    entity: person
+    entity_role: winter_fuel_payment_recipient
+    domain: winter_fuel_payment
+    groupby_dimension: geography
+    rows:
+      - value_id: k03000001
+        label: Great Britain
+        ordinal: 0
+        row_number: 10
+        expected_row_header_column: A
+        expected_row_header: Great Britain
+        geography_id: K03000001
+        geography_level: country
+        geography_name: Great Britain
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000001
+        label: North East
+        ordinal: 1
+        row_number: 11
+        expected_row_header_column: A
+        expected_row_header: North East
+        geography_id: E12000001
+        geography_level: region
+        geography_name: North East
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000002
+        label: North West
+        ordinal: 2
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: North West
+        geography_id: E12000002
+        geography_level: region
+        geography_name: North West
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000003
+        label: Yorkshire and the Humber
+        ordinal: 3
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: Yorkshire and the Humber
+        geography_id: E12000003
+        geography_level: region
+        geography_name: Yorkshire and the Humber
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000004
+        label: East Midlands
+        ordinal: 4
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: East Midlands
+        geography_id: E12000004
+        geography_level: region
+        geography_name: East Midlands
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000005
+        label: West Midlands
+        ordinal: 5
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: West Midlands
+        geography_id: E12000005
+        geography_level: region
+        geography_name: West Midlands
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000006
+        label: East
+        ordinal: 6
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: East
+        geography_id: E12000006
+        geography_level: region
+        geography_name: East
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000007
+        label: London
+        ordinal: 7
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: London
+        geography_id: E12000007
+        geography_level: region
+        geography_name: London
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000008
+        label: South East
+        ordinal: 8
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: South East
+        geography_id: E12000008
+        geography_level: region
+        geography_name: South East
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: e12000009
+        label: South West
+        ordinal: 9
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: South West
+        geography_id: E12000009
+        geography_level: region
+        geography_name: South West
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: w92000004
+        label: Wales
+        ordinal: 10
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: Wales
+        geography_id: W92000004
+        geography_level: country
+        geography_name: Wales
+        geography_vintage: current
+        table_record_kind: detail
+      - value_id: s92000003
+        label: Scotland
+        ordinal: 11
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: Scotland
+        geography_id: S92000003
+        geography_level: country
+        geography_name: Scotland
+        geography_vintage: current
+        table_record_kind: detail
+    measures:
+      - measure_id: recipients_gbp_250
+        label: Winter Fuel Payment recipients paid £250
+        ordinal: 0
+        column: C
+        source_column_id: recipients_gbp_250
+        source_column_dimensions:
+          amount: £250
+        filters:
+          amount: £250
+        constraints:
+          - variable: amount
+            operator: ==
+            value: £250
+            label: Amount
+        expected_column_header_row: 8
+        expected_column_header: £250
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 4, recipients by amount.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_gbp_300
+        label: Winter Fuel Payment recipients paid £300
+        ordinal: 1
+        column: D
+        source_column_id: recipients_gbp_300
+        source_column_dimensions:
+          amount: £300
+        filters:
+          amount: £300
+        constraints:
+          - variable: amount
+            operator: ==
+            value: £300
+            label: Amount
+        expected_column_header_row: 8
+        expected_column_header: £300
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 4, recipients by amount.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_gbp_350
+        label: Winter Fuel Payment recipients paid £350
+        ordinal: 2
+        column: E
+        source_column_id: recipients_gbp_350
+        source_column_dimensions:
+          amount: £350
+        filters:
+          amount: £350
+        constraints:
+          - variable: amount
+            operator: ==
+            value: £350
+            label: Amount
+        expected_column_header_row: 8
+        expected_column_header: £350
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 4, recipients by amount.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_gbp_500
+        label: Winter Fuel Payment recipients paid £500
+        ordinal: 3
+        column: F
+        source_column_id: recipients_gbp_500
+        source_column_dimensions:
+          amount: £500
+        filters:
+          amount: £500
+        constraints:
+          - variable: amount
+            operator: ==
+            value: £500
+            label: Amount
+        expected_column_header_row: 8
+        expected_column_header: £500
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 4, recipients by amount.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: recipients_gbp_600
+        label: Winter Fuel Payment recipients paid £600
+        ordinal: 4
+        column: G
+        source_column_id: recipients_gbp_600
+        source_column_dimensions:
+          amount: £600
+        filters:
+          amount: £600
+        constraints:
+          - variable: amount
+            operator: ==
+            value: £600
+            label: Amount
+        expected_column_header_row: 8
+        expected_column_header: £600
+        concept: dwp.winter_fuel_payment_recipients
+        source_concept: dwp.winter_fuel_payment_recipients
+        concept_relation: source_label
+        concept_authority: dwp
+        concept_evidence_url: https://www.gov.uk/government/collections/winter-fuel-payment-statistics
+        concept_evidence_notes: DWP Winter Fuel Payment statistics, winter 2023 to 2024 (caseload workbook).
+          Table 4, recipients by amount.
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
