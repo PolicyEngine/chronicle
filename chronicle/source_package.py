@@ -134,6 +134,12 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-pension-contribution-relief-2023-24": Path(
         "hmrc/pension_contribution_relief_2023_24"
     ),
+    "hmrc-winter-fuel-payment-charge-2025": Path(
+        "hmrc/winter_fuel_payment_charge_2025"
+    ),
+    "obr-salary-sacrifice-costing-february-2026": Path(
+        "obr/salary_sacrifice_costing_february_2026"
+    ),
     # end chronicle#302
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),

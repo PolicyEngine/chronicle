@@ -14,6 +14,16 @@
 # NI-relief companions (GBP 1.2bn employee / 2.9bn employer) come from the
 # separate 2025 SPP Review PDF, whose uk-data asset link is dead with no
 # Wayback copy - tracked as blocked in the checklist.
+#
+# chronicle#302 adds the paper's forgone-NICs series from 2023: GBP 5.8 billion of National
+# Insurance contributions forgone through salary sacrifice for pensions in tax year 2023-24,
+# and the paper's expectation that this would reach GBP 8 billion by tax year 2030-31 without
+# the measure (a projection). The paper's GBP 2.8 billion for 2016-17 predates the window and
+# is not ported. The paper gives no source for these figures and they do not match HMRC's own
+# private pension statistics Table 6.2, where NICs relief on salary-sacrificed contributions
+# in 2023-24 is GBP 1.2 billion employee plus GBP 2.9 billion employer, GBP 4.1 billion in
+# all (hmrc-pension-contribution-relief-2023-24), so they carry their own concept,
+# hmrc.salary_sacrifice_forgone_nics, rather than that table's.
 schema_version: ledger.source_package.v1
 package_id: hmrc-salary-sacrifice-reform-2029-headcounts
 label: 'HMRC salary sacrifice reform policy paper: employees using salary sacrifice for
@@ -156,3 +166,119 @@ record_sets:
     unit: count
     aggregation: sum
     expected_cell_type: number
+- record_set_id: hmrc.ss_reform_2029.forgone_nics.ty2023
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: hmrc.ss_reform_2029.forgone_nics.ty2023.v1
+  source_record_id_prefix: hmrc.ss_reform_2029.forgone_nics.ty2023
+  sheet_name: document_numbers
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: central_government
+  domain: pension_contributions
+  groupby_dimension: hmrc.salary_sacrifice_threshold_position
+  rows:
+    - value_id: all
+      label: Forgone NICs through salary sacrifice for pensions, 2023-24
+      ordinal: 0
+      row_number: 19
+      expected_row_header_column: D
+      expected_row_header: £5.8 billion
+      table_record_kind: total
+      filters:
+        salary_sacrifice_threshold_position: all
+      guard_cells:
+        - column: C
+          row: 19
+          expected_value: Most other salary sacrifice opportunities were closed in 2017. Salary sacrifice
+            for pensions contributions remains, and its cost as a relief has increased markedly from £2.8
+            billion in forgone National Insurance contributions in tax year 2016 to 2017, rising to £5.8
+            billion in tax year 2023 to 2024. Were no changes made, it is expected that this would nearly
+            triple to £8 billion by tax year 2030 to 2031.
+          label: paragraph text
+        - column: D
+          row: 20
+          expected_value: '2023'
+          label: tax year that follows the amount
+  measures:
+    - measure_id: forgone_nics
+      label: National Insurance contributions forgone through salary sacrifice for pensions
+      ordinal: 0
+      column: E
+      source_column_id: numeric_value
+      expected_column_header_row: 1
+      expected_column_header: numeric_value
+      concept: hmrc.salary_sacrifice_forgone_nics
+      source_concept: hmrc.salary_sacrifice_forgone_nics
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/publications/salary-sacrifice-reform-for-pension-contributions-effective-from-6-april-2029/salary-sacrifice-reform-for-pension-contributions
+      concept_evidence_notes: 'HMRC policy paper, background: the cost of salary sacrifice for pensions
+        as a relief, in forgone National Insurance contributions (GBP 5.8 billion in 2023-24; expected
+        GBP 8 billion by 2030-31 were no changes made).'
+      unit: gbp
+      aggregation: sum
+      expected_cell_type: number
+- record_set_id: hmrc.ss_reform_2029.forgone_nics.ty2030
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: hmrc.ss_reform_2029.forgone_nics.ty2030.v1
+  source_record_id_prefix: hmrc.ss_reform_2029.forgone_nics.ty2030
+  sheet_name: document_numbers
+  period_type: tax_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: central_government
+  domain: pension_contributions
+  groupby_dimension: hmrc.salary_sacrifice_threshold_position
+  rows:
+    - value_id: all
+      label: Forgone NICs through salary sacrifice for pensions expected by 2030-31 without the measure
+      ordinal: 0
+      row_number: 21
+      expected_row_header_column: D
+      expected_row_header: £8 billion
+      table_record_kind: total
+      filters:
+        salary_sacrifice_threshold_position: all
+      guard_cells:
+        - column: C
+          row: 21
+          expected_value: Most other salary sacrifice opportunities were closed in 2017. Salary sacrifice
+            for pensions contributions remains, and its cost as a relief has increased markedly from £2.8
+            billion in forgone National Insurance contributions in tax year 2016 to 2017, rising to £5.8
+            billion in tax year 2023 to 2024. Were no changes made, it is expected that this would nearly
+            triple to £8 billion by tax year 2030 to 2031.
+          label: paragraph text
+        - column: D
+          row: 22
+          expected_value: '2030'
+          label: tax year that follows the amount
+  measures:
+    - measure_id: forgone_nics
+      label: National Insurance contributions forgone through salary sacrifice for pensions
+      ordinal: 0
+      column: E
+      source_column_id: numeric_value
+      expected_column_header_row: 1
+      expected_column_header: numeric_value
+      concept: hmrc.salary_sacrifice_forgone_nics
+      source_concept: hmrc.salary_sacrifice_forgone_nics
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/publications/salary-sacrifice-reform-for-pension-contributions-effective-from-6-april-2029/salary-sacrifice-reform-for-pension-contributions
+      concept_evidence_notes: 'HMRC policy paper, background: the cost of salary sacrifice for pensions
+        as a relief, in forgone National Insurance contributions (GBP 5.8 billion in 2023-24; expected
+        GBP 8 billion by 2030-31 were no changes made).'
+      unit: gbp
+      aggregation: sum
+      expected_cell_type: number
