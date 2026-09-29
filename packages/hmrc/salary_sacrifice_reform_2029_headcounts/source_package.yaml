@@ -11,9 +11,11 @@
 # its 2.4%-per-year growth extension are populace-side declarations excluded
 # per the facts-only ADR. uk-data tags these targets 'obr'; the publisher is
 # HMRC (relabel recorded in docs/pe-uk-source-checklist.md). The paper's
-# NI-relief companions (GBP 1.2bn employee / 2.9bn employer) come from the
+# NI-relief companions (GBP 1.2bn employee / 2.9bn employer) cite the
 # separate 2025 SPP Review PDF, whose uk-data asset link is dead with no
-# Wayback copy - tracked as blocked in the checklist.
+# Wayback copy. The same two values are HMRC private pension statistics
+# Table 6.2's NICs relief on salary-sacrificed contributions in 2023-24,
+# ported in hmrc-pension-contribution-relief-2023-24 (chronicle#302).
 #
 # chronicle#302 adds the paper's forgone-NICs series from 2023: GBP 5.8 billion of National
 # Insurance contributions forgone through salary sacrifice for pensions in tax year 2023-24,
@@ -24,16 +26,25 @@
 # in 2023-24 is GBP 1.2 billion employee plus GBP 2.9 billion employer, GBP 4.1 billion in
 # all (hmrc-pension-contribution-relief-2023-24), so they carry their own concept,
 # hmrc.salary_sacrifice_forgone_nics, rather than that table's.
+#
+# It also adds the paper's count of employers operating salary sacrifice arrangements for
+# pension contributions, 290,000 (the impact-on-business paragraph: the employers the measure
+# is expected to affect significantly). Like the employee headcounts it carries no reference
+# period, so it takes the same publication-year stamp (2025) and model_output provenance.
 schema_version: ledger.source_package.v1
 package_id: hmrc-salary-sacrifice-reform-2029-headcounts
 label: 'HMRC salary sacrifice reform policy paper: employees using salary sacrifice for
-  pension contributions, by GBP 2,000 threshold position'
+  pension contributions, by GBP 2,000 threshold position; employers operating it; and
+  National Insurance contributions forgone'
 dimension_labels:
   'hmrc.salary_sacrifice_threshold_position': 'Salary sacrifice GBP 2,000 threshold position'
+  'hmrc.salary_sacrifice_employer_arrangement': 'Employer salary sacrifice arrangement for pension contributions'
 dimension_value_labels:
   'salary_sacrifice_threshold_position':
     'all': 'Employees using salary sacrifice to make pension contributions'
     'within_2000': 'Employees fully protected by the GBP 2,000 threshold'
+  'salary_sacrifice_employer_arrangement':
+    'operates': 'Operates salary sacrifice arrangements for pension contributions'
 artifact:
   source_name: hmrc
   source_table: Salary sacrifice reform for pension contributions (effective 6 April 2029),
@@ -280,5 +291,62 @@ record_sets:
         as a relief, in forgone National Insurance contributions (GBP 5.8 billion in 2023-24; expected
         GBP 8 billion by 2030-31 were no changes made).'
       unit: gbp
+      aggregation: sum
+      expected_cell_type: number
+- record_set_id: hmrc.ss_reform_2029.salary_sacrifice_employers
+  provenance_class: model_output
+  record_set_spec_id: hmrc.ss_reform_2029.salary_sacrifice_employers.v1
+  source_record_id_prefix: hmrc.ss_reform_2029.salary_sacrifice_employers
+  sheet_name: document_numbers
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: pension_contributions
+  groupby_dimension: hmrc.salary_sacrifice_employer_arrangement
+  rows:
+    - value_id: operates_salary_sacrifice
+      label: Employers operating salary sacrifice arrangements for pension contributions
+      ordinal: 0
+      row_number: 58
+      expected_row_header_column: D
+      expected_row_header: 290,000
+      table_record_kind: total
+      filters:
+        salary_sacrifice_employer_arrangement: operates
+      constraints:
+        - variable: salary_sacrifice_employer_arrangement
+          operator: ==
+          value: operates
+          label: Operates salary sacrifice for pension contributions
+      guard_cells:
+        - column: C
+          row: 58
+          expected_value: This measure is expected to have a significant impact on 290,000 employers who
+            operate salary sacrifice arrangements for pension contributions who will now need to account
+            for relevant pension contribution amounts and report and pay Class 1 National Insurance contributions
+            on these, where appropriate.
+          label: paragraph text
+  measures:
+    - measure_id: employers
+      label: Employers operating salary sacrifice arrangements for pension contributions
+      ordinal: 0
+      column: E
+      source_column_id: numeric_value
+      expected_column_header_row: 1
+      expected_column_header: numeric_value
+      concept: hmrc.salary_sacrifice_pension_employers
+      source_concept: hmrc.salary_sacrifice_pension_employers
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/publications/salary-sacrifice-reform-for-pension-contributions-effective-from-6-april-2029/salary-sacrifice-reform-for-pension-contributions
+      concept_evidence_notes: 'HMRC policy paper, impact on business: 290,000 employers operate salary
+        sacrifice arrangements for pension contributions and are expected to be significantly affected
+        by the measure.'
+      unit: count
       aggregation: sum
       expected_cell_type: number

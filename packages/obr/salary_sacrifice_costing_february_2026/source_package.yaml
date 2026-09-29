@@ -19,8 +19,9 @@
 #   points, zero before April 2029);
 # - the static yield of each base and the total static yield, GBP billion, positive = an
 #   increase in receipts. The table labels the salary-sacrifice yield row '(GBP m)' while its
-#   values are GBP billion (2.5 + 2.3 = 4.9 in 2029-30 against the total row's GBP billion);
-#   the facts carry GBP with a billion scale and the guard keeps the publisher's text.
+#   values are GBP billion (in 2029-30 its 2.5 and the bonus row's 2.3 make the total row's
+#   GBP 4.9 billion, to rounding); the facts carry GBP with a billion scale and the guard
+#   keeps the publisher's text.
 #
 # All are OBR-certified HMRC projections: provenance model_output, assertion
 # source_projection. UK geography (NICs are UK-wide).
