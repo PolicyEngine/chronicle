@@ -144,8 +144,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # file's state-total and US rows share semantic keys with the Historic
         # Table 2 rows for the same TY2022 cells (two IRS publications of one
         # cell): 1,560 new duplicate keys among the changed packages' own
-        # builds, for a bundle-wide net of +1,555.
-        "semantic_duplicate_key_count": 2022,
+        # builds, for a bundle-wide net of +1,555. The HT2 and CD N01000/A01000
+        # rows then took one Form 1040 line 7 concept
+        # (docs/concept-migrations.md), adding 104 more: 51 states and the US
+        # for returns and amount.
+        "semantic_duplicate_key_count": 2126,
         "skipped_source_count": 10,
         "source_count": 50,
         "source_package_count": 227,
@@ -1231,7 +1234,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "tax_unit": 41368,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2022
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2126
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 50,
         "conflicting_groupby_value_label": 16,
