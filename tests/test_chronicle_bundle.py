@@ -136,9 +136,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 350893,
+        "fact_count": 408145,
         "geography_count": 12592,
-        "period_count": 494,
+        "period_count": 495,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -147,19 +147,24 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # builds, for a bundle-wide net of +1,555. The HT2 and CD N01000/A01000
         # rows then took one Form 1040 line 7 concept
         # (docs/concept-migrations.md), adding 104 more: 51 states and the US
-        # for returns and amount.
-        "semantic_duplicate_key_count": 2126,
+        # for returns and amount. chronicle#302's State Pension, Pension Credit
+        # and Winter Fuel Payment packages reach the same totals through more
+        # than one cut or release (+198). Sixteen of those differ: the Winter
+        # Fuel Payment 2023-24 workbook against the Stat-Xplore cube, both kept
+        # as published.
+        "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
         "source_count": 50,
-        "source_package_count": 227,
+        "source_package_count": 268,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
         # areas the canonical name register does not yet carry - every UK one
-        # it does has stopped warning (chronicle#281).
-        "warning_count": 76,
+        # it does has stopped warning (chronicle#281). chronicle#302 adds two:
+        # ASHE writes '30 to 39' and '40 to 49' where NTS0601 writes 'Age 30 to 39'.
+        "warning_count": 78,
     }
-    assert len(rows) == 350893
+    assert len(rows) == 408145
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -177,7 +182,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 227
+    assert source_packages["source_package_count"] == 268
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -191,7 +196,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 350893
+    assert coverage["fact_count"] == 408145
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -205,16 +210,16 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "cms_nhe": 3,
         "desnz": 5697,
         "dfe": 770,
-        "dfc_ni": 1189,
+        "dfc_ni": 1700,
         "dfi_ni": 30,
         "dft": 2771,
-        "dwp": 15002,
+        "dwp": 56100,
         "eurostat": 207,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 31343,
+        "hmrc": 31515,
         "ici": 12,
         "irs_soi": 40063,
         "isc": 2,
@@ -225,10 +230,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "nisra": 533,
         "nithc": 8,
         "nrs": 6063,
-        "obr": 319,
+        "obr": 355,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 84930,
+        "ons": 100365,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
@@ -245,7 +250,28 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9325,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 222
+    assert len(table_counts) == 263
+    assert (
+        table_counts[
+            "dwp:State Pension caseload and mean weekly amount by age, gender and "
+            "type of pension, Great Britain residents, February 2023 to March 2026"
+        ]
+        == 4879
+    )
+    assert (
+        table_counts[
+            "dwp:Pension Credit caseload and mean weekly award by region, type of "
+            "Pension Credit, partner indicator and age band, February 2023 to March 2026"
+        ]
+        == 22966
+    )
+    assert (
+        table_counts[
+            "ons:ASHE pension tables P10: employer pension contribution bands (full "
+            "pay) by pension type and SIC2007 industry, 2024 provisional"
+        ]
+        == 1208
+    )
     assert (
         table_counts[
             "hmrc:Capital Gains Tax statistics Table 4: BADR and Investors' "
@@ -1201,6 +1227,44 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         issue_280_period_increments[f"month:{month}"] = 23
     for key, count in issue_280_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # The UK pension packages of chronicle#302: Stat-Xplore State Pension,
+    # Pension Credit and Attendance Allowance months from February 2023, the
+    # Northern Ireland rolling series to May 2026, workplace pensions, salary
+    # sacrifice, Winter Fuel Payment, and the DWP forecast tables to 2030-31.
+    issue_302_period_increments = {
+        "calendar_year:2023": 352,
+        "calendar_year:2024": 15707,
+        "calendar_year:2025": 313,
+        "fiscal_year:2023": 593,
+        "fiscal_year:2024": 441,
+        "fiscal_year:2025": 353,
+        "fiscal_year:2026": 113,
+        "fiscal_year:2027": 344,
+        "fiscal_year:2028": 344,
+        "fiscal_year:2029": 344,
+        "fiscal_year:2030": 344,
+        "month:2023-02": 2947,
+        "month:2023-05": 2915,
+        "month:2023-08": 2895,
+        "month:2023-11": 2896,
+        "month:2024-02": 2892,
+        "month:2024-05": 2894,
+        "month:2024-08": 2893,
+        "month:2024-11": 2896,
+        "month:2025-02": 2897,
+        "month:2025-05": 2898,
+        "month:2025-08": 2896,
+        "month:2025-11": 2899,
+        "month:2026-02": 30,
+        "month:2026-03": 2864,
+        "month:2026-05": 121,
+        "tax_year:2023": 86,
+        "tax_year:2024": 79,
+        "tax_year:2025": 5,
+        "tax_year:2030": 1,
+    }
+    for key, count in issue_302_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
     assert coverage["counts"]["by_geography"]["country:BE"] == 4888
     assert coverage["counts"]["by_geography"]["country:DE"] == 36
@@ -1214,31 +1278,31 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 10626
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 4053
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 9606
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 26269
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 5261
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 20784
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
     assert len(coverage["counts"]["by_geography"]) == 12592
     assert coverage["counts"]["by_entity"] == {
-        "benefit_unit": 7280,
+        "benefit_unit": 33643,
         "dwelling": 152487,
         "family": 1299,
-        "firm": 1439,
-        "government": 2790,
+        "firm": 1440,
+        "government": 3412,
         "household": 53521,
         "institutional_sector": 1263,
         "pension_plan": 2,
-        "person": 74808,
+        "person": 105074,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 41368,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2126
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 50,
         "conflicting_groupby_value_label": 16,
-        "conflicting_value_label_across_packages": 9,
+        "conflicting_value_label_across_packages": 11,
         "duplicate_semantic_fact_key": 1,
     }
     assert [
@@ -1275,6 +1339,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "age=85_plus",
         "age=age_20",
         "age=age_21",
+        "age_band=30 to 39",
+        "age_band=40 to 49",
         "household_type=couple_3_plus_children_households",
         "measure=country_total",
         "ons.household_type=couple_3_plus_children_households",
