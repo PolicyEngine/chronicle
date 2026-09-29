@@ -146,6 +146,9 @@ SOURCE_PACKAGE_ALIASES = {
     "dwp-winter-fuel-payment-statistics-winter-2025-26": Path(
         "dwp/winter_fuel_payment_statistics_winter_2025_26"
     ),
+    "dwp-workplace-pension-savings-trends-2009-to-2025": Path(
+        "dwp/workplace_pension_savings_trends_2009_to_2025"
+    ),
     "hmrc-pension-contribution-relief-2023-24": Path(
         "hmrc/pension_contribution_relief_2023_24"
     ),

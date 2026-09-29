@@ -120,6 +120,7 @@ UK_BUNDLE_SOURCES = (
     "dwp-winter-fuel-payment-statistics-winter-2023-24",
     "dwp-winter-fuel-payment-statistics-winter-2024-25",
     "dwp-winter-fuel-payment-statistics-winter-2025-26",
+    "dwp-workplace-pension-savings-trends-2009-to-2025",
     "hmrc-cgt-age-2026",
     "hmrc-cgt-asset-type-2026",
     "hmrc-cgt-badr-ir-2026",
