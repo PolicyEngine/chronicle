@@ -76,8 +76,10 @@ KNOWN_LINE_7_PACKAGES = frozenset(
 
 
 def _measures(node: Any) -> Iterator[dict[str, Any]]:
+    # Every measure declaration carries a measure_id; a missing concept is
+    # yielded too, so the guards below fail on it instead of skipping it.
     if isinstance(node, dict):
-        if "measure_id" in node and "concept" in node:
+        if "measure_id" in node:
             yield node
         for value in node.values():
             yield from _measures(value)
@@ -111,7 +113,7 @@ def test_every_line_7_column_carries_the_line_7_concept():
         where = f"{package_dir}:{measure['measure_id']}"
         assert measure["measure_id"] == measure_id, where
         assert measure["label"] == label, where
-        assert measure["concept"] == concept, where
+        assert measure.get("concept") == concept, where
         # Both guards name the same IRS variable, so a column shift cannot
         # move the concept onto a neighbour.
         assert measure.get("source_column_id") == variable, where
@@ -121,23 +123,29 @@ def test_every_line_7_column_carries_the_line_7_concept():
 
 
 def test_schedule_d_gain_concepts_stay_on_table_1_4():
+    # Table 1.4 vintage packages (table_1_4, table_1_4_<year>, ...) may carry
+    # the Schedule D taxable-net-gain concept; nothing else may.
     declaring = {
         (package_dir, measure["measure_id"])
         for package_dir, measure in _irs_soi_measures()
-        if measure["concept"] in SCHEDULE_D_GAIN_CONCEPTS
+        if measure.get("concept") in SCHEDULE_D_GAIN_CONCEPTS
     }
 
-    assert declaring == {
-        ("table_1_4", "net_capital_gains_returns"),
-        ("table_1_4", "net_capital_gains_amount"),
-    }
+    assert ("table_1_4", "net_capital_gains_returns") in declaring
+    assert ("table_1_4", "net_capital_gains_amount") in declaring
+    assert {
+        (package_dir, measure_id)
+        for package_dir, measure_id in declaring
+        if not package_dir.startswith("table_1_4")
+        or measure_id not in {"net_capital_gains_returns", "net_capital_gains_amount"}
+    } == set()
 
 
 def test_retired_line_7_concepts_are_not_declared():
     declaring = sorted(
         f"{package_dir}:{measure['measure_id']}"
         for package_dir, measure in _irs_soi_measures()
-        if measure["concept"] in RETIRED_LINE_7_CONCEPTS
+        if measure.get("concept") in RETIRED_LINE_7_CONCEPTS
     )
 
     assert declaring == []

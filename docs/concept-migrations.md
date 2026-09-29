@@ -45,17 +45,26 @@ without a Schedule D.
   (TY2022: 26,480,998), so the phrase alone does not identify the population.
 
 **Semantic keys.** Historic Table 2 and the congressional-district file now
-share one concept for the same IRS variable, as they already did for 19 of the
-31 IRS columns they share. Their TY2022 state and US rows therefore share
-semantic keys, which adds 104 semantic-duplicate keys to the default bundle (51
-states and the US, returns and amount). The values differ: the IRS guide for the
+share one concept for the same IRS variable. That was already the case for 19 of
+the 31 IRS columns the national package shares with the congressional-district
+file (24 of 36 for the state package); the capital-gains pair was 2 of the same
+12 exceptions in both. Their TY2022 state and US rows therefore share semantic
+keys, which adds 104 semantic-duplicate keys to the default bundle (51 states
+and the US, returns and amount). The values differ: the IRS guide for the
 congressional-district file says its state totals "may not be comparable to
 State totals published elsewhere by SOI because of disclosure protection
 procedures or the exclusion of returns that did not match based on the ZIP
-code." The Historic Table 2 and Table 1.4 rows no longer share a semantic key.
+code." Historic Table 2 and Table 1.4 rows for the same year can no longer share
+a semantic key. In the default bundle they did not collide, because Historic
+Table 2 builds at TY2022 and Table 1.4 at TY2023, but a same-year build did.
 
 **Unchanged.** Table 1.4 keeps `irs_soi.returns_with_taxable_net_capital_gains`
-/ `irs_soi.taxable_net_capital_gains`.
+/ `irs_soi.taxable_net_capital_gains`. `measure_id` stays
+`net_capital_gains_returns` / `net_capital_gains_amount` in all four packages
+because Microcosm selects on it, so one `measure_id` still names two different
+measures; chronicle#307 tracks giving them distinct ids together with the
+Microcosm selector change, and the 10 other columns the two files label with
+different concepts.
 
 **Pinned by** `tests/test_chronicle_soi_capital_gain_concepts.py`: every
 `irs_soi` package that reads `N01000`/`A01000` (any vintage) must declare the
