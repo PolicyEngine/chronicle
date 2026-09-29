@@ -101,6 +101,12 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     # chronicle#302: UK pension facts (State Pension, Pension Credit, NI, workplace
     # pensions, salary sacrifice, Winter Fuel Payment).
+    "dfc-ni-pension-credit-statistics-may-2026": Path(
+        "dfc_ni/pension_credit_statistics_may_2026"
+    ),
+    "dfc-ni-state-pension-statistics-may-2026": Path(
+        "dfc_ni/state_pension_statistics_may_2026"
+    ),
     "dwp-pension-credit-amount-band-type-february-2023-march-2026": Path(
         "dwp/pension_credit_amount_band_type_february_2023_march_2026"
     ),

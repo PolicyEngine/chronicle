@@ -1,0 +1,2257 @@
+# Department for Communities Northern Ireland, Benefits Statistics Summary Publication,
+# May 2026 (published 26 August 2026; accredited official statistics compiled by NISRA
+# analysts from DWP's State Pension GMS/MIDAS and Get Your State Pension extracts), State
+# Pension workbook, for PolicyEngine/chronicle#302 section 3: the Northern Ireland part of the
+# UK resident State Pension caseload, which no DWP Great Britain table carries.
+#
+# Every workbook carries a rolling 21-quarter series, so this edition alone is the newest
+# release for every point from February 2023 to May 2026: Table 1 (claimants by category of
+# pension, including the new State Pension) and Table 4 (average weekly payment by category)
+# are ported for those 14 points. Earlier editions are not archived: the series was revised
+# twice after first publication (the August 2024 edition replaced overstated Get Your State
+# Pension estimates from August 2020; the February 2026 edition revised totals from October
+# 2020 and every average from February 2021), and this edition carries the revised values.
+# Its own-month cross-sections at May 2026 are also ported: Table 2 (age band by gender) in
+# full, and Table 3's category-by-gender cells (its all-genders column restates Table 1's May
+# 2026 row and its Total row restates Table 2's, cell for cell, so they are not ported twice). Earlier editions' cross-sections are not: they are not in this
+# release, and before February 2026 they omitted the Get Your State Pension claimants
+# (17,170 to 63,120, up to 19 per cent), whose age and gender were unknown.
+#
+# Counts are rounded to the nearest ten with further disclosure control, so parts need not sum
+# to totals; averages are GBP a week to the penny. The date column holds quarter-end dates
+# (the scan nearest each date), stamped here as the month. May 2026: 335,540 claimants, of whom
+# 152,970 on the new State Pension; average GBP 227.39 a week. Northern Ireland pensioners
+# living abroad are not in these tables (the National Insurance Fund account's GBP 3,462.9m for
+# 2024-25 includes them).
+#
+# The counts share the canonical concepts of the DWP Great Britain packages
+# (dwp.state_pension_recipients), with source concept dfc_ni.state_pension_claimants and an
+# exact relation, as the NRS and NISRA population legs share the ONS concept: the same
+# administrative measurement for the other nation. The averages are aligned approximately:
+# DfC's note says they exclude Get Your State Pension cases, while the February 2026 revision
+# suggests they may now include them; DWP's Stat-Xplore mean has no such exclusion.
+# Tables 5 (payment bands) and 6 (local government districts) are not ported.
+schema_version: ledger.source_package.v1
+package_id: dfc-ni-state-pension-statistics-may-2026
+label: DfC Northern Ireland State Pension claimants and average weekly payment by category of pension,
+  February 2023 to May 2026, with May 2026 by age band and gender
+dimension_labels:
+  geography: Geography
+  category_of_pension: Category of Pension
+  gender: Gender
+  age_band: Age band
+dimension_value_labels:
+  category_of_pension:
+    Category A: Category A
+    Category AB: Category AB
+    Category ABL: Category ABL
+    Category B: Category B
+    Category BL: Category BL
+    Category D: Category D
+    New State Pension: New State Pension
+    Other/Unknown: Other/Unknown
+  gender:
+    Female: Female
+    Male: Male
+  age_band:
+    66-69: 66-69
+    70-74: 70-74
+    75-79: 75-79
+    80-84: 80-84
+    85-89: 85-89
+    90 and over: 90 and over
+    all: All ages
+artifact:
+  source_name: dfc_ni
+  source_table: 'Benefits Statistics Summary Publication May 2026: State Pension workbook'
+  resource_package: db
+  resource_directory: data/dfc_ni/state_pension_statistics_may_2026
+  manifest: manifest.yaml
+  vintage: benefits_statistics_summary_may_2026
+  extracted_at: '2026-09-29'
+  extraction_method: xlsx used-range cell parse of the workbook's data tables
+  parser: xlsx_used_range
+  sheets:
+    - Table 1
+    - Table 2
+    - Table 3
+    - Table 4
+  artifact_year: 2026
+record_sets:
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2023_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2023_02
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-02-28
+        ordinal: 0
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: '2023-02-28T00:00:00'
+        table_record_kind: detail
+    measures: &id001
+      - measure_id: claimants_category_a
+        label: State Pension claimants, Category A
+        ordinal: 0
+        column: B
+        source_column_id: claimants_category_a
+        source_column_dimensions:
+          category_of_pension: Category A
+        filters:
+          category_of_pension: Category A
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category A
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category A'
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_category_ab
+        label: State Pension claimants, Category AB
+        ordinal: 1
+        column: C
+        source_column_id: claimants_category_ab
+        source_column_dimensions:
+          category_of_pension: Category AB
+        filters:
+          category_of_pension: Category AB
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category AB
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category AB'
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_category_abl
+        label: State Pension claimants, Category ABL
+        ordinal: 2
+        column: D
+        source_column_id: claimants_category_abl
+        source_column_dimensions:
+          category_of_pension: Category ABL
+        filters:
+          category_of_pension: Category ABL
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category ABL
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category ABL'
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_category_b
+        label: State Pension claimants, Category B
+        ordinal: 3
+        column: E
+        source_column_id: claimants_category_b
+        source_column_dimensions:
+          category_of_pension: Category B
+        filters:
+          category_of_pension: Category B
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category B
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category B'
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_category_bl
+        label: State Pension claimants, Category BL
+        ordinal: 4
+        column: F
+        source_column_id: claimants_category_bl
+        source_column_dimensions:
+          category_of_pension: Category BL
+        filters:
+          category_of_pension: Category BL
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category BL
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category BL'
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_category_d
+        label: State Pension claimants, Category D
+        ordinal: 5
+        column: G
+        source_column_id: claimants_category_d
+        source_column_dimensions:
+          category_of_pension: Category D
+        filters:
+          category_of_pension: Category D
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category D
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category D'
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_new_state_pension
+        label: State Pension claimants, New State Pension
+        ordinal: 6
+        column: H
+        source_column_id: claimants_new_state_pension
+        source_column_dimensions:
+          category_of_pension: New State Pension
+        filters:
+          category_of_pension: New State Pension
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: New State Pension
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          New State Pension'
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_other_or_unknown
+        label: State Pension claimants, Other/Unknown
+        ordinal: 7
+        column: I
+        source_column_id: claimants_other_or_unknown
+        source_column_dimensions:
+          category_of_pension: Other/Unknown
+        filters:
+          category_of_pension: Other/Unknown
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Other/Unknown
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Other/Unknown'
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2023_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2023_02.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-02-28
+        ordinal: 0
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: '2023-02-28T00:00:00'
+        table_record_kind: total
+    measures: &id002
+      - measure_id: claimants_all
+        label: State Pension claimants, all categories
+        ordinal: 0
+        column: J
+        source_column_id: claimants_all
+        expected_column_header_row: 4
+        expected_column_header: Total
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2023_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2023_05
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-05-31
+        ordinal: 0
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: '2023-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2023_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2023_05.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-05-31
+        ordinal: 0
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: '2023-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2023_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2023_08
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-08-31
+        ordinal: 0
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: '2023-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2023_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2023_08.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-08-31
+        ordinal: 0
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: '2023-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2023_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2023_11
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-11-30
+        ordinal: 0
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: '2023-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2023_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2023_11.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-11-30
+        ordinal: 0
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: '2023-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2024_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2024_02
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-02-29
+        ordinal: 0
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: '2024-02-29T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2024_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2024_02.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-02-29
+        ordinal: 0
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: '2024-02-29T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2024_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2024_05
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-05-31
+        ordinal: 0
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: '2024-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2024_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2024_05.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-05-31
+        ordinal: 0
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: '2024-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2024_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2024_08
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-08-31
+        ordinal: 0
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: '2024-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2024_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2024_08.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-08-31
+        ordinal: 0
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: '2024-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2024_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2024_11
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-11-30
+        ordinal: 0
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: '2024-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2024_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2024_11.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-11-30
+        ordinal: 0
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: '2024-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2025_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2025_02
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-02-28
+        ordinal: 0
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: '2025-02-28T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2025_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2025_02.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-02-28
+        ordinal: 0
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: '2025-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2025_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2025_05
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-05-31
+        ordinal: 0
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: '2025-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2025_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2025_05.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-05-31
+        ordinal: 0
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: '2025-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2025_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2025_08
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-08-31
+        ordinal: 0
+        row_number: 22
+        expected_row_header_column: A
+        expected_row_header: '2025-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2025_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2025_08.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-08-31
+        ordinal: 0
+        row_number: 22
+        expected_row_header_column: A
+        expected_row_header: '2025-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2025_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2025_11
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-11-30
+        ordinal: 0
+        row_number: 23
+        expected_row_header_column: A
+        expected_row_header: '2025-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2025_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2025_11.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-11-30
+        ordinal: 0
+        row_number: 23
+        expected_row_header_column: A
+        expected_row_header: '2025-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2026_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2026_02
+    sheet_name: Table 1
+    period_type: month
+    period: 2026-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2026-02-28
+        ordinal: 0
+        row_number: 24
+        expected_row_header_column: A
+        expected_row_header: '2026-02-28T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2026_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2026_02.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2026-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2026-02-28
+        ordinal: 0
+        row_number: 24
+        expected_row_header_column: A
+        expected_row_header: '2026-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2026_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2026_05
+    sheet_name: Table 1
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2026-05-31
+        ordinal: 0
+        row_number: 25
+        expected_row_header_column: A
+        expected_row_header: '2026-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category.month2026_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category.month2026_05.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2026-05-31
+        ordinal: 0
+        row_number: 25
+        expected_row_header_column: A
+        expected_row_header: '2026-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_02
+    sheet_name: Table 4
+    period_type: month
+    period: 2023-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-02-28
+        ordinal: 0
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: '2023-02-28T00:00:00'
+        table_record_kind: detail
+    measures: &id003
+      - measure_id: average_weekly_payment_category_a
+        label: Average weekly State Pension payment, Category A
+        ordinal: 0
+        column: B
+        source_column_id: average_weekly_payment_category_a
+        source_column_dimensions:
+          category_of_pension: Category A
+        filters:
+          category_of_pension: Category A
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category A
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category A (£)'
+        concept: dwp.state_pension_mean_weekly_amount
+        source_concept: dfc_ni.state_pension_average_weekly_payment
+        concept_relation: approximate
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook Table
+          4: average weekly benefit payment, GBP to the nearest penny. DfC''s note says averages are calculated
+          without Get Your State Pension cases.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+      - measure_id: average_weekly_payment_category_ab
+        label: Average weekly State Pension payment, Category AB
+        ordinal: 1
+        column: C
+        source_column_id: average_weekly_payment_category_ab
+        source_column_dimensions:
+          category_of_pension: Category AB
+        filters:
+          category_of_pension: Category AB
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category AB
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category AB (£)'
+        concept: dwp.state_pension_mean_weekly_amount
+        source_concept: dfc_ni.state_pension_average_weekly_payment
+        concept_relation: approximate
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook Table
+          4: average weekly benefit payment, GBP to the nearest penny. DfC''s note says averages are calculated
+          without Get Your State Pension cases.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+      - measure_id: average_weekly_payment_category_abl
+        label: Average weekly State Pension payment, Category ABL
+        ordinal: 2
+        column: D
+        source_column_id: average_weekly_payment_category_abl
+        source_column_dimensions:
+          category_of_pension: Category ABL
+        filters:
+          category_of_pension: Category ABL
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category ABL
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category ABL (£)'
+        concept: dwp.state_pension_mean_weekly_amount
+        source_concept: dfc_ni.state_pension_average_weekly_payment
+        concept_relation: approximate
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook Table
+          4: average weekly benefit payment, GBP to the nearest penny. DfC''s note says averages are calculated
+          without Get Your State Pension cases.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+      - measure_id: average_weekly_payment_category_b
+        label: Average weekly State Pension payment, Category B
+        ordinal: 3
+        column: E
+        source_column_id: average_weekly_payment_category_b
+        source_column_dimensions:
+          category_of_pension: Category B
+        filters:
+          category_of_pension: Category B
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category B
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category B (£)'
+        concept: dwp.state_pension_mean_weekly_amount
+        source_concept: dfc_ni.state_pension_average_weekly_payment
+        concept_relation: approximate
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook Table
+          4: average weekly benefit payment, GBP to the nearest penny. DfC''s note says averages are calculated
+          without Get Your State Pension cases.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+      - measure_id: average_weekly_payment_category_bl
+        label: Average weekly State Pension payment, Category BL
+        ordinal: 4
+        column: F
+        source_column_id: average_weekly_payment_category_bl
+        source_column_dimensions:
+          category_of_pension: Category BL
+        filters:
+          category_of_pension: Category BL
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category BL
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category BL (£)'
+        concept: dwp.state_pension_mean_weekly_amount
+        source_concept: dfc_ni.state_pension_average_weekly_payment
+        concept_relation: approximate
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook Table
+          4: average weekly benefit payment, GBP to the nearest penny. DfC''s note says averages are calculated
+          without Get Your State Pension cases.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+      - measure_id: average_weekly_payment_category_d
+        label: Average weekly State Pension payment, Category D
+        ordinal: 5
+        column: G
+        source_column_id: average_weekly_payment_category_d
+        source_column_dimensions:
+          category_of_pension: Category D
+        filters:
+          category_of_pension: Category D
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category D
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          Category D (£)'
+        concept: dwp.state_pension_mean_weekly_amount
+        source_concept: dfc_ni.state_pension_average_weekly_payment
+        concept_relation: approximate
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook Table
+          4: average weekly benefit payment, GBP to the nearest penny. DfC''s note says averages are calculated
+          without Get Your State Pension cases.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+      - measure_id: average_weekly_payment_new_state_pension
+        label: Average weekly State Pension payment, New State Pension
+        ordinal: 6
+        column: H
+        source_column_id: average_weekly_payment_new_state_pension
+        source_column_dimensions:
+          category_of_pension: New State Pension
+        filters:
+          category_of_pension: New State Pension
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: New State Pension
+            label: Category of Pension
+        expected_column_header_row: 4
+        expected_column_header: 'Category of Pension:
+
+          New State Pension (£)'
+        concept: dwp.state_pension_mean_weekly_amount
+        source_concept: dfc_ni.state_pension_average_weekly_payment
+        concept_relation: approximate
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook Table
+          4: average weekly benefit payment, GBP to the nearest penny. DfC''s note says averages are calculated
+          without Get Your State Pension cases.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_02.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2023-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-02-28
+        ordinal: 0
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: '2023-02-28T00:00:00'
+        table_record_kind: total
+    measures: &id004
+      - measure_id: average_weekly_payment_all
+        label: Average weekly State Pension payment, all categories
+        ordinal: 0
+        column: I
+        source_column_id: average_weekly_payment_all
+        expected_column_header_row: 4
+        expected_column_header: Total (£)
+        concept: dwp.state_pension_mean_weekly_amount
+        source_concept: dfc_ni.state_pension_average_weekly_payment
+        concept_relation: approximate
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook Table
+          4: average weekly benefit payment, GBP to the nearest penny. DfC''s note says averages are calculated
+          without Get Your State Pension cases.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_05
+    sheet_name: Table 4
+    period_type: month
+    period: 2023-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-05-31
+        ordinal: 0
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: '2023-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_05.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2023-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-05-31
+        ordinal: 0
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: '2023-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_08
+    sheet_name: Table 4
+    period_type: month
+    period: 2023-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-08-31
+        ordinal: 0
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: '2023-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_08.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2023-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-08-31
+        ordinal: 0
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: '2023-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_11
+    sheet_name: Table 4
+    period_type: month
+    period: 2023-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-11-30
+        ordinal: 0
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: '2023-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2023_11.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2023-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2023-11-30
+        ordinal: 0
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: '2023-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_02
+    sheet_name: Table 4
+    period_type: month
+    period: 2024-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-02-29
+        ordinal: 0
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: '2024-02-29T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_02.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2024-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-02-29
+        ordinal: 0
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: '2024-02-29T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_05
+    sheet_name: Table 4
+    period_type: month
+    period: 2024-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-05-31
+        ordinal: 0
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: '2024-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_05.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2024-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-05-31
+        ordinal: 0
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: '2024-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_08
+    sheet_name: Table 4
+    period_type: month
+    period: 2024-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-08-31
+        ordinal: 0
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: '2024-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_08.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2024-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-08-31
+        ordinal: 0
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: '2024-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_11
+    sheet_name: Table 4
+    period_type: month
+    period: 2024-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-11-30
+        ordinal: 0
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: '2024-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2024_11.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2024-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2024-11-30
+        ordinal: 0
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: '2024-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_02
+    sheet_name: Table 4
+    period_type: month
+    period: 2025-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-02-28
+        ordinal: 0
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: '2025-02-28T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_02.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2025-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-02-28
+        ordinal: 0
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: '2025-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_05
+    sheet_name: Table 4
+    period_type: month
+    period: 2025-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-05-31
+        ordinal: 0
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: '2025-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_05.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2025-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-05-31
+        ordinal: 0
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: '2025-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_08
+    sheet_name: Table 4
+    period_type: month
+    period: 2025-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-08-31
+        ordinal: 0
+        row_number: 22
+        expected_row_header_column: A
+        expected_row_header: '2025-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_08.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2025-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-08-31
+        ordinal: 0
+        row_number: 22
+        expected_row_header_column: A
+        expected_row_header: '2025-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_11
+    sheet_name: Table 4
+    period_type: month
+    period: 2025-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-11-30
+        ordinal: 0
+        row_number: 23
+        expected_row_header_column: A
+        expected_row_header: '2025-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2025_11.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2025-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2025-11-30
+        ordinal: 0
+        row_number: 23
+        expected_row_header_column: A
+        expected_row_header: '2025-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2026_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2026_02
+    sheet_name: Table 4
+    period_type: month
+    period: 2026-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2026-02-28
+        ordinal: 0
+        row_number: 24
+        expected_row_header_column: A
+        expected_row_header: '2026-02-28T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2026_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2026_02.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2026-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2026-02-28
+        ordinal: 0
+        row_number: 24
+        expected_row_header_column: A
+        expected_row_header: '2026-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2026_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2026_05
+    sheet_name: Table 4
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2026-05-31
+        ordinal: 0
+        row_number: 25
+        expected_row_header_column: A
+        expected_row_header: '2026-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id003
+  - record_set_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2026_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.average_weekly_payment_by_category.total.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.average_weekly_payment_by_category.month2026_05.total
+    sheet_name: Table 4
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland, 2026-05-31
+        ordinal: 0
+        row_number: 25
+        expected_row_header_column: A
+        expected_row_header: '2026-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id004
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_age_gender.month2026_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_age_gender.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_age_gender.month2026_05
+    sheet_name: Table 2
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: age_band
+    rows:
+      - value_id: age_66_69
+        label: Aged 66-69
+        ordinal: 0
+        row_number: 5
+        expected_row_header_column: A
+        expected_row_header: 66-69
+        table_record_kind: detail
+        filters:
+          age_band: 66-69
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 66-69
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 66
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 70
+            unit: years
+            label: Age upper bound
+      - value_id: age_70_74
+        label: Aged 70-74
+        ordinal: 1
+        row_number: 6
+        expected_row_header_column: A
+        expected_row_header: 70-74
+        table_record_kind: detail
+        filters:
+          age_band: 70-74
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 70-74
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 70
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 75
+            unit: years
+            label: Age upper bound
+      - value_id: age_75_79
+        label: Aged 75-79
+        ordinal: 2
+        row_number: 7
+        expected_row_header_column: A
+        expected_row_header: 75-79
+        table_record_kind: detail
+        filters:
+          age_band: 75-79
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 75-79
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 75
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 80
+            unit: years
+            label: Age upper bound
+      - value_id: age_80_84
+        label: Aged 80-84
+        ordinal: 3
+        row_number: 8
+        expected_row_header_column: A
+        expected_row_header: 80-84
+        table_record_kind: detail
+        filters:
+          age_band: 80-84
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 80-84
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 80
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 85
+            unit: years
+            label: Age upper bound
+      - value_id: age_85_89
+        label: Aged 85-89
+        ordinal: 4
+        row_number: 9
+        expected_row_header_column: A
+        expected_row_header: 85-89
+        table_record_kind: detail
+        filters:
+          age_band: 85-89
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 85-89
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 85
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 90
+            unit: years
+            label: Age upper bound
+      - value_id: age_90_plus
+        label: Aged 90 and over
+        ordinal: 5
+        row_number: 10
+        expected_row_header_column: A
+        expected_row_header: 90 and over
+        table_record_kind: detail
+        filters:
+          age_band: 90 and over
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 90 and over
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 90
+            unit: years
+            label: Age lower bound
+      - value_id: all_ages
+        label: All ages
+        ordinal: 6
+        row_number: 11
+        expected_row_header_column: A
+        expected_row_header: Total
+        table_record_kind: total
+        filters:
+          age_band: all
+    measures:
+      - &id005
+        measure_id: claimants_female
+        label: State Pension claimants, female
+        ordinal: 0
+        column: B
+        source_column_id: claimants_female
+        source_column_dimensions:
+          gender: Female
+        filters:
+          gender: Female
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Female
+            label: Gender
+        expected_column_header_row: 4
+        expected_column_header: 'Gender:
+
+          Female'
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - &id006
+        measure_id: claimants_male
+        label: State Pension claimants, male
+        ordinal: 1
+        column: C
+        source_column_id: claimants_male
+        source_column_dimensions:
+          gender: Male
+        filters:
+          gender: Male
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Male
+            label: Gender
+        expected_column_header_row: 4
+        expected_column_header: 'Gender:
+
+          Male'
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_all
+        label: State Pension claimants, all genders
+        ordinal: 2
+        column: D
+        source_column_id: claimants_all
+        expected_column_header_row: 4
+        expected_column_header: Total
+        concept: dwp.state_pension_recipients
+        source_concept: dfc_ni.state_pension_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, State Pension workbook: claimants
+          in payment at each quarter-end, rounded to the nearest ten with further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.state_pension.claimants_by_category_gender.month2026_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.state_pension.claimants_by_category_gender.v1
+    source_record_id_prefix: dfc_ni.bss.state_pension.claimants_by_category_gender.month2026_05
+    sheet_name: Table 3
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: category_of_pension
+    rows:
+      - value_id: category_a
+        label: Category A
+        ordinal: 0
+        row_number: 5
+        expected_row_header_column: A
+        expected_row_header: Category A
+        table_record_kind: detail
+        filters:
+          category_of_pension: Category A
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category A
+            label: Category of Pension
+      - value_id: category_ab
+        label: Category AB
+        ordinal: 1
+        row_number: 6
+        expected_row_header_column: A
+        expected_row_header: Category AB
+        table_record_kind: detail
+        filters:
+          category_of_pension: Category AB
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category AB
+            label: Category of Pension
+      - value_id: category_abl
+        label: Category ABL
+        ordinal: 2
+        row_number: 7
+        expected_row_header_column: A
+        expected_row_header: Category ABL
+        table_record_kind: detail
+        filters:
+          category_of_pension: Category ABL
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category ABL
+            label: Category of Pension
+      - value_id: category_b
+        label: Category B
+        ordinal: 3
+        row_number: 8
+        expected_row_header_column: A
+        expected_row_header: Category B
+        table_record_kind: detail
+        filters:
+          category_of_pension: Category B
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category B
+            label: Category of Pension
+      - value_id: category_bl
+        label: Category BL
+        ordinal: 4
+        row_number: 9
+        expected_row_header_column: A
+        expected_row_header: Category BL
+        table_record_kind: detail
+        filters:
+          category_of_pension: Category BL
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category BL
+            label: Category of Pension
+      - value_id: category_d
+        label: Category D
+        ordinal: 5
+        row_number: 10
+        expected_row_header_column: A
+        expected_row_header: Category D
+        table_record_kind: detail
+        filters:
+          category_of_pension: Category D
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Category D
+            label: Category of Pension
+      - value_id: new_state_pension
+        label: New State Pension
+        ordinal: 6
+        row_number: 11
+        expected_row_header_column: A
+        expected_row_header: New State Pension
+        table_record_kind: detail
+        filters:
+          category_of_pension: New State Pension
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: New State Pension
+            label: Category of Pension
+      - value_id: other_or_unknown
+        label: Other/Unknown
+        ordinal: 7
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: Other/Unknown
+        table_record_kind: detail
+        filters:
+          category_of_pension: Other/Unknown
+        constraints:
+          - variable: category_of_pension
+            operator: ==
+            value: Other/Unknown
+            label: Category of Pension
+    measures:
+      - *id005
+      - *id006

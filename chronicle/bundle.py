@@ -63,6 +63,8 @@ UK_BUNDLE_SOURCES = (
     "desnz-subnational-electricity-consumption-2024",
     "desnz-subnational-gas-consumption-2024",
     "desnz-weekly-road-fuel-prices-september-2026",
+    "dfc-ni-pension-credit-statistics-may-2026",
+    "dfc-ni-state-pension-statistics-may-2026",
     "dfc-ni-uc-statistics-may-2026",
     "dfe-funded-early-education-childcare-2026",
     "dfi-ni-bus-concessionary-journeys-2024-25",
