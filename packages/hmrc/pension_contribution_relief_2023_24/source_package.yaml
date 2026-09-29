@@ -1,56 +1,50 @@
-# Tax year 2024-25 edition (updated 2026-07-30) - a newer vintage than the
-# dead asset policyengine-uk-data pins (its runtime download now returns
-# status gone and silently drops these targets). The six salary-sacrifice
-# record sets below (hmrc.ss_relief.ty2024.*) are the original port and are
-# unchanged; they keep their per-line concepts because Microcosm's
-# hmrc_salary_sacrifice family binds them. uk-data's 3 percent p.a. uprating of
-# the old base is a computed series the facts-only ADR excludes. Period stores
-# the opening year (2024 to 2025 -> tax_year 2024).
-# Unit: GBP million per the Private pension statistics publication page
-# (tables described in GBP million; the tidy CSV itself carries no unit text).
+# HMRC Private pension statistics, Tables 6.1 and 6.2 (tidy CSV), tax year 2023-24,
+# from the 31 July 2025 edition - the newest release that publishes the 2023-24
+# detail: the 30 July 2026 edition's Tables 6.1/6.2 carry 2024-25 only
+# (hmrc-salary-sacrifice-relief-2024-25), and its Table 6 revises only the 2023-24
+# totals by relief line (for example Class 1 primary NICs relief 6,400 to 6,500).
+# HMRC replaced the attachment in July 2026 and the original asset URL now returns
+# 410 Gone, so the artifact is the UK Government Web Archive's capture of that
+# asset (31 July 2025), byte-identical to what GOV.UK served.
 #
-# chronicle#302 adds every other published cell of Tables 6.1 and 6.2: Income
-# Tax relief on each of the five contribution types (individual net pay,
-# individual relief at source, salary sacrificed, employer net pay plus deficit
-# reduction, employer relief at source) and Class 1 primary and secondary NICs
-# relief on the three contribution types NICs relieve, each as a total and by
-# sector (public / personal or private sector occupational scheme), scheme type
-# (defined benefit / defined contribution) and rate of relief. They carry two
-# general concepts, hmrc.pension_contribution_income_tax_relief and
-# hmrc.pension_contribution_nics_relief, with the contribution type (and NICs
-# class) as filters, so the salary-sacrificed Total and by-rate cells are
-# emitted a second time under the general concept; the two facts share one
-# source cell and never differ. The three Class 1 secondary additional-rate cells are
-# '[z]' (not applicable) and emit no fact. HMRC marks 2024-25 provisional; the
-# same edition's Table 6 revises the 2023-24 totals, whose detail by contribution
-# type is only in the 31 July 2025 edition (hmrc-pension-contribution-relief-2023-24).
+# Every published cell is ported, as in the 2024-25 package: Income Tax relief on
+# five contribution types and Class 1 primary and secondary NICs relief on three,
+# each as a total and by sector, scheme type and rate of relief, under the
+# general concepts hmrc.pension_contribution_income_tax_relief and
+# hmrc.pension_contribution_nics_relief. The six salary-sacrifice headline cells
+# are also emitted under the per-line concepts the 2024-25 package introduced
+# (hmrc.ss_income_tax_relief_total and siblings), so a consumer bound to those
+# concepts finds 2023-24 too; each pair of facts shares one source cell. The three
+# Class 1 secondary additional-rate cells are '[z]' and emit no fact. HMRC marks
+# 2023-24 provisional in this edition. GBP million, rounded to the nearest 100
+# million; period stores the opening year (2023 to 2024 -> tax_year 2023).
 schema_version: ledger.source_package.v1
-package_id: hmrc-salary-sacrifice-relief-2024-25
-label: 'HMRC private pension statistics Tables 6.1 and 6.2: Income Tax and NICs relief on
-  pension contributions by contribution type, sector, scheme type and rate, tax year 2024-25'
+package_id: hmrc-pension-contribution-relief-2023-24
+label: 'HMRC private pension statistics Tables 6.1 and 6.2: Income Tax and NICs relief on pension contributions
+  by contribution type, sector, scheme type and rate, tax year 2023-24'
 dimension_labels:
-  'hmrc.ss_relief_line': 'Salary sacrifice relief line'
-  'hmrc.pension_relief_breakdown': 'Pension relief breakdown (sector, scheme type or rate)'
+  hmrc.ss_relief_line: Salary sacrifice relief line
+  hmrc.pension_relief_breakdown: Pension relief breakdown (sector, scheme type or rate)
 artifact:
   source_name: hmrc
-  source_table: 'Private pension statistics Tables 6.1 and 6.2: salary sacrifice pension contributions,
-    income tax and NICs relief, tax year 2024 to 2025'
+  source_table: 'Private pension statistics Tables 6.1 and 6.2: Income Tax and NICs relief on pension
+    contributions, tax year 2023 to 2024'
   resource_package: db
-  resource_directory: data/hmrc/salary_sacrifice_relief_2024_25
+  resource_directory: data/hmrc/pension_contribution_relief_2023_24
   manifest: manifest.yaml
-  vintage: private_pension_statistics_2026_07
-  extracted_at: '2026-08-06'
+  vintage: private_pension_statistics_2025_07
+  extracted_at: '2026-09-29'
   extraction_method: delimited text full-row parse with selected source-row cells
   parser: delimited_text_full_rows
   artifact_year: 2025
 record_sets:
-- record_set_id: hmrc.ss_relief.ty2024.it_relief_total
+- record_set_id: hmrc.ss_relief.ty2023.it_relief_total
   provenance_class: administrative
-  record_set_spec_id: hmrc.ss_relief.ty2024.it_relief_total.v1
-  source_record_id_prefix: hmrc.ss_relief.ty2024.it_relief_total
+  record_set_spec_id: hmrc.ss_relief.ty2023.it_relief_total.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.it_relief_total
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -90,7 +84,7 @@ record_sets:
       label: scheme type
     - column: A
       row: 4
-      expected_value: 2024 to 2025
+      expected_value: 2023 to 2024
       label: tax year
   measures:
   - measure_id: relief
@@ -105,20 +99,20 @@ record_sets:
     concept_relation: source_label
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-    concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
-      6.1/6.2, tax year 2024 to 2025, GBP million; row: Income tax relief on salary sacrificed
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Income tax relief on salary sacrificed
       contributions, total.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
     expected_cell_type: number
-- record_set_id: hmrc.ss_relief.ty2024.it_relief_basic_rate
+- record_set_id: hmrc.ss_relief.ty2023.it_relief_basic_rate
   provenance_class: administrative
-  record_set_spec_id: hmrc.ss_relief.ty2024.it_relief_basic_rate.v1
-  source_record_id_prefix: hmrc.ss_relief.ty2024.it_relief_basic_rate
+  record_set_spec_id: hmrc.ss_relief.ty2023.it_relief_basic_rate.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.it_relief_basic_rate
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -158,7 +152,7 @@ record_sets:
       label: scheme type
     - column: A
       row: 29
-      expected_value: 2024 to 2025
+      expected_value: 2023 to 2024
       label: tax year
   measures:
   - measure_id: relief
@@ -173,19 +167,19 @@ record_sets:
     concept_relation: source_label
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-    concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
-      6.1/6.2, tax year 2024 to 2025, GBP million; row: Income tax relief, basic rate.'
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Income tax relief, basic rate.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
     expected_cell_type: number
-- record_set_id: hmrc.ss_relief.ty2024.it_relief_higher_rate
+- record_set_id: hmrc.ss_relief.ty2023.it_relief_higher_rate
   provenance_class: administrative
-  record_set_spec_id: hmrc.ss_relief.ty2024.it_relief_higher_rate.v1
-  source_record_id_prefix: hmrc.ss_relief.ty2024.it_relief_higher_rate
+  record_set_spec_id: hmrc.ss_relief.ty2023.it_relief_higher_rate.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.it_relief_higher_rate
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -225,7 +219,7 @@ record_sets:
       label: scheme type
     - column: A
       row: 34
-      expected_value: 2024 to 2025
+      expected_value: 2023 to 2024
       label: tax year
   measures:
   - measure_id: relief
@@ -240,19 +234,19 @@ record_sets:
     concept_relation: source_label
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-    concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
-      6.1/6.2, tax year 2024 to 2025, GBP million; row: Income tax relief, higher rate.'
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Income tax relief, higher rate.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
     expected_cell_type: number
-- record_set_id: hmrc.ss_relief.ty2024.it_relief_additional_rate
+- record_set_id: hmrc.ss_relief.ty2023.it_relief_additional_rate
   provenance_class: administrative
-  record_set_spec_id: hmrc.ss_relief.ty2024.it_relief_additional_rate.v1
-  source_record_id_prefix: hmrc.ss_relief.ty2024.it_relief_additional_rate
+  record_set_spec_id: hmrc.ss_relief.ty2023.it_relief_additional_rate.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.it_relief_additional_rate
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -292,7 +286,7 @@ record_sets:
       label: scheme type
     - column: A
       row: 39
-      expected_value: 2024 to 2025
+      expected_value: 2023 to 2024
       label: tax year
   measures:
   - measure_id: relief
@@ -307,19 +301,19 @@ record_sets:
     concept_relation: source_label
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-    concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
-      6.1/6.2, tax year 2024 to 2025, GBP million; row: Income tax relief, additional rate.'
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Income tax relief, additional rate.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
     expected_cell_type: number
-- record_set_id: hmrc.ss_relief.ty2024.nics_relief_employee
+- record_set_id: hmrc.ss_relief.ty2023.nics_relief_employee
   provenance_class: administrative
-  record_set_spec_id: hmrc.ss_relief.ty2024.nics_relief_employee.v1
-  source_record_id_prefix: hmrc.ss_relief.ty2024.nics_relief_employee
+  record_set_spec_id: hmrc.ss_relief.ty2023.nics_relief_employee.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.nics_relief_employee
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -359,7 +353,7 @@ record_sets:
       label: scheme type
     - column: A
       row: 44
-      expected_value: 2024 to 2025
+      expected_value: 2023 to 2024
       label: tax year
   measures:
   - measure_id: relief
@@ -374,19 +368,19 @@ record_sets:
     concept_relation: source_label
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-    concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
-      6.1/6.2, tax year 2024 to 2025, GBP million; row: Class 1 primary (employee) NICs relief.'
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Class 1 primary (employee) NICs relief.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
     expected_cell_type: number
-- record_set_id: hmrc.ss_relief.ty2024.nics_relief_employer
+- record_set_id: hmrc.ss_relief.ty2023.nics_relief_employer
   provenance_class: administrative
-  record_set_spec_id: hmrc.ss_relief.ty2024.nics_relief_employer.v1
-  source_record_id_prefix: hmrc.ss_relief.ty2024.nics_relief_employer
+  record_set_spec_id: hmrc.ss_relief.ty2023.nics_relief_employer.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.nics_relief_employer
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -426,7 +420,7 @@ record_sets:
       label: scheme type
     - column: A
       row: 47
-      expected_value: 2024 to 2025
+      expected_value: 2023 to 2024
       label: tax year
   measures:
   - measure_id: relief
@@ -441,20 +435,20 @@ record_sets:
     concept_relation: source_label
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-    concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
-      6.1/6.2, tax year 2024 to 2025, GBP million; row: Class 1 secondary (employer) NICs
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Class 1 secondary (employer) NICs
       relief.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
     expected_cell_type: number
-- record_set_id: hmrc.pension_relief.ty2024.income_tax.individual_net_pay
+- record_set_id: hmrc.pension_relief.ty2023.income_tax.individual_net_pay
   provenance_class: administrative
-  record_set_spec_id: hmrc.pension_relief.ty2024.income_tax.individual_net_pay.v1
-  source_record_id_prefix: hmrc.pension_relief.ty2024.income_tax.individual_net_pay
+  record_set_spec_id: hmrc.pension_relief.ty2023.income_tax.individual_net_pay.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.income_tax.individual_net_pay
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -485,7 +479,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 2
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 2
@@ -526,7 +520,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 7
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 7
@@ -567,7 +561,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 12
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 12
@@ -608,7 +602,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 17
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 17
@@ -649,7 +643,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 22
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 22
@@ -690,7 +684,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 27
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 27
@@ -731,7 +725,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 32
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 32
@@ -772,7 +766,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 37
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 37
@@ -807,21 +801,21 @@ record_sets:
       concept_relation: source_label
       concept_authority: hmrc
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-      concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
-        tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Income Tax
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Income Tax
         relief on individual contributions to net pay arrangements, by sector, scheme type and rate of
         relief.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
       expected_cell_type: number
-- record_set_id: hmrc.pension_relief.ty2024.income_tax.individual_relief_at_source
+- record_set_id: hmrc.pension_relief.ty2023.income_tax.individual_relief_at_source
   provenance_class: administrative
-  record_set_spec_id: hmrc.pension_relief.ty2024.income_tax.individual_relief_at_source.v1
-  source_record_id_prefix: hmrc.pension_relief.ty2024.income_tax.individual_relief_at_source
+  record_set_spec_id: hmrc.pension_relief.ty2023.income_tax.individual_relief_at_source.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.income_tax.individual_relief_at_source
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -852,7 +846,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 3
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 3
@@ -893,7 +887,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 8
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 8
@@ -934,7 +928,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 13
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 13
@@ -975,7 +969,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 18
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 18
@@ -1016,7 +1010,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 23
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 23
@@ -1057,7 +1051,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 28
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 28
@@ -1098,7 +1092,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 33
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 33
@@ -1139,7 +1133,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 38
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 38
@@ -1174,21 +1168,21 @@ record_sets:
       concept_relation: source_label
       concept_authority: hmrc
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-      concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
-        tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Income Tax
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Income Tax
         relief on individual contributions to relief at source schemes, by sector, scheme type and rate
         of relief.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
       expected_cell_type: number
-- record_set_id: hmrc.pension_relief.ty2024.income_tax.salary_sacrificed
+- record_set_id: hmrc.pension_relief.ty2023.income_tax.salary_sacrificed
   provenance_class: administrative
-  record_set_spec_id: hmrc.pension_relief.ty2024.income_tax.salary_sacrificed.v1
-  source_record_id_prefix: hmrc.pension_relief.ty2024.income_tax.salary_sacrificed
+  record_set_spec_id: hmrc.pension_relief.ty2023.income_tax.salary_sacrificed.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.income_tax.salary_sacrificed
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -1219,7 +1213,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 4
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 4
@@ -1260,7 +1254,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 9
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 9
@@ -1301,7 +1295,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 14
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 14
@@ -1342,7 +1336,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 19
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 19
@@ -1383,7 +1377,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 24
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 24
@@ -1424,7 +1418,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 29
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 29
@@ -1465,7 +1459,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 34
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 34
@@ -1506,7 +1500,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 39
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 39
@@ -1541,20 +1535,20 @@ record_sets:
       concept_relation: source_label
       concept_authority: hmrc
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-      concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
-        tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Income Tax
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Income Tax
         relief on salary sacrificed contributions, by sector, scheme type and rate of relief.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
       expected_cell_type: number
-- record_set_id: hmrc.pension_relief.ty2024.income_tax.employer_net_pay_and_deficit_reduction
+- record_set_id: hmrc.pension_relief.ty2023.income_tax.employer_net_pay_and_deficit_reduction
   provenance_class: administrative
-  record_set_spec_id: hmrc.pension_relief.ty2024.income_tax.employer_net_pay_and_deficit_reduction.v1
-  source_record_id_prefix: hmrc.pension_relief.ty2024.income_tax.employer_net_pay_and_deficit_reduction
+  record_set_spec_id: hmrc.pension_relief.ty2023.income_tax.employer_net_pay_and_deficit_reduction.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.income_tax.employer_net_pay_and_deficit_reduction
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -1585,7 +1579,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 5
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 5
@@ -1626,7 +1620,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 10
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 10
@@ -1667,7 +1661,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 15
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 15
@@ -1708,7 +1702,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 20
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 20
@@ -1749,7 +1743,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 25
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 25
@@ -1790,7 +1784,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 30
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 30
@@ -1831,7 +1825,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 35
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 35
@@ -1872,7 +1866,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 40
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 40
@@ -1908,21 +1902,21 @@ record_sets:
       concept_relation: source_label
       concept_authority: hmrc
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-      concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
-        tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Income Tax
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Income Tax
         relief on employer contributions to net pay arrangements plus deficit reduction contributions,
         by sector, scheme type and rate of relief.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
       expected_cell_type: number
-- record_set_id: hmrc.pension_relief.ty2024.income_tax.employer_relief_at_source
+- record_set_id: hmrc.pension_relief.ty2023.income_tax.employer_relief_at_source
   provenance_class: administrative
-  record_set_spec_id: hmrc.pension_relief.ty2024.income_tax.employer_relief_at_source.v1
-  source_record_id_prefix: hmrc.pension_relief.ty2024.income_tax.employer_relief_at_source
+  record_set_spec_id: hmrc.pension_relief.ty2023.income_tax.employer_relief_at_source.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.income_tax.employer_relief_at_source
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -1953,7 +1947,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 6
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 6
@@ -1994,7 +1988,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 11
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 11
@@ -2035,7 +2029,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 16
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 16
@@ -2076,7 +2070,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 21
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 21
@@ -2117,7 +2111,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 26
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 26
@@ -2158,7 +2152,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 31
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 31
@@ -2199,7 +2193,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 36
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 36
@@ -2240,7 +2234,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 41
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 41
@@ -2275,21 +2269,21 @@ record_sets:
       concept_relation: source_label
       concept_authority: hmrc
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-      concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
-        tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Income Tax
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Income Tax
         relief on employer contributions to relief at source schemes, by sector, scheme type and rate
         of relief.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
       expected_cell_type: number
-- record_set_id: hmrc.pension_relief.ty2024.nics.employer_net_pay_and_deficit_reduction.class_1_primary
+- record_set_id: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_primary
   provenance_class: administrative
-  record_set_spec_id: hmrc.pension_relief.ty2024.nics.employer_net_pay_and_deficit_reduction.class_1_primary.v1
-  source_record_id_prefix: hmrc.pension_relief.ty2024.nics.employer_net_pay_and_deficit_reduction.class_1_primary
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_primary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_primary
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -2326,7 +2320,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 42
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 42
@@ -2368,7 +2362,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 48
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 48
@@ -2410,7 +2404,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 54
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 54
@@ -2452,7 +2446,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 60
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 60
@@ -2494,7 +2488,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 66
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 66
@@ -2536,7 +2530,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 72
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 72
@@ -2578,7 +2572,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 78
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 78
@@ -2615,21 +2609,21 @@ record_sets:
       concept_relation: source_label
       concept_authority: hmrc
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-      concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
-        tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Class 1 Primary
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Primary
         (employee) NICs relief on employer contributions to net pay arrangements and on employer deficit
         reduction contributions, by sector, scheme type and rate of relief.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
       expected_cell_type: number
-- record_set_id: hmrc.pension_relief.ty2024.nics.employer_relief_at_source.class_1_primary
+- record_set_id: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_primary
   provenance_class: administrative
-  record_set_spec_id: hmrc.pension_relief.ty2024.nics.employer_relief_at_source.class_1_primary.v1
-  source_record_id_prefix: hmrc.pension_relief.ty2024.nics.employer_relief_at_source.class_1_primary
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_primary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_primary
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -2665,7 +2659,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 43
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 43
@@ -2706,7 +2700,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 49
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 49
@@ -2747,7 +2741,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 55
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 55
@@ -2788,7 +2782,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 61
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 61
@@ -2829,7 +2823,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 67
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 67
@@ -2870,7 +2864,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 73
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 73
@@ -2911,7 +2905,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 79
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 79
@@ -2946,21 +2940,21 @@ record_sets:
       concept_relation: source_label
       concept_authority: hmrc
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-      concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
-        tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Class 1 Primary
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Primary
         (employee) NICs relief on employer contributions to relief at source schemes, by sector, scheme
         type and rate of relief.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
       expected_cell_type: number
-- record_set_id: hmrc.pension_relief.ty2024.nics.salary_sacrificed.class_1_primary
+- record_set_id: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_primary
   provenance_class: administrative
-  record_set_spec_id: hmrc.pension_relief.ty2024.nics.salary_sacrificed.class_1_primary.v1
-  source_record_id_prefix: hmrc.pension_relief.ty2024.nics.salary_sacrificed.class_1_primary
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_primary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_primary
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -2996,7 +2990,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 44
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 44
@@ -3037,7 +3031,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 50
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 50
@@ -3078,7 +3072,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 56
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 56
@@ -3119,7 +3113,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 62
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 62
@@ -3160,7 +3154,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 68
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 68
@@ -3201,7 +3195,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 74
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 74
@@ -3242,7 +3236,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 80
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 80
@@ -3277,21 +3271,21 @@ record_sets:
       concept_relation: source_label
       concept_authority: hmrc
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-      concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
-        tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Class 1 Primary
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Primary
         (employee) NICs relief on salary sacrificed contributions, by sector, scheme type and rate of
         relief.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
       expected_cell_type: number
-- record_set_id: hmrc.pension_relief.ty2024.nics.employer_net_pay_and_deficit_reduction.class_1_secondary
+- record_set_id: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_secondary
   provenance_class: administrative
-  record_set_spec_id: hmrc.pension_relief.ty2024.nics.employer_net_pay_and_deficit_reduction.class_1_secondary.v1
-  source_record_id_prefix: hmrc.pension_relief.ty2024.nics.employer_net_pay_and_deficit_reduction.class_1_secondary
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_secondary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_secondary
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -3328,7 +3322,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 45
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 45
@@ -3370,7 +3364,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 51
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 51
@@ -3412,7 +3406,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 57
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 57
@@ -3454,7 +3448,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 63
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 63
@@ -3496,7 +3490,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 69
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 69
@@ -3538,7 +3532,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 75
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 75
@@ -3575,21 +3569,21 @@ record_sets:
       concept_relation: source_label
       concept_authority: hmrc
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-      concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
-        tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Class 1 Secondary
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Secondary
         (employer) NICs relief on employer contributions to net pay arrangements and on employer deficit
         reduction contributions, by sector, scheme type and rate of relief.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
       expected_cell_type: number
-- record_set_id: hmrc.pension_relief.ty2024.nics.employer_relief_at_source.class_1_secondary
+- record_set_id: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_secondary
   provenance_class: administrative
-  record_set_spec_id: hmrc.pension_relief.ty2024.nics.employer_relief_at_source.class_1_secondary.v1
-  source_record_id_prefix: hmrc.pension_relief.ty2024.nics.employer_relief_at_source.class_1_secondary
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_secondary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_secondary
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -3625,7 +3619,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 46
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 46
@@ -3666,7 +3660,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 52
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 52
@@ -3707,7 +3701,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 58
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 58
@@ -3748,7 +3742,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 64
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 64
@@ -3789,7 +3783,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 70
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 70
@@ -3830,7 +3824,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 76
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 76
@@ -3865,21 +3859,21 @@ record_sets:
       concept_relation: source_label
       concept_authority: hmrc
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-      concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
-        tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Class 1 Secondary
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Secondary
         (employer) NICs relief on employer contributions to relief at source schemes, by sector, scheme
         type and rate of relief.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
       expected_cell_type: number
-- record_set_id: hmrc.pension_relief.ty2024.nics.salary_sacrificed.class_1_secondary
+- record_set_id: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_secondary
   provenance_class: administrative
-  record_set_spec_id: hmrc.pension_relief.ty2024.nics.salary_sacrificed.class_1_secondary.v1
-  source_record_id_prefix: hmrc.pension_relief.ty2024.nics.salary_sacrificed.class_1_secondary
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_secondary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_secondary
   sheet_name: Tables_6_1_and_6_2
   period_type: tax_year
-  period: 2024
+  period: 2023
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -3915,7 +3909,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 47
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 47
@@ -3956,7 +3950,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 53
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 53
@@ -3997,7 +3991,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 59
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 59
@@ -4038,7 +4032,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 65
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 65
@@ -4079,7 +4073,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 71
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 71
@@ -4120,7 +4114,7 @@ record_sets:
       guard_cells:
         - column: A
           row: 77
-          expected_value: 2024 to 2025
+          expected_value: 2023 to 2024
           label: tax year
         - column: B
           row: 77
@@ -4155,8 +4149,8 @@ record_sets:
       concept_relation: source_label
       concept_authority: hmrc
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
-      concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
-        tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Class 1 Secondary
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Secondary
         (employer) NICs relief on salary sacrificed contributions, by sector, scheme type and rate of
         relief.
       unit: gbp
