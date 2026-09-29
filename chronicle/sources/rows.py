@@ -1393,50 +1393,56 @@ def source_rows_from_statxplore_table(
 ) -> list[SourceRow]:
     """Unpivot a Stat-Xplore Open Data API /table response into source rows.
 
-    The response is self-describing: it echoes the submitted query, names the
+    The response is self-describing: it echoes the submitted query, names each
     measure, and lists each dimension field with its items (labels plus value
     URIs, whose trailing segments carry publisher codes such as GSS geography
     identifiers). One source row is emitted per cube cell, columns are the
     measure label, the cell value, and a label/URI pair per dimension field
-    in response order.
+    in response order. A request for several measures (a caseload count and
+    the mean of an amount, say) returns one cube per measure; their rows follow
+    one another in response order, so a single-measure response unpivots
+    exactly as before.
     """
     data = json.loads(content.decode("utf-8"))
     fields = data.get("fields") or []
     cubes = data.get("cubes") or {}
     if not fields or not cubes:
         return []
-    measure_uri, cube = next(iter(cubes.items()))
-    measure_label = measure_uri
-    for measure in data.get("measures") or []:
-        if measure.get("uri") == measure_uri:
-            measure_label = str(measure.get("label") or measure_uri)
-            break
+    measure_labels = {
+        str(measure.get("uri")): str(measure.get("label") or measure.get("uri"))
+        for measure in data.get("measures") or []
+        if measure.get("uri")
+    }
     field_keys = _statxplore_field_keys(fields)
     item_axes = [field.get("items") or [] for field in fields]
-    values = cube.get("values") if isinstance(cube, dict) else None
-    if values is None or any(not axis for axis in item_axes):
+    if any(not axis for axis in item_axes):
         return []
     rows: list[SourceRow] = []
-    for indices in itertools.product(*(range(len(axis)) for axis in item_axes)):
-        node: Any = values
-        for index in indices:
-            node = node[index]
-        row_values: dict[str, Scalar] = {
-            "measure": measure_label,
-            "value": _json_scalar(node),
-        }
-        for key, axis, index in zip(field_keys, item_axes, indices):
-            item = axis[index]
-            labels = item.get("labels") or []
-            uris = item.get("uris") or []
-            row_values[key] = str(labels[0]) if labels else None
-            row_values[f"{key}_uri"] = str(uris[0]) if uris else None
-        rows.append(
-            SourceRow(
-                artifact=artifact,
-                sheet_name=sheet_name,
-                row_number=len(rows) + 1,
-                values=row_values,
+    for measure_uri, cube in cubes.items():
+        values = cube.get("values") if isinstance(cube, dict) else None
+        if values is None:
+            return rows
+        measure_label = measure_labels.get(measure_uri, measure_uri)
+        for indices in itertools.product(*(range(len(axis)) for axis in item_axes)):
+            node: Any = values
+            for index in indices:
+                node = node[index]
+            row_values: dict[str, Scalar] = {
+                "measure": measure_label,
+                "value": _json_scalar(node),
+            }
+            for key, axis, index in zip(field_keys, item_axes, indices):
+                item = axis[index]
+                labels = item.get("labels") or []
+                uris = item.get("uris") or []
+                row_values[key] = str(labels[0]) if labels else None
+                row_values[f"{key}_uri"] = str(uris[0]) if uris else None
+            rows.append(
+                SourceRow(
+                    artifact=artifact,
+                    sheet_name=sheet_name,
+                    row_number=len(rows) + 1,
+                    values=row_values,
+                )
             )
-        )
     return rows
