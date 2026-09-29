@@ -158,6 +158,24 @@ SOURCE_PACKAGE_ALIASES = {
     "obr-salary-sacrifice-costing-february-2026": Path(
         "obr/salary_sacrifice_costing_february_2026"
     ),
+    "ons-ashe-employee-contribution-bands-by-age-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_age_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-age-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_age_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employer-contribution-bands-by-age-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_age_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-age-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_age_2024_qualifying_earnings"
+    ),
+    "ons-ashe-pension-membership-by-age-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_age_earnings_2024"
+    ),
+    "ons-employee-workplace-pensions-summary-2024": Path(
+        "ons/employee_workplace_pensions_summary_2024"
+    ),
     # end chronicle#302
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),

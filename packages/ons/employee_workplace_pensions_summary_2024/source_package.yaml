@@ -1,0 +1,2410 @@
+# ONS 'Employee workplace pensions in the UK: 2024 provisional and 2021 to 2023 final
+# results' (10 March 2026), summary workbook, Tables 1 to 4, for PolicyEngine/chronicle#302
+# section 4. ONS publishes this release from ASHE with DWP's method; it is the only release
+# since April 2022, so it is the newest for every year, and the window from 2023 is ported: 2023
+# (final) and 2024 (provisional). The 2021 to 2023 final estimates appear only in this workbook -
+# the P1 to P12 tables carry 2024 provisional only.
+#
+# Ported: Table 1 (employee jobs by pension type, all jobs: percentage and number, thousands),
+# Table 2's percentages (jobs with a workplace pension by type; its job counts restate Table
+# 1's), Table 3 (membership by sector and sex: percentage of all jobs and number of jobs with a
+# pension) and Table 4 (median employer contribution rate as a percentage of qualifying
+# earnings, and the jobs it covers, by sector and sex). The unweighted sample counts are not
+# ported. ASHE counts employee jobs, not people (someone with two jobs counts twice), on adult
+# rates with pay unaffected by absence, UK-wide; ONS calls the job counts indicative.
+schema_version: ledger.source_package.v1
+package_id: ons-employee-workplace-pensions-summary-2024
+label: 'ONS employee workplace pensions: membership by pension type, sector and sex, and median employer
+  contribution rates, UK, 2023 (final) and 2024 (provisional)'
+dimension_labels:
+  pension_type: Pension type
+  sector: Sector
+  sex: Sex
+  ons.ashe_pension_type: Pension type
+  ons.ashe_sector_sex: Sector by sex
+dimension_value_labels:
+  pension_type:
+    defined_benefit: Defined benefit
+    defined_contribution: Defined contribution
+    group_personal_pension: Group personal pension
+    group_self_invested_personal_pension: Group self-invested personal pension
+    group_stakeholder_pension: Group stakeholder pension
+    unknown_pension_provision: Unknown pension provision
+    no_pension_provision: No pension provision
+  sector:
+    all: All sectors
+    Private: Private sector
+    Public: Public sector
+  sex:
+    male: Male
+    female: Female
+artifact:
+  source_name: ons
+  source_table: 'Employee workplace pensions in the UK: 2024 provisional and 2021 to 2023 final results,
+    summary tables'
+  resource_package: db
+  resource_directory: data/ons/employee_workplace_pensions_summary_2024
+  manifest: manifest.yaml
+  vintage: ashe_pension_tables_2024_provisional
+  extracted_at: '2026-09-29'
+  extraction_method: xlsx used-range cell parse of Tables 1 to 4
+  parser: xlsx_used_range
+  sheets:
+    - Table 1
+    - Table 2
+    - Table 3
+    - Table 4
+  artifact_year: 2026
+record_sets:
+  - record_set_id: ons.ashe_pensions_2024.summary.table_1.share.cy2023
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_1.share.cy2023.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_1.share.cy2023
+    sheet_name: Table 1
+    period_type: calendar_year
+    period: 2023
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_pension_type
+    rows:
+      - value_id: defined_benefit
+        label: Defined benefit
+        row_number: 5
+        expected_row_header_column: B
+        expected_row_header: Defined benefit
+        table_record_kind: detail
+        filters:
+          pension_type: defined_benefit
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_benefit
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 5
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 0
+      - value_id: defined_contribution
+        label: Defined contribution
+        row_number: 6
+        expected_row_header_column: B
+        expected_row_header: Defined contribution
+        table_record_kind: detail
+        filters:
+          pension_type: defined_contribution
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_contribution
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 6
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 1
+      - value_id: group_personal_pension
+        label: Group personal pension
+        row_number: 7
+        expected_row_header_column: B
+        expected_row_header: Group personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 7
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 2
+      - value_id: group_self_invested_personal_pension
+        label: Group self-invested personal pension
+        row_number: 8
+        expected_row_header_column: B
+        expected_row_header: Group self-invested personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_self_invested_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_self_invested_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 8
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 3
+      - value_id: group_stakeholder_pension
+        label: Group stakeholder pension
+        row_number: 9
+        expected_row_header_column: B
+        expected_row_header: Group stakeholder pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_stakeholder_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_stakeholder_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 9
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 4
+      - value_id: unknown_pension_provision
+        label: Unknown pension provision
+        row_number: 10
+        expected_row_header_column: B
+        expected_row_header: Unknown pension provision
+        table_record_kind: detail
+        filters:
+          pension_type: unknown_pension_provision
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: unknown_pension_provision
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 10
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 5
+      - value_id: no_pension_provision
+        label: No pension provision
+        row_number: 11
+        expected_row_header_column: B
+        expected_row_header: No pension provision [note 3]
+        table_record_kind: detail
+        filters:
+          pension_type: no_pension_provision
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: no_pension_provision
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 11
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 6
+    measures:
+      - measure_id: share_of_jobs
+        label: Share of employee jobs by pension type (including none)
+        ordinal: 0
+        column: E
+        source_column_id: share_of_jobs
+        expected_column_header_row: 4
+        expected_column_header: 2023
+        concept: ons.workplace_pension_type_share_of_jobs
+        source_concept: ons.workplace_pension_type_share_of_jobs
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK): percentage of employee jobs; percentages may not sum to
+          100 because of rounding.'
+        unit: percent
+        aggregation: share
+        expected_cell_type: number
+  - record_set_id: ons.ashe_pensions_2024.summary.table_1.share.cy2024
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_1.share.cy2024.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_1.share.cy2024
+    sheet_name: Table 1
+    period_type: calendar_year
+    period: 2024
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_pension_type
+    rows:
+      - value_id: defined_benefit
+        label: Defined benefit
+        row_number: 5
+        expected_row_header_column: B
+        expected_row_header: Defined benefit
+        table_record_kind: detail
+        filters:
+          pension_type: defined_benefit
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_benefit
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 5
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 0
+      - value_id: defined_contribution
+        label: Defined contribution
+        row_number: 6
+        expected_row_header_column: B
+        expected_row_header: Defined contribution
+        table_record_kind: detail
+        filters:
+          pension_type: defined_contribution
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_contribution
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 6
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 1
+      - value_id: group_personal_pension
+        label: Group personal pension
+        row_number: 7
+        expected_row_header_column: B
+        expected_row_header: Group personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 7
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 2
+      - value_id: group_self_invested_personal_pension
+        label: Group self-invested personal pension
+        row_number: 8
+        expected_row_header_column: B
+        expected_row_header: Group self-invested personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_self_invested_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_self_invested_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 8
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 3
+      - value_id: group_stakeholder_pension
+        label: Group stakeholder pension
+        row_number: 9
+        expected_row_header_column: B
+        expected_row_header: Group stakeholder pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_stakeholder_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_stakeholder_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 9
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 4
+      - value_id: unknown_pension_provision
+        label: Unknown pension provision
+        row_number: 10
+        expected_row_header_column: B
+        expected_row_header: Unknown pension provision
+        table_record_kind: detail
+        filters:
+          pension_type: unknown_pension_provision
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: unknown_pension_provision
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 10
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 5
+      - value_id: no_pension_provision
+        label: No pension provision
+        row_number: 11
+        expected_row_header_column: B
+        expected_row_header: No pension provision [note 3]
+        table_record_kind: detail
+        filters:
+          pension_type: no_pension_provision
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: no_pension_provision
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 11
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 6
+    measures:
+      - measure_id: share_of_jobs
+        label: Share of employee jobs by pension type (including none)
+        ordinal: 0
+        column: F
+        source_column_id: share_of_jobs
+        expected_column_header_row: 4
+        expected_column_header: 2024
+        concept: ons.workplace_pension_type_share_of_jobs
+        source_concept: ons.workplace_pension_type_share_of_jobs
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK): percentage of employee jobs; percentages may not sum to
+          100 because of rounding.'
+        unit: percent
+        aggregation: share
+        expected_cell_type: number
+  - record_set_id: ons.ashe_pensions_2024.summary.table_1.jobs.cy2023
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_1.jobs.cy2023.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_1.jobs.cy2023
+    sheet_name: Table 1
+    period_type: calendar_year
+    period: 2023
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_pension_type
+    rows:
+      - value_id: defined_benefit
+        label: Defined benefit
+        row_number: 12
+        expected_row_header_column: B
+        expected_row_header: Defined benefit
+        table_record_kind: detail
+        filters:
+          pension_type: defined_benefit
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_benefit
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 12
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 0
+      - value_id: defined_contribution
+        label: Defined contribution
+        row_number: 13
+        expected_row_header_column: B
+        expected_row_header: Defined contribution
+        table_record_kind: detail
+        filters:
+          pension_type: defined_contribution
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_contribution
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 13
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 1
+      - value_id: group_personal_pension
+        label: Group personal pension
+        row_number: 14
+        expected_row_header_column: B
+        expected_row_header: Group personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 14
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 2
+      - value_id: group_self_invested_personal_pension
+        label: Group self-invested personal pension
+        row_number: 15
+        expected_row_header_column: B
+        expected_row_header: Group self-invested personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_self_invested_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_self_invested_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 15
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 3
+      - value_id: group_stakeholder_pension
+        label: Group stakeholder pension
+        row_number: 16
+        expected_row_header_column: B
+        expected_row_header: Group stakeholder pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_stakeholder_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_stakeholder_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 16
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 4
+      - value_id: unknown_pension_provision
+        label: Unknown pension provision
+        row_number: 17
+        expected_row_header_column: B
+        expected_row_header: Unknown pension provision
+        table_record_kind: detail
+        filters:
+          pension_type: unknown_pension_provision
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: unknown_pension_provision
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 17
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 5
+      - value_id: no_pension_provision
+        label: No pension provision
+        row_number: 18
+        expected_row_header_column: B
+        expected_row_header: No pension provision [note 3]
+        table_record_kind: detail
+        filters:
+          pension_type: no_pension_provision
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: no_pension_provision
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 18
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 6
+    measures:
+      - measure_id: jobs
+        label: Employee jobs by pension type (indicative)
+        ordinal: 0
+        column: E
+        source_column_id: jobs
+        expected_column_header_row: 4
+        expected_column_header: 2023
+        concept: ons.workplace_pension_jobs_by_type
+        source_concept: ons.workplace_pension_jobs_by_type
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK), employee jobs on adult rates whose pay was not affected
+          by absence: number of jobs, thousands; ONS says job counts are indicative only (note 4 / note
+          2).'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000
+  - record_set_id: ons.ashe_pensions_2024.summary.table_1.jobs.cy2024
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_1.jobs.cy2024.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_1.jobs.cy2024
+    sheet_name: Table 1
+    period_type: calendar_year
+    period: 2024
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_pension_type
+    rows:
+      - value_id: defined_benefit
+        label: Defined benefit
+        row_number: 12
+        expected_row_header_column: B
+        expected_row_header: Defined benefit
+        table_record_kind: detail
+        filters:
+          pension_type: defined_benefit
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_benefit
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 12
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 0
+      - value_id: defined_contribution
+        label: Defined contribution
+        row_number: 13
+        expected_row_header_column: B
+        expected_row_header: Defined contribution
+        table_record_kind: detail
+        filters:
+          pension_type: defined_contribution
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_contribution
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 13
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 1
+      - value_id: group_personal_pension
+        label: Group personal pension
+        row_number: 14
+        expected_row_header_column: B
+        expected_row_header: Group personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 14
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 2
+      - value_id: group_self_invested_personal_pension
+        label: Group self-invested personal pension
+        row_number: 15
+        expected_row_header_column: B
+        expected_row_header: Group self-invested personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_self_invested_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_self_invested_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 15
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 3
+      - value_id: group_stakeholder_pension
+        label: Group stakeholder pension
+        row_number: 16
+        expected_row_header_column: B
+        expected_row_header: Group stakeholder pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_stakeholder_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_stakeholder_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 16
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 4
+      - value_id: unknown_pension_provision
+        label: Unknown pension provision
+        row_number: 17
+        expected_row_header_column: B
+        expected_row_header: Unknown pension provision
+        table_record_kind: detail
+        filters:
+          pension_type: unknown_pension_provision
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: unknown_pension_provision
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 17
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 5
+      - value_id: no_pension_provision
+        label: No pension provision
+        row_number: 18
+        expected_row_header_column: B
+        expected_row_header: No pension provision [note 3]
+        table_record_kind: detail
+        filters:
+          pension_type: no_pension_provision
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: no_pension_provision
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 18
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 6
+    measures:
+      - measure_id: jobs
+        label: Employee jobs by pension type (indicative)
+        ordinal: 0
+        column: F
+        source_column_id: jobs
+        expected_column_header_row: 4
+        expected_column_header: 2024
+        concept: ons.workplace_pension_jobs_by_type
+        source_concept: ons.workplace_pension_jobs_by_type
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK), employee jobs on adult rates whose pay was not affected
+          by absence: number of jobs, thousands; ONS says job counts are indicative only (note 4 / note
+          2).'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000
+  - record_set_id: ons.ashe_pensions_2024.summary.table_2.share.cy2023
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_2.share.cy2023.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_2.share.cy2023
+    sheet_name: Table 2
+    period_type: calendar_year
+    period: 2023
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_pension_type
+    rows:
+      - value_id: defined_benefit
+        label: Defined benefit
+        row_number: 5
+        expected_row_header_column: B
+        expected_row_header: Defined benefit
+        table_record_kind: detail
+        filters:
+          pension_type: defined_benefit
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_benefit
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 5
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 0
+      - value_id: defined_contribution
+        label: Defined contribution
+        row_number: 6
+        expected_row_header_column: B
+        expected_row_header: Defined contribution
+        table_record_kind: detail
+        filters:
+          pension_type: defined_contribution
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_contribution
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 6
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 1
+      - value_id: group_personal_pension
+        label: Group personal pension
+        row_number: 7
+        expected_row_header_column: B
+        expected_row_header: Group personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 7
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 2
+      - value_id: group_self_invested_personal_pension
+        label: Group self-invested personal pension
+        row_number: 8
+        expected_row_header_column: B
+        expected_row_header: Group self-invested personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_self_invested_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_self_invested_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 8
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 3
+      - value_id: group_stakeholder_pension
+        label: Group stakeholder pension
+        row_number: 9
+        expected_row_header_column: B
+        expected_row_header: Group stakeholder pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_stakeholder_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_stakeholder_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 9
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 4
+      - value_id: unknown_pension_provision
+        label: Unknown pension provision
+        row_number: 10
+        expected_row_header_column: B
+        expected_row_header: Unknown pension provision
+        table_record_kind: detail
+        filters:
+          pension_type: unknown_pension_provision
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: unknown_pension_provision
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 10
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 5
+    measures:
+      - measure_id: share_of_member_jobs
+        label: Share of employee jobs with a workplace pension, by pension type
+        ordinal: 0
+        column: E
+        source_column_id: share_of_member_jobs
+        expected_column_header_row: 4
+        expected_column_header: 2023
+        concept: ons.workplace_pension_type_share_of_member_jobs
+        source_concept: ons.workplace_pension_type_share_of_member_jobs
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK): percentage of employee jobs; percentages may not sum to
+          100 because of rounding.'
+        unit: percent
+        aggregation: share
+        expected_cell_type: number
+  - record_set_id: ons.ashe_pensions_2024.summary.table_2.share.cy2024
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_2.share.cy2024.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_2.share.cy2024
+    sheet_name: Table 2
+    period_type: calendar_year
+    period: 2024
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_pension_type
+    rows:
+      - value_id: defined_benefit
+        label: Defined benefit
+        row_number: 5
+        expected_row_header_column: B
+        expected_row_header: Defined benefit
+        table_record_kind: detail
+        filters:
+          pension_type: defined_benefit
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_benefit
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 5
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 0
+      - value_id: defined_contribution
+        label: Defined contribution
+        row_number: 6
+        expected_row_header_column: B
+        expected_row_header: Defined contribution
+        table_record_kind: detail
+        filters:
+          pension_type: defined_contribution
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: defined_contribution
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 6
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 1
+      - value_id: group_personal_pension
+        label: Group personal pension
+        row_number: 7
+        expected_row_header_column: B
+        expected_row_header: Group personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 7
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 2
+      - value_id: group_self_invested_personal_pension
+        label: Group self-invested personal pension
+        row_number: 8
+        expected_row_header_column: B
+        expected_row_header: Group self-invested personal pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_self_invested_personal_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_self_invested_personal_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 8
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 3
+      - value_id: group_stakeholder_pension
+        label: Group stakeholder pension
+        row_number: 9
+        expected_row_header_column: B
+        expected_row_header: Group stakeholder pension
+        table_record_kind: detail
+        filters:
+          pension_type: group_stakeholder_pension
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: group_stakeholder_pension
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 9
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 4
+      - value_id: unknown_pension_provision
+        label: Unknown pension provision
+        row_number: 10
+        expected_row_header_column: B
+        expected_row_header: Unknown pension provision
+        table_record_kind: detail
+        filters:
+          pension_type: unknown_pension_provision
+        constraints:
+          - variable: pension_type
+            operator: ==
+            value: unknown_pension_provision
+            label: Pension type
+        guard_cells:
+          - column: A
+            row: 10
+            expected_value: Percentage of jobs (%) [note 2]
+            label: measure
+        ordinal: 5
+    measures:
+      - measure_id: share_of_member_jobs
+        label: Share of employee jobs with a workplace pension, by pension type
+        ordinal: 0
+        column: F
+        source_column_id: share_of_member_jobs
+        expected_column_header_row: 4
+        expected_column_header: 2024
+        concept: ons.workplace_pension_type_share_of_member_jobs
+        source_concept: ons.workplace_pension_type_share_of_member_jobs
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK): percentage of employee jobs; percentages may not sum to
+          100 because of rounding.'
+        unit: percent
+        aggregation: share
+        expected_cell_type: number
+  - record_set_id: ons.ashe_pensions_2024.summary.table_3.membership_rate.cy2023
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_3.membership_rate.cy2023.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_3.membership_rate.cy2023
+    sheet_name: Table 3
+    period_type: calendar_year
+    period: 2023
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_sector_sex
+    rows:
+      - value_id: all_sectors__male
+        label: All sectors, Male
+        row_number: 5
+        expected_row_header_column: B
+        expected_row_header: All sectors
+        table_record_kind: detail
+        filters:
+          sector: all
+          sex: male
+        constraints:
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 5
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 5
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 0
+      - value_id: all_sectors__female
+        label: All sectors, Female
+        row_number: 6
+        expected_row_header_column: B
+        expected_row_header: All sectors
+        table_record_kind: detail
+        filters:
+          sector: all
+          sex: female
+        constraints:
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 6
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 6
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 1
+      - value_id: private_sector__male
+        label: Private sector, Male
+        row_number: 7
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 7
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 7
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 2
+      - value_id: private_sector__female
+        label: Private sector, Female
+        row_number: 8
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 8
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 8
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 3
+      - value_id: public_sector__male
+        label: Public sector, Male
+        row_number: 9
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 9
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 9
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 4
+      - value_id: public_sector__female
+        label: Public sector, Female
+        row_number: 10
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 10
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 10
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 5
+    measures:
+      - measure_id: membership_rate
+        label: Share of employee jobs with a workplace pension
+        ordinal: 0
+        column: F
+        source_column_id: membership_rate
+        expected_column_header_row: 4
+        expected_column_header: 2023
+        concept: ons.workplace_pension_membership_rate
+        source_concept: ons.workplace_pension_membership_rate
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK): percentage of all employee jobs with workplace pension
+          membership.'
+        unit: percent
+        aggregation: share
+        expected_cell_type: number
+  - record_set_id: ons.ashe_pensions_2024.summary.table_3.membership_rate.cy2024
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_3.membership_rate.cy2024.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_3.membership_rate.cy2024
+    sheet_name: Table 3
+    period_type: calendar_year
+    period: 2024
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_sector_sex
+    rows:
+      - value_id: all_sectors__male
+        label: All sectors, Male
+        row_number: 5
+        expected_row_header_column: B
+        expected_row_header: All sectors
+        table_record_kind: detail
+        filters:
+          sector: all
+          sex: male
+        constraints:
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 5
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 5
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 0
+      - value_id: all_sectors__female
+        label: All sectors, Female
+        row_number: 6
+        expected_row_header_column: B
+        expected_row_header: All sectors
+        table_record_kind: detail
+        filters:
+          sector: all
+          sex: female
+        constraints:
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 6
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 6
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 1
+      - value_id: private_sector__male
+        label: Private sector, Male
+        row_number: 7
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 7
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 7
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 2
+      - value_id: private_sector__female
+        label: Private sector, Female
+        row_number: 8
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 8
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 8
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 3
+      - value_id: public_sector__male
+        label: Public sector, Male
+        row_number: 9
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 9
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 9
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 4
+      - value_id: public_sector__female
+        label: Public sector, Female
+        row_number: 10
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 10
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 10
+            expected_value: Percentage of jobs (%)
+            label: measure
+        ordinal: 5
+    measures:
+      - measure_id: membership_rate
+        label: Share of employee jobs with a workplace pension
+        ordinal: 0
+        column: G
+        source_column_id: membership_rate
+        expected_column_header_row: 4
+        expected_column_header: 2024
+        concept: ons.workplace_pension_membership_rate
+        source_concept: ons.workplace_pension_membership_rate
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK): percentage of all employee jobs with workplace pension
+          membership.'
+        unit: percent
+        aggregation: share
+        expected_cell_type: number
+  - record_set_id: ons.ashe_pensions_2024.summary.table_3.member_jobs.cy2023
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_3.member_jobs.cy2023.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_3.member_jobs.cy2023
+    sheet_name: Table 3
+    period_type: calendar_year
+    period: 2023
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_sector_sex
+    rows:
+      - value_id: all_sectors__male
+        label: All sectors, Male
+        row_number: 11
+        expected_row_header_column: B
+        expected_row_header: All sectors
+        table_record_kind: detail
+        filters:
+          sector: all
+          sex: male
+        constraints:
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 11
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 11
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 0
+      - value_id: all_sectors__female
+        label: All sectors, Female
+        row_number: 12
+        expected_row_header_column: B
+        expected_row_header: All sectors
+        table_record_kind: detail
+        filters:
+          sector: all
+          sex: female
+        constraints:
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 12
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 12
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 1
+      - value_id: private_sector__male
+        label: Private sector, Male
+        row_number: 13
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 13
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 13
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 2
+      - value_id: private_sector__female
+        label: Private sector, Female
+        row_number: 14
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 14
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 14
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 3
+      - value_id: public_sector__male
+        label: Public sector, Male
+        row_number: 15
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 15
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 15
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 4
+      - value_id: public_sector__female
+        label: Public sector, Female
+        row_number: 16
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 16
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 16
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 5
+    measures:
+      - measure_id: member_jobs
+        label: Employee jobs with a workplace pension (indicative)
+        ordinal: 0
+        column: F
+        source_column_id: member_jobs
+        expected_column_header_row: 4
+        expected_column_header: 2023
+        concept: ons.workplace_pension_member_jobs
+        source_concept: ons.workplace_pension_member_jobs
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK), employee jobs on adult rates whose pay was not affected
+          by absence: number of jobs, thousands; ONS says job counts are indicative only (note 4 / note
+          2). Number of employee jobs with a workplace pension (note 6).'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000
+  - record_set_id: ons.ashe_pensions_2024.summary.table_3.member_jobs.cy2024
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_3.member_jobs.cy2024.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_3.member_jobs.cy2024
+    sheet_name: Table 3
+    period_type: calendar_year
+    period: 2024
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_sector_sex
+    rows:
+      - value_id: all_sectors__male
+        label: All sectors, Male
+        row_number: 11
+        expected_row_header_column: B
+        expected_row_header: All sectors
+        table_record_kind: detail
+        filters:
+          sector: all
+          sex: male
+        constraints:
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 11
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 11
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 0
+      - value_id: all_sectors__female
+        label: All sectors, Female
+        row_number: 12
+        expected_row_header_column: B
+        expected_row_header: All sectors
+        table_record_kind: detail
+        filters:
+          sector: all
+          sex: female
+        constraints:
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 12
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 12
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 1
+      - value_id: private_sector__male
+        label: Private sector, Male
+        row_number: 13
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 13
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 13
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 2
+      - value_id: private_sector__female
+        label: Private sector, Female
+        row_number: 14
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 14
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 14
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 3
+      - value_id: public_sector__male
+        label: Public sector, Male
+        row_number: 15
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 15
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 15
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 4
+      - value_id: public_sector__female
+        label: Public sector, Female
+        row_number: 16
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 16
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 16
+            expected_value: Number of jobs (thousands) [notes 4, 5, 6]
+            label: measure
+        ordinal: 5
+    measures:
+      - measure_id: member_jobs
+        label: Employee jobs with a workplace pension (indicative)
+        ordinal: 0
+        column: G
+        source_column_id: member_jobs
+        expected_column_header_row: 4
+        expected_column_header: 2024
+        concept: ons.workplace_pension_member_jobs
+        source_concept: ons.workplace_pension_member_jobs
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK), employee jobs on adult rates whose pay was not affected
+          by absence: number of jobs, thousands; ONS says job counts are indicative only (note 4 / note
+          2). Number of employee jobs with a workplace pension (note 6).'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000
+  - record_set_id: ons.ashe_pensions_2024.summary.table_4.median_employer_rate.cy2023
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_4.median_employer_rate.cy2023.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_4.median_employer_rate.cy2023
+    sheet_name: Table 4
+    period_type: calendar_year
+    period: 2023
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_sector_sex
+    rows:
+      - value_id: private_sector__male
+        label: Private sector, Male
+        row_number: 5
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 5
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 5
+            expected_value: Median contribution rate (%)
+            label: measure
+        ordinal: 0
+      - value_id: private_sector__female
+        label: Private sector, Female
+        row_number: 6
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 6
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 6
+            expected_value: Median contribution rate (%)
+            label: measure
+        ordinal: 1
+      - value_id: public_sector__male
+        label: Public sector, Male
+        row_number: 7
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 7
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 7
+            expected_value: Median contribution rate (%)
+            label: measure
+        ordinal: 2
+      - value_id: public_sector__female
+        label: Public sector, Female
+        row_number: 8
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 8
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 8
+            expected_value: Median contribution rate (%)
+            label: measure
+        ordinal: 3
+    measures:
+      - measure_id: median_employer_contribution_rate
+        label: Median employer contribution rate, percentage of qualifying earnings
+        ordinal: 0
+        column: F
+        source_column_id: median_employer_contribution_rate
+        expected_column_header_row: 4
+        expected_column_header: 2023
+        concept: ons.workplace_pension_median_employer_contribution_rate
+        source_concept: ons.workplace_pension_median_employer_contribution_rate
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK): median employer contribution as a percentage of qualifying
+          earnings for the survey pay period, employee jobs with a pension earning above the lower earnings
+          limit (notes 7, 8).'
+        unit: percent
+        aggregation: median
+        expected_cell_type: number
+  - record_set_id: ons.ashe_pensions_2024.summary.table_4.median_employer_rate.cy2024
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_4.median_employer_rate.cy2024.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_4.median_employer_rate.cy2024
+    sheet_name: Table 4
+    period_type: calendar_year
+    period: 2024
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_sector_sex
+    rows:
+      - value_id: private_sector__male
+        label: Private sector, Male
+        row_number: 5
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 5
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 5
+            expected_value: Median contribution rate (%)
+            label: measure
+        ordinal: 0
+      - value_id: private_sector__female
+        label: Private sector, Female
+        row_number: 6
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 6
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 6
+            expected_value: Median contribution rate (%)
+            label: measure
+        ordinal: 1
+      - value_id: public_sector__male
+        label: Public sector, Male
+        row_number: 7
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 7
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 7
+            expected_value: Median contribution rate (%)
+            label: measure
+        ordinal: 2
+      - value_id: public_sector__female
+        label: Public sector, Female
+        row_number: 8
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 8
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 8
+            expected_value: Median contribution rate (%)
+            label: measure
+        ordinal: 3
+    measures:
+      - measure_id: median_employer_contribution_rate
+        label: Median employer contribution rate, percentage of qualifying earnings
+        ordinal: 0
+        column: G
+        source_column_id: median_employer_contribution_rate
+        expected_column_header_row: 4
+        expected_column_header: 2024
+        concept: ons.workplace_pension_median_employer_contribution_rate
+        source_concept: ons.workplace_pension_median_employer_contribution_rate
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK): median employer contribution as a percentage of qualifying
+          earnings for the survey pay period, employee jobs with a pension earning above the lower earnings
+          limit (notes 7, 8).'
+        unit: percent
+        aggregation: median
+        expected_cell_type: number
+  - record_set_id: ons.ashe_pensions_2024.summary.table_4.member_jobs_above_lel.cy2023
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_4.member_jobs_above_lel.cy2023.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_4.member_jobs_above_lel.cy2023
+    sheet_name: Table 4
+    period_type: calendar_year
+    period: 2023
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_sector_sex
+    rows:
+      - value_id: private_sector__male
+        label: Private sector, Male
+        row_number: 9
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 9
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 9
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 0
+      - value_id: private_sector__female
+        label: Private sector, Female
+        row_number: 10
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 10
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 10
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 1
+      - value_id: public_sector__male
+        label: Public sector, Male
+        row_number: 11
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 11
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 11
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 2
+      - value_id: public_sector__female
+        label: Public sector, Female
+        row_number: 12
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 12
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 12
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 3
+    measures:
+      - measure_id: member_jobs_above_lower_earnings_limit
+        label: Employee jobs with a pension above the lower earnings limit (indicative)
+        ordinal: 0
+        column: F
+        source_column_id: member_jobs_above_lower_earnings_limit
+        expected_column_header_row: 4
+        expected_column_header: 2023
+        concept: ons.workplace_pension_member_jobs_above_lower_earnings_limit
+        source_concept: ons.workplace_pension_member_jobs_above_lower_earnings_limit
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK), employee jobs on adult rates whose pay was not affected
+          by absence: number of jobs, thousands; ONS says job counts are indicative only (note 4 / note
+          2). Jobs with a pension earning above the lower earnings limit (note 8).'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000
+  - record_set_id: ons.ashe_pensions_2024.summary.table_4.member_jobs_above_lel.cy2024
+    provenance_class: survey_aggregate
+    survey_instrument: Annual Survey of Hours and Earnings
+    record_set_spec_id: ons.ashe_pensions_2024.summary.table_4.member_jobs_above_lel.cy2024.v1
+    source_record_id_prefix: ons.ashe_pensions_2024.summary.table_4.member_jobs_above_lel.cy2024
+    sheet_name: Table 4
+    period_type: calendar_year
+    period: 2024
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: employee_job
+    domain: pension_contributions
+    groupby_dimension: ons.ashe_sector_sex
+    rows:
+      - value_id: private_sector__male
+        label: Private sector, Male
+        row_number: 9
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 9
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 9
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 0
+      - value_id: private_sector__female
+        label: Private sector, Female
+        row_number: 10
+        expected_row_header_column: B
+        expected_row_header: Private sector
+        table_record_kind: detail
+        filters:
+          sector: Private
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Private
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 10
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 10
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 1
+      - value_id: public_sector__male
+        label: Public sector, Male
+        row_number: 11
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: male
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: male
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 11
+            expected_value: Male
+            label: sex
+          - column: A
+            row: 11
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 2
+      - value_id: public_sector__female
+        label: Public sector, Female
+        row_number: 12
+        expected_row_header_column: B
+        expected_row_header: Public sector
+        table_record_kind: detail
+        filters:
+          sector: Public
+          sex: female
+        constraints:
+          - variable: sector
+            operator: ==
+            value: Public
+            label: Sector
+          - variable: sex
+            operator: ==
+            value: female
+            label: Sex
+        guard_cells:
+          - column: C
+            row: 12
+            expected_value: Female
+            label: sex
+          - column: A
+            row: 12
+            expected_value: Number of jobs (thousands) [note 4]
+            label: measure
+        ordinal: 3
+    measures:
+      - measure_id: member_jobs_above_lower_earnings_limit
+        label: Employee jobs with a pension above the lower earnings limit (indicative)
+        ordinal: 0
+        column: G
+        source_column_id: member_jobs_above_lower_earnings_limit
+        expected_column_header_row: 4
+        expected_column_header: 2024
+        concept: ons.workplace_pension_member_jobs_above_lower_earnings_limit
+        source_concept: ons.workplace_pension_member_jobs_above_lower_earnings_limit
+        concept_relation: source_label
+        concept_authority: ons
+        concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+        concept_evidence_notes: 'ONS ASHE (UK), employee jobs on adult rates whose pay was not affected
+          by absence: number of jobs, thousands; ONS says job counts are indicative only (note 4 / note
+          2). Jobs with a pension earning above the lower earnings limit (note 8).'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000
