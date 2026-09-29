@@ -107,6 +107,9 @@ SOURCE_PACKAGE_ALIASES = {
     "dfc-ni-state-pension-statistics-may-2026": Path(
         "dfc_ni/state_pension_statistics_may_2026"
     ),
+    "dwp-attendance-allowance-entitled-country-award-age-gender-february-2023-march-2026": Path(
+        "dwp/attendance_allowance_entitled_country_award_age_gender_february_2023_march_2026"
+    ),
     "dwp-pension-credit-amount-band-type-february-2023-march-2026": Path(
         "dwp/pension_credit_amount_band_type_february_2023_march_2026"
     ),

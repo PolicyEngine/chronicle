@@ -79,6 +79,7 @@ UK_BUNDLE_SOURCES = (
     "dft-nts0621-local-bus-use-frequency-2025",
     "dft-nts0705-local-bus-trips-2024",
     "dft-veh1103-cars-fuel-type-2025",
+    "dwp-attendance-allowance-entitled-country-award-age-gender-february-2023-march-2026",
     "dwp-benefit-cap-november-2025",
     "dwp-benefit-expenditure-caseload-spring-2026",
     "dwp-benefit-statistics-february-2026",
