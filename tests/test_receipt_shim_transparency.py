@@ -45,21 +45,39 @@ def _release_manifests() -> list[pathlib.Path]:
     return sorted((ROOT / "releases" / "manifests").glob("[0-9]" * 4 + "-*.json"))
 
 
+# The originals pin one DigiCert responder, the one that signed releases 0000
+# to 0020. Later releases carry receipts from DigiCert's 2026 responder, which
+# only the shim's pins admit (receipt 0.6.2's additional_signers;
+# tests/test_production_tsa_pins.py covers that entry). On those releases the
+# original refuses where the shim accepts, by design, so the differential
+# replays the journal as it stood at the last release the originals can
+# verify. That is the whole surface on which the pair is meant to agree, and
+# it no longer moves when the journal grows.
+ORACLE_HEAD_RELEASE_STEM = "0020-7f669f1e1364c5cc"
+
+
+def _oracle_release_manifests() -> list[pathlib.Path]:
+    """The release manifests the originals can verify, in release-index order."""
+
+    manifests = _release_manifests()
+    stems = [manifest.stem for manifest in manifests]
+    assert ORACLE_HEAD_RELEASE_STEM in stems, stems
+    return manifests[: stems.index(ORACLE_HEAD_RELEASE_STEM) + 1]
+
+
 def _head_release() -> dict:
-    return json.loads(_release_manifests()[-1].read_text(encoding="utf-8"))
+    return json.loads(_oracle_release_manifests()[-1].read_text(encoding="utf-8"))
 
 
-# The witnessed journal grows on every resolver append, so the numbers this
-# differential replays are read from the committed release chain rather than
-# transcribed into the test. Transcribed numbers went stale the first time the
-# append lane ran and this file is not part of the CI pytest step that would
-# have caught it. What the differential actually asserts -- that the original
-# and the shim emit the same bytes -- does not depend on the numbers at all;
-# they only pin the text the pair is expected to agree on.
+# The numbers this differential replays are read from the committed release
+# chain rather than transcribed into the test. Transcribed numbers went stale
+# the first time the append lane ran. What the differential actually asserts --
+# that the original and the shim emit the same bytes -- does not depend on the
+# numbers at all; they only pin the text the pair is expected to agree on.
 _HEAD_RELEASE = _head_release()
-RELEASE_COUNT = len(_release_manifests())
-NEW_RELEASE_STEM = _release_manifests()[-1].stem
-FIRST_APPEND_RELEASE_STEM = _release_manifests()[1].stem
+RELEASE_COUNT = len(_oracle_release_manifests())
+NEW_RELEASE_STEM = _oracle_release_manifests()[-1].stem
+FIRST_APPEND_RELEASE_STEM = _oracle_release_manifests()[1].stem
 RELEASE_INDEX = int(_HEAD_RELEASE["releaseIndex"])
 CANDIDATE_LINE_COUNT = int(_HEAD_RELEASE["state"]["lineCount"])
 BASE_LINE_COUNT = int(_HEAD_RELEASE["append"]["previousLineCount"])
@@ -263,10 +281,34 @@ def test_release_chain_cli_help_is_byte_identical(
     _assert_byte_identical(original, shim, expected_code=0)
 
 
-def test_live_full_release_chain_is_byte_identical(
+def _copy_custody_tree(destination: pathlib.Path) -> pathlib.Path:
+    """Copy the custody state as it stood at the oracle's head release.
+
+    The journal is append-only, so that state is the committed ledger cut to
+    the head release's line count, with every later release's files removed.
+    """
+
+    root = destination / "root"
+    shutil.copytree(ROOT / "ledger", root / "ledger")
+    shutil.copytree(ROOT / "releases", root / "releases")
+    oracle_stems = {manifest.stem for manifest in _oracle_release_manifests()}
+    later_stems = {manifest.stem for manifest in _release_manifests()} - oracle_stems
+    for path in (root / "releases" / "manifests").iterdir():
+        if path.name.split(".", 1)[0] in later_stems:
+            path.unlink()
+    ledger = root / "ledger" / "official_observations.jsonl"
+    rows = ledger.read_bytes().splitlines(keepends=True)
+    assert len(rows) >= CANDIDATE_LINE_COUNT
+    ledger.write_bytes(b"".join(rows[:CANDIDATE_LINE_COUNT]))
+    return root
+
+
+def test_full_release_chain_is_byte_identical(
     original_oracle: pathlib.Path,
+    tmp_path: pathlib.Path,
 ) -> None:
-    arguments = ("--full", "--root", str(ROOT))
+    custody = _copy_custody_tree(tmp_path)
+    arguments = ("--full", "--root", str(custody))
     original = _run_script(
         original_oracle / "scripts" / "verify_release_chain.py",
         *arguments,
@@ -280,11 +322,28 @@ def test_live_full_release_chain_is_byte_identical(
     assert RELEASE_CHAIN_OK.fullmatch(shim.stdout), shim.stdout
 
 
-def _copy_custody_tree(destination: pathlib.Path) -> pathlib.Path:
-    root = destination / "root"
-    shutil.copytree(ROOT / "ledger", root / "ledger")
-    shutil.copytree(ROOT / "releases", root / "releases")
-    return root
+def test_shim_verifies_the_live_release_chain() -> None:
+    """The shim alone accepts the whole committed journal.
+
+    Releases after the oracle's head are beyond what the originals can verify,
+    so the live chain is the shim's to answer for, without a partner.
+    """
+
+    live = _release_manifests()
+    shim = _run_script(
+        SHIM_SCRIPTS / "verify_release_chain.py", "--full", "--root", str(ROOT)
+    )
+    assert shim.returncode == 0, shim.stderr
+    assert shim.stderr == b""
+    assert re.fullmatch(
+        rb"release chain OK: "
+        + str(len(live)).encode("ascii")
+        + rb" releases, HEAD="
+        + re.escape(live[-1].stem.encode("ascii"))
+        + rb"\.json, digicert=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z, "
+        + rb"freetsa=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\n",
+        shim.stdout,
+    ), shim.stdout
 
 
 def _flip_middle_byte(path: pathlib.Path) -> None:
