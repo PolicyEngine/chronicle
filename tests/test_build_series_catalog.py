@@ -10,17 +10,35 @@ period tokens silently stripped).
 
 from __future__ import annotations
 
+import datetime as dt
 import doctest
 import json
 import pathlib
 import sys
+import tempfile
 
 import pytest
+from hypothesis import HealthCheck, given, settings
+from hypothesis import strategies as st
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import build_series_catalog as bsc  # noqa: E402
+
+# The curated map of reviewed period strips (spelling -> canonical concept ->
+# classify_segments kinds) that test_committed_catalog_is_current_and_valid
+# audits the committed catalog against; its "comment" says how to extend it.
+REVIEWED_STRIPPED_SEGMENTS_PATH = (
+    ROOT / "tests" / "fixtures" / "series_catalog"
+    / "reviewed_stripped_segments.json"
+)
+REVIEWED_STRIPPED_FIXTURE = json.loads(
+    REVIEWED_STRIPPED_SEGMENTS_PATH.read_text(encoding="utf-8")
+)
+REVIEWED_STRIPPED_KINDS: dict[str, dict[str, list[str]]] = (
+    REVIEWED_STRIPPED_FIXTURE["stripped_kinds"]
+)
 
 PERIOD_SEGMENTS = [
     "fy2026",
@@ -774,29 +792,27 @@ def test_committed_catalog_is_current_and_valid() -> None:
     # digit run 2374 trips the year hint; it is an identifier, not a date,
     # and stays in the identity because the observation was recorded so.
     assert committed["suspect_segments"] == ["LNU02374597"]
-    # Pin extended 2026-09-04 to the catalog at 55bbf3d. Spellings first seen:
-    # week_2026-07-13 at c2aa68d (va.vba.mmwr.claims_inventory: the VA MMWR
-    # publication date for the week ending 2026-07-11, the row's own period,
-    # so a period spelling of this row and not a colliding label; the strip
-    # stands), week_2026-08-15 at 54dbabc8 and week_2026-08-22 at 55bbf3d.
-    # Occurrences as of 55bbf3d: both August keys map to
-    # dol.eta.continued_claims.sa (joined week_2026-08-15 at d77afe2) and
-    # us.dol.initial_claims.sa.
-    # EVERY stripped spelling is auditable, mapped to the canonical
-    # concepts it touched — a statute or edition label colliding with a
-    # period spelling can only be caught here.
-    assert sorted(committed["stripped_segments"]) == [
-        "2026-05", "2026-06", "2026-06-18", "2026-07", "2026_05",
-        "2026_06", "2026_06_18", "2026_07", "2026_q2", "after_june_2026",
-        "after_mpc_june_2026", "april_2026", "feb_2026",
-        "february_to_april_2026", "fy2024", "fy2025", "july_2026",
-        "june_2026", "may_2026", "q1_2026", "week_2026-06-13",
-        "week_2026-06-20", "week_2026-06-27", "week_2026-07-04",
-        "week_2026-07-11", "week_2026-07-13", "week_2026-07-18",
-        "week_2026-07-25", "week_2026-08-01", "week_2026-08-08",
-        "week_2026-08-15", "week_2026-08-22", "week_2026_06_13",
-        "week_ending_2026_06_06",
-    ]
+    # EVERY stripped spelling is audited, mapped to the canonical concepts
+    # it touched: a statute or edition label colliding with a period
+    # spelling can only be caught here. Until 2026-09-30 this was an exact
+    # list of spellings, so every append that recorded the next weekly
+    # claims print (week_2026-08-29, ...) failed this required check and
+    # the resolver merged past it. The audit now asks the question the list
+    # stood for, pair by pair: has a curator already decided this concept's
+    # segments of this spelling template are period labels, and does every
+    # observation behind the strip spell its own declared period directly?
+    # New concepts, new templates, overlap strips, and reviewed strips that
+    # disappear or change kind still fail. See REVIEWED_STRIPPED_SEGMENTS_PATH.
+    problems = bsc.stripped_segment_review_problems(
+        committed["stripped_segments"],
+        plan["stripped_kinds"],
+        REVIEWED_STRIPPED_KINDS,
+    )
+    assert problems == [], (
+        "unreviewed period strips — review each and record it in "
+        f"{REVIEWED_STRIPPED_SEGMENTS_PATH.relative_to(ROOT)}:\n"
+        + "\n".join(problems)
+    )
     assert committed["stripped_segments"]["after_mpc_june_2026"] == [
         "boe.bank_rate"
     ]
@@ -808,6 +824,713 @@ def test_committed_catalog_is_current_and_valid() -> None:
     assert committed["uuid_registry_sha256"] == registry.sha256()
     assert bsc.DOCKET_SEED.exists()
     assert len(committed["series"]) == 228
+
+
+# --- The stripped-segment audit ---------------------------------------------
+
+
+def _committed_build() -> tuple[dict, dict]:
+    committed = json.loads(bsc.CATALOG.read_text(encoding="utf-8"))
+    _, plan = bsc.build_catalog(
+        bsc.OBSERVATIONS,
+        bsc.DOCKET_SEED,
+        bsc.ExistingCatalog(bsc.CATALOG),
+        bsc.UuidRegistry.load(bsc.UUID_REGISTRY),
+    )
+    return committed, plan
+
+
+def _pairs(stripped: dict) -> set[tuple[str, str]]:
+    return {(s, c) for s, concepts in stripped.items() for c in concepts}
+
+
+def _names(problems: list[str], spelling: str, concept: str) -> list[str]:
+    return [p for p in problems if p.startswith(f"{spelling!r} on {concept!r}")]
+
+
+def test_reviewed_stripped_segments_fixture_is_wellformed() -> None:
+    fixture = REVIEWED_STRIPPED_FIXTURE
+    assert set(fixture) == {
+        "comment", "reviewed_catalog_commit", "notes", "stripped_kinds",
+    }
+    reviewed = fixture["stripped_kinds"]
+    assert list(reviewed) == sorted(reviewed)
+    committed = json.loads(bsc.CATALOG.read_text(encoding="utf-8"))
+    row_concepts = {row["concept"] for row in committed["series"]}
+    for spelling, by_concept in reviewed.items():
+        assert bsc._is_strippable_spelling(spelling), spelling
+        assert by_concept and list(by_concept) == sorted(by_concept), spelling
+        assert set(by_concept) <= row_concepts, (spelling, by_concept)
+        for kinds in by_concept.values():
+            assert kinds and kinds == sorted(set(kinds)), (spelling, kinds)
+            assert set(kinds) <= {"derived", "overlap"}, (spelling, kinds)
+    assert set(fixture["notes"]) <= set(reviewed)
+    # The June 13 initial-claims pair is one observation's week, spelled
+    # with hyphens in its source_record_id and underscores in its concept;
+    # both are kept, and both are overlap strips (see the fixture notes).
+    for spelling in ("week_2026-06-13", "week_2026_06_13"):
+        assert reviewed[spelling] == {"us.dol.initial_claims.sa": ["overlap"]}
+    rows = [
+        json.loads(line)
+        for line in bsc.OBSERVATIONS.read_text(encoding="utf-8").splitlines()
+        if "week_2026-06-13" in line or "week_2026_06_13" in line
+    ]
+    assert len(rows) == 1
+    assert rows[0]["source_record_id"].endswith(".week_2026-06-13")
+    assert rows[0]["measure"]["concept"].endswith(".week_2026_06_13")
+    assert rows[0]["period"] == {"type": "month", "value": "2026-06"}
+
+
+def test_stripped_kinds_match_an_independent_replay() -> None:
+    """Differential: re-derive every strip's kinds from the committed ledger
+    with classify_segments alone, resolving each observation to its catalog
+    row through that row's concept and aliases at the same geography and
+    entity, and require the builder's plan and the catalog to agree."""
+    from check_thesis_facts_append import effective_current_rows
+
+    committed, plan = _committed_build()
+    owners: dict[tuple[str, str, str], set[str]] = {}
+    for row in committed["series"]:
+        dims = (
+            bsc._geo_key(row.get("geography")),
+            bsc._entity_key(row.get("entity")),
+        )
+        for name in [row["concept"], *row["aliases"]]:
+            owners.setdefault((name, *dims), set()).add(row["concept"])
+    rows = [
+        json.loads(line)
+        for line in bsc.OBSERVATIONS.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    replay: dict[str, dict[str, set[str]]] = {}
+    for obs in effective_current_rows(rows):
+        period = obs.get("period") or {}
+        raw = obs["measure"]["concept"]
+        dims = (
+            bsc._geo_key(obs.get("geography") or None),
+            bsc._entity_key(obs.get("entity") or None),
+        )
+        pattern_concept = bsc.concept_for(bsc.family_pattern(raw, period))
+        (canonical,) = owners.get((pattern_concept, *dims)) or owners[
+            (raw, *dims)
+        ]
+        for identifier in (raw, obs["source_record_id"]):
+            for segment, kind in bsc.classify_segments(identifier, period):
+                if kind != "kept":
+                    replay.setdefault(segment, {}).setdefault(
+                        canonical, set()
+                    ).add(kind)
+    assert plan["stripped_kinds"] == {
+        s: {c: sorted(kinds) for c, kinds in by.items()}
+        for s, by in replay.items()
+    }
+    assert {
+        s: sorted(by) for s, by in plan["stripped_kinds"].items()
+    } == committed["stripped_segments"]
+
+
+def test_committed_audit_fails_on_corrupted_catalogs() -> None:
+    # Each corruption must add a problem naming its pair, whatever else the
+    # committed catalog is waiting on (that is the committed test's job).
+    committed, plan = _committed_build()
+    segments = committed["stripped_segments"]
+    kinds = plan["stripped_kinds"]
+    audit = bsc.stripped_segment_review_problems
+    baseline = set(audit(segments, kinds, REVIEWED_STRIPPED_KINDS))
+
+    def corrupt(spelling, concept, strip_kinds, *, in_plan=True):
+        bad_segments = {s: list(c) for s, c in segments.items()}
+        bad_kinds = {s: dict(by) for s, by in kinds.items()}
+        if concept not in bad_segments.get(spelling, []):
+            bad_segments.setdefault(spelling, []).append(concept)
+        if in_plan:
+            bad_kinds.setdefault(spelling, {})[concept] = strip_kinds
+        return _names(
+            sorted(
+                set(audit(bad_segments, bad_kinds, REVIEWED_STRIPPED_KINDS))
+                - baseline
+            ),
+            spelling, concept,
+        )
+
+    # A reviewed spelling disappears.
+    gone = {s: c for s, c in segments.items() if s != "after_mpc_june_2026"}
+    gone_kinds = {s: b for s, b in kinds.items() if s != "after_mpc_june_2026"}
+    assert _names(
+        audit(gone, gone_kinds, REVIEWED_STRIPPED_KINDS),
+        "after_mpc_june_2026", "boe.bank_rate",
+    )
+    # A concept strips for the first time, as the 2026-09-24 proposal (#289)
+    # did when abs.labour.unemployment_rate took its first print beside the
+    # already-observed abs.labour.unemployment_rate.australia.
+    assert corrupt("2026_08", "corrupt.never_observed.rate", ["derived"])
+    # A reviewed concept strips a spelling template it never used.
+    assert corrupt("2026_08", "us.dol.initial_claims.sa", ["derived"])
+    # A reviewed concept and template, but an overlap strip.
+    assert corrupt("week_2026-09-19", "us.dol.initial_claims.sa", ["overlap"])
+    # A reviewed strip that an observation now reaches as an overlap.
+    assert corrupt(
+        "week_2026-08-22", "us.dol.initial_claims.sa", ["derived", "overlap"]
+    )
+    # A statute label on a reviewed concept.
+    assert corrupt("section_2026", "boe.bank_rate", ["derived"])
+    # A non-period spelling is refused even when a curator listed it.
+    bogus = {**REVIEWED_STRIPPED_KINDS, "section_2026": {
+        "boe.bank_rate": ["derived"],
+    }}
+    bogus_segments = {**segments, "section_2026": ["boe.bank_rate"]}
+    bogus_kinds = {**kinds, "section_2026": {"boe.bank_rate": ["derived"]}}
+    assert set(audit(bogus_segments, bogus_kinds, bogus)) - baseline == {
+        "'section_2026' on 'boe.bank_rate': stripped spelling is not a "
+        "period token"
+    }
+    # The catalog claims a strip the build plan does not make.
+    assert corrupt(
+        "week_2026-09-19", "us.dol.initial_claims.sa", ["derived"],
+        in_plan=False,
+    )
+    # And the routine case the exact list used to reject passes.
+    assert not corrupt(
+        "week_2026-09-19", "us.dol.initial_claims.sa", ["derived"]
+    )
+
+
+def _successor(period: dict) -> dict | None:
+    ptype, value = period.get("type"), str(period.get("value"))
+    if ptype == "week_ending":
+        end = dt.date.fromisoformat(value) + dt.timedelta(days=7)
+        return {"type": ptype, "value": end.isoformat()}
+    if ptype in ("month", "quarter"):
+        year, month = map(int, value.split("-"))
+        month += 1 if ptype == "month" else 3
+        year, month = year + (month - 1) // 12, (month - 1) % 12 + 1
+        return {"type": ptype, "value": f"{year}-{month:02d}"}
+    if ptype in ("fiscal_year", "year", "calendar_year", "tax_year"):
+        return {"type": ptype, "value": str(int(value) + 1)}
+    return None
+
+
+def _respell(identifier: str, period: dict, successor: dict) -> str | None:
+    """``identifier`` with each strip of ``period`` rewritten as the same
+    template's spelling of ``successor``; None if any strip has no such
+    spelling (an overlap strip)."""
+    variants = bsc.period_token_variants(successor)
+    parts = []
+    for segment, kind in bsc.classify_segments(identifier, period):
+        if kind == "kept":
+            parts.append(segment)
+            continue
+        template = bsc.period_spelling_template(segment)
+        same = [
+            v for v in variants if bsc.period_spelling_template(v) == template
+        ]
+        if kind != "derived" or len(same) != 1:
+            return None
+        parts.append(same[0])
+    return ".".join(parts)
+
+
+def test_next_period_of_every_committed_series_passes_the_audit(
+    tmp_path: pathlib.Path,
+) -> None:
+    """The append the exact list rejected, on real data: for every current
+    observation whose strips are direct spellings of its period, append the
+    NEXT period written the same way. The rebuilt catalog grows new
+    spellings and lands them on the existing identities, and with the
+    committed strips taken as reviewed, none of the new ones needs review.
+    (Whether the committed strips ARE reviewed is the committed test's
+    question; on a clean branch the two maps agree.)"""
+    from check_thesis_facts_append import effective_current_rows
+
+    rows = [
+        json.loads(line)
+        for line in bsc.OBSERVATIONS.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    appended = []
+    for obs in effective_current_rows(rows):
+        period = obs.get("period") or {}
+        successor = _successor(period)
+        if successor is None:
+            continue
+        rid = _respell(obs["source_record_id"], period, successor)
+        concept = _respell(obs["measure"]["concept"], period, successor)
+        if rid is None or concept is None or rid == obs["source_record_id"]:
+            continue
+        nxt = json.loads(json.dumps(obs))
+        nxt.pop("assertionVersion", None)
+        nxt["period"] = successor
+        nxt["source_record_id"] = rid
+        nxt["measure"]["concept"] = concept
+        appended.append(nxt)
+    assert len(appended) >= 100  # most of the ledger, not a vacuous pass
+    observations = tmp_path / "obs.jsonl"
+    observations.write_text(
+        bsc.OBSERVATIONS.read_text(encoding="utf-8")
+        + "".join(json.dumps(r) + "\n" for r in appended),
+        encoding="utf-8",
+    )
+    catalog, plan = bsc.build_catalog(
+        observations,
+        bsc.DOCKET_SEED,
+        bsc.ExistingCatalog(bsc.CATALOG),
+        bsc.UuidRegistry.load(bsc.UUID_REGISTRY),
+    )
+    assert not plan["mints"] and not plan["supersedes"]
+    assert not plan["dropped"] and not plan["enrich_retires"]
+    committed = json.loads(bsc.CATALOG.read_text(encoding="utf-8"))
+    new_pairs = _pairs(catalog["stripped_segments"]) - _pairs(
+        committed["stripped_segments"]
+    )
+    assert len(new_pairs) >= 50
+    _, committed_plan = _committed_build()
+    assert bsc.stripped_segment_review_problems(
+        catalog["stripped_segments"],
+        plan["stripped_kinds"],
+        committed_plan["stripped_kinds"],
+    ) == []
+
+
+def _strip_builds(
+    tmp_path: pathlib.Path,
+    base: list[dict],
+    appended: list[dict],
+    reviewed: dict | None = None,
+) -> tuple[dict, dict, list[str]]:
+    """Build ``base`` (its strips become the reviewed map unless one is
+    given), append ``appended``, rebuild on the first build's catalog, and
+    audit the result. UUID staging is not under test here, so the builds
+    skip ``main`` (and its git calls) and inherit from the catalog alone.
+    Returns the reviewed map, the rebuilt catalog, and the problems."""
+    first, first_plan = _build(tmp_path, base, docket=SEED)
+    if reviewed is None:
+        reviewed = first_plan["stripped_kinds"]
+    catalog, plan = _build(
+        tmp_path, [*base, *appended], existing=first, docket=SEED
+    )
+    problems = bsc.stripped_segment_review_problems(
+        catalog["stripped_segments"], plan["stripped_kinds"], reviewed
+    )
+    return reviewed, catalog, problems
+
+
+def _strip_audit(
+    tmp_path: pathlib.Path,
+    base: list[dict],
+    appended: list[dict],
+    reviewed: dict | None = None,
+) -> list[str]:
+    return _strip_builds(tmp_path, base, appended, reviewed)[2]
+
+
+CLAIMS = "us.dol.initial_claims.sa"
+
+
+def _weekly(end: str, role: str = "ui_claimant") -> dict:
+    return _row(
+        CLAIMS,
+        rid=f"{CLAIMS}.week_{end}",
+        unit="thousands",
+        period={"type": "week_ending", "value": end},
+        entity={"name": "person", "role": role},
+    )
+
+
+def test_strip_audit_passes_the_next_print(tmp_path: pathlib.Path) -> None:
+    def monthly(value: str) -> dict:
+        return _row(
+            "census.m3.orders_mom",
+            rid=f"census.m3.orders_mom.{value.replace('-', '_')}",
+            period={"type": "month", "value": value},
+        )
+
+    assert _strip_audit(
+        tmp_path,
+        [_weekly("2026-08-15"), _weekly("2026-08-22"), monthly("2026-06")],
+        [_weekly("2026-08-29"), _weekly("2026-09-05"), monthly("2026-07")],
+    ) == []
+
+
+def test_strip_audit_flags_a_label_on_a_new_concept(
+    tmp_path: pathlib.Path,
+) -> None:
+    # A statute label that spells its row's own period: mechanically a
+    # period, and only a curator can say otherwise. Its concept has never
+    # stripped, so nothing reviewed covers it.
+    statute = _row(
+        "treasury.debt_limit.suspension_act",
+        rid="treasury.debt_limit.suspension_act.2026_09.first_print",
+        period={"type": "month", "value": "2026-09"},
+    )
+    problems = _strip_audit(tmp_path, [_weekly("2026-08-22")], [statute])
+    assert problems == [
+        "'2026_09' on 'treasury.debt_limit.suspension_act': first "
+        "'9999_99' strip for this concept — confirm it is a period label, "
+        "not a statute, cohort, or edition label, and add it to the "
+        "reviewed map"
+    ]
+
+
+def test_strip_audit_flags_a_new_template_on_a_reviewed_concept(
+    tmp_path: pathlib.Path,
+) -> None:
+    ending = _row(
+        CLAIMS,
+        rid=f"{CLAIMS}.week_ending_2026_08_29",
+        unit="thousands",
+        period={"type": "week_ending", "value": "2026-08-29"},
+        entity={"name": "person", "role": "ui_claimant"},
+    )
+    problems = _strip_audit(tmp_path, [_weekly("2026-08-22")], [ending])
+    assert len(problems) == 1
+    assert _names(problems, "week_ending_2026_08_29", CLAIMS)
+    assert "first 'week_ending_9999_99_99' strip" in problems[0]
+
+
+def test_strip_audit_flags_an_overlap_strip_on_a_reviewed_template(
+    tmp_path: pathlib.Path,
+) -> None:
+    # The June 13 defect again: a weekly print declared as a month, on a
+    # second entity of the reviewed concept.
+    monthly = _row(
+        CLAIMS,
+        rid=f"{CLAIMS}.week_2026-09-12",
+        unit="thousands",
+        period={"type": "month", "value": "2026-09"},
+        entity={"name": "person", "role": "ui_initial_claimant"},
+    )
+    problems = _strip_audit(tmp_path, [_weekly("2026-08-22")], [monthly])
+    assert problems == [
+        f"'week_2026-09-12' on '{CLAIMS}': unreviewed overlap strip "
+        "(kinds ['overlap']) — the identifier names a window that only "
+        "overlaps its row's declared period; review it"
+    ]
+
+
+def test_strip_audit_flags_a_reviewed_strip_reached_by_overlap(
+    tmp_path: pathlib.Path,
+) -> None:
+    # Same spelling, same concept, already reviewed — but this observation
+    # declares a month, so the reviewed strip gains a kind.
+    monthly = _row(
+        CLAIMS,
+        rid=f"{CLAIMS}.week_2026-08-22",
+        unit="thousands",
+        period={"type": "month", "value": "2026-08"},
+        entity={"name": "person", "role": "ui_initial_claimant"},
+    )
+    problems = _strip_audit(tmp_path, [_weekly("2026-08-22")], [monthly])
+    assert len(problems) == 1
+    assert "reviewed strip gained kinds ['overlap']" in problems[0]
+
+
+def test_strip_audit_flags_a_reviewed_strip_that_is_gone(
+    tmp_path: pathlib.Path,
+) -> None:
+    reviewed = {
+        "week_2026-08-22": {CLAIMS: ["derived"]},
+        "week_2026-08-29": {"dol.eta.continued_claims.sa": ["derived"]},
+    }
+    problems = _strip_audit(
+        tmp_path, [_weekly("2026-08-22")], [], reviewed=reviewed
+    )
+    assert problems == [
+        "'week_2026-08-29' on 'dol.eta.continued_claims.sa': reviewed strip "
+        "is gone from the catalog — a superseded observation, curation, or "
+        "a builder change; re-review and update the reviewed map"
+    ]
+
+
+# --- Properties of the stripped-segment audit --------------------------------
+#
+# Invariants, for every input:
+#  T1  a spelling's template depends only on how it is written, never on the
+#      period it names (same family, any two dates -> same template);
+#  T2  different ways of writing a period get different templates;
+#  T3  every family used below spells its own period directly;
+#  A1  routine continuation passes: appending further periods of observed
+#      series, each written as that series already writes them, never
+#      creates a problem (end to end, through the real builder);
+#  A2  soundness: a strip on a concept with no reviewed strip of its
+#      template, or with an unreviewed overlap kind, is always reported by
+#      name (end to end);
+#  A3  persistence: every reviewed pair missing from the catalog is
+#      reported;
+#  A4  monotone in review: reviewing more live strips never adds problems,
+#      and reviewing every live strip as it is leaves none;
+#  A5  the output is sorted and independent of input ordering.
+# Runs are derandomized so the required check stays deterministic.
+
+AUDIT_SETTINGS = settings(
+    derandomize=True,
+    deadline=None,
+    max_examples=60,
+    suppress_health_check=[HealthCheck.too_slow],
+)
+
+_DATES = st.dates(min_value=dt.date(1901, 1, 1), max_value=dt.date(2998, 12, 1))
+
+
+def _month(d: dt.date) -> str:
+    return bsc.MONTHS_FULL[d.month - 1]
+
+
+def _quarter(d: dt.date) -> int:
+    return (d.month - 1) // 3 + 1
+
+
+def _week(d: dt.date) -> dict:
+    return {"type": "week_ending", "value": d.isoformat()}
+
+
+def _monthly(d: dt.date) -> dict:
+    return {"type": "month", "value": f"{d:%Y-%m}"}
+
+
+def _quarterly(d: dt.date) -> dict:
+    return {"type": "quarter", "value": f"{d:%Y-%m}"}
+
+
+# family -> (spelling of a date, the period that spelling denotes directly)
+FAMILIES = {
+    "week_iso": (lambda d: f"week_{d.isoformat()}", _week),
+    "week_us": (lambda d: f"week_{d:%Y_%m_%d}", _week),
+    "week_ending_iso": (lambda d: f"week_ending_{d.isoformat()}", _week),
+    "week_ending_us": (lambda d: f"week_ending_{d:%Y_%m_%d}", _week),
+    "month_iso": (lambda d: f"{d:%Y-%m}", _monthly),
+    "month_us": (lambda d: f"{d:%Y_%m}", _monthly),
+    "month_name": (lambda d: f"{_month(d)}_{d.year}", _monthly),
+    "month_abbrev": (
+        lambda d: f"{bsc.MONTHS_ABBREV[d.month - 1]}_{d.year}", _monthly,
+    ),
+    "quarter_q_first": (lambda d: f"q{_quarter(d)}_{d.year}", _quarterly),
+    "quarter_year_first": (lambda d: f"{d.year}_q{_quarter(d)}", _quarterly),
+    "fiscal": (
+        lambda d: f"fy{d.year}",
+        lambda d: {"type": "fiscal_year", "value": d.year},
+    ),
+    "annual": (
+        lambda d: f"{d.year}",
+        lambda d: {"type": "year", "value": str(d.year)},
+    ),
+}
+# Spellings only the overlap grammar produces (never a direct variant).
+SHAPES_ONLY = {
+    "day_iso": lambda d: d.isoformat(),
+    "day_us": lambda d: f"{d:%Y_%m_%d}",
+    "after_month": lambda d: f"after_{_month(d)}_{d.year}",
+    "after_mpc_month": lambda d: f"after_mpc_{_month(d)}_{d.year}",
+    "month_range": lambda d: f"january_to_{_month(d)}_{d.year}",
+}
+ALL_SHAPES = {name: spell for name, (spell, _) in FAMILIES.items()}
+ALL_SHAPES.update(SHAPES_ONLY)
+# Full and abbreviated month names deliberately share one template.
+SAME_TEMPLATE = {frozenset({"month_name", "month_abbrev"})}
+
+
+@AUDIT_SETTINGS
+@given(st.sampled_from(sorted(ALL_SHAPES)), _DATES, _DATES)
+def test_template_depends_only_on_the_spelling_family(name, d1, d2) -> None:
+    spell = ALL_SHAPES[name]
+    first, second = spell(d1), spell(d2)
+    assert bsc._is_strippable_spelling(first)
+    assert bsc.period_spelling_template(first) == bsc.period_spelling_template(
+        second
+    )
+
+
+@AUDIT_SETTINGS
+@given(
+    st.sampled_from(sorted(ALL_SHAPES)),
+    st.sampled_from(sorted(ALL_SHAPES)),
+    _DATES,
+    _DATES,
+)
+def test_template_separates_spelling_families(a, b, d1, d2) -> None:
+    same = bsc.period_spelling_template(
+        ALL_SHAPES[a](d1)
+    ) == bsc.period_spelling_template(ALL_SHAPES[b](d2))
+    assert same == (a == b or frozenset({a, b}) in SAME_TEMPLATE)
+
+
+@AUDIT_SETTINGS
+@given(st.sampled_from(sorted(FAMILIES)), _DATES)
+def test_every_family_spells_its_period_directly(name, d) -> None:
+    spell, period = FAMILIES[name]
+    assert spell(d) in bsc.period_token_variants(period(d))
+    assert bsc.classify_segments(f"x.{spell(d)}", period(d)) == [
+        ("x", "kept"), (spell(d), "derived"),
+    ]
+
+
+def _step(name: str, d: dt.date, n: int) -> dt.date:
+    """A date in the n-th period after the one holding d, for ``name``."""
+    if name.startswith("week"):
+        return d + dt.timedelta(days=7 * n)
+    if name in ("fiscal", "annual"):
+        return dt.date(d.year + n, 1, 1)
+    months = 3 if name.startswith("quarter") else 1
+    total = d.year * 12 + d.month - 1 + months * n
+    return dt.date(total // 12, total % 12 + 1, 1)
+
+
+CONCEPT_POOL = [f"agency{i}.series{i}.rate" for i in range(6)]
+
+_series = st.lists(
+    st.tuples(
+        st.sampled_from(CONCEPT_POOL),
+        st.sampled_from(sorted(FAMILIES)),
+        st.dates(min_value=dt.date(2000, 1, 1), max_value=dt.date(2090, 1, 1)),
+        st.integers(min_value=1, max_value=3),  # observed periods
+        st.integers(min_value=1, max_value=3),  # appended periods
+        st.booleans(),  # the period is also spelled in measure.concept
+    ),
+    min_size=1,
+    max_size=4,
+    unique_by=lambda spec: spec[0],
+)
+
+
+def _series_rows(specs, appended: bool) -> list[dict]:
+    rows = []
+    for concept, name, start, observed, extra, in_concept in specs:
+        spell, period = FAMILIES[name]
+        steps = range(observed, observed + extra) if appended else range(
+            observed
+        )
+        for n in steps:
+            d = _step(name, start, n)
+            rows.append(_row(
+                f"{concept}.{spell(d)}" if in_concept else concept,
+                rid=f"{concept}.{spell(d)}.first_print",
+                period=period(d),
+            ))
+    return rows
+
+
+@AUDIT_SETTINGS
+@given(_series)
+def test_routine_appends_never_need_review(specs) -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        reviewed, catalog, problems = _strip_builds(
+            pathlib.Path(tmp),
+            _series_rows(specs, appended=False),
+            _series_rows(specs, appended=True),
+        )
+    assert problems == []
+    # Not vacuous: every appended period adds a strip nobody reviewed.
+    new_pairs = _pairs(catalog["stripped_segments"]) - _pairs(reviewed)
+    assert len(new_pairs) >= sum(extra for *_, extra, _ in specs)
+
+
+# The period each family's spelling only overlaps: coarser than its own.
+COARSER = {
+    "week": _monthly,
+    "month": _quarterly,
+    "quarter": lambda d: {"type": "year", "value": str(d.year)},
+    "fiscal": lambda d: {"type": "year", "value": str(d.year)},
+}
+
+
+@AUDIT_SETTINGS
+@given(
+    _series,
+    st.sampled_from(["new_concept", "new_template", "overlap"]),
+    st.data(),
+)
+def test_unreviewed_strips_are_always_reported(specs, novelty, data) -> None:
+    concept, family, start, _, _, _ = specs[0]
+    other = {"name": "person", "role": "second_entity"}
+    if novelty == "new_concept":
+        concept = "novel.series.rate"
+        name = data.draw(st.sampled_from(sorted(FAMILIES)), label="family")
+        d = data.draw(_DATES, label="date")
+        spelling = FAMILIES[name][0](d)
+        row = _row(
+            concept, rid=f"{concept}.{spelling}", period=FAMILIES[name][1](d)
+        )
+    elif novelty == "new_template":
+        seen = bsc.period_spelling_template(FAMILIES[family][0](start))
+        fresh = [
+            f for f in sorted(FAMILIES)
+            if bsc.period_spelling_template(FAMILIES[f][0](start)) != seen
+        ]
+        name = data.draw(st.sampled_from(fresh), label="fresh family")
+        spelling = FAMILIES[name][0](start)
+        row = _row(
+            concept, rid=f"{concept}.{spelling}",
+            period=FAMILIES[name][1](start), entity=other,
+        )
+    else:
+        if family == "annual":  # a bare year overlaps nothing; use a month
+            family, concept = "month_us", "novel.series.rate"
+        # Either the very spelling already reviewed (it gains a kind) or a
+        # later period in the reviewed template (a new overlap strip): both
+        # must be reported once an observation reaches them by overlap.
+        when = _step(family, start, data.draw(
+            st.sampled_from([0, 7]), label="periods after the first"
+        ))
+        spelling = FAMILIES[family][0](when)
+        coarser = COARSER[family.split("_")[0]](when)
+        row = _row(
+            concept, rid=f"{concept}.{spelling}", period=coarser, entity=other
+        )
+    with tempfile.TemporaryDirectory() as tmp:
+        problems = _strip_audit(
+            pathlib.Path(tmp), _series_rows(specs, appended=False), [row]
+        )
+    assert _names(problems, spelling, concept), (novelty, spelling, problems)
+
+
+_spelling = st.builds(
+    lambda name, d: ALL_SHAPES[name](d),
+    st.sampled_from(sorted(ALL_SHAPES)),
+    _DATES,
+)
+_KINDS = st.sampled_from([["derived"], ["overlap"], ["derived", "overlap"]])
+_live_kinds = st.dictionaries(
+    _spelling,
+    st.dictionaries(st.sampled_from(CONCEPT_POOL), _KINDS, min_size=1,
+                    max_size=3),
+    max_size=6,
+)
+
+
+def _kinds_of(pairs, kinds) -> dict[str, dict[str, list[str]]]:
+    out: dict[str, dict[str, list[str]]] = {}
+    for s, c in pairs:
+        out.setdefault(s, {})[c] = kinds[s][c]
+    return out
+
+
+@AUDIT_SETTINGS
+@given(_live_kinds, st.data())
+def test_audit_is_monotone_in_review_and_order_free(kinds, data) -> None:
+    live = {s: sorted(by) for s, by in kinds.items()}
+    pairs = sorted(_pairs(live))
+    subsets = st.lists(st.sampled_from(pairs), unique=True) if pairs else (
+        st.just([])
+    )
+    chosen = data.draw(subsets, label="reviewed")
+    more = data.draw(subsets, label="more reviewed")
+    audit = bsc.stripped_segment_review_problems
+    fewer = audit(live, kinds, _kinds_of(chosen, kinds))
+    most = audit(live, kinds, _kinds_of(set(chosen) | set(more), kinds))
+    assert set(most) <= set(fewer)  # A4
+    assert audit(live, kinds, kinds) == []  # A4
+    assert fewer == sorted(fewer)  # A5
+    shuffled_live = {s: live[s][::-1] for s in reversed(list(live))}
+    shuffled_kinds = {
+        s: {c: kinds[s][c] for c in reversed(list(kinds[s]))}
+        for s in reversed(list(kinds))
+    }
+    assert audit(
+        shuffled_live, shuffled_kinds, _kinds_of(chosen[::-1], kinds)
+    ) == fewer  # A5
+    # A3: a reviewed pair that is not live is reported as gone.
+    ghost = {**_kinds_of(chosen, kinds), "fy1999": {"ghost.series": ["derived"]}}
+    reported = _names(audit(live, kinds, ghost), "fy1999", "ghost.series")
+    assert len(reported) == 1 and "is gone" in reported[0]
 
 
 def test_rebuild_without_prior_catalog_is_gated(
