@@ -99,6 +99,132 @@ SOURCE_PACKAGE_ALIASES = {
     "dwp-esa-caseload-payment-type-phase-may-2018-march-2026": Path(
         "dwp/esa_caseload_payment_type_phase_may_2018_march_2026"
     ),
+    # chronicle#302: UK pension facts (State Pension, Pension Credit, NI, workplace
+    # pensions, salary sacrifice, Winter Fuel Payment).
+    "dfc-ni-pension-credit-statistics-may-2026": Path(
+        "dfc_ni/pension_credit_statistics_may_2026"
+    ),
+    "dfc-ni-state-pension-statistics-may-2026": Path(
+        "dfc_ni/state_pension_statistics_may_2026"
+    ),
+    "dwp-attendance-allowance-entitled-country-award-age-gender-february-2023-march-2026": Path(
+        "dwp/attendance_allowance_entitled_country_award_age_gender_february_2023_march_2026"
+    ),
+    "dwp-pension-credit-amount-band-type-february-2023-march-2026": Path(
+        "dwp/pension_credit_amount_band_type_february_2023_march_2026"
+    ),
+    "dwp-pension-credit-gender-type-february-2023-march-2026": Path(
+        "dwp/pension_credit_gender_type_february_2023_march_2026"
+    ),
+    "dwp-pension-credit-region-type-partner-age-february-2023-march-2026": Path(
+        "dwp/pension_credit_region_type_partner_age_february_2023_march_2026"
+    ),
+    "dwp-pension-credit-type-partner-age-february-2023-march-2026": Path(
+        "dwp/pension_credit_type_partner_age_february_2023_march_2026"
+    ),
+    "dwp-state-pension-age-gender-type-february-2023-march-2026": Path(
+        "dwp/state_pension_age_gender_type_february_2023_march_2026"
+    ),
+    "dwp-state-pension-amount-band-type-february-2023-march-2026": Path(
+        "dwp/state_pension_amount_band_type_february_2023_march_2026"
+    ),
+    "dwp-state-pension-category-protected-payment-february-2023-march-2026": Path(
+        "dwp/state_pension_category_protected_payment_february_2023_march_2026"
+    ),
+    "dwp-state-pension-region-type-gender-february-2023-march-2026": Path(
+        "dwp/state_pension_region_type_gender_february_2023_march_2026"
+    ),
+    "dwp-winter-fuel-payment-recipients-winter-2023-24": Path(
+        "dwp/winter_fuel_payment_recipients_winter_2023_24"
+    ),
+    "dwp-winter-fuel-payment-recipients-winters-2024-25-2025-26": Path(
+        "dwp/winter_fuel_payment_recipients_winters_2024_25_2025_26"
+    ),
+    "dwp-winter-fuel-payment-statistics-winter-2023-24": Path(
+        "dwp/winter_fuel_payment_statistics_winter_2023_24"
+    ),
+    "dwp-winter-fuel-payment-statistics-winter-2024-25": Path(
+        "dwp/winter_fuel_payment_statistics_winter_2024_25"
+    ),
+    "dwp-winter-fuel-payment-statistics-winter-2025-26": Path(
+        "dwp/winter_fuel_payment_statistics_winter_2025_26"
+    ),
+    "dwp-workplace-pension-savings-trends-2009-to-2025": Path(
+        "dwp/workplace_pension_savings_trends_2009_to_2025"
+    ),
+    "hmrc-pension-contribution-relief-2023-24": Path(
+        "hmrc/pension_contribution_relief_2023_24"
+    ),
+    "hmrc-winter-fuel-payment-charge-2025": Path(
+        "hmrc/winter_fuel_payment_charge_2025"
+    ),
+    "obr-salary-sacrifice-costing-february-2026": Path(
+        "obr/salary_sacrifice_costing_february_2026"
+    ),
+    "ons-ashe-employee-contribution-bands-by-age-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_age_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-age-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_age_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employee-contribution-bands-by-business-size-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_business_size_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-business-size-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_business_size_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employee-contribution-bands-by-industry-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_industry_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-industry-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_industry_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employee-contribution-bands-by-occupation-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_occupation_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-occupation-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_occupation_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employer-contribution-bands-by-age-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_age_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-age-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_age_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employer-contribution-bands-by-business-size-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_business_size_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-business-size-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_business_size_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employer-contribution-bands-by-industry-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_industry_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-industry-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_industry_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employer-contribution-bands-by-occupation-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_occupation_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-occupation-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_occupation_2024_qualifying_earnings"
+    ),
+    "ons-ashe-pension-membership-by-age-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_age_earnings_2024"
+    ),
+    "ons-ashe-pension-membership-by-business-size-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_business_size_earnings_2024"
+    ),
+    "ons-ashe-pension-membership-by-industry-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_industry_earnings_2024"
+    ),
+    "ons-ashe-pension-membership-by-occupation-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_occupation_earnings_2024"
+    ),
+    "ons-employee-workplace-pensions-summary-2024": Path(
+        "ons/employee_workplace_pensions_summary_2024"
+    ),
+    # end chronicle#302
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),

@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-ashe-employee-contribution-bands-by-age-2024-full-pay
+dataset: ons_ons-ashe-employee-contribution-bands-by-age-2024-full-pay
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+table: 'ASHE pension tables P5: employee pension contribution bands (full pay) by
+  pension type and age, 2024 provisional'
+files:
+  2026:
+    filename: 2024provisionalp5.zip
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/workplacepensions/datasets/annualsurveyofhoursandearningspensiontablesemployeecontributionbandsbyagegroupandbypensiontypep5/2024provisional/2024provisionalp5.zip
+    sha256: 83b1d0074c4bcf5ae24ffe0366e55487a273cd825d213f2ff41609d45be28e6b
+    size_bytes: 323953
+    fetched_at: '2026-09-29T12:05:53+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-ashe-employee-contribution-bands-by-age-2024-full-pay/2026/83b1d0074c4bcf5ae24ffe0366e55487a273cd825d213f2ff41609d45be28e6b/2024provisionalp5.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-ashe-employee-contribution-bands-by-age-2024-full-pay/2026/83b1d0074c4bcf5ae24ffe0366e55487a273cd825d213f2ff41609d45be28e6b/2024provisionalp5.zip
