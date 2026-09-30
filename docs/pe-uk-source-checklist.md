@@ -220,7 +220,10 @@ packages and 3 extended ones add 57,252 facts.
   benefits whose Scottish cases moved to the Scottish Government (Carer's
   Allowance, DLA, PIP, Attendance Allowance, Severe Disablement Allowance, and
   Winter Fuel Payments from 2024-25) carry England and Wales, as the Notes tab
-  describes them.
+  describes them, including Severe Disablement Allowance's lines in the incapacity
+  family first ported. Lines that sum moved and unmoved benefits (the incapacity
+  and disability totals, Industrial Injuries benefits) keep Great Britain, marked
+  `concept_relation: approximate`.
 
 Not ported: the pension rows of the February 2026 HTML summary
 (`dwp-benefit-statistics-february-2026`). The summaries ended in May 2026 and

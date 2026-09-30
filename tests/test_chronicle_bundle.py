@@ -1280,7 +1280,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert coverage["counts"]["by_geography"]["country:K02000001"] == 26269
     assert coverage["counts"]["by_geography"]["country:E92000001"] == 5261
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 20784
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 20744
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
     assert len(coverage["counts"]["by_geography"]) == 12592
     assert coverage["counts"]["by_entity"] == {

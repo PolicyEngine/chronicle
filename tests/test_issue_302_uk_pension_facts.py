@@ -75,8 +75,8 @@ FACT_COUNTS = {
     NI_SP: 275,
     NI_PC: 236,
     SAVINGS: 936,
-    ONS_SUMMARY: 80,
-    ASHE_MEMBERSHIP["age"]: 765,
+    ONS_SUMMARY: 66,
+    ASHE_MEMBERSHIP["age"]: 779,
     ASHE_MEMBERSHIP["industry"]: 1490,
     ASHE_MEMBERSHIP["occupation"]: 737,
     ASHE_MEMBERSHIP["business-size"]: 454,
@@ -360,6 +360,31 @@ def test_workplace_pension_savings_trends_2025(built):
     )
     assert {fact.period.value for fact in facts} == {2023, 2024, 2025}
     assert all(fact.provenance_class == "survey_aggregate" for fact in facts)
+    # The price basis is a filter, so a later edition's restatement keeps the concept.
+    amounts = [
+        f
+        for f in facts
+        if f.layout.measure_id in ("annual_saving", "median_contribution")
+    ]
+    assert {f.measure.concept for f in amounts} == {
+        "dwp.workplace_pension_annual_saving",
+        "dwp.workplace_pension_median_contribution",
+    }
+    assert {f.filters["price_basis"] for f in amounts} == {"2025_earnings_terms"}
+
+
+def test_p1_keeps_the_precise_all_employees_row(built):
+    p1 = built(ASHE_MEMBERSHIP["age"])
+    all_jobs = dict(period=2024, age_band="all", weekly_earnings_band="all")
+
+    assert _value(p1, measure_id="share_defined_benefit", **all_jobs) == 28.1
+    assert _value(p1, measure_id="jobs_defined_contribution", **all_jobs) == 9_105_000
+    summary_table_1 = {
+        f.period.value
+        for f in built(ONS_SUMMARY)
+        if f.layout.record_set_id.startswith("ons.ashe_pensions_2024.summary.table_1.")
+    }
+    assert summary_table_1 == {2023}
 
 
 def test_ons_ashe_tables_p1_to_p12(built):
@@ -497,6 +522,27 @@ def test_salary_sacrifice_costing_paper_and_relief(built):
         _value(relief_2023, nics_relief_class="Class 1 Secondary (employer)", **nics)
         == 2.9e9
     )
+
+    # HMRC words the employer net-pay type differently on the NICs rows; each keeps its row's
+    # text as the filter value and both carry the Income Tax wording as their label.
+    income_tax_wording = "Employer contributions to net pay arrangements plus deficit reduction contributions"
+    nics_wording = (
+        "Employer contributions to net pay arrangements and on employer deficit "
+        "reduction contributions"
+    )
+    employer_net_pay = [
+        f
+        for f in relief_2023
+        if f.filters.get("contribution_type") in (income_tax_wording, nics_wording)
+    ]
+    assert {f.filters["contribution_type"] for f in employer_net_pay} == {
+        income_tax_wording,
+        nics_wording,
+    }
+    assert {
+        f.dimension_value_labels["contribution_type"][f.filters["contribution_type"]]
+        for f in employer_net_pay
+    } == {income_tax_wording}
 
     relief_2024 = built(HMRC_RELIEF_2024)
     income_tax = dict(
@@ -650,10 +696,39 @@ def test_dwp_forecast_tables_run_to_2030_31(built):
         "disability_benefits__personal_independence_payment__in_payment",
     ):
         assert geography(line, 2023) == "K04000001"
-    # Lines that mix moved and unmoved benefits, and those paid abroad, keep the frame.
+    # Severe Disablement Allowance is England and Wales in every family that carries it;
+    # its outside-UK line keeps the frame.
+    sda = "incapacity_benefits__severe_disablement_allowance_non_contributory_invalidity_pension"
     for line in (
+        sda,
+        f"{sda}__pensioners",
+        "caseloads_by_benefit__severe_disablement_allowance",
+    ):
+        assert geography(line, 2023) == "K04000001"
+    assert (
+        geography(
+            "incapacity_benefits__paid_outside_uk__severe_disablement_allowance"
+            "_non_contributory_invalidity_pension",
+            2023,
+        )
+        == "K03000001"
+    )
+    # Lines that sum moved and unmoved benefits keep the frame, marked approximate.
+    mixed = (
         "caseloads_by_benefit__industrial_injuries_benefits",
         "disability_benefits__total",
+        "incapacity_benefits__total_incapacity_related_benefits",
+    )
+    for line in mixed:
+        assert geography(line, 2030) == "K03000001"
+    relations = {
+        f.filters["benefit_forecast_line"]: f.measure.concept_relation
+        for f in facts
+        if f.period.value == 2030
+    }
+    assert {relations[line] for line in mixed} == {"approximate"}
+    assert relations["caseloads_by_benefit__pension_credit"] == "source_label"
+    for line in (
         "disability_benefits__disability_living_allowance__outside_uk",
         "caseloads_by_benefit__pension_credit",
     ):
@@ -722,6 +797,17 @@ def test_statxplore_parser_unpivots_every_measure_cube():
         (3, "Mean of Weekly Amount", "Female", 210.5),
         (4, "Mean of Weekly Amount", "Male", 230.25),
     ]
+
+
+@pytest.mark.parametrize("second_cube", [{}, {"values": []}, {"values": [1]}])
+def test_statxplore_parser_refuses_a_malformed_later_cube(second_cube):
+    response = _statxplore_response()
+    mean_uri = "str:statfn:SP_New:V_F_SP_CASELOAD_New:CAWKLYAMT:MEAN"
+    response["cubes"][mean_uri] = second_cube
+    content = json.dumps(response).encode("utf-8")
+
+    with pytest.raises(ValueError, match="Stat-Xplore cube"):
+        source_rows_from_statxplore_table(content, None, sheet_name="statx")
 
 
 @pytest.mark.parametrize(

@@ -24,6 +24,11 @@
 # '[z]' (not applicable) and emit no fact. HMRC marks 2024-25 provisional; the
 # same edition's Table 6 revises the 2023-24 totals, whose detail by contribution
 # type is only in the 31 July 2025 edition (hmrc-pension-contribution-relief-2023-24).
+# HMRC words the employer net-pay contribution type 'Employer contributions to net pay
+# arrangements and on employer deficit reduction contributions' on the NICs rows and '... plus
+# deficit reduction contributions' on the Income Tax rows. Each keeps its own contribution_type
+# value, since every filter is evidenced against its CSV row, and dimension_value_labels gives
+# both the Income Tax wording, so the two reliefs join on one label.
 schema_version: ledger.source_package.v1
 package_id: hmrc-salary-sacrifice-relief-2024-25
 label: 'HMRC private pension statistics Tables 6.1 and 6.2: Income Tax and NICs relief on
@@ -31,6 +36,14 @@ label: 'HMRC private pension statistics Tables 6.1 and 6.2: Income Tax and NICs 
 dimension_labels:
   'hmrc.ss_relief_line': 'Salary sacrifice relief line'
   'hmrc.pension_relief_breakdown': 'Pension relief breakdown (sector, scheme type or rate)'
+dimension_value_labels:
+  'contribution_type':
+    'Individual contributions to net pay arrangements': 'Individual contributions to net pay arrangements'
+    'Individual contributions to relief at source schemes': 'Individual contributions to relief at source schemes'
+    'Salary sacrificed contributions': 'Salary sacrificed contributions'
+    'Employer contributions to net pay arrangements plus deficit reduction contributions': 'Employer contributions to net pay arrangements plus deficit reduction contributions'
+    'Employer contributions to net pay arrangements and on employer deficit reduction contributions': 'Employer contributions to net pay arrangements plus deficit reduction contributions'
+    'Employer contributions to relief at source schemes': 'Employer contributions to relief at source schemes'
 artifact:
   source_name: hmrc
   source_table: 'Private pension statistics Tables 6.1 and 6.2: salary sacrifice pension contributions,
@@ -107,7 +120,7 @@ record_sets:
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
     concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
       6.1/6.2, tax year 2024 to 2025, GBP million; row: Income tax relief on salary sacrificed
-      contributions, total.'
+      contributions, total. The same source cell is also emitted under hmrc.pension_contribution_income_tax_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
@@ -174,7 +187,7 @@ record_sets:
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
     concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
-      6.1/6.2, tax year 2024 to 2025, GBP million; row: Income tax relief, basic rate.'
+      6.1/6.2, tax year 2024 to 2025, GBP million; row: Income tax relief, basic rate. The same source cell is also emitted under hmrc.pension_contribution_income_tax_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
@@ -241,7 +254,7 @@ record_sets:
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
     concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
-      6.1/6.2, tax year 2024 to 2025, GBP million; row: Income tax relief, higher rate.'
+      6.1/6.2, tax year 2024 to 2025, GBP million; row: Income tax relief, higher rate. The same source cell is also emitted under hmrc.pension_contribution_income_tax_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
@@ -308,7 +321,7 @@ record_sets:
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
     concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
-      6.1/6.2, tax year 2024 to 2025, GBP million; row: Income tax relief, additional rate.'
+      6.1/6.2, tax year 2024 to 2025, GBP million; row: Income tax relief, additional rate. The same source cell is also emitted under hmrc.pension_contribution_income_tax_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
@@ -375,7 +388,7 @@ record_sets:
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
     concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
-      6.1/6.2, tax year 2024 to 2025, GBP million; row: Class 1 primary (employee) NICs relief.'
+      6.1/6.2, tax year 2024 to 2025, GBP million; row: Class 1 primary (employee) NICs relief. The same source cell is also emitted under hmrc.pension_contribution_nics_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
@@ -443,7 +456,7 @@ record_sets:
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
     concept_evidence_notes: 'Private pension statistics (updated 2026-07-30), tidy CSV Tables
       6.1/6.2, tax year 2024 to 2025, GBP million; row: Class 1 secondary (employer) NICs
-      relief.'
+      relief. The same source cell is also emitted under hmrc.pension_contribution_nics_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
@@ -1543,7 +1556,10 @@ record_sets:
       concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
       concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
         tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Income Tax
-        relief on salary sacrificed contributions, by sector, scheme type and rate of relief.
+        relief on salary sacrificed contributions, by sector, scheme type and rate of relief. The Total
+        and by-rate cells are also emitted under the per-line concepts hmrc.ss_income_tax_relief_total
+        and its by-rate siblings in this package, from the same source cells; a sum across both concept
+        families counts them twice.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
@@ -1911,7 +1927,10 @@ record_sets:
       concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
         tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Income Tax
         relief on employer contributions to net pay arrangements plus deficit reduction contributions,
-        by sector, scheme type and rate of relief.
+        by sector, scheme type and rate of relief. HMRC words this contribution type 'Employer contributions
+        to net pay arrangements and on employer deficit reduction contributions' on the NICs rows and
+        '... plus deficit reduction contributions' on the Income Tax rows; each keeps its own contribution_type
+        value and both carry the Income Tax wording as their label.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
@@ -2618,7 +2637,10 @@ record_sets:
       concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
         tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Class 1 Primary
         (employee) NICs relief on employer contributions to net pay arrangements and on employer deficit
-        reduction contributions, by sector, scheme type and rate of relief.
+        reduction contributions, by sector, scheme type and rate of relief. HMRC words this contribution
+        type 'Employer contributions to net pay arrangements and on employer deficit reduction contributions'
+        on the NICs rows and '... plus deficit reduction contributions' on the Income Tax rows; each keeps
+        its own contribution_type value and both carry the Income Tax wording as their label.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
@@ -3280,7 +3302,8 @@ record_sets:
       concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
         tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Class 1 Primary
         (employee) NICs relief on salary sacrificed contributions, by sector, scheme type and rate of
-        relief.
+        relief. The Total cells are also emitted under the per-line concept hmrc.ss_nics_relief_employee
+        in this package, from the same source cells; a sum across both concept families counts them twice.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
@@ -3578,7 +3601,10 @@ record_sets:
       concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
         tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Class 1 Secondary
         (employer) NICs relief on employer contributions to net pay arrangements and on employer deficit
-        reduction contributions, by sector, scheme type and rate of relief.
+        reduction contributions, by sector, scheme type and rate of relief. HMRC words this contribution
+        type 'Employer contributions to net pay arrangements and on employer deficit reduction contributions'
+        on the NICs rows and '... plus deficit reduction contributions' on the Income Tax rows; each keeps
+        its own contribution_type value and both carry the Income Tax wording as their label.
       unit: gbp
       aggregation: sum
       value_scale: 1000000
@@ -4158,7 +4184,8 @@ record_sets:
       concept_evidence_notes: Private pension statistics (updated 2026-07-30), tidy CSV Tables 6.1/6.2,
         tax year 2024 to 2025 (provisional), GBP million rounded to the nearest 100 million; Class 1 Secondary
         (employer) NICs relief on salary sacrificed contributions, by sector, scheme type and rate of
-        relief.
+        relief. The Total cells are also emitted under the per-line concept hmrc.ss_nics_relief_employer
+        in this package, from the same source cells; a sum across both concept families counts them twice.
       unit: gbp
       aggregation: sum
       value_scale: 1000000

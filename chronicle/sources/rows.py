@@ -1401,7 +1401,9 @@ def source_rows_from_statxplore_table(
     in response order. A request for several measures (a caseload count and
     the mean of an amount, say) returns one cube per measure; their rows follow
     one another in response order, so a single-measure response unpivots
-    exactly as before.
+    exactly as before. A cube without a values array, or one whose values do
+    not match the fields, is a malformed response and raises rather than
+    returning another cube's rows as if complete.
     """
     data = json.loads(content.decode("utf-8"))
     fields = data.get("fields") or []
@@ -1420,13 +1422,19 @@ def source_rows_from_statxplore_table(
     rows: list[SourceRow] = []
     for measure_uri, cube in cubes.items():
         values = cube.get("values") if isinstance(cube, dict) else None
-        if values is None:
-            return rows
+        if not isinstance(values, list):
+            raise ValueError(f"Stat-Xplore cube {measure_uri!r} has no values array.")
         measure_label = measure_labels.get(measure_uri, measure_uri)
         for indices in itertools.product(*(range(len(axis)) for axis in item_axes)):
             node: Any = values
-            for index in indices:
-                node = node[index]
+            try:
+                for index in indices:
+                    node = node[index]
+            except (IndexError, KeyError, TypeError) as error:
+                raise ValueError(
+                    f"Stat-Xplore cube {measure_uri!r} does not match the response's "
+                    "fields."
+                ) from error
             row_values: dict[str, Scalar] = {
                 "measure": measure_label,
                 "value": _json_scalar(node),

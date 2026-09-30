@@ -15,7 +15,10 @@
 # Winter 2023 to 2024: 11,586,201 recipients in the three countries. The workbook's Great
 # Britain row, 11,589,506, is higher because its country cells are higher than the cube's in
 # every country (England by 2,848, Wales by 155, Scotland by 311; the workbook header
-# compares them); DWP does not say why the two releases differ.
+# compares them); DWP does not say why the two releases differ. This cube is the later of the
+# two: DWP first published Winter Fuel Payment statistics on Stat-Xplore, for winter 2020 to
+# 2021 onwards, with the winter 2024 to 2025 statistics on 16 September 2025, a year after the
+# workbook (24 September 2024), and describes them as perturbed for disclosure control.
 #
 # Of 960 series, 672 are zero and are not ported: the GBP 100, 150 and
 # 200 amounts, which belong to later winters; the Unknown items; and the amounts never paid

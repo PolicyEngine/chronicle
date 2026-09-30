@@ -17,12 +17,15 @@
 # employee (net of tax), employer and income-tax-relief parts by sector, and the median
 # contribution in GBP and as a share of pay by sex. Note 18: all amounts are in 2025 earnings
 # terms. Each edition restates every year's amounts in its own year's earnings terms and
-# re-cleans the data, so data year 2023 is GBP 152.0 billion here against the nominal GBP 131.8
-# billion of the 2023 edition; the concepts name the price basis so the series is never read
-# as nominal. 2025 (GBP 166.1 billion: employee GBP 44.2bn, employer GBP 101.6bn, tax relief
-# GBP 20.3bn) is in its own year's terms. Annual amounts are derived from one April pay period
-# (Note 22). The publisher does not say how salary-sacrificed contributions are classified;
-# employers report them, so they most likely appear as employer contributions (not verified).
+# re-cleans the data, so data year 2023 is GBP 152.0 billion here against the nominal GBP
+# 131.8 billion of the 2023 edition. Every amount carries a price_basis filter
+# (2025_earnings_terms) so the series is never read as nominal, and a later edition restating
+# it in its own terms keeps the concept and differs only in that filter. The earnings bands of
+# Table 1.3a are in 2024 earnings terms (Note 9), as their dimension label says. 2025 (GBP
+# 166.1 billion: employee GBP 44.2bn, employer GBP 101.6bn, tax relief GBP 20.3bn) is in its
+# own year's terms. Annual amounts are derived from one April pay period (Note 22). The
+# publisher does not say how salary-sacrificed contributions are classified; employers report
+# them, so they most likely appear as employer contributions (not verified).
 #
 # Parity: 22,610,000 eligible employees participating in 2025 (90 per cent) and 24,207,000
 # of all employees (82 per cent).
@@ -44,6 +47,7 @@ dimension_labels:
   gender: Gender
   saver_population: Saver population
   saving_component: Saving component
+  price_basis: Price basis
 dimension_value_labels:
   eligibility:
     eligible: Eligible employees
@@ -86,6 +90,8 @@ dimension_value_labels:
     employee_contributions: Employee contributions (net of tax)
     employer_contributions: Employer contributions
     tax_relief: Income tax relief
+  price_basis:
+    2025_earnings_terms: 2025 earnings terms (Note 18)
 artifact:
   source_name: dwp
   source_table: 'Workplace pension participation and savings trends of employees: 2009 to 2025'
@@ -24204,6 +24210,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id001
             variable: saver_population
@@ -24215,6 +24222,10 @@ record_sets:
             operator: ==
             value: Public
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -24231,6 +24242,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id001
           - *id002
@@ -24238,6 +24250,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -24254,6 +24270,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id001
           - *id002
@@ -24261,6 +24278,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -24277,6 +24298,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id001
           - *id002
@@ -24284,6 +24306,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -24300,6 +24326,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id003
             variable: saver_population
@@ -24311,6 +24338,10 @@ record_sets:
             operator: ==
             value: Private
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -24327,6 +24358,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id003
           - *id004
@@ -24334,6 +24366,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -24350,6 +24386,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id003
           - *id004
@@ -24357,6 +24394,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -24373,6 +24414,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id003
           - *id004
@@ -24380,6 +24422,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -24396,12 +24442,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id005
             variable: saver_population
             operator: ==
             value: eligible_savers
             label: Saver population
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -24418,12 +24469,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id005
           - variable: saving_component
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -24440,12 +24496,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id005
           - variable: saving_component
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -24462,12 +24523,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id005
           - variable: saving_component
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -24482,8 +24548,8 @@ record_sets:
         source_column_id: annual_saving
         expected_column_header_row: 8
         expected_column_header: 2023
-        concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
-        source_concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
+        concept: dwp.workplace_pension_annual_saving
+        source_concept: dwp.workplace_pension_annual_saving
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
@@ -24521,9 +24587,14 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id001
           - *id002
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -24540,6 +24611,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id001
           - *id002
@@ -24547,6 +24619,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -24563,6 +24639,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id001
           - *id002
@@ -24570,6 +24647,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -24586,9 +24667,14 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id003
           - *id004
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -24605,6 +24691,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id003
           - *id004
@@ -24612,6 +24699,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -24628,6 +24719,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id003
           - *id004
@@ -24635,6 +24727,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -24651,8 +24747,13 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id005
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -24669,12 +24770,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id005
           - variable: gender
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -24691,12 +24797,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id005
           - variable: gender
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -24711,8 +24822,8 @@ record_sets:
         source_column_id: median_contribution
         expected_column_header_row: 8
         expected_column_header: 2023
-        concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
-        source_concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
+        concept: dwp.workplace_pension_median_contribution
+        source_concept: dwp.workplace_pension_median_contribution
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
@@ -24975,6 +25086,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id006
             variable: saver_population
@@ -24986,6 +25098,10 @@ record_sets:
             operator: ==
             value: Public
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -25002,6 +25118,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id006
           - *id007
@@ -25009,6 +25126,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -25025,6 +25146,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id006
           - *id007
@@ -25032,6 +25154,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -25048,6 +25174,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id006
           - *id007
@@ -25055,6 +25182,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -25071,6 +25202,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id008
             variable: saver_population
@@ -25082,6 +25214,10 @@ record_sets:
             operator: ==
             value: Private
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -25098,6 +25234,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id008
           - *id009
@@ -25105,6 +25242,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -25121,6 +25262,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id008
           - *id009
@@ -25128,6 +25270,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -25144,6 +25290,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id008
           - *id009
@@ -25151,6 +25298,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -25167,12 +25318,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id010
             variable: saver_population
             operator: ==
             value: eligible_savers
             label: Saver population
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -25189,12 +25345,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id010
           - variable: saving_component
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -25211,12 +25372,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id010
           - variable: saving_component
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -25233,12 +25399,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id010
           - variable: saving_component
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -25253,8 +25424,8 @@ record_sets:
         source_column_id: annual_saving
         expected_column_header_row: 8
         expected_column_header: 2024
-        concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
-        source_concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
+        concept: dwp.workplace_pension_annual_saving
+        source_concept: dwp.workplace_pension_annual_saving
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
@@ -25292,9 +25463,14 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id006
           - *id007
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -25311,6 +25487,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id006
           - *id007
@@ -25318,6 +25495,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -25334,6 +25515,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id006
           - *id007
@@ -25341,6 +25523,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -25357,9 +25543,14 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id008
           - *id009
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -25376,6 +25567,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id008
           - *id009
@@ -25383,6 +25575,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -25399,6 +25595,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id008
           - *id009
@@ -25406,6 +25603,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -25422,8 +25623,13 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id010
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -25440,12 +25646,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id010
           - variable: gender
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -25462,12 +25673,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id010
           - variable: gender
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -25482,8 +25698,8 @@ record_sets:
         source_column_id: median_contribution
         expected_column_header_row: 8
         expected_column_header: 2024
-        concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
-        source_concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
+        concept: dwp.workplace_pension_median_contribution
+        source_concept: dwp.workplace_pension_median_contribution
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
@@ -25746,6 +25962,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id011
             variable: saver_population
@@ -25757,6 +25974,10 @@ record_sets:
             operator: ==
             value: Public
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -25773,6 +25994,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id011
           - *id012
@@ -25780,6 +26002,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -25796,6 +26022,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id011
           - *id012
@@ -25803,6 +26030,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -25819,6 +26050,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id011
           - *id012
@@ -25826,6 +26058,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -25842,6 +26078,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id013
             variable: saver_population
@@ -25853,6 +26090,10 @@ record_sets:
             operator: ==
             value: Private
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -25869,6 +26110,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id013
           - *id014
@@ -25876,6 +26118,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -25892,6 +26138,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id013
           - *id014
@@ -25899,6 +26146,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -25915,6 +26166,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id013
           - *id014
@@ -25922,6 +26174,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -25938,12 +26194,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id015
             variable: saver_population
             operator: ==
             value: eligible_savers
             label: Saver population
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -25960,12 +26221,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id015
           - variable: saving_component
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -25982,12 +26248,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id015
           - variable: saving_component
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -26004,12 +26275,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id015
           - variable: saving_component
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -26024,8 +26300,8 @@ record_sets:
         source_column_id: annual_saving
         expected_column_header_row: 8
         expected_column_header: 2025
-        concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
-        source_concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
+        concept: dwp.workplace_pension_annual_saving
+        source_concept: dwp.workplace_pension_annual_saving
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
@@ -26063,9 +26339,14 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id011
           - *id012
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -26082,6 +26363,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id011
           - *id012
@@ -26089,6 +26371,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -26105,6 +26391,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Public
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id011
           - *id012
@@ -26112,6 +26399,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -26128,9 +26419,14 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id013
           - *id014
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -26147,6 +26443,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id013
           - *id014
@@ -26154,6 +26451,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -26170,6 +26471,7 @@ record_sets:
           saver_population: eligible_savers
           sector: Private
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id013
           - *id014
@@ -26177,6 +26479,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -26193,8 +26499,13 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id015
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -26211,12 +26522,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id015
           - variable: gender
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -26233,12 +26549,17 @@ record_sets:
           saver_population: eligible_savers
           sector: all
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id015
           - variable: gender
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -26253,8 +26574,8 @@ record_sets:
         source_column_id: median_contribution
         expected_column_header_row: 8
         expected_column_header: 2025
-        concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
-        source_concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
+        concept: dwp.workplace_pension_median_contribution
+        source_concept: dwp.workplace_pension_median_contribution
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
@@ -26517,6 +26838,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id016
             variable: saver_population
@@ -26528,6 +26850,10 @@ record_sets:
             operator: ==
             value: Public
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -26544,6 +26870,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id016
           - *id017
@@ -26551,6 +26878,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -26567,6 +26898,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id016
           - *id017
@@ -26574,6 +26906,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -26590,6 +26926,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id016
           - *id017
@@ -26597,6 +26934,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -26613,6 +26954,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id018
             variable: saver_population
@@ -26624,6 +26966,10 @@ record_sets:
             operator: ==
             value: Private
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -26640,6 +26986,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id018
           - *id019
@@ -26647,6 +26994,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -26663,6 +27014,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id018
           - *id019
@@ -26670,6 +27022,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -26686,6 +27042,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id018
           - *id019
@@ -26693,6 +27050,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -26709,12 +27070,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id020
             variable: saver_population
             operator: ==
             value: all_savers
             label: Saver population
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -26731,12 +27097,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id020
           - variable: saving_component
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -26753,12 +27124,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id020
           - variable: saving_component
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -26775,12 +27151,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id020
           - variable: saving_component
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -26795,8 +27176,8 @@ record_sets:
         source_column_id: annual_saving
         expected_column_header_row: 8
         expected_column_header: 2023
-        concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
-        source_concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
+        concept: dwp.workplace_pension_annual_saving
+        source_concept: dwp.workplace_pension_annual_saving
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
@@ -26834,9 +27215,14 @@ record_sets:
           saver_population: all_savers
           sector: Public
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id016
           - *id017
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -26853,6 +27239,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id016
           - *id017
@@ -26860,6 +27247,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -26876,6 +27267,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id016
           - *id017
@@ -26883,6 +27275,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -26899,9 +27295,14 @@ record_sets:
           saver_population: all_savers
           sector: Private
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id018
           - *id019
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -26918,6 +27319,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id018
           - *id019
@@ -26925,6 +27327,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -26941,6 +27347,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id018
           - *id019
@@ -26948,6 +27355,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -26964,8 +27375,13 @@ record_sets:
           saver_population: all_savers
           sector: all
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id020
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -26982,12 +27398,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id020
           - variable: gender
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -27004,12 +27425,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id020
           - variable: gender
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -27024,8 +27450,8 @@ record_sets:
         source_column_id: median_contribution
         expected_column_header_row: 8
         expected_column_header: 2023
-        concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
-        source_concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
+        concept: dwp.workplace_pension_median_contribution
+        source_concept: dwp.workplace_pension_median_contribution
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
@@ -27288,6 +27714,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id021
             variable: saver_population
@@ -27299,6 +27726,10 @@ record_sets:
             operator: ==
             value: Public
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -27315,6 +27746,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id021
           - *id022
@@ -27322,6 +27754,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -27338,6 +27774,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id021
           - *id022
@@ -27345,6 +27782,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -27361,6 +27802,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id021
           - *id022
@@ -27368,6 +27810,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -27384,6 +27830,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id023
             variable: saver_population
@@ -27395,6 +27842,10 @@ record_sets:
             operator: ==
             value: Private
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -27411,6 +27862,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id023
           - *id024
@@ -27418,6 +27870,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -27434,6 +27890,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id023
           - *id024
@@ -27441,6 +27898,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -27457,6 +27918,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id023
           - *id024
@@ -27464,6 +27926,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -27480,12 +27946,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id025
             variable: saver_population
             operator: ==
             value: all_savers
             label: Saver population
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -27502,12 +27973,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id025
           - variable: saving_component
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -27524,12 +28000,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id025
           - variable: saving_component
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -27546,12 +28027,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id025
           - variable: saving_component
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -27566,8 +28052,8 @@ record_sets:
         source_column_id: annual_saving
         expected_column_header_row: 8
         expected_column_header: 2024
-        concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
-        source_concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
+        concept: dwp.workplace_pension_annual_saving
+        source_concept: dwp.workplace_pension_annual_saving
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
@@ -27605,9 +28091,14 @@ record_sets:
           saver_population: all_savers
           sector: Public
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id021
           - *id022
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -27624,6 +28115,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id021
           - *id022
@@ -27631,6 +28123,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -27647,6 +28143,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id021
           - *id022
@@ -27654,6 +28151,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -27670,9 +28171,14 @@ record_sets:
           saver_population: all_savers
           sector: Private
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id023
           - *id024
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -27689,6 +28195,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id023
           - *id024
@@ -27696,6 +28203,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -27712,6 +28223,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id023
           - *id024
@@ -27719,6 +28231,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -27735,8 +28251,13 @@ record_sets:
           saver_population: all_savers
           sector: all
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id025
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -27753,12 +28274,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id025
           - variable: gender
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -27775,12 +28301,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id025
           - variable: gender
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -27795,8 +28326,8 @@ record_sets:
         source_column_id: median_contribution
         expected_column_header_row: 8
         expected_column_header: 2024
-        concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
-        source_concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
+        concept: dwp.workplace_pension_median_contribution
+        source_concept: dwp.workplace_pension_median_contribution
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
@@ -28059,6 +28590,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id026
             variable: saver_population
@@ -28070,6 +28602,10 @@ record_sets:
             operator: ==
             value: Public
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -28086,6 +28622,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id026
           - *id027
@@ -28093,6 +28630,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -28109,6 +28650,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id026
           - *id027
@@ -28116,6 +28658,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -28132,6 +28678,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id026
           - *id027
@@ -28139,6 +28686,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -28155,6 +28706,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id028
             variable: saver_population
@@ -28166,6 +28718,10 @@ record_sets:
             operator: ==
             value: Private
             label: Sector
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -28182,6 +28738,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id028
           - *id029
@@ -28189,6 +28746,10 @@ record_sets:
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -28205,6 +28766,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id028
           - *id029
@@ -28212,6 +28774,10 @@ record_sets:
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -28228,6 +28794,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id028
           - *id029
@@ -28235,6 +28802,10 @@ record_sets:
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -28251,12 +28822,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: all
+          price_basis: 2025_earnings_terms
         constraints:
           - &id030
             variable: saver_population
             operator: ==
             value: all_savers
             label: Saver population
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -28273,12 +28849,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: employee_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id030
           - variable: saving_component
             operator: ==
             value: employee_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -28295,12 +28876,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: employer_contributions
+          price_basis: 2025_earnings_terms
         constraints:
           - *id030
           - variable: saving_component
             operator: ==
             value: employer_contributions
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -28317,12 +28903,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           saving_component: tax_relief
+          price_basis: 2025_earnings_terms
         constraints:
           - *id030
           - variable: saving_component
             operator: ==
             value: tax_relief
             label: Saving component
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -28337,8 +28928,8 @@ record_sets:
         source_column_id: annual_saving
         expected_column_header_row: 8
         expected_column_header: 2025
-        concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
-        source_concept: dwp.workplace_pension_annual_saving_2025_earnings_terms
+        concept: dwp.workplace_pension_annual_saving
+        source_concept: dwp.workplace_pension_annual_saving
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
@@ -28376,9 +28967,14 @@ record_sets:
           saver_population: all_savers
           sector: Public
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id026
           - *id027
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -28395,6 +28991,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id026
           - *id027
@@ -28402,6 +28999,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -28418,6 +29019,7 @@ record_sets:
           saver_population: all_savers
           sector: Public
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id026
           - *id027
@@ -28425,6 +29027,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 8
@@ -28441,9 +29047,14 @@ record_sets:
           saver_population: all_savers
           sector: Private
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id028
           - *id029
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -28460,6 +29071,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id028
           - *id029
@@ -28467,6 +29079,10 @@ record_sets:
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -28483,6 +29099,7 @@ record_sets:
           saver_population: all_savers
           sector: Private
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id028
           - *id029
@@ -28490,6 +29107,10 @@ record_sets:
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 22
@@ -28506,8 +29127,13 @@ record_sets:
           saver_population: all_savers
           sector: all
           gender: all
+          price_basis: 2025_earnings_terms
         constraints:
           - *id030
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -28524,12 +29150,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           gender: Male
+          price_basis: 2025_earnings_terms
         constraints:
           - *id030
           - variable: gender
             operator: ==
             value: Male
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -28546,12 +29177,17 @@ record_sets:
           saver_population: all_savers
           sector: all
           gender: Female
+          price_basis: 2025_earnings_terms
         constraints:
           - *id030
           - variable: gender
             operator: ==
             value: Female
             label: Gender
+          - variable: price_basis
+            operator: ==
+            value: 2025_earnings_terms
+            label: Price basis
         guard_cells:
           - column: A
             row: 36
@@ -28566,8 +29202,8 @@ record_sets:
         source_column_id: median_contribution
         expected_column_header_row: 8
         expected_column_header: 2025
-        concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
-        source_concept: dwp.workplace_pension_median_contribution_2025_earnings_terms
+        concept: dwp.workplace_pension_median_contribution
+        source_concept: dwp.workplace_pension_median_contribution
         concept_relation: source_label
         concept_authority: dwp
         concept_evidence_url: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
