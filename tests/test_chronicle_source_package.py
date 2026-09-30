@@ -2482,7 +2482,7 @@ def test_ssa_ssi_table_7b1_source_package_builds_area_category_facts():
     assert package.package_id == "ssa-ssi-table-7b1-2024"
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
-    assert len(cells) == 1_672
+    assert len(cells) == 715
     assert len(facts) == 416
     assert all(fact.source.raw_r2_uri for fact in facts)
 
@@ -2503,7 +2503,7 @@ def test_ssa_ssi_table_7b1_source_package_builds_area_category_facts():
     assert us_payments.measure.concept == "ssa.ssi_payment_amount"
     assert us_payments.constraints == ()
 
-    assert ca_disabled_recipients.value == 849_834
+    assert ca_disabled_recipients.value == 753_206
     assert ca_disabled_recipients.geography.id == "0400000US06"
     assert ca_disabled_recipients.measure.concept == "ssa.ssi_recipient_count"
     assert {
@@ -2511,7 +2511,7 @@ def test_ssa_ssi_table_7b1_source_package_builds_area_category_facts():
         for constraint in ca_disabled_recipients.constraints
     } == {("ssi_category", "==", "disabled")}
 
-    assert ca_disabled_payments.value == 9_834_761_000
+    assert ca_disabled_payments.value == 8_036_411_000
     assert ca_disabled_payments.geography.id == "0400000US06"
 
 
@@ -4445,13 +4445,13 @@ def test_render_string_treats_non_integer_year_as_label():
 def test_build_facts_with_label_year_does_not_crash():
     """Building a package with a label year yields facts, not a TypeError.
 
-    The SSA Table 7.B1 manifest carries an ``extracted_targets`` label key in
+    The SSA Table 7.B1 manifest carries a ``source_capture`` label key in
     ``files:`` alongside the numeric ``2024`` key. Building with that label
     must not raise ``year + 1`` TypeError; the package has no label-scoped
     record sets, so it simply builds what it can (see PolicyEngine/chronicle#79).
     """
     package = load_source_package("packages/ssa/ssi_table_7b1_2024")
-    facts = package.build_facts("extracted_targets")
+    facts = package.build_facts("source_capture")
     # Record-set periods are literal 2024, so a label build still resolves them.
     assert facts
     assert all(fact.period.value == 2024 for fact in facts)
