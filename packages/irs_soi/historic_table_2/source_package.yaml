@@ -559,11 +559,11 @@ record_sets:
         value_scale: 1000
 
       - measure_id: net_capital_gains_returns
-        label: Returns with taxable net capital gains
+        label: Returns with net capital gain (less loss)
         ordinal: 27
         column: AK
         source_column_id: N01000
-        concept: irs_soi.returns_with_taxable_net_capital_gains
+        concept: irs_soi.returns_with_form_1040_capital_gain_or_loss
         unit: count
         aggregation: sum
         expected_cell_type: number
@@ -571,11 +571,11 @@ record_sets:
         expected_column_header: N01000
 
       - measure_id: net_capital_gains_amount
-        label: Taxable net capital gains
+        label: Net capital gain (less loss)
         ordinal: 28
         column: AL
         source_column_id: A01000
-        concept: irs_soi.taxable_net_capital_gains
+        concept: irs_soi.form_1040_capital_gain_or_loss
         unit: usd
         aggregation: sum
         expected_cell_type: number

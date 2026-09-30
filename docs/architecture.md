@@ -141,8 +141,9 @@ Consumer-facing source vocabulary is a compatibility contract. Keep
 concept has not changed; put publication-specific wording in `source_table` and
 labels instead. Within a `source_name`, `measure_id` must distinguish different
 statistical measures even when their publisher columns share labels such as
-`band_a` or `total`. A deliberate rename requires a migration note and a
-regression test for the affected consumer selector.
+`band_a` or `total`. A deliberate rename requires a migration note in
+[concept migrations](concept-migrations.md) and a regression test for the
+affected consumer selector.
 
 The `policyengine_chronicle.normalization` package owns low-assumption representation helpers:
 
