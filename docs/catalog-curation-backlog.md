@@ -36,6 +36,46 @@ on `person/ui_claimant` under UUID
 period and entity metadata before folding these lineages; an alias cannot
 bridge either mismatch safely.
 
+The same metadata explains two entries in the catalog's `stripped_segments`
+that look like a naming bug: `week_2026-06-13` and `week_2026_06_13`. Both
+come from the one 2026-06-13 row (ledger line 44), whose `source_record_id`
+spells the week with ISO hyphens and whose `measure.concept` spells it with
+underscores. The builder strips period tokens from both identifier fields
+and records each distinct spelling, so the audit is right to list both. They
+strip as `overlap`, not `derived`, because the row declares a month. Both
+are recorded as reviewed overlap strips in
+`tests/fixtures/series_catalog/reviewed_stripped_segments.json`. A
+supersede correction that re-spells or re-periods that row will make the
+audit report both as gone; the same change then updates the fixture.
+
+## Reviewing period strips (2026-09-30)
+
+`test_committed_catalog_is_current_and_valid` used to pin the exact list of
+stripped period spellings, so every resolver append that recorded the next
+weekly claims print failed the required "Arch checks" status, and the
+resolver's admin merge went past it. The test now audits each
+(spelling, concept) strip against the reviewed map in
+`tests/fixtures/series_catalog/reviewed_stripped_segments.json`
+(`build_series_catalog.stripped_segment_review_problems`). A strip passes
+without review only when its concept already has a reviewed strip of the
+same spelling template (`period_spelling_template`: the next week or month
+written the same way) and every current observation behind it spells its own
+declared period directly (kind `derived`). The audit reports:
+
+- a strip on a concept that has never stripped that template: a new series,
+  a new identifier shape, or a statute, cohort, or edition label that
+  happens to spell its row's period;
+- an unreviewed `overlap` strip, or a reviewed strip that gains the
+  `overlap` kind;
+- a reviewed strip that disappears.
+
+To clear a report, decide whether the segment is the row's period, then add
+the pair with its kinds to the fixture, with a note when the reason is not
+obvious. A concept-spelling duplicate shows up here first: a docket
+placeholder such as `abs.labour.unemployment_rate` taking its first print
+beside an already-observed `abs.labour.unemployment_rate.australia` is a new
+concept stripping for the first time.
+
 ## Builder polish
 
 The two LOW residuals accepted in the chronicle#145 merge disposition

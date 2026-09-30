@@ -48,9 +48,15 @@ identity and are reported in ``suspect_segments`` for curation. No strip
 is invisible either way: every distinct stripped spelling is published in
 ``stripped_segments``, because a statute, cohort, or edition label that
 happens to spell the row's own period is mechanically indistinguishable
-from a period label — the audit list is where a curator catches that. A
-malformed period (month 13, an impossible week date) is a hard error, so
-corrupt metadata can never manufacture strippable tokens.
+from a period label — the audit list is where a curator catches that. The
+test suite checks the list against a curated map of reviewed strips
+(``stripped_segment_review_problems``): a strip that only continues a
+reviewed decision (same concept, same ``period_spelling_template``, a
+direct spelling of its own row's period) passes, so the next weekly or
+monthly print does not re-open a question already answered; every other
+strip still needs a curator. A malformed period (month 13, an impossible
+week date) is a hard error, so corrupt metadata can never manufacture
+strippable tokens.
 
 Aliases are curated identity statements, not derived data. Observed concept
 spellings of one identity become aliases automatically; everything else in
@@ -303,6 +309,36 @@ def is_period_segment(segment: str) -> bool:
     [False, False, False, False, False, False, False, False, False, False, False]
     """
     return parse_period_token(segment) is not None
+
+
+_MONTH_WORD_RE = re.compile(r"(?<![a-z])(%s)(?![a-z])" % _MONTH_ALT)
+
+
+def period_spelling_template(segment: str) -> str:
+    """The way a period spelling is written, with its calendar values
+    abstracted: every digit becomes ``9`` and every month word, full or
+    abbreviated, ``<month>`` ("may" is both, so the two styles cannot be
+    told apart for every month). Separators and literal words (``week_``,
+    ``ending_``, ``after_<qualifier>_``, ``fy``, ``q``, ``_to_``) are kept,
+    so two spellings share a template exactly when they write a period
+    the same way, whatever period they name. A template is the unit a
+    curator reviews in ``stripped_segment_review_problems``.
+
+    >>> period_spelling_template("week_2026-08-29")
+    'week_9999-99-99'
+    >>> period_spelling_template("week_2026_06_13")
+    'week_9999_99_99'
+    >>> sorted({period_spelling_template(s) for s in (
+    ...     "may_2026", "june_2026", "jun_2026", "sept_2026")})
+    ['<month>_9999']
+    >>> period_spelling_template("after_mpc_june_2026")
+    'after_mpc_<month>_9999'
+    >>> period_spelling_template("february_to_april_2026")
+    '<month>_to_<month>_9999'
+    >>> [period_spelling_template(s) for s in ("fy2024", "2026_q2", "2026")]
+    ['fy9999', '9999_q9', '9999']
+    """
+    return re.sub(r"\d", "9", _MONTH_WORD_RE.sub("<month>", segment))
 
 
 def period_token_variants(period: dict) -> set[str]:
@@ -675,6 +711,7 @@ def build_identities(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
                 "rid_patterns": set(),
                 "suspects": set(),
                 "stripped": set(),
+                "strip_kinds": {},
                 "geo_names": set(),
                 "units": Counter(),
                 "period_types": Counter(),
@@ -704,11 +741,10 @@ def build_identities(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
                 "level/id/vintage cannot display as two places"
             )
         for identifier in (concept_raw, rid):
-            ident["stripped"].update(
-                segment
-                for segment, kind in classify_segments(identifier, period)
-                if kind in ("derived", "overlap")
-            )
+            for segment, kind in classify_segments(identifier, period):
+                if kind in ("derived", "overlap"):
+                    ident["stripped"].add(segment)
+                    ident["strip_kinds"].setdefault(segment, set()).add(kind)
         ident["units"][measure.get("unit")] += 1
         ident["period_types"][period.get("type")] += 1
         source = row.get("source") or {}
@@ -1447,7 +1483,13 @@ def build_catalog(
     The plan records every registry-affecting outcome: ``mints`` (new
     identity bindings to append), ``supersedes`` (identities whose UUID
     changes — these require ``--allow-remint``), and ``dropped`` (existing
-    rows whose UUID would vanish from the catalog — also gated).
+    rows whose UUID would vanish from the catalog — also gated). It also
+    carries ``stripped_kinds``, keyed like the catalog's
+    ``stripped_segments`` (spelling -> canonical concept), giving the
+    ``classify_segments`` kinds (``derived``, ``overlap``) under which the
+    current observations stripped each spelling — the input
+    ``stripped_segment_review_problems`` audits. It never affects the
+    catalog bytes.
     """
     raw = observations_path.read_bytes()
     observation_lines = raw.decode().split("\n")
@@ -1552,6 +1594,7 @@ def build_catalog(
                 "rid_patterns": set(),
                 "suspects": set(),
                 "stripped": set(),
+                "strip_kinds": {},
                 "geo_names": set(),
                 "units": Counter(),
                 "period_types": Counter(),
@@ -1576,6 +1619,8 @@ def build_catalog(
         bucket["rid_patterns"] |= ident["rid_patterns"]
         bucket["suspects"] |= ident["suspects"]
         bucket["stripped"] |= ident["stripped"]
+        for segment, kinds in ident["strip_kinds"].items():
+            bucket["strip_kinds"].setdefault(segment, set()).update(kinds)
         bucket["geo_names"] |= ident["geo_names"]
         if len(bucket["geo_names"]) > 1:
             raise SystemExit(
@@ -1788,6 +1833,7 @@ def build_catalog(
 
     all_suspects: set[str] = set()
     stripped_map: dict[str, set[str]] = {}
+    stripped_kinds: dict[str, dict[str, set[str]]] = {}
     for canon_key in sorted(canonical):
         bucket = canonical[canon_key]
         concept, _, _ = canon_key
@@ -1801,6 +1847,9 @@ def build_catalog(
         all_suspects.update(bucket["suspects"])
         for segment in bucket["stripped"]:
             stripped_map.setdefault(segment, set()).add(concept)
+            stripped_kinds.setdefault(segment, {}).setdefault(
+                concept, set()
+            ).update(bucket["strip_kinds"][segment])
         series.append({
             "uuid": row_uuid,
             "concept": concept,
@@ -2053,6 +2102,13 @@ def build_catalog(
         "ambiguous_aliases": ambiguous_aliases,
         "series": series,
     }
+    plan["stripped_kinds"] = {
+        segment: {
+            concept: sorted(stripped_kinds[segment][concept])
+            for concept in sorted(stripped_kinds[segment])
+        }
+        for segment in sorted(stripped_kinds)
+    }
     return catalog, plan
 
 
@@ -2130,6 +2186,128 @@ def registry_agreement_problems(
                 "its identity — retire or supersede it explicitly"
             )
     return problems
+
+
+def _is_strippable_spelling(segment: str) -> bool:
+    # A grammar token, or the bare year period_token_variants derives for
+    # annual rows (bare years are deliberately outside the grammar).
+    return is_period_segment(segment) or (
+        segment.isascii() and segment.isdigit() and len(segment) == 4
+        and _valid_year(int(segment))
+    )
+
+
+def stripped_segment_review_problems(
+    stripped_segments: dict[str, list[str]],
+    stripped_kinds: dict[str, dict[str, list[str]]],
+    reviewed: dict[str, dict[str, list[str]]],
+) -> list[str]:
+    """Period strips in a catalog that no curator has reviewed.
+
+    ``stripped_segments`` is the catalog's audit map (spelling -> canonical
+    concepts) and ``stripped_kinds`` the build plan's classification of
+    each of those strips (spelling -> concept -> ``classify_segments``
+    kinds). ``reviewed`` has the shape of ``stripped_kinds``: the strips a
+    curator has looked at, with the kinds they had when reviewed.
+
+    A strip outside ``reviewed`` needs no new review only when it continues
+    a decision already made: its concept already has a reviewed strip of
+    the SAME ``period_spelling_template`` (the next week or month written
+    the same way), and every current observation behind it spells its own
+    declared period directly (kind ``derived`` only). Everything else is
+    reported, one line per problem, sorted:
+
+    * a reviewed strip that is gone (superseded observations, curation, or
+      a builder change);
+    * a reviewed strip that gained a kind it was not reviewed under;
+    * a strip whose concept has no reviewed strip of that template — a new
+      series, a new identifier shape, or a statute, cohort, or edition
+      label that happens to spell the row's own period, which only a
+      curator can tell apart;
+    * an unreviewed ``overlap`` strip, where identifier and declared period
+      disagree in granularity (the case ``classify_segments`` flags as
+      mechanically ambiguous);
+    * a stripped spelling that is not a period token, or a strip the plan
+      and the catalog disagree about.
+
+    >>> reviewed = {"week_2026-08-22": {"us.dol.initial_claims.sa": ["derived"]}}
+    >>> segments = {
+    ...     "week_2026-08-22": ["us.dol.initial_claims.sa"],
+    ...     "week_2026-08-29": ["us.dol.initial_claims.sa"],
+    ... }
+    >>> kinds = {s: {"us.dol.initial_claims.sa": ["derived"]} for s in segments}
+    >>> stripped_segment_review_problems(segments, kinds, reviewed)
+    []
+    >>> kinds["week_2026-08-29"]["us.dol.initial_claims.sa"] = ["overlap"]
+    >>> stripped_segment_review_problems(segments, kinds, reviewed)
+    ... # doctest: +ELLIPSIS
+    ["'week_2026-08-29' on 'us.dol.initial_claims.sa': unreviewed overlap..."]
+    """
+    problems: list[str] = []
+    live = {
+        (segment, concept)
+        for segment, concepts in stripped_segments.items()
+        for concept in concepts
+    }
+    planned = {
+        (segment, concept): set(kinds)
+        for segment, by_concept in stripped_kinds.items()
+        for concept, kinds in by_concept.items()
+    }
+    reviewed_kinds = {
+        (segment, concept): set(kinds)
+        for segment, by_concept in reviewed.items()
+        for concept, kinds in by_concept.items()
+    }
+    reviewed_templates: dict[str, set[str]] = {}
+    for segment, concept in reviewed_kinds:
+        reviewed_templates.setdefault(concept, set()).add(
+            period_spelling_template(segment)
+        )
+
+    def report(segment: str, concept: str, message: str) -> None:
+        problems.append(f"{segment!r} on {concept!r}: {message}")
+
+    for segment, concept in reviewed_kinds.keys() - live:
+        report(
+            segment, concept,
+            "reviewed strip is gone from the catalog — a superseded "
+            "observation, curation, or a builder change; re-review and "
+            "update the reviewed map",
+        )
+    for segment, concept in live ^ planned.keys():
+        where = "catalog" if (segment, concept) in live else "build plan"
+        report(segment, concept, f"strip appears only in the {where}")
+    for segment, concept in live & planned.keys():
+        kinds = planned[(segment, concept)]
+        if not _is_strippable_spelling(segment):
+            report(segment, concept, "stripped spelling is not a period token")
+        if (segment, concept) in reviewed_kinds:
+            gained = kinds - reviewed_kinds[(segment, concept)]
+            if gained:
+                report(
+                    segment, concept,
+                    f"reviewed strip gained kinds {sorted(gained)} — an "
+                    "observation now spells this period through a "
+                    "different declared period; review it",
+                )
+            continue
+        if kinds - {"derived"}:
+            report(
+                segment, concept,
+                f"unreviewed overlap strip (kinds {sorted(kinds)}) — the "
+                "identifier names a window that only overlaps its row's "
+                "declared period; review it",
+            )
+        template = period_spelling_template(segment)
+        if template not in reviewed_templates.get(concept, set()):
+            report(
+                segment, concept,
+                f"first {template!r} strip for this concept — confirm it "
+                "is a period label, not a statute, cohort, or edition "
+                "label, and add it to the reviewed map",
+            )
+    return sorted(problems)
 
 
 def git_head_bytes(path: pathlib.Path) -> bytes | None:
