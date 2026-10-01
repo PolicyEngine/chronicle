@@ -1436,6 +1436,112 @@ def _registry_event(
     }
 
 
+def _append_gate_helpers():
+    """Import the append gate's supersede-aware view and content address."""
+    try:
+        from check_thesis_facts_append import (
+            effective_current_rows,
+            expected_assertion_version_id,
+        )
+    except ImportError as exc:  # pragma: no cover - environment guard
+        raise SystemExit(
+            "cannot import the append gate's content address and "
+            "supersede-aware current view from "
+            f"check_thesis_facts_append (receipt package required): {exc}"
+        )
+    return effective_current_rows, expected_assertion_version_id
+
+
+def effective_assertion_version_id(row: dict, index: int) -> str:
+    """Return the assertion version id the append gate assigns ``row``.
+
+    Mirrors receipt's ``_effective_assertion_id``: a versioned row is
+    addressed by its explicit ``assertionVersion.id``, and a row with no
+    ``assertionVersion`` (every row of the immutable prefix predates
+    versioning) by its recomputed av2 content address. A correction of a
+    prefix row names that address in ``supersedes``. ``index`` only
+    labels refusals.
+    """
+    version = row.get("assertionVersion")
+    if version is None:
+        _, content_address = _append_gate_helpers()
+        try:
+            return content_address(row)
+        except (AttributeError, TypeError, ValueError) as exc:
+            raise SystemExit(
+                f"observation row {index}: cannot compute the content "
+                f"address of a row without assertionVersion: {exc}"
+            ) from None
+    if not isinstance(version, dict) or not isinstance(
+        version.get("id"), str
+    ) or not version["id"]:
+        raise SystemExit(
+            f"observation row {index}: assertionVersion must carry a "
+            "nonempty string id"
+        )
+    return version["id"]
+
+
+def check_assertion_versions(rows: list[dict]) -> list[str]:
+    """Enforce the append gate's supersede preconditions; return every id.
+
+    The gate (receipt ``check_rows``) reserves the effective id of EVERY
+    row, versioned or not, and a correction names the effective id of the
+    version it replaces. This check reserves the same ids, so a
+    gate-accepted correction of a prefix row is accepted here too. It
+    refuses the part of the gate's rules the current view relies on: two
+    rows with one effective id (identical unversioned rows, or a row
+    restating an earlier row's exact addressed content), a link to no
+    row's id, a self-link and a cycle. The gate refuses each of these as
+    well. Its other rules (an explicit id equals the content address; a
+    link names the active version of the same record, on an earlier line,
+    so no version is superseded twice) are the gate's alone.
+    """
+    ids: list[str] = []
+    owner: dict[str, int] = {}
+    links: dict[str, str] = {}
+    for index, row in enumerate(rows):
+        vid = effective_assertion_version_id(row, index)
+        if vid in owner:
+            raise SystemExit(
+                f"observation row {index}: assertion version {vid!r} "
+                f"duplicates row {owner[vid]}"
+            )
+        owner[vid] = index
+        ids.append(vid)
+        version = row.get("assertionVersion")
+        supersedes = version.get("supersedes") if version is not None else None
+        if supersedes is not None:
+            if not isinstance(supersedes, str) or not supersedes:
+                raise SystemExit(
+                    f"observation row {index}: assertionVersion.supersedes "
+                    "must be a nonempty string"
+                )
+            if supersedes == vid:
+                raise SystemExit(
+                    f"observation row {index}: assertionVersion {vid!r} "
+                    "supersedes itself"
+                )
+            links[vid] = supersedes
+    for vid, target in links.items():
+        if target not in owner:
+            raise SystemExit(
+                f"assertionVersion {vid!r} supersedes unknown version "
+                f"{target!r}"
+            )
+    for start in links:
+        seen_chain = {start}
+        cursor = links.get(start)
+        while cursor is not None:
+            if cursor in seen_chain:
+                raise SystemExit(
+                    f"assertionVersion supersede cycle through {cursor!r}"
+                )
+            seen_chain.add(cursor)
+            cursor = links.get(cursor)
+    return ids
+
+
 def build_catalog(
     observations_path: pathlib.Path,
     docket_path: pathlib.Path | None,
@@ -1468,64 +1574,9 @@ def build_catalog(
     # the ledger's aggregate-fact validation uses), or superseded
     # assertions would keep stale identities alive forever. The imported
     # helper assumes append-gate-validated input; standalone runs get the
-    # same preconditions enforced here (unique ids, resolvable links, no
-    # cycles).
-    seen_ids: dict[str, int] = {}
-    links: dict[str, str] = {}
-    for index, row in enumerate(rows):
-        version = row.get("assertionVersion")
-        if version is None:
-            continue
-        if not isinstance(version, dict) or not isinstance(
-            version.get("id"), str
-        ) or not version["id"]:
-            raise SystemExit(
-                f"observation row {index}: assertionVersion must carry a "
-                "nonempty string id"
-            )
-        vid = version["id"]
-        if vid in seen_ids:
-            raise SystemExit(
-                f"observation row {index}: assertionVersion id {vid!r} "
-                f"duplicates row {seen_ids[vid]}"
-            )
-        seen_ids[vid] = index
-        supersedes = version.get("supersedes")
-        if supersedes is not None:
-            if not isinstance(supersedes, str) or not supersedes:
-                raise SystemExit(
-                    f"observation row {index}: assertionVersion.supersedes "
-                    "must be a nonempty string"
-                )
-            if supersedes == vid:
-                raise SystemExit(
-                    f"observation row {index}: assertionVersion {vid!r} "
-                    "supersedes itself"
-                )
-            links[vid] = supersedes
-    for vid, target in links.items():
-        if target not in seen_ids:
-            raise SystemExit(
-                f"assertionVersion {vid!r} supersedes unknown version "
-                f"{target!r}"
-            )
-    for start in links:
-        seen_chain = {start}
-        cursor = links.get(start)
-        while cursor is not None:
-            if cursor in seen_chain:
-                raise SystemExit(
-                    f"assertionVersion supersede cycle through {cursor!r}"
-                )
-            seen_chain.add(cursor)
-            cursor = links.get(cursor)
-    try:
-        from check_thesis_facts_append import effective_current_rows
-    except ImportError as exc:  # pragma: no cover - environment guard
-        raise SystemExit(
-            "cannot import the supersede-aware current view from "
-            f"check_thesis_facts_append (receipt package required): {exc}"
-        )
+    # preconditions it relies on from check_assertion_versions.
+    check_assertion_versions(rows)
+    effective_current_rows, _ = _append_gate_helpers()
     current_rows = effective_current_rows(rows)
     identities = build_identities(current_rows)
 
