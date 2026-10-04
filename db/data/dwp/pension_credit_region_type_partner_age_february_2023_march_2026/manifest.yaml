@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-pension-credit-region-type-partner-age-february-2023-march-2026
+dataset: dwp_dwp-pension-credit-region-type-partner-age-february-2023-march-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: Pension Credit caseload and mean weekly award by region, type of Pension Credit,
+  partner indicator and age band, February 2023 to March 2026
+files:
+  2026:
+    filename: pension_credit_caseload_by_region_type_partner_and_age_band_february_2023_march_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: 9867c2162775e71dcf4295bf2fd395d217838e81c12e9e8085949745ebae2896
+    size_bytes: 378004
+    fetched_at: '2026-09-29T13:48:09+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-pension-credit-region-type-partner-age-february-2023-march-2026/2026/9867c2162775e71dcf4295bf2fd395d217838e81c12e9e8085949745ebae2896/pension_credit_caseload_by_region_type_partner_and_age_band_february_2023_march_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-pension-credit-region-type-partner-age-february-2023-march-2026/2026/9867c2162775e71dcf4295bf2fd395d217838e81c12e9e8085949745ebae2896/pension_credit_caseload_by_region_type_partner_and_age_band_february_2023_march_2026.json

@@ -14,3 +14,5 @@ db/data/ons/oa21_parncp_lad_rgn_ctry_dec2024_lookup/ew_oa21_parncp_lad24_rgn24_d
 db/data/ons/oa21_pcon_jul2024_lookup/ew_oa21_pcon24_lookup.csv -diff
 db/data/ons/oa21_wd24_lad24_lookup/ew_oa21_ward24_lad24_bestfit.csv -diff
 db/data/welshgov/council_tax_dwellings_2023_24_to_2026_27/statswales_council_tax_dwellings_by_authority_and_band.csv -diff
+db/data/hmrc/pension_contribution_relief_2023_24/Tables_6_1_and_6_2.csv -diff
+db/data/hmrc/winter_fuel_payment_charge_2025/winter-fuel-payments-charge.html -diff

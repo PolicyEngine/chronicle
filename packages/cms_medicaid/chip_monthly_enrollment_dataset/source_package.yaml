@@ -1319,6 +1319,7 @@ record_sets:
     concept: cms_medicaid.total_medicaid_chip_enrollment
     source_concept: cms_medicaid.total_medicaid_chip_enrollment
     concept_relation: source_label
+    concept_authority: cms
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1332,6 +1333,7 @@ record_sets:
     concept: cms_medicaid.total_medicaid_enrollment
     source_concept: cms_medicaid.total_medicaid_enrollment
     concept_relation: source_label
+    concept_authority: cms
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1345,6 +1347,7 @@ record_sets:
     concept: cms_medicaid.total_chip_enrollment
     source_concept: cms_medicaid.total_chip_enrollment
     concept_relation: source_label
+    concept_authority: cms
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1358,6 +1361,7 @@ record_sets:
     concept: cms_medicaid.medicaid_chip_child_enrollment
     source_concept: cms_medicaid.medicaid_chip_child_enrollment
     concept_relation: source_label
+    concept_authority: cms
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1371,6 +1375,7 @@ record_sets:
     concept: cms_medicaid.total_adult_medicaid_enrollment
     source_concept: cms_medicaid.total_adult_medicaid_enrollment
     concept_relation: source_label
+    concept_authority: cms
     unit: count
     aggregation: sum
     expected_cell_type: number

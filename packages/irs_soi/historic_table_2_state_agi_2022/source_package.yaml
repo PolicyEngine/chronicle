@@ -1296,7 +1296,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -1561,7 +1561,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -1826,7 +1826,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -2091,7 +2091,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -2356,7 +2356,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -2621,7 +2621,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -2886,7 +2886,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -3151,7 +3151,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -3416,7 +3416,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -3681,7 +3681,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -3946,7 +3946,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -4211,7 +4211,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -4476,7 +4476,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -4741,7 +4741,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -5006,7 +5006,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -5271,7 +5271,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -5536,7 +5536,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -5801,7 +5801,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -6066,7 +6066,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -6331,7 +6331,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -6596,7 +6596,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -6861,7 +6861,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -7126,7 +7126,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -7391,7 +7391,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -7656,7 +7656,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -7921,7 +7921,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -8186,7 +8186,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -8451,7 +8451,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -8716,7 +8716,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -8981,7 +8981,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -9246,7 +9246,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -9511,7 +9511,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -9776,7 +9776,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -10041,7 +10041,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -10306,7 +10306,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -10571,7 +10571,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -10836,7 +10836,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -11101,7 +11101,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -11366,7 +11366,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -11631,7 +11631,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -11896,7 +11896,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -12161,7 +12161,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -12426,7 +12426,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -12691,7 +12691,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -12956,7 +12956,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -13221,7 +13221,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -13486,7 +13486,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -13751,7 +13751,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -14016,7 +14016,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -14281,7 +14281,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -14546,7 +14546,7 @@ record_sets:
     concept_authority: ledger-us
     concept_evidence_url: https://uscode.house.gov/view.xhtml?req=(title:26%20section:62%20edition:prelim)
     concept_evidence_notes: IRS SOI Historic Table 2 reports adjusted gross income for individual income tax returns; IRC section 62 defines adjusted gross income. This Ledger assertion treats the SOI AGI column as exactly adopting that legal concept for the tax-year source record.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2022
     unit: usd
     aggregation: sum
     value_scale: 1000

@@ -9,19 +9,19 @@ artifact:
   resource_package: db
   resource_directory: data/irs_soi/w2_statistics
   manifest: manifest_2020_source_package.yaml
-  vintage: tax_year_{year}
+  vintage: tax_year_2020
   extracted_at: '2026-05-08'
   extraction_method: xlsx whole-workbook used-range cell parse
   parser: xlsx_used_range
   artifact_year: 2020
 record_sets:
-- record_set_id: irs_soi.ty{year}.form_w2_social_security_tips
+- record_set_id: irs_soi.ty2020.form_w2_social_security_tips
   provenance_class: administrative
   record_set_spec_id: irs_soi.form_w2_social_security_tips.v1
-  source_record_id_prefix: irs_soi.ty{year}.form_w2_social_security_tips
+  source_record_id_prefix: irs_soi.ty2020.form_w2_social_security_tips
   sheet_name: Table 4.B
   period_type: tax_year
-  period: '{year}'
+  period: '2020'
   geography_id: 0100000US
   geography_level: country
   geography_name: United States
@@ -88,16 +88,16 @@ record_sets:
       item 3). Box 7 covers only tips reported to employers and excludes
       unreported tips picked up on Form 4137, so it is a conservative
       floor for tip_income.
-    legal_vintage: tax_year_{year}
+    legal_vintage: tax_year_2020
     value_scale: 1000
     expected_cell_type: number
-- record_set_id: irs_soi.ty{year}.form_w2_401k_elective_deferrals
+- record_set_id: irs_soi.ty2020.form_w2_401k_elective_deferrals
   provenance_class: administrative
   record_set_spec_id: irs_soi.form_w2_401k_elective_deferrals.v1
-  source_record_id_prefix: irs_soi.ty{year}.form_w2_401k_elective_deferrals
+  source_record_id_prefix: irs_soi.ty2020.form_w2_401k_elective_deferrals
   sheet_name: Table 4.B
   period_type: tax_year
-  period: '{year}'
+  period: '2020'
   geography_id: 0100000US
   geography_level: country
   geography_name: United States
@@ -132,13 +132,13 @@ record_sets:
     aggregation: sum
     value_scale: 1000
     expected_cell_type: number
-- record_set_id: irs_soi.ty{year}.form_w2_designated_roth_401k_contributions
+- record_set_id: irs_soi.ty2020.form_w2_designated_roth_401k_contributions
   provenance_class: administrative
   record_set_spec_id: irs_soi.form_w2_designated_roth_401k_contributions.v1
-  source_record_id_prefix: irs_soi.ty{year}.form_w2_designated_roth_401k_contributions
+  source_record_id_prefix: irs_soi.ty2020.form_w2_designated_roth_401k_contributions
   sheet_name: Table 4.B
   period_type: tax_year
-  period: '{year}'
+  period: '2020'
   geography_id: 0100000US
   geography_level: country
   geography_name: United States

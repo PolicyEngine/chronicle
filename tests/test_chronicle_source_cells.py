@@ -32,7 +32,11 @@ from chronicle.sources.rows import (
     source_cells_from_source_rows,
     source_rows_from_delimited_text,
 )
-from chronicle.sources.specs import resolve_source_record
+from chronicle.sources.specs import (
+    CellSelectorSpec,
+    resolve_cell_selector,
+    resolve_source_record,
+)
 
 
 def test_ods_numeric_text_mode_coerces_formatted_numbers_only():
@@ -149,6 +153,45 @@ def test_source_record_selector_guard_fails_on_changed_row_header():
 
     with pytest.raises(ValueError, match="expected row header"):
         resolve_source_record(cells, bad_spec)
+
+
+def test_column_header_guard_matches_a_delimited_year_header_text():
+    # Package YAML renders a digit-only string such as '2024' to the integer
+    # 2024, while a delimited file's header row keeps the text '2024'. A guard
+    # expecting 2024 matches that text, and nothing looser.
+    artifact = SourceArtifactMetadata(
+        source_name="bea",
+        source_table="test",
+        source_file="test.csv",
+        url="https://example.test/test.csv",
+        vintage="test",
+        sha256="abc123",
+        size_bytes=10,
+        extracted_at="2026-09-25",
+        extraction_method="test",
+    )
+    rows = source_rows_from_delimited_text(
+        b"Item,2023,2024,02024,2024.0\nReturns,1,2,3,4\n",
+        artifact,
+        sheet_name="test",
+    )
+    cells = source_cells_from_source_rows(rows, selected_rows=())
+
+    def selector(column: str, header):
+        return CellSelectorSpec(
+            selector_id=f"test.{column}",
+            sheet_name="test",
+            address=f"{column}2",
+            expected_cell_type="number",
+            expected_column_header_address=f"{column}1",
+            expected_column_header=header,
+        )
+
+    assert resolve_cell_selector(cells, selector("C", 2024)).raw_value == 2
+    assert resolve_cell_selector(cells, selector("C", "2024")).raw_value == 2
+    for column, header in (("B", 2024), ("D", 2024), ("E", 2024), ("C", True)):
+        with pytest.raises(ValueError, match="expected column header"):
+            resolve_cell_selector(cells, selector(column, header))
 
 
 def test_delimited_source_row_selection_requires_exact_match():

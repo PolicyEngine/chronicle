@@ -12,6 +12,7 @@ from typing import Any, Callable, Sequence
 from chronicle.dimension_labels import dimension_label_issues, dimension_labels_by_id
 from chronicle.epoch import canonicalize_key, schema_id
 from chronicle.source_package import (
+    ARTIFACT_YEAR_RESTAMP_CODE,
     SOURCE_PACKAGE_ALIASES,
     assert_alias_map_covers_packages,
     validate_source_package,
@@ -62,6 +63,8 @@ UK_BUNDLE_SOURCES = (
     "desnz-subnational-electricity-consumption-2024",
     "desnz-subnational-gas-consumption-2024",
     "desnz-weekly-road-fuel-prices-september-2026",
+    "dfc-ni-pension-credit-statistics-may-2026",
+    "dfc-ni-state-pension-statistics-may-2026",
     "dfc-ni-uc-statistics-may-2026",
     "dfe-funded-early-education-childcare-2026",
     "dfi-ni-bus-concessionary-journeys-2024-25",
@@ -76,13 +79,22 @@ UK_BUNDLE_SOURCES = (
     "dft-nts0621-local-bus-use-frequency-2025",
     "dft-nts0705-local-bus-trips-2024",
     "dft-veh1103-cars-fuel-type-2025",
+    "dwp-attendance-allowance-entitled-country-award-age-gender-february-2023-march-2026",
     "dwp-benefit-cap-november-2025",
     "dwp-benefit-expenditure-caseload-spring-2026",
     "dwp-benefit-statistics-february-2026",
     "dwp-esa-caseload-payment-type-phase-may-2018-march-2026",
     "dwp-hb-claimants-client-type-tenure-accommodation-type-september-2025-february-2026",
     "dwp-hb-claimants-client-type-tenure-january-2023-february-2026",
+    "dwp-pension-credit-amount-band-type-february-2023-march-2026",
+    "dwp-pension-credit-gender-type-february-2023-march-2026",
+    "dwp-pension-credit-region-type-partner-age-february-2023-march-2026",
+    "dwp-pension-credit-type-partner-age-february-2023-march-2026",
     "dwp-pip-daily-living-foi-2025",
+    "dwp-state-pension-age-gender-type-february-2023-march-2026",
+    "dwp-state-pension-amount-band-type-february-2023-march-2026",
+    "dwp-state-pension-category-protected-payment-february-2023-march-2026",
+    "dwp-state-pension-region-type-gender-february-2023-march-2026",
     "dwp-uc-childcare-element-march-2021-may-2026",
     "dwp-uc-deductions-march-2025-february-2026",
     "dwp-uc-households-by-constituency-children-may-2025",
@@ -104,6 +116,12 @@ UK_BUNDLE_SOURCES = (
     "dwp-uc-people-employment-indicator-january-2023-may-2026",
     "dwp-uc-scotland-youngest-child-april-december-2025",
     "dwp-uc-two-child-limit-2025",
+    "dwp-winter-fuel-payment-recipients-winter-2023-24",
+    "dwp-winter-fuel-payment-recipients-winters-2024-25-2025-26",
+    "dwp-winter-fuel-payment-statistics-winter-2023-24",
+    "dwp-winter-fuel-payment-statistics-winter-2024-25",
+    "dwp-winter-fuel-payment-statistics-winter-2025-26",
+    "dwp-workplace-pension-savings-trends-2009-to-2025",
     "hmrc-cgt-age-2026",
     "hmrc-cgt-asset-type-2026",
     "hmrc-cgt-badr-ir-2026",
@@ -116,6 +134,7 @@ UK_BUNDLE_SOURCES = (
     "hmrc-child-benefit-august-2025",
     "hmrc-hydrocarbon-oils-quantities-june-2026",
     "hmrc-income-tax-liabilities-july-2026",
+    "hmrc-pension-contribution-relief-2023-24",
     "hmrc-property-rental-income-2026",
     "hmrc-salary-sacrifice-reform-2029-headcounts",
     "hmrc-salary-sacrifice-relief-2024-25",
@@ -125,6 +144,7 @@ UK_BUNDLE_SOURCES = (
     "hmrc-tax-free-childcare-march-2026",
     "hmrc-vat-firm-sector-targets-2024-25",
     "hmrc-vat-firm-targets-2024-25",
+    "hmrc-winter-fuel-payment-charge-2025",
     "isc-annual-census-2023",
     "isc-annual-census-2024",
     "mhclg-council-tax-collection-england-2025-26",
@@ -150,14 +170,36 @@ UK_BUNDLE_SOURCES = (
     "obr-efo-expenditure-march-2026",
     "obr-efo-receipts-march-2026",
     "obr-fuel-duty-receipts-by-vehicle-april-2024",
+    "obr-salary-sacrifice-costing-february-2026",
     "ofgem-energy-price-cap-levels-2024-2026",
     "ofgem-energy-price-cap-q1-2024",
+    "ons-ashe-employee-contribution-bands-by-age-2024-full-pay",
+    "ons-ashe-employee-contribution-bands-by-age-2024-qualifying-earnings",
+    "ons-ashe-employee-contribution-bands-by-business-size-2024-full-pay",
+    "ons-ashe-employee-contribution-bands-by-business-size-2024-qualifying-earnings",
+    "ons-ashe-employee-contribution-bands-by-industry-2024-full-pay",
+    "ons-ashe-employee-contribution-bands-by-industry-2024-qualifying-earnings",
+    "ons-ashe-employee-contribution-bands-by-occupation-2024-full-pay",
+    "ons-ashe-employee-contribution-bands-by-occupation-2024-qualifying-earnings",
+    "ons-ashe-employer-contribution-bands-by-age-2024-full-pay",
+    "ons-ashe-employer-contribution-bands-by-age-2024-qualifying-earnings",
+    "ons-ashe-employer-contribution-bands-by-business-size-2024-full-pay",
+    "ons-ashe-employer-contribution-bands-by-business-size-2024-qualifying-earnings",
+    "ons-ashe-employer-contribution-bands-by-industry-2024-full-pay",
+    "ons-ashe-employer-contribution-bands-by-industry-2024-qualifying-earnings",
+    "ons-ashe-employer-contribution-bands-by-occupation-2024-full-pay",
+    "ons-ashe-employer-contribution-bands-by-occupation-2024-qualifying-earnings",
+    "ons-ashe-pension-membership-by-age-earnings-2024",
+    "ons-ashe-pension-membership-by-business-size-earnings-2024",
+    "ons-ashe-pension-membership-by-industry-earnings-2024",
+    "ons-ashe-pension-membership-by-occupation-earnings-2024",
     "ons-census2021-ts003-household-composition-country",
     "ons-census2021-ts041-households-lad",
     "ons-census2021-ts041-households-pcon24",
     "ons-census2021-ts046-central-heating-ltla",
     "ons-census2021-ts054-tenure-lad",
     "ons-consumer-trends-current-price-2026",
+    "ons-employee-workplace-pensions-summary-2024",
     "ons-families-households-2025",
     "ons-households-by-type-country-2025",
     "ons-lad-population-by-age-2024",
@@ -801,10 +843,18 @@ def _resolve_bundle_sources(
         if report.valid or explicit or not _source_unavailable_for_year(report, year):
             build_sources.append(source)
             continue
+        restamp = any(
+            error.code == ARTIFACT_YEAR_RESTAMP_CODE for error in report.errors
+        )
         skipped_sources.append(
             SkippedSourceReport(
                 source=source,
-                reason="source package is not available for requested year",
+                reason=(
+                    "source package pins another year's artifact and would only "
+                    f"relabel it as {year} ({ARTIFACT_YEAR_RESTAMP_CODE})"
+                    if restamp
+                    else "source package is not available for requested year"
+                ),
                 validation=report.to_dict(),
             )
         )
@@ -812,13 +862,20 @@ def _resolve_bundle_sources(
 
 
 def _source_unavailable_for_year(report: Any, year: int) -> bool:
+    """Whether every validation error says the package has no data for ``year``.
+
+    That is either no artifact or column for the year, or a pinned artifact that
+    the year would only relabel (``artifact_year_restamp``): the package holds
+    no facts for the requested year either way.
+    """
     unavailable_messages = {repr(str(year)), f"No source artifact for year {year}"}
     unavailable_codes = {
         "record_set_compile_failed",
         "source_artifact_unavailable",
     }
     return bool(report.errors) and all(
-        error.code in unavailable_codes and error.message in unavailable_messages
+        error.code == ARTIFACT_YEAR_RESTAMP_CODE
+        or (error.code in unavailable_codes and error.message in unavailable_messages)
         for error in report.errors
     )
 
