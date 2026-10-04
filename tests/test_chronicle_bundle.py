@@ -136,7 +136,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 408145,
+        "fact_count": 409165,
         "geography_count": 12592,
         "period_count": 495,
         # 467 before chronicle#292 moved the congressional-district and
@@ -155,7 +155,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
         "source_count": 50,
-        "source_package_count": 268,
+        "source_package_count": 269,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -164,7 +164,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # ASHE writes '30 to 39' and '40 to 49' where NTS0601 writes 'Age 30 to 39'.
         "warning_count": 78,
     }
-    assert len(rows) == 408145
+    assert len(rows) == 409165
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -182,7 +182,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 268
+    assert source_packages["source_package_count"] == 269
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -196,7 +196,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 408145
+    assert coverage["fact_count"] == 409165
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -221,7 +221,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hhs_acf_tanf": 110,
         "hmrc": 31515,
         "ici": 12,
-        "irs_soi": 40063,
+        "irs_soi": 41083,
         "isc": 2,
         "jrc_euromod_be": 90,
         "kff": 52,
@@ -1265,6 +1265,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in issue_302_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#291: IRS SOI Historic Table 2 TY2023 state AGI-band facts.
+    expected_period_counts["tax_year:2023"] += 1020
     assert coverage["counts"]["by_period"] == expected_period_counts
     assert coverage["counts"]["by_geography"]["country:BE"] == 4888
     assert coverage["counts"]["by_geography"]["country:DE"] == 36
@@ -1274,7 +1276,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["nuts1:BE3"] == 3662
     assert coverage["counts"]["by_geography"]["commune:11002"] == 1
     assert coverage["counts"]["by_geography"]["country:0100000US"] == 2109
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 229
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 249
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
@@ -1295,7 +1297,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "person": 105074,
         "return": 14600,
         "social_protection_scheme": 36,
-        "tax_unit": 41368,
+        "tax_unit": 42388,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
