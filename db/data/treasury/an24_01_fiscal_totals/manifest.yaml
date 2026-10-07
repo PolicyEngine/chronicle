@@ -1,0 +1,34 @@
+# Immutable staged publisher bytes; hub upload pending. Treasury currently
+# requires explicit --r2-prefix raw/nz when publishing with Chronicle.
+source_id: treasury
+package_id: treasury-an24-01-fiscal-totals
+dataset: treasury_an24_01_fiscal_totals
+source_page: https://github.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/tree/6e840d54b67bb7f34c63b9d34897e234317445c3
+table: AN24-01 fiscal totals, TY2019
+license: CC0-1.0
+publisher_commit: 6e840d54b67bb7f34c63b9d34897e234317445c3
+files:
+  2019:
+    filename: fiscal_totals.csv
+    source_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    sha256: beeff2ddd166229ce2e1650b06a75af7e0cc9ed59c3652c2844ea210d51f8dfa
+    size_bytes: 8134
+    fetched_at: '2026-10-07T19:25:22Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/treasury/treasury-an24-01-fiscal-totals/2019/beeff2ddd166229ce2e1650b06a75af7e0cc9ed59c3652c2844ea210d51f8dfa/fiscal_totals.csv
+        uri: r2://ledger-raw/raw/nz/treasury/treasury-an24-01-fiscal-totals/2019/beeff2ddd166229ce2e1650b06a75af7e0cc9ed59c3652c2844ea210d51f8dfa/fiscal_totals.csv
+  license:
+    filename: LICENSE
+    source_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/LICENSE
+    sha256: a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499
+    size_bytes: 7048
+    fetched_at: '2026-10-07T19:24:41Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/treasury/treasury-an24-01-fiscal-totals/license/a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499/LICENSE
+        uri: r2://ledger-raw/raw/nz/treasury/treasury-an24-01-fiscal-totals/license/a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499/LICENSE
