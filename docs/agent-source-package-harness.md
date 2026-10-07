@@ -226,22 +226,34 @@ auditability, but it can add hundreds of lineage cells for very dense ranges.
 Use full label sequences where the interior labels are material to the aggregate
 meaning; otherwise prefer endpoint guards plus a small number of sentinels.
 
-The build suite is the review surface:
+The build suite is the review surface. Build into your own run directory, made
+with `mktemp -d`, never a fixed shared path such as `/tmp/chronicle-suite`.
+`--replace` deletes the output directory before it writes, so agents that share
+an output path delete each other's output. Inside your own run directory,
+`--replace` clears only your earlier build:
 
 ```bash
+RUN_DIR="$(mktemp -d)"
 uv run chronicle validate-package packages/irs_soi/table_1_1 --year 2023
-uv run chronicle build-suite soi-table-1-1 --year 2023 --out /tmp/chronicle-suite --replace
-uv run chronicle build-suite packages/irs_soi/table_1_1 --year 2023 --out /tmp/chronicle-suite --replace
+uv run chronicle build-suite soi-table-1-1 --year 2023 --out "$RUN_DIR/chronicle-suite" --replace
+uv run chronicle build-suite packages/irs_soi/table_1_1 --year 2023 --out "$RUN_DIR/chronicle-suite" --replace
 ```
+
+Each block below that starts with `RUN_DIR="$(mktemp -d)"` starts a new run.
+Steps that read a build's output (its reports, the DB export, the derived
+publish and the mirror load) reuse that build's `$RUN_DIR`. If your shell does
+not keep variables between commands, set `RUN_DIR` again to the parent of the
+`output_dir` that `build-suite` printed.
 
 For the row-oriented IRS SOI Historic Table 2 package, the 2022 national first
 slice can be checked with:
 
 ```bash
+RUN_DIR="$(mktemp -d)"
 uv run chronicle validate-package soi-historic-table-2 --year 2022
 uv run chronicle build-suite soi-historic-table-2 \
   --year 2022 \
-  --out /tmp/chronicle-soi-historic-table-2-2022 \
+  --out "$RUN_DIR/chronicle-soi-historic-table-2-2022" \
   --replace
 ```
 
@@ -249,54 +261,56 @@ For the CMS Marketplace OEP state-level ZIP package, the 2024 first slice can
 be checked with:
 
 ```bash
+RUN_DIR="$(mktemp -d)"
 uv run chronicle validate-package cms-aca-oep-state-level --year 2024
 uv run chronicle build-suite cms-aca-oep-state-level \
   --year 2024 \
-  --out /tmp/chronicle-cms-aca-oep-2024 \
+  --out "$RUN_DIR/chronicle-cms-aca-oep-2024" \
   --replace
 ```
 
 For the next US publisher-source packages, the 2024 slices can be checked with:
 
 ```bash
+RUN_DIR="$(mktemp -d)"
 uv run chronicle validate-package cms-nhe-historical-service-source --year 2024
 uv run chronicle build-suite cms-nhe-historical-service-source \
   --year 2024 \
-  --out /tmp/chronicle-cms-nhe-historical-service-source-2024 \
+  --out "$RUN_DIR/chronicle-cms-nhe-historical-service-source-2024" \
   --replace
 
 uv run chronicle validate-package census-stc-individual-income-tax --year 2024
 uv run chronicle build-suite census-stc-individual-income-tax \
   --year 2024 \
-  --out /tmp/chronicle-census-stc-individual-income-tax-2024 \
+  --out "$RUN_DIR/chronicle-census-stc-individual-income-tax-2024" \
   --replace
 
 uv run chronicle validate-package census-pep-2024-national-age-sex --year 2024
 uv run chronicle build-suite census-pep-2024-national-age-sex \
   --year 2024 \
-  --out /tmp/chronicle-census-pep-2024-national-age-sex-2024 \
+  --out "$RUN_DIR/chronicle-census-pep-2024-national-age-sex-2024" \
   --replace
 
 uv run chronicle validate-package hhs-acf-tanf-financial-2024 --year 2024
 uv run chronicle build-suite hhs-acf-tanf-financial-2024 \
   --year 2024 \
-  --out /tmp/chronicle-hhs-acf-tanf-financial-2024 \
+  --out "$RUN_DIR/chronicle-hhs-acf-tanf-financial-2024" \
   --replace
 
 uv run chronicle validate-package soi-ira-traditional-contributions-2022 --year 2022
 uv run chronicle build-suite soi-ira-traditional-contributions-2022 \
   --year 2022 \
-  --out /tmp/chronicle-soi-ira-traditional-contributions-2022 \
+  --out "$RUN_DIR/chronicle-soi-ira-traditional-contributions-2022" \
   --replace
 uv run chronicle validate-package soi-ira-roth-contributions-2022 --year 2022
 uv run chronicle build-suite soi-ira-roth-contributions-2022 \
   --year 2022 \
-  --out /tmp/chronicle-soi-ira-roth-contributions-2022 \
+  --out "$RUN_DIR/chronicle-soi-ira-roth-contributions-2022" \
   --replace
 uv run chronicle validate-package soi-w2-statistics-2020 --year 2020
 uv run chronicle build-suite soi-w2-statistics-2020 \
   --year 2020 \
-  --out /tmp/chronicle-soi-w2-statistics-2020 \
+  --out "$RUN_DIR/chronicle-soi-w2-statistics-2020" \
   --replace
 ```
 
@@ -304,340 +318,323 @@ For the first UK packages, OBR March 2026 EFO receipts and expenditure can be
 checked with:
 
 ```bash
-uv run chronicle validate-package obr-efo-receipts --year 2025
-uv run chronicle build-suite obr-efo-receipts \
+RUN_DIR="$(mktemp -d)"
+uv run chronicle validate-package obr-efo-receipts-march-2026 --year 2025
+uv run chronicle build-suite obr-efo-receipts-march-2026 \
   --year 2025 \
-  --out /tmp/chronicle-obr-efo-receipts-2025 \
+  --out "$RUN_DIR/chronicle-obr-efo-receipts-2025" \
   --replace
-uv run chronicle validate-package obr-efo-expenditure --year 2025
-uv run chronicle build-suite obr-efo-expenditure \
+uv run chronicle validate-package obr-efo-expenditure-march-2026 --year 2025
+uv run chronicle build-suite obr-efo-expenditure-march-2026 \
   --year 2025 \
-  --out /tmp/chronicle-obr-efo-expenditure-2025 \
+  --out "$RUN_DIR/chronicle-obr-efo-expenditure-2025" \
   --replace
 uv run chronicle validate-package slc-student-support-england-2025 --year 2025
 uv run chronicle build-suite slc-student-support-england-2025 \
   --year 2025 \
-  --out /tmp/chronicle-slc-student-support-england-2025 \
+  --out "$RUN_DIR/chronicle-slc-student-support-england-2025" \
   --replace
 uv run chronicle validate-package dwp-uc-two-child-limit-2025 --year 2026
 uv run chronicle build-suite dwp-uc-two-child-limit-2025 \
   --year 2026 \
-  --out /tmp/chronicle-dwp-uc-two-child-limit-2026 \
+  --out "$RUN_DIR/chronicle-dwp-uc-two-child-limit-2026" \
   --replace
 uv run chronicle validate-package dwp-benefit-cap-november-2025 --year 2025
 uv run chronicle build-suite dwp-benefit-cap-november-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-benefit-cap-2025 \
+  --out "$RUN_DIR/chronicle-dwp-benefit-cap-2025" \
   --replace
 uv run chronicle validate-package dwp-benefit-statistics-february-2026 --year 2025
 uv run chronicle build-suite dwp-benefit-statistics-february-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-benefit-statistics-2025 \
+  --out "$RUN_DIR/chronicle-dwp-benefit-statistics-2025" \
   --replace
 uv run chronicle validate-package dwp-pip-daily-living-foi-2025 --year 2025
 uv run chronicle build-suite dwp-pip-daily-living-foi-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-pip-daily-living-foi-2025 \
+  --out "$RUN_DIR/chronicle-dwp-pip-daily-living-foi-2025" \
   --replace
 
 uv run chronicle validate-package dwp-uc-payment-distribution-april-december-2025 --year 2025
 uv run chronicle build-suite dwp-uc-payment-distribution-april-december-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-payment-distribution-april-december-2025 \
+  --out "$RUN_DIR/chronicle-dwp-uc-payment-distribution-april-december-2025" \
   --replace
 
 uv run chronicle validate-package dwp-uc-childcare-element-march-2021-may-2026 --year 2025
 uv run chronicle build-suite dwp-uc-childcare-element-march-2021-may-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-childcare-element-2021-2026 \
+  --out "$RUN_DIR/chronicle-dwp-uc-childcare-element-2021-2026" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-children-april-december-2025 --year 2025
 uv run chronicle build-suite dwp-uc-households-children-april-december-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-households-children-april-december-2025 \
+  --out "$RUN_DIR/chronicle-dwp-uc-households-children-april-december-2025" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-family-type-april-december-2025 --year 2025
 uv run chronicle build-suite dwp-uc-households-family-type-april-december-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-households-family-type-april-december-2025 \
+  --out "$RUN_DIR/chronicle-dwp-uc-households-family-type-april-december-2025" \
   --replace
 
 uv run chronicle validate-package dwp-uc-scotland-youngest-child-april-december-2025 --year 2025
 uv run chronicle build-suite dwp-uc-scotland-youngest-child-april-december-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-scotland-youngest-child-april-december-2025 \
+  --out "$RUN_DIR/chronicle-dwp-uc-scotland-youngest-child-april-december-2025" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-family-type-child-entitlement-april-december-2025 --year 2025
 uv run chronicle build-suite dwp-uc-households-family-type-child-entitlement-april-december-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-family-type-child-entitlement-2025 \
+  --out "$RUN_DIR/chronicle-dwp-uc-family-type-child-entitlement-2025" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-children-child-entitlement-april-december-2025 --year 2025
 uv run chronicle build-suite dwp-uc-households-children-child-entitlement-april-december-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-children-child-entitlement-2025 \
+  --out "$RUN_DIR/chronicle-dwp-uc-children-child-entitlement-2025" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-family-type-payment-indicator-april-december-2025 --year 2025
 uv run chronicle build-suite dwp-uc-households-family-type-payment-indicator-april-december-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-family-type-payment-indicator-2025 \
+  --out "$RUN_DIR/chronicle-dwp-uc-family-type-payment-indicator-2025" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-family-type-payment-indicator-child-entitlement-april-2023-may-2026 --year 2025
 uv run chronicle build-suite dwp-uc-households-family-type-payment-indicator-child-entitlement-april-2023-may-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-family-type-payment-indicator-child-entitlement-2023-2026 \
+  --out "$RUN_DIR/chronicle-dwp-uc-family-type-payment-indicator-child-entitlement-2023-2026" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-children-payment-indicator-child-entitlement-april-2023-may-2026 --year 2025
 uv run chronicle build-suite dwp-uc-households-children-payment-indicator-child-entitlement-april-2023-may-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-children-payment-indicator-child-entitlement-2023-2026 \
+  --out "$RUN_DIR/chronicle-dwp-uc-children-payment-indicator-child-entitlement-2023-2026" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-housing-tenure-payment-indicator-january-2023-may-2026 --year 2025
 uv run chronicle build-suite dwp-uc-households-housing-tenure-payment-indicator-january-2023-may-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-housing-tenure-payment-indicator-2023-2026 \
+  --out "$RUN_DIR/chronicle-dwp-uc-housing-tenure-payment-indicator-2023-2026" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-housing-entitlement-payment-indicator-january-2023-may-2026 --year 2025
 uv run chronicle build-suite dwp-uc-households-housing-entitlement-payment-indicator-january-2023-may-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-housing-entitlement-payment-indicator-2023-2026 \
+  --out "$RUN_DIR/chronicle-dwp-uc-housing-entitlement-payment-indicator-2023-2026" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-lcw-entitlement-payment-indicator-january-2023-may-2026 --year 2025
 uv run chronicle build-suite dwp-uc-households-lcw-entitlement-payment-indicator-january-2023-may-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-lcw-entitlement-payment-indicator-2023-2026 \
+  --out "$RUN_DIR/chronicle-dwp-uc-lcw-entitlement-payment-indicator-2023-2026" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-lcw-entitlement-group-payment-indicator-january-2023-may-2026 --year 2025
 uv run chronicle build-suite dwp-uc-households-lcw-entitlement-group-payment-indicator-january-2023-may-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-lcw-entitlement-group-payment-indicator-2023-2026 \
+  --out "$RUN_DIR/chronicle-dwp-uc-lcw-entitlement-group-payment-indicator-2023-2026" \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-carer-entitlement-payment-indicator-january-2023-may-2026 --year 2025
 uv run chronicle build-suite dwp-uc-households-carer-entitlement-payment-indicator-january-2023-may-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-carer-entitlement-payment-indicator-2023-2026 \
+  --out "$RUN_DIR/chronicle-dwp-uc-carer-entitlement-payment-indicator-2023-2026" \
   --replace
 
 uv run chronicle validate-package dwp-uc-people-employment-indicator-january-2023-may-2026 --year 2025
 uv run chronicle build-suite dwp-uc-people-employment-indicator-january-2023-may-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-people-employment-indicator-2023-2026 \
+  --out "$RUN_DIR/chronicle-dwp-uc-people-employment-indicator-2023-2026" \
   --replace
 
 uv run chronicle validate-package dwp-hb-claimants-client-type-tenure-january-2023-february-2026 --year 2025
 uv run chronicle build-suite dwp-hb-claimants-client-type-tenure-january-2023-february-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-hb-claimants-client-type-tenure-2023-2026 \
+  --out "$RUN_DIR/chronicle-dwp-hb-claimants-client-type-tenure-2023-2026" \
   --replace
 
 uv run chronicle validate-package dwp-hb-claimants-client-type-tenure-accommodation-type-september-2025-february-2026 --year 2025
 uv run chronicle build-suite dwp-hb-claimants-client-type-tenure-accommodation-type-september-2025-february-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-hb-claimants-accommodation-type-2025-2026 \
+  --out "$RUN_DIR/chronicle-dwp-hb-claimants-accommodation-type-2025-2026" \
   --replace
 
 uv run chronicle validate-package hmrc-child-benefit-august-2025 --year 2025
 uv run chronicle build-suite hmrc-child-benefit-august-2025 \
   --year 2025 \
-  --out /tmp/chronicle-hmrc-child-benefit-august-2025 \
+  --out "$RUN_DIR/chronicle-hmrc-child-benefit-august-2025" \
   --replace
 
 uv run chronicle validate-package ons-census2021-ts003-household-composition-country --year 2021
 uv run chronicle build-suite ons-census2021-ts003-household-composition-country \
   --year 2021 \
-  --out /tmp/chronicle-ons-census2021-ts003-household-composition-country \
+  --out "$RUN_DIR/chronicle-ons-census2021-ts003-household-composition-country" \
   --replace
 
 uv run chronicle validate-package nrs-census2022-uv113-household-composition-country --year 2022
 uv run chronicle build-suite nrs-census2022-uv113-household-composition-country \
   --year 2022 \
-  --out /tmp/chronicle-nrs-census2022-uv113-household-composition-country \
+  --out "$RUN_DIR/chronicle-nrs-census2022-uv113-household-composition-country" \
   --replace
 
 uv run chronicle validate-package nisra-census2021-household-composition-country --year 2021
 uv run chronicle build-suite nisra-census2021-household-composition-country \
   --year 2021 \
-  --out /tmp/chronicle-nisra-census2021-household-composition-country \
+  --out "$RUN_DIR/chronicle-nisra-census2021-household-composition-country" \
   --replace
 
 uv run chronicle validate-package hmrc-salary-sacrifice-relief-2024-25 --year 2024
 uv run chronicle build-suite hmrc-salary-sacrifice-relief-2024-25 \
   --year 2024 \
-  --out /tmp/chronicle-hmrc-salary-sacrifice-relief-2024-25 \
+  --out "$RUN_DIR/chronicle-hmrc-salary-sacrifice-relief-2024-25" \
   --replace
 
 uv run chronicle validate-package hmrc-spi-income-bands-2023-24 --year 2023
 uv run chronicle build-suite hmrc-spi-income-bands-2023-24 \
   --year 2023 \
-  --out /tmp/chronicle-hmrc-spi-income-bands-2023-24 \
+  --out "$RUN_DIR/chronicle-hmrc-spi-income-bands-2023-24" \
   --replace
 
 uv run chronicle validate-package ons-savings-interest-income --year 2023
 uv run chronicle build-suite ons-savings-interest-income \
   --year 2023 \
-  --out /tmp/chronicle-ons-savings-interest-income-2023 \
-  --replace
-
-uv run chronicle validate-package ons-uk-population-projections-2022 --year 2022
-uv run chronicle build-suite ons-uk-population-projections-2022 \
-  --year 2022 \
-  --out /tmp/chronicle-ons-uk-population-projections-2022 \
-  --replace
-
-uv run chronicle validate-package nrs-mid-year-population-estimates-2024 --year 2024
-uv run chronicle build-suite nrs-mid-year-population-estimates-2024 \
-  --year 2024 \
-  --out /tmp/chronicle-nrs-mid-year-population-estimates-2024 \
-  --replace
-
-uv run chronicle validate-package nrs-vital-events-reference-tables-2024 --year 2024
-uv run chronicle build-suite nrs-vital-events-reference-tables-2024 \
-  --year 2024 \
-  --out /tmp/chronicle-nrs-vital-events-reference-tables-2024 \
+  --out "$RUN_DIR/chronicle-ons-savings-interest-income-2023" \
   --replace
 
 uv run chronicle validate-package ons-subnational-dwellings-by-tenure-2024 --year 2024
 uv run chronicle build-suite ons-subnational-dwellings-by-tenure-2024 \
   --year 2024 \
-  --out /tmp/chronicle-ons-subnational-dwellings-by-tenure-2024 \
+  --out "$RUN_DIR/chronicle-ons-subnational-dwellings-by-tenure-2024" \
   --replace
 
 uv run chronicle validate-package hmrc-salary-sacrifice-reform-2029-headcounts --year 2025
 uv run chronicle build-suite hmrc-salary-sacrifice-reform-2029-headcounts \
   --year 2025 \
-  --out /tmp/chronicle-hmrc-ss-headcounts \
+  --out "$RUN_DIR/chronicle-hmrc-ss-headcounts" \
   --replace
 
 uv run chronicle validate-package isc-annual-census-2023 --year 2023
 uv run chronicle build-suite isc-annual-census-2023 \
   --year 2023 \
-  --out /tmp/chronicle-isc-2023 \
+  --out "$RUN_DIR/chronicle-isc-2023" \
   --replace
 uv run chronicle validate-package isc-annual-census-2024 --year 2024
 uv run chronicle build-suite isc-annual-census-2024 \
   --year 2024 \
-  --out /tmp/chronicle-isc-2024 \
+  --out "$RUN_DIR/chronicle-isc-2024" \
   --replace
 
 uv run chronicle validate-package ons-national-balance-sheet-land-2025 --year 2024
 uv run chronicle build-suite ons-national-balance-sheet-land-2025 \
   --year 2024 \
-  --out /tmp/chronicle-ons-national-balance-sheet-land-2025 \
+  --out "$RUN_DIR/chronicle-ons-national-balance-sheet-land-2025" \
   --replace
 
 uv run chronicle validate-package voa-council-tax-bands-2025 --year 2025
 uv run chronicle build-suite voa-council-tax-bands-2025 \
   --year 2025 \
-  --out /tmp/chronicle-voa-council-tax-bands-2025 \
+  --out "$RUN_DIR/chronicle-voa-council-tax-bands-2025" \
   --replace
 
 uv run chronicle validate-package scotgov-council-tax-bands-2025 --year 2025
 uv run chronicle build-suite scotgov-council-tax-bands-2025 \
   --year 2025 \
-  --out /tmp/chronicle-scotgov-council-tax-bands-2025 \
+  --out "$RUN_DIR/chronicle-scotgov-council-tax-bands-2025" \
   --replace
 
 uv run chronicle validate-package scotgov-scottish-budget-social-security-assistance-2026 --year 2026
 uv run chronicle build-suite scotgov-scottish-budget-social-security-assistance-2026 \
   --year 2026 \
-  --out /tmp/chronicle-scotgov-scottish-budget-social-security-assistance-2026 \
+  --out "$RUN_DIR/chronicle-scotgov-scottish-budget-social-security-assistance-2026" \
   --replace
 
 uv run chronicle validate-package scotgov-council-tax-collection-2025-26 --year 2026
 uv run chronicle build-suite scotgov-council-tax-collection-2025-26 \
   --year 2026 \
-  --out /tmp/chronicle-scotgov-council-tax-collection-2025-26 \
+  --out "$RUN_DIR/chronicle-scotgov-council-tax-collection-2025-26" \
   --replace
 uv run chronicle validate-package scotgov-council-tax-collection-2024-25 --year 2025
 uv run chronicle build-suite scotgov-council-tax-collection-2024-25 \
   --year 2025 \
-  --out /tmp/chronicle-scotgov-council-tax-collection-2024-25 \
+  --out "$RUN_DIR/chronicle-scotgov-council-tax-collection-2024-25" \
   --replace
 uv run chronicle validate-package scotgov-slgfs-council-tax-2024-25 --year 2026
 uv run chronicle build-suite scotgov-slgfs-council-tax-2024-25 \
   --year 2026 \
-  --out /tmp/chronicle-scotgov-slgfs-council-tax-2024-25 \
+  --out "$RUN_DIR/chronicle-scotgov-slgfs-council-tax-2024-25" \
   --replace
 uv run chronicle validate-package welshgov-council-tax-collection-2025-26 --year 2026
 uv run chronicle build-suite welshgov-council-tax-collection-2025-26 \
   --year 2026 \
-  --out /tmp/chronicle-welshgov-council-tax-collection-2025-26 \
+  --out "$RUN_DIR/chronicle-welshgov-council-tax-collection-2025-26" \
   --replace
 uv run chronicle validate-package welshgov-council-tax-collection-2024-25 --year 2025
 uv run chronicle build-suite welshgov-council-tax-collection-2024-25 \
   --year 2025 \
-  --out /tmp/chronicle-welshgov-council-tax-collection-2024-25 \
+  --out "$RUN_DIR/chronicle-welshgov-council-tax-collection-2024-25" \
   --replace
 uv run chronicle validate-package welshgov-ctrs-annual-report-2025-26 --year 2026
 uv run chronicle build-suite welshgov-ctrs-annual-report-2025-26 \
   --year 2026 \
-  --out /tmp/chronicle-welshgov-ctrs-annual-report-2025-26 \
+  --out "$RUN_DIR/chronicle-welshgov-ctrs-annual-report-2025-26" \
   --replace
 uv run chronicle validate-package welshgov-ctrs-annual-report-2024-25 --year 2025
 uv run chronicle build-suite welshgov-ctrs-annual-report-2024-25 \
   --year 2025 \
-  --out /tmp/chronicle-welshgov-ctrs-annual-report-2024-25 \
+  --out "$RUN_DIR/chronicle-welshgov-ctrs-annual-report-2024-25" \
   --replace
 uv run chronicle validate-package mhclg-council-tax-levels-england-summary-2025-26 --year 2026
 uv run chronicle build-suite mhclg-council-tax-levels-england-summary-2025-26 \
   --year 2026 \
-  --out /tmp/chronicle-mhclg-council-tax-levels-england-summary-2025-26 \
+  --out "$RUN_DIR/chronicle-mhclg-council-tax-levels-england-summary-2025-26" \
   --replace
 uv run chronicle validate-package mhclg-council-tax-collection-england-2025-26 --year 2026
 uv run chronicle build-suite mhclg-council-tax-collection-england-2025-26 \
   --year 2026 \
-  --out /tmp/chronicle-mhclg-council-tax-collection-england-2025-26 \
+  --out "$RUN_DIR/chronicle-mhclg-council-tax-collection-england-2025-26" \
   --replace
 
 uv run chronicle validate-package dft-nts-vehicle-ownership-2024 --year 2024
 uv run chronicle build-suite dft-nts-vehicle-ownership-2024 \
   --year 2024 \
-  --out /tmp/chronicle-dft-nts-2024 \
+  --out "$RUN_DIR/chronicle-dft-nts-2024" \
   --replace
 
 uv run chronicle validate-package ons-public-sector-employment-2026 --year 2026
 uv run chronicle build-suite ons-public-sector-employment-2026 \
   --year 2026 \
-  --out /tmp/chronicle-ons-pse-2026 \
+  --out "$RUN_DIR/chronicle-ons-pse-2026" \
   --replace
 
 uv run chronicle validate-package slc-student-loan-borrower-forecasts-england-2025 --year 2025
 uv run chronicle build-suite slc-student-loan-borrower-forecasts-england-2025 \
   --year 2025 \
-  --out /tmp/chronicle-slc-student-loan-borrower-forecasts-england-2025 \
+  --out "$RUN_DIR/chronicle-slc-student-loan-borrower-forecasts-england-2025" \
   --replace
 
 uv run chronicle validate-package slc-student-loan-repayments-england-2025 --year 2025
 uv run chronicle build-suite slc-student-loan-repayments-england-2025 \
   --year 2025 \
-  --out /tmp/chronicle-slc-student-loan-repayments-england-2025 \
+  --out "$RUN_DIR/chronicle-slc-student-loan-repayments-england-2025" \
   --replace
 uv run chronicle validate-package slc-student-loan-repayments-scotland-2025 --year 2025
 uv run chronicle build-suite slc-student-loan-repayments-scotland-2025 \
   --year 2025 \
-  --out /tmp/chronicle-slc-student-loan-repayments-scotland-2025 \
+  --out "$RUN_DIR/chronicle-slc-student-loan-repayments-scotland-2025" \
   --replace
 uv run chronicle validate-package slc-student-loan-repayments-wales-2025 --year 2025
 uv run chronicle build-suite slc-student-loan-repayments-wales-2025 \
   --year 2025 \
-  --out /tmp/chronicle-slc-student-loan-repayments-wales-2025 \
+  --out "$RUN_DIR/chronicle-slc-student-loan-repayments-wales-2025" \
   --replace
 uv run chronicle validate-package slc-student-loan-repayments-northern-ireland-2025 --year 2025
 uv run chronicle build-suite slc-student-loan-repayments-northern-ireland-2025 \
   --year 2025 \
-  --out /tmp/chronicle-slc-student-loan-repayments-northern-ireland-2025 \
+  --out "$RUN_DIR/chronicle-slc-student-loan-repayments-northern-ireland-2025" \
   --replace
 ```
 
@@ -647,7 +644,7 @@ sources.
 
 It produces source rows/cells, source-region specs, selector reports,
 aggregate facts, a relational SQLite DB artifact, and per-stage JSON reports under
-`/tmp/chronicle-suite/reports`. It also writes `datapackage.json` and
+`$RUN_DIR/chronicle-suite/reports`. It also writes `datapackage.json` and
 `ro-crate-metadata.json` sidecars so the generated artifacts can be described
 with common data-package conventions while Chronicle keeps its native schema strict.
 For downstream integration, agents should use the merged year bundle after
@@ -673,7 +670,7 @@ uv run chronicle build-consumer-artifact --facts /tmp/chronicle-uk --out /tmp/ch
 The US off-year bundle behavior is unchanged and out of scope here.
 
 The first agent-facing gate is now
-`/tmp/chronicle-suite/reports/agent_acceptance.json`; it summarizes whether raw
+`$RUN_DIR/chronicle-suite/reports/agent_acceptance.json`; it summarizes whether raw
 artifacts have R2 pointers, the full source document was parsed, facts have
 provenance and source-cell/source-row lineage, expected constraints are
 first-class, row-backed facts are consistent with their parsed source rows,
@@ -684,9 +681,10 @@ warn with `concept_alignment_validation_skipped`; stricter agent runs can make
 that warning fatal:
 
 ```bash
+RUN_DIR="$(mktemp -d)"
 uv run chronicle build-suite packages/irs_soi/table_1_1 \
   --year 2023 \
-  --out /tmp/chronicle-suite \
+  --out "$RUN_DIR/chronicle-suite" \
   --replace \
   --axiom-cli axiom \
   --axiom-root ../rules-us \
@@ -695,10 +693,12 @@ uv run chronicle build-suite packages/irs_soi/table_1_1 \
 
 The SQLite `ledger.db` is the source of hosted mirrors. To prepare tables for
 Supabase/Postgres bulk loading, export the DB artifact rather than inserting
-cells through the Supabase client:
+cells through the Supabase client. This step, the derived publish and the
+mirror load all read the `build-suite` output above, so they reuse that run's
+`$RUN_DIR`:
 
 ```bash
-uv run chronicle export-db-tables --db /tmp/chronicle-suite/ledger.db --out /tmp/chronicle-mirror --replace
+uv run chronicle export-db-tables --db "$RUN_DIR/chronicle-suite/ledger.db" --out "$RUN_DIR/chronicle-mirror" --replace
 ```
 
 Accepted build-suite outputs can be published to the private `ledger-derived` R2
@@ -706,11 +706,11 @@ bucket after validation:
 
 ```bash
 uv run chronicle publish-derived \
-  --dir /tmp/chronicle-suite \
+  --dir "$RUN_DIR/chronicle-suite" \
   --source-id irs_soi \
   --package-id soi-table-1-1 \
   --year 2023 \
-  --build-artifacts-out /tmp/chronicle-build-artifacts.jsonl
+  --build-artifacts-out "$RUN_DIR/chronicle-build-artifacts.jsonl"
 ```
 
 The SQL schema is checked in at
@@ -724,12 +724,12 @@ hosted mirror:
 
 ```bash
 uv run chronicle load-supabase-mirror \
-  --dir /tmp/chronicle-mirror \
-  --build-artifacts /tmp/chronicle-build-artifacts.jsonl \
+  --dir "$RUN_DIR/chronicle-mirror" \
+  --build-artifacts "$RUN_DIR/chronicle-build-artifacts.jsonl" \
   --dry-run
 uv run chronicle load-supabase-mirror \
-  --dir /tmp/chronicle-mirror \
-  --build-artifacts /tmp/chronicle-build-artifacts.jsonl
+  --dir "$RUN_DIR/chronicle-mirror" \
+  --build-artifacts "$RUN_DIR/chronicle-build-artifacts.jsonl"
 ```
 
 The live load requires `POLICYENGINE_SUPABASE_URL` and
