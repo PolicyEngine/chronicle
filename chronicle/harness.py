@@ -272,6 +272,7 @@ def build_bundle_dir(
     axiom_roots: list[str | Path] | None = None,
     require_axiom_validation: bool = False,
     replace: bool = False,
+    keep_suite_intermediates: bool = True,
 ) -> BuildBundleReport:
     """Build a merged Chronicle consumer bundle from source-package suites."""
     if suite == "uk":
@@ -287,6 +288,7 @@ def build_bundle_dir(
         axiom_roots=axiom_roots or (),
         require_axiom_validation=require_axiom_validation,
         replace=replace,
+        keep_suite_intermediates=keep_suite_intermediates,
     )
 
 
@@ -750,6 +752,16 @@ def main(argv: list[str] | None = None) -> int:
         "--require-axiom-validation",
         action="store_true",
         help="Fail agent acceptance unless every canonical concept is checked.",
+    )
+    bundle_parser.add_argument(
+        "--slim",
+        action="store_true",
+        help=(
+            "Delete each source suite's source_rows.jsonl, source_cells.jsonl, "
+            "facts.jsonl and ledger.db once the suite finishes; the bundle's "
+            "consumer facts and reports are unchanged. "
+            "reports/pruned_intermediates.json lists what was deleted."
+        ),
     )
 
     consumer_artifact_parser = subparsers.add_parser(
@@ -1274,6 +1286,7 @@ def main(argv: list[str] | None = None) -> int:
             axiom_roots=args.axiom_root,
             require_axiom_validation=args.require_axiom_validation,
             replace=args.replace,
+            keep_suite_intermediates=not args.slim,
         )
         print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
         return 0 if report.valid else 1
