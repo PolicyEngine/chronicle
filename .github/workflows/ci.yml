@@ -58,14 +58,34 @@ jobs:
       - name: Test UK calibration source additions
         run: uv run pytest -q tests/test_chronicle_uk_national_2025.py
 
+      - name: Test merged Chronicle bundles
+        run: >
+          uv run pytest -q tests/test_chronicle_bundle.py
+          --basetemp=/tmp/chronicle-bundle-ci
+
+      - name: Upload failed bundle reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chronicle-bundle-failure-reports
+          if-no-files-found: ignore
+          retention-days: 7
+          path: |
+            /tmp/chronicle-bundle-ci/**/reports/*.json
+            /tmp/chronicle-bundle-ci/**/coverage.json
+            /tmp/chronicle-bundle-ci/**/source_packages.json
+
       - name: Test Chronicle surface
         # --durations lists the slowest tests so a slowdown is visible in the
         # log instead of only in the job's total time.
         run: >
           uv run pytest -q --durations=25
+          --ignore=tests/test_chronicle_uk_national_2025.py
+          --ignore=tests/test_chronicle_bundle.py
+          --ignore=tests/test_ots_anchor.py
 
-      # Keep this security-sensitive operational surface explicit even though
-      # the broad Chronicle lint and test commands above also cover it.
+      # Keep this security-sensitive operational surface explicit. The broad
+      # Chronicle lint also covers it; its tests run only in the step below.
       - name: Lint OpenTimestamps anchoring
         run: uv run ruff check scripts/ots_anchor.py tests/test_ots_anchor.py
 

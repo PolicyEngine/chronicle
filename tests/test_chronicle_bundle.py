@@ -37,6 +37,39 @@ def _iter_jsonl(path):
                 yield json.loads(line)
 
 
+def _bundle_failure_diagnostics(summary):
+    """Expose actual bundle and nested source errors without dumping coverage."""
+    invalid_sources = []
+    for source in summary["source_packages"]:
+        if source["valid"]:
+            continue
+        details = {"source": source["source"], "counts": source["counts"]}
+        path = Path(source["outputs"]["reports"]) / "build_summary.json"
+        try:
+            nested = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError) as error:
+            details["report_read_error"] = str(error)
+        else:
+            details["errors"] = {
+                name: {
+                    "error_count": len(report["errors"]),
+                    "first_errors": report["errors"][:5],
+                }
+                for name, report in nested["reports"].items()
+                if report.get("errors")
+            }
+        invalid_sources.append(details)
+    return json.dumps(
+        {
+            "counts": summary["counts"],
+            "first_errors": summary["errors"][:20],
+            "invalid_source_count": len(invalid_sources),
+            "first_invalid_sources": invalid_sources[:10],
+        },
+        indent=2,
+    )
+
+
 def _fixture_consumer_rows():
     path = Path(__file__).parents[1] / "chronicle" / "fixtures" / "consumer_facts.jsonl"
     return _load_jsonl(path)
@@ -166,7 +199,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     source_packages = json.loads((output_dir / "source_packages.json").read_text())
     coverage = json.loads((output_dir / "coverage.json").read_text())
 
-    assert report.valid
+    assert report.valid, _bundle_failure_diagnostics(summary)
     assert summary["valid"]
     # chronicle#209's NZ WFF package adds 330 TY2024 facts: 329 families and 1
     # person, in one new publisher, package, source table and country.
