@@ -7,12 +7,16 @@ sidecars that hash it, are pure functions of their inputs.
 
 from __future__ import annotations
 
+from contextlib import closing
 from datetime import datetime, timedelta
 from functools import cache
 import hashlib
+import os
 from pathlib import Path
 import re
 import sqlite3
+import subprocess
+import sys
 import tempfile
 
 from hypothesis import given, settings, strategies as st
@@ -32,7 +36,8 @@ from chronicle.jurisdictions.us.soi import (
 from chronicle.sources.cells import build_source_cell_key
 from chronicle.suite import build_source_suite
 
-PACKAGE_DIR = Path(__file__).resolve().parents[1] / "packages/irs_soi/table_1_1"
+REPO_ROOT = Path(__file__).resolve().parents[1]
+PACKAGE_DIR = REPO_ROOT / "packages" / "irs_soi" / "table_1_1"
 EPOCHS = st.integers(min_value=0, max_value=_MAX_SOURCE_DATE_EPOCH)
 
 
@@ -55,22 +60,49 @@ def _file_hashes(root: Path) -> dict[str, str]:
 
 
 def _created_at(db_path: Path) -> str:
-    with sqlite3.connect(db_path) as connection:
+    with closing(sqlite3.connect(db_path)) as connection:
         return connection.execute("SELECT created_at FROM ledger_builds").fetchone()[0]
 
 
-def test_build_source_suite_rebuild_is_byte_identical(tmp_path, monkeypatch):
-    monkeypatch.delenv(SOURCE_DATE_EPOCH_ENV, raising=False)
+def _build_suite_in_new_process(output_dir: Path, *, hash_seed: str) -> None:
+    environment = {
+        key: value for key, value in os.environ.items() if key != SOURCE_DATE_EPOCH_ENV
+    }
+    environment["PYTHONHASHSEED"] = hash_seed
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "policyengine_chronicle.cli",
+            "build-suite",
+            str(PACKAGE_DIR),
+            "--year",
+            "2023",
+            "--out",
+            str(output_dir),
+            "--replace",
+        ],
+        cwd=REPO_ROOT,
+        env=environment,
+        capture_output=True,
+        check=True,
+        timeout=300,
+    )
+
+
+def test_build_suite_rebuild_in_a_new_process_is_byte_identical(tmp_path):
     # One output path for both builds: reports embed absolute output paths.
+    # Separate processes with different hash seeds stand in for a rebuild
+    # checked against a published suite.
     output_dir = tmp_path / "suite"
 
-    build_source_suite(PACKAGE_DIR, output_dir, year=2023)
-    first = _file_hashes(output_dir)
-    build_source_suite(PACKAGE_DIR, output_dir, year=2023, replace=True)
-    second = _file_hashes(output_dir)
+    _build_suite_in_new_process(output_dir, hash_seed="1")
+    published = _file_hashes(output_dir)
+    _build_suite_in_new_process(output_dir, hash_seed="2")
+    rebuilt = _file_hashes(output_dir)
 
-    assert {"ledger.db", "datapackage.json", "ro-crate-metadata.json"} <= set(first)
-    assert second == first
+    assert {"ledger.db", "datapackage.json", "ro-crate-metadata.json"} <= set(published)
+    assert rebuilt == published
 
 
 def test_ledger_db_created_at_defaults_to_unix_epoch(tmp_path, monkeypatch):
