@@ -14,9 +14,11 @@ from chronicle.bundle import (
     BUNDLE_SCHEMA_VERSION,
     BUNDLE_SOURCES_SCHEMA_VERSION,
     UK_BUNDLE_SOURCES,
-    _load_jsonl as load_bundle_jsonl,
     build_bundle,
     build_bundle_coverage,
+)
+from chronicle.bundle import (
+    _load_jsonl as load_bundle_jsonl,
 )
 from chronicle.epoch import CONSUMER_FACT_EMIT_SCHEMA_VERSION, HASH_DOMAINS, Epoch
 from chronicle.harness import build_bundle_dir
@@ -134,12 +136,16 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert summary["valid"]
     # chronicle#209's NZ WFF package adds 330 TY2024 facts: 329 families and 1
     # person, in one new publisher, package, source table and country.
+    # B4 adds 139 MSD facts: 128 persons and 11 government expenses,
+    # four packages/tables and 12 W&I statistical scopes. Period/entity keys
+    # already exist. Each source was measured separately; the full bundle
+    # runs in CI. The additive source counts are 46 + 36 + 46 + 11.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 408475,
-        "geography_count": 12593,
+        "fact_count": 408614,
+        "geography_count": 12605,
         "period_count": 495,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
@@ -156,8 +162,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # as published.
         "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
-        "source_count": 51,
-        "source_package_count": 269,
+        "source_count": 52,
+        "source_package_count": 273,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -166,7 +172,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # ASHE writes '30 to 39' and '40 to 49' where NTS0601 writes 'Age 30 to 39'.
         "warning_count": 78,
     }
-    assert len(rows) == 408475
+    assert len(rows) == 408614
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -184,7 +190,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 269
+    assert source_packages["source_package_count"] == 273
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -198,7 +204,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 408475
+    assert coverage["fact_count"] == 408614
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -229,6 +235,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jrc_euromod_be": 90,
         "kff": 52,
         "mhclg": 118542,
+        "msd": 139,
         "nbb_national_accounts": 1,
         "nisra": 533,
         "nithc": 8,
@@ -253,8 +260,30 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9325,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 264
+    assert len(table_counts) == 268
     assert table_counts["ird:Working for Families statistics - September 2025"] == 330
+    assert (
+        table_counts[
+            "msd:Quarterly Benefit Fact Sheets - National Benefit Tables, June 2026"
+        ]
+        == 46
+    )
+    assert (
+        table_counts[
+            "msd:Quarterly Benefit Fact Sheets: supplementary assistance by Work and Income region, June 2026"
+        ]
+        == 36
+    )
+    assert (
+        table_counts["msd:New Zealand Superannuation and Veteran's Pension - June 2026"]
+        == 46
+    )
+    assert (
+        table_counts[
+            "msd:Ministry of Social Development Annual Report 2025, Benefits or Related Expenses"
+        ]
+        == 11
+    )
     assert (
         table_counts[
             "dwp:State Pension caseload and mean weekly amount by age, gender and "
@@ -1272,8 +1301,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # chronicle#209: IRD's Working for Families statistics for the 2024 tax
     # year (1 April 2023 to 31 March 2024).
     expected_period_counts["tax_year:2024"] += 330
+    # B4: three June 2026 count packages and actual FY2024/25 expenses.
+    expected_period_counts["month:2026-06"] += 128
+    expected_period_counts["fiscal_year:2024"] += 11
     assert coverage["counts"]["by_period"] == expected_period_counts
-    assert coverage["counts"]["by_geography"]["country:NZ"] == 330
+    assert coverage["counts"]["by_geography"]["country:NZ"] == 433
     assert coverage["counts"]["by_geography"]["country:BE"] == 4888
     assert coverage["counts"]["by_geography"]["country:DE"] == 36
     assert coverage["counts"]["by_geography"]["country:FR"] == 36
@@ -1290,17 +1322,34 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["country:E92000001"] == 5261
     assert coverage["counts"]["by_geography"]["country:K03000001"] == 20744
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
-    assert len(coverage["counts"]["by_geography"]) == 12593
+    for region in (
+        "auckland",
+        "bay-of-plenty",
+        "canterbury",
+        "central",
+        "east-coast",
+        "nelson",
+        "northland",
+        "other-regions",
+        "southern",
+        "taranaki",
+        "waikato",
+        "wellington",
+    ):
+        assert (
+            coverage["counts"]["by_geography"][f"statistical_scope:nz-wi-{region}"] == 3
+        )
+    assert len(coverage["counts"]["by_geography"]) == 12605
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33643,
         "dwelling": 152487,
         "family": 1628,
         "firm": 1440,
-        "government": 3412,
+        "government": 3423,
         "household": 53521,
         "institutional_sector": 1263,
         "pension_plan": 2,
-        "person": 105075,
+        "person": 105203,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 41368,

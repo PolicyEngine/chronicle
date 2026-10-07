@@ -1,0 +1,1730 @@
+# Published June 2026 all-ages counts only. National totals come from the national
+# workbook package; the region counts are never summed. Preserve SPB-or-TAS.
+schema_version: ledger.source_package.v1
+package_id: msd-benefit-fact-sheets-supplementary-june-2026
+label: MSD supplementary assistance recipients by Work and Income region, June 2026
+dimension_labels:
+  msd_supplementary_assistance_type: Supplementary assistance type
+dimension_value_labels:
+  msd_supplementary_assistance_type:
+    special_benefit_or_temporary_additional_support: Special Benefit (SPB) or Temporary Additional
+      Support (TAS)
+    disability_allowance: Disability Allowance (DA)
+    accommodation_supplement: Accommodation Supplement (AS)
+artifact:
+  source_name: msd
+  source_table: 'Quarterly Benefit Fact Sheets: supplementary assistance by Work and Income
+    region, June 2026'
+  resource_package: db
+  resource_directory: data/msd/benefit_fact_sheets_supplementary_june_2026
+  manifest: manifest.yaml
+  vintage: june_2026_release
+  extracted_at: '2026-10-07'
+  extraction_method: xlsx full used-range cell parse of every publisher worksheet
+  parser: xlsx_used_range
+  artifact_year: 2026
+record_sets:
+- record_set_id: msd.supplementary.jun2026.auckland
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.auckland
+  sheet_name: Auckland
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-auckland
+  geography_level: statistical_scope
+  geography_name: Auckland
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: AUCKLAND
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: AUCKLAND
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: AUCKLAND
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: msd.supplementary.jun2026.bay-of-plenty
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.bay-of-plenty
+  sheet_name: BOP
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-bay-of-plenty
+  geography_level: statistical_scope
+  geography_name: Bay of Plenty
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: BAY OF PLENTY
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: BAY OF PLENTY
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: BAY OF PLENTY
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: msd.supplementary.jun2026.canterbury
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.canterbury
+  sheet_name: Canterbury
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-canterbury
+  geography_level: statistical_scope
+  geography_name: Canterbury
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: CANTERBURY
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: CANTERBURY
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: CANTERBURY
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: msd.supplementary.jun2026.central
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.central
+  sheet_name: Central
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-central
+  geography_level: statistical_scope
+  geography_name: Central
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: CENTRAL
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: CENTRAL
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: CENTRAL
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: msd.supplementary.jun2026.east-coast
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.east-coast
+  sheet_name: East Coast
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-east-coast
+  geography_level: statistical_scope
+  geography_name: East Coast
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: EAST COAST
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: EAST COAST
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: EAST COAST
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: msd.supplementary.jun2026.nelson
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.nelson
+  sheet_name: Nelson
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-nelson
+  geography_level: statistical_scope
+  geography_name: Nelson
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: NELSON
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: NELSON
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: NELSON
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: msd.supplementary.jun2026.northland
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.northland
+  sheet_name: Northland
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-northland
+  geography_level: statistical_scope
+  geography_name: Northland
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: NORTHLAND
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: NORTHLAND
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: NORTHLAND
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: msd.supplementary.jun2026.southern
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.southern
+  sheet_name: Southern
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-southern
+  geography_level: statistical_scope
+  geography_name: Southern
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: SOUTHERN
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: SOUTHERN
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: SOUTHERN
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: msd.supplementary.jun2026.taranaki
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.taranaki
+  sheet_name: Taranaki
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-taranaki
+  geography_level: statistical_scope
+  geography_name: Taranaki
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: TARANAKI
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: TARANAKI
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: TARANAKI
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: msd.supplementary.jun2026.waikato
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.waikato
+  sheet_name: Waikato
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-waikato
+  geography_level: statistical_scope
+  geography_name: Waikato
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: WAIKATO
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: WAIKATO
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: WAIKATO
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: msd.supplementary.jun2026.wellington
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.wellington
+  sheet_name: Wellington
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-wellington
+  geography_level: statistical_scope
+  geography_name: Wellington
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: WELLINGTON
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: WELLINGTON
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: WELLINGTON
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: msd.supplementary.jun2026.other-regions
+  provenance_class: administrative
+  record_set_spec_id: msd.supplementary.region_recipients.v1
+  source_record_id_prefix: msd.supplementary.jun2026.other-regions
+  sheet_name: Other regions
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher June 2026 quarter-end all-ages recipient counts, randomly rounded to
+      base 3. Not quarter averages. People may receive more than one supplementary assistance
+      payment. Regions are administrative Work and Income regions; national counts are separate
+      source facts in the national workbook package. The publisher combines Special Benefit
+      and Temporary Additional Support.
+  geography_id: nz-wi-other-regions
+  geography_level: statistical_scope
+  geography_name: Other regions
+  geography_vintage: msd_wi_region
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: OTHER REGIONS
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: OTHER REGIONS
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    table_record_kind: detail
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: OTHER REGIONS
+      label: Work and Income region title
+    - column: B
+      row: 4
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: all-ages supplementary table title
+    - column: B
+      row: 6
+      expected_value: Assistance
+      label: assistance row-label column
+    - column: W
+      row: 6
+      expected_value: Jun-26
+      label: publisher quarter label
+  measures:
+  - measure_id: recipients
+    label: Supplementary assistance recipients
+    ordinal: 0
+    column: W
+    source_column_id: jun_2026_recipients
+    expected_column_header_row: 6
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    concept_evidence_notes: 'Verbatim workbook notes: "Supplementary and hardship assistance
+      data are all ages." "People may be receiving more than one type of Supplementary Assistance."
+      Row 7 is "Special Benefit (SPB) or Temporary Additional Support (TAS)" and cannot be
+      interpreted as TAS alone. Each region sheet publishes assistance type by quarter; it
+      does not split AS recipients by main-benefit, NZS or non-beneficiary status. No region
+      sums are emitted.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
