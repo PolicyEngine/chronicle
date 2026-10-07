@@ -60,7 +60,7 @@ tests, and record a verified `raw/nz/...` R2 URI.
 | `stats_nz/census_2023_ethnicity_age_region` | [ ] | [ ] | [ ] | |
 | `ird/taxable_income_distribution_2025` | [ ] | [ ] | [ ] | |
 | `ird/wage_salary_distribution_2025` | [ ] | [ ] | [ ] | |
-| `ird/working_for_families_statistics_sept_2025` | [ ] | [ ] | [ ] | |
+| `ird/working_for_families_statistics_sept_2025` | [x] | [x] | [x] | TY2024: 330 administrative facts; count/entitlement, children, family size, and full published income table. |
 | `ird/student_loan_statistics_march_2026` | [ ] | [ ] | [ ] | |
 | `msd/benefit_fact_sheets_national_march_2026` | [ ] | [ ] | [ ] | |
 | `msd/benefit_fact_sheets_supplementary_march_2026` | [ ] | [ ] | [ ] | |
@@ -68,3 +68,22 @@ tests, and record a verified `raw/nz/...` R2 URI.
 | `msd/annual_report_benefit_expenses_2025` | [ ] | [ ] | [ ] | |
 | `mbie/tenancy_bond_rents_tla_2026` | [ ] | [ ] | [ ] | |
 | `stats_nz/qes_average_earnings_march_2026` | [ ] | [ ] | [ ] | |
+
+### WFF source semantics
+
+The September 2025 IRD workbook contributes 330 facts for the 2024 tax year.
+The national recipient totals describe administrative claims with non-zero
+entitlement, not every eligible family or cash paid during the financial year.
+The income table uses an entitlement-time-weighted average of assessed family
+scheme income. For Work and Income recipients who did not file a WFF return,
+IRD uses individual tax-return income, which excludes partner income. These
+workbook Explanatory notes qualify the published income bands; this is not the
+individual taxable-income universe in the other IRD packages. Numeric band
+labels remain source labels until a consumer supplies an evidenced mapping.
+Unknown income and the published total remain distinct source rows; the
+publisher's rounding-adjustment row is parsed and tested but is not a population
+fact. Independently published family and credit totals are not reconciled here.
+
+The workbook was uploaded to the manifest's immutable `raw/nz/ird/...` key and
+downloaded again on 2026-08-29. Its SHA-256 remained
+`95ae66f4d44f3f47ea3daa006328b22f061a163cf7e31b487342cde649390833`.
