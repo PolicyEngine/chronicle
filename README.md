@@ -201,9 +201,11 @@ This writes queryable Chronicle-owned tables such as `source_rows`,
 manifests, parsers, and checked-in specs; hosted Postgres/Supabase should mirror
 this schema rather than become the unreproducible origin of source-backed facts.
 
-Identical inputs write a byte-identical `ledger.db`, so a rebuilt suite's
-`ledger.db`, `datapackage.json` and `ro-crate-metadata.json` can be checked
-against published ones by sha256. Writing `ledger.db` never reads the clock:
+On the same Python and SQLite build, identical inputs write a byte-identical
+`ledger.db`, so a rebuilt suite's `ledger.db`, `datapackage.json` and
+`ro-crate-metadata.json` can be checked against published ones by sha256. (The
+SQLite file header records the library version that wrote it.) Writing
+`ledger.db` never reads the clock:
 `ledger_builds.created_at` is taken from
 [`SOURCE_DATE_EPOCH`](https://reproducible-builds.org/specs/source-date-epoch/)
 (Unix seconds) when it is set and is the Unix epoch otherwise, and a malformed

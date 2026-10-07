@@ -8,7 +8,7 @@ sidecars that hash it, are pure functions of their inputs.
 from __future__ import annotations
 
 from contextlib import closing
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from functools import cache
 import hashlib
 import os
@@ -69,7 +69,7 @@ def _build_suite_in_new_process(output_dir: Path, *, hash_seed: str) -> None:
         key: value for key, value in os.environ.items() if key != SOURCE_DATE_EPOCH_ENV
     }
     environment["PYTHONHASHSEED"] = hash_seed
-    subprocess.run(
+    result = subprocess.run(
         [
             sys.executable,
             "-m",
@@ -85,9 +85,11 @@ def _build_suite_in_new_process(output_dir: Path, *, hash_seed: str) -> None:
         cwd=REPO_ROOT,
         env=environment,
         capture_output=True,
-        check=True,
+        text=True,
+        check=False,
         timeout=300,
     )
+    assert result.returncode == 0, result.stderr
 
 
 def test_build_suite_rebuild_in_a_new_process_is_byte_identical(tmp_path):
@@ -126,7 +128,7 @@ def test_ledger_db_created_at_follows_source_date_epoch(tmp_path, monkeypatch):
 
 @pytest.mark.parametrize(
     "raw",
-    ["", " 1", "1 ", "+1", "-1", "1.5", "1e9", "0x10", "\u0663", "253402300800"],
+    ["", " 1", "1 ", "+1", "-1", "007", "1.5", "1e9", "0x10", "\u0663", "253402300800"],
 )
 def test_malformed_source_date_epoch_is_refused_before_touching_db(
     tmp_path, monkeypatch, raw
@@ -173,6 +175,28 @@ def test_malformed_source_date_epoch_leaves_published_output_in_place(
     }
 
 
+@pytest.mark.parametrize(
+    ("epoch", "expected"),
+    [
+        (0, "1970-01-01T00:00:00+00:00"),
+        (1767225600, "2026-01-01T00:00:00+00:00"),
+        (_MAX_SOURCE_DATE_EPOCH, "9999-12-31T23:59:59+00:00"),
+    ],
+)
+def test_created_at_formats_known_epochs(epoch, expected):
+    assert build_created_at(epoch, {}) == expected
+
+
+@pytest.mark.skipif(
+    sys.platform == "win32", reason="fromtimestamp stops near year 3000 on Windows"
+)
+@given(epoch=EPOCHS)
+def test_created_at_matches_the_platform_timestamp_conversion(epoch):
+    assert build_created_at(epoch, {}) == (
+        datetime.fromtimestamp(epoch, tz=UTC).isoformat()
+    )
+
+
 @given(epoch=EPOCHS)
 def test_created_at_round_trips_to_its_epoch_in_utc(epoch):
     created_at = build_created_at(epoch, {})
@@ -199,10 +223,18 @@ def test_created_at_sorts_in_epoch_order(earlier, later):
     assert build_created_at(earlier, {}) <= build_created_at(later, {})
 
 
-@given(raw=st.text(max_size=16))
-def test_only_decimal_epochs_in_range_are_accepted(raw):
+@given(
+    raw=st.one_of(
+        st.from_regex(r"[0-9]{1,13}", fullmatch=True),
+        st.text(max_size=16),
+    )
+)
+def test_only_date_format_epochs_in_range_are_accepted(raw):
+    # ``date +%s`` output: ASCII digits, no leading zero unless the value is 0.
     accepted = (
-        re.fullmatch(r"[0-9]{1,12}", raw) is not None
+        raw.isascii()
+        and raw.isdigit()
+        and (raw == "0" or not raw.startswith("0"))
         and int(raw) <= _MAX_SOURCE_DATE_EPOCH
     )
     environ = {SOURCE_DATE_EPOCH_ENV: raw}
@@ -214,16 +246,15 @@ def test_only_decimal_epochs_in_range_are_accepted(raw):
             build_created_at(None, environ)
 
 
+def _indexes(items):
+    return st.sets(st.integers(min_value=0, max_value=len(items) - 1), max_size=8)
+
+
 @settings(max_examples=25, deadline=None)
-@given(
-    fact_indexes=st.sets(st.integers(min_value=0, max_value=79), max_size=8),
-    extra_cell_indexes=st.sets(st.integers(min_value=0, max_value=1931), max_size=8),
-    epoch=EPOCHS,
-    other_epoch=EPOCHS,
-)
-def test_ledger_db_bytes_are_a_function_of_inputs(
-    fact_indexes, extra_cell_indexes, epoch, other_epoch
-):
+@given(data=st.data(), epoch=EPOCHS, other_epoch=EPOCHS)
+def test_ledger_db_bytes_are_a_function_of_inputs(data, epoch, other_epoch):
+    fact_indexes = data.draw(_indexes(_soi_facts()), label="fact_indexes")
+    extra_cell_indexes = data.draw(_indexes(_soi_cells()), label="extra_cell_indexes")
     facts = [_soi_facts()[index] for index in sorted(fact_indexes)]
     lineage = {key for fact in facts for key in fact.source_cell_keys}
     cells = [

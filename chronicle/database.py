@@ -2,9 +2,10 @@
 
 The database is a Chronicle-owned query surface for source-backed aggregate facts.
 It is deterministic output from source artifacts, selectors, and aggregate facts;
-hosted systems such as Supabase can mirror this schema later. Identical inputs
-give byte-identical files: ``ledger_builds.created_at`` comes from
-``SOURCE_DATE_EPOCH``, never the wall clock.
+hosted systems such as Supabase can mirror this schema later. With the same
+Python and SQLite build, identical inputs give byte-identical files:
+``ledger_builds.created_at`` comes from ``SOURCE_DATE_EPOCH``, never the wall
+clock.
 """
 
 from __future__ import annotations
@@ -17,7 +18,7 @@ import sqlite3
 from collections.abc import Mapping
 from contextlib import closing
 from dataclasses import asdict, dataclass
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -49,6 +50,9 @@ from chronicle.sources.rows import (
 LEDGER_DB_SCHEMA_VERSION = schema_id("relational", Epoch.LEDGER)
 SOURCE_DATE_EPOCH_ENV = "SOURCE_DATE_EPOCH"
 _MAX_SOURCE_DATE_EPOCH = 253_402_300_799  # 9999-12-31T23:59:59Z
+# Unix seconds as ``date +%s`` prints them: no sign, no leading zeros.
+_SOURCE_DATE_EPOCH_PATTERN = re.compile(r"0|[1-9][0-9]{0,11}")
+_UNIX_EPOCH = datetime(1970, 1, 1, tzinfo=UTC)
 
 
 @dataclass(frozen=True)
@@ -441,9 +445,10 @@ def build_created_at(
 ) -> str:
     """Return the ISO-8601 UTC build time for ``ledger_builds.created_at``.
 
-    Follows https://reproducible-builds.org/specs/source-date-epoch/: an
-    explicit value wins, then ``SOURCE_DATE_EPOCH`` in ``environ`` (the
-    process environment by default), then the Unix epoch. Builds call it
+    An explicit ``source_date_epoch`` wins, then ``SOURCE_DATE_EPOCH`` in
+    ``environ`` (the process environment by default), formatted as
+    https://reproducible-builds.org/specs/source-date-epoch/ requires; when
+    neither is set the build is stamped with the Unix epoch. Builds call it
     before touching their output so a malformed value refuses the build.
     """
     name = "source_date_epoch"
@@ -452,7 +457,7 @@ def build_created_at(
         name = SOURCE_DATE_EPOCH_ENV
         environ = os.environ if environ is None else environ
         raw = environ.get(SOURCE_DATE_EPOCH_ENV, "0")
-        value = int(raw) if re.fullmatch(r"[0-9]{1,12}", raw) else raw
+        value = int(raw) if _SOURCE_DATE_EPOCH_PATTERN.fullmatch(raw) else raw
     if (
         not isinstance(value, int)
         or isinstance(value, bool)
@@ -462,7 +467,9 @@ def build_created_at(
             f"{name} must be an integer count of Unix seconds from 0 to "
             f"{_MAX_SOURCE_DATE_EPOCH}; got {value!r}"
         )
-    return datetime.fromtimestamp(value, tz=UTC).isoformat()
+    # Epoch arithmetic, unlike datetime.fromtimestamp, reaches year 9999 on
+    # every platform.
+    return (_UNIX_EPOCH + timedelta(seconds=value)).isoformat()
 
 
 def _insert_build(
