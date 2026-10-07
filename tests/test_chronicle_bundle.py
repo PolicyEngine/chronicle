@@ -132,15 +132,17 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
 
     assert report.valid
     assert summary["valid"]
+    # chronicle#209's NZ WFF package adds 330 TY2024 facts: 329 families and 1
+    # person, in one new publisher, package, source table and country.
     # chronicle#211's Stats NZ package adds 85 population counts at 30 June
     # 2025: 16 regional council areas and New Zealand, each for all ages and
-    # four age bands, from one new publisher, package and source table over 17
-    # new geographies.
+    # four age bands, from one new publisher, package and source table over 16 new
+    # geographies (its country:NZ geography is #209's).
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 408230,
+        "fact_count": 408560,
         "geography_count": 12609,
         "period_count": 495,
         # 467 before chronicle#292 moved the congressional-district and
@@ -158,8 +160,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # as published.
         "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
-        "source_count": 51,
-        "source_package_count": 269,
+        "source_count": 52,
+        "source_package_count": 270,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -170,7 +172,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Statbel's population-structure rows write '65_plus'.
         "warning_count": 79,
     }
-    assert len(rows) == 408230
+    assert len(rows) == 408560
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -188,7 +190,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 269
+    assert source_packages["source_package_count"] == 270
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -202,7 +204,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 408230
+    assert coverage["fact_count"] == 408560
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -227,6 +229,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hhs_acf_tanf": 110,
         "hmrc": 31515,
         "ici": 12,
+        "ird": 330,
         "irs_soi": 40063,
         "isc": 2,
         "jrc_euromod_be": 90,
@@ -257,7 +260,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9325,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 264
+    assert len(table_counts) == 265
+    assert table_counts["ird:Working for Families statistics - September 2025"] == 330
     assert (
         table_counts[
             "stats_nz:Subnational population estimates: At 30 June 2025 "
@@ -1279,10 +1283,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in issue_302_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#209: IRD's Working for Families statistics for the 2024 tax
+    # year (1 April 2023 to 31 March 2024).
+    expected_period_counts["tax_year:2024"] += 330
     # chronicle#211: Stats NZ's population estimates at 30 June 2025.
     expected_period_counts["calendar_year:2025"] += 85
     assert coverage["counts"]["by_period"] == expected_period_counts
-    assert coverage["counts"]["by_geography"]["country:NZ"] == 5
+    # country:NZ: 330 WFF facts (#209) and 5 national population facts (#211).
+    assert coverage["counts"]["by_geography"]["country:NZ"] == 335
     for regional_council in (*range(1, 10), *range(12, 19)):
         assert coverage["counts"]["by_geography"][f"region:{regional_council:02d}"] == 5
     assert coverage["counts"]["by_geography"]["country:BE"] == 4888
@@ -1305,13 +1313,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33643,
         "dwelling": 152487,
-        "family": 1299,
+        "family": 1628,
         "firm": 1440,
         "government": 3412,
         "household": 53521,
         "institutional_sector": 1263,
         "pension_plan": 2,
-        "person": 105159,
+        "person": 105160,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 41368,
