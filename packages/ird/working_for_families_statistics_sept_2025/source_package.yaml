@@ -19,10 +19,8 @@ label: Inland Revenue Working for Families administrative statistics, tax year 2
 # The dimension labels and the 'any' and 'nonzero' value labels are Chronicle's
 # wording; no publisher cell names them.
 dimension_labels:
-  'ird_wff_statistics.credit_component': 'Working for Families credit'
   'ird_wff_statistics.family_income_band_source_label': 'Published family income band'
-  'ird_wff_statistics.supported_child_count': 'Number of supported children per family'
-  'ird_wff_statistics.supported_children': 'Supported children'
+  'ird_wff_statistics.tax_year': 'Tax year'
   'wff_credit_component': 'Working for Families credit type'
   'wff_entitlement_status': 'Working for Families entitlement status'
 dimension_value_labels:
@@ -78,7 +76,7 @@ record_sets:
   entity: family
   entity_role: wff_entitled_family
   domain: working_for_families
-  groupby_dimension: ird_wff_statistics.credit_component
+  groupby_dimension: ird_wff_statistics.tax_year
   shared_filters:
     wff_entitlement_status: nonzero
   shared_constraints:
@@ -225,7 +223,7 @@ record_sets:
   entity: family
   entity_role: wff_entitled_family
   domain: working_for_families
-  groupby_dimension: ird_wff_statistics.credit_component
+  groupby_dimension: ird_wff_statistics.tax_year
   rows:
   - value_id: all
     label: 2024 tax year
@@ -355,7 +353,7 @@ record_sets:
   entity: person
   entity_role: wff_supported_child
   domain: working_for_families
-  groupby_dimension: ird_wff_statistics.supported_children
+  groupby_dimension: ird_wff_statistics.tax_year
   rows:
   - value_id: all
     label: 2024 tax year
@@ -381,10 +379,10 @@ record_sets:
     source_concept: ird_wff_statistics.supported_children
     concept_relation: source_label
     concept_authority: ird
-    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-technical-information
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
     concept_evidence_notes: >-
-      Workbook total number of children supported, 2024 tax year. Inland Revenue
-      states that child counts are adjusted for known shared care, may retain
+      Workbook total number of children supported, 2024 tax year. The workbook
+      Explanatory notes state that child counts are adjusted for known shared care, may retain
       unknown shared-care double counting, and use the maximum family child count
       at the start or end of the year.
     unit: count
@@ -406,7 +404,7 @@ record_sets:
   entity: family
   entity_role: wff_entitled_family
   domain: working_for_families
-  groupby_dimension: ird_wff_statistics.supported_child_count
+  groupby_dimension: ird_wff_statistics.tax_year
   rows:
   - value_id: all
     label: 2024 tax year
@@ -432,8 +430,8 @@ record_sets:
     source_concept: ird_wff_statistics.recipient_families
     concept_relation: source_label
     concept_authority: ird
-    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-technical-information
-    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year.
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
     unit: count
     aggregation: sum
     value_scale: 1000
@@ -450,8 +448,8 @@ record_sets:
     source_concept: ird_wff_statistics.recipient_families
     concept_relation: source_label
     concept_authority: ird
-    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-technical-information
-    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year.
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
     unit: count
     aggregation: sum
     value_scale: 1000
@@ -468,8 +466,8 @@ record_sets:
     source_concept: ird_wff_statistics.recipient_families
     concept_relation: source_label
     concept_authority: ird
-    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-technical-information
-    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year.
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
     unit: count
     aggregation: sum
     value_scale: 1000
@@ -486,8 +484,8 @@ record_sets:
     source_concept: ird_wff_statistics.recipient_families
     concept_relation: source_label
     concept_authority: ird
-    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-technical-information
-    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year.
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
     unit: count
     aggregation: sum
     value_scale: 1000
@@ -504,8 +502,8 @@ record_sets:
     source_concept: ird_wff_statistics.recipient_families
     concept_relation: source_label
     concept_authority: ird
-    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-technical-information
-    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year.
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
     unit: count
     aggregation: sum
     value_scale: 1000
@@ -522,8 +520,8 @@ record_sets:
     source_concept: ird_wff_statistics.recipient_families
     concept_relation: source_label
     concept_authority: ird
-    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-technical-information
-    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year.
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
     unit: count
     aggregation: sum
     value_scale: 1000
@@ -540,8 +538,8 @@ record_sets:
     source_concept: ird_wff_statistics.recipient_families
     concept_relation: source_label
     concept_authority: ird
-    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-technical-information
-    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year.
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
     unit: count
     aggregation: sum
     value_scale: 1000
@@ -1207,7 +1205,6 @@ record_sets:
       Publisher 2023-24 tax-year income table, Family Tax Credit column.
       Family-income labels are preserved exactly, including Unknown and All;
       numeric labels are not recoded to inferred interval boundaries.
-      The total includes credit components not separately shown in this table.
       The workbook Explanatory notes define assessed family scheme income as an
       entitlement-time-weighted average. For Work and Income recipients who did
       not file a WFF return, IRD uses individual tax-return income, which
@@ -1235,7 +1232,6 @@ record_sets:
       Publisher 2023-24 tax-year income table, In-work Tax Credit column.
       Family-income labels are preserved exactly, including Unknown and All;
       numeric labels are not recoded to inferred interval boundaries.
-      The total includes credit components not separately shown in this table.
       The workbook Explanatory notes define assessed family scheme income as an
       entitlement-time-weighted average. For Work and Income recipients who did
       not file a WFF return, IRD uses individual tax-return income, which
@@ -1263,7 +1259,6 @@ record_sets:
       Publisher 2023-24 tax-year income table, Best Start Tax Credit column.
       Family-income labels are preserved exactly, including Unknown and All;
       numeric labels are not recoded to inferred interval boundaries.
-      The total includes credit components not separately shown in this table.
       The workbook Explanatory notes define assessed family scheme income as an
       entitlement-time-weighted average. For Work and Income recipients who did
       not file a WFF return, IRD uses individual tax-return income, which
@@ -1319,7 +1314,6 @@ record_sets:
       Publisher 2023-24 tax-year income table, Family Tax Credit column.
       Family-income labels are preserved exactly, including Unknown and All;
       numeric labels are not recoded to inferred interval boundaries.
-      The total includes credit components not separately shown in this table.
       The workbook Explanatory notes define assessed family scheme income as an
       entitlement-time-weighted average. For Work and Income recipients who did
       not file a WFF return, IRD uses individual tax-return income, which
@@ -1347,7 +1341,6 @@ record_sets:
       Publisher 2023-24 tax-year income table, In-work Tax Credit column.
       Family-income labels are preserved exactly, including Unknown and All;
       numeric labels are not recoded to inferred interval boundaries.
-      The total includes credit components not separately shown in this table.
       The workbook Explanatory notes define assessed family scheme income as an
       entitlement-time-weighted average. For Work and Income recipients who did
       not file a WFF return, IRD uses individual tax-return income, which
@@ -1375,7 +1368,6 @@ record_sets:
       Publisher 2023-24 tax-year income table, Best Start Tax Credit column.
       Family-income labels are preserved exactly, including Unknown and All;
       numeric labels are not recoded to inferred interval boundaries.
-      The total includes credit components not separately shown in this table.
       The workbook Explanatory notes define assessed family scheme income as an
       entitlement-time-weighted average. For Work and Income recipients who did
       not file a WFF return, IRD uses individual tax-return income, which

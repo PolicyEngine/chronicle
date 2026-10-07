@@ -135,6 +135,24 @@ def test_wff_labels_every_dimension_and_value_for_the_bundle():
     assert unknown.dimension_value_labels["wff_credit_component"] == {
         "ftc": "Family Tax Credit"
     }
+    # The four one-row tables' only row is the tax year, so their group-by axis
+    # is the tax year: a credit-type or child-count axis would label the year.
+    one_row_sets = {
+        "recipient_families",
+        "aggregate_entitlements",
+        "supported_children",
+        "recipient_families_by_child_count",
+    }
+    one_row = [
+        fact for fact in _facts() if fact.source_record_id.split(".")[2] in one_row_sets
+    ]
+    assert len(one_row) == 18
+    for fact in one_row:
+        assert fact.layout.groupby_dimension == "ird_wff_statistics.tax_year"
+        assert fact.dimension_labels["ird_wff_statistics.tax_year"] == "Tax year"
+        assert fact.dimension_value_labels["ird_wff_statistics.tax_year"] == {
+            "all": "2024 tax year"
+        }
 
 
 def test_wff_build_suite_passes_all_source_acceptance_gates(tmp_path):
