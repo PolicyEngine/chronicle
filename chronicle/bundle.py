@@ -449,6 +449,7 @@ def build_bundle(
     warnings: list[BuildBundleIssue] = []
     source_reports: list[BundleSourceReport] = []
     consumer_rows: list[dict[str, Any]] = []
+    shared_metadata: dict[tuple[str, str], dict[str, Any]] = {}
     dimension_labels: dict[str, dict[str, list[str]]] = {}
     geography_names: dict[tuple[str, str], dict[str, list[str]]] = {}
     value_labels: dict[tuple[str, str], dict[str, list[str]]] = {}
@@ -483,7 +484,10 @@ def build_bundle(
                     source=source,
                 )
             )
-        rows = _load_jsonl(Path(suite_report.outputs["consumer_facts"]))
+        rows = _load_jsonl(
+            Path(suite_report.outputs["consumer_facts"]),
+            shared_metadata=shared_metadata,
+        )
         consumer_rows.extend(rows)
         source_reports.append(_bundle_source_report(source, suite_report))
         label_errors, label_warnings = _dimension_label_reports(source, rows)
@@ -1064,19 +1068,43 @@ def _prepare_output_dir(output_path: Path, *, replace: bool) -> None:
     output_path.mkdir(parents=True, exist_ok=True)
 
 
-def _load_jsonl(path: Path) -> list[dict[str, Any]]:
+def _load_jsonl(
+    path: Path,
+    *,
+    shared_metadata: dict[tuple[str, str], dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    for line_number, line in enumerate(
-        path.read_text(encoding="utf-8").splitlines(), start=1
-    ):
-        if not line:
-            continue
-        row = json.loads(line)
-        # Bundle assembly historically consumes suite output without applying
-        # the stricter consumer-artifact schema. Keep that boundary intact,
-        # while still rejecting identifiers outside the two accepted epochs.
-        validate_consumer_fact_row_epochs(row, line_number, path)
-        rows.append(row)
+    with path.open(encoding="utf-8") as file:
+        for line_number, line in enumerate(file, start=1):
+            line = line.rstrip("\n")
+            if not line:
+                continue
+            row = json.loads(line)
+            # Bundle assembly historically consumes suite output without applying
+            # the stricter consumer-artifact schema. Keep that boundary intact,
+            # while still rejecting identifiers outside the two accepted epochs.
+            validate_consumer_fact_row_epochs(row, line_number, path)
+            if shared_metadata is not None:
+                # These blocks are read-only during assembly. Pool exact JSON
+                # representations, leaving values, identities and lineage per row.
+                for field in (
+                    "aggregation",
+                    "dimension_labels",
+                    "dimension_value_labels",
+                    "dimensions",
+                    "source",
+                    "observed_measure",
+                    "geography",
+                    "entity",
+                    "period",
+                    "period_coverage",
+                    "universe_constraints",
+                ):
+                    value = row.get(field)
+                    if isinstance(value, dict):
+                        key = (field, json.dumps(value, sort_keys=True))
+                        row[field] = shared_metadata.setdefault(key, value)
+            rows.append(row)
     return rows
 
 

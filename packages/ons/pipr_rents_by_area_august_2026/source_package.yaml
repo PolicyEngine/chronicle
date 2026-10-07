@@ -6,6 +6,17 @@ dimension_labels:
   geography: Geography
   bedrooms: Bedrooms
   property_type: Property Type
+dimension_value_labels:
+  bedrooms:
+    one bed: one bed
+    two bed: two bed
+    three bed: three bed
+    four or more bed: four or more bed
+  property_type:
+    detached: detached
+    semidetached: semidetached
+    terraced: terraced
+    flat maisonette: flat maisonette
 artifact:
   source_name: ons
   source_table: 'ONS PIPR September 2026 edition: mean private rent by area, bedrooms and property type,

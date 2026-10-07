@@ -5,6 +5,10 @@ dimension_labels:
   geography: Geography
   age: Age
   Sex: Sex
+dimension_value_labels:
+  age:
+    All ages: All ages
+    90 and over: 90 and over
 artifact:
   source_name: nrs
   source_table: NRS mid-2025 single-year age/sex population by council area

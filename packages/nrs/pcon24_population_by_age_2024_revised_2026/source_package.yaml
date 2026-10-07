@@ -5,6 +5,10 @@ dimension_labels:
   geography: Geography
   age: Age
   Sex: Sex
+dimension_value_labels:
+  age:
+    All ages: All ages
+    90 and over: 90 and over
 artifact:
   source_name: nrs
   source_table: NRS revised mid-2011 to mid-2024 single-year age/sex population, UKPC24, 2022 data-zone

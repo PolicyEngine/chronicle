@@ -6,6 +6,19 @@ dimension_labels:
   sex: Sex
   age_band: Age band
   residence_type: Residence type
+dimension_value_labels:
+  age_band:
+    0-14: 0-14
+    15-39: 15-39
+    40-64: 40-64
+    65+: 65+
+    All ages: All ages
+  sex:
+    All persons: All persons
+    Female: Female
+    Male: Male
+  residence_type:
+    Lives in a communal establishment: Lives in a communal establishment
 artifact:
   source_name: nisra
   source_table: NISRA Census 2021 MS-F04a ward communal establishment residents by sex and broad age bands

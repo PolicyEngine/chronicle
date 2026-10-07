@@ -7,6 +7,23 @@ dimension_labels:
   Sex: Sex
   Age: Age
   residence_type: Residence type
+dimension_value_labels:
+  Age:
+    0-15 years: 0-15 years
+    16-24 years: 16-24 years
+    25-34 years: 25-34 years
+    35-44 years: 35-44 years
+    45-54 years: 45-54 years
+    55-64 years: 55-64 years
+    65+ years: 65+ years
+  Sex:
+    Female: Female
+    Male: Male
+  position_in_establishment:
+    Resident or staying temporarily (no usual UK address): Resident or staying temporarily (no usual UK address)
+    Staff or owner or family member or partner of staff or owner: Staff or owner or family member or partner of staff or owner
+  residence_type:
+    Lives in a communal establishment: Lives in a communal establishment
 artifact:
   source_name: nisra
   source_table: NISRA Census 2021 CT0105 communal establishment residents by sex, age and position, LGD

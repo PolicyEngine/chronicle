@@ -27,7 +27,14 @@ from chronicle.harness import main as harness_main
 
 
 def _load_jsonl(path):
-    return [json.loads(line) for line in path.read_text().splitlines() if line]
+    return list(_iter_jsonl(path))
+
+
+def _iter_jsonl(path):
+    with path.open(encoding="utf-8") as file:
+        for line in file:
+            if line.rstrip("\n"):
+                yield json.loads(line)
 
 
 def _fixture_consumer_rows():
@@ -155,7 +162,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
 
     report = build_bundle(output_dir, year=2023)
     summary = json.loads((output_dir / "reports" / "build_bundle.json").read_text())
-    rows = _load_jsonl(output_dir / "consumer_facts.jsonl")
+    rows_path = output_dir / "consumer_facts.jsonl"
     source_packages = json.loads((output_dir / "source_packages.json").read_text())
     coverage = json.loads((output_dir / "coverage.json").read_text())
 
@@ -188,8 +195,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#322 adds 4,947 ONS observations and 3,200 DESNZ ones.
         # Inner/Outer London also add two region-level geography keys.
         "fact_count": 1007045,
-        "geography_count": 12690,
-        "period_count": 495,
+        "geography_count": 20547,
+        "period_count": 511,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -203,7 +210,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # than one cut or release (+198). Sixteen of those differ: the Winter
         # Fuel Payment 2023-24 workbook against the Stat-Xplore cube, both kept
         # as published.
-        "semantic_duplicate_key_count": 2324,
+        # chronicle#313 retains overlapping census cuts and publisher releases
+        # of population, UC and rent observations (+5,406 semantic keys).
+        "semantic_duplicate_key_count": 7730,
         "skipped_source_count": 10,
         "source_count": 56,
         "source_package_count": 311,
@@ -217,26 +226,33 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Statbel's population-structure rows write '65_plus'.
         # chronicle#322 retains six division labels that differ between
         # the ONS overview and detailed worksheets.
-        "warning_count": 85,
+        # chronicle#313 adds 27 English county wording differences and one
+        # Scottish BRMA difference, preserving each publisher's name.
+        "warning_count": 113,
     }
-    assert len(rows) == 1007045
-    assert {row["provenance_class"] for row in rows} <= {
+    row_count = 0
+    provenance_classes = set()
+    for row in _iter_jsonl(rows_path):
+        row_count += 1
+        provenance_classes.add(row["provenance_class"])
+        assert (
+            (
+                isinstance(row.get("survey_instrument"), str)
+                and row["survey_instrument"].strip()
+            )
+            if row["provenance_class"] == "survey_aggregate"
+            else ("survey_instrument" not in row)
+        )
+        if row_count == 1:
+            assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
+            assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
+    assert row_count == 1007045
+    assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert all(
-        (
-            isinstance(row.get("survey_instrument"), str)
-            and row["survey_instrument"].strip()
-        )
-        if row["provenance_class"] == "survey_aggregate"
-        else "survey_instrument" not in row
-        for row in rows
-    )
-    assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
-    assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
     assert source_packages["source_package_count"] == 311
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
@@ -1501,7 +1517,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["country:E92000001"] == 5678
     assert coverage["counts"]["by_geography"]["country:K03000001"] == 21124
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
-    assert len(coverage["counts"]["by_geography"]) == 12690
+    assert len(coverage["counts"]["by_geography"]) == 20547
     for region in (
         "auckland",
         "bay-of-plenty",
@@ -1536,9 +1552,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "tax_unit": 41368,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 7730
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
-        "conflicting_geography_name_across_packages": 50,
+        "conflicting_geography_name_across_packages": 78,
         "conflicting_groupby_value_label": 22,
         "conflicting_value_label_across_packages": 12,
         "duplicate_semantic_fact_key": 1,
@@ -1560,14 +1576,16 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # now answers with one name for every identifier it carries. What is left is
     # what it does not: the IRS truncating county names to twenty characters.
     # The 95 UK areas that warned here - local authorities, constituencies,
-    # regions and countries - no longer do.
+    # regions and countries - no longer do. The new household projections and
+    # Scottish rent tables add county and BRMA identifiers outside the register.
     geography_names = [
         warning
         for warning in summary["warnings"]
         if warning["code"] == "conflicting_geography_name_across_packages"
     ]
     assert Counter(warning["key"].split(":")[0] for warning in geography_names) == {
-        "county": 50,
+        "county": 77,
+        "statistical_scope": 1,
     }
     assert sorted(
         warning["key"]
@@ -1595,7 +1613,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert [
         warning for warning in geography_names if warning["key"] == "region:E12000003"
     ] == []
-    assert {warning["key"].split(":")[1][0] for warning in geography_names} == {"0"}
+    assert {warning["key"].split(":")[1][0] for warning in geography_names} == {
+        "0",
+        "E",
+        "S",
+    }
     for source in (
         "dfe-funded-early-education-childcare-2026",
         "dfi-ni-bus-concessionary-journeys-2024-25",
@@ -2135,3 +2157,25 @@ def test_bundle_coverage_preserves_non_string_identity_scalars(tmp_path):
         "aggregate_fact_keys": [],
         "semantic_fact_keys": [],
     }
+
+
+def test_bundle_metadata_pool_preserves_serialized_rows_and_distinct_facts(tmp_path):
+    rows = _fixture_consumer_rows()[:2]
+    # Exact JSON representations matter even when Python compares 1 and 1.0
+    # as equal. Pooling must retain the publisher representation of each row.
+    rows[0]["source"]["scale"] = 1
+    rows[1]["source"]["scale"] = 1.0
+    path = tmp_path / "consumer_facts.jsonl"
+    encoded = "".join(json.dumps(row, sort_keys=True) + "\n" for row in rows)
+    path.write_text(encoded, encoding="utf-8")
+
+    loaded = load_bundle_jsonl(path, shared_metadata={})
+
+    assert "".join(json.dumps(row, sort_keys=True) + "\n" for row in loaded) == encoded
+    assert build_bundle_coverage(loaded) == build_bundle_coverage(rows)
+    assert len({row["aggregate_fact_key"] for row in loaded}) == 2
+    assert loaded[0] is not loaded[1]
+    assert loaded[0]["source"] is not loaded[1]["source"]
+    assert loaded[0]["geography"] is loaded[1]["geography"]
+    assert loaded[0]["entity"] is loaded[1]["entity"]
+    assert loaded[0]["period"] is loaded[1]["period"]
