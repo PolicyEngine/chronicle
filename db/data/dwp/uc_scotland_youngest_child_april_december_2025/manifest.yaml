@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-uc-scotland-youngest-child-april-december-2025
+dataset: dwp_dwp-uc-scotland-youngest-child-april-december-2025
+source_page: https://stat-xplore.dwp.gov.uk/
+table: Households on Universal Credit in Scotland by single year of age of youngest
+  child, April to December 2025
+files:
+  2025:
+    filename: uc_households_scotland_by_age_of_youngest_child_april_december_2025.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: c4783f93504675e77be8d1522f581f677611db6ef45f13a46c5043a3b2502d82
+    size_bytes: 13468
+    fetched_at: '2026-09-03T12:43:41Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-uc-scotland-youngest-child-april-december-2025/2025/c4783f93504675e77be8d1522f581f677611db6ef45f13a46c5043a3b2502d82/uc_households_scotland_by_age_of_youngest_child_april_december_2025.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-uc-scotland-youngest-child-april-december-2025/2025/c4783f93504675e77be8d1522f581f677611db6ef45f13a46c5043a3b2502d82/uc_households_scotland_by_age_of_youngest_child_april_december_2025.json

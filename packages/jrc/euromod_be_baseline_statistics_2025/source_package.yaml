@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: jrc-euromod-be-baseline-statistics-2025
 label: JRC EUROMOD-BE 2025 baseline validation comparator statistics
+dimension_labels:
+  'validation.metric_series': 'Validation metric series'
 artifact:
   source_name: jrc_euromod_be
   source_table: EUROMOD Country Report Belgium 2025 validation tables

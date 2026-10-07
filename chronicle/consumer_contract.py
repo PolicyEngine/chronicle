@@ -23,9 +23,17 @@ from chronicle.core import (
     build_aggregate_constraints,
     build_fact_key,
 )
+from chronicle.epoch import (
+    CONSUMER_FACT_EMIT_SCHEMA_VERSION,
+    EMIT_EPOCH,
+    HASH_DOMAINS,
+    Epoch,
+    hash_domain,
+)
+from chronicle.geography_names import canonical_geography_name
 from chronicle.store import fact_to_mapping
 
-CONSUMER_FACT_SCHEMA_VERSION = "ledger.consumer_fact.v1"
+CONSUMER_FACT_SCHEMA_VERSION = CONSUMER_FACT_EMIT_SCHEMA_VERSION
 
 
 @dataclass(frozen=True)
@@ -79,10 +87,14 @@ class ConsumerFactContractReport:
         }
 
 
-def build_source_release_key(fact: AggregateFact) -> str:
-    """Build the current best v2 source-release key from fact provenance."""
+def build_source_release_key(
+    fact: AggregateFact,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str:
+    """Build a source-release key from fact provenance."""
     return _hash_key(
-        "ledger.source_release.v2",
+        hash_domain("source_release", epoch),
         {
             "source_name": fact.source.source_name,
             "source_table": fact.source.source_table,
@@ -96,10 +108,14 @@ def build_source_release_key(fact: AggregateFact) -> str:
     )
 
 
-def build_source_series_key(fact: AggregateFact) -> str:
+def build_source_series_key(
+    fact: AggregateFact,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str:
     """Build a source-series key for a logical publisher table or series."""
     return _hash_key(
-        "ledger.source_series.v2",
+        hash_domain("source_series", epoch),
         {
             "source_name": fact.source.source_name,
             "source_table": fact.source.source_table,
@@ -110,47 +126,79 @@ def build_source_series_key(fact: AggregateFact) -> str:
     )
 
 
-def build_observed_measure_key(fact: AggregateFact) -> str:
+def build_observed_measure_key(
+    fact: AggregateFact,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str:
     """Build a source-observed measure key, separate from concept alignment."""
-    return _hash_key("ledger.observed_measure.v2", _observed_measure_payload(fact))
+    return _hash_key(
+        hash_domain("observed_measure", epoch),
+        _observed_measure_payload(fact),
+    )
 
 
-def build_dimension_set_key(fact: AggregateFact) -> str:
+def build_dimension_set_key(
+    fact: AggregateFact,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str:
     """Build a canonical key for fact dimensions represented as filters."""
-    return _hash_key("ledger.dimension_set.v2", _dimension_set_payload(fact))
+    return _hash_key(
+        hash_domain("dimension_set", epoch),
+        _dimension_set_payload(fact),
+    )
 
 
-def build_universe_constraint_set_key(fact: AggregateFact) -> str:
+def build_universe_constraint_set_key(
+    fact: AggregateFact,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str:
     """Build a canonical key for semantic universe constraints."""
     return _hash_key(
-        "ledger.universe_constraint_set.v2",
+        hash_domain("universe_constraint_set", epoch),
         _universe_constraint_set_payload(fact),
     )
 
 
-def build_aggregate_fact_key(fact: AggregateFact) -> str:
-    """Build v2 source-specific aggregate fact identity."""
+def build_aggregate_fact_key(
+    fact: AggregateFact,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str:
+    """Build source-specific aggregate fact identity."""
     return _hash_key(
-        "ledger.aggregate_fact.v2",
+        hash_domain("aggregate_fact", epoch),
         {
-            "source_release_key": build_source_release_key(fact),
-            "source_series_key": build_source_series_key(fact),
-            "observed_measure_key": build_observed_measure_key(fact),
+            # Nested identities stay in their frozen Ledger form so changing
+            # only the outer domain cannot change the canonical payload.
+            "source_release_key": build_source_release_key(fact, epoch=Epoch.LEDGER),
+            "source_series_key": build_source_series_key(fact, epoch=Epoch.LEDGER),
+            "observed_measure_key": build_observed_measure_key(
+                fact, epoch=Epoch.LEDGER
+            ),
             "aggregation": _aggregation_payload(fact),
             "period": asdict(fact.period),
             "geography": _geography_payload(fact),
             "entity": asdict(fact.entity),
-            "dimension_set_key": build_dimension_set_key(fact),
-            "universe_constraint_set_key": build_universe_constraint_set_key(fact),
+            "dimension_set_key": build_dimension_set_key(fact, epoch=Epoch.LEDGER),
+            "universe_constraint_set_key": build_universe_constraint_set_key(
+                fact, epoch=Epoch.LEDGER
+            ),
             "assertion": _assertion_key_value(fact),
         },
     )
 
 
-def build_semantic_fact_key(fact: AggregateFact) -> str:
-    """Build v2 source-agnostic fact identity for downstream reconciliation."""
+def build_semantic_fact_key(
+    fact: AggregateFact,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str:
+    """Build source-agnostic fact identity for downstream reconciliation."""
     return _hash_key(
-        "ledger.semantic_fact.v2",
+        hash_domain("semantic_fact", epoch),
         {
             "canonical_measure": {
                 "concept": fact.measure.concept,
@@ -160,7 +208,9 @@ def build_semantic_fact_key(fact: AggregateFact) -> str:
             "period": asdict(fact.period),
             "geography": _geography_payload(fact),
             "entity": asdict(fact.entity),
-            "universe_constraint_set_key": build_universe_constraint_set_key(fact),
+            "universe_constraint_set_key": build_universe_constraint_set_key(
+                fact, epoch=Epoch.LEDGER
+            ),
             "assertion": _assertion_key_value(fact),
         },
     )
@@ -178,7 +228,11 @@ def _assertion_key_value(fact: AggregateFact) -> str | None:
     return fact.assertion
 
 
-def build_concept_alignment_key(fact: AggregateFact) -> str | None:
+def build_concept_alignment_key(
+    fact: AggregateFact,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str | None:
     """Build a concept-alignment key when source alignment metadata exists."""
     if not (
         fact.measure.source_concept
@@ -188,9 +242,11 @@ def build_concept_alignment_key(fact: AggregateFact) -> str | None:
     ):
         return None
     return _hash_key(
-        "ledger.concept_alignment.v2",
+        hash_domain("concept_alignment", epoch),
         {
-            "observed_measure_key": build_observed_measure_key(fact),
+            "observed_measure_key": build_observed_measure_key(
+                fact, epoch=Epoch.LEDGER
+            ),
             "canonical_concept": fact.measure.concept,
             "relation": fact.measure.concept_relation,
             "authority": fact.measure.concept_authority,
@@ -199,12 +255,16 @@ def build_concept_alignment_key(fact: AggregateFact) -> str | None:
     )
 
 
-def consumer_fact_rows(facts: list[AggregateFact]) -> list[dict[str, Any]]:
+def consumer_fact_rows(
+    facts: list[AggregateFact],
+    *,
+    emit_epoch: Epoch = EMIT_EPOCH,
+) -> list[dict[str, Any]]:
     """Build JSON-compatible consumer-contract rows for facts."""
     contract_report = validate_consumer_fact_contract(facts)
     if not contract_report.valid:
         raise ValueError("Cannot export invalid Chronicle consumer-contract facts.")
-    return [_consumer_fact_row(fact) for fact in facts]
+    return [_consumer_fact_row(fact, emit_epoch=emit_epoch) for fact in facts]
 
 
 def validate_consumer_fact_contract(
@@ -214,6 +274,31 @@ def validate_consumer_fact_contract(
     errors: list[ConsumerFactContractIssue] = []
     for index, fact in enumerate(facts):
         fact_key = build_fact_key(fact)
+        for lineage_field, domain_name in (
+            ("source_cell_keys", "source_cell"),
+            ("source_row_keys", "source_row"),
+        ):
+            pair = HASH_DOMAINS[domain_name]
+            for key in getattr(fact, lineage_field):
+                try:
+                    pair.infer_key_epoch(key)
+                except ValueError as error:
+                    errors.append(
+                        ConsumerFactContractIssue(
+                            code="malformed_lineage_key",
+                            message=str(error),
+                            fact_index=index,
+                            fact_key=fact_key,
+                            field=f"lineage/{lineage_field}",
+                        )
+                    )
+        if any(
+            issue.code == "malformed_lineage_key" and issue.fact_index == index
+            for issue in errors
+        ):
+            # The remaining checks build the row, which canonicalizes lineage
+            # keys and would raise on the same malformed key.
+            continue
         filter_constraints = _filter_derived_constraints(fact)
         source_filter_variables = _source_filter_variables(fact, filter_constraints)
         if filter_constraints and not fact.constraints:
@@ -450,7 +535,10 @@ def _fact_provenance_class_issue(
             "provenance_class",
         )
     if fact.provenance_class == "survey_aggregate":
-        if type(fact.survey_instrument) is not str or not fact.survey_instrument.strip():
+        if (
+            type(fact.survey_instrument) is not str
+            or not fact.survey_instrument.strip()
+        ):
             return (
                 "missing_survey_instrument",
                 "Survey aggregates need a non-empty survey instrument.",
@@ -554,44 +642,63 @@ def _constraint_compare_payload(constraint: AggregateConstraint) -> str:
     )
 
 
-def consumer_fact_row(fact: AggregateFact) -> dict[str, Any]:
+def consumer_fact_row(
+    fact: AggregateFact,
+    *,
+    emit_epoch: Epoch = EMIT_EPOCH,
+) -> dict[str, Any]:
     """Build one consumer-contract row from an aggregate fact."""
-    return consumer_fact_rows([fact])[0]
+    return consumer_fact_rows([fact], emit_epoch=emit_epoch)[0]
 
 
-def _consumer_fact_row(fact: AggregateFact) -> dict[str, Any]:
+def _consumer_fact_row(
+    fact: AggregateFact,
+    *,
+    emit_epoch: Epoch = EMIT_EPOCH,
+) -> dict[str, Any]:
     """Build one consumer-contract row without recursive validation."""
-    aggregate_fact_key = build_aggregate_fact_key(fact)
-    semantic_fact_key = build_semantic_fact_key(fact)
-    concept_alignment_key = build_concept_alignment_key(fact)
+    aggregate_fact_key = build_aggregate_fact_key(fact, epoch=emit_epoch)
+    semantic_fact_key = build_semantic_fact_key(fact, epoch=emit_epoch)
+    concept_alignment_key = build_concept_alignment_key(fact, epoch=emit_epoch)
 
     row: dict[str, Any] = {
         "schema_version": CONSUMER_FACT_SCHEMA_VERSION,
         "aggregate_fact_key": aggregate_fact_key,
         "semantic_fact_key": semantic_fact_key,
-        "legacy_fact_key": build_fact_key(fact),
-        "source_release_key": build_source_release_key(fact),
-        "source_series_key": build_source_series_key(fact),
-        "observed_measure_key": build_observed_measure_key(fact),
-        "dimension_set_key": build_dimension_set_key(fact),
-        "universe_constraint_set_key": build_universe_constraint_set_key(fact),
+        "legacy_fact_key": build_fact_key(fact, epoch=emit_epoch),
+        "source_release_key": build_source_release_key(fact, epoch=emit_epoch),
+        "source_series_key": build_source_series_key(fact, epoch=emit_epoch),
+        "observed_measure_key": build_observed_measure_key(fact, epoch=emit_epoch),
+        "dimension_set_key": build_dimension_set_key(fact, epoch=emit_epoch),
+        "universe_constraint_set_key": build_universe_constraint_set_key(
+            fact, epoch=emit_epoch
+        ),
         "value": _json_value(fact.value),
         "value_type": _value_type(fact.value),
         "assertion": fact.assertion,
         "provenance_class": fact.provenance_class,
         "survey_instrument": fact.survey_instrument,
         "period": asdict(fact.period),
-        "geography": _geography_payload(fact),
+        "geography": _geography_row_payload(fact),
         "entity": asdict(fact.entity),
         "aggregation": _aggregation_payload(fact),
         "observed_measure": _observed_measure_payload(fact),
         "dimensions": _dimension_set_payload(fact),
+        "dimension_labels": dict(fact.dimension_labels),
+        "dimension_value_labels": {
+            dimension_id: dict(value_labels)
+            for dimension_id, value_labels in fact.dimension_value_labels.items()
+        },
         "universe_constraints": _universe_constraint_set_payload(fact),
         "source": _clean(fact_to_mapping(fact)["source"]),
         "lineage": {
             "source_record_id": fact.source_record_id,
-            "source_cell_keys": list(fact.source_cell_keys),
-            "source_row_keys": list(fact.source_row_keys),
+            "source_cell_keys": _lineage_keys_for_epoch(
+                "source_cell", fact.source_cell_keys, emit_epoch
+            ),
+            "source_row_keys": _lineage_keys_for_epoch(
+                "source_row", fact.source_row_keys, emit_epoch
+            ),
         },
         "layout": _clean(asdict(fact.layout)) if fact.layout else {},
         "label": fact.label,
@@ -612,12 +719,47 @@ def _consumer_fact_row(fact: AggregateFact) -> dict[str, Any]:
     return _clean_consumer_row(row)
 
 
+def _require_ledger_emit(emit_epoch: Epoch | str, boundary: str) -> Epoch:
+    """Refuse a non-Ledger emit at an artifact boundary; return the epoch.
+
+    Mechanism 1 of the rename accepts both epochs on read and emits unchanged:
+    every artifact boundary emits Ledger-named hash keys (the artifact builder
+    canonicalizes whatever epoch it read) and refuses a Chronicle emit until
+    the separate, consumer-gated key cutover. The row contract moves on its
+    own: rows are stamped ``chronicle.consumer_fact.v2`` whichever epoch their
+    keys use.
+
+    ``emit_epoch`` may be the enum member or its string value; anything else is
+    refused with :class:`ValueError` naming the boundary. Callers must check
+    this before touching the filesystem so a refused call leaves existing
+    outputs intact.
+    """
+
+    try:
+        epoch = Epoch(emit_epoch)
+    except ValueError as error:
+        raise ValueError(
+            f"{boundary}: unknown emit epoch {emit_epoch!r}; expected "
+            f"{Epoch.LEDGER.value!r} or {Epoch.CHRONICLE.value!r}"
+        ) from error
+    if epoch != Epoch.LEDGER:
+        raise ValueError(
+            f"{boundary}: emitting {epoch.value!r}-epoch identifiers is the "
+            "separate, consumer-gated key cutover; until it happens, artifacts "
+            "are emitted with Ledger-named keys (mechanism 1: emit unchanged)."
+        )
+    return epoch
+
+
 def write_consumer_facts_jsonl(
     facts: list[AggregateFact],
     path: str | Path,
+    *,
+    emit_epoch: Epoch | str = EMIT_EPOCH,
 ) -> ConsumerFactExportReport:
     """Write consumer-contract fact rows to JSON Lines."""
-    rows = consumer_fact_rows(facts)
+    emit_epoch = _require_ledger_emit(emit_epoch, "write_consumer_facts_jsonl")
+    rows = consumer_fact_rows(facts, emit_epoch=emit_epoch)
     output_path = Path(path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w") as file:
@@ -629,6 +771,17 @@ def write_consumer_facts_jsonl(
         fact_count=len(rows),
         output=str(output_path),
     )
+
+
+def _lineage_keys_for_epoch(
+    domain_name: str,
+    keys: tuple[str, ...],
+    epoch: Epoch,
+) -> list[str]:
+    """Return accepted lineage identities under the requested emit epoch."""
+
+    pair = HASH_DOMAINS[domain_name]
+    return list(dict.fromkeys(pair.key_for_epoch(key, epoch) for key in keys))
 
 
 def _hash_key(namespace: str, payload: dict[str, Any]) -> str:
@@ -698,6 +851,35 @@ def _geography_payload(fact: AggregateFact) -> dict[str, Any]:
             "level": fact.geography.level,
             "id": fact.geography.id,
             "vintage": fact.geography.vintage,
+        }
+    )
+
+
+def _geography_row_payload(fact: AggregateFact) -> dict[str, Any]:
+    """Return the exported geography, named once per identifier.
+
+    The name is display metadata (chronicle#266), so it rides on the row and
+    never on :func:`_geography_payload`, which the fact keys hash. Where
+    Chronicle's register carries the identifier, its name is exported and the
+    publisher's own text rides alongside it as ``publisher_name``, so a
+    consumer selecting facts from two packages for one area sees one name and
+    still knows what each publisher called it (chronicle#281). Elsewhere the
+    publisher's name is exported as before, and a source that states no name
+    exports none: Microcosm's geography catalog covers the identifiers it
+    already knows, and an identifier is not a name.
+    """
+
+    publisher_name = (fact.geography.name or "").strip()
+    canonical = canonical_geography_name(fact.geography.id)
+    return _clean(
+        {
+            **_geography_payload(fact),
+            "name": canonical or publisher_name or None,
+            "publisher_name": (
+                publisher_name
+                if canonical and publisher_name and publisher_name != canonical
+                else None
+            ),
         }
     )
 

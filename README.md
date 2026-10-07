@@ -286,7 +286,12 @@ concept plus duplicate `aggregate_fact_key` and `semantic_fact_key` diagnostics.
 The row-level downstream contract is `consumer_facts.jsonl`; the other bundle
 files are diagnostic reports for gating and review. Consumer-contract rows must
 carry canonical constraints explicitly in `universe_constraints`; source-layout
-`dimensions` are metadata and are not target constraints.
+`dimensions` are metadata and are not target constraints. Rows also carry
+Chronicle-owned labels for every dimension and dimension value
+(`dimension_labels`, `dimension_value_labels`, `layout.groupby_dimension_label`;
+chronicle#261), which Microcosm's calibration hierarchy displays. Every UK
+package must label all of them, and `build-bundle` reports a gap as an error;
+see `docs/agent-source-package-harness.md` for where labels come from.
 
 For the UK source-package feed, build the curated UK suite and then a facts-only
 consumer artifact:
@@ -506,6 +511,40 @@ Target inputs use a three-table schema:
 These are source-backed inputs. Microcosm owns the contracts that select them,
 the active support-aware subset, and calibrated solver execution.
 
+## Identifier Epochs
+
+Fact identity migrates by epoch, never in place. `chronicle/epoch.py` is the
+single registry of frozen Ledger-era hash domains and schema ids
+(`ledger.aggregate_fact.v2`, `ledger.consumer_fact.v1`, ...) and their
+Chronicle-era successors (`chronicle.aggregate_fact.v3`,
+`chronicle.consumer_fact.v2`, ...). A successor key hashes the same canonical
+payload as its Ledger key; only the prefix differs.
+
+- **Readers accept both epochs.** Every validator, key verifier, bundle loader,
+  and relational reader accepts either form on each identifier independently,
+  so mixed-epoch inputs load. Anything outside both forms is rejected with an
+  error naming both.
+- **Emitters stay Ledger-named.** `EMIT_EPOCH` is the one default a later,
+  consumer-gated cutover flips. Package scaffolds, relational builds, and
+  consumer artifacts emit Ledger identifiers today.
+- **The row contract moves on its own.** Each contract in
+  `CONSUMER_FACT_ROW_CONTRACTS` adds to the one before it, so a row restamped
+  with a later id stays valid: `chronicle.consumer_fact.v2` (chronicle#261) is
+  the frozen v1 row plus optional dimension and value labels, and
+  `chronicle.consumer_fact.v3` (chronicle#266) is v2 plus the publisher's name
+  for the fact's geography. Rows are emitted as v3 with Ledger-named keys, and
+  each row validates against the schema of the contract it names. Only v1 and
+  v2 name a naming epoch: the epoch table renames identifiers, it does not
+  version the row.
+- **Artifacts canonicalize on emit.** The consumer artifact pins the sha256 of
+  the v3 consumer-fact schema, so `build_consumer_artifact` rewrites every row
+  it read to Ledger-named keys and the v3 contract before writing it; an
+  artifact built from mixed-epoch rows is byte-identical to one built from the
+  same rows written Ledger-named. Loads accept an artifact pinned to any
+  packaged schema whose rows use that contract. Asking an artifact boundary to
+  emit Chronicle-named keys is refused until the consumer-gated key cutover,
+  and the refusal happens before any existing output is touched.
+
 ## Chronicle Facts And Microcosm Targets
 
 Source facts should be structurally normalized before Microcosm considers them
@@ -569,3 +608,18 @@ normalized_fact = convert_units(fact, 1000, "count")
   target selection, and calibration execution.
 - [thesis](https://github.com/PolicyEngine/thesis) - Public-facing official
   observations and analysis surfaces backed by Chronicle facts.
+
+## Bitcoin checkpoints for the witnessed journal
+
+The `codex/thesis-ledger-facts` branch's witnessed release manifests are
+additionally anchored through OpenTimestamps. Trusted automation pushes
+proof-only commits to `main`, where the mutable `ots/<stem>.json.ots` proofs
+live, while the immutable manifests and journal remain on the journal
+branch. Each proof binds a manifest's exact bytes into Bitcoin, giving the
+journal state it commits to an external anteriority bound. See
+[`ots/README.md`](ots/README.md) for the limits, cross-branch verification
+command, and publication design.
+
+## License
+
+Code in this repository is released under the [MIT License](LICENSE). Original text and figures are released under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) with attribution to PolicyEngine. Third-party data and materials keep their own terms.

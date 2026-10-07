@@ -1,0 +1,18 @@
+source_id: dfe
+package_id: dfe-funded-early-education-childcare-2026
+dataset: dfe_dfe-funded-early-education-childcare-2026
+source_page: https://explore-education-statistics.service.gov.uk/find-statistics/funded-early-education-and-childcare/2026
+table: Funded early education and childcare 2026, Headline figures
+files:
+  2026:
+    filename: headline_figures_feeac_2011_2026.csv
+    source_url: https://api.education.gov.uk/statistics/v1/data-sets/019efe34-f746-72db-a258-06676f74ce09/csv
+    sha256: cefdb06593016446d215433cf31f80649b8ce18f89e454a5ad7931b0ab32d72d
+    size_bytes: 33467
+    fetched_at: '2026-09-01T13:03:30+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/dfe/dfe-funded-early-education-childcare-2026/2026/cefdb06593016446d215433cf31f80649b8ce18f89e454a5ad7931b0ab32d72d/headline_figures_feeac_2011_2026.csv
+        uri: r2://ledger-raw/raw/dfe/dfe-funded-early-education-childcare-2026/2026/cefdb06593016446d215433cf31f80649b8ce18f89e454a5ad7931b0ab32d72d/headline_figures_feeac_2011_2026.csv

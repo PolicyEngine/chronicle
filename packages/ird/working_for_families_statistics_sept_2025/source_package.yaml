@@ -12,6 +12,32 @@
 schema_version: ledger.source_package.v1
 package_id: ird-working-for-families-statistics-sept-2025
 label: Inland Revenue Working for Families administrative statistics, tax year 2024
+# Chronicle-owned labels (chronicle#261, #265). The income-band values are the
+# publisher's row text at AO48, AO49 and AO51 of the income sheet; numeric bands
+# label themselves. The credit names are this package's constraint labels for the
+# credits the workbook's Explanatory notes abbreviate as FTC, MFTC, IWTC and BSTC.
+# The dimension labels and the 'any' and 'nonzero' value labels are Chronicle's
+# wording; no publisher cell names them.
+dimension_labels:
+  'ird_wff_statistics.credit_component': 'Working for Families credit'
+  'ird_wff_statistics.family_income_band_source_label': 'Published family income band'
+  'ird_wff_statistics.supported_child_count': 'Number of supported children per family'
+  'ird_wff_statistics.supported_children': 'Supported children'
+  'wff_credit_component': 'Working for Families credit type'
+  'wff_entitlement_status': 'Working for Families entitlement status'
+dimension_value_labels:
+  'family_scheme_income_band_source_label':
+    '180,000+': '180,000+'
+    'All': 'All'
+    'Unknown**': 'Unknown**'
+  'wff_credit_component':
+    'any': 'Any Working for Families credit'
+    'bstc': 'Best Start Tax Credit'
+    'ftc': 'Family Tax Credit'
+    'iwtc': 'In-work Tax Credit'
+    'mftc': 'Minimum Family Tax Credit'
+  'wff_entitlement_status':
+    'nonzero': 'Non-zero entitlement'
 artifact:
   source_name: ird
   source_table: Working for Families statistics - September 2025

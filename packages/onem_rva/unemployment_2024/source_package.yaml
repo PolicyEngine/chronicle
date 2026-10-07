@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: onem-rva-unemployment-2024
 label: ONEM/RVA unemployment benefit recipient 2024 national caseload target
+dimension_labels:
+  'measure': 'Measure'
 artifact:
   source_name: onem_rva_unemployment
   source_table: Annual report complete unemployment benefit recipients, 2024

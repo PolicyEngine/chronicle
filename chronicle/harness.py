@@ -1011,7 +1011,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     derived_publish_parser.add_argument(
         "--build-id",
-        help="Build ID. Defaults to the ID inferred from reports or ledger.db.",
+        help=(
+            "Build ID under an accepted epoch prefix, ledger.build.v1:<digest> or "
+            "chronicle.build.v2:<digest>; any other form is refused. Defaults to "
+            "the ID inferred from reports or ledger.db."
+        ),
     )
     derived_publish_parser.add_argument(
         "--r2-bucket",

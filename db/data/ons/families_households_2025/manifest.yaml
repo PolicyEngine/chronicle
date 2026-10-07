@@ -2,7 +2,7 @@ source_id: ons
 package_id: ons-families-households-2025
 dataset: ons_ons-families-households-2025
 source_page: https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/families/datasets/familiesandhouseholdsfamiliesandhouseholds
-table: 'Families and households in the UK 2025, Tables 5 and 7: household size and households by type'
+table: 'Families and households in the UK 2025, Tables 1, 3, 5 and 7: families by type and presence of children, families with dependent children by number, household size and households by type'
 files:
   2025:
     filename: familiesandhouseholdsuk2025.xlsx

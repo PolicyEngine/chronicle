@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: federal-reserve-z1-household-net-worth
 label: Federal Reserve Z.1 household and nonprofit net worth
+dimension_labels:
+  'federal_reserve.z1_series_code': 'Z.1 series'
 artifact:
   source_name: federal_reserve
   source_table: Z.1 B.101 Households and nonprofit organizations

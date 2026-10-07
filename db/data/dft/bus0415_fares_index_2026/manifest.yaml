@@ -1,0 +1,18 @@
+source_id: dft
+package_id: dft-bus0415-fares-index-2026
+dataset: dft_dft-bus0415-fares-index-2026
+source_page: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+table: BUS0415a local bus fares index by area and quarter
+files:
+  2026:
+    filename: bus0415.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a310ac715f2a70fac7e6006/bus0415.ods
+    sha256: 04721e9ade3b39c415ce2a0bcc045ec6d4ccb8afb6e33d525f619cf452bc7adf
+    size_bytes: 23434
+    fetched_at: '2026-08-26T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/dft/dft-bus0415-fares-index-2026/2026/04721e9ade3b39c415ce2a0bcc045ec6d4ccb8afb6e33d525f619cf452bc7adf/bus0415.ods
+        uri: r2://ledger-raw/raw/dft/dft-bus0415-fares-index-2026/2026/04721e9ade3b39c415ce2a0bcc045ec6d4ccb8afb6e33d525f619cf452bc7adf/bus0415.ods

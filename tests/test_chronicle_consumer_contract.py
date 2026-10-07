@@ -30,6 +30,11 @@ from chronicle.core import (
     build_aggregate_constraints,
     validate_facts,
 )
+from chronicle.epoch import (
+    CONSUMER_FACT_EMIT_SCHEMA_VERSION,
+    HASH_DOMAINS,
+    Epoch,
+)
 from chronicle.harness import main
 from chronicle.jurisdictions.us.soi import build_soi_table_1_1_facts
 from chronicle.store import save_facts_jsonl
@@ -39,7 +44,7 @@ from policyengine_chronicle.consumer import (
 )
 
 CONSUMER_FACT_SCHEMA_PATH = (
-    Path(__file__).parents[1] / "docs" / "schemas" / "consumer_fact.v1.schema.json"
+    Path(__file__).parents[1] / "docs" / "schemas" / "consumer_fact.v4.schema.json"
 )
 CONSUMER_FACT_SAMPLE_PATH = (
     Path(__file__).parents[1] / "chronicle" / "fixtures" / "consumer_facts.jsonl"
@@ -168,6 +173,166 @@ def test_consumer_fact_row_exposes_chronicle_and_lineage_keys():
         "irs_soi.ty2023.table_1_1.all.adjusted_gross_income"
     )
     assert row["lineage"]["source_cell_keys"]
+
+
+@pytest.mark.parametrize(
+    ("domain_name", "builder_name"),
+    [
+        ("source_release", "build_source_release_key"),
+        ("source_series", "build_source_series_key"),
+        ("observed_measure", "build_observed_measure_key"),
+        ("dimension_set", "build_dimension_set_key"),
+        ("universe_constraint_set", "build_universe_constraint_set_key"),
+        ("aggregate_fact", "build_aggregate_fact_key"),
+        ("semantic_fact", "build_semantic_fact_key"),
+        ("concept_alignment", "build_concept_alignment_key"),
+    ],
+)
+def test_consumer_key_epochs_change_only_the_hash_domain(
+    domain_name,
+    builder_name,
+):
+    """The epoch is domain separation, not a canonical-payload migration."""
+    builder = getattr(consumer_contract, builder_name)
+
+    for fact in (_soi_agi_fact(), _soi_agi_bracket_fact()):
+        ledger_key = builder(fact, epoch=Epoch.LEDGER)
+        chronicle_key = builder(fact, epoch=Epoch.CHRONICLE)
+        pair = HASH_DOMAINS[domain_name]
+
+        assert ledger_key.startswith(f"{pair.ledger}:")
+        assert chronicle_key.startswith(f"{pair.chronicle}:")
+        assert ledger_key.partition(":")[2] == chronicle_key.partition(":")[2]
+
+
+def test_chronicle_epoch_consumer_row_uses_successor_ids_consistently():
+    fact = replace(
+        _soi_agi_fact(),
+        source_row_keys=("ledger.source_row.v1:source-row",),
+    )
+
+    ledger_row = consumer_fact_row(fact)
+    chronicle_row = consumer_fact_row(fact, emit_epoch=Epoch.CHRONICLE)
+
+    # The row contract is independent of the key epoch: both rows are the
+    # contract Chronicle emits today.
+    assert ledger_row["schema_version"] == CONSUMER_FACT_EMIT_SCHEMA_VERSION
+    assert chronicle_row["schema_version"] == CONSUMER_FACT_EMIT_SCHEMA_VERSION
+    key_fields = {
+        "aggregate_fact_key": "aggregate_fact",
+        "semantic_fact_key": "semantic_fact",
+        "legacy_fact_key": "fact",
+        "source_release_key": "source_release",
+        "source_series_key": "source_series",
+        "observed_measure_key": "observed_measure",
+        "dimension_set_key": "dimension_set",
+        "universe_constraint_set_key": "universe_constraint_set",
+    }
+    for field, domain_name in key_fields.items():
+        pair = HASH_DOMAINS[domain_name]
+        assert ledger_row[field].startswith(f"{pair.ledger}:")
+        assert chronicle_row[field].startswith(f"{pair.chronicle}:")
+        assert (
+            ledger_row[field].partition(":")[2]
+            == (chronicle_row[field].partition(":")[2])
+        )
+
+    ledger_alignment = ledger_row["concept_alignment"]["concept_alignment_key"]
+    chronicle_alignment = chronicle_row["concept_alignment"]["concept_alignment_key"]
+    assert ledger_alignment.startswith(f"{HASH_DOMAINS['concept_alignment'].ledger}:")
+    assert chronicle_alignment.startswith(
+        f"{HASH_DOMAINS['concept_alignment'].chronicle}:"
+    )
+    assert ledger_alignment.partition(":")[2] == chronicle_alignment.partition(":")[2]
+
+    assert chronicle_row["lineage"]["source_cell_keys"] == [
+        HASH_DOMAINS["source_cell"].key_for_epoch(
+            key,
+            Epoch.CHRONICLE,
+        )
+        for key in fact.source_cell_keys
+    ]
+    assert chronicle_row["lineage"]["source_row_keys"] == [
+        "chronicle.source_row.v2:source-row"
+    ]
+
+
+@pytest.mark.parametrize("emit_epoch", [Epoch.LEDGER, Epoch.CHRONICLE])
+def test_consumer_row_defensively_deduplicates_lineage_aliases(emit_epoch):
+    fact = _soi_agi_fact()
+    source_cell_key = fact.source_cell_keys[0]
+    source_row_key = "ledger.source_row.v1:source-row"
+    fact = replace(
+        fact,
+        source_cell_keys=(
+            source_cell_key,
+            HASH_DOMAINS["source_cell"].key_for_epoch(
+                source_cell_key,
+                Epoch.CHRONICLE,
+            ),
+        ),
+        source_row_keys=(
+            source_row_key,
+            HASH_DOMAINS["source_row"].key_for_epoch(
+                source_row_key,
+                Epoch.CHRONICLE,
+            ),
+        ),
+    )
+
+    row = consumer_fact_row(fact, emit_epoch=emit_epoch)
+
+    assert row["lineage"]["source_cell_keys"] == [
+        HASH_DOMAINS["source_cell"].key_for_epoch(source_cell_key, emit_epoch)
+    ]
+    assert row["lineage"]["source_row_keys"] == [
+        HASH_DOMAINS["source_row"].key_for_epoch(source_row_key, emit_epoch)
+    ]
+
+
+def test_chronicle_epoch_writer_is_refused_until_a_schema_is_pinned(tmp_path):
+    output = tmp_path / "consumer_facts.jsonl"
+
+    with pytest.raises(ValueError, match="consumer-gated key cutover"):
+        write_consumer_facts_jsonl(
+            [_soi_agi_fact()],
+            output,
+            emit_epoch=Epoch.CHRONICLE,
+        )
+    assert not output.exists()
+    # Row-level emission under the successor epoch stays available to readers
+    # and to the database, which is not schema-pinned.
+    row = consumer_fact_row(_soi_agi_fact(), emit_epoch=Epoch.CHRONICLE)
+    assert row["schema_version"] == CONSUMER_FACT_EMIT_SCHEMA_VERSION
+
+
+@pytest.mark.parametrize(
+    ("emit_epoch", "message"),
+    [
+        ("chronicle", "consumer-gated key cutover"),
+        ("bogus", "unknown emit epoch"),
+    ],
+)
+def test_write_consumer_facts_jsonl_refuses_epoch_strings_before_writing(
+    tmp_path, emit_epoch, message
+):
+    facts_path = tmp_path / "refused.jsonl"
+
+    with pytest.raises(ValueError, match=message):
+        write_consumer_facts_jsonl([_soi_agi_fact()], facts_path, emit_epoch=emit_epoch)
+
+    assert not facts_path.exists()
+
+
+def test_write_consumer_facts_jsonl_accepts_the_ledger_epoch_string(tmp_path):
+    facts_path = tmp_path / "ledger.jsonl"
+
+    report = write_consumer_facts_jsonl(
+        [_soi_agi_fact()], facts_path, emit_epoch="ledger"
+    )
+
+    assert report.schema_version == "chronicle.consumer_fact.v4"
+    assert facts_path.exists()
 
 
 def test_aggregate_fact_key_ignores_lineage_labels_and_evidence_notes():
@@ -766,3 +931,18 @@ def test_export_consumer_facts_cli_preserves_decimal_values(tmp_path, capsys):
     assert json.loads(capsys.readouterr().out)["valid"]
     assert row["value"] == "1.25"
     assert row["value_type"] == "decimal"
+
+
+def test_contract_reports_malformed_lineage_keys_instead_of_raising(tmp_path):
+    fact = replace(_soi_agi_fact(), source_cell_keys=("bogus.domain.v9:" + "a" * 24,))
+    report = validate_consumer_fact_contract([fact])
+    codes = {issue.code for issue in report.errors}
+    assert "malformed_lineage_key" in codes
+    numeric = replace(_soi_agi_fact(), source_cell_keys=(123,))  # type: ignore[arg-type]
+    assert "malformed_lineage_key" in {
+        issue.code for issue in validate_consumer_fact_contract([numeric]).errors
+    }
+    with pytest.raises(
+        ValueError, match="Cannot export invalid Chronicle consumer-contract facts"
+    ):
+        write_consumer_facts_jsonl([fact], tmp_path / "facts.jsonl")

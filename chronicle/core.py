@@ -14,6 +14,8 @@ from dataclasses import asdict, dataclass, field
 from decimal import Decimal
 from typing import Any
 
+from chronicle.epoch import EMIT_EPOCH, HASH_DOMAINS, Epoch, hash_domain
+
 Scalar = str | int | float | bool | None
 
 # Year-typed periods store one integer. Split-label years store the opening
@@ -25,6 +27,9 @@ Scalar = str | int | float | bool | None
 # New Zealand labels its April-March income tax year by the ending year, so the
 # publisher's "2024 tax year" is tax_year 2024 with PeriodCoverage 2023-04-01
 # through 2024-03-31 and the publisher label recorded in source_period_label.
+# Quarter values use YYYY-QN and ISO week values use YYYY-Www; exact coverage
+# dates remain explicit in PeriodCoverage so source observation dates are not
+# inferred from the compact period identity.
 # Caution: the EES helper _academic_year_end (chronicle/sources/rows.py) names
 # value COLUMNS
 # by the academic year's END year ("2024/25" -> 2025); that is source-layout
@@ -35,6 +40,8 @@ ALLOWED_PERIOD_TYPES = {
     "fiscal_year",
     "academic_year",
     "month",
+    "quarter",
+    "week",
 }
 ALLOWED_GEOGRAPHY_LEVELS = {
     "country",
@@ -100,7 +107,7 @@ ALLOWED_PERIOD_BASES = {
     "projection_horizon",
 }
 ALLOWED_ACCOUNTING_BASES = {"cash", "accrual"}
-FACT_KEY_PREFIX = "ledger.fact.v1"
+FACT_KEY_PREFIX = hash_domain("fact")
 
 
 @dataclass(frozen=True)
@@ -233,6 +240,7 @@ class SourceRecordLayout:
     table_record_kind: str | None = None
     parent_record_set_id: str | None = None
     total_record_id: str | None = None
+    groupby_dimension_label: str | None = None
 
 
 @dataclass(frozen=True)
@@ -270,6 +278,11 @@ class AggregateFact:
     layout: SourceRecordLayout | None = None
     assertion: str = DEFAULT_ASSERTION
     period_coverage: PeriodCoverage | None = None
+    # Display metadata, never part of a fact key (chronicle#261): a label for
+    # each filter and layout groupby dimension id, and for each of their values
+    # keyed by ``consumer_contract.dimension_value_id``.
+    dimension_labels: dict[str, str] = field(default_factory=dict)
+    dimension_value_labels: dict[str, dict[str, str]] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -313,12 +326,16 @@ class ValidationReport:
         }
 
 
-def build_fact_key(fact: AggregateFact) -> str:
+def build_fact_key(
+    fact: AggregateFact,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str:
     """Build a stable key from fact schema fields, not human labels."""
     payload = _canonical_key_payload(fact)
     raw = json.dumps(payload, sort_keys=True, separators=(",", ":"))
     digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:24]
-    return f"{FACT_KEY_PREFIX}:{digest}"
+    return f"{hash_domain('fact', epoch)}:{digest}"
 
 
 def build_label(fact: AggregateFact) -> str:
@@ -506,6 +523,18 @@ def validate_fact(fact: AggregateFact) -> tuple[ValidationIssue, ...]:
     _validate_filters(errors, fact.filters)
     _validate_constraints(errors, fact.constraints)
     _validate_provenance(errors, fact.source)
+    _validate_lineage_keys(
+        errors,
+        fact.source_cell_keys,
+        field="source_cell_keys",
+        domain="source_cell",
+    )
+    _validate_lineage_keys(
+        errors,
+        fact.source_row_keys,
+        field="source_row_keys",
+        domain="source_row",
+    )
     if fact.period_coverage is not None:
         _validate_period_coverage(errors, fact.period_coverage)
 
@@ -575,9 +604,7 @@ def fact_counts(facts: list[AggregateFact]) -> dict[str, dict[str, int]]:
             f"{fact.period.type}:{fact.period.value}" for fact in facts
         ),
         "by_assertion": _counter_dict(fact.assertion for fact in facts),
-        "by_provenance_class": _counter_dict(
-            fact.provenance_class for fact in facts
-        ),
+        "by_provenance_class": _counter_dict(fact.provenance_class for fact in facts),
         "missing_labels": {"count": sum(1 for fact in facts if not fact.label)},
         "missing_provenance": {
             "count": sum(1 for fact in facts if _has_missing_provenance(fact))
@@ -633,6 +660,51 @@ def _validate_value(errors: list[ValidationIssue], value: Any) -> None:
         errors.append(_issue("missing_value", "Fact value is required", "value"))
 
 
+def _validate_lineage_keys(
+    errors: list[ValidationIssue],
+    keys: tuple[str, ...],
+    *,
+    field: str,
+    domain: str,
+) -> None:
+    pair = HASH_DOMAINS[domain]
+    seen: set[str] = set()
+    for key in keys:
+        if not isinstance(key, str):
+            errors.append(
+                _issue(
+                    "malformed_lineage_key",
+                    f"Unsupported lineage key {key!r}; accepted prefixes are "
+                    f"{pair.ledger!r} and {pair.chronicle!r}",
+                    field,
+                )
+            )
+            continue
+        try:
+            canonical_key = pair.key_for_epoch(key, Epoch.LEDGER)
+        except ValueError as error:
+            errors.append(
+                _issue(
+                    "malformed_lineage_key",
+                    str(error),
+                    field,
+                )
+            )
+            continue
+        if canonical_key in seen:
+            errors.append(
+                _issue(
+                    "duplicate_lineage_key",
+                    f"Duplicate canonical lineage key {canonical_key!r}; each "
+                    "lineage identity may appear only once across accepted "
+                    "Ledger and Chronicle aliases",
+                    field,
+                )
+            )
+            continue
+        seen.add(canonical_key)
+
+
 def _validate_provenance_class(
     errors: list[ValidationIssue],
     fact: AggregateFact,
@@ -651,7 +723,10 @@ def _validate_provenance_class(
         return
 
     if provenance_class == "survey_aggregate":
-        if type(fact.survey_instrument) is not str or not fact.survey_instrument.strip():
+        if (
+            type(fact.survey_instrument) is not str
+            or not fact.survey_instrument.strip()
+        ):
             errors.append(
                 _issue(
                     "missing_survey_instrument",

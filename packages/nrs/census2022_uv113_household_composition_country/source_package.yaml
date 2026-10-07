@@ -1,0 +1,380 @@
+# Scotland's Census 2022 table UV113 (household composition, households) for
+# Scotland, from the pinned NRS SuperWEB2 export published through the UK Data
+# Service, Scotland's census dissemination partner. Census day is 2022-03-20, hence
+# calendar_year 2022. The export is long format below a ten-line SuperWEB2
+# preamble, so the artifact declares header_row 11. Every publisher category is
+# carried with its exact label; the ': Total' roll-ups and 'All households' carry
+# table_record_kind 'total'. NRS applies statistical disclosure control cell by
+# cell ('Data has been perturbed'), so details need not sum to totals; values are
+# carried as published and nothing is reconciled. Mapping the classification onto
+# the ONS Families and households Table 7 categories is a consumer declaration
+# (chronicle#237). Dependent child (Scotland's Census 2022 metadata): any person aged 0
+# to 15 in a household, or aged 16 to 18 in full-time education living in a family with
+# a parent or grandparent, excluding 16 to 18 year olds with a spouse, partner or child in
+# the household; the same rule as England and Wales, with the one / two-or-more split of
+# dependent children as the publisher's categories.
+schema_version: ledger.source_package.v1
+package_id: nrs-census2022-uv113-household-composition-country
+label: 'Scotland''s Census 2022 UV113: households by household composition, Scotland'
+dimension_labels:
+  'nrs.census2022_household_composition': 'Household composition'
+artifact:
+  source_name: nrs
+  source_table: 'Scotland''s Census 2022 UV113 household composition, households, country'
+  resource_package: db
+  resource_directory: data/nrs/census2022_uv113_household_composition_country
+  manifest: manifest.yaml
+  vintage: census_2022
+  extracted_at: '2026-09-03'
+  extraction_method: SuperWEB2 delimited text full-row parse below the export preamble, one source row per household composition category
+  parser: delimited_text_full_rows
+  header_row: 11
+  sheet_name: census2022_uv113_household_composition_households_country.csv
+  artifact_year: 2022
+record_sets:
+- record_set_id: nrs.census2022.uv113.household_composition.scotland
+  provenance_class: census
+  record_set_spec_id: nrs.census2022.uv113.household_composition.scotland.v1
+  source_record_id_prefix: nrs.census2022.uv113.household_composition.scotland
+  sheet_name: census2022_uv113_household_composition_households_country.csv
+  period_type: calendar_year
+  period: 2022
+  geography_id: S92000003
+  geography_level: country
+  geography_name: 'Scotland'
+  geography_vintage: gss_2022
+  entity: household
+  entity_role: occupied_household
+  domain: household_composition
+  groupby_dimension: nrs.census2022_household_composition
+  assertion: observation
+  measures:
+  - measure_id: households
+    label: Households
+    ordinal: 0
+    column: D
+    source_column_id: Count
+    expected_column_header_row: 1
+    expected_column_header: Count
+    concept: nrs.census2022_household_composition
+    source_concept: nrs.census2022_uv113
+    concept_relation: source_label
+    concept_authority: nrs
+    concept_evidence_url: https://statistics.ukdataservice.ac.uk/dataset/scotland-s-census-2022-uv113-household-composition-households
+    concept_evidence_notes: 'Scotland''s Census 2022 table UV113 Household composition (households), country level, from the NRS SuperWEB2 export published through the UK Data Service; 26 publisher categories including the all-households, one-person, one-family, couple, lone-parent and other-household-type totals, which are carried as table_record_kind total. Scotland''s Census 2022 metadata, dependent child indicator: a dependent child is any person aged 0 to 15 in a household (whether or not in a family) or a person aged 16 to 18 who is in full-time education and living in a family with his or her parent(s) or grandparent(s); it does not include people aged 16 to 18 who have a spouse, partner or child living in the household (https://www.scotlandscensus.gov.uk/metadata/dependent-child-indicator/).'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: all_households
+    label: 'All households'
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: C
+    expected_row_header: 'All households'
+    table_record_kind: total
+    filters: {household_composition: 'All households'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'All households', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 2, expected_value: 'Scotland', label: geography}
+  - value_id: one_person_household_total
+    label: 'One person household: Total'
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: C
+    expected_row_header: 'One person household: Total'
+    table_record_kind: total
+    filters: {household_composition: 'One person household: Total'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One person household: Total', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 3, expected_value: 'Scotland', label: geography}
+  - value_id: one_person_household_aged_66_and_over
+    label: 'One person household: Aged 66 and over'
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: C
+    expected_row_header: 'One person household: Aged 66 and over'
+    table_record_kind: detail
+    filters: {household_composition: 'One person household: Aged 66 and over'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One person household: Aged 66 and over', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 4, expected_value: 'Scotland', label: geography}
+  - value_id: one_person_household_aged_under_66
+    label: 'One person household: Aged under 66'
+    ordinal: 3
+    row_number: 5
+    expected_row_header_column: C
+    expected_row_header: 'One person household: Aged under 66'
+    table_record_kind: detail
+    filters: {household_composition: 'One person household: Aged under 66'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One person household: Aged under 66', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 5, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_total
+    label: 'One family household: Total'
+    ordinal: 4
+    row_number: 6
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Total'
+    table_record_kind: total
+    filters: {household_composition: 'One family household: Total'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Total', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 6, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_all_aged_66_and_over
+    label: 'One family household: All aged 66 and over'
+    ordinal: 5
+    row_number: 7
+    expected_row_header_column: C
+    expected_row_header: 'One family household: All aged 66 and over'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: All aged 66 and over'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: All aged 66 and over', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 7, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_married_or_civil_partnership_couple_total
+    label: 'One family household: Married or civil partnership couple: Total'
+    ordinal: 6
+    row_number: 8
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Married or civil partnership couple: Total'
+    table_record_kind: total
+    filters: {household_composition: 'One family household: Married or civil partnership couple: Total'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Married or civil partnership couple: Total', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 8, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_married_or_civil_partnership_couple_no_children
+    label: 'One family household: Married or civil partnership couple: No children'
+    ordinal: 7
+    row_number: 9
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Married or civil partnership couple: No children'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: Married or civil partnership couple: No children'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Married or civil partnership couple: No children', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 9, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_married_or_civil_partnership_couple_one_dependent_child
+    label: 'One family household: Married or civil partnership couple: One dependent child'
+    ordinal: 8
+    row_number: 10
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Married or civil partnership couple: One dependent child'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: Married or civil partnership couple: One dependent child'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Married or civil partnership couple: One dependent child', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 10, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_married_or_civil_partnership_couple_two_or_more_dependent_children
+    label: 'One family household: Married or civil partnership couple: Two or more dependent children'
+    ordinal: 9
+    row_number: 11
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Married or civil partnership couple: Two or more dependent children'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: Married or civil partnership couple: Two or more dependent children'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Married or civil partnership couple: Two or more dependent children', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 11, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_married_or_civil_partnership_couple_all_children_non_dependent
+    label: 'One family household: Married or civil partnership couple: All children non-dependent'
+    ordinal: 10
+    row_number: 12
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Married or civil partnership couple: All children non-dependent'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: Married or civil partnership couple: All children non-dependent'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Married or civil partnership couple: All children non-dependent', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 12, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_cohabiting_couple_total
+    label: 'One family household: Cohabiting couple: Total'
+    ordinal: 11
+    row_number: 13
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Cohabiting couple: Total'
+    table_record_kind: total
+    filters: {household_composition: 'One family household: Cohabiting couple: Total'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Cohabiting couple: Total', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 13, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_cohabiting_couple_no_children
+    label: 'One family household: Cohabiting couple: No children'
+    ordinal: 12
+    row_number: 14
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Cohabiting couple: No children'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: Cohabiting couple: No children'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Cohabiting couple: No children', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 14, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_cohabiting_couple_one_dependent_child
+    label: 'One family household: Cohabiting couple: One dependent child'
+    ordinal: 13
+    row_number: 15
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Cohabiting couple: One dependent child'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: Cohabiting couple: One dependent child'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Cohabiting couple: One dependent child', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 15, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_cohabiting_couple_two_or_more_dependent_children
+    label: 'One family household: Cohabiting couple: Two or more dependent children'
+    ordinal: 14
+    row_number: 16
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Cohabiting couple: Two or more dependent children'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: Cohabiting couple: Two or more dependent children'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Cohabiting couple: Two or more dependent children', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 16, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_cohabiting_couple_all_children_non_dependent
+    label: 'One family household: Cohabiting couple: All children non-dependent'
+    ordinal: 15
+    row_number: 17
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Cohabiting couple: All children non-dependent'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: Cohabiting couple: All children non-dependent'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Cohabiting couple: All children non-dependent', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 17, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_lone_parent_family_total
+    label: 'One family household: Lone parent family: Total'
+    ordinal: 16
+    row_number: 18
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Lone parent family: Total'
+    table_record_kind: total
+    filters: {household_composition: 'One family household: Lone parent family: Total'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Lone parent family: Total', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 18, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_lone_parent_family_one_dependent_child
+    label: 'One family household: Lone parent family: One dependent child'
+    ordinal: 17
+    row_number: 19
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Lone parent family: One dependent child'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: Lone parent family: One dependent child'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Lone parent family: One dependent child', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 19, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_lone_parent_family_two_or_more_dependent_children
+    label: 'One family household: Lone parent family: Two or more dependent children'
+    ordinal: 18
+    row_number: 20
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Lone parent family: Two or more dependent children'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: Lone parent family: Two or more dependent children'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Lone parent family: Two or more dependent children', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 20, expected_value: 'Scotland', label: geography}
+  - value_id: one_family_household_lone_parent_family_all_children_non_dependent
+    label: 'One family household: Lone parent family: All children non-dependent'
+    ordinal: 19
+    row_number: 21
+    expected_row_header_column: C
+    expected_row_header: 'One family household: Lone parent family: All children non-dependent'
+    table_record_kind: detail
+    filters: {household_composition: 'One family household: Lone parent family: All children non-dependent'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'One family household: Lone parent family: All children non-dependent', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 21, expected_value: 'Scotland', label: geography}
+  - value_id: other_household_types_total
+    label: 'Other household types: Total'
+    ordinal: 20
+    row_number: 22
+    expected_row_header_column: C
+    expected_row_header: 'Other household types: Total'
+    table_record_kind: total
+    filters: {household_composition: 'Other household types: Total'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'Other household types: Total', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 22, expected_value: 'Scotland', label: geography}
+  - value_id: other_household_types_one_dependent_child
+    label: 'Other household types: One dependent child'
+    ordinal: 21
+    row_number: 23
+    expected_row_header_column: C
+    expected_row_header: 'Other household types: One dependent child'
+    table_record_kind: detail
+    filters: {household_composition: 'Other household types: One dependent child'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'Other household types: One dependent child', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 23, expected_value: 'Scotland', label: geography}
+  - value_id: other_household_types_two_or_more_dependent_children
+    label: 'Other household types: Two or more dependent children'
+    ordinal: 22
+    row_number: 24
+    expected_row_header_column: C
+    expected_row_header: 'Other household types: Two or more dependent children'
+    table_record_kind: detail
+    filters: {household_composition: 'Other household types: Two or more dependent children'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'Other household types: Two or more dependent children', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 24, expected_value: 'Scotland', label: geography}
+  - value_id: other_household_types_all_full_time_students
+    label: 'Other household types: All full-time students'
+    ordinal: 23
+    row_number: 25
+    expected_row_header_column: C
+    expected_row_header: 'Other household types: All full-time students'
+    table_record_kind: detail
+    filters: {household_composition: 'Other household types: All full-time students'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'Other household types: All full-time students', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 25, expected_value: 'Scotland', label: geography}
+  - value_id: other_household_types_all_aged_66_and_over
+    label: 'Other household types: All aged 66 and over'
+    ordinal: 24
+    row_number: 26
+    expected_row_header_column: C
+    expected_row_header: 'Other household types: All aged 66 and over'
+    table_record_kind: detail
+    filters: {household_composition: 'Other household types: All aged 66 and over'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'Other household types: All aged 66 and over', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 26, expected_value: 'Scotland', label: geography}
+  - value_id: other_household_types_other
+    label: 'Other household types: Other'
+    ordinal: 25
+    row_number: 27
+    expected_row_header_column: C
+    expected_row_header: 'Other household types: Other'
+    table_record_kind: detail
+    filters: {household_composition: 'Other household types: Other'}
+    constraints:
+    - {variable: household_composition, operator: '==', value: 'Other household types: Other', label: publisher household composition category}
+    guard_cells:
+    - {column: B, row: 27, expected_value: 'Scotland', label: geography}

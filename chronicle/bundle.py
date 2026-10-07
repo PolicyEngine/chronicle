@@ -9,78 +9,197 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Callable, Sequence
 
+from chronicle.dimension_labels import dimension_label_issues, dimension_labels_by_id
+from chronicle.epoch import canonicalize_key, schema_id
 from chronicle.source_package import (
+    ARTIFACT_YEAR_RESTAMP_CODE,
     SOURCE_PACKAGE_ALIASES,
     assert_alias_map_covers_packages,
     validate_source_package,
 )
 from chronicle.suite import BuildSuiteReport, build_source_suite
+from policyengine_chronicle.schema import (
+    validate_consumer_fact_row_epochs,
+)
 
-BUNDLE_SCHEMA_VERSION = "ledger.bundle.v1"
-BUNDLE_COVERAGE_SCHEMA_VERSION = "ledger.bundle_coverage.v1"
-BUNDLE_SOURCES_SCHEMA_VERSION = "ledger.bundle_sources.v1"
+BUNDLE_SCHEMA_VERSION = schema_id("bundle")
+BUNDLE_COVERAGE_SCHEMA_VERSION = schema_id("bundle_coverage")
+BUNDLE_SOURCES_SCHEMA_VERSION = schema_id("bundle_sources")
 DEFAULT_BUNDLE_SOURCES = tuple(sorted(SOURCE_PACKAGE_ALIASES))
 UK_BUNDLE_SOURCE_PREFIXES = (
+    "desnz",
+    "dfc_ni",
+    "dfe",
+    "dfi_ni",
     "dft",
     "dwp",
     "hmrc",
     "isc",
     "mhclg",
     "nisra",
+    "nithc",
     "nrs",
     "obr",
+    "ofgem",
     "ons",
+    "orr",
     "scotgov",
     "slc",
     "voa",
     "welshgov",
 )
 UK_BUNDLE_SOURCES = (
+    "desnz-energy-trends-domestic-electricity-2026",
+    "desnz-energy-trends-domestic-gas-2026",
+    "desnz-monthly-annual-road-fuel-prices-august-2026",
+    "desnz-need-england-wales-2023",
+    "desnz-need-england-wales-2024",
+    "desnz-need-scotland-2023",
+    "desnz-need-scotland-2024",
+    "desnz-qep-electricity-annual-bills-2026",
+    "desnz-qep-electricity-unit-fixed-costs-2026",
+    "desnz-qep-gas-annual-bills-2026",
+    "desnz-qep-gas-unit-fixed-costs-2026",
+    "desnz-subnational-electricity-consumption-2024",
+    "desnz-subnational-gas-consumption-2024",
+    "desnz-weekly-road-fuel-prices-september-2026",
+    "dfc-ni-pension-credit-statistics-may-2026",
+    "dfc-ni-state-pension-statistics-may-2026",
+    "dfc-ni-uc-statistics-may-2026",
+    "dfe-funded-early-education-childcare-2026",
+    "dfi-ni-bus-concessionary-journeys-2024-25",
+    "dfi-ni-public-transport-statistics-2024-25",
+    "dft-bus01-passenger-journeys-2025",
+    "dft-bus0415-fares-index-2026",
+    "dft-bus05i-revenue-support-2025",
     "dft-nts-vehicle-ownership-2024",
+    "dft-nts0303-mode-trips-2025",
+    "dft-nts0313-mode-use-frequency-2025",
+    "dft-nts0601-age-mode-trips-2025",
+    "dft-nts0621-local-bus-use-frequency-2025",
+    "dft-nts0705-local-bus-trips-2024",
+    "dft-veh1103-cars-fuel-type-2025",
+    "dwp-attendance-allowance-entitled-country-award-age-gender-february-2023-march-2026",
     "dwp-benefit-cap-november-2025",
+    "dwp-benefit-expenditure-caseload-spring-2026",
     "dwp-benefit-statistics-february-2026",
+    "dwp-esa-caseload-payment-type-phase-may-2018-march-2026",
+    "dwp-hb-claimants-client-type-tenure-accommodation-type-september-2025-february-2026",
+    "dwp-hb-claimants-client-type-tenure-january-2023-february-2026",
+    "dwp-pension-credit-amount-band-type-february-2023-march-2026",
+    "dwp-pension-credit-gender-type-february-2023-march-2026",
+    "dwp-pension-credit-region-type-partner-age-february-2023-march-2026",
+    "dwp-pension-credit-type-partner-age-february-2023-march-2026",
     "dwp-pip-daily-living-foi-2025",
-    "dwp-uc-childcare-element-march-2021-august-2025",
+    "dwp-state-pension-age-gender-type-february-2023-march-2026",
+    "dwp-state-pension-amount-band-type-february-2023-march-2026",
+    "dwp-state-pension-category-protected-payment-february-2023-march-2026",
+    "dwp-state-pension-region-type-gender-february-2023-march-2026",
+    "dwp-uc-childcare-element-march-2021-may-2026",
     "dwp-uc-deductions-march-2025-february-2026",
     "dwp-uc-households-by-constituency-children-may-2025",
     "dwp-uc-households-by-constituency-may-2025",
     "dwp-uc-households-by-local-authority-may-2025",
-    "dwp-uc-households-carer-entitlement-april-december-2025",
+    "dwp-uc-households-carer-entitlement-payment-indicator-january-2023-may-2026",
     "dwp-uc-households-children-april-december-2025",
+    "dwp-uc-households-children-child-entitlement-april-december-2025",
+    "dwp-uc-households-children-payment-indicator-child-entitlement-april-2023-may-2026",
     "dwp-uc-households-family-type-april-december-2025",
-    "dwp-uc-households-housing-entitlement-april-december-2025",
-    "dwp-uc-households-lcwra-entitlement-april-december-2025",
-    "dwp-uc-payment-distribution-may-2025",
-    "dwp-uc-scotland-youngest-child-may-2025",
+    "dwp-uc-households-family-type-child-entitlement-april-december-2025",
+    "dwp-uc-households-family-type-payment-indicator-april-december-2025",
+    "dwp-uc-households-family-type-payment-indicator-child-entitlement-april-2023-may-2026",
+    "dwp-uc-households-housing-entitlement-payment-indicator-january-2023-may-2026",
+    "dwp-uc-households-housing-tenure-payment-indicator-january-2023-may-2026",
+    "dwp-uc-households-lcw-entitlement-group-payment-indicator-january-2023-may-2026",
+    "dwp-uc-households-lcw-entitlement-payment-indicator-january-2023-may-2026",
+    "dwp-uc-payment-distribution-april-december-2025",
+    "dwp-uc-people-employment-indicator-january-2023-may-2026",
+    "dwp-uc-scotland-youngest-child-april-december-2025",
     "dwp-uc-two-child-limit-2025",
-    "hmrc-cgt-size-of-gain-2025",
-    "hmrc-cgt-statistics-2025",
+    "dwp-winter-fuel-payment-recipients-winter-2023-24",
+    "dwp-winter-fuel-payment-recipients-winters-2024-25-2025-26",
+    "dwp-winter-fuel-payment-statistics-winter-2023-24",
+    "dwp-winter-fuel-payment-statistics-winter-2024-25",
+    "dwp-winter-fuel-payment-statistics-winter-2025-26",
+    "dwp-workplace-pension-savings-trends-2009-to-2025",
+    "hmrc-cgt-age-2026",
+    "hmrc-cgt-asset-type-2026",
+    "hmrc-cgt-badr-ir-2026",
+    "hmrc-cgt-carried-interest-2026",
+    "hmrc-cgt-country-region-2026",
+    "hmrc-cgt-gain-by-income-2026",
+    "hmrc-cgt-residential-property-2026",
+    "hmrc-cgt-size-of-gain-2026",
+    "hmrc-cgt-statistics-2026",
+    "hmrc-child-benefit-august-2025",
+    "hmrc-hydrocarbon-oils-quantities-june-2026",
+    "hmrc-income-tax-liabilities-july-2026",
+    "hmrc-pension-contribution-relief-2023-24",
+    "hmrc-property-rental-income-2026",
     "hmrc-salary-sacrifice-reform-2029-headcounts",
     "hmrc-salary-sacrifice-relief-2024-25",
     "hmrc-spi-income-bands-2023-24",
     "hmrc-spi-income-by-area-2023-24",
+    "hmrc-spi-income-by-region-2023-24",
+    "hmrc-tax-free-childcare-march-2026",
     "hmrc-vat-firm-sector-targets-2024-25",
     "hmrc-vat-firm-targets-2024-25",
+    "hmrc-winter-fuel-payment-charge-2025",
     "isc-annual-census-2023",
     "isc-annual-census-2024",
     "mhclg-council-tax-collection-england-2025-26",
     "mhclg-council-tax-levels-england-2026-27",
     "mhclg-council-tax-levels-england-summary-2025-26",
+    "mhclg-council-taxbase-england-2023",
+    "mhclg-council-taxbase-england-2024",
+    "mhclg-council-taxbase-england-2025",
     "mhclg-ehs-weekly-housing-costs-2023-24",
+    "nisra-census2021-household-composition-country",
     "nisra-census2021-households-lgd",
     "nisra-census2021-households-pcon24",
     "nisra-census2021-tenure-lgd",
     "nisra-pcon24-population-by-age-2024",
+    "nithc-annual-report-accounts-2024-25",
     "nrs-census2022-households-ukpc24",
+    "nrs-census2022-uv113-household-composition-country",
     "nrs-census2022-uv404-tenure-council-area",
+    "nrs-census2022-uv407-central-heating-council-area",
     "nrs-pcon24-population-by-age-2024",
     "obr-efo-aggregates-march-2026",
     "obr-efo-economy-march-2026",
     "obr-efo-expenditure-march-2026",
     "obr-efo-receipts-march-2026",
+    "obr-fuel-duty-receipts-by-vehicle-april-2024",
+    "obr-salary-sacrifice-costing-february-2026",
+    "ofgem-energy-price-cap-levels-2024-2026",
+    "ofgem-energy-price-cap-q1-2024",
+    "ons-ashe-employee-contribution-bands-by-age-2024-full-pay",
+    "ons-ashe-employee-contribution-bands-by-age-2024-qualifying-earnings",
+    "ons-ashe-employee-contribution-bands-by-business-size-2024-full-pay",
+    "ons-ashe-employee-contribution-bands-by-business-size-2024-qualifying-earnings",
+    "ons-ashe-employee-contribution-bands-by-industry-2024-full-pay",
+    "ons-ashe-employee-contribution-bands-by-industry-2024-qualifying-earnings",
+    "ons-ashe-employee-contribution-bands-by-occupation-2024-full-pay",
+    "ons-ashe-employee-contribution-bands-by-occupation-2024-qualifying-earnings",
+    "ons-ashe-employer-contribution-bands-by-age-2024-full-pay",
+    "ons-ashe-employer-contribution-bands-by-age-2024-qualifying-earnings",
+    "ons-ashe-employer-contribution-bands-by-business-size-2024-full-pay",
+    "ons-ashe-employer-contribution-bands-by-business-size-2024-qualifying-earnings",
+    "ons-ashe-employer-contribution-bands-by-industry-2024-full-pay",
+    "ons-ashe-employer-contribution-bands-by-industry-2024-qualifying-earnings",
+    "ons-ashe-employer-contribution-bands-by-occupation-2024-full-pay",
+    "ons-ashe-employer-contribution-bands-by-occupation-2024-qualifying-earnings",
+    "ons-ashe-pension-membership-by-age-earnings-2024",
+    "ons-ashe-pension-membership-by-business-size-earnings-2024",
+    "ons-ashe-pension-membership-by-industry-earnings-2024",
+    "ons-ashe-pension-membership-by-occupation-earnings-2024",
+    "ons-census2021-ts003-household-composition-country",
     "ons-census2021-ts041-households-lad",
     "ons-census2021-ts041-households-pcon24",
+    "ons-census2021-ts046-central-heating-ltla",
     "ons-census2021-ts054-tenure-lad",
+    "ons-consumer-trends-current-price-2026",
+    "ons-employee-workplace-pensions-summary-2024",
     "ons-families-households-2025",
     "ons-households-by-type-country-2025",
     "ons-lad-population-by-age-2024",
@@ -98,8 +217,16 @@ UK_BUNDLE_SOURCES = (
     "ons-uk-business-firm-sector-targets-2025",
     "ons-uk-business-firm-targets-2025",
     "ons-uk-population-projections-2024",
+    "orr-government-support-7270-2024-25",
+    "orr-government-support-7271-2024-25",
+    "orr-rail-fares-7180-2026",
+    "orr-rail-finance-7223-2024-25",
     "scotgov-band-d-council-tax-rates-2026-27",
     "scotgov-band-d-equivalents-2025",
+    "scotgov-bus-coach-statistics-2023-24",
+    "scotgov-bus-coach-statistics-2024-25",
+    "scotgov-council-tax-bands-2023",
+    "scotgov-council-tax-bands-2024",
     "scotgov-council-tax-bands-2025",
     "scotgov-council-tax-collection-2024-25",
     "scotgov-council-tax-collection-2025-26",
@@ -113,12 +240,26 @@ UK_BUNDLE_SOURCES = (
     "slc-student-support-england-2025",
     "voa-council-tax-bands-2025",
     "voa-council-tax-stock-by-lad-2025",
+    "welshgov-bus-statistics-2024-25",
     "welshgov-council-tax-collection-2024-25",
     "welshgov-council-tax-collection-2025-26",
+    "welshgov-council-tax-dwellings-2023-24-to-2026-27",
     "welshgov-council-tax-levels-2026-27",
     "welshgov-ctrs-annual-report-2024-25",
     "welshgov-ctrs-annual-report-2025-26",
+    "welshgov-transport-revenue-outturn-2024-25",
 )
+
+_KEY_DOMAINS = {
+    "aggregate_fact_key": "aggregate_fact",
+    "semantic_fact_key": "semantic_fact",
+    "legacy_fact_key": "fact",
+    "source_release_key": "source_release",
+    "source_series_key": "source_series",
+    "observed_measure_key": "observed_measure",
+    "dimension_set_key": "dimension_set",
+    "universe_constraint_set_key": "universe_constraint_set",
+}
 
 
 def uk_bundle_sources_from_aliases() -> tuple[str, ...]:
@@ -273,6 +414,9 @@ def build_bundle(
     warnings: list[BuildBundleIssue] = []
     source_reports: list[BundleSourceReport] = []
     consumer_rows: list[dict[str, Any]] = []
+    dimension_labels: dict[str, dict[str, list[str]]] = {}
+    geography_names: dict[tuple[str, str], dict[str, list[str]]] = {}
+    value_labels: dict[tuple[str, str], dict[str, list[str]]] = {}
 
     for source in build_sources:
         suite_dir = sources_path / _safe_source_dir_name(source)
@@ -307,7 +451,25 @@ def build_bundle(
         rows = _load_jsonl(Path(suite_report.outputs["consumer_facts"]))
         consumer_rows.extend(rows)
         source_reports.append(_bundle_source_report(source, suite_report))
+        label_errors, label_warnings = _dimension_label_reports(source, rows)
+        errors.extend(label_errors)
+        warnings.extend(label_warnings)
+        errors.extend(_geography_name_errors(source, rows))
+        for area, names in _geography_names(rows).items():
+            for name in names:
+                geography_names.setdefault(area, {}).setdefault(name, []).append(source)
+        for pair, labels in _value_labels(rows).items():
+            for label in labels:
+                value_labels.setdefault(pair, {}).setdefault(label, []).append(source)
+        for dimension_id, labels in dimension_labels_by_id(rows).items():
+            for label in labels:
+                dimension_labels.setdefault(dimension_id, {}).setdefault(
+                    label, []
+                ).append(source)
 
+    errors.extend(_cross_package_dimension_label_errors(dimension_labels))
+    warnings.extend(_cross_package_geography_name_warnings(geography_names))
+    warnings.extend(_cross_package_value_label_warnings(value_labels))
     aggregate_duplicates = _duplicate_key_reports(
         consumer_rows,
         "aggregate_fact_key",
@@ -384,6 +546,241 @@ def build_bundle(
     return report
 
 
+def _dimension_label_reports(
+    source: str,
+    rows: list[dict[str, Any]],
+) -> tuple[list[BuildBundleIssue], list[BuildBundleIssue]]:
+    """Report one source's dimension-label issues (chronicle#261, #265).
+
+    Every package must label every dimension and value it emits, whichever
+    country it publishes for: the row contract is one contract, and a consumer
+    reads the labels the same way everywhere. The exception is publisher row
+    labels that differ across the rows of one groupby value: Chronicle keeps
+    that text as published and warns.
+    """
+    errors: list[BuildBundleIssue] = []
+    warnings: list[BuildBundleIssue] = []
+    for issue in dimension_label_issues(rows):
+        report = BuildBundleIssue(
+            code=issue.code,
+            message=issue.message,
+            source=source,
+            key=(
+                issue.dimension_id
+                if issue.value_id is None
+                else f"{issue.dimension_id}={issue.value_id}"
+            ),
+        )
+        if issue.code == "conflicting_groupby_value_label":
+            warnings.append(report)
+        else:
+            errors.append(report)
+    return errors, warnings
+
+
+def _geography_name_errors(
+    source: str,
+    rows: list[dict[str, Any]],
+) -> list[BuildBundleIssue]:
+    """Report facts that leave a sub-national geography unnamed (chronicle#266).
+
+    Microcosm's calibration hierarchy labels a target's geography from the fact
+    it selects and falls back to its own catalog only for country-level
+    identifiers it already knows, so every fact below country level must carry
+    the name its publisher gives that area. One error per unnamed area, not per
+    fact: a source names an area once and every row of it is unnamed together.
+    """
+    unnamed: dict[tuple[str, str], int] = {}
+    for row in rows:
+        geography = row.get("geography") or {}
+        level = str(geography.get("level") or "")
+        if not level or level == "country":
+            continue
+        if str(geography.get("name") or "").strip():
+            continue
+        key = (level, str(geography.get("id") or ""))
+        unnamed[key] = unnamed.get(key, 0) + 1
+    errors = [
+        BuildBundleIssue(
+            code="missing_geography_name",
+            message=(
+                f"Geography {geography_id!r} at level {level!r} has no "
+                f"publisher name on {count} fact(s); Microcosm labels a "
+                "sub-national tier from the fact, never from the identifier."
+            ),
+            source=source,
+            key=f"{level}:{geography_id}",
+        )
+        for (level, geography_id), count in sorted(unnamed.items())
+    ]
+    # Two publishers may name one area differently and both be right, but one
+    # package naming it twice is a package that disagrees with itself. Rows the
+    # register names carry its one name, so this reaches only the identifiers
+    # it does not carry (chronicle#281).
+    errors.extend(
+        BuildBundleIssue(
+            code="conflicting_geography_name",
+            message=(
+                f"This package names geography {geography_id!r} at level "
+                f"{level!r} "
+                + " and ".join(repr(name) for name in sorted(names))
+                + "; one source states one name for an area."
+            ),
+            source=source,
+            key=f"{level}:{geography_id}",
+        )
+        for (level, geography_id), names in sorted(_geography_names(rows).items())
+        if len(names) > 1
+    )
+    return errors
+
+
+def _geography_names(rows: list[dict[str, Any]]) -> dict[tuple[str, str], set[str]]:
+    """Return every name one source gives each area it publishes facts for."""
+    found: dict[tuple[str, str], set[str]] = {}
+    for row in rows:
+        geography = row.get("geography") or {}
+        name = str(geography.get("name") or "").strip()
+        if not name:
+            continue
+        area = (str(geography.get("level") or ""), str(geography.get("id") or ""))
+        found.setdefault(area, set()).add(name)
+    return found
+
+
+def _spans_two_sources(labels: dict[str, list[str]]) -> bool:
+    """Whether the disagreement is between packages rather than inside one.
+
+    One package saying two things about one value or one area is its own
+    package-level issue; repeating it here would report the same drift twice.
+    """
+    return len({source for sources in labels.values() for source in sources}) > 1
+
+
+def _value_labels(rows: list[dict[str, Any]]) -> dict[tuple[str, str], set[str]]:
+    """Return every label one source gives each dimension value.
+
+    A value that is the fact's own geography is left out: publishers naming an
+    area two ways is the geography-name warning's business, and reporting it
+    again here would say the same thing in a second voice.
+    """
+    found: dict[tuple[str, str], set[str]] = {}
+    for row in rows:
+        geography_id = str((row.get("geography") or {}).get("id") or "").casefold()
+        pairs: list[tuple[str, str, Any]] = [
+            (str(dimension_id), str(value_id), label)
+            for dimension_id, value_labels in (
+                row.get("dimension_value_labels") or {}
+            ).items()
+            for value_id, label in value_labels.items()
+        ]
+        layout = row.get("layout") or {}
+        groupby = str(layout.get("groupby_dimension") or "")
+        groupby_value = layout.get("groupby_value_id")
+        if groupby and groupby_value is not None:
+            pairs.append(
+                (groupby, str(groupby_value), layout.get("groupby_value_label"))
+            )
+        for dimension_id, value_id, label in pairs:
+            text = str(label or "").strip()
+            if not text or value_id.casefold() == geography_id:
+                continue
+            found.setdefault((dimension_id, value_id), set()).add(text)
+    return found
+
+
+def _cross_package_value_label_warnings(
+    labels_by_value: dict[tuple[str, str], dict[str, list[str]]],
+) -> list[BuildBundleIssue]:
+    """Report a dimension value two packages label differently (chronicle#265).
+
+    One label per dimension id is an error because a consumer selects on the
+    id; one label per value is a warning because the wording belongs to the
+    table the value was read from, and two tables of one publisher may word a
+    band or a total differently. A consumer target that spans both sees both,
+    so the bundle says where that is possible.
+    """
+    return [
+        BuildBundleIssue(
+            code="conflicting_value_label_across_packages",
+            message=(
+                f"Packages label {dimension_id!r} value {value_id!r} "
+                "differently: "
+                + "; ".join(
+                    f"{label!r} in {sorted(sources)}"
+                    for label, sources in sorted(labels.items())
+                )
+                + "."
+            ),
+            key=f"{dimension_id}={value_id}",
+        )
+        for (dimension_id, value_id), labels in sorted(labels_by_value.items())
+        if len(labels) > 1 and _spans_two_sources(labels)
+    ]
+
+
+def _cross_package_geography_name_warnings(
+    names_by_area: dict[tuple[str, str], dict[str, list[str]]],
+) -> list[BuildBundleIssue]:
+    """Report an area two packages still name differently (chronicle#266).
+
+    Chronicle's register answers with one name per identifier where it carries
+    one, so for those areas this cannot fire: the export names them from the
+    register and keeps each publisher's own text as ``geography.publisher_name``
+    (chronicle#281). What is left is the areas the register has yet to reach -
+    the IRS truncating county names to twenty characters, a publisher naming an
+    identifier no ONS lookup Chronicle pins states - so the warning has become
+    the register's coverage report. A Microcosm target that selects facts from
+    two such packages for one area still sees both names and refuses them,
+    which is why the bundle says where that can happen rather than choosing a
+    spelling on the publishers' behalf.
+    """
+    return [
+        BuildBundleIssue(
+            code="conflicting_geography_name_across_packages",
+            message=(
+                f"Packages name geography {geography_id!r} at level {level!r} "
+                "differently: "
+                + "; ".join(
+                    f"{name!r} in {sorted(sources)}"
+                    for name, sources in sorted(names.items())
+                )
+                + "."
+            ),
+            key=f"{level}:{geography_id}",
+        )
+        for (level, geography_id), names in sorted(names_by_area.items())
+        if len(names) > 1 and _spans_two_sources(names)
+    ]
+
+
+def _cross_package_dimension_label_errors(
+    labels_by_dimension: dict[str, dict[str, list[str]]],
+) -> list[BuildBundleIssue]:
+    """Require one label per dimension id across packages (chronicle#265).
+
+    A consumer target can select facts from several packages that share a
+    dimension id, such as ``geography``, and must see one name for it. The
+    bundle is one artifact, so the requirement spans every package in it.
+    """
+    return [
+        BuildBundleIssue(
+            code="conflicting_dimension_label_across_packages",
+            message=(
+                f"Packages label dimension {dimension_id!r} differently: "
+                + "; ".join(
+                    f"{label!r} in {sorted(sources)}"
+                    for label, sources in sorted(labels.items())
+                )
+                + "."
+            ),
+            key=dimension_id,
+        )
+        for dimension_id, labels in sorted(labels_by_dimension.items())
+        if len(labels) > 1
+    ]
+
+
 def build_bundle_coverage(
     rows: list[dict[str, Any]],
     *,
@@ -446,10 +843,18 @@ def _resolve_bundle_sources(
         if report.valid or explicit or not _source_unavailable_for_year(report, year):
             build_sources.append(source)
             continue
+        restamp = any(
+            error.code == ARTIFACT_YEAR_RESTAMP_CODE for error in report.errors
+        )
         skipped_sources.append(
             SkippedSourceReport(
                 source=source,
-                reason="source package is not available for requested year",
+                reason=(
+                    "source package pins another year's artifact and would only "
+                    f"relabel it as {year} ({ARTIFACT_YEAR_RESTAMP_CODE})"
+                    if restamp
+                    else "source package is not available for requested year"
+                ),
                 validation=report.to_dict(),
             )
         )
@@ -457,13 +862,20 @@ def _resolve_bundle_sources(
 
 
 def _source_unavailable_for_year(report: Any, year: int) -> bool:
+    """Whether every validation error says the package has no data for ``year``.
+
+    That is either no artifact or column for the year, or a pinned artifact that
+    the year would only relabel (``artifact_year_restamp``): the package holds
+    no facts for the requested year either way.
+    """
     unavailable_messages = {repr(str(year)), f"No source artifact for year {year}"}
     unavailable_codes = {
         "record_set_compile_failed",
         "source_artifact_unavailable",
     }
     return bool(report.errors) and all(
-        error.code in unavailable_codes and error.message in unavailable_messages
+        error.code == ARTIFACT_YEAR_RESTAMP_CODE
+        or (error.code in unavailable_codes and error.message in unavailable_messages)
         for error in report.errors
     )
 
@@ -487,9 +899,9 @@ def _duplicate_key_reports(
     rows: list[dict[str, Any]],
     key: str,
 ) -> list[dict[str, Any]]:
-    grouped: dict[str, list[dict[str, Any]]] = {}
+    grouped: dict[Any, list[dict[str, Any]]] = {}
     for row in rows:
-        grouped.setdefault(row[key], []).append(row)
+        grouped.setdefault(_canonical_key(row[key], key), []).append(row)
     return [
         {
             "key": key_value,
@@ -497,13 +909,17 @@ def _duplicate_key_reports(
             "sources": sorted({_source_table_key(row) for row in key_rows}),
             "legacy_fact_keys": sorted(
                 {
-                    legacy_key
+                    _canonical_key(legacy_key, "legacy_fact_key")
                     for row in key_rows
                     if (legacy_key := row.get("legacy_fact_key"))
-                }
+                },
+                key=_identity_sort_key,
             ),
         }
-        for key_value, key_rows in sorted(grouped.items())
+        for key_value, key_rows in sorted(
+            grouped.items(),
+            key=lambda item: _identity_sort_key(item[0]),
+        )
         if len(key_rows) > 1
     ]
 
@@ -522,7 +938,24 @@ def _counts_by(
 
 
 def _unique_count(rows: list[dict[str, Any]], key: str) -> int:
-    return len({row[key] for row in rows if key in row})
+    return len({_canonical_key(row[key], key) for row in rows if key in row})
+
+
+def _canonical_key(value: Any, field_name: str) -> Any:
+    """Return a stable identity for either accepted naming epoch."""
+
+    domain_name = _KEY_DOMAINS.get(field_name)
+    if domain_name is None or not isinstance(value, str):
+        return value
+    return canonicalize_key(domain_name, value)
+
+
+def _identity_sort_key(value: Any) -> tuple[int, str]:
+    """Sort identity scalars deterministically without comparing their types."""
+
+    if isinstance(value, str):
+        return (0, value)
+    return (1, f"{type(value).__name__}:{value!r}")
 
 
 def _source_name(row: dict[str, Any]) -> str | None:
@@ -597,11 +1030,19 @@ def _prepare_output_dir(output_path: Path, *, replace: bool) -> None:
 
 
 def _load_jsonl(path: Path) -> list[dict[str, Any]]:
-    return [
-        json.loads(line)
-        for line in path.read_text(encoding="utf-8").splitlines()
-        if line
-    ]
+    rows: list[dict[str, Any]] = []
+    for line_number, line in enumerate(
+        path.read_text(encoding="utf-8").splitlines(), start=1
+    ):
+        if not line:
+            continue
+        row = json.loads(line)
+        # Bundle assembly historically consumes suite output without applying
+        # the stricter consumer-artifact schema. Keep that boundary intact,
+        # while still rejecting identifiers outside the two accepted epochs.
+        validate_consumer_fact_row_epochs(row, line_number, path)
+        rows.append(row)
+    return rows
 
 
 def _write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:

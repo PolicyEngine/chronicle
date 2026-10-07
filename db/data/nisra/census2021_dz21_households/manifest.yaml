@@ -1,0 +1,25 @@
+source_id: nisra
+package_id: nisra-census2021-dz21-households
+source_name: Northern Ireland Census 2021 households by Data Zone
+publisher: Northern Ireland Statistics and Research Agency
+source_page: https://build.nisra.gov.uk/en/custom/table.csv?d=HOUSEHOLD&v=DZ21
+files:
+  2021:
+    filename: ni_dz21_households.csv
+    source_url: https://build.nisra.gov.uk/en/custom/table.csv?d=HOUSEHOLD&v=DZ21
+    source_table: Census 2021 table builder, households by DZ21
+    sha256: fa97a7f61036f9a3ec40ea6e3812249d87d0010375f0ff7df0b5d9f77864563d
+    size_bytes: 108641
+    fetched_at: '2026-08-19'
+    retrieved_at: '2026-08-19'
+    vintage: 2021_census
+    vintages:
+    - 2021_census
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-census2021-dz21-households/2021/fa97a7f61036f9a3ec40ea6e3812249d87d0010375f0ff7df0b5d9f77864563d/ni_dz21_households.csv
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-census2021-dz21-households/2021/fa97a7f61036f9a3ec40ea6e3812249d87d0010375f0ff7df0b5d9f77864563d/ni_dz21_households.csv
+    notes: The table-builder URL is dynamic; the content-addressed R2 object is the
+      durable copy of these bytes.

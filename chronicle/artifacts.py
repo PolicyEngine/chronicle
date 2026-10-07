@@ -18,6 +18,8 @@ from urllib.parse import unquote, urlparse
 import httpx
 import yaml
 
+from chronicle.epoch import EMIT_EPOCH, Epoch, canonicalize_key, hash_domain
+
 
 DEFAULT_R2_RAW_BUCKET = "ledger-raw"
 DEFAULT_R2_DERIVED_BUCKET = "ledger-derived"
@@ -32,6 +34,7 @@ R2_COUNTRY_PUBLISHERS = {
     "nz": frozenset({"ird", "mbie", "msd", "stats_nz"}),
     "uk": frozenset(
         {
+            "desnz",
             "dft",
             "dwp",
             "hmrc",
@@ -529,6 +532,25 @@ def publish_derived_artifacts(
             errors=("missing_build_id",),
         )
 
+    # Validate the resolved identity before deriving object keys, invoking the
+    # uploader, or opening the optional registry output; a malformed id is an
+    # input failure like the ones above, reported rather than raised.
+    try:
+        canonicalize_key("build", resolved_build_id)
+    except ValueError:
+        return DerivedArtifactPublishReport(
+            input_dir=str(input_path),
+            source_id=source_id,
+            package_id=package_id,
+            year=year,
+            build_id=resolved_build_id,
+            entries=(),
+            build_artifacts_path=str(build_artifacts_output)
+            if build_artifacts_output
+            else None,
+            errors=("malformed_build_id",),
+        )
+
     resolved_r2_prefix = resolve_r2_prefix(
         prefix=r2_prefix,
         default_prefix=DEFAULT_R2_DERIVED_PREFIX,
@@ -956,18 +978,20 @@ def build_artifact_key(
     build_id: str,
     artifact_name: str,
     sha256: str,
+    epoch: Epoch = EMIT_EPOCH,
 ) -> str:
     """Build a stable key for a derived build artifact registry row."""
     payload = json.dumps(
         {
             "artifact_name": artifact_name,
-            "build_id": build_id,
+            "build_id": canonicalize_key("build", build_id),
             "sha256": sha256,
         },
         sort_keys=True,
         separators=(",", ":"),
     ).encode("utf-8")
-    return f"ledger.build_artifact.v1:{hashlib.sha256(payload).hexdigest()[:32]}"
+    domain = hash_domain("build_artifact", epoch)
+    return f"{domain}:{hashlib.sha256(payload).hexdigest()[:32]}"
 
 
 def infer_build_id(input_dir: str | Path) -> str | None:

@@ -1,0 +1,27 @@
+source_id: ons
+package_id: ons-oa21-parncp-lad-rgn-ctry-dec2024-lookup
+source_name: ONS OA21 to parish, LAD, region and country lookup
+publisher: Office for National Statistics
+source_page: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/7507c0292db546ed83e4ba60f1115b1d/csv?layers=0
+files:
+  2024:
+    filename: ew_oa21_parncp_lad24_rgn24_dec2024.csv
+    source_url: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/7507c0292db546ed83e4ba60f1115b1d/csv?layers=0
+    source_table: Output Area (2021) to Parish/NCP to LAD to Region to Country (December
+      2024) Lookup in EW V2
+    sha256: e01842a57c26036641fa5d6c2769dd5ac67af03a64d6790d4f35883f04eb2694
+    size_bytes: 27249403
+    fetched_at: '2026-09-15'
+    retrieved_at: '2026-09-15'
+    vintage: 2023_april_lad
+    vintages:
+    - 2023_april_lad
+    - 2024_rgn
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-oa21-parncp-lad-rgn-ctry-dec2024-lookup/2024/e01842a57c26036641fa5d6c2769dd5ac67af03a64d6790d4f35883f04eb2694/ew_oa21_parncp_lad24_rgn24_dec2024.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-oa21-parncp-lad-rgn-ctry-dec2024-lookup/2024/e01842a57c26036641fa5d6c2769dd5ac67af03a64d6790d4f35883f04eb2694/ew_oa21_parncp_lad24_rgn24_dec2024.csv
+    notes: LAD24CD carries the April 2023 LAD code set; RGN24CD carries the 2024 region
+      code set.

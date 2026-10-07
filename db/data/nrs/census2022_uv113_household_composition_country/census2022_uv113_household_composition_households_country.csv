@@ -1,0 +1,45 @@
+SuperWEB2(tm)
+
+"Census 2022-Household-2Dv1"
+"Scotland's Census 2022 - National Records of Scotland Table UV113 - Household composition - Households All households"
+"Country by Household Composition"
+"Counting: Households"
+
+Filters:
+"Default Summation","Households"
+
+"Counting","Country","Household Composition","Count",
+"Households","Scotland","All households",2509269
+"Households","Scotland","One person household: Total",929974
+"Households","Scotland","One person household: Aged 66 and over",358385
+"Households","Scotland","One person household: Aged under 66",571589
+"Households","Scotland","One family household: Total",1460395
+"Households","Scotland","One family household: All aged 66 and over",216916
+"Households","Scotland","One family household: Married or civil partnership couple: Total",721787
+"Households","Scotland","One family household: Married or civil partnership couple: No children",281129
+"Households","Scotland","One family household: Married or civil partnership couple: One dependent child",123461
+"Households","Scotland","One family household: Married or civil partnership couple: Two or more dependent children",184130
+"Households","Scotland","One family household: Married or civil partnership couple: All children non-dependent",133067
+"Households","Scotland","One family household: Cohabiting couple: Total",272740
+"Households","Scotland","One family household: Cohabiting couple: No children",154385
+"Households","Scotland","One family household: Cohabiting couple: One dependent child",51932
+"Households","Scotland","One family household: Cohabiting couple: Two or more dependent children",49011
+"Households","Scotland","One family household: Cohabiting couple: All children non-dependent",17414
+"Households","Scotland","One family household: Lone parent family: Total",248954
+"Households","Scotland","One family household: Lone parent family: One dependent child",82643
+"Households","Scotland","One family household: Lone parent family: Two or more dependent children",62982
+"Households","Scotland","One family household: Lone parent family: All children non-dependent",103329
+"Households","Scotland","Other household types: Total",118900
+"Households","Scotland","Other household types: One dependent child",20201
+"Households","Scotland","Other household types: Two or more dependent children",16115
+"Households","Scotland","Other household types: All full-time students",18046
+"Households","Scotland","Other household types: All aged 66 and over",3721
+"Households","Scotland","Other household types: Other",60816
+
+
+"INFO","Data has been perturbed"
+
+
+"Crown copyright 2024 For further information on variables, see https://www.scotlandscensus.gov.uk/about/metadata-a-to-z/ In order to protect against disclosure of personal information, Statistical Disclosure Control has been applied to the data/outputs.  Cells might not sum to sub totals and totals due to these Statistical Disclosure Controls. To find out more on this visit https://www.scotlandscensus.gov.uk/about/2022-census/statistical-methodology/statistical-disclosure-control/"
+
+(c) Copyright WingArc Australia 2018

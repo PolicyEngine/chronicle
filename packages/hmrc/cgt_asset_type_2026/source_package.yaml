@@ -1,0 +1,793 @@
+# HMRC Table 7 is a sample-based table rather than an administrative census.
+# This package preserves the complete ODS workbook but emits only the three
+# source measures requested by issue 272: disposals, proceeds, and gains. The
+# publisher's percentages and gains-to-proceeds ratios remain available as
+# source cells and are not promoted to facts.
+# The unfiltered Table 7 total uses hmrc.cgt_gains_total, matching Table 1's
+# canonical concept, while filtered asset-category rows use hmrc.cgt_gains.
+schema_version: ledger.source_package.v1
+package_id: hmrc-cgt-asset-type-2026
+label: 'HMRC Capital Gains Tax statistics 2026, Table 7: taxpayer disposals,
+  disposal proceeds and gains by asset type and period of ownership, 2023-24'
+dimension_labels:
+  cgt_asset_category: Capital gains asset category
+  cgt_asset_type: Capital gains asset type
+  cgt_holding_period: Capital gains asset period of ownership
+dimension_value_labels:
+  cgt_asset_category:
+    financial: All financial assets
+    non_financial: All non-financial assets
+    total: Total
+  cgt_asset_type:
+    listed_shares: Listed shares
+    unlisted_shares: Unlisted shares
+    other_financial_assets: Other financial assets
+    agricultural_commercial_industrial_land_buildings: Agricultural/commercial/industrial land and buildings
+    residential_land_buildings: Residential land and buildings
+    other_non_financial_assets: Other non-financial assets
+    total: Total
+  cgt_holding_period:
+    0_to_6_months: 0 to 6 months
+    6_months_to_1_year: 6 months to 1 year
+    1_to_2_years: 1 to 2 years
+    2_to_3_years: 2 to 3 years
+    3_to_4_years: 3 to 4 years
+    4_to_5_years: 4 to 5 years
+    5_to_6_years: 5 to 6 years
+    6_to_7_years: 6 to 7 years
+    7_to_8_years: 7 to 8 years
+    8_to_9_years: 8 to 9 years
+    9_to_10_years: 9 to 10 years
+    10_to_15_years: 10 to 15 years
+    15_to_20_years: 15 to 20 years
+    20_years_or_more: 20 years or more
+    up_to_5_years: Up to 5 years
+    5_to_10_years: 5 to 10 years
+    unknown: Unknown
+    total: Total
+artifact:
+  source_name: hmrc
+  source_table: 'Capital Gains Tax statistics Table 7: taxpayer disposals,
+    disposal proceeds and gains by asset type and period of ownership'
+  resource_package: db
+  resource_directory: data/hmrc/cgt_asset_type_2026
+  manifest: manifest.yaml
+  vintage: cgt_statistics_2026
+  extracted_at: '2026-09-16'
+  extraction_method: ODS whole-workbook used-range parse with numeric-text coercion
+  parser: ods_numeric_text_used_range
+  artifact_year: 2026
+record_sets:
+- &record_set_base
+  record_set_id: hmrc.cgt_table7_2026.asset_category.ty2023
+  provenance_class: survey_aggregate
+  survey_instrument: HMRC Capital Gains Tax survey and Self Assessment sample
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_table7_2026.asset_category.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table7_2026.asset_category.ty2023
+  sheet_name: Table_7_1_2023-24
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    notes: >-
+      HMRC describes Table 7 as sample-based best estimates from taxpayers'
+      Self Assessment additional-information pages plus information from the
+      Capital Gains Tax on UK Property service. The estimates are more variable
+      than HMRC's administrative-data tables. They cover UK and non-UK assets,
+      and gains are before the Annual Exempt Amount.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_asset_category
+  rows:
+  - value_id: financial
+    label: All financial assets
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: All financial assets
+    table_record_kind: detail
+    filters:
+      cgt_asset_category: financial
+    constraints:
+    - variable: cgt_asset_category
+      operator: ==
+      value: financial
+      label: Capital gains asset category
+  - value_id: non_financial
+    label: All non-financial assets
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: All non-financial assets
+    table_record_kind: detail
+    filters:
+      cgt_asset_category: non_financial
+    constraints:
+    - variable: cgt_asset_category
+      operator: ==
+      value: non_financial
+      label: Capital gains asset category
+  measures:
+  - &disposals_measure_row8
+    measure_id: disposals
+    label: Taxpayer disposals
+    ordinal: 0
+    column: B
+    source_column_id: disposals
+    expected_column_header_row: 8
+    expected_column_header: Number of disposals
+    concept: hmrc.cgt_disposals
+    source_concept: hmrc.cgt_table7_1.disposals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC CGT statistics 2026, Table 7, 2023-24. Table 7 gives
+      sample-based best estimates; disposal counts are in thousands, amounts
+      are in GBP millions, and gains are before the Annual Exempt Amount.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - &proceeds_measure_row8
+    measure_id: disposal_proceeds
+    label: Disposal proceeds
+    ordinal: 1
+    column: D
+    source_column_id: disposal_proceeds
+    expected_column_header_row: 8
+    expected_column_header: Amount of disposal proceeds
+    concept: hmrc.cgt_disposal_proceeds
+    source_concept: hmrc.cgt_table7_1.disposal_proceeds
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC CGT statistics 2026, Table 7, 2023-24. Table 7 gives
+      sample-based best estimates; disposal counts are in thousands, amounts
+      are in GBP millions, and gains are before the Annual Exempt Amount.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - &gains_measure_row8
+    measure_id: gains
+    label: Gains before the Annual Exempt Amount
+    ordinal: 2
+    column: F
+    source_column_id: gains
+    expected_column_header_row: 8
+    expected_column_header: Amount of gains
+    concept: hmrc.cgt_gains
+    source_concept: hmrc.cgt_table7_1.gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: >-
+      HMRC CGT statistics 2026, Table 7, 2023-24. Table 7 gives
+      sample-based best estimates; disposal counts are in thousands, amounts
+      are in GBP millions, and gains are before the Annual Exempt Amount.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+
+- record_set_id: hmrc.cgt_table7_2026.asset_category_total.ty2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_table7_2026.asset_category_total.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table7_2026.asset_category.ty2023
+  sheet_name: Table_7_1_2023-24
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    notes: >-
+      HMRC describes Table 7 as sample-based best estimates from taxpayers'
+      Self Assessment additional-information pages plus information from the
+      Capital Gains Tax on UK Property service. The estimates are more variable
+      than HMRC's administrative-data tables. They cover UK and non-UK assets,
+      and gains are before the Annual Exempt Amount.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_asset_category
+  rows:
+  - value_id: total
+    label: Total
+    ordinal: 0
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Total
+    table_record_kind: total
+  measures:
+  - <<: *disposals_measure_row8
+  - <<: *proceeds_measure_row8
+  - <<: *gains_measure_row8
+    concept: hmrc.cgt_gains_total
+
+- <<: *record_set_base
+  record_set_id: hmrc.cgt_table7_2026.financial_asset_type.ty2023
+  provenance_class: survey_aggregate
+  record_set_spec_id: hmrc.cgt_table7_2026.financial_asset_type.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table7_2026.financial_asset_type.ty2023
+  sheet_name: Table_7_2_2023-24
+  groupby_dimension: cgt_asset_type
+  shared_filters:
+    cgt_asset_category: financial
+  shared_constraints:
+  - variable: cgt_asset_category
+    operator: ==
+    value: financial
+    label: Capital gains asset category
+  rows:
+  - value_id: listed_shares
+    label: Listed shares
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Listed shares
+    table_record_kind: detail
+    filters:
+      cgt_asset_type: listed_shares
+    constraints:
+    - variable: cgt_asset_type
+      operator: ==
+      value: listed_shares
+      label: Capital gains asset type
+  - value_id: unlisted_shares
+    label: Unlisted shares
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Unlisted shares
+    table_record_kind: detail
+    filters:
+      cgt_asset_type: unlisted_shares
+    constraints:
+    - variable: cgt_asset_type
+      operator: ==
+      value: unlisted_shares
+      label: Capital gains asset type
+  - value_id: other_financial_assets
+    label: Other financial assets
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Other financial assets
+    table_record_kind: detail
+    filters:
+      cgt_asset_type: other_financial_assets
+    constraints:
+    - variable: cgt_asset_type
+      operator: ==
+      value: other_financial_assets
+      label: Capital gains asset type
+  - value_id: total
+    label: Total
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Total
+    table_record_kind: total
+  measures:
+  - &disposals_measure_row9
+    <<: *disposals_measure_row8
+    expected_column_header_row: 9
+    source_concept: hmrc.cgt_table7_2.disposals
+  - &proceeds_measure_row9
+    <<: *proceeds_measure_row8
+    expected_column_header_row: 9
+    source_concept: hmrc.cgt_table7_2.disposal_proceeds
+  - &gains_measure_row9
+    <<: *gains_measure_row8
+    expected_column_header_row: 9
+    source_concept: hmrc.cgt_table7_2.gains
+
+- <<: *record_set_base
+  record_set_id: hmrc.cgt_table7_2026.listed_shares_holding_period.ty2023
+  provenance_class: survey_aggregate
+  record_set_spec_id: hmrc.cgt_table7_2026.listed_shares_holding_period.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table7_2026.listed_shares_holding_period.ty2023
+  sheet_name: Table_7_3_2023-24
+  groupby_dimension: cgt_holding_period
+  shared_filters:
+    cgt_asset_category: financial
+    cgt_asset_type: listed_shares
+  shared_constraints:
+  - variable: cgt_asset_category
+    operator: ==
+    value: financial
+    label: Capital gains asset category
+  - variable: cgt_asset_type
+    operator: ==
+    value: listed_shares
+    label: Capital gains asset type
+  rows: &detailed_holding_period_rows
+  - value_id: 0_to_6_months
+    label: 0 to 6 months
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 0 to 6 months
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 0_to_6_months
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 0_to_6_months
+      label: Capital gains asset period of ownership
+  - value_id: 6_months_to_1_year
+    label: 6 months to 1 year
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: 6 months to 1 year
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 6_months_to_1_year
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 6_months_to_1_year
+      label: Capital gains asset period of ownership
+  - value_id: 1_to_2_years
+    label: 1 to 2 years
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: 1 to 2 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 1_to_2_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 1_to_2_years
+      label: Capital gains asset period of ownership
+  - value_id: 2_to_3_years
+    label: 2 to 3 years
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 2 to 3 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 2_to_3_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 2_to_3_years
+      label: Capital gains asset period of ownership
+  - value_id: 3_to_4_years
+    label: 3 to 4 years
+    ordinal: 4
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 3 to 4 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 3_to_4_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 3_to_4_years
+      label: Capital gains asset period of ownership
+  - value_id: 4_to_5_years
+    label: 4 to 5 years
+    ordinal: 5
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 4 to 5 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 4_to_5_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 4_to_5_years
+      label: Capital gains asset period of ownership
+  - value_id: 5_to_6_years
+    label: 5 to 6 years
+    ordinal: 6
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 5 to 6 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 5_to_6_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 5_to_6_years
+      label: Capital gains asset period of ownership
+  - value_id: 6_to_7_years
+    label: 6 to 7 years
+    ordinal: 7
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 6 to 7 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 6_to_7_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 6_to_7_years
+      label: Capital gains asset period of ownership
+  - value_id: 7_to_8_years
+    label: 7 to 8 years
+    ordinal: 8
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: 7 to 8 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 7_to_8_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 7_to_8_years
+      label: Capital gains asset period of ownership
+  - value_id: 8_to_9_years
+    label: 8 to 9 years
+    ordinal: 9
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: 8 to 9 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 8_to_9_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 8_to_9_years
+      label: Capital gains asset period of ownership
+  - value_id: 9_to_10_years
+    label: 9 to 10 years
+    ordinal: 10
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: 9 to 10 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 9_to_10_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 9_to_10_years
+      label: Capital gains asset period of ownership
+  - value_id: 10_to_15_years
+    label: 10 to 15 years
+    ordinal: 11
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: 10 to 15 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 10_to_15_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 10_to_15_years
+      label: Capital gains asset period of ownership
+  - value_id: 15_to_20_years
+    label: 15 to 20 years
+    ordinal: 12
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: 15 to 20 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 15_to_20_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 15_to_20_years
+      label: Capital gains asset period of ownership
+  - value_id: 20_years_or_more
+    label: 20 years or more
+    ordinal: 13
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: 20 years or more
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 20_years_or_more
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 20_years_or_more
+      label: Capital gains asset period of ownership
+  - value_id: unknown
+    label: Unknown
+    ordinal: 14
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Unknown
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: unknown
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: unknown
+      label: Capital gains asset period of ownership
+  - value_id: total
+    label: Total
+    ordinal: 15
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Total
+    table_record_kind: total
+  measures:
+  - <<: *disposals_measure_row9
+    source_concept: hmrc.cgt_table7_3.disposals
+  - <<: *proceeds_measure_row9
+    source_concept: hmrc.cgt_table7_3.disposal_proceeds
+  - <<: *gains_measure_row9
+    source_concept: hmrc.cgt_table7_3.gains
+
+- <<: *record_set_base
+  record_set_id: hmrc.cgt_table7_2026.unlisted_shares_holding_period.ty2023
+  provenance_class: survey_aggregate
+  record_set_spec_id: hmrc.cgt_table7_2026.unlisted_shares_holding_period.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table7_2026.unlisted_shares_holding_period.ty2023
+  sheet_name: Table_7_4_2023-24
+  groupby_dimension: cgt_holding_period
+  shared_filters:
+    cgt_asset_category: financial
+    cgt_asset_type: unlisted_shares
+  shared_constraints:
+  - variable: cgt_asset_category
+    operator: ==
+    value: financial
+    label: Capital gains asset category
+  - variable: cgt_asset_type
+    operator: ==
+    value: unlisted_shares
+    label: Capital gains asset type
+  rows: *detailed_holding_period_rows
+  measures:
+  - <<: *disposals_measure_row9
+    source_concept: hmrc.cgt_table7_4.disposals
+  - <<: *proceeds_measure_row9
+    source_concept: hmrc.cgt_table7_4.disposal_proceeds
+  - <<: *gains_measure_row9
+    source_concept: hmrc.cgt_table7_4.gains
+
+- <<: *record_set_base
+  record_set_id: hmrc.cgt_table7_2026.non_financial_asset_type.ty2023
+  provenance_class: survey_aggregate
+  record_set_spec_id: hmrc.cgt_table7_2026.non_financial_asset_type.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table7_2026.non_financial_asset_type.ty2023
+  sheet_name: Table_7_5_2023-24
+  groupby_dimension: cgt_asset_type
+  shared_filters:
+    cgt_asset_category: non_financial
+  shared_constraints:
+  - variable: cgt_asset_category
+    operator: ==
+    value: non_financial
+    label: Capital gains asset category
+  rows:
+  - value_id: agricultural_commercial_industrial_land_buildings
+    label: Agricultural/commercial/industrial land and buildings
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Agricultural/commercial/industrial land and buildings
+    table_record_kind: detail
+    filters:
+      cgt_asset_type: agricultural_commercial_industrial_land_buildings
+    constraints:
+    - variable: cgt_asset_type
+      operator: ==
+      value: agricultural_commercial_industrial_land_buildings
+      label: Capital gains asset type
+  - value_id: residential_land_buildings
+    label: Residential land and buildings
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Residential land and buildings
+    table_record_kind: detail
+    filters:
+      cgt_asset_type: residential_land_buildings
+    constraints:
+    - variable: cgt_asset_type
+      operator: ==
+      value: residential_land_buildings
+      label: Capital gains asset type
+  - value_id: other_non_financial_assets
+    label: Other non-financial assets
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Other non-financial assets
+    table_record_kind: detail
+    filters:
+      cgt_asset_type: other_non_financial_assets
+    constraints:
+    - variable: cgt_asset_type
+      operator: ==
+      value: other_non_financial_assets
+      label: Capital gains asset type
+  - value_id: total
+    label: Total
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Total
+    table_record_kind: total
+  measures:
+  - <<: *disposals_measure_row9
+    source_concept: hmrc.cgt_table7_5.disposals
+  - <<: *proceeds_measure_row9
+    source_concept: hmrc.cgt_table7_5.disposal_proceeds
+  - <<: *gains_measure_row9
+    source_concept: hmrc.cgt_table7_5.gains
+
+- <<: *record_set_base
+  record_set_id: hmrc.cgt_table7_2026.non_residential_property_holding_period.ty2023
+  provenance_class: survey_aggregate
+  record_set_spec_id: hmrc.cgt_table7_2026.non_residential_property_holding_period.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table7_2026.non_residential_property_holding_period.ty2023
+  sheet_name: Table_7_6_2023-24
+  groupby_dimension: cgt_holding_period
+  shared_filters:
+    cgt_asset_category: non_financial
+    cgt_asset_type: agricultural_commercial_industrial_land_buildings
+  shared_constraints:
+  - variable: cgt_asset_category
+    operator: ==
+    value: non_financial
+    label: Capital gains asset category
+  - variable: cgt_asset_type
+    operator: ==
+    value: agricultural_commercial_industrial_land_buildings
+    label: Capital gains asset type
+  rows: &coarse_holding_period_rows
+  - value_id: up_to_5_years
+    label: Up to 5 years
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Up to 5 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: up_to_5_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: up_to_5_years
+      label: Capital gains asset period of ownership
+  - value_id: 5_to_10_years
+    label: 5 to 10 years
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: 5 to 10 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 5_to_10_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 5_to_10_years
+      label: Capital gains asset period of ownership
+  - value_id: 10_to_15_years
+    label: 10 to 15 years
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: 10 to 15 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 10_to_15_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 10_to_15_years
+      label: Capital gains asset period of ownership
+  - value_id: 15_to_20_years
+    label: 15 to 20 years
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 15 to 20 years
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 15_to_20_years
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 15_to_20_years
+      label: Capital gains asset period of ownership
+  - value_id: 20_years_or_more
+    label: 20 years or more
+    ordinal: 4
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 20 years or more
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: 20_years_or_more
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: 20_years_or_more
+      label: Capital gains asset period of ownership
+  - value_id: unknown
+    label: Unknown
+    ordinal: 5
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Unknown
+    table_record_kind: detail
+    filters:
+      cgt_holding_period: unknown
+    constraints:
+    - variable: cgt_holding_period
+      operator: ==
+      value: unknown
+      label: Capital gains asset period of ownership
+  - value_id: total
+    label: Total
+    ordinal: 6
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: Total
+    table_record_kind: total
+  measures:
+  - <<: *disposals_measure_row9
+    source_concept: hmrc.cgt_table7_6.disposals
+  - <<: *proceeds_measure_row9
+    source_concept: hmrc.cgt_table7_6.disposal_proceeds
+  - <<: *gains_measure_row9
+    source_concept: hmrc.cgt_table7_6.gains
+
+- <<: *record_set_base
+  record_set_id: hmrc.cgt_table7_2026.residential_property_holding_period.ty2023
+  provenance_class: survey_aggregate
+  record_set_spec_id: hmrc.cgt_table7_2026.residential_property_holding_period.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table7_2026.residential_property_holding_period.ty2023
+  sheet_name: Table_7_7_2023-24
+  groupby_dimension: cgt_holding_period
+  shared_filters:
+    cgt_asset_category: non_financial
+    cgt_asset_type: residential_land_buildings
+  shared_constraints:
+  - variable: cgt_asset_category
+    operator: ==
+    value: non_financial
+    label: Capital gains asset category
+  - variable: cgt_asset_type
+    operator: ==
+    value: residential_land_buildings
+    label: Capital gains asset type
+  rows: *coarse_holding_period_rows
+  measures:
+  - <<: *disposals_measure_row9
+    source_concept: hmrc.cgt_table7_7.disposals
+  - <<: *proceeds_measure_row9
+    source_concept: hmrc.cgt_table7_7.disposal_proceeds
+  - <<: *gains_measure_row9
+    source_concept: hmrc.cgt_table7_7.gains

@@ -1,0 +1,147 @@
+{
+  "query" : {
+    "database" : "str:database:UC_Households",
+    "measures" : [ "str:count:UC_Households:V_F_UC_HOUSEHOLDS" ],
+    "recodes" : {
+      "str:field:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT" : {
+        "map" : [ [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1" ] ],
+        "total" : false
+      },
+      "str:field:UC_Households:F_UC_HH_DATE:DATE_NAME" : {
+        "map" : [ [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202504" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202505" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202506" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202507" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202508" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202509" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202510" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202511" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202512" ] ],
+        "total" : false
+      },
+      "str:field:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN" : {
+        "map" : [ [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:0" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:1" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:2" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:3" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:4" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:5" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:9998" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:9999" ] ],
+        "total" : false
+      }
+    },
+    "dimensions" : [ [ "str:field:UC_Households:F_UC_HH_DATE:DATE_NAME" ], [ "str:field:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN" ], [ "str:field:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT" ] ]
+  },
+  "database" : {
+    "id" : "UC_Households",
+    "uri" : "str:database:UC_Households",
+    "label" : "Households on Universal Credit",
+    "annotationKeys" : [ "I", "II", "III", "IV", "z" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:UC_Households:V_F_UC_HOUSEHOLDS",
+    "label" : "Households on Universal Credit",
+    "measure" : "str:count:UC_Households:V_F_UC_HOUSEHOLDS",
+    "function" : "COUNT"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:UC_Households:F_UC_HH_DATE:DATE_NAME",
+    "label" : "Month",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202504" ],
+      "labels" : [ "April 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202505" ],
+      "labels" : [ "May 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202506" ],
+      "labels" : [ "June 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202507" ],
+      "labels" : [ "July 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202508" ],
+      "labels" : [ "August 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202509" ],
+      "labels" : [ "September 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202510" ],
+      "labels" : [ "October 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202511" ],
+      "labels" : [ "November 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202512" ],
+      "labels" : [ "December 2025" ],
+      "annotationKeys" : [ "r" ]
+    } ]
+  }, {
+    "uri" : "str:field:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN",
+    "label" : "Number of Children",
+    "annotationKeys" : [ "XII" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:0" ],
+      "labels" : [ "0" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:1" ],
+      "labels" : [ "1" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:2" ],
+      "labels" : [ "2" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:3" ],
+      "labels" : [ "3" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:4" ],
+      "labels" : [ "4" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:5" ],
+      "labels" : [ "5 or more" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:9998" ],
+      "labels" : [ "Unknown or missing" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:9999" ],
+      "labels" : [ "Not available prior to April 2019" ]
+    } ]
+  }, {
+    "uri" : "str:field:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT",
+    "label" : "Child Entitlement",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0" ],
+      "labels" : [ "No" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1" ],
+      "labels" : [ "Yes" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:UC_Households:V_F_UC_HOUSEHOLDS" : {
+      "values" : [ [ [ 3394739, 0 ], [ 114423, 1152477 ], [ 18473, 1084955 ], [ 4530, 493732 ], [ 1300, 175325 ], [ 438, 77608 ], [ 0, 1193 ], [ 0, 0 ] ], [ [ 3459403, 0 ], [ 113046, 1155966 ], [ 18897, 1084014 ], [ 4786, 492870 ], [ 1377, 174922 ], [ 470, 77492 ], [ 0, 1193 ], [ 0, 0 ] ], [ [ 3556793, 0 ], [ 114582, 1158676 ], [ 19668, 1083240 ], [ 5114, 491625 ], [ 1525, 174358 ], [ 520, 77292 ], [ 0, 1217 ], [ 0, 0 ] ], [ [ 3642317, 0 ], [ 130221, 1146053 ], [ 22919, 1079442 ], [ 5956, 489859 ], [ 1782, 173701 ], [ 633, 77028 ], [ 0, 1259 ], [ 0, 0 ] ], [ [ 3746544, 0 ], [ 159576, 1119602 ], [ 27562, 1073213 ], [ 6428, 488200 ], [ 1794, 172920 ], [ 650, 76717 ], [ 0, 1223 ], [ 0, 0 ] ], [ [ 3842241, 0 ], [ 179608, 1103282 ], [ 30754, 1068979 ], [ 6678, 486515 ], [ 1822, 172176 ], [ 674, 76422 ], [ 0, 1176 ], [ 0, 0 ] ], [ [ 3920511, 0 ], [ 174924, 1110351 ], [ 29913, 1068718 ], [ 6830, 485379 ], [ 1857, 171635 ], [ 682, 76236 ], [ 0, 1197 ], [ 0, 0 ] ], [ [ 3991675, 0 ], [ 169890, 1116464 ], [ 28871, 1068815 ], [ 6786, 484634 ], [ 1830, 171107 ], [ 682, 76143 ], [ 0, 1261 ], [ 0, 0 ] ], [ [ 4027547, 0 ], [ 165686, 1122012 ], [ 28269, 1068853 ], [ 6742, 484323 ], [ 1829, 170766 ], [ 703, 76001 ], [ 0, 1301 ], [ 0, 0 ] ] ],
+      "precision" : 0
+    }
+  },
+  "annotationMap" : {
+    "I" : "A limited test of the full Universal Credit service was launched in Sutton, South London on 26th November 2014, and has expanded to other areas since. This publication now includes statistics covering both the live and full Universal Credit service. Please see https://www.gov.uk/government/publications/universal-credit-transition-to-full-service for details of the areas in which the full Universal Credit service is operating.",
+    "II" : "Data for more recent months will be subject to a higher degree of revision. Universal Credit award amounts may be retrospectively revised.",
+    "III" : "Monthly award amounts include any awards due to entitlement such as the standard allowance or housing entitlement plus any advance payments. Advance payments will normally be recovered during subsequent assessment periods.",
+    "IV" : "Award, entitlement and payment information may be missing for a very small number of households on Universal Credit, where more limited information is entered onto IT systems.",
+    "z" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants.",
+    "XII" : "Users are advised that these statistics have ongoing work to improve the data quality and so are subject to revision.",
+    "r" : "Figures marked \"r\" have been revised since the previous release."
+  }
+}

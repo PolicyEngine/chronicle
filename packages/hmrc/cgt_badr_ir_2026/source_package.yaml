@@ -1,0 +1,2217 @@
+schema_version: ledger.source_package.v1
+package_id: hmrc-cgt-badr-ir-2026
+label: 'HMRC Capital Gains Tax statistics 2026, Table 4: BADR and Investors'' Relief by qualifying gain,
+  2021-22 to 2024-25'
+dimension_labels:
+  cgt_badr_ir_gain_band: BADR/IR qualifying gain band
+  taxpayer_type: Taxpayer type
+dimension_value_labels:
+  cgt_badr_ir_gain_band:
+    gain_0_to_9999: GBP 0 to GBP 9,999
+    gain_10000_to_24999: GBP 10,000 to GBP 24,999
+    gain_25000_to_49999: GBP 25,000 to GBP 49,999
+    gain_50000_to_99999: GBP 50,000 to GBP 99,999
+    gain_100000_to_249999: GBP 100,000 to GBP 249,999
+    gain_250000_to_499999: GBP 250,000 to GBP 499,999
+    gain_500000_to_999999: GBP 500,000 to GBP 999,999
+    gain_1000000_plus: GBP 1,000,000 and over
+    total: Total
+  taxpayer_type:
+    individuals: Individuals
+    trusts: Trusts
+    all: All
+artifact:
+  source_name: hmrc
+  source_table: 'Capital Gains Tax statistics Table 4: BADR and Investors'' Relief by size of qualifying
+    gain'
+  resource_package: db
+  resource_directory: data/hmrc/cgt_badr_ir_2026
+  manifest: manifest.yaml
+  vintage: cgt_statistics_2026
+  extracted_at: '2026-09-24'
+  extraction_method: ODS whole-workbook used-range parse with numeric-text coercion
+  parser: ods_numeric_text_used_range
+  artifact_year: 2026
+record_sets:
+# Each worksheet is split into complementary regions only where HMRC suppresses
+# a measure. Guard cells retain the suppressed text without creating a fact.
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_4.ty2021.first_band
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_4.ty2021.first_band.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_4.ty2021
+  sheet_name: 4_4_2021-22
+  period_type: tax_year
+  period: 2021
+  period_coverage:
+    basis: tax
+    source_period_label: 2021 to 2022 tax year
+    start_date: '2021-04-06'
+    end_date: '2022-04-05'
+    notes: HMRC updates provisional figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: gain_0_to_9999
+    label: GBP 0 to GBP 9,999
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Individuals (0)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_0_to_9999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_0_to_9999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 0
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 10000
+      unit: gbp
+      label: Qualifying gain upper bound
+    guard_cells:
+    - column: D
+      expected_value: '[Less than 1]'
+      label: Publisher-suppressed value retained without a numeric fact
+  measures:
+  - measure_id: taxpayers
+    label: BADR/IR liable taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 6
+    expected_column_header: Number of BADR/IR liable taxpayers
+    concept: hmrc.cgt_badr_ir_taxpayers
+    source_concept: hmrc.cgt_badr_ir_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 6
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_4.ty2021.main
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_4.ty2021.main.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_4.ty2021
+  sheet_name: 4_4_2021-22
+  period_type: tax_year
+  period: 2021
+  period_coverage:
+    basis: tax
+    source_period_label: 2021 to 2022 tax year
+    start_date: '2021-04-06'
+    end_date: '2022-04-05'
+    notes: HMRC updates provisional figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: gain_10000_to_24999
+    label: GBP 10,000 to GBP 24,999
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Individuals (10,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_10000_to_24999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_10000_to_24999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 10000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 25000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_25000_to_49999
+    label: GBP 25,000 to GBP 49,999
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Individuals (25,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_25000_to_49999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_25000_to_49999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 25000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 50000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_50000_to_99999
+    label: GBP 50,000 to GBP 99,999
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Individuals (50,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_50000_to_99999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_50000_to_99999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 50000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 100000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_100000_to_249999
+    label: GBP 100,000 to GBP 249,999
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Individuals (100,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_100000_to_249999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_100000_to_249999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 100000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 250000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_250000_to_499999
+    label: GBP 250,000 to GBP 499,999
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Individuals (250,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_250000_to_499999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_250000_to_499999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 250000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 500000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_500000_to_999999
+    label: GBP 500,000 to GBP 999,999
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Individuals (500,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_500000_to_999999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_500000_to_999999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 500000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 1000000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_1000000_plus
+    label: GBP 1,000,000 and over
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: Individuals (1,000,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_1000000_plus
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_1000000_plus
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 1000000
+      unit: gbp
+      label: Qualifying gain lower bound
+  - value_id: individuals_total
+    label: Individuals total
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Individuals (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+  measures:
+  - measure_id: taxpayers
+    label: BADR/IR liable taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 6
+    expected_column_header: Number of BADR/IR liable taxpayers
+    concept: hmrc.cgt_badr_ir_taxpayers
+    source_concept: hmrc.cgt_badr_ir_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 6
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 6
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_4.ty2021.trusts_total
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_4.ty2021.trusts_total.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_4.ty2021
+  sheet_name: 4_4_2021-22
+  period_type: tax_year
+  period: 2021
+  period_coverage:
+    basis: tax
+    source_period_label: 2021 to 2022 tax year
+    start_date: '2021-04-06'
+    end_date: '2022-04-05'
+    notes: HMRC updates provisional figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: trusts_total
+    label: Trusts total
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: Trusts (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: trusts
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: trusts
+      label: Taxpayer type
+    guard_cells:
+    - column: B
+      expected_value: '[Fewer than 1]'
+      label: Publisher-suppressed value retained without a numeric fact
+  measures:
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 6
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 6
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_4.ty2021.all_total
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_4.ty2021.all_total.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_4.ty2021
+  sheet_name: 4_4_2021-22
+  period_type: tax_year
+  period: 2021
+  period_coverage:
+    basis: tax
+    source_period_label: 2021 to 2022 tax year
+    start_date: '2021-04-06'
+    end_date: '2022-04-05'
+    notes: HMRC updates provisional figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: all_total
+    label: All total
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: All (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: all
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: all
+      label: Taxpayer type
+  measures:
+  - measure_id: taxpayers
+    label: BADR/IR liable taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 6
+    expected_column_header: Number of BADR/IR liable taxpayers
+    concept: hmrc.cgt_badr_ir_taxpayers
+    source_concept: hmrc.cgt_badr_ir_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 6
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 6
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_3.ty2022.first_band
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_3.ty2022.first_band.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_3.ty2022
+  sheet_name: 4_3_2022-23
+  period_type: tax_year
+  period: 2022
+  period_coverage:
+    basis: tax
+    source_period_label: 2022 to 2023 tax year
+    start_date: '2022-04-06'
+    end_date: '2023-04-05'
+    notes: HMRC marks this sheet provisional and updates figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: gain_0_to_9999
+    label: GBP 0 to GBP 9,999
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Individuals (0)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_0_to_9999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_0_to_9999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 0
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 10000
+      unit: gbp
+      label: Qualifying gain upper bound
+    guard_cells:
+    - column: D
+      expected_value: '[Less than 1]'
+      label: Publisher-suppressed value retained without a numeric fact
+  measures:
+  - measure_id: taxpayers
+    label: BADR/IR liable taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 7
+    expected_column_header: Number of BADR/IR liable taxpayers
+    concept: hmrc.cgt_badr_ir_taxpayers
+    source_concept: hmrc.cgt_badr_ir_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 7
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_3.ty2022.main
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_3.ty2022.main.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_3.ty2022
+  sheet_name: 4_3_2022-23
+  period_type: tax_year
+  period: 2022
+  period_coverage:
+    basis: tax
+    source_period_label: 2022 to 2023 tax year
+    start_date: '2022-04-06'
+    end_date: '2023-04-05'
+    notes: HMRC marks this sheet provisional and updates figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: gain_10000_to_24999
+    label: GBP 10,000 to GBP 24,999
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Individuals (10,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_10000_to_24999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_10000_to_24999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 10000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 25000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_25000_to_49999
+    label: GBP 25,000 to GBP 49,999
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Individuals (25,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_25000_to_49999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_25000_to_49999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 25000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 50000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_50000_to_99999
+    label: GBP 50,000 to GBP 99,999
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Individuals (50,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_50000_to_99999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_50000_to_99999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 50000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 100000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_100000_to_249999
+    label: GBP 100,000 to GBP 249,999
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Individuals (100,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_100000_to_249999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_100000_to_249999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 100000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 250000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_250000_to_499999
+    label: GBP 250,000 to GBP 499,999
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Individuals (250,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_250000_to_499999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_250000_to_499999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 250000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 500000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_500000_to_999999
+    label: GBP 500,000 to GBP 999,999
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: Individuals (500,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_500000_to_999999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_500000_to_999999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 500000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 1000000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_1000000_plus
+    label: GBP 1,000,000 and over
+    ordinal: 7
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Individuals (1,000,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_1000000_plus
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_1000000_plus
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 1000000
+      unit: gbp
+      label: Qualifying gain lower bound
+  - value_id: individuals_total
+    label: Individuals total
+    ordinal: 8
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: Individuals (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+  measures:
+  - measure_id: taxpayers
+    label: BADR/IR liable taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 7
+    expected_column_header: Number of BADR/IR liable taxpayers
+    concept: hmrc.cgt_badr_ir_taxpayers
+    source_concept: hmrc.cgt_badr_ir_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 7
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 7
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_3.ty2022.trusts_total
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_3.ty2022.trusts_total.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_3.ty2022
+  sheet_name: 4_3_2022-23
+  period_type: tax_year
+  period: 2022
+  period_coverage:
+    basis: tax
+    source_period_label: 2022 to 2023 tax year
+    start_date: '2022-04-06'
+    end_date: '2023-04-05'
+    notes: HMRC marks this sheet provisional and updates figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: trusts_total
+    label: Trusts total
+    ordinal: 9
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Trusts (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: trusts
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: trusts
+      label: Taxpayer type
+    guard_cells:
+    - column: B
+      expected_value: '[Fewer than 1]'
+      label: Publisher-suppressed value retained without a numeric fact
+  measures:
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 7
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 7
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_3.ty2022.all_total
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_3.ty2022.all_total.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_3.ty2022
+  sheet_name: 4_3_2022-23
+  period_type: tax_year
+  period: 2022
+  period_coverage:
+    basis: tax
+    source_period_label: 2022 to 2023 tax year
+    start_date: '2022-04-06'
+    end_date: '2023-04-05'
+    notes: HMRC marks this sheet provisional and updates figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: all_total
+    label: All total
+    ordinal: 10
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: All (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: all
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: all
+      label: Taxpayer type
+  measures:
+  - measure_id: taxpayers
+    label: BADR/IR liable taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 7
+    expected_column_header: Number of BADR/IR liable taxpayers
+    concept: hmrc.cgt_badr_ir_taxpayers
+    source_concept: hmrc.cgt_badr_ir_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 7
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 7
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_2.ty2023.main
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_2.ty2023.main.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_2.ty2023
+  sheet_name: 4_2_2023-24
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    notes: HMRC marks this sheet provisional and updates figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: gain_0_to_9999
+    label: GBP 0 to GBP 9,999
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Individuals (0)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_0_to_9999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_0_to_9999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 0
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 10000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_10000_to_24999
+    label: GBP 10,000 to GBP 24,999
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Individuals (10,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_10000_to_24999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_10000_to_24999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 10000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 25000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_25000_to_49999
+    label: GBP 25,000 to GBP 49,999
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Individuals (25,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_25000_to_49999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_25000_to_49999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 25000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 50000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_50000_to_99999
+    label: GBP 50,000 to GBP 99,999
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Individuals (50,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_50000_to_99999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_50000_to_99999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 50000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 100000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_100000_to_249999
+    label: GBP 100,000 to GBP 249,999
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Individuals (100,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_100000_to_249999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_100000_to_249999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 100000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 250000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_250000_to_499999
+    label: GBP 250,000 to GBP 499,999
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Individuals (250,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_250000_to_499999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_250000_to_499999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 250000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 500000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_500000_to_999999
+    label: GBP 500,000 to GBP 999,999
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: Individuals (500,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_500000_to_999999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_500000_to_999999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 500000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 1000000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_1000000_plus
+    label: GBP 1,000,000 and over
+    ordinal: 7
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Individuals (1,000,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_1000000_plus
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_1000000_plus
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 1000000
+      unit: gbp
+      label: Qualifying gain lower bound
+  - value_id: individuals_total
+    label: Individuals total
+    ordinal: 8
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: Individuals (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+  measures:
+  - measure_id: taxpayers
+    label: BADR/IR liable taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 7
+    expected_column_header: Number of BADR/IR liable taxpayers
+    concept: hmrc.cgt_badr_ir_taxpayers
+    source_concept: hmrc.cgt_badr_ir_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 7
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 7
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_2.ty2023.trusts_total
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_2.ty2023.trusts_total.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_2.ty2023
+  sheet_name: 4_2_2023-24
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    notes: HMRC marks this sheet provisional and updates figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: trusts_total
+    label: Trusts total
+    ordinal: 9
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Trusts (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: trusts
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: trusts
+      label: Taxpayer type
+    guard_cells:
+    - column: B
+      expected_value: '[Fewer than 1]'
+      label: Publisher-suppressed value retained without a numeric fact
+  measures:
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 7
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 7
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_2.ty2023.all_total
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_2.ty2023.all_total.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_2.ty2023
+  sheet_name: 4_2_2023-24
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    notes: HMRC marks this sheet provisional and updates figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: all_total
+    label: All total
+    ordinal: 10
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: All (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: all
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: all
+      label: Taxpayer type
+  measures:
+  - measure_id: taxpayers
+    label: BADR/IR liable taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 7
+    expected_column_header: Number of BADR/IR liable taxpayers
+    concept: hmrc.cgt_badr_ir_taxpayers
+    source_concept: hmrc.cgt_badr_ir_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 7
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 7
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_1.ty2024.main
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_1.ty2024.main.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_1.ty2024
+  sheet_name: 4_1_2024-25
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    notes: HMRC marks this sheet provisional and updates figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: gain_0_to_9999
+    label: GBP 0 to GBP 9,999
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Individuals (0)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_0_to_9999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_0_to_9999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 0
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 10000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_10000_to_24999
+    label: GBP 10,000 to GBP 24,999
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Individuals (10,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_10000_to_24999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_10000_to_24999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 10000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 25000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_25000_to_49999
+    label: GBP 25,000 to GBP 49,999
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Individuals (25,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_25000_to_49999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_25000_to_49999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 25000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 50000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_50000_to_99999
+    label: GBP 50,000 to GBP 99,999
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Individuals (50,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_50000_to_99999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_50000_to_99999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 50000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 100000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_100000_to_249999
+    label: GBP 100,000 to GBP 249,999
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Individuals (100,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_100000_to_249999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_100000_to_249999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 100000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 250000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_250000_to_499999
+    label: GBP 250,000 to GBP 499,999
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Individuals (250,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_250000_to_499999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_250000_to_499999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 250000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 500000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_500000_to_999999
+    label: GBP 500,000 to GBP 999,999
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: Individuals (500,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_500000_to_999999
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_500000_to_999999
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 500000
+      unit: gbp
+      label: Qualifying gain lower bound
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: <
+      value: 1000000
+      unit: gbp
+      label: Qualifying gain upper bound
+  - value_id: gain_1000000_plus
+    label: GBP 1,000,000 and over
+    ordinal: 7
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Individuals (1,000,000)
+    table_record_kind: detail
+    filters:
+      cgt_badr_ir_gain_band: gain_1000000_plus
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: gain_1000000_plus
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+    - variable: cgt_badr_ir_qualifying_gain
+      operator: '>='
+      value: 1000000
+      unit: gbp
+      label: Qualifying gain lower bound
+  - value_id: individuals_total
+    label: Individuals total
+    ordinal: 8
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: Individuals (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: individuals
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: individuals
+      label: Taxpayer type
+  measures:
+  - measure_id: taxpayers
+    label: BADR/IR liable taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 7
+    expected_column_header: Number of BADR/IR liable taxpayers
+    concept: hmrc.cgt_badr_ir_taxpayers
+    source_concept: hmrc.cgt_badr_ir_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 7
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 7
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_1.ty2024.trusts_total
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_1.ty2024.trusts_total.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_1.ty2024
+  sheet_name: 4_1_2024-25
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    notes: HMRC marks this sheet provisional and updates figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: trusts_total
+    label: Trusts total
+    ordinal: 9
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Trusts (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: trusts
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: trusts
+      label: Taxpayer type
+    guard_cells:
+    - column: B
+      expected_value: '[Fewer than 1]'
+      label: Publisher-suppressed value retained without a numeric fact
+  measures:
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 7
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 7
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_badr_ir_2026.table4_1.ty2024.all_total
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_badr_ir_2026.table4_1.ty2024.all_total.v1
+  source_record_id_prefix: hmrc.cgt_badr_ir_2026.table4_1.ty2024
+  sheet_name: 4_1_2024-25
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    notes: HMRC marks this sheet provisional and updates figures for late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_badr_ir_gain_band
+  rows:
+  - value_id: all_total
+    label: All total
+    ordinal: 10
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: All (Total)
+    table_record_kind: total
+    filters:
+      cgt_badr_ir_gain_band: total
+      taxpayer_type: all
+    constraints:
+    - variable: cgt_badr_ir_gain_band
+      operator: ==
+      value: total
+      label: BADR/IR qualifying gain band
+    - variable: taxpayer_type
+      operator: ==
+      value: all
+      label: Taxpayer type
+  measures:
+  - measure_id: taxpayers
+    label: BADR/IR liable taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 7
+    expected_column_header: Number of BADR/IR liable taxpayers
+    concept: hmrc.cgt_badr_ir_taxpayers
+    source_concept: hmrc.cgt_badr_ir_taxpayers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains
+    label: Gains qualifying for BADR or Investors' Relief
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 7
+    expected_column_header: Gains on which BADR/IR claimed
+    concept: hmrc.cgt_badr_ir_qualifying_gains
+    source_concept: hmrc.cgt_badr_ir_qualifying_gains
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax
+    label: Tax charged at the BADR/IR rate
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 7
+    expected_column_header: Tax charged at BADR/IR rate
+    concept: hmrc.cgt_badr_ir_tax
+    source_concept: hmrc.cgt_badr_ir_tax
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC Capital Gains Tax statistics 2026, Table 4. Gains are before deducting
+      losses and the Annual Exempt Amount. Counts are thousands; gains and tax are GBP millions. Totals
+      may not sum due to rounding. Provisional figures are updated for late and amended returns.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000

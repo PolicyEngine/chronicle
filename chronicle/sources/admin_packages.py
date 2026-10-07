@@ -22,6 +22,7 @@ from zipfile import ZipFile
 from openpyxl import load_workbook
 import yaml
 
+from chronicle.epoch import schema_id
 from chronicle.sources.cells import decode_delimited_text
 
 
@@ -68,9 +69,7 @@ def build_irs_soi_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
     seen_fips: set[str] = set()
     eligible = []
     for source_row in source_rows:
-        county_fips = _county_fips(
-            source_row["STATEFIPS"], source_row["COUNTYFIPS"]
-        )
+        county_fips = _county_fips(source_row["STATEFIPS"], source_row["COUNTYFIPS"])
         if county_fips.endswith("000"):
             continue
         if county_fips.endswith("999"):
@@ -142,11 +141,20 @@ def build_irs_soi_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
     )
     record_set_id = "irs_soi.ty2022.county_totals"
     return {
-        "schema_version": "ledger.source_package.v1",
+        "schema_version": schema_id("source_package"),
         "package_id": IRS_PACKAGE_ID,
         "label": f"{fixture_prefix}IRS SOI 2022 county return and AGI totals",
         "fixture": fixture,
         "generated_by": GENERATED_BY,
+        "dimension_labels": {
+            "filing_status": "Filing status",
+            "income_range": "Income range",
+            "irs_soi.county": "County",
+        },
+        "dimension_value_labels": {
+            "filing_status": {"all": "All filing statuses"},
+            "income_range": {"all": "All income ranges"},
+        },
         "artifact": {
             "source_name": source_name,
             "source_table": f"{fixture_prefix}IRS SOI County Data 2022",
@@ -323,11 +331,12 @@ def build_census_pep_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
     )
     record_set_id = "census_pep.vintage2024.county_population"
     return {
-        "schema_version": "ledger.source_package.v1",
+        "schema_version": schema_id("source_package"),
         "package_id": PEP_PACKAGE_ID,
         "label": f"{fixture_prefix}Census PEP Vintage 2024 county population",
         "fixture": fixture,
         "generated_by": GENERATED_BY,
+        "dimension_labels": {"census_pep.county": "County"},
         "artifact": {
             "source_name": source_name,
             "source_table": f"{fixture_prefix}Vintage 2024 County Population Totals",
@@ -365,9 +374,7 @@ def build_census_pep_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
                         "measure_id": "resident_population",
                         "label": "Resident population",
                         "ordinal": 0,
-                        "column": _excel_column(
-                            headers.index("POPESTIMATE2024") + 1
-                        ),
+                        "column": _excel_column(headers.index("POPESTIMATE2024") + 1),
                         "source_column_id": "POPESTIMATE2024",
                         "expected_column_header_row": 1,
                         "expected_column_header": "POPESTIMATE2024",
@@ -462,7 +469,10 @@ def build_usda_snap_monthly_package(root: Path = REPO_ROOT) -> dict[str, Any]:
                     period = row_period
                     source_month_label = str(month_label)
                     geography_name = template_row["geography_name"]
-                    if worksheet.cell(row=heading_row, column=1).value != geography_name:
+                    if (
+                        worksheet.cell(row=heading_row, column=1).value
+                        != geography_name
+                    ):
                         raise ValueError(
                             f"Unexpected geography heading for {geography_name}"
                         )
@@ -551,11 +561,12 @@ def build_usda_snap_monthly_package(root: Path = REPO_ROOT) -> dict[str, Any]:
     latest_month = datetime.strptime(latest_period, "%Y-%m").strftime("%B %Y")
 
     return {
-        "schema_version": "ledger.source_package.v1",
+        "schema_version": schema_id("source_package"),
         "package_id": SNAP_PACKAGE_ID,
         "label": f"USDA FNS SNAP FY2025 monthly state caseloads through {latest_month}",
         "fixture": False,
         "generated_by": GENERATED_BY,
+        "dimension_labels": {"usda_snap.state_or_territory": "State or territory"},
         "artifact": {
             "source_name": "usda_snap",
             "source_table": "SNAP FY2025 Monthly State Participation",

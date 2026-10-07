@@ -1,6 +1,12 @@
 schema_version: ledger.source_package.v1
 package_id: soi-table-4-3
 label: IRS SOI Publication 1304 Table 4.3 all-return totals
+dimension_labels:
+  'income_percentile_range': 'Income percentile range'
+  'us:statutes/26/62#adjusted_gross_income': 'Adjusted gross income'
+dimension_value_labels:
+  'income_percentile_range':
+    'all': 'All income percentile ranges'
 artifact:
   source_name: irs_soi
   source_table: Publication 1304 Table 4.3

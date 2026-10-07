@@ -17,6 +17,7 @@ from typing import Any
 
 import openpyxl
 
+from chronicle.epoch import EMIT_EPOCH, Epoch, canonicalize_key, hash_domain
 from chronicle.sources.cells import (
     SourceArtifactMetadata,
     SourceCell,
@@ -24,9 +25,9 @@ from chronicle.sources.cells import (
 )
 
 Scalar = str | int | float | bool | None
-SOURCE_ROW_KEY_PREFIX = "ledger.source_row.v1"
-SOURCE_COLUMN_KEY_PREFIX = "ledger.source_column.v1"
-SOURCE_ROW_VALUE_KEY_PREFIX = "ledger.source_row_value.v1"
+SOURCE_ROW_KEY_PREFIX = hash_domain("source_row")
+SOURCE_COLUMN_KEY_PREFIX = hash_domain("source_column")
+SOURCE_ROW_VALUE_KEY_PREFIX = hash_domain("source_row_value")
 
 
 @dataclass(frozen=True)
@@ -103,7 +104,11 @@ class SourceRowReport:
         }
 
 
-def build_source_row_key(row: SourceRow) -> str:
+def build_source_row_key(
+    row: SourceRow,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str:
     """Build a stable key from artifact hash and row coordinate."""
     payload = {
         "artifact_sha256": row.artifact.sha256,
@@ -112,10 +117,14 @@ def build_source_row_key(row: SourceRow) -> str:
     }
     raw = json.dumps(payload, sort_keys=True, separators=(",", ":"))
     digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:24]
-    return f"{SOURCE_ROW_KEY_PREFIX}:{digest}"
+    return f"{hash_domain('source_row', epoch)}:{digest}"
 
 
-def build_source_column_key(column: SourceColumn) -> str:
+def build_source_column_key(
+    column: SourceColumn,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str:
     """Build a stable key from artifact hash and column coordinate."""
     payload = {
         "artifact_sha256": column.artifact.sha256,
@@ -124,18 +133,24 @@ def build_source_column_key(column: SourceColumn) -> str:
     }
     raw = json.dumps(payload, sort_keys=True, separators=(",", ":"))
     digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:24]
-    return f"{SOURCE_COLUMN_KEY_PREFIX}:{digest}"
+    return f"{hash_domain('source_column', epoch)}:{digest}"
 
 
-def build_source_row_value_key(row_value: SourceRowValue) -> str:
+def build_source_row_value_key(
+    row_value: SourceRowValue,
+    *,
+    epoch: Epoch = EMIT_EPOCH,
+) -> str:
     """Build a stable key from source row and column keys."""
     payload = {
-        "source_row_key": row_value.source_row_key,
-        "source_column_key": row_value.source_column_key,
+        "source_row_key": canonicalize_key("source_row", row_value.source_row_key),
+        "source_column_key": canonicalize_key(
+            "source_column", row_value.source_column_key
+        ),
     }
     raw = json.dumps(payload, sort_keys=True, separators=(",", ":"))
     digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:24]
-    return f"{SOURCE_ROW_VALUE_KEY_PREFIX}:{digest}"
+    return f"{hash_domain('source_row_value', epoch)}:{digest}"
 
 
 def source_rows_from_delimited_text(
@@ -248,7 +263,9 @@ def source_rows_from_xlsx_table(
                 ]
                 continue
             values = {
-                column: _xlsx_row_scalar(raw_row[index]) if index < len(raw_row) else None
+                column: _xlsx_row_scalar(raw_row[index])
+                if index < len(raw_row)
+                else None
                 for index, column in enumerate(header or ())
             }
             rows.append(
@@ -1347,6 +1364,27 @@ def _statxplore_column_key(label: str) -> str:
     return key or "field"
 
 
+def _statxplore_field_keys(fields: list[dict[str, Any]]) -> list[str]:
+    """Return each Stat-Xplore field's source-row column key, in response order."""
+    keys: list[str] = []
+    for field in fields:
+        key = _statxplore_column_key(str(field.get("label") or field.get("uri")))
+        while key in keys:
+            key = f"{key}_"
+        keys.append(key)
+    return keys
+
+
+def statxplore_field_labels(content: bytes) -> dict[str, str]:
+    """Return the publisher label of each Stat-Xplore field by its column key."""
+    fields = json.loads(content.decode("utf-8")).get("fields") or []
+    return {
+        key: str(field["label"])
+        for key, field in zip(_statxplore_field_keys(fields), fields)
+        if field.get("label")
+    }
+
+
 def source_rows_from_statxplore_table(
     content: bytes,
     artifact: SourceArtifactMetadata,
@@ -1355,55 +1393,64 @@ def source_rows_from_statxplore_table(
 ) -> list[SourceRow]:
     """Unpivot a Stat-Xplore Open Data API /table response into source rows.
 
-    The response is self-describing: it echoes the submitted query, names the
+    The response is self-describing: it echoes the submitted query, names each
     measure, and lists each dimension field with its items (labels plus value
     URIs, whose trailing segments carry publisher codes such as GSS geography
     identifiers). One source row is emitted per cube cell, columns are the
     measure label, the cell value, and a label/URI pair per dimension field
-    in response order.
+    in response order. A request for several measures (a caseload count and
+    the mean of an amount, say) returns one cube per measure; their rows follow
+    one another in response order, so a single-measure response unpivots
+    exactly as before. A cube without a values array, or one whose values do
+    not match the fields, is a malformed response and raises rather than
+    returning another cube's rows as if complete.
     """
     data = json.loads(content.decode("utf-8"))
     fields = data.get("fields") or []
     cubes = data.get("cubes") or {}
     if not fields or not cubes:
         return []
-    measure_uri, cube = next(iter(cubes.items()))
-    measure_label = measure_uri
-    for measure in data.get("measures") or []:
-        if measure.get("uri") == measure_uri:
-            measure_label = str(measure.get("label") or measure_uri)
-            break
-    field_keys: list[str] = []
-    for field in fields:
-        key = _statxplore_column_key(str(field.get("label") or field.get("uri")))
-        while key in field_keys:
-            key = f"{key}_"
-        field_keys.append(key)
+    measure_labels = {
+        str(measure.get("uri")): str(measure.get("label") or measure.get("uri"))
+        for measure in data.get("measures") or []
+        if measure.get("uri")
+    }
+    field_keys = _statxplore_field_keys(fields)
     item_axes = [field.get("items") or [] for field in fields]
-    values = cube.get("values") if isinstance(cube, dict) else None
-    if values is None or any(not axis for axis in item_axes):
+    if any(not axis for axis in item_axes):
         return []
     rows: list[SourceRow] = []
-    for indices in itertools.product(*(range(len(axis)) for axis in item_axes)):
-        node: Any = values
-        for index in indices:
-            node = node[index]
-        row_values: dict[str, Scalar] = {
-            "measure": measure_label,
-            "value": _json_scalar(node),
-        }
-        for key, axis, index in zip(field_keys, item_axes, indices):
-            item = axis[index]
-            labels = item.get("labels") or []
-            uris = item.get("uris") or []
-            row_values[key] = str(labels[0]) if labels else None
-            row_values[f"{key}_uri"] = str(uris[0]) if uris else None
-        rows.append(
-            SourceRow(
-                artifact=artifact,
-                sheet_name=sheet_name,
-                row_number=len(rows) + 1,
-                values=row_values,
+    for measure_uri, cube in cubes.items():
+        values = cube.get("values") if isinstance(cube, dict) else None
+        if not isinstance(values, list):
+            raise ValueError(f"Stat-Xplore cube {measure_uri!r} has no values array.")
+        measure_label = measure_labels.get(measure_uri, measure_uri)
+        for indices in itertools.product(*(range(len(axis)) for axis in item_axes)):
+            node: Any = values
+            try:
+                for index in indices:
+                    node = node[index]
+            except (IndexError, KeyError, TypeError) as error:
+                raise ValueError(
+                    f"Stat-Xplore cube {measure_uri!r} does not match the response's "
+                    "fields."
+                ) from error
+            row_values: dict[str, Scalar] = {
+                "measure": measure_label,
+                "value": _json_scalar(node),
+            }
+            for key, axis, index in zip(field_keys, item_axes, indices):
+                item = axis[index]
+                labels = item.get("labels") or []
+                uris = item.get("uris") or []
+                row_values[key] = str(labels[0]) if labels else None
+                row_values[f"{key}_uri"] = str(uris[0]) if uris else None
+            rows.append(
+                SourceRow(
+                    artifact=artifact,
+                    sheet_name=sheet_name,
+                    row_number=len(rows) + 1,
+                    values=row_values,
+                )
             )
-        )
     return rows

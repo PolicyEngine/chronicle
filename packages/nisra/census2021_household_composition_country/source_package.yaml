@@ -1,0 +1,296 @@
+# NISRA Census 2021 households by household composition for Northern Ireland,
+# from the pinned Flexible Table Builder extract (dataset HOUSEHOLD, variable
+# HH_FAMILY_COMPOSITION_AGG23, the full 23-category classification). Census day is
+# 2021-03-21, hence calendar_year 2021. The extract publishes no all-households row
+# and no subtotals; every row is a leaf category with the publisher label as its
+# identity. Northern Ireland splits lone-parent families by sex of the parent and
+# separates 'Other family composition' single-family households; mapping onto the
+# ONS Families and households Table 7 categories (or the England and Wales TS003
+# classification) is a consumer declaration (chronicle#237). Dependent child (NISRA
+# Census 2021 metadata): a person aged 0 to 15, or aged 16 to 18 who is a full-time
+# student and in a family with a parent; NISRA's family definition includes grandparent
+# households with no intervening parent, and children in couple families need not belong
+# to both members of the couple. The same age rule as the other two legs, without the
+# explicit spouse/partner/child exclusion that ONS and NRS state.
+schema_version: ledger.source_package.v1
+package_id: nisra-census2021-household-composition-country
+label: 'NISRA Census 2021: households by household composition, Northern Ireland'
+dimension_labels:
+  'nisra.census2021_household_composition': 'Household composition'
+artifact:
+  source_name: nisra
+  source_table: 'NISRA Census 2021 flexible table: households by household composition (HH_FAMILY_COMPOSITION_AGG23), Northern Ireland'
+  resource_package: db
+  resource_directory: data/nisra/census2021_household_composition_country
+  manifest: manifest.yaml
+  vintage: census_2021
+  extracted_at: '2026-09-03'
+  extraction_method: NISRA Flexible Table Builder delimited text full-row parse, one source row per household composition category
+  parser: delimited_text_full_rows
+  sheet_name: census2021_household_composition_ni.csv
+  artifact_year: 2021
+record_sets:
+- record_set_id: nisra.census2021.household_composition.northern_ireland
+  provenance_class: census
+  record_set_spec_id: nisra.census2021.household_composition.northern_ireland.v1
+  source_record_id_prefix: nisra.census2021.household_composition.northern_ireland
+  sheet_name: census2021_household_composition_ni.csv
+  period_type: calendar_year
+  period: 2021
+  geography_id: N92000002
+  geography_level: country
+  geography_name: 'Northern Ireland'
+  geography_vintage: gss_2021
+  entity: household
+  entity_role: occupied_household
+  domain: household_composition
+  groupby_dimension: nisra.census2021_household_composition
+  assertion: observation
+  measures:
+  - measure_id: households
+    label: Households
+    ordinal: 0
+    column: C
+    source_column_id: Count
+    expected_column_header_row: 1
+    expected_column_header: Count
+    concept: nisra.census2021_household_composition
+    source_concept: nisra.census2021_hh_family_composition_agg23
+    concept_relation: source_label
+    concept_authority: nisra
+    concept_evidence_url: https://build.nisra.gov.uk/en/metadata/variable?d=HOUSEHOLD&v=HH_FAMILY_COMPOSITION_AGG23
+    concept_evidence_notes: 'NISRA Census 2021 Flexible Table Builder, dataset HOUSEHOLD, variable HH_FAMILY_COMPOSITION_AGG23 (Household Composition, 23 categories), Northern Ireland total; the full classification is carried with the publisher labels, lone-parent categories split by sex of parent as published. NISRA Census 2021 variable metadata: a dependent child is a person in a household aged 0-15 (whether or not in a family) or a person aged 16-18 who is a full-time student and in a family with parent(s); a family is a couple (married, civil partnership or cohabiting) with or without children, or a lone parent and their children, and includes a couple with their grandchildren or a lone grandparent with their grandchildren where no parent in the intervening generation is in the household; children in couple families need not belong to both members of the couple.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: agg23_01
+    label: 'One person household: Aged 66 and over'
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: B
+    expected_row_header: 'One person household: Aged 66 and over'
+    table_record_kind: detail
+    filters: {household_composition_label: 'One person household: Aged 66 and over'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'One person household: Aged 66 and over', label: publisher household composition category}
+  - value_id: agg23_02
+    label: 'One person household: Other'
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: B
+    expected_row_header: 'One person household: Other'
+    table_record_kind: detail
+    filters: {household_composition_label: 'One person household: Other'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'One person household: Other', label: publisher household composition category}
+  - value_id: agg23_03
+    label: 'Single family household: All aged 66 and over'
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: All aged 66 and over'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: All aged 66 and over'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: All aged 66 and over', label: publisher household composition category}
+  - value_id: agg23_04
+    label: 'Single family household: Married or civil partnership couple: No children'
+    ordinal: 3
+    row_number: 5
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Married or civil partnership couple: No children'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Married or civil partnership couple: No children'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Married or civil partnership couple: No children', label: publisher household composition category}
+  - value_id: agg23_05
+    label: 'Single family household: Married or civil partnership couple: One dependent child'
+    ordinal: 4
+    row_number: 6
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Married or civil partnership couple: One dependent child'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Married or civil partnership couple: One dependent child'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Married or civil partnership couple: One dependent child', label: publisher household composition category}
+  - value_id: agg23_06
+    label: 'Single family household: Married or civil partnership couple: Two or more dependent children'
+    ordinal: 5
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Married or civil partnership couple: Two or more dependent children'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Married or civil partnership couple: Two or more dependent children'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Married or civil partnership couple: Two or more dependent children', label: publisher household composition category}
+  - value_id: agg23_07
+    label: 'Single family household: Married or civil partnership couple: All children non-dependent'
+    ordinal: 6
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Married or civil partnership couple: All children non-dependent'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Married or civil partnership couple: All children non-dependent'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Married or civil partnership couple: All children non-dependent', label: publisher household composition category}
+  - value_id: agg23_08
+    label: 'Single family household: Cohabiting couple family: No children'
+    ordinal: 7
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Cohabiting couple family: No children'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Cohabiting couple family: No children'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Cohabiting couple family: No children', label: publisher household composition category}
+  - value_id: agg23_09
+    label: 'Single family household: Cohabiting couple family: One dependent child'
+    ordinal: 8
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Cohabiting couple family: One dependent child'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Cohabiting couple family: One dependent child'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Cohabiting couple family: One dependent child', label: publisher household composition category}
+  - value_id: agg23_10
+    label: 'Single family household: Cohabiting couple family: Two or more dependent children'
+    ordinal: 9
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Cohabiting couple family: Two or more dependent children'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Cohabiting couple family: Two or more dependent children'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Cohabiting couple family: Two or more dependent children', label: publisher household composition category}
+  - value_id: agg23_11
+    label: 'Single family household: Cohabiting couple family: All children non-dependent'
+    ordinal: 10
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Cohabiting couple family: All children non-dependent'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Cohabiting couple family: All children non-dependent'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Cohabiting couple family: All children non-dependent', label: publisher household composition category}
+  - value_id: agg23_12
+    label: 'Single family household: Lone parent family (female): One dependent child'
+    ordinal: 11
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Lone parent family (female): One dependent child'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Lone parent family (female): One dependent child'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Lone parent family (female): One dependent child', label: publisher household composition category}
+  - value_id: agg23_13
+    label: 'Single family household: Lone parent family (female): Two or more dependent children'
+    ordinal: 12
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Lone parent family (female): Two or more dependent children'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Lone parent family (female): Two or more dependent children'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Lone parent family (female): Two or more dependent children', label: publisher household composition category}
+  - value_id: agg23_14
+    label: 'Single family household: Lone parent family (female): All children non-dependent'
+    ordinal: 13
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Lone parent family (female): All children non-dependent'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Lone parent family (female): All children non-dependent'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Lone parent family (female): All children non-dependent', label: publisher household composition category}
+  - value_id: agg23_15
+    label: 'Single family household: Lone parent family (male): One dependent child'
+    ordinal: 14
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Lone parent family (male): One dependent child'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Lone parent family (male): One dependent child'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Lone parent family (male): One dependent child', label: publisher household composition category}
+  - value_id: agg23_16
+    label: 'Single family household: Lone parent family (male): Two or more dependent children'
+    ordinal: 15
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Lone parent family (male): Two or more dependent children'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Lone parent family (male): Two or more dependent children'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Lone parent family (male): Two or more dependent children', label: publisher household composition category}
+  - value_id: agg23_17
+    label: 'Single family household: Lone parent family (male): All children non-dependent'
+    ordinal: 16
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Lone parent family (male): All children non-dependent'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Lone parent family (male): All children non-dependent'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Lone parent family (male): All children non-dependent', label: publisher household composition category}
+  - value_id: agg23_18
+    label: 'Single family household: Other family composition'
+    ordinal: 17
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: 'Single family household: Other family composition'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Single family household: Other family composition'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Single family household: Other family composition', label: publisher household composition category}
+  - value_id: agg23_19
+    label: 'Other household types: One dependent child'
+    ordinal: 18
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: 'Other household types: One dependent child'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Other household types: One dependent child'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Other household types: One dependent child', label: publisher household composition category}
+  - value_id: agg23_20
+    label: 'Other household types: Two or more dependent children'
+    ordinal: 19
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: 'Other household types: Two or more dependent children'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Other household types: Two or more dependent children'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Other household types: Two or more dependent children', label: publisher household composition category}
+  - value_id: agg23_21
+    label: 'Other household types: All in full-time education'
+    ordinal: 20
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: 'Other household types: All in full-time education'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Other household types: All in full-time education'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Other household types: All in full-time education', label: publisher household composition category}
+  - value_id: agg23_22
+    label: 'Other household types: All aged 66 and over'
+    ordinal: 21
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: 'Other household types: All aged 66 and over'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Other household types: All aged 66 and over'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Other household types: All aged 66 and over', label: publisher household composition category}
+  - value_id: agg23_23
+    label: 'Other household types: Other family composition'
+    ordinal: 22
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: 'Other household types: Other family composition'
+    table_record_kind: detail
+    filters: {household_composition_label: 'Other household types: Other family composition'}
+    constraints:
+    - {variable: household_composition_label, operator: '==', value: 'Other household types: Other family composition', label: publisher household composition category}

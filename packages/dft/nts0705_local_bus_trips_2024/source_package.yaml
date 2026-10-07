@@ -1,0 +1,333 @@
+schema_version: ledger.source_package.v1
+package_id: dft-nts0705-local-bus-trips-2024
+label: DfT NTS0705a local-bus trips per person by household income quintile, England, 2023 and 2024
+dimension_labels:
+  'dft.household_income_quintile': 'Household income quintile'
+artifact:
+  source_name: dft
+  source_table: NTS0705a average trips by household income quintile and main mode
+  resource_package: db
+  resource_directory: data/dft/nts0705_local_bus_trips_2024
+  manifest: manifest.yaml
+  vintage: national_travel_survey_2024
+  extracted_at: '2026-08-26'
+  extraction_method: ODS whole-workbook used-range cell parse
+  parser: ods_used_range
+  artifact_year: 2024
+record_sets:
+- record_set_id: dft.nts0705a.local_bus_trips.cy2023
+  provenance_class: survey_aggregate
+  survey_instrument: National Travel Survey
+  record_set_spec_id: dft.nts0705a.local_bus_trips.cy2023.v1
+  source_record_id_prefix: dft.nts0705a.local_bus_trips.cy2023
+  sheet_name: NTS0705a_trips
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    basis: survey_reference
+    source_period_label: '2023'
+    start_date: '2023-01-01'
+    end_date: '2023-12-31'
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: travel_behavior
+  groupby_dimension: dft.household_income_quintile
+  rows:
+  - value_id: lowest
+    label: Lowest level
+    ordinal: 0
+    row_number: 133
+    expected_row_header_column: B
+    expected_row_header: Lowest level
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    filters:
+      household_income_quintile: lowest
+    constraints:
+    - variable: household_income_quintile
+      operator: ==
+      value: lowest
+      label: NTS real household-income quintile
+  - value_id: second
+    label: Second level
+    ordinal: 1
+    row_number: 134
+    expected_row_header_column: B
+    expected_row_header: Second level
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    filters:
+      household_income_quintile: second
+    constraints:
+    - variable: household_income_quintile
+      operator: ==
+      value: second
+      label: NTS real household-income quintile
+  - value_id: third
+    label: Third level
+    ordinal: 2
+    row_number: 135
+    expected_row_header_column: B
+    expected_row_header: Third level
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    filters:
+      household_income_quintile: third
+    constraints:
+    - variable: household_income_quintile
+      operator: ==
+      value: third
+      label: NTS real household-income quintile
+  - value_id: fourth
+    label: Fourth level
+    ordinal: 3
+    row_number: 136
+    expected_row_header_column: B
+    expected_row_header: Fourth level
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    filters:
+      household_income_quintile: fourth
+    constraints:
+    - variable: household_income_quintile
+      operator: ==
+      value: fourth
+      label: NTS real household-income quintile
+  - value_id: highest
+    label: Highest level
+    ordinal: 4
+    row_number: 137
+    expected_row_header_column: B
+    expected_row_header: Highest level
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+    filters:
+      household_income_quintile: highest
+    constraints:
+    - variable: household_income_quintile
+      operator: ==
+      value: highest
+      label: NTS real household-income quintile
+  - value_id: all
+    label: All income levels
+    ordinal: 5
+    row_number: 138
+    expected_row_header_column: B
+    expected_row_header: All income levels
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: survey year
+  measures:
+  - measure_id: bus_in_london_trips_per_person
+    label: Bus in London trips per person per year
+    ordinal: 0
+    column: I
+    source_column_id: bus_in_london_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Bus in London
+    concept: dft.bus_in_london_trips_per_person
+    source_concept: dft.bus_in_london_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts07-car-ownership-and-access
+    concept_evidence_notes: DfT National Travel Survey table NTS0705a, 2023; average trips per person
+      per year for England residents.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: other_local_bus_trips_per_person
+    label: Other local bus trips per person per year
+    ordinal: 1
+    column: J
+    source_column_id: other_local_bus_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Other local bus
+    concept: dft.other_local_bus_trips_per_person
+    source_concept: dft.other_local_bus_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts07-car-ownership-and-access
+    concept_evidence_notes: DfT National Travel Survey table NTS0705a, 2023; average trips per person
+      per year for England residents.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: dft.nts0705a.local_bus_trips.cy2024
+  provenance_class: survey_aggregate
+  survey_instrument: National Travel Survey
+  record_set_spec_id: dft.nts0705a.local_bus_trips.cy2024.v1
+  source_record_id_prefix: dft.nts0705a.local_bus_trips.cy2024
+  sheet_name: NTS0705a_trips
+  period_type: calendar_year
+  period: 2024
+  period_coverage:
+    basis: survey_reference
+    source_period_label: '2024'
+    start_date: '2024-01-01'
+    end_date: '2024-12-31'
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: travel_behavior
+  groupby_dimension: dft.household_income_quintile
+  rows:
+  - value_id: lowest
+    label: Lowest level
+    ordinal: 0
+    row_number: 139
+    expected_row_header_column: B
+    expected_row_header: Lowest level
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    filters:
+      household_income_quintile: lowest
+    constraints:
+    - variable: household_income_quintile
+      operator: ==
+      value: lowest
+      label: NTS real household-income quintile
+  - value_id: second
+    label: Second level
+    ordinal: 1
+    row_number: 140
+    expected_row_header_column: B
+    expected_row_header: Second level
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    filters:
+      household_income_quintile: second
+    constraints:
+    - variable: household_income_quintile
+      operator: ==
+      value: second
+      label: NTS real household-income quintile
+  - value_id: third
+    label: Third level
+    ordinal: 2
+    row_number: 141
+    expected_row_header_column: B
+    expected_row_header: Third level
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    filters:
+      household_income_quintile: third
+    constraints:
+    - variable: household_income_quintile
+      operator: ==
+      value: third
+      label: NTS real household-income quintile
+  - value_id: fourth
+    label: Fourth level
+    ordinal: 3
+    row_number: 142
+    expected_row_header_column: B
+    expected_row_header: Fourth level
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    filters:
+      household_income_quintile: fourth
+    constraints:
+    - variable: household_income_quintile
+      operator: ==
+      value: fourth
+      label: NTS real household-income quintile
+  - value_id: highest
+    label: Highest level
+    ordinal: 4
+    row_number: 143
+    expected_row_header_column: B
+    expected_row_header: Highest level
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+    filters:
+      household_income_quintile: highest
+    constraints:
+    - variable: household_income_quintile
+      operator: ==
+      value: highest
+      label: NTS real household-income quintile
+  - value_id: all
+    label: All income levels
+    ordinal: 5
+    row_number: 144
+    expected_row_header_column: B
+    expected_row_header: All income levels
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: survey year
+  measures:
+  - measure_id: bus_in_london_trips_per_person
+    label: Bus in London trips per person per year
+    ordinal: 0
+    column: I
+    source_column_id: bus_in_london_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Bus in London
+    concept: dft.bus_in_london_trips_per_person
+    source_concept: dft.bus_in_london_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts07-car-ownership-and-access
+    concept_evidence_notes: DfT National Travel Survey table NTS0705a, 2024; average trips per person
+      per year for England residents.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: other_local_bus_trips_per_person
+    label: Other local bus trips per person per year
+    ordinal: 1
+    column: J
+    source_column_id: other_local_bus_trips_per_person
+    expected_column_header_row: 6
+    expected_column_header: Other local bus
+    concept: dft.other_local_bus_trips_per_person
+    source_concept: dft.other_local_bus_trips_per_person
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/nts07-car-ownership-and-access
+    concept_evidence_notes: DfT National Travel Survey table NTS0705a, 2024; average trips per person
+      per year for England residents.
+    unit: trips_per_person_per_year
+    aggregation: mean
+    expected_cell_type: number

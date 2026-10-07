@@ -2,17 +2,17 @@
 
 from __future__ import annotations
 
+import hashlib
 from collections import Counter
 from dataclasses import replace
 from decimal import Decimal
 from functools import lru_cache
-import hashlib
 from pathlib import Path
 
 import pytest
 import yaml
 
-from chronicle.bundle import build_bundle_coverage
+from chronicle.bundle import _dimension_label_reports, build_bundle_coverage
 from chronicle.consumer_contract import (
     consumer_fact_rows,
     validate_consumer_fact_contract,
@@ -25,7 +25,6 @@ from chronicle.source_package import (
 )
 from chronicle.sources import build_source_cell_key, validate_source_cells
 from chronicle.suite import build_source_suite
-
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 WFF_ALIAS = "ird-working-for-families-statistics-sept-2025"
@@ -110,6 +109,32 @@ def test_wff_r2_provenance_and_consumer_contract():
     }
     assert {fact.source.raw_r2_uri for fact in _facts()} == {storage["uri"]}
     assert validate_consumer_fact_contract(_facts()).valid
+
+
+def test_wff_labels_every_dimension_and_value_for_the_bundle():
+    # build-bundle refuses a package that leaves a dimension or value without a
+    # Chronicle label (chronicle#261, #265).
+    assert _dimension_label_reports(WFF_ALIAS, consumer_fact_rows(_facts())) == (
+        [],
+        [],
+    )
+    total = _fact("recipient_families", "all", "wff_recipient_families")
+    assert total.dimension_labels["wff_credit_component"] == (
+        "Working for Families credit type"
+    )
+    assert total.dimension_value_labels["wff_credit_component"] == {
+        "any": "Any Working for Families credit"
+    }
+    assert total.dimension_value_labels["wff_entitlement_status"] == {
+        "nonzero": "Non-zero entitlement"
+    }
+    unknown = _fact("income_distribution", "income_unknown", "ftc_recipient_families")
+    assert unknown.dimension_value_labels["family_scheme_income_band_source_label"] == {
+        "Unknown**": "Unknown**"
+    }
+    assert unknown.dimension_value_labels["wff_credit_component"] == {
+        "ftc": "Family Tax Credit"
+    }
 
 
 def test_wff_build_suite_passes_all_source_acceptance_gates(tmp_path):

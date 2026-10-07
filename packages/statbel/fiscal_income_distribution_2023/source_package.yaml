@@ -3,6 +3,15 @@
 schema_version: ledger.source_package.v1
 package_id: statbel-fiscal-income-distribution-2023
 label: Statbel fiscal income distribution 2023 by income class, decile, declaration type, age, and dependants
+dimension_labels:
+  'declaration_category_and_rank_group': 'Declaration category and rank'
+  'declaration_type_age_and_decile': 'Declaration type, age and decile'
+  'declaration_type_dependants_and_decile': 'Declaration type, dependants and decile'
+  'geography': 'Geography'
+  'net_taxable_income_class_eur1000': 'Net taxable income class, thousand euro'
+  'tax_return.net_taxable_income_class': 'Net taxable income class'
+  'tax_return_decile_group': 'Tax return decile'
+  'tax_return_top_decile_percentile_group': 'Top decile percentile'
 artifact:
   source_name: statbel_fiscal_income_distribution
   source_table: Statbel fiscal income distribution tables A.1, B.1, B.3, B.4, and B.5, income year 2023
@@ -101,7 +110,7 @@ record_sets:
     label: Publisher assessment year
   rows: &id038
   - value_id: total
-    label: 'Total net taxable income: Totaal'
+    label: 'Totaal'
     ordinal: 0
     row_number: 3
     expected_row_header_column: A
@@ -115,7 +124,7 @@ record_sets:
     filters:
       tax_return.net_taxable_income_class: all
   - value_id: class_under_1
-    label: 'Total net taxable income: Minder dan 1'
+    label: 'Minder dan 1'
     ordinal: 1
     row_number: 4
     expected_row_header_column: A
@@ -144,7 +153,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_1_2
-    label: 'Total net taxable income: 1-2'
+    label: '1-2'
     ordinal: 2
     row_number: 5
     expected_row_header_column: A
@@ -173,7 +182,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_2_3
-    label: 'Total net taxable income: 2-3'
+    label: '2-3'
     ordinal: 3
     row_number: 6
     expected_row_header_column: A
@@ -202,7 +211,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_3_4
-    label: 'Total net taxable income: 3-4'
+    label: '3-4'
     ordinal: 4
     row_number: 7
     expected_row_header_column: A
@@ -231,7 +240,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_4_5
-    label: 'Total net taxable income: 4-5'
+    label: '4-5'
     ordinal: 5
     row_number: 8
     expected_row_header_column: A
@@ -260,7 +269,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_5_6
-    label: 'Total net taxable income: 5-6'
+    label: '5-6'
     ordinal: 6
     row_number: 9
     expected_row_header_column: A
@@ -289,7 +298,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_6_7
-    label: 'Total net taxable income: 6-7'
+    label: '6-7'
     ordinal: 7
     row_number: 10
     expected_row_header_column: A
@@ -318,7 +327,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_7_8
-    label: 'Total net taxable income: 7-8'
+    label: '7-8'
     ordinal: 8
     row_number: 11
     expected_row_header_column: A
@@ -347,7 +356,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_8_9
-    label: 'Total net taxable income: 8-9'
+    label: '8-9'
     ordinal: 9
     row_number: 12
     expected_row_header_column: A
@@ -376,7 +385,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_9_10
-    label: 'Total net taxable income: 9-10'
+    label: '9-10'
     ordinal: 10
     row_number: 13
     expected_row_header_column: A
@@ -405,7 +414,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_10_11
-    label: 'Total net taxable income: 10-11'
+    label: '10-11'
     ordinal: 11
     row_number: 14
     expected_row_header_column: A
@@ -434,7 +443,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_11_12
-    label: 'Total net taxable income: 11-12'
+    label: '11-12'
     ordinal: 12
     row_number: 15
     expected_row_header_column: A
@@ -463,7 +472,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_12_13
-    label: 'Total net taxable income: 12-13'
+    label: '12-13'
     ordinal: 13
     row_number: 16
     expected_row_header_column: A
@@ -492,7 +501,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_13_14
-    label: 'Total net taxable income: 13-14'
+    label: '13-14'
     ordinal: 14
     row_number: 17
     expected_row_header_column: A
@@ -521,7 +530,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_14_15
-    label: 'Total net taxable income: 14-15'
+    label: '14-15'
     ordinal: 15
     row_number: 18
     expected_row_header_column: A
@@ -550,7 +559,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_15_16
-    label: 'Total net taxable income: 15-16'
+    label: '15-16'
     ordinal: 16
     row_number: 19
     expected_row_header_column: A
@@ -579,7 +588,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_16_17
-    label: 'Total net taxable income: 16-17'
+    label: '16-17'
     ordinal: 17
     row_number: 20
     expected_row_header_column: A
@@ -608,7 +617,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_17_18
-    label: 'Total net taxable income: 17-18'
+    label: '17-18'
     ordinal: 18
     row_number: 21
     expected_row_header_column: A
@@ -637,7 +646,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_18_19
-    label: 'Total net taxable income: 18-19'
+    label: '18-19'
     ordinal: 19
     row_number: 22
     expected_row_header_column: A
@@ -666,7 +675,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_19_20
-    label: 'Total net taxable income: 19-20'
+    label: '19-20'
     ordinal: 20
     row_number: 23
     expected_row_header_column: A
@@ -695,7 +704,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_20_21
-    label: 'Total net taxable income: 20-21'
+    label: '20-21'
     ordinal: 21
     row_number: 24
     expected_row_header_column: A
@@ -724,7 +733,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_21_22
-    label: 'Total net taxable income: 21-22'
+    label: '21-22'
     ordinal: 22
     row_number: 25
     expected_row_header_column: A
@@ -753,7 +762,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_22_23
-    label: 'Total net taxable income: 22-23'
+    label: '22-23'
     ordinal: 23
     row_number: 26
     expected_row_header_column: A
@@ -782,7 +791,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_23_24
-    label: 'Total net taxable income: 23-24'
+    label: '23-24'
     ordinal: 24
     row_number: 27
     expected_row_header_column: A
@@ -811,7 +820,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_24_25
-    label: 'Total net taxable income: 24-25'
+    label: '24-25'
     ordinal: 25
     row_number: 28
     expected_row_header_column: A
@@ -840,7 +849,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_25_26
-    label: 'Total net taxable income: 25-26'
+    label: '25-26'
     ordinal: 26
     row_number: 29
     expected_row_header_column: A
@@ -869,7 +878,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_26_27
-    label: 'Total net taxable income: 26-27'
+    label: '26-27'
     ordinal: 27
     row_number: 30
     expected_row_header_column: A
@@ -898,7 +907,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_27_28
-    label: 'Total net taxable income: 27-28'
+    label: '27-28'
     ordinal: 28
     row_number: 31
     expected_row_header_column: A
@@ -927,7 +936,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_28_29
-    label: 'Total net taxable income: 28-29'
+    label: '28-29'
     ordinal: 29
     row_number: 32
     expected_row_header_column: A
@@ -956,7 +965,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_29_30
-    label: 'Total net taxable income: 29-30'
+    label: '29-30'
     ordinal: 30
     row_number: 33
     expected_row_header_column: A
@@ -985,7 +994,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_30_31
-    label: 'Total net taxable income: 30-31'
+    label: '30-31'
     ordinal: 31
     row_number: 34
     expected_row_header_column: A
@@ -1014,7 +1023,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_31_32
-    label: 'Total net taxable income: 31-32'
+    label: '31-32'
     ordinal: 32
     row_number: 35
     expected_row_header_column: A
@@ -1043,7 +1052,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_32_33
-    label: 'Total net taxable income: 32-33'
+    label: '32-33'
     ordinal: 33
     row_number: 36
     expected_row_header_column: A
@@ -1072,7 +1081,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_33_34
-    label: 'Total net taxable income: 33-34'
+    label: '33-34'
     ordinal: 34
     row_number: 37
     expected_row_header_column: A
@@ -1101,7 +1110,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_34_35
-    label: 'Total net taxable income: 34-35'
+    label: '34-35'
     ordinal: 35
     row_number: 38
     expected_row_header_column: A
@@ -1130,7 +1139,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_35_36
-    label: 'Total net taxable income: 35-36'
+    label: '35-36'
     ordinal: 36
     row_number: 39
     expected_row_header_column: A
@@ -1159,7 +1168,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_36_37
-    label: 'Total net taxable income: 36-37'
+    label: '36-37'
     ordinal: 37
     row_number: 40
     expected_row_header_column: A
@@ -1188,7 +1197,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_37_38
-    label: 'Total net taxable income: 37-38'
+    label: '37-38'
     ordinal: 38
     row_number: 41
     expected_row_header_column: A
@@ -1217,7 +1226,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_38_39
-    label: 'Total net taxable income: 38-39'
+    label: '38-39'
     ordinal: 39
     row_number: 42
     expected_row_header_column: A
@@ -1246,7 +1255,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_39_40
-    label: 'Total net taxable income: 39-40'
+    label: '39-40'
     ordinal: 40
     row_number: 43
     expected_row_header_column: A
@@ -1275,7 +1284,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_40_41
-    label: 'Total net taxable income: 40-41'
+    label: '40-41'
     ordinal: 41
     row_number: 44
     expected_row_header_column: A
@@ -1304,7 +1313,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_41_42
-    label: 'Total net taxable income: 41-42'
+    label: '41-42'
     ordinal: 42
     row_number: 45
     expected_row_header_column: A
@@ -1333,7 +1342,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_42_43
-    label: 'Total net taxable income: 42-43'
+    label: '42-43'
     ordinal: 43
     row_number: 46
     expected_row_header_column: A
@@ -1362,7 +1371,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_43_44
-    label: 'Total net taxable income: 43-44'
+    label: '43-44'
     ordinal: 44
     row_number: 47
     expected_row_header_column: A
@@ -1391,7 +1400,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_44_45
-    label: 'Total net taxable income: 44-45'
+    label: '44-45'
     ordinal: 45
     row_number: 48
     expected_row_header_column: A
@@ -1420,7 +1429,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_45_46
-    label: 'Total net taxable income: 45-46'
+    label: '45-46'
     ordinal: 46
     row_number: 49
     expected_row_header_column: A
@@ -1449,7 +1458,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_46_47
-    label: 'Total net taxable income: 46-47'
+    label: '46-47'
     ordinal: 47
     row_number: 50
     expected_row_header_column: A
@@ -1478,7 +1487,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_47_48
-    label: 'Total net taxable income: 47-48'
+    label: '47-48'
     ordinal: 48
     row_number: 51
     expected_row_header_column: A
@@ -1507,7 +1516,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_48_49
-    label: 'Total net taxable income: 48-49'
+    label: '48-49'
     ordinal: 49
     row_number: 52
     expected_row_header_column: A
@@ -1536,7 +1545,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_49_50
-    label: 'Total net taxable income: 49-50'
+    label: '49-50'
     ordinal: 50
     row_number: 53
     expected_row_header_column: A
@@ -1565,7 +1574,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_50_51
-    label: 'Total net taxable income: 50-51'
+    label: '50-51'
     ordinal: 51
     row_number: 54
     expected_row_header_column: A
@@ -1594,7 +1603,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_51_52
-    label: 'Total net taxable income: 51-52'
+    label: '51-52'
     ordinal: 52
     row_number: 55
     expected_row_header_column: A
@@ -1623,7 +1632,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_52_53
-    label: 'Total net taxable income: 52-53'
+    label: '52-53'
     ordinal: 53
     row_number: 56
     expected_row_header_column: A
@@ -1652,7 +1661,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_53_54
-    label: 'Total net taxable income: 53-54'
+    label: '53-54'
     ordinal: 54
     row_number: 57
     expected_row_header_column: A
@@ -1681,7 +1690,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_54_55
-    label: 'Total net taxable income: 54-55'
+    label: '54-55'
     ordinal: 55
     row_number: 58
     expected_row_header_column: A
@@ -1710,7 +1719,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_55_56
-    label: 'Total net taxable income: 55-56'
+    label: '55-56'
     ordinal: 56
     row_number: 59
     expected_row_header_column: A
@@ -1739,7 +1748,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_56_57
-    label: 'Total net taxable income: 56-57'
+    label: '56-57'
     ordinal: 57
     row_number: 60
     expected_row_header_column: A
@@ -1768,7 +1777,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_57_58
-    label: 'Total net taxable income: 57-58'
+    label: '57-58'
     ordinal: 58
     row_number: 61
     expected_row_header_column: A
@@ -1797,7 +1806,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_58_59
-    label: 'Total net taxable income: 58-59'
+    label: '58-59'
     ordinal: 59
     row_number: 62
     expected_row_header_column: A
@@ -1826,7 +1835,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_59_60
-    label: 'Total net taxable income: 59-60'
+    label: '59-60'
     ordinal: 60
     row_number: 63
     expected_row_header_column: A
@@ -1855,7 +1864,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_60_61
-    label: 'Total net taxable income: 60-61'
+    label: '60-61'
     ordinal: 61
     row_number: 64
     expected_row_header_column: A
@@ -1884,7 +1893,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_61_62
-    label: 'Total net taxable income: 61-62'
+    label: '61-62'
     ordinal: 62
     row_number: 65
     expected_row_header_column: A
@@ -1913,7 +1922,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_62_63
-    label: 'Total net taxable income: 62-63'
+    label: '62-63'
     ordinal: 63
     row_number: 66
     expected_row_header_column: A
@@ -1942,7 +1951,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_63_64
-    label: 'Total net taxable income: 63-64'
+    label: '63-64'
     ordinal: 64
     row_number: 67
     expected_row_header_column: A
@@ -1971,7 +1980,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_64_65
-    label: 'Total net taxable income: 64-65'
+    label: '64-65'
     ordinal: 65
     row_number: 68
     expected_row_header_column: A
@@ -2000,7 +2009,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_65_66
-    label: 'Total net taxable income: 65-66'
+    label: '65-66'
     ordinal: 66
     row_number: 69
     expected_row_header_column: A
@@ -2029,7 +2038,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_66_67
-    label: 'Total net taxable income: 66-67'
+    label: '66-67'
     ordinal: 67
     row_number: 70
     expected_row_header_column: A
@@ -2058,7 +2067,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_67_68
-    label: 'Total net taxable income: 67-68'
+    label: '67-68'
     ordinal: 68
     row_number: 71
     expected_row_header_column: A
@@ -2087,7 +2096,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_68_69
-    label: 'Total net taxable income: 68-69'
+    label: '68-69'
     ordinal: 69
     row_number: 72
     expected_row_header_column: A
@@ -2116,7 +2125,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_69_70
-    label: 'Total net taxable income: 69-70'
+    label: '69-70'
     ordinal: 70
     row_number: 73
     expected_row_header_column: A
@@ -2145,7 +2154,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_70_71
-    label: 'Total net taxable income: 70-71'
+    label: '70-71'
     ordinal: 71
     row_number: 74
     expected_row_header_column: A
@@ -2174,7 +2183,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_71_72
-    label: 'Total net taxable income: 71-72'
+    label: '71-72'
     ordinal: 72
     row_number: 75
     expected_row_header_column: A
@@ -2203,7 +2212,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_72_73
-    label: 'Total net taxable income: 72-73'
+    label: '72-73'
     ordinal: 73
     row_number: 76
     expected_row_header_column: A
@@ -2232,7 +2241,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_73_74
-    label: 'Total net taxable income: 73-74'
+    label: '73-74'
     ordinal: 74
     row_number: 77
     expected_row_header_column: A
@@ -2261,7 +2270,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_74_75
-    label: 'Total net taxable income: 74-75'
+    label: '74-75'
     ordinal: 75
     row_number: 78
     expected_row_header_column: A
@@ -2290,7 +2299,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_75_76
-    label: 'Total net taxable income: 75-76'
+    label: '75-76'
     ordinal: 76
     row_number: 79
     expected_row_header_column: A
@@ -2319,7 +2328,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_76_77
-    label: 'Total net taxable income: 76-77'
+    label: '76-77'
     ordinal: 77
     row_number: 80
     expected_row_header_column: A
@@ -2348,7 +2357,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_77_78
-    label: 'Total net taxable income: 77-78'
+    label: '77-78'
     ordinal: 78
     row_number: 81
     expected_row_header_column: A
@@ -2377,7 +2386,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_78_79
-    label: 'Total net taxable income: 78-79'
+    label: '78-79'
     ordinal: 79
     row_number: 82
     expected_row_header_column: A
@@ -2406,7 +2415,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_79_80
-    label: 'Total net taxable income: 79-80'
+    label: '79-80'
     ordinal: 80
     row_number: 83
     expected_row_header_column: A
@@ -2435,7 +2444,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_80_81
-    label: 'Total net taxable income: 80-81'
+    label: '80-81'
     ordinal: 81
     row_number: 84
     expected_row_header_column: A
@@ -2464,7 +2473,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_81_82
-    label: 'Total net taxable income: 81-82'
+    label: '81-82'
     ordinal: 82
     row_number: 85
     expected_row_header_column: A
@@ -2493,7 +2502,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_82_83
-    label: 'Total net taxable income: 82-83'
+    label: '82-83'
     ordinal: 83
     row_number: 86
     expected_row_header_column: A
@@ -2522,7 +2531,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_83_84
-    label: 'Total net taxable income: 83-84'
+    label: '83-84'
     ordinal: 84
     row_number: 87
     expected_row_header_column: A
@@ -2551,7 +2560,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_84_85
-    label: 'Total net taxable income: 84-85'
+    label: '84-85'
     ordinal: 85
     row_number: 88
     expected_row_header_column: A
@@ -2580,7 +2589,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_85_86
-    label: 'Total net taxable income: 85-86'
+    label: '85-86'
     ordinal: 86
     row_number: 89
     expected_row_header_column: A
@@ -2609,7 +2618,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_86_87
-    label: 'Total net taxable income: 86-87'
+    label: '86-87'
     ordinal: 87
     row_number: 90
     expected_row_header_column: A
@@ -2638,7 +2647,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_87_88
-    label: 'Total net taxable income: 87-88'
+    label: '87-88'
     ordinal: 88
     row_number: 91
     expected_row_header_column: A
@@ -2667,7 +2676,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_88_89
-    label: 'Total net taxable income: 88-89'
+    label: '88-89'
     ordinal: 89
     row_number: 92
     expected_row_header_column: A
@@ -2696,7 +2705,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_89_90
-    label: 'Total net taxable income: 89-90'
+    label: '89-90'
     ordinal: 90
     row_number: 93
     expected_row_header_column: A
@@ -2725,7 +2734,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_90_91
-    label: 'Total net taxable income: 90-91'
+    label: '90-91'
     ordinal: 91
     row_number: 94
     expected_row_header_column: A
@@ -2754,7 +2763,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_91_92
-    label: 'Total net taxable income: 91-92'
+    label: '91-92'
     ordinal: 92
     row_number: 95
     expected_row_header_column: A
@@ -2783,7 +2792,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_92_93
-    label: 'Total net taxable income: 92-93'
+    label: '92-93'
     ordinal: 93
     row_number: 96
     expected_row_header_column: A
@@ -2812,7 +2821,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_93_94
-    label: 'Total net taxable income: 93-94'
+    label: '93-94'
     ordinal: 94
     row_number: 97
     expected_row_header_column: A
@@ -2841,7 +2850,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_94_95
-    label: 'Total net taxable income: 94-95'
+    label: '94-95'
     ordinal: 95
     row_number: 98
     expected_row_header_column: A
@@ -2870,7 +2879,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_95_96
-    label: 'Total net taxable income: 95-96'
+    label: '95-96'
     ordinal: 96
     row_number: 99
     expected_row_header_column: A
@@ -2899,7 +2908,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_96_97
-    label: 'Total net taxable income: 96-97'
+    label: '96-97'
     ordinal: 97
     row_number: 100
     expected_row_header_column: A
@@ -2928,7 +2937,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_97_98
-    label: 'Total net taxable income: 97-98'
+    label: '97-98'
     ordinal: 98
     row_number: 101
     expected_row_header_column: A
@@ -2957,7 +2966,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_98_99
-    label: 'Total net taxable income: 98-99'
+    label: '98-99'
     ordinal: 99
     row_number: 102
     expected_row_header_column: A
@@ -2986,7 +2995,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_99_100
-    label: 'Total net taxable income: 99-100'
+    label: '99-100'
     ordinal: 100
     row_number: 103
     expected_row_header_column: A
@@ -3015,7 +3024,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_100_plus
-    label: 'Total net taxable income: 100 en meer'
+    label: '100 en meer'
     ordinal: 101
     row_number: 104
     expected_row_header_column: A
@@ -3141,7 +3150,7 @@ record_sets:
     label: Publisher assessment year
   rows: &id039
   - value_id: total
-    label: 'Total net professional income: Totaal'
+    label: 'Totaal'
     ordinal: 0
     row_number: 105
     expected_row_header_column: A
@@ -3155,7 +3164,7 @@ record_sets:
     filters:
       tax_return.net_taxable_income_class: all
   - value_id: class_under_1
-    label: 'Total net professional income: Minder dan 1'
+    label: 'Minder dan 1'
     ordinal: 1
     row_number: 106
     expected_row_header_column: A
@@ -3184,7 +3193,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_1_2
-    label: 'Total net professional income: 1-2'
+    label: '1-2'
     ordinal: 2
     row_number: 107
     expected_row_header_column: A
@@ -3213,7 +3222,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_2_3
-    label: 'Total net professional income: 2-3'
+    label: '2-3'
     ordinal: 3
     row_number: 108
     expected_row_header_column: A
@@ -3242,7 +3251,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_3_4
-    label: 'Total net professional income: 3-4'
+    label: '3-4'
     ordinal: 4
     row_number: 109
     expected_row_header_column: A
@@ -3271,7 +3280,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_4_5
-    label: 'Total net professional income: 4-5'
+    label: '4-5'
     ordinal: 5
     row_number: 110
     expected_row_header_column: A
@@ -3300,7 +3309,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_5_6
-    label: 'Total net professional income: 5-6'
+    label: '5-6'
     ordinal: 6
     row_number: 111
     expected_row_header_column: A
@@ -3329,7 +3338,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_6_7
-    label: 'Total net professional income: 6-7'
+    label: '6-7'
     ordinal: 7
     row_number: 112
     expected_row_header_column: A
@@ -3358,7 +3367,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_7_8
-    label: 'Total net professional income: 7-8'
+    label: '7-8'
     ordinal: 8
     row_number: 113
     expected_row_header_column: A
@@ -3387,7 +3396,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_8_9
-    label: 'Total net professional income: 8-9'
+    label: '8-9'
     ordinal: 9
     row_number: 114
     expected_row_header_column: A
@@ -3416,7 +3425,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_9_10
-    label: 'Total net professional income: 9-10'
+    label: '9-10'
     ordinal: 10
     row_number: 115
     expected_row_header_column: A
@@ -3445,7 +3454,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_10_11
-    label: 'Total net professional income: 10-11'
+    label: '10-11'
     ordinal: 11
     row_number: 116
     expected_row_header_column: A
@@ -3474,7 +3483,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_11_12
-    label: 'Total net professional income: 11-12'
+    label: '11-12'
     ordinal: 12
     row_number: 117
     expected_row_header_column: A
@@ -3503,7 +3512,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_12_13
-    label: 'Total net professional income: 12-13'
+    label: '12-13'
     ordinal: 13
     row_number: 118
     expected_row_header_column: A
@@ -3532,7 +3541,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_13_14
-    label: 'Total net professional income: 13-14'
+    label: '13-14'
     ordinal: 14
     row_number: 119
     expected_row_header_column: A
@@ -3561,7 +3570,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_14_15
-    label: 'Total net professional income: 14-15'
+    label: '14-15'
     ordinal: 15
     row_number: 120
     expected_row_header_column: A
@@ -3590,7 +3599,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_15_16
-    label: 'Total net professional income: 15-16'
+    label: '15-16'
     ordinal: 16
     row_number: 121
     expected_row_header_column: A
@@ -3619,7 +3628,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_16_17
-    label: 'Total net professional income: 16-17'
+    label: '16-17'
     ordinal: 17
     row_number: 122
     expected_row_header_column: A
@@ -3648,7 +3657,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_17_18
-    label: 'Total net professional income: 17-18'
+    label: '17-18'
     ordinal: 18
     row_number: 123
     expected_row_header_column: A
@@ -3677,7 +3686,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_18_19
-    label: 'Total net professional income: 18-19'
+    label: '18-19'
     ordinal: 19
     row_number: 124
     expected_row_header_column: A
@@ -3706,7 +3715,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_19_20
-    label: 'Total net professional income: 19-20'
+    label: '19-20'
     ordinal: 20
     row_number: 125
     expected_row_header_column: A
@@ -3735,7 +3744,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_20_21
-    label: 'Total net professional income: 20-21'
+    label: '20-21'
     ordinal: 21
     row_number: 126
     expected_row_header_column: A
@@ -3764,7 +3773,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_21_22
-    label: 'Total net professional income: 21-22'
+    label: '21-22'
     ordinal: 22
     row_number: 127
     expected_row_header_column: A
@@ -3793,7 +3802,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_22_23
-    label: 'Total net professional income: 22-23'
+    label: '22-23'
     ordinal: 23
     row_number: 128
     expected_row_header_column: A
@@ -3822,7 +3831,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_23_24
-    label: 'Total net professional income: 23-24'
+    label: '23-24'
     ordinal: 24
     row_number: 129
     expected_row_header_column: A
@@ -3851,7 +3860,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_24_25
-    label: 'Total net professional income: 24-25'
+    label: '24-25'
     ordinal: 25
     row_number: 130
     expected_row_header_column: A
@@ -3880,7 +3889,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_25_26
-    label: 'Total net professional income: 25-26'
+    label: '25-26'
     ordinal: 26
     row_number: 131
     expected_row_header_column: A
@@ -3909,7 +3918,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_26_27
-    label: 'Total net professional income: 26-27'
+    label: '26-27'
     ordinal: 27
     row_number: 132
     expected_row_header_column: A
@@ -3938,7 +3947,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_27_28
-    label: 'Total net professional income: 27-28'
+    label: '27-28'
     ordinal: 28
     row_number: 133
     expected_row_header_column: A
@@ -3967,7 +3976,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_28_29
-    label: 'Total net professional income: 28-29'
+    label: '28-29'
     ordinal: 29
     row_number: 134
     expected_row_header_column: A
@@ -3996,7 +4005,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_29_30
-    label: 'Total net professional income: 29-30'
+    label: '29-30'
     ordinal: 30
     row_number: 135
     expected_row_header_column: A
@@ -4025,7 +4034,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_30_31
-    label: 'Total net professional income: 30-31'
+    label: '30-31'
     ordinal: 31
     row_number: 136
     expected_row_header_column: A
@@ -4054,7 +4063,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_31_32
-    label: 'Total net professional income: 31-32'
+    label: '31-32'
     ordinal: 32
     row_number: 137
     expected_row_header_column: A
@@ -4083,7 +4092,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_32_33
-    label: 'Total net professional income: 32-33'
+    label: '32-33'
     ordinal: 33
     row_number: 138
     expected_row_header_column: A
@@ -4112,7 +4121,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_33_34
-    label: 'Total net professional income: 33-34'
+    label: '33-34'
     ordinal: 34
     row_number: 139
     expected_row_header_column: A
@@ -4141,7 +4150,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_34_35
-    label: 'Total net professional income: 34-35'
+    label: '34-35'
     ordinal: 35
     row_number: 140
     expected_row_header_column: A
@@ -4170,7 +4179,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_35_36
-    label: 'Total net professional income: 35-36'
+    label: '35-36'
     ordinal: 36
     row_number: 141
     expected_row_header_column: A
@@ -4199,7 +4208,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_36_37
-    label: 'Total net professional income: 36-37'
+    label: '36-37'
     ordinal: 37
     row_number: 142
     expected_row_header_column: A
@@ -4228,7 +4237,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_37_38
-    label: 'Total net professional income: 37-38'
+    label: '37-38'
     ordinal: 38
     row_number: 143
     expected_row_header_column: A
@@ -4257,7 +4266,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_38_39
-    label: 'Total net professional income: 38-39'
+    label: '38-39'
     ordinal: 39
     row_number: 144
     expected_row_header_column: A
@@ -4286,7 +4295,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_39_40
-    label: 'Total net professional income: 39-40'
+    label: '39-40'
     ordinal: 40
     row_number: 145
     expected_row_header_column: A
@@ -4315,7 +4324,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_40_41
-    label: 'Total net professional income: 40-41'
+    label: '40-41'
     ordinal: 41
     row_number: 146
     expected_row_header_column: A
@@ -4344,7 +4353,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_41_42
-    label: 'Total net professional income: 41-42'
+    label: '41-42'
     ordinal: 42
     row_number: 147
     expected_row_header_column: A
@@ -4373,7 +4382,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_42_43
-    label: 'Total net professional income: 42-43'
+    label: '42-43'
     ordinal: 43
     row_number: 148
     expected_row_header_column: A
@@ -4402,7 +4411,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_43_44
-    label: 'Total net professional income: 43-44'
+    label: '43-44'
     ordinal: 44
     row_number: 149
     expected_row_header_column: A
@@ -4431,7 +4440,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_44_45
-    label: 'Total net professional income: 44-45'
+    label: '44-45'
     ordinal: 45
     row_number: 150
     expected_row_header_column: A
@@ -4460,7 +4469,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_45_46
-    label: 'Total net professional income: 45-46'
+    label: '45-46'
     ordinal: 46
     row_number: 151
     expected_row_header_column: A
@@ -4489,7 +4498,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_46_47
-    label: 'Total net professional income: 46-47'
+    label: '46-47'
     ordinal: 47
     row_number: 152
     expected_row_header_column: A
@@ -4518,7 +4527,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_47_48
-    label: 'Total net professional income: 47-48'
+    label: '47-48'
     ordinal: 48
     row_number: 153
     expected_row_header_column: A
@@ -4547,7 +4556,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_48_49
-    label: 'Total net professional income: 48-49'
+    label: '48-49'
     ordinal: 49
     row_number: 154
     expected_row_header_column: A
@@ -4576,7 +4585,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_49_50
-    label: 'Total net professional income: 49-50'
+    label: '49-50'
     ordinal: 50
     row_number: 155
     expected_row_header_column: A
@@ -4605,7 +4614,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_50_51
-    label: 'Total net professional income: 50-51'
+    label: '50-51'
     ordinal: 51
     row_number: 156
     expected_row_header_column: A
@@ -4634,7 +4643,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_51_52
-    label: 'Total net professional income: 51-52'
+    label: '51-52'
     ordinal: 52
     row_number: 157
     expected_row_header_column: A
@@ -4663,7 +4672,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_52_53
-    label: 'Total net professional income: 52-53'
+    label: '52-53'
     ordinal: 53
     row_number: 158
     expected_row_header_column: A
@@ -4692,7 +4701,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_53_54
-    label: 'Total net professional income: 53-54'
+    label: '53-54'
     ordinal: 54
     row_number: 159
     expected_row_header_column: A
@@ -4721,7 +4730,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_54_55
-    label: 'Total net professional income: 54-55'
+    label: '54-55'
     ordinal: 55
     row_number: 160
     expected_row_header_column: A
@@ -4750,7 +4759,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_55_56
-    label: 'Total net professional income: 55-56'
+    label: '55-56'
     ordinal: 56
     row_number: 161
     expected_row_header_column: A
@@ -4779,7 +4788,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_56_57
-    label: 'Total net professional income: 56-57'
+    label: '56-57'
     ordinal: 57
     row_number: 162
     expected_row_header_column: A
@@ -4808,7 +4817,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_57_58
-    label: 'Total net professional income: 57-58'
+    label: '57-58'
     ordinal: 58
     row_number: 163
     expected_row_header_column: A
@@ -4837,7 +4846,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_58_59
-    label: 'Total net professional income: 58-59'
+    label: '58-59'
     ordinal: 59
     row_number: 164
     expected_row_header_column: A
@@ -4866,7 +4875,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_59_60
-    label: 'Total net professional income: 59-60'
+    label: '59-60'
     ordinal: 60
     row_number: 165
     expected_row_header_column: A
@@ -4895,7 +4904,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_60_61
-    label: 'Total net professional income: 60-61'
+    label: '60-61'
     ordinal: 61
     row_number: 166
     expected_row_header_column: A
@@ -4924,7 +4933,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_61_62
-    label: 'Total net professional income: 61-62'
+    label: '61-62'
     ordinal: 62
     row_number: 167
     expected_row_header_column: A
@@ -4953,7 +4962,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_62_63
-    label: 'Total net professional income: 62-63'
+    label: '62-63'
     ordinal: 63
     row_number: 168
     expected_row_header_column: A
@@ -4982,7 +4991,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_63_64
-    label: 'Total net professional income: 63-64'
+    label: '63-64'
     ordinal: 64
     row_number: 169
     expected_row_header_column: A
@@ -5011,7 +5020,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_64_65
-    label: 'Total net professional income: 64-65'
+    label: '64-65'
     ordinal: 65
     row_number: 170
     expected_row_header_column: A
@@ -5040,7 +5049,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_65_66
-    label: 'Total net professional income: 65-66'
+    label: '65-66'
     ordinal: 66
     row_number: 171
     expected_row_header_column: A
@@ -5069,7 +5078,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_66_67
-    label: 'Total net professional income: 66-67'
+    label: '66-67'
     ordinal: 67
     row_number: 172
     expected_row_header_column: A
@@ -5098,7 +5107,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_67_68
-    label: 'Total net professional income: 67-68'
+    label: '67-68'
     ordinal: 68
     row_number: 173
     expected_row_header_column: A
@@ -5127,7 +5136,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_68_69
-    label: 'Total net professional income: 68-69'
+    label: '68-69'
     ordinal: 69
     row_number: 174
     expected_row_header_column: A
@@ -5156,7 +5165,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_69_70
-    label: 'Total net professional income: 69-70'
+    label: '69-70'
     ordinal: 70
     row_number: 175
     expected_row_header_column: A
@@ -5185,7 +5194,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_70_71
-    label: 'Total net professional income: 70-71'
+    label: '70-71'
     ordinal: 71
     row_number: 176
     expected_row_header_column: A
@@ -5214,7 +5223,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_71_72
-    label: 'Total net professional income: 71-72'
+    label: '71-72'
     ordinal: 72
     row_number: 177
     expected_row_header_column: A
@@ -5243,7 +5252,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_72_73
-    label: 'Total net professional income: 72-73'
+    label: '72-73'
     ordinal: 73
     row_number: 178
     expected_row_header_column: A
@@ -5272,7 +5281,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_73_74
-    label: 'Total net professional income: 73-74'
+    label: '73-74'
     ordinal: 74
     row_number: 179
     expected_row_header_column: A
@@ -5301,7 +5310,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_74_75
-    label: 'Total net professional income: 74-75'
+    label: '74-75'
     ordinal: 75
     row_number: 180
     expected_row_header_column: A
@@ -5330,7 +5339,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_75_76
-    label: 'Total net professional income: 75-76'
+    label: '75-76'
     ordinal: 76
     row_number: 181
     expected_row_header_column: A
@@ -5359,7 +5368,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_76_77
-    label: 'Total net professional income: 76-77'
+    label: '76-77'
     ordinal: 77
     row_number: 182
     expected_row_header_column: A
@@ -5388,7 +5397,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_77_78
-    label: 'Total net professional income: 77-78'
+    label: '77-78'
     ordinal: 78
     row_number: 183
     expected_row_header_column: A
@@ -5417,7 +5426,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_78_79
-    label: 'Total net professional income: 78-79'
+    label: '78-79'
     ordinal: 79
     row_number: 184
     expected_row_header_column: A
@@ -5446,7 +5455,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_79_80
-    label: 'Total net professional income: 79-80'
+    label: '79-80'
     ordinal: 80
     row_number: 185
     expected_row_header_column: A
@@ -5475,7 +5484,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_80_81
-    label: 'Total net professional income: 80-81'
+    label: '80-81'
     ordinal: 81
     row_number: 186
     expected_row_header_column: A
@@ -5504,7 +5513,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_81_82
-    label: 'Total net professional income: 81-82'
+    label: '81-82'
     ordinal: 82
     row_number: 187
     expected_row_header_column: A
@@ -5533,7 +5542,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_82_83
-    label: 'Total net professional income: 82-83'
+    label: '82-83'
     ordinal: 83
     row_number: 188
     expected_row_header_column: A
@@ -5562,7 +5571,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_83_84
-    label: 'Total net professional income: 83-84'
+    label: '83-84'
     ordinal: 84
     row_number: 189
     expected_row_header_column: A
@@ -5591,7 +5600,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_84_85
-    label: 'Total net professional income: 84-85'
+    label: '84-85'
     ordinal: 85
     row_number: 190
     expected_row_header_column: A
@@ -5620,7 +5629,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_85_86
-    label: 'Total net professional income: 85-86'
+    label: '85-86'
     ordinal: 86
     row_number: 191
     expected_row_header_column: A
@@ -5649,7 +5658,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_86_87
-    label: 'Total net professional income: 86-87'
+    label: '86-87'
     ordinal: 87
     row_number: 192
     expected_row_header_column: A
@@ -5678,7 +5687,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_87_88
-    label: 'Total net professional income: 87-88'
+    label: '87-88'
     ordinal: 88
     row_number: 193
     expected_row_header_column: A
@@ -5707,7 +5716,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_88_89
-    label: 'Total net professional income: 88-89'
+    label: '88-89'
     ordinal: 89
     row_number: 194
     expected_row_header_column: A
@@ -5736,7 +5745,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_89_90
-    label: 'Total net professional income: 89-90'
+    label: '89-90'
     ordinal: 90
     row_number: 195
     expected_row_header_column: A
@@ -5765,7 +5774,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_90_91
-    label: 'Total net professional income: 90-91'
+    label: '90-91'
     ordinal: 91
     row_number: 196
     expected_row_header_column: A
@@ -5794,7 +5803,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_91_92
-    label: 'Total net professional income: 91-92'
+    label: '91-92'
     ordinal: 92
     row_number: 197
     expected_row_header_column: A
@@ -5823,7 +5832,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_92_93
-    label: 'Total net professional income: 92-93'
+    label: '92-93'
     ordinal: 93
     row_number: 198
     expected_row_header_column: A
@@ -5852,7 +5861,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_93_94
-    label: 'Total net professional income: 93-94'
+    label: '93-94'
     ordinal: 94
     row_number: 199
     expected_row_header_column: A
@@ -5881,7 +5890,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_94_95
-    label: 'Total net professional income: 94-95'
+    label: '94-95'
     ordinal: 95
     row_number: 200
     expected_row_header_column: A
@@ -5910,7 +5919,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_95_96
-    label: 'Total net professional income: 95-96'
+    label: '95-96'
     ordinal: 96
     row_number: 201
     expected_row_header_column: A
@@ -5939,7 +5948,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_96_97
-    label: 'Total net professional income: 96-97'
+    label: '96-97'
     ordinal: 97
     row_number: 202
     expected_row_header_column: A
@@ -5968,7 +5977,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_97_98
-    label: 'Total net professional income: 97-98'
+    label: '97-98'
     ordinal: 98
     row_number: 203
     expected_row_header_column: A
@@ -5997,7 +6006,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_98_99
-    label: 'Total net professional income: 98-99'
+    label: '98-99'
     ordinal: 99
     row_number: 204
     expected_row_header_column: A
@@ -6026,7 +6035,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_99_100
-    label: 'Total net professional income: 99-100'
+    label: '99-100'
     ordinal: 100
     row_number: 205
     expected_row_header_column: A
@@ -6055,7 +6064,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_100_plus
-    label: 'Total net professional income: 100 en meer'
+    label: '100 en meer'
     ordinal: 101
     row_number: 206
     expected_row_header_column: A
@@ -6181,7 +6190,7 @@ record_sets:
     label: Publisher assessment year
   rows: &id040
   - value_id: total
-    label: 'Total net immovable-property income: Totaal'
+    label: 'Totaal'
     ordinal: 0
     row_number: 207
     expected_row_header_column: A
@@ -6195,7 +6204,7 @@ record_sets:
     filters:
       tax_return.net_taxable_income_class: all
   - value_id: class_under_1
-    label: 'Total net immovable-property income: Minder dan 1'
+    label: 'Minder dan 1'
     ordinal: 1
     row_number: 208
     expected_row_header_column: A
@@ -6224,7 +6233,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_1_2
-    label: 'Total net immovable-property income: 1-2'
+    label: '1-2'
     ordinal: 2
     row_number: 209
     expected_row_header_column: A
@@ -6253,7 +6262,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_2_3
-    label: 'Total net immovable-property income: 2-3'
+    label: '2-3'
     ordinal: 3
     row_number: 210
     expected_row_header_column: A
@@ -6282,7 +6291,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_3_4
-    label: 'Total net immovable-property income: 3-4'
+    label: '3-4'
     ordinal: 4
     row_number: 211
     expected_row_header_column: A
@@ -6311,7 +6320,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_4_5
-    label: 'Total net immovable-property income: 4-5'
+    label: '4-5'
     ordinal: 5
     row_number: 212
     expected_row_header_column: A
@@ -6340,7 +6349,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_5_6
-    label: 'Total net immovable-property income: 5-6'
+    label: '5-6'
     ordinal: 6
     row_number: 213
     expected_row_header_column: A
@@ -6369,7 +6378,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_6_7
-    label: 'Total net immovable-property income: 6-7'
+    label: '6-7'
     ordinal: 7
     row_number: 214
     expected_row_header_column: A
@@ -6398,7 +6407,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_7_8
-    label: 'Total net immovable-property income: 7-8'
+    label: '7-8'
     ordinal: 8
     row_number: 215
     expected_row_header_column: A
@@ -6427,7 +6436,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_8_9
-    label: 'Total net immovable-property income: 8-9'
+    label: '8-9'
     ordinal: 9
     row_number: 216
     expected_row_header_column: A
@@ -6456,7 +6465,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_9_10
-    label: 'Total net immovable-property income: 9-10'
+    label: '9-10'
     ordinal: 10
     row_number: 217
     expected_row_header_column: A
@@ -6485,7 +6494,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_10_11
-    label: 'Total net immovable-property income: 10-11'
+    label: '10-11'
     ordinal: 11
     row_number: 218
     expected_row_header_column: A
@@ -6514,7 +6523,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_11_12
-    label: 'Total net immovable-property income: 11-12'
+    label: '11-12'
     ordinal: 12
     row_number: 219
     expected_row_header_column: A
@@ -6543,7 +6552,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_12_13
-    label: 'Total net immovable-property income: 12-13'
+    label: '12-13'
     ordinal: 13
     row_number: 220
     expected_row_header_column: A
@@ -6572,7 +6581,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_13_14
-    label: 'Total net immovable-property income: 13-14'
+    label: '13-14'
     ordinal: 14
     row_number: 221
     expected_row_header_column: A
@@ -6601,7 +6610,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_14_15
-    label: 'Total net immovable-property income: 14-15'
+    label: '14-15'
     ordinal: 15
     row_number: 222
     expected_row_header_column: A
@@ -6630,7 +6639,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_15_16
-    label: 'Total net immovable-property income: 15-16'
+    label: '15-16'
     ordinal: 16
     row_number: 223
     expected_row_header_column: A
@@ -6659,7 +6668,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_16_17
-    label: 'Total net immovable-property income: 16-17'
+    label: '16-17'
     ordinal: 17
     row_number: 224
     expected_row_header_column: A
@@ -6688,7 +6697,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_17_18
-    label: 'Total net immovable-property income: 17-18'
+    label: '17-18'
     ordinal: 18
     row_number: 225
     expected_row_header_column: A
@@ -6717,7 +6726,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_18_19
-    label: 'Total net immovable-property income: 18-19'
+    label: '18-19'
     ordinal: 19
     row_number: 226
     expected_row_header_column: A
@@ -6746,7 +6755,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_19_20
-    label: 'Total net immovable-property income: 19-20'
+    label: '19-20'
     ordinal: 20
     row_number: 227
     expected_row_header_column: A
@@ -6775,7 +6784,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_20_21
-    label: 'Total net immovable-property income: 20-21'
+    label: '20-21'
     ordinal: 21
     row_number: 228
     expected_row_header_column: A
@@ -6804,7 +6813,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_21_22
-    label: 'Total net immovable-property income: 21-22'
+    label: '21-22'
     ordinal: 22
     row_number: 229
     expected_row_header_column: A
@@ -6833,7 +6842,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_22_23
-    label: 'Total net immovable-property income: 22-23'
+    label: '22-23'
     ordinal: 23
     row_number: 230
     expected_row_header_column: A
@@ -6862,7 +6871,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_23_24
-    label: 'Total net immovable-property income: 23-24'
+    label: '23-24'
     ordinal: 24
     row_number: 231
     expected_row_header_column: A
@@ -6891,7 +6900,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_24_25
-    label: 'Total net immovable-property income: 24-25'
+    label: '24-25'
     ordinal: 25
     row_number: 232
     expected_row_header_column: A
@@ -6920,7 +6929,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_25_26
-    label: 'Total net immovable-property income: 25-26'
+    label: '25-26'
     ordinal: 26
     row_number: 233
     expected_row_header_column: A
@@ -6949,7 +6958,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_26_27
-    label: 'Total net immovable-property income: 26-27'
+    label: '26-27'
     ordinal: 27
     row_number: 234
     expected_row_header_column: A
@@ -6978,7 +6987,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_27_28
-    label: 'Total net immovable-property income: 27-28'
+    label: '27-28'
     ordinal: 28
     row_number: 235
     expected_row_header_column: A
@@ -7007,7 +7016,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_28_29
-    label: 'Total net immovable-property income: 28-29'
+    label: '28-29'
     ordinal: 29
     row_number: 236
     expected_row_header_column: A
@@ -7036,7 +7045,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_29_30
-    label: 'Total net immovable-property income: 29-30'
+    label: '29-30'
     ordinal: 30
     row_number: 237
     expected_row_header_column: A
@@ -7065,7 +7074,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_30_31
-    label: 'Total net immovable-property income: 30-31'
+    label: '30-31'
     ordinal: 31
     row_number: 238
     expected_row_header_column: A
@@ -7094,7 +7103,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_31_32
-    label: 'Total net immovable-property income: 31-32'
+    label: '31-32'
     ordinal: 32
     row_number: 239
     expected_row_header_column: A
@@ -7123,7 +7132,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_32_33
-    label: 'Total net immovable-property income: 32-33'
+    label: '32-33'
     ordinal: 33
     row_number: 240
     expected_row_header_column: A
@@ -7152,7 +7161,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_33_34
-    label: 'Total net immovable-property income: 33-34'
+    label: '33-34'
     ordinal: 34
     row_number: 241
     expected_row_header_column: A
@@ -7181,7 +7190,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_34_35
-    label: 'Total net immovable-property income: 34-35'
+    label: '34-35'
     ordinal: 35
     row_number: 242
     expected_row_header_column: A
@@ -7210,7 +7219,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_35_36
-    label: 'Total net immovable-property income: 35-36'
+    label: '35-36'
     ordinal: 36
     row_number: 243
     expected_row_header_column: A
@@ -7239,7 +7248,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_36_37
-    label: 'Total net immovable-property income: 36-37'
+    label: '36-37'
     ordinal: 37
     row_number: 244
     expected_row_header_column: A
@@ -7268,7 +7277,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_37_38
-    label: 'Total net immovable-property income: 37-38'
+    label: '37-38'
     ordinal: 38
     row_number: 245
     expected_row_header_column: A
@@ -7297,7 +7306,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_38_39
-    label: 'Total net immovable-property income: 38-39'
+    label: '38-39'
     ordinal: 39
     row_number: 246
     expected_row_header_column: A
@@ -7326,7 +7335,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_39_40
-    label: 'Total net immovable-property income: 39-40'
+    label: '39-40'
     ordinal: 40
     row_number: 247
     expected_row_header_column: A
@@ -7355,7 +7364,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_40_41
-    label: 'Total net immovable-property income: 40-41'
+    label: '40-41'
     ordinal: 41
     row_number: 248
     expected_row_header_column: A
@@ -7384,7 +7393,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_41_42
-    label: 'Total net immovable-property income: 41-42'
+    label: '41-42'
     ordinal: 42
     row_number: 249
     expected_row_header_column: A
@@ -7413,7 +7422,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_42_43
-    label: 'Total net immovable-property income: 42-43'
+    label: '42-43'
     ordinal: 43
     row_number: 250
     expected_row_header_column: A
@@ -7442,7 +7451,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_43_44
-    label: 'Total net immovable-property income: 43-44'
+    label: '43-44'
     ordinal: 44
     row_number: 251
     expected_row_header_column: A
@@ -7471,7 +7480,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_44_45
-    label: 'Total net immovable-property income: 44-45'
+    label: '44-45'
     ordinal: 45
     row_number: 252
     expected_row_header_column: A
@@ -7500,7 +7509,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_45_46
-    label: 'Total net immovable-property income: 45-46'
+    label: '45-46'
     ordinal: 46
     row_number: 253
     expected_row_header_column: A
@@ -7529,7 +7538,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_46_47
-    label: 'Total net immovable-property income: 46-47'
+    label: '46-47'
     ordinal: 47
     row_number: 254
     expected_row_header_column: A
@@ -7558,7 +7567,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_47_48
-    label: 'Total net immovable-property income: 47-48'
+    label: '47-48'
     ordinal: 48
     row_number: 255
     expected_row_header_column: A
@@ -7587,7 +7596,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_48_49
-    label: 'Total net immovable-property income: 48-49'
+    label: '48-49'
     ordinal: 49
     row_number: 256
     expected_row_header_column: A
@@ -7616,7 +7625,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_49_50
-    label: 'Total net immovable-property income: 49-50'
+    label: '49-50'
     ordinal: 50
     row_number: 257
     expected_row_header_column: A
@@ -7645,7 +7654,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_50_51
-    label: 'Total net immovable-property income: 50-51'
+    label: '50-51'
     ordinal: 51
     row_number: 258
     expected_row_header_column: A
@@ -7674,7 +7683,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_51_52
-    label: 'Total net immovable-property income: 51-52'
+    label: '51-52'
     ordinal: 52
     row_number: 259
     expected_row_header_column: A
@@ -7703,7 +7712,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_52_53
-    label: 'Total net immovable-property income: 52-53'
+    label: '52-53'
     ordinal: 53
     row_number: 260
     expected_row_header_column: A
@@ -7732,7 +7741,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_53_54
-    label: 'Total net immovable-property income: 53-54'
+    label: '53-54'
     ordinal: 54
     row_number: 261
     expected_row_header_column: A
@@ -7761,7 +7770,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_54_55
-    label: 'Total net immovable-property income: 54-55'
+    label: '54-55'
     ordinal: 55
     row_number: 262
     expected_row_header_column: A
@@ -7790,7 +7799,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_55_56
-    label: 'Total net immovable-property income: 55-56'
+    label: '55-56'
     ordinal: 56
     row_number: 263
     expected_row_header_column: A
@@ -7819,7 +7828,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_56_57
-    label: 'Total net immovable-property income: 56-57'
+    label: '56-57'
     ordinal: 57
     row_number: 264
     expected_row_header_column: A
@@ -7848,7 +7857,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_57_58
-    label: 'Total net immovable-property income: 57-58'
+    label: '57-58'
     ordinal: 58
     row_number: 265
     expected_row_header_column: A
@@ -7877,7 +7886,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_58_59
-    label: 'Total net immovable-property income: 58-59'
+    label: '58-59'
     ordinal: 59
     row_number: 266
     expected_row_header_column: A
@@ -7906,7 +7915,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_59_60
-    label: 'Total net immovable-property income: 59-60'
+    label: '59-60'
     ordinal: 60
     row_number: 267
     expected_row_header_column: A
@@ -7935,7 +7944,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_60_61
-    label: 'Total net immovable-property income: 60-61'
+    label: '60-61'
     ordinal: 61
     row_number: 268
     expected_row_header_column: A
@@ -7964,7 +7973,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_61_62
-    label: 'Total net immovable-property income: 61-62'
+    label: '61-62'
     ordinal: 62
     row_number: 269
     expected_row_header_column: A
@@ -7993,7 +8002,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_62_63
-    label: 'Total net immovable-property income: 62-63'
+    label: '62-63'
     ordinal: 63
     row_number: 270
     expected_row_header_column: A
@@ -8022,7 +8031,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_63_64
-    label: 'Total net immovable-property income: 63-64'
+    label: '63-64'
     ordinal: 64
     row_number: 271
     expected_row_header_column: A
@@ -8051,7 +8060,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_64_65
-    label: 'Total net immovable-property income: 64-65'
+    label: '64-65'
     ordinal: 65
     row_number: 272
     expected_row_header_column: A
@@ -8080,7 +8089,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_65_66
-    label: 'Total net immovable-property income: 65-66'
+    label: '65-66'
     ordinal: 66
     row_number: 273
     expected_row_header_column: A
@@ -8109,7 +8118,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_66_67
-    label: 'Total net immovable-property income: 66-67'
+    label: '66-67'
     ordinal: 67
     row_number: 274
     expected_row_header_column: A
@@ -8138,7 +8147,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_67_68
-    label: 'Total net immovable-property income: 67-68'
+    label: '67-68'
     ordinal: 68
     row_number: 275
     expected_row_header_column: A
@@ -8167,7 +8176,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_68_69
-    label: 'Total net immovable-property income: 68-69'
+    label: '68-69'
     ordinal: 69
     row_number: 276
     expected_row_header_column: A
@@ -8196,7 +8205,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_69_70
-    label: 'Total net immovable-property income: 69-70'
+    label: '69-70'
     ordinal: 70
     row_number: 277
     expected_row_header_column: A
@@ -8225,7 +8234,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_70_71
-    label: 'Total net immovable-property income: 70-71'
+    label: '70-71'
     ordinal: 71
     row_number: 278
     expected_row_header_column: A
@@ -8254,7 +8263,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_71_72
-    label: 'Total net immovable-property income: 71-72'
+    label: '71-72'
     ordinal: 72
     row_number: 279
     expected_row_header_column: A
@@ -8283,7 +8292,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_72_73
-    label: 'Total net immovable-property income: 72-73'
+    label: '72-73'
     ordinal: 73
     row_number: 280
     expected_row_header_column: A
@@ -8312,7 +8321,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_73_74
-    label: 'Total net immovable-property income: 73-74'
+    label: '73-74'
     ordinal: 74
     row_number: 281
     expected_row_header_column: A
@@ -8341,7 +8350,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_74_75
-    label: 'Total net immovable-property income: 74-75'
+    label: '74-75'
     ordinal: 75
     row_number: 282
     expected_row_header_column: A
@@ -8370,7 +8379,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_75_76
-    label: 'Total net immovable-property income: 75-76'
+    label: '75-76'
     ordinal: 76
     row_number: 283
     expected_row_header_column: A
@@ -8399,7 +8408,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_76_77
-    label: 'Total net immovable-property income: 76-77'
+    label: '76-77'
     ordinal: 77
     row_number: 284
     expected_row_header_column: A
@@ -8428,7 +8437,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_77_78
-    label: 'Total net immovable-property income: 77-78'
+    label: '77-78'
     ordinal: 78
     row_number: 285
     expected_row_header_column: A
@@ -8457,7 +8466,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_78_79
-    label: 'Total net immovable-property income: 78-79'
+    label: '78-79'
     ordinal: 79
     row_number: 286
     expected_row_header_column: A
@@ -8486,7 +8495,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_79_80
-    label: 'Total net immovable-property income: 79-80'
+    label: '79-80'
     ordinal: 80
     row_number: 287
     expected_row_header_column: A
@@ -8515,7 +8524,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_80_81
-    label: 'Total net immovable-property income: 80-81'
+    label: '80-81'
     ordinal: 81
     row_number: 288
     expected_row_header_column: A
@@ -8544,7 +8553,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_81_82
-    label: 'Total net immovable-property income: 81-82'
+    label: '81-82'
     ordinal: 82
     row_number: 289
     expected_row_header_column: A
@@ -8573,7 +8582,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_82_83
-    label: 'Total net immovable-property income: 82-83'
+    label: '82-83'
     ordinal: 83
     row_number: 290
     expected_row_header_column: A
@@ -8602,7 +8611,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_83_84
-    label: 'Total net immovable-property income: 83-84'
+    label: '83-84'
     ordinal: 84
     row_number: 291
     expected_row_header_column: A
@@ -8631,7 +8640,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_84_85
-    label: 'Total net immovable-property income: 84-85'
+    label: '84-85'
     ordinal: 85
     row_number: 292
     expected_row_header_column: A
@@ -8660,7 +8669,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_85_86
-    label: 'Total net immovable-property income: 85-86'
+    label: '85-86'
     ordinal: 86
     row_number: 293
     expected_row_header_column: A
@@ -8689,7 +8698,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_86_87
-    label: 'Total net immovable-property income: 86-87'
+    label: '86-87'
     ordinal: 87
     row_number: 294
     expected_row_header_column: A
@@ -8718,7 +8727,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_87_88
-    label: 'Total net immovable-property income: 87-88'
+    label: '87-88'
     ordinal: 88
     row_number: 295
     expected_row_header_column: A
@@ -8747,7 +8756,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_88_89
-    label: 'Total net immovable-property income: 88-89'
+    label: '88-89'
     ordinal: 89
     row_number: 296
     expected_row_header_column: A
@@ -8776,7 +8785,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_89_90
-    label: 'Total net immovable-property income: 89-90'
+    label: '89-90'
     ordinal: 90
     row_number: 297
     expected_row_header_column: A
@@ -8805,7 +8814,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_90_91
-    label: 'Total net immovable-property income: 90-91'
+    label: '90-91'
     ordinal: 91
     row_number: 298
     expected_row_header_column: A
@@ -8834,7 +8843,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_91_92
-    label: 'Total net immovable-property income: 91-92'
+    label: '91-92'
     ordinal: 92
     row_number: 299
     expected_row_header_column: A
@@ -8863,7 +8872,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_92_93
-    label: 'Total net immovable-property income: 92-93'
+    label: '92-93'
     ordinal: 93
     row_number: 300
     expected_row_header_column: A
@@ -8892,7 +8901,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_93_94
-    label: 'Total net immovable-property income: 93-94'
+    label: '93-94'
     ordinal: 94
     row_number: 301
     expected_row_header_column: A
@@ -8921,7 +8930,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_94_95
-    label: 'Total net immovable-property income: 94-95'
+    label: '94-95'
     ordinal: 95
     row_number: 302
     expected_row_header_column: A
@@ -8950,7 +8959,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_95_96
-    label: 'Total net immovable-property income: 95-96'
+    label: '95-96'
     ordinal: 96
     row_number: 303
     expected_row_header_column: A
@@ -8979,7 +8988,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_96_97
-    label: 'Total net immovable-property income: 96-97'
+    label: '96-97'
     ordinal: 97
     row_number: 304
     expected_row_header_column: A
@@ -9008,7 +9017,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_97_98
-    label: 'Total net immovable-property income: 97-98'
+    label: '97-98'
     ordinal: 98
     row_number: 305
     expected_row_header_column: A
@@ -9037,7 +9046,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_98_99
-    label: 'Total net immovable-property income: 98-99'
+    label: '98-99'
     ordinal: 99
     row_number: 306
     expected_row_header_column: A
@@ -9066,7 +9075,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_99_100
-    label: 'Total net immovable-property income: 99-100'
+    label: '99-100'
     ordinal: 100
     row_number: 307
     expected_row_header_column: A
@@ -9095,7 +9104,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_100_plus
-    label: 'Total net immovable-property income: 100 en meer'
+    label: '100 en meer'
     ordinal: 101
     row_number: 308
     expected_row_header_column: A
@@ -9221,7 +9230,7 @@ record_sets:
     label: Publisher assessment year
   rows: &id041
   - value_id: total
-    label: 'Total net capital and movable-property income: Totaal'
+    label: 'Totaal'
     ordinal: 0
     row_number: 309
     expected_row_header_column: A
@@ -9235,7 +9244,7 @@ record_sets:
     filters:
       tax_return.net_taxable_income_class: all
   - value_id: class_under_1
-    label: 'Total net capital and movable-property income: Minder dan 1'
+    label: 'Minder dan 1'
     ordinal: 1
     row_number: 310
     expected_row_header_column: A
@@ -9264,7 +9273,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_1_2
-    label: 'Total net capital and movable-property income: 1-2'
+    label: '1-2'
     ordinal: 2
     row_number: 311
     expected_row_header_column: A
@@ -9293,7 +9302,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_2_3
-    label: 'Total net capital and movable-property income: 2-3'
+    label: '2-3'
     ordinal: 3
     row_number: 312
     expected_row_header_column: A
@@ -9322,7 +9331,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_3_4
-    label: 'Total net capital and movable-property income: 3-4'
+    label: '3-4'
     ordinal: 4
     row_number: 313
     expected_row_header_column: A
@@ -9351,7 +9360,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_4_5
-    label: 'Total net capital and movable-property income: 4-5'
+    label: '4-5'
     ordinal: 5
     row_number: 314
     expected_row_header_column: A
@@ -9380,7 +9389,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_5_6
-    label: 'Total net capital and movable-property income: 5-6'
+    label: '5-6'
     ordinal: 6
     row_number: 315
     expected_row_header_column: A
@@ -9409,7 +9418,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_6_7
-    label: 'Total net capital and movable-property income: 6-7'
+    label: '6-7'
     ordinal: 7
     row_number: 316
     expected_row_header_column: A
@@ -9438,7 +9447,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_7_8
-    label: 'Total net capital and movable-property income: 7-8'
+    label: '7-8'
     ordinal: 8
     row_number: 317
     expected_row_header_column: A
@@ -9467,7 +9476,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_8_9
-    label: 'Total net capital and movable-property income: 8-9'
+    label: '8-9'
     ordinal: 9
     row_number: 318
     expected_row_header_column: A
@@ -9496,7 +9505,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_9_10
-    label: 'Total net capital and movable-property income: 9-10'
+    label: '9-10'
     ordinal: 10
     row_number: 319
     expected_row_header_column: A
@@ -9525,7 +9534,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_10_11
-    label: 'Total net capital and movable-property income: 10-11'
+    label: '10-11'
     ordinal: 11
     row_number: 320
     expected_row_header_column: A
@@ -9554,7 +9563,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_11_12
-    label: 'Total net capital and movable-property income: 11-12'
+    label: '11-12'
     ordinal: 12
     row_number: 321
     expected_row_header_column: A
@@ -9583,7 +9592,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_12_13
-    label: 'Total net capital and movable-property income: 12-13'
+    label: '12-13'
     ordinal: 13
     row_number: 322
     expected_row_header_column: A
@@ -9612,7 +9621,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_13_14
-    label: 'Total net capital and movable-property income: 13-14'
+    label: '13-14'
     ordinal: 14
     row_number: 323
     expected_row_header_column: A
@@ -9641,7 +9650,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_14_15
-    label: 'Total net capital and movable-property income: 14-15'
+    label: '14-15'
     ordinal: 15
     row_number: 324
     expected_row_header_column: A
@@ -9670,7 +9679,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_15_16
-    label: 'Total net capital and movable-property income: 15-16'
+    label: '15-16'
     ordinal: 16
     row_number: 325
     expected_row_header_column: A
@@ -9699,7 +9708,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_16_17
-    label: 'Total net capital and movable-property income: 16-17'
+    label: '16-17'
     ordinal: 17
     row_number: 326
     expected_row_header_column: A
@@ -9728,7 +9737,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_17_18
-    label: 'Total net capital and movable-property income: 17-18'
+    label: '17-18'
     ordinal: 18
     row_number: 327
     expected_row_header_column: A
@@ -9757,7 +9766,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_18_19
-    label: 'Total net capital and movable-property income: 18-19'
+    label: '18-19'
     ordinal: 19
     row_number: 328
     expected_row_header_column: A
@@ -9786,7 +9795,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_19_20
-    label: 'Total net capital and movable-property income: 19-20'
+    label: '19-20'
     ordinal: 20
     row_number: 329
     expected_row_header_column: A
@@ -9815,7 +9824,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_20_21
-    label: 'Total net capital and movable-property income: 20-21'
+    label: '20-21'
     ordinal: 21
     row_number: 330
     expected_row_header_column: A
@@ -9844,7 +9853,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_21_22
-    label: 'Total net capital and movable-property income: 21-22'
+    label: '21-22'
     ordinal: 22
     row_number: 331
     expected_row_header_column: A
@@ -9873,7 +9882,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_22_23
-    label: 'Total net capital and movable-property income: 22-23'
+    label: '22-23'
     ordinal: 23
     row_number: 332
     expected_row_header_column: A
@@ -9902,7 +9911,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_23_24
-    label: 'Total net capital and movable-property income: 23-24'
+    label: '23-24'
     ordinal: 24
     row_number: 333
     expected_row_header_column: A
@@ -9931,7 +9940,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_24_25
-    label: 'Total net capital and movable-property income: 24-25'
+    label: '24-25'
     ordinal: 25
     row_number: 334
     expected_row_header_column: A
@@ -9960,7 +9969,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_25_26
-    label: 'Total net capital and movable-property income: 25-26'
+    label: '25-26'
     ordinal: 26
     row_number: 335
     expected_row_header_column: A
@@ -9989,7 +9998,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_26_27
-    label: 'Total net capital and movable-property income: 26-27'
+    label: '26-27'
     ordinal: 27
     row_number: 336
     expected_row_header_column: A
@@ -10018,7 +10027,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_27_28
-    label: 'Total net capital and movable-property income: 27-28'
+    label: '27-28'
     ordinal: 28
     row_number: 337
     expected_row_header_column: A
@@ -10047,7 +10056,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_28_29
-    label: 'Total net capital and movable-property income: 28-29'
+    label: '28-29'
     ordinal: 29
     row_number: 338
     expected_row_header_column: A
@@ -10076,7 +10085,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_29_30
-    label: 'Total net capital and movable-property income: 29-30'
+    label: '29-30'
     ordinal: 30
     row_number: 339
     expected_row_header_column: A
@@ -10105,7 +10114,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_30_31
-    label: 'Total net capital and movable-property income: 30-31'
+    label: '30-31'
     ordinal: 31
     row_number: 340
     expected_row_header_column: A
@@ -10134,7 +10143,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_31_32
-    label: 'Total net capital and movable-property income: 31-32'
+    label: '31-32'
     ordinal: 32
     row_number: 341
     expected_row_header_column: A
@@ -10163,7 +10172,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_32_33
-    label: 'Total net capital and movable-property income: 32-33'
+    label: '32-33'
     ordinal: 33
     row_number: 342
     expected_row_header_column: A
@@ -10192,7 +10201,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_33_34
-    label: 'Total net capital and movable-property income: 33-34'
+    label: '33-34'
     ordinal: 34
     row_number: 343
     expected_row_header_column: A
@@ -10221,7 +10230,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_34_35
-    label: 'Total net capital and movable-property income: 34-35'
+    label: '34-35'
     ordinal: 35
     row_number: 344
     expected_row_header_column: A
@@ -10250,7 +10259,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_35_36
-    label: 'Total net capital and movable-property income: 35-36'
+    label: '35-36'
     ordinal: 36
     row_number: 345
     expected_row_header_column: A
@@ -10279,7 +10288,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_36_37
-    label: 'Total net capital and movable-property income: 36-37'
+    label: '36-37'
     ordinal: 37
     row_number: 346
     expected_row_header_column: A
@@ -10308,7 +10317,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_37_38
-    label: 'Total net capital and movable-property income: 37-38'
+    label: '37-38'
     ordinal: 38
     row_number: 347
     expected_row_header_column: A
@@ -10337,7 +10346,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_38_39
-    label: 'Total net capital and movable-property income: 38-39'
+    label: '38-39'
     ordinal: 39
     row_number: 348
     expected_row_header_column: A
@@ -10366,7 +10375,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_39_40
-    label: 'Total net capital and movable-property income: 39-40'
+    label: '39-40'
     ordinal: 40
     row_number: 349
     expected_row_header_column: A
@@ -10395,7 +10404,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_40_41
-    label: 'Total net capital and movable-property income: 40-41'
+    label: '40-41'
     ordinal: 41
     row_number: 350
     expected_row_header_column: A
@@ -10424,7 +10433,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_41_42
-    label: 'Total net capital and movable-property income: 41-42'
+    label: '41-42'
     ordinal: 42
     row_number: 351
     expected_row_header_column: A
@@ -10453,7 +10462,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_42_43
-    label: 'Total net capital and movable-property income: 42-43'
+    label: '42-43'
     ordinal: 43
     row_number: 352
     expected_row_header_column: A
@@ -10482,7 +10491,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_43_44
-    label: 'Total net capital and movable-property income: 43-44'
+    label: '43-44'
     ordinal: 44
     row_number: 353
     expected_row_header_column: A
@@ -10511,7 +10520,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_44_45
-    label: 'Total net capital and movable-property income: 44-45'
+    label: '44-45'
     ordinal: 45
     row_number: 354
     expected_row_header_column: A
@@ -10540,7 +10549,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_45_46
-    label: 'Total net capital and movable-property income: 45-46'
+    label: '45-46'
     ordinal: 46
     row_number: 355
     expected_row_header_column: A
@@ -10569,7 +10578,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_46_47
-    label: 'Total net capital and movable-property income: 46-47'
+    label: '46-47'
     ordinal: 47
     row_number: 356
     expected_row_header_column: A
@@ -10598,7 +10607,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_47_48
-    label: 'Total net capital and movable-property income: 47-48'
+    label: '47-48'
     ordinal: 48
     row_number: 357
     expected_row_header_column: A
@@ -10627,7 +10636,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_48_49
-    label: 'Total net capital and movable-property income: 48-49'
+    label: '48-49'
     ordinal: 49
     row_number: 358
     expected_row_header_column: A
@@ -10656,7 +10665,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_49_50
-    label: 'Total net capital and movable-property income: 49-50'
+    label: '49-50'
     ordinal: 50
     row_number: 359
     expected_row_header_column: A
@@ -10685,7 +10694,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_50_51
-    label: 'Total net capital and movable-property income: 50-51'
+    label: '50-51'
     ordinal: 51
     row_number: 360
     expected_row_header_column: A
@@ -10714,7 +10723,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_51_52
-    label: 'Total net capital and movable-property income: 51-52'
+    label: '51-52'
     ordinal: 52
     row_number: 361
     expected_row_header_column: A
@@ -10743,7 +10752,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_52_53
-    label: 'Total net capital and movable-property income: 52-53'
+    label: '52-53'
     ordinal: 53
     row_number: 362
     expected_row_header_column: A
@@ -10772,7 +10781,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_53_54
-    label: 'Total net capital and movable-property income: 53-54'
+    label: '53-54'
     ordinal: 54
     row_number: 363
     expected_row_header_column: A
@@ -10801,7 +10810,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_54_55
-    label: 'Total net capital and movable-property income: 54-55'
+    label: '54-55'
     ordinal: 55
     row_number: 364
     expected_row_header_column: A
@@ -10830,7 +10839,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_55_56
-    label: 'Total net capital and movable-property income: 55-56'
+    label: '55-56'
     ordinal: 56
     row_number: 365
     expected_row_header_column: A
@@ -10859,7 +10868,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_56_57
-    label: 'Total net capital and movable-property income: 56-57'
+    label: '56-57'
     ordinal: 57
     row_number: 366
     expected_row_header_column: A
@@ -10888,7 +10897,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_57_58
-    label: 'Total net capital and movable-property income: 57-58'
+    label: '57-58'
     ordinal: 58
     row_number: 367
     expected_row_header_column: A
@@ -10917,7 +10926,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_58_59
-    label: 'Total net capital and movable-property income: 58-59'
+    label: '58-59'
     ordinal: 59
     row_number: 368
     expected_row_header_column: A
@@ -10946,7 +10955,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_59_60
-    label: 'Total net capital and movable-property income: 59-60'
+    label: '59-60'
     ordinal: 60
     row_number: 369
     expected_row_header_column: A
@@ -10975,7 +10984,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_60_61
-    label: 'Total net capital and movable-property income: 60-61'
+    label: '60-61'
     ordinal: 61
     row_number: 370
     expected_row_header_column: A
@@ -11004,7 +11013,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_61_62
-    label: 'Total net capital and movable-property income: 61-62'
+    label: '61-62'
     ordinal: 62
     row_number: 371
     expected_row_header_column: A
@@ -11033,7 +11042,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_62_63
-    label: 'Total net capital and movable-property income: 62-63'
+    label: '62-63'
     ordinal: 63
     row_number: 372
     expected_row_header_column: A
@@ -11062,7 +11071,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_63_64
-    label: 'Total net capital and movable-property income: 63-64'
+    label: '63-64'
     ordinal: 64
     row_number: 373
     expected_row_header_column: A
@@ -11091,7 +11100,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_64_65
-    label: 'Total net capital and movable-property income: 64-65'
+    label: '64-65'
     ordinal: 65
     row_number: 374
     expected_row_header_column: A
@@ -11120,7 +11129,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_65_66
-    label: 'Total net capital and movable-property income: 65-66'
+    label: '65-66'
     ordinal: 66
     row_number: 375
     expected_row_header_column: A
@@ -11149,7 +11158,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_66_67
-    label: 'Total net capital and movable-property income: 66-67'
+    label: '66-67'
     ordinal: 67
     row_number: 376
     expected_row_header_column: A
@@ -11178,7 +11187,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_67_68
-    label: 'Total net capital and movable-property income: 67-68'
+    label: '67-68'
     ordinal: 68
     row_number: 377
     expected_row_header_column: A
@@ -11207,7 +11216,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_68_69
-    label: 'Total net capital and movable-property income: 68-69'
+    label: '68-69'
     ordinal: 69
     row_number: 378
     expected_row_header_column: A
@@ -11236,7 +11245,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_69_70
-    label: 'Total net capital and movable-property income: 69-70'
+    label: '69-70'
     ordinal: 70
     row_number: 379
     expected_row_header_column: A
@@ -11265,7 +11274,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_70_71
-    label: 'Total net capital and movable-property income: 70-71'
+    label: '70-71'
     ordinal: 71
     row_number: 380
     expected_row_header_column: A
@@ -11294,7 +11303,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_71_72
-    label: 'Total net capital and movable-property income: 71-72'
+    label: '71-72'
     ordinal: 72
     row_number: 381
     expected_row_header_column: A
@@ -11323,7 +11332,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_72_73
-    label: 'Total net capital and movable-property income: 72-73'
+    label: '72-73'
     ordinal: 73
     row_number: 382
     expected_row_header_column: A
@@ -11352,7 +11361,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_73_74
-    label: 'Total net capital and movable-property income: 73-74'
+    label: '73-74'
     ordinal: 74
     row_number: 383
     expected_row_header_column: A
@@ -11381,7 +11390,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_74_75
-    label: 'Total net capital and movable-property income: 74-75'
+    label: '74-75'
     ordinal: 75
     row_number: 384
     expected_row_header_column: A
@@ -11410,7 +11419,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_75_76
-    label: 'Total net capital and movable-property income: 75-76'
+    label: '75-76'
     ordinal: 76
     row_number: 385
     expected_row_header_column: A
@@ -11439,7 +11448,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_76_77
-    label: 'Total net capital and movable-property income: 76-77'
+    label: '76-77'
     ordinal: 77
     row_number: 386
     expected_row_header_column: A
@@ -11468,7 +11477,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_77_78
-    label: 'Total net capital and movable-property income: 77-78'
+    label: '77-78'
     ordinal: 78
     row_number: 387
     expected_row_header_column: A
@@ -11497,7 +11506,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_78_79
-    label: 'Total net capital and movable-property income: 78-79'
+    label: '78-79'
     ordinal: 79
     row_number: 388
     expected_row_header_column: A
@@ -11526,7 +11535,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_79_80
-    label: 'Total net capital and movable-property income: 79-80'
+    label: '79-80'
     ordinal: 80
     row_number: 389
     expected_row_header_column: A
@@ -11555,7 +11564,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_80_81
-    label: 'Total net capital and movable-property income: 80-81'
+    label: '80-81'
     ordinal: 81
     row_number: 390
     expected_row_header_column: A
@@ -11584,7 +11593,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_81_82
-    label: 'Total net capital and movable-property income: 81-82'
+    label: '81-82'
     ordinal: 82
     row_number: 391
     expected_row_header_column: A
@@ -11613,7 +11622,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_82_83
-    label: 'Total net capital and movable-property income: 82-83'
+    label: '82-83'
     ordinal: 83
     row_number: 392
     expected_row_header_column: A
@@ -11642,7 +11651,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_83_84
-    label: 'Total net capital and movable-property income: 83-84'
+    label: '83-84'
     ordinal: 84
     row_number: 393
     expected_row_header_column: A
@@ -11671,7 +11680,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_84_85
-    label: 'Total net capital and movable-property income: 84-85'
+    label: '84-85'
     ordinal: 85
     row_number: 394
     expected_row_header_column: A
@@ -11700,7 +11709,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_85_86
-    label: 'Total net capital and movable-property income: 85-86'
+    label: '85-86'
     ordinal: 86
     row_number: 395
     expected_row_header_column: A
@@ -11729,7 +11738,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_86_87
-    label: 'Total net capital and movable-property income: 86-87'
+    label: '86-87'
     ordinal: 87
     row_number: 396
     expected_row_header_column: A
@@ -11758,7 +11767,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_87_88
-    label: 'Total net capital and movable-property income: 87-88'
+    label: '87-88'
     ordinal: 88
     row_number: 397
     expected_row_header_column: A
@@ -11787,7 +11796,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_88_89
-    label: 'Total net capital and movable-property income: 88-89'
+    label: '88-89'
     ordinal: 89
     row_number: 398
     expected_row_header_column: A
@@ -11816,7 +11825,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_89_90
-    label: 'Total net capital and movable-property income: 89-90'
+    label: '89-90'
     ordinal: 90
     row_number: 399
     expected_row_header_column: A
@@ -11845,7 +11854,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_90_91
-    label: 'Total net capital and movable-property income: 90-91'
+    label: '90-91'
     ordinal: 91
     row_number: 400
     expected_row_header_column: A
@@ -11874,7 +11883,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_91_92
-    label: 'Total net capital and movable-property income: 91-92'
+    label: '91-92'
     ordinal: 92
     row_number: 401
     expected_row_header_column: A
@@ -11903,7 +11912,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_92_93
-    label: 'Total net capital and movable-property income: 92-93'
+    label: '92-93'
     ordinal: 93
     row_number: 402
     expected_row_header_column: A
@@ -11932,7 +11941,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_93_94
-    label: 'Total net capital and movable-property income: 93-94'
+    label: '93-94'
     ordinal: 94
     row_number: 403
     expected_row_header_column: A
@@ -11961,7 +11970,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_94_95
-    label: 'Total net capital and movable-property income: 94-95'
+    label: '94-95'
     ordinal: 95
     row_number: 404
     expected_row_header_column: A
@@ -11990,7 +11999,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_95_96
-    label: 'Total net capital and movable-property income: 95-96'
+    label: '95-96'
     ordinal: 96
     row_number: 405
     expected_row_header_column: A
@@ -12019,7 +12028,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_96_97
-    label: 'Total net capital and movable-property income: 96-97'
+    label: '96-97'
     ordinal: 97
     row_number: 406
     expected_row_header_column: A
@@ -12048,7 +12057,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_97_98
-    label: 'Total net capital and movable-property income: 97-98'
+    label: '97-98'
     ordinal: 98
     row_number: 407
     expected_row_header_column: A
@@ -12077,7 +12086,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_98_99
-    label: 'Total net capital and movable-property income: 98-99'
+    label: '98-99'
     ordinal: 99
     row_number: 408
     expected_row_header_column: A
@@ -12106,7 +12115,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_99_100
-    label: 'Total net capital and movable-property income: 99-100'
+    label: '99-100'
     ordinal: 100
     row_number: 409
     expected_row_header_column: A
@@ -12135,7 +12144,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_100_plus
-    label: 'Total net capital and movable-property income: 100 en meer'
+    label: '100 en meer'
     ordinal: 101
     row_number: 410
     expected_row_header_column: A
@@ -12261,7 +12270,7 @@ record_sets:
     label: Publisher assessment year
   rows: &id042
   - value_id: total
-    label: 'Total net miscellaneous income: Totaal'
+    label: 'Totaal'
     ordinal: 0
     row_number: 411
     expected_row_header_column: A
@@ -12275,7 +12284,7 @@ record_sets:
     filters:
       tax_return.net_taxable_income_class: all
   - value_id: class_under_1
-    label: 'Total net miscellaneous income: Minder dan 1'
+    label: 'Minder dan 1'
     ordinal: 1
     row_number: 412
     expected_row_header_column: A
@@ -12304,7 +12313,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_1_2
-    label: 'Total net miscellaneous income: 1-2'
+    label: '1-2'
     ordinal: 2
     row_number: 413
     expected_row_header_column: A
@@ -12333,7 +12342,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_2_3
-    label: 'Total net miscellaneous income: 2-3'
+    label: '2-3'
     ordinal: 3
     row_number: 414
     expected_row_header_column: A
@@ -12362,7 +12371,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_3_4
-    label: 'Total net miscellaneous income: 3-4'
+    label: '3-4'
     ordinal: 4
     row_number: 415
     expected_row_header_column: A
@@ -12391,7 +12400,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_4_5
-    label: 'Total net miscellaneous income: 4-5'
+    label: '4-5'
     ordinal: 5
     row_number: 416
     expected_row_header_column: A
@@ -12420,7 +12429,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_5_6
-    label: 'Total net miscellaneous income: 5-6'
+    label: '5-6'
     ordinal: 6
     row_number: 417
     expected_row_header_column: A
@@ -12449,7 +12458,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_6_7
-    label: 'Total net miscellaneous income: 6-7'
+    label: '6-7'
     ordinal: 7
     row_number: 418
     expected_row_header_column: A
@@ -12478,7 +12487,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_7_8
-    label: 'Total net miscellaneous income: 7-8'
+    label: '7-8'
     ordinal: 8
     row_number: 419
     expected_row_header_column: A
@@ -12507,7 +12516,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_8_9
-    label: 'Total net miscellaneous income: 8-9'
+    label: '8-9'
     ordinal: 9
     row_number: 420
     expected_row_header_column: A
@@ -12536,7 +12545,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_9_10
-    label: 'Total net miscellaneous income: 9-10'
+    label: '9-10'
     ordinal: 10
     row_number: 421
     expected_row_header_column: A
@@ -12565,7 +12574,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_10_11
-    label: 'Total net miscellaneous income: 10-11'
+    label: '10-11'
     ordinal: 11
     row_number: 422
     expected_row_header_column: A
@@ -12594,7 +12603,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_11_12
-    label: 'Total net miscellaneous income: 11-12'
+    label: '11-12'
     ordinal: 12
     row_number: 423
     expected_row_header_column: A
@@ -12623,7 +12632,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_12_13
-    label: 'Total net miscellaneous income: 12-13'
+    label: '12-13'
     ordinal: 13
     row_number: 424
     expected_row_header_column: A
@@ -12652,7 +12661,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_13_14
-    label: 'Total net miscellaneous income: 13-14'
+    label: '13-14'
     ordinal: 14
     row_number: 425
     expected_row_header_column: A
@@ -12681,7 +12690,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_14_15
-    label: 'Total net miscellaneous income: 14-15'
+    label: '14-15'
     ordinal: 15
     row_number: 426
     expected_row_header_column: A
@@ -12710,7 +12719,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_15_16
-    label: 'Total net miscellaneous income: 15-16'
+    label: '15-16'
     ordinal: 16
     row_number: 427
     expected_row_header_column: A
@@ -12739,7 +12748,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_16_17
-    label: 'Total net miscellaneous income: 16-17'
+    label: '16-17'
     ordinal: 17
     row_number: 428
     expected_row_header_column: A
@@ -12768,7 +12777,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_17_18
-    label: 'Total net miscellaneous income: 17-18'
+    label: '17-18'
     ordinal: 18
     row_number: 429
     expected_row_header_column: A
@@ -12797,7 +12806,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_18_19
-    label: 'Total net miscellaneous income: 18-19'
+    label: '18-19'
     ordinal: 19
     row_number: 430
     expected_row_header_column: A
@@ -12826,7 +12835,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_19_20
-    label: 'Total net miscellaneous income: 19-20'
+    label: '19-20'
     ordinal: 20
     row_number: 431
     expected_row_header_column: A
@@ -12855,7 +12864,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_20_21
-    label: 'Total net miscellaneous income: 20-21'
+    label: '20-21'
     ordinal: 21
     row_number: 432
     expected_row_header_column: A
@@ -12884,7 +12893,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_21_22
-    label: 'Total net miscellaneous income: 21-22'
+    label: '21-22'
     ordinal: 22
     row_number: 433
     expected_row_header_column: A
@@ -12913,7 +12922,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_22_23
-    label: 'Total net miscellaneous income: 22-23'
+    label: '22-23'
     ordinal: 23
     row_number: 434
     expected_row_header_column: A
@@ -12942,7 +12951,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_23_24
-    label: 'Total net miscellaneous income: 23-24'
+    label: '23-24'
     ordinal: 24
     row_number: 435
     expected_row_header_column: A
@@ -12971,7 +12980,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_24_25
-    label: 'Total net miscellaneous income: 24-25'
+    label: '24-25'
     ordinal: 25
     row_number: 436
     expected_row_header_column: A
@@ -13000,7 +13009,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_25_26
-    label: 'Total net miscellaneous income: 25-26'
+    label: '25-26'
     ordinal: 26
     row_number: 437
     expected_row_header_column: A
@@ -13029,7 +13038,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_26_27
-    label: 'Total net miscellaneous income: 26-27'
+    label: '26-27'
     ordinal: 27
     row_number: 438
     expected_row_header_column: A
@@ -13058,7 +13067,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_27_28
-    label: 'Total net miscellaneous income: 27-28'
+    label: '27-28'
     ordinal: 28
     row_number: 439
     expected_row_header_column: A
@@ -13087,7 +13096,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_28_29
-    label: 'Total net miscellaneous income: 28-29'
+    label: '28-29'
     ordinal: 29
     row_number: 440
     expected_row_header_column: A
@@ -13116,7 +13125,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_29_30
-    label: 'Total net miscellaneous income: 29-30'
+    label: '29-30'
     ordinal: 30
     row_number: 441
     expected_row_header_column: A
@@ -13145,7 +13154,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_30_31
-    label: 'Total net miscellaneous income: 30-31'
+    label: '30-31'
     ordinal: 31
     row_number: 442
     expected_row_header_column: A
@@ -13174,7 +13183,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_31_32
-    label: 'Total net miscellaneous income: 31-32'
+    label: '31-32'
     ordinal: 32
     row_number: 443
     expected_row_header_column: A
@@ -13203,7 +13212,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_32_33
-    label: 'Total net miscellaneous income: 32-33'
+    label: '32-33'
     ordinal: 33
     row_number: 444
     expected_row_header_column: A
@@ -13232,7 +13241,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_33_34
-    label: 'Total net miscellaneous income: 33-34'
+    label: '33-34'
     ordinal: 34
     row_number: 445
     expected_row_header_column: A
@@ -13261,7 +13270,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_34_35
-    label: 'Total net miscellaneous income: 34-35'
+    label: '34-35'
     ordinal: 35
     row_number: 446
     expected_row_header_column: A
@@ -13290,7 +13299,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_35_36
-    label: 'Total net miscellaneous income: 35-36'
+    label: '35-36'
     ordinal: 36
     row_number: 447
     expected_row_header_column: A
@@ -13319,7 +13328,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_36_37
-    label: 'Total net miscellaneous income: 36-37'
+    label: '36-37'
     ordinal: 37
     row_number: 448
     expected_row_header_column: A
@@ -13348,7 +13357,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_37_38
-    label: 'Total net miscellaneous income: 37-38'
+    label: '37-38'
     ordinal: 38
     row_number: 449
     expected_row_header_column: A
@@ -13377,7 +13386,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_38_39
-    label: 'Total net miscellaneous income: 38-39'
+    label: '38-39'
     ordinal: 39
     row_number: 450
     expected_row_header_column: A
@@ -13406,7 +13415,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_39_40
-    label: 'Total net miscellaneous income: 39-40'
+    label: '39-40'
     ordinal: 40
     row_number: 451
     expected_row_header_column: A
@@ -13435,7 +13444,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_40_41
-    label: 'Total net miscellaneous income: 40-41'
+    label: '40-41'
     ordinal: 41
     row_number: 452
     expected_row_header_column: A
@@ -13464,7 +13473,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_41_42
-    label: 'Total net miscellaneous income: 41-42'
+    label: '41-42'
     ordinal: 42
     row_number: 453
     expected_row_header_column: A
@@ -13493,7 +13502,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_42_43
-    label: 'Total net miscellaneous income: 42-43'
+    label: '42-43'
     ordinal: 43
     row_number: 454
     expected_row_header_column: A
@@ -13522,7 +13531,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_43_44
-    label: 'Total net miscellaneous income: 43-44'
+    label: '43-44'
     ordinal: 44
     row_number: 455
     expected_row_header_column: A
@@ -13551,7 +13560,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_44_45
-    label: 'Total net miscellaneous income: 44-45'
+    label: '44-45'
     ordinal: 45
     row_number: 456
     expected_row_header_column: A
@@ -13580,7 +13589,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_45_46
-    label: 'Total net miscellaneous income: 45-46'
+    label: '45-46'
     ordinal: 46
     row_number: 457
     expected_row_header_column: A
@@ -13609,7 +13618,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_46_47
-    label: 'Total net miscellaneous income: 46-47'
+    label: '46-47'
     ordinal: 47
     row_number: 458
     expected_row_header_column: A
@@ -13638,7 +13647,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_47_48
-    label: 'Total net miscellaneous income: 47-48'
+    label: '47-48'
     ordinal: 48
     row_number: 459
     expected_row_header_column: A
@@ -13667,7 +13676,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_48_49
-    label: 'Total net miscellaneous income: 48-49'
+    label: '48-49'
     ordinal: 49
     row_number: 460
     expected_row_header_column: A
@@ -13696,7 +13705,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_49_50
-    label: 'Total net miscellaneous income: 49-50'
+    label: '49-50'
     ordinal: 50
     row_number: 461
     expected_row_header_column: A
@@ -13725,7 +13734,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_50_51
-    label: 'Total net miscellaneous income: 50-51'
+    label: '50-51'
     ordinal: 51
     row_number: 462
     expected_row_header_column: A
@@ -13754,7 +13763,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_51_52
-    label: 'Total net miscellaneous income: 51-52'
+    label: '51-52'
     ordinal: 52
     row_number: 463
     expected_row_header_column: A
@@ -13783,7 +13792,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_52_53
-    label: 'Total net miscellaneous income: 52-53'
+    label: '52-53'
     ordinal: 53
     row_number: 464
     expected_row_header_column: A
@@ -13812,7 +13821,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_53_54
-    label: 'Total net miscellaneous income: 53-54'
+    label: '53-54'
     ordinal: 54
     row_number: 465
     expected_row_header_column: A
@@ -13841,7 +13850,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_54_55
-    label: 'Total net miscellaneous income: 54-55'
+    label: '54-55'
     ordinal: 55
     row_number: 466
     expected_row_header_column: A
@@ -13870,7 +13879,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_55_56
-    label: 'Total net miscellaneous income: 55-56'
+    label: '55-56'
     ordinal: 56
     row_number: 467
     expected_row_header_column: A
@@ -13899,7 +13908,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_56_57
-    label: 'Total net miscellaneous income: 56-57'
+    label: '56-57'
     ordinal: 57
     row_number: 468
     expected_row_header_column: A
@@ -13928,7 +13937,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_57_58
-    label: 'Total net miscellaneous income: 57-58'
+    label: '57-58'
     ordinal: 58
     row_number: 469
     expected_row_header_column: A
@@ -13957,7 +13966,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_58_59
-    label: 'Total net miscellaneous income: 58-59'
+    label: '58-59'
     ordinal: 59
     row_number: 470
     expected_row_header_column: A
@@ -13986,7 +13995,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_59_60
-    label: 'Total net miscellaneous income: 59-60'
+    label: '59-60'
     ordinal: 60
     row_number: 471
     expected_row_header_column: A
@@ -14015,7 +14024,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_60_61
-    label: 'Total net miscellaneous income: 60-61'
+    label: '60-61'
     ordinal: 61
     row_number: 472
     expected_row_header_column: A
@@ -14044,7 +14053,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_61_62
-    label: 'Total net miscellaneous income: 61-62'
+    label: '61-62'
     ordinal: 62
     row_number: 473
     expected_row_header_column: A
@@ -14073,7 +14082,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_62_63
-    label: 'Total net miscellaneous income: 62-63'
+    label: '62-63'
     ordinal: 63
     row_number: 474
     expected_row_header_column: A
@@ -14102,7 +14111,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_63_64
-    label: 'Total net miscellaneous income: 63-64'
+    label: '63-64'
     ordinal: 64
     row_number: 475
     expected_row_header_column: A
@@ -14131,7 +14140,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_64_65
-    label: 'Total net miscellaneous income: 64-65'
+    label: '64-65'
     ordinal: 65
     row_number: 476
     expected_row_header_column: A
@@ -14160,7 +14169,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_65_66
-    label: 'Total net miscellaneous income: 65-66'
+    label: '65-66'
     ordinal: 66
     row_number: 477
     expected_row_header_column: A
@@ -14189,7 +14198,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_66_67
-    label: 'Total net miscellaneous income: 66-67'
+    label: '66-67'
     ordinal: 67
     row_number: 478
     expected_row_header_column: A
@@ -14218,7 +14227,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_67_68
-    label: 'Total net miscellaneous income: 67-68'
+    label: '67-68'
     ordinal: 68
     row_number: 479
     expected_row_header_column: A
@@ -14247,7 +14256,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_68_69
-    label: 'Total net miscellaneous income: 68-69'
+    label: '68-69'
     ordinal: 69
     row_number: 480
     expected_row_header_column: A
@@ -14276,7 +14285,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_69_70
-    label: 'Total net miscellaneous income: 69-70'
+    label: '69-70'
     ordinal: 70
     row_number: 481
     expected_row_header_column: A
@@ -14305,7 +14314,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_70_71
-    label: 'Total net miscellaneous income: 70-71'
+    label: '70-71'
     ordinal: 71
     row_number: 482
     expected_row_header_column: A
@@ -14334,7 +14343,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_71_72
-    label: 'Total net miscellaneous income: 71-72'
+    label: '71-72'
     ordinal: 72
     row_number: 483
     expected_row_header_column: A
@@ -14363,7 +14372,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_72_73
-    label: 'Total net miscellaneous income: 72-73'
+    label: '72-73'
     ordinal: 73
     row_number: 484
     expected_row_header_column: A
@@ -14392,7 +14401,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_73_74
-    label: 'Total net miscellaneous income: 73-74'
+    label: '73-74'
     ordinal: 74
     row_number: 485
     expected_row_header_column: A
@@ -14421,7 +14430,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_74_75
-    label: 'Total net miscellaneous income: 74-75'
+    label: '74-75'
     ordinal: 75
     row_number: 486
     expected_row_header_column: A
@@ -14450,7 +14459,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_75_76
-    label: 'Total net miscellaneous income: 75-76'
+    label: '75-76'
     ordinal: 76
     row_number: 487
     expected_row_header_column: A
@@ -14479,7 +14488,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_76_77
-    label: 'Total net miscellaneous income: 76-77'
+    label: '76-77'
     ordinal: 77
     row_number: 488
     expected_row_header_column: A
@@ -14508,7 +14517,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_77_78
-    label: 'Total net miscellaneous income: 77-78'
+    label: '77-78'
     ordinal: 78
     row_number: 489
     expected_row_header_column: A
@@ -14537,7 +14546,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_78_79
-    label: 'Total net miscellaneous income: 78-79'
+    label: '78-79'
     ordinal: 79
     row_number: 490
     expected_row_header_column: A
@@ -14566,7 +14575,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_79_80
-    label: 'Total net miscellaneous income: 79-80'
+    label: '79-80'
     ordinal: 80
     row_number: 491
     expected_row_header_column: A
@@ -14595,7 +14604,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_80_81
-    label: 'Total net miscellaneous income: 80-81'
+    label: '80-81'
     ordinal: 81
     row_number: 492
     expected_row_header_column: A
@@ -14624,7 +14633,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_81_82
-    label: 'Total net miscellaneous income: 81-82'
+    label: '81-82'
     ordinal: 82
     row_number: 493
     expected_row_header_column: A
@@ -14653,7 +14662,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_82_83
-    label: 'Total net miscellaneous income: 82-83'
+    label: '82-83'
     ordinal: 83
     row_number: 494
     expected_row_header_column: A
@@ -14682,7 +14691,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_83_84
-    label: 'Total net miscellaneous income: 83-84'
+    label: '83-84'
     ordinal: 84
     row_number: 495
     expected_row_header_column: A
@@ -14711,7 +14720,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_84_85
-    label: 'Total net miscellaneous income: 84-85'
+    label: '84-85'
     ordinal: 85
     row_number: 496
     expected_row_header_column: A
@@ -14740,7 +14749,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_85_86
-    label: 'Total net miscellaneous income: 85-86'
+    label: '85-86'
     ordinal: 86
     row_number: 497
     expected_row_header_column: A
@@ -14769,7 +14778,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_86_87
-    label: 'Total net miscellaneous income: 86-87'
+    label: '86-87'
     ordinal: 87
     row_number: 498
     expected_row_header_column: A
@@ -14798,7 +14807,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_87_88
-    label: 'Total net miscellaneous income: 87-88'
+    label: '87-88'
     ordinal: 88
     row_number: 499
     expected_row_header_column: A
@@ -14827,7 +14836,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_88_89
-    label: 'Total net miscellaneous income: 88-89'
+    label: '88-89'
     ordinal: 89
     row_number: 500
     expected_row_header_column: A
@@ -14856,7 +14865,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_89_90
-    label: 'Total net miscellaneous income: 89-90'
+    label: '89-90'
     ordinal: 90
     row_number: 501
     expected_row_header_column: A
@@ -14885,7 +14894,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_90_91
-    label: 'Total net miscellaneous income: 90-91'
+    label: '90-91'
     ordinal: 91
     row_number: 502
     expected_row_header_column: A
@@ -14914,7 +14923,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_91_92
-    label: 'Total net miscellaneous income: 91-92'
+    label: '91-92'
     ordinal: 92
     row_number: 503
     expected_row_header_column: A
@@ -14943,7 +14952,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_92_93
-    label: 'Total net miscellaneous income: 92-93'
+    label: '92-93'
     ordinal: 93
     row_number: 504
     expected_row_header_column: A
@@ -14972,7 +14981,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_93_94
-    label: 'Total net miscellaneous income: 93-94'
+    label: '93-94'
     ordinal: 94
     row_number: 505
     expected_row_header_column: A
@@ -15001,7 +15010,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_94_95
-    label: 'Total net miscellaneous income: 94-95'
+    label: '94-95'
     ordinal: 95
     row_number: 506
     expected_row_header_column: A
@@ -15030,7 +15039,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_95_96
-    label: 'Total net miscellaneous income: 95-96'
+    label: '95-96'
     ordinal: 96
     row_number: 507
     expected_row_header_column: A
@@ -15059,7 +15068,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_96_97
-    label: 'Total net miscellaneous income: 96-97'
+    label: '96-97'
     ordinal: 97
     row_number: 508
     expected_row_header_column: A
@@ -15088,7 +15097,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_97_98
-    label: 'Total net miscellaneous income: 97-98'
+    label: '97-98'
     ordinal: 98
     row_number: 509
     expected_row_header_column: A
@@ -15117,7 +15126,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_98_99
-    label: 'Total net miscellaneous income: 98-99'
+    label: '98-99'
     ordinal: 99
     row_number: 510
     expected_row_header_column: A
@@ -15146,7 +15155,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_99_100
-    label: 'Total net miscellaneous income: 99-100'
+    label: '99-100'
     ordinal: 100
     row_number: 511
     expected_row_header_column: A
@@ -15175,7 +15184,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_100_plus
-    label: 'Total net miscellaneous income: 100 en meer'
+    label: '100 en meer'
     ordinal: 101
     row_number: 512
     expected_row_header_column: A
@@ -15301,7 +15310,7 @@ record_sets:
     label: Publisher assessment year
   rows: &id043
   - value_id: total
-    label: 'Deductible expenditures: Totaal'
+    label: 'Totaal'
     ordinal: 0
     row_number: 513
     expected_row_header_column: A
@@ -15315,7 +15324,7 @@ record_sets:
     filters:
       tax_return.net_taxable_income_class: all
   - value_id: class_under_1
-    label: 'Deductible expenditures: Minder dan 1'
+    label: 'Minder dan 1'
     ordinal: 1
     row_number: 514
     expected_row_header_column: A
@@ -15344,7 +15353,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_1_2
-    label: 'Deductible expenditures: 1-2'
+    label: '1-2'
     ordinal: 2
     row_number: 515
     expected_row_header_column: A
@@ -15373,7 +15382,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_2_3
-    label: 'Deductible expenditures: 2-3'
+    label: '2-3'
     ordinal: 3
     row_number: 516
     expected_row_header_column: A
@@ -15402,7 +15411,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_3_4
-    label: 'Deductible expenditures: 3-4'
+    label: '3-4'
     ordinal: 4
     row_number: 517
     expected_row_header_column: A
@@ -15431,7 +15440,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_4_5
-    label: 'Deductible expenditures: 4-5'
+    label: '4-5'
     ordinal: 5
     row_number: 518
     expected_row_header_column: A
@@ -15460,7 +15469,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_5_6
-    label: 'Deductible expenditures: 5-6'
+    label: '5-6'
     ordinal: 6
     row_number: 519
     expected_row_header_column: A
@@ -15489,7 +15498,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_6_7
-    label: 'Deductible expenditures: 6-7'
+    label: '6-7'
     ordinal: 7
     row_number: 520
     expected_row_header_column: A
@@ -15518,7 +15527,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_7_8
-    label: 'Deductible expenditures: 7-8'
+    label: '7-8'
     ordinal: 8
     row_number: 521
     expected_row_header_column: A
@@ -15547,7 +15556,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_8_9
-    label: 'Deductible expenditures: 8-9'
+    label: '8-9'
     ordinal: 9
     row_number: 522
     expected_row_header_column: A
@@ -15576,7 +15585,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_9_10
-    label: 'Deductible expenditures: 9-10'
+    label: '9-10'
     ordinal: 10
     row_number: 523
     expected_row_header_column: A
@@ -15605,7 +15614,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_10_11
-    label: 'Deductible expenditures: 10-11'
+    label: '10-11'
     ordinal: 11
     row_number: 524
     expected_row_header_column: A
@@ -15634,7 +15643,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_11_12
-    label: 'Deductible expenditures: 11-12'
+    label: '11-12'
     ordinal: 12
     row_number: 525
     expected_row_header_column: A
@@ -15663,7 +15672,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_12_13
-    label: 'Deductible expenditures: 12-13'
+    label: '12-13'
     ordinal: 13
     row_number: 526
     expected_row_header_column: A
@@ -15692,7 +15701,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_13_14
-    label: 'Deductible expenditures: 13-14'
+    label: '13-14'
     ordinal: 14
     row_number: 527
     expected_row_header_column: A
@@ -15721,7 +15730,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_14_15
-    label: 'Deductible expenditures: 14-15'
+    label: '14-15'
     ordinal: 15
     row_number: 528
     expected_row_header_column: A
@@ -15750,7 +15759,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_15_16
-    label: 'Deductible expenditures: 15-16'
+    label: '15-16'
     ordinal: 16
     row_number: 529
     expected_row_header_column: A
@@ -15779,7 +15788,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_16_17
-    label: 'Deductible expenditures: 16-17'
+    label: '16-17'
     ordinal: 17
     row_number: 530
     expected_row_header_column: A
@@ -15808,7 +15817,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_17_18
-    label: 'Deductible expenditures: 17-18'
+    label: '17-18'
     ordinal: 18
     row_number: 531
     expected_row_header_column: A
@@ -15837,7 +15846,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_18_19
-    label: 'Deductible expenditures: 18-19'
+    label: '18-19'
     ordinal: 19
     row_number: 532
     expected_row_header_column: A
@@ -15866,7 +15875,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_19_20
-    label: 'Deductible expenditures: 19-20'
+    label: '19-20'
     ordinal: 20
     row_number: 533
     expected_row_header_column: A
@@ -15895,7 +15904,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_20_21
-    label: 'Deductible expenditures: 20-21'
+    label: '20-21'
     ordinal: 21
     row_number: 534
     expected_row_header_column: A
@@ -15924,7 +15933,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_21_22
-    label: 'Deductible expenditures: 21-22'
+    label: '21-22'
     ordinal: 22
     row_number: 535
     expected_row_header_column: A
@@ -15953,7 +15962,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_22_23
-    label: 'Deductible expenditures: 22-23'
+    label: '22-23'
     ordinal: 23
     row_number: 536
     expected_row_header_column: A
@@ -15982,7 +15991,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_23_24
-    label: 'Deductible expenditures: 23-24'
+    label: '23-24'
     ordinal: 24
     row_number: 537
     expected_row_header_column: A
@@ -16011,7 +16020,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_24_25
-    label: 'Deductible expenditures: 24-25'
+    label: '24-25'
     ordinal: 25
     row_number: 538
     expected_row_header_column: A
@@ -16040,7 +16049,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_25_26
-    label: 'Deductible expenditures: 25-26'
+    label: '25-26'
     ordinal: 26
     row_number: 539
     expected_row_header_column: A
@@ -16069,7 +16078,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_26_27
-    label: 'Deductible expenditures: 26-27'
+    label: '26-27'
     ordinal: 27
     row_number: 540
     expected_row_header_column: A
@@ -16098,7 +16107,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_27_28
-    label: 'Deductible expenditures: 27-28'
+    label: '27-28'
     ordinal: 28
     row_number: 541
     expected_row_header_column: A
@@ -16127,7 +16136,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_28_29
-    label: 'Deductible expenditures: 28-29'
+    label: '28-29'
     ordinal: 29
     row_number: 542
     expected_row_header_column: A
@@ -16156,7 +16165,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_29_30
-    label: 'Deductible expenditures: 29-30'
+    label: '29-30'
     ordinal: 30
     row_number: 543
     expected_row_header_column: A
@@ -16185,7 +16194,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_30_31
-    label: 'Deductible expenditures: 30-31'
+    label: '30-31'
     ordinal: 31
     row_number: 544
     expected_row_header_column: A
@@ -16214,7 +16223,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_31_32
-    label: 'Deductible expenditures: 31-32'
+    label: '31-32'
     ordinal: 32
     row_number: 545
     expected_row_header_column: A
@@ -16243,7 +16252,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_32_33
-    label: 'Deductible expenditures: 32-33'
+    label: '32-33'
     ordinal: 33
     row_number: 546
     expected_row_header_column: A
@@ -16272,7 +16281,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_33_34
-    label: 'Deductible expenditures: 33-34'
+    label: '33-34'
     ordinal: 34
     row_number: 547
     expected_row_header_column: A
@@ -16301,7 +16310,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_34_35
-    label: 'Deductible expenditures: 34-35'
+    label: '34-35'
     ordinal: 35
     row_number: 548
     expected_row_header_column: A
@@ -16330,7 +16339,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_35_36
-    label: 'Deductible expenditures: 35-36'
+    label: '35-36'
     ordinal: 36
     row_number: 549
     expected_row_header_column: A
@@ -16359,7 +16368,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_36_37
-    label: 'Deductible expenditures: 36-37'
+    label: '36-37'
     ordinal: 37
     row_number: 550
     expected_row_header_column: A
@@ -16388,7 +16397,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_37_38
-    label: 'Deductible expenditures: 37-38'
+    label: '37-38'
     ordinal: 38
     row_number: 551
     expected_row_header_column: A
@@ -16417,7 +16426,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_38_39
-    label: 'Deductible expenditures: 38-39'
+    label: '38-39'
     ordinal: 39
     row_number: 552
     expected_row_header_column: A
@@ -16446,7 +16455,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_39_40
-    label: 'Deductible expenditures: 39-40'
+    label: '39-40'
     ordinal: 40
     row_number: 553
     expected_row_header_column: A
@@ -16475,7 +16484,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_40_41
-    label: 'Deductible expenditures: 40-41'
+    label: '40-41'
     ordinal: 41
     row_number: 554
     expected_row_header_column: A
@@ -16504,7 +16513,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_41_42
-    label: 'Deductible expenditures: 41-42'
+    label: '41-42'
     ordinal: 42
     row_number: 555
     expected_row_header_column: A
@@ -16533,7 +16542,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_42_43
-    label: 'Deductible expenditures: 42-43'
+    label: '42-43'
     ordinal: 43
     row_number: 556
     expected_row_header_column: A
@@ -16562,7 +16571,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_43_44
-    label: 'Deductible expenditures: 43-44'
+    label: '43-44'
     ordinal: 44
     row_number: 557
     expected_row_header_column: A
@@ -16591,7 +16600,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_44_45
-    label: 'Deductible expenditures: 44-45'
+    label: '44-45'
     ordinal: 45
     row_number: 558
     expected_row_header_column: A
@@ -16620,7 +16629,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_45_46
-    label: 'Deductible expenditures: 45-46'
+    label: '45-46'
     ordinal: 46
     row_number: 559
     expected_row_header_column: A
@@ -16649,7 +16658,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_46_47
-    label: 'Deductible expenditures: 46-47'
+    label: '46-47'
     ordinal: 47
     row_number: 560
     expected_row_header_column: A
@@ -16678,7 +16687,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_47_48
-    label: 'Deductible expenditures: 47-48'
+    label: '47-48'
     ordinal: 48
     row_number: 561
     expected_row_header_column: A
@@ -16707,7 +16716,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_48_49
-    label: 'Deductible expenditures: 48-49'
+    label: '48-49'
     ordinal: 49
     row_number: 562
     expected_row_header_column: A
@@ -16736,7 +16745,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_49_50
-    label: 'Deductible expenditures: 49-50'
+    label: '49-50'
     ordinal: 50
     row_number: 563
     expected_row_header_column: A
@@ -16765,7 +16774,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_50_51
-    label: 'Deductible expenditures: 50-51'
+    label: '50-51'
     ordinal: 51
     row_number: 564
     expected_row_header_column: A
@@ -16794,7 +16803,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_51_52
-    label: 'Deductible expenditures: 51-52'
+    label: '51-52'
     ordinal: 52
     row_number: 565
     expected_row_header_column: A
@@ -16823,7 +16832,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_52_53
-    label: 'Deductible expenditures: 52-53'
+    label: '52-53'
     ordinal: 53
     row_number: 566
     expected_row_header_column: A
@@ -16852,7 +16861,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_53_54
-    label: 'Deductible expenditures: 53-54'
+    label: '53-54'
     ordinal: 54
     row_number: 567
     expected_row_header_column: A
@@ -16881,7 +16890,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_54_55
-    label: 'Deductible expenditures: 54-55'
+    label: '54-55'
     ordinal: 55
     row_number: 568
     expected_row_header_column: A
@@ -16910,7 +16919,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_55_56
-    label: 'Deductible expenditures: 55-56'
+    label: '55-56'
     ordinal: 56
     row_number: 569
     expected_row_header_column: A
@@ -16939,7 +16948,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_56_57
-    label: 'Deductible expenditures: 56-57'
+    label: '56-57'
     ordinal: 57
     row_number: 570
     expected_row_header_column: A
@@ -16968,7 +16977,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_57_58
-    label: 'Deductible expenditures: 57-58'
+    label: '57-58'
     ordinal: 58
     row_number: 571
     expected_row_header_column: A
@@ -16997,7 +17006,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_58_59
-    label: 'Deductible expenditures: 58-59'
+    label: '58-59'
     ordinal: 59
     row_number: 572
     expected_row_header_column: A
@@ -17026,7 +17035,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_59_60
-    label: 'Deductible expenditures: 59-60'
+    label: '59-60'
     ordinal: 60
     row_number: 573
     expected_row_header_column: A
@@ -17055,7 +17064,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_60_61
-    label: 'Deductible expenditures: 60-61'
+    label: '60-61'
     ordinal: 61
     row_number: 574
     expected_row_header_column: A
@@ -17084,7 +17093,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_61_62
-    label: 'Deductible expenditures: 61-62'
+    label: '61-62'
     ordinal: 62
     row_number: 575
     expected_row_header_column: A
@@ -17113,7 +17122,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_62_63
-    label: 'Deductible expenditures: 62-63'
+    label: '62-63'
     ordinal: 63
     row_number: 576
     expected_row_header_column: A
@@ -17142,7 +17151,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_63_64
-    label: 'Deductible expenditures: 63-64'
+    label: '63-64'
     ordinal: 64
     row_number: 577
     expected_row_header_column: A
@@ -17171,7 +17180,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_64_65
-    label: 'Deductible expenditures: 64-65'
+    label: '64-65'
     ordinal: 65
     row_number: 578
     expected_row_header_column: A
@@ -17200,7 +17209,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_65_66
-    label: 'Deductible expenditures: 65-66'
+    label: '65-66'
     ordinal: 66
     row_number: 579
     expected_row_header_column: A
@@ -17229,7 +17238,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_66_67
-    label: 'Deductible expenditures: 66-67'
+    label: '66-67'
     ordinal: 67
     row_number: 580
     expected_row_header_column: A
@@ -17258,7 +17267,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_67_68
-    label: 'Deductible expenditures: 67-68'
+    label: '67-68'
     ordinal: 68
     row_number: 581
     expected_row_header_column: A
@@ -17287,7 +17296,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_68_69
-    label: 'Deductible expenditures: 68-69'
+    label: '68-69'
     ordinal: 69
     row_number: 582
     expected_row_header_column: A
@@ -17316,7 +17325,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_69_70
-    label: 'Deductible expenditures: 69-70'
+    label: '69-70'
     ordinal: 70
     row_number: 583
     expected_row_header_column: A
@@ -17345,7 +17354,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_70_71
-    label: 'Deductible expenditures: 70-71'
+    label: '70-71'
     ordinal: 71
     row_number: 584
     expected_row_header_column: A
@@ -17374,7 +17383,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_71_72
-    label: 'Deductible expenditures: 71-72'
+    label: '71-72'
     ordinal: 72
     row_number: 585
     expected_row_header_column: A
@@ -17403,7 +17412,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_72_73
-    label: 'Deductible expenditures: 72-73'
+    label: '72-73'
     ordinal: 73
     row_number: 586
     expected_row_header_column: A
@@ -17432,7 +17441,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_73_74
-    label: 'Deductible expenditures: 73-74'
+    label: '73-74'
     ordinal: 74
     row_number: 587
     expected_row_header_column: A
@@ -17461,7 +17470,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_74_75
-    label: 'Deductible expenditures: 74-75'
+    label: '74-75'
     ordinal: 75
     row_number: 588
     expected_row_header_column: A
@@ -17490,7 +17499,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_75_76
-    label: 'Deductible expenditures: 75-76'
+    label: '75-76'
     ordinal: 76
     row_number: 589
     expected_row_header_column: A
@@ -17519,7 +17528,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_76_77
-    label: 'Deductible expenditures: 76-77'
+    label: '76-77'
     ordinal: 77
     row_number: 590
     expected_row_header_column: A
@@ -17548,7 +17557,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_77_78
-    label: 'Deductible expenditures: 77-78'
+    label: '77-78'
     ordinal: 78
     row_number: 591
     expected_row_header_column: A
@@ -17577,7 +17586,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_78_79
-    label: 'Deductible expenditures: 78-79'
+    label: '78-79'
     ordinal: 79
     row_number: 592
     expected_row_header_column: A
@@ -17606,7 +17615,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_79_80
-    label: 'Deductible expenditures: 79-80'
+    label: '79-80'
     ordinal: 80
     row_number: 593
     expected_row_header_column: A
@@ -17635,7 +17644,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_80_81
-    label: 'Deductible expenditures: 80-81'
+    label: '80-81'
     ordinal: 81
     row_number: 594
     expected_row_header_column: A
@@ -17664,7 +17673,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_81_82
-    label: 'Deductible expenditures: 81-82'
+    label: '81-82'
     ordinal: 82
     row_number: 595
     expected_row_header_column: A
@@ -17693,7 +17702,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_82_83
-    label: 'Deductible expenditures: 82-83'
+    label: '82-83'
     ordinal: 83
     row_number: 596
     expected_row_header_column: A
@@ -17722,7 +17731,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_83_84
-    label: 'Deductible expenditures: 83-84'
+    label: '83-84'
     ordinal: 84
     row_number: 597
     expected_row_header_column: A
@@ -17751,7 +17760,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_84_85
-    label: 'Deductible expenditures: 84-85'
+    label: '84-85'
     ordinal: 85
     row_number: 598
     expected_row_header_column: A
@@ -17780,7 +17789,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_85_86
-    label: 'Deductible expenditures: 85-86'
+    label: '85-86'
     ordinal: 86
     row_number: 599
     expected_row_header_column: A
@@ -17809,7 +17818,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_86_87
-    label: 'Deductible expenditures: 86-87'
+    label: '86-87'
     ordinal: 87
     row_number: 600
     expected_row_header_column: A
@@ -17838,7 +17847,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_87_88
-    label: 'Deductible expenditures: 87-88'
+    label: '87-88'
     ordinal: 88
     row_number: 601
     expected_row_header_column: A
@@ -17867,7 +17876,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_88_89
-    label: 'Deductible expenditures: 88-89'
+    label: '88-89'
     ordinal: 89
     row_number: 602
     expected_row_header_column: A
@@ -17896,7 +17905,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_89_90
-    label: 'Deductible expenditures: 89-90'
+    label: '89-90'
     ordinal: 90
     row_number: 603
     expected_row_header_column: A
@@ -17925,7 +17934,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_90_91
-    label: 'Deductible expenditures: 90-91'
+    label: '90-91'
     ordinal: 91
     row_number: 604
     expected_row_header_column: A
@@ -17954,7 +17963,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_91_92
-    label: 'Deductible expenditures: 91-92'
+    label: '91-92'
     ordinal: 92
     row_number: 605
     expected_row_header_column: A
@@ -17983,7 +17992,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_92_93
-    label: 'Deductible expenditures: 92-93'
+    label: '92-93'
     ordinal: 93
     row_number: 606
     expected_row_header_column: A
@@ -18012,7 +18021,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_93_94
-    label: 'Deductible expenditures: 93-94'
+    label: '93-94'
     ordinal: 94
     row_number: 607
     expected_row_header_column: A
@@ -18041,7 +18050,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_94_95
-    label: 'Deductible expenditures: 94-95'
+    label: '94-95'
     ordinal: 95
     row_number: 608
     expected_row_header_column: A
@@ -18070,7 +18079,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_95_96
-    label: 'Deductible expenditures: 95-96'
+    label: '95-96'
     ordinal: 96
     row_number: 609
     expected_row_header_column: A
@@ -18099,7 +18108,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_96_97
-    label: 'Deductible expenditures: 96-97'
+    label: '96-97'
     ordinal: 97
     row_number: 610
     expected_row_header_column: A
@@ -18128,7 +18137,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_97_98
-    label: 'Deductible expenditures: 97-98'
+    label: '97-98'
     ordinal: 98
     row_number: 611
     expected_row_header_column: A
@@ -18157,7 +18166,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_98_99
-    label: 'Deductible expenditures: 98-99'
+    label: '98-99'
     ordinal: 99
     row_number: 612
     expected_row_header_column: A
@@ -18186,7 +18195,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_99_100
-    label: 'Deductible expenditures: 99-100'
+    label: '99-100'
     ordinal: 100
     row_number: 613
     expected_row_header_column: A
@@ -18215,7 +18224,7 @@ record_sets:
       unit: eur
       label: Published class upper bound
   - value_id: class_100_plus
-    label: 'Deductible expenditures: 100 en meer'
+    label: '100 en meer'
     ordinal: 101
     row_number: 614
     expected_row_header_column: A

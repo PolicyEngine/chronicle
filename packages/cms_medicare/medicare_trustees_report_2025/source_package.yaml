@@ -1,6 +1,11 @@
 schema_version: ledger.source_package.v1
 package_id: cms-medicare-trustees-report-2025-part-b-premium-income
 label: CMS Medicare Trustees Report 2025 Part B premium income
+dimension_value_labels:
+  'amount_basis':
+    'actual': 'Actual'
+  'medicare.part':
+    'part_b': 'Part B'
 artifact:
   source_name: cms_medicare
   source_table: 2025 Medicare Trustees Report Table III.C3

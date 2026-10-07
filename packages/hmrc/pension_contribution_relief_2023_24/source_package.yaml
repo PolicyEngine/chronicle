@@ -1,0 +1,4189 @@
+# HMRC Private pension statistics, Tables 6.1 and 6.2 (tidy CSV), tax year 2023-24,
+# from the 31 July 2025 edition - the newest release that publishes the 2023-24
+# detail: the 30 July 2026 edition's Tables 6.1/6.2 carry 2024-25 only
+# (hmrc-salary-sacrifice-relief-2024-25), and its Table 6 revises only the 2023-24
+# totals by relief line (for example Class 1 primary NICs relief 6,400 to 6,500).
+# HMRC replaced the attachment in July 2026 and the original asset URL now returns
+# 410 Gone, so the artifact is the UK Government Web Archive's capture of that
+# asset (31 July 2025), byte-identical to what GOV.UK served.
+#
+# Every published cell is ported, as in the 2024-25 package: Income Tax relief on
+# five contribution types and Class 1 primary and secondary NICs relief on three,
+# each as a total and by sector, scheme type and rate of relief, under the
+# general concepts hmrc.pension_contribution_income_tax_relief and
+# hmrc.pension_contribution_nics_relief. The six salary-sacrifice headline cells
+# are also emitted under the per-line concepts the 2024-25 package introduced
+# (hmrc.ss_income_tax_relief_total and siblings), so a consumer bound to those
+# concepts finds 2023-24 too; each pair of facts shares one source cell. The three
+# Class 1 secondary additional-rate cells are '[z]' and emit no fact. HMRC marks
+# 2023-24 provisional in this edition. GBP million, rounded to the nearest 100
+# million; period stores the opening year (2023 to 2024 -> tax_year 2023).
+# HMRC words the employer net-pay contribution type 'Employer contributions to net pay
+# arrangements and on employer deficit reduction contributions' on the NICs rows and '... plus
+# deficit reduction contributions' on the Income Tax rows. Each keeps its own contribution_type
+# value, since every filter is evidenced against its CSV row, and dimension_value_labels gives
+# both the Income Tax wording, so the two reliefs join on one label.
+schema_version: ledger.source_package.v1
+package_id: hmrc-pension-contribution-relief-2023-24
+label: 'HMRC private pension statistics Tables 6.1 and 6.2: Income Tax and NICs relief on pension contributions
+  by contribution type, sector, scheme type and rate, tax year 2023-24'
+dimension_labels:
+  hmrc.ss_relief_line: Salary sacrifice relief line
+  hmrc.pension_relief_breakdown: Pension relief breakdown (sector, scheme type or rate)
+dimension_value_labels:
+  contribution_type:
+    Individual contributions to net pay arrangements: Individual contributions to net pay arrangements
+    Individual contributions to relief at source schemes: Individual contributions to relief at source
+      schemes
+    Salary sacrificed contributions: Salary sacrificed contributions
+    Employer contributions to net pay arrangements plus deficit reduction contributions: Employer contributions
+      to net pay arrangements plus deficit reduction contributions
+    Employer contributions to net pay arrangements and on employer deficit reduction contributions: Employer
+      contributions to net pay arrangements plus deficit reduction contributions
+    Employer contributions to relief at source schemes: Employer contributions to relief at source schemes
+artifact:
+  source_name: hmrc
+  source_table: 'Private pension statistics Tables 6.1 and 6.2: Income Tax and NICs relief on pension
+    contributions, tax year 2023 to 2024'
+  resource_package: db
+  resource_directory: data/hmrc/pension_contribution_relief_2023_24
+  manifest: manifest.yaml
+  vintage: private_pension_statistics_2025_07
+  extracted_at: '2026-09-29'
+  extraction_method: delimited text full-row parse with selected source-row cells
+  parser: delimited_text_full_rows
+  artifact_year: 2025
+record_sets:
+- record_set_id: hmrc.ss_relief.ty2023.it_relief_total
+  provenance_class: administrative
+  record_set_spec_id: hmrc.ss_relief.ty2023.it_relief_total.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.it_relief_total
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.ss_relief_line
+  rows:
+  - value_id: it_relief_total
+    label: Income tax relief on salary sacrificed contributions, total
+    ordinal: 0
+    row_number: 4
+    expected_row_header_column: G
+    expected_row_header: Total
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 4
+      expected_value: Income Tax
+      label: income tax or NICs
+    - column: C
+      row: 4
+      expected_value: Salary sacrificed contributions
+      label: contribution type
+    - column: D
+      row: 4
+      expected_value: Not applicable
+      label: NICs relief class
+    - column: E
+      row: 4
+      expected_value: Total
+      label: sector
+    - column: F
+      row: 4
+      expected_value: Total
+      label: scheme type
+    - column: A
+      row: 4
+      expected_value: 2023 to 2024
+      label: tax year
+  measures:
+  - measure_id: relief
+    label: Income tax relief on salary sacrificed contributions, total
+    ordinal: 0
+    column: H
+    source_column_id: value_of_relief
+    expected_column_header_row: 1
+    expected_column_header: value_of_relief
+    concept: hmrc.ss_income_tax_relief_total
+    source_concept: hmrc.ss_income_tax_relief_total
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Income tax relief on salary sacrificed
+      contributions, total. The same source cell is also emitted under hmrc.pension_contribution_income_tax_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.ss_relief.ty2023.it_relief_basic_rate
+  provenance_class: administrative
+  record_set_spec_id: hmrc.ss_relief.ty2023.it_relief_basic_rate.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.it_relief_basic_rate
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.ss_relief_line
+  rows:
+  - value_id: it_relief_basic_rate
+    label: Income tax relief, basic rate
+    ordinal: 0
+    row_number: 29
+    expected_row_header_column: G
+    expected_row_header: Basic Rate
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 29
+      expected_value: Income Tax
+      label: income tax or NICs
+    - column: C
+      row: 29
+      expected_value: Salary sacrificed contributions
+      label: contribution type
+    - column: D
+      row: 29
+      expected_value: Not applicable
+      label: NICs relief class
+    - column: E
+      row: 29
+      expected_value: Total
+      label: sector
+    - column: F
+      row: 29
+      expected_value: Total
+      label: scheme type
+    - column: A
+      row: 29
+      expected_value: 2023 to 2024
+      label: tax year
+  measures:
+  - measure_id: relief
+    label: Income tax relief, basic rate
+    ordinal: 0
+    column: H
+    source_column_id: value_of_relief
+    expected_column_header_row: 1
+    expected_column_header: value_of_relief
+    concept: hmrc.ss_income_tax_relief_basic_rate
+    source_concept: hmrc.ss_income_tax_relief_basic_rate
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Income tax relief, basic rate. The same source cell is also emitted under hmrc.pension_contribution_income_tax_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.ss_relief.ty2023.it_relief_higher_rate
+  provenance_class: administrative
+  record_set_spec_id: hmrc.ss_relief.ty2023.it_relief_higher_rate.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.it_relief_higher_rate
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.ss_relief_line
+  rows:
+  - value_id: it_relief_higher_rate
+    label: Income tax relief, higher rate
+    ordinal: 0
+    row_number: 34
+    expected_row_header_column: G
+    expected_row_header: Higher Rate
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 34
+      expected_value: Income Tax
+      label: income tax or NICs
+    - column: C
+      row: 34
+      expected_value: Salary sacrificed contributions
+      label: contribution type
+    - column: D
+      row: 34
+      expected_value: Not applicable
+      label: NICs relief class
+    - column: E
+      row: 34
+      expected_value: Total
+      label: sector
+    - column: F
+      row: 34
+      expected_value: Total
+      label: scheme type
+    - column: A
+      row: 34
+      expected_value: 2023 to 2024
+      label: tax year
+  measures:
+  - measure_id: relief
+    label: Income tax relief, higher rate
+    ordinal: 0
+    column: H
+    source_column_id: value_of_relief
+    expected_column_header_row: 1
+    expected_column_header: value_of_relief
+    concept: hmrc.ss_income_tax_relief_higher_rate
+    source_concept: hmrc.ss_income_tax_relief_higher_rate
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Income tax relief, higher rate. The same source cell is also emitted under hmrc.pension_contribution_income_tax_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.ss_relief.ty2023.it_relief_additional_rate
+  provenance_class: administrative
+  record_set_spec_id: hmrc.ss_relief.ty2023.it_relief_additional_rate.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.it_relief_additional_rate
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.ss_relief_line
+  rows:
+  - value_id: it_relief_additional_rate
+    label: Income tax relief, additional rate
+    ordinal: 0
+    row_number: 39
+    expected_row_header_column: G
+    expected_row_header: Additional Rate
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 39
+      expected_value: Income Tax
+      label: income tax or NICs
+    - column: C
+      row: 39
+      expected_value: Salary sacrificed contributions
+      label: contribution type
+    - column: D
+      row: 39
+      expected_value: Not applicable
+      label: NICs relief class
+    - column: E
+      row: 39
+      expected_value: Total
+      label: sector
+    - column: F
+      row: 39
+      expected_value: Total
+      label: scheme type
+    - column: A
+      row: 39
+      expected_value: 2023 to 2024
+      label: tax year
+  measures:
+  - measure_id: relief
+    label: Income tax relief, additional rate
+    ordinal: 0
+    column: H
+    source_column_id: value_of_relief
+    expected_column_header_row: 1
+    expected_column_header: value_of_relief
+    concept: hmrc.ss_income_tax_relief_additional_rate
+    source_concept: hmrc.ss_income_tax_relief_additional_rate
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Income tax relief, additional rate. The same source cell is also emitted under hmrc.pension_contribution_income_tax_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.ss_relief.ty2023.nics_relief_employee
+  provenance_class: administrative
+  record_set_spec_id: hmrc.ss_relief.ty2023.nics_relief_employee.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.nics_relief_employee
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.ss_relief_line
+  rows:
+  - value_id: nics_relief_employee
+    label: Class 1 primary (employee) NICs relief
+    ordinal: 0
+    row_number: 44
+    expected_row_header_column: G
+    expected_row_header: Total
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 44
+      expected_value: NICs
+      label: income tax or NICs
+    - column: C
+      row: 44
+      expected_value: Salary sacrificed contributions
+      label: contribution type
+    - column: D
+      row: 44
+      expected_value: Class 1 Primary (employee)
+      label: NICs relief class
+    - column: E
+      row: 44
+      expected_value: Total
+      label: sector
+    - column: F
+      row: 44
+      expected_value: Total
+      label: scheme type
+    - column: A
+      row: 44
+      expected_value: 2023 to 2024
+      label: tax year
+  measures:
+  - measure_id: relief
+    label: Class 1 primary (employee) NICs relief
+    ordinal: 0
+    column: H
+    source_column_id: value_of_relief
+    expected_column_header_row: 1
+    expected_column_header: value_of_relief
+    concept: hmrc.ss_nics_relief_employee
+    source_concept: hmrc.ss_nics_relief_employee
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Class 1 primary (employee) NICs relief. The same source cell is also emitted under hmrc.pension_contribution_nics_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.ss_relief.ty2023.nics_relief_employer
+  provenance_class: administrative
+  record_set_spec_id: hmrc.ss_relief.ty2023.nics_relief_employer.v1
+  source_record_id_prefix: hmrc.ss_relief.ty2023.nics_relief_employer
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.ss_relief_line
+  rows:
+  - value_id: nics_relief_employer
+    label: Class 1 secondary (employer) NICs relief
+    ordinal: 0
+    row_number: 47
+    expected_row_header_column: G
+    expected_row_header: Total
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 47
+      expected_value: NICs
+      label: income tax or NICs
+    - column: C
+      row: 47
+      expected_value: Salary sacrificed contributions
+      label: contribution type
+    - column: D
+      row: 47
+      expected_value: Class 1 Secondary (employer)
+      label: NICs relief class
+    - column: E
+      row: 47
+      expected_value: Total
+      label: sector
+    - column: F
+      row: 47
+      expected_value: Total
+      label: scheme type
+    - column: A
+      row: 47
+      expected_value: 2023 to 2024
+      label: tax year
+  measures:
+  - measure_id: relief
+    label: Class 1 secondary (employer) NICs relief
+    ordinal: 0
+    column: H
+    source_column_id: value_of_relief
+    expected_column_header_row: 1
+    expected_column_header: value_of_relief
+    concept: hmrc.ss_nics_relief_employer
+    source_concept: hmrc.ss_nics_relief_employer
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+    concept_evidence_notes: 'Private pension statistics (31 July 2025 edition), tidy CSV Tables
+      6.1/6.2, tax year 2023 to 2024, GBP million; row: Class 1 secondary (employer) NICs
+      relief. The same source cell is also emitted under hmrc.pension_contribution_nics_relief (contribution_type Salary sacrificed contributions) in this package; a sum across both concept families counts it twice.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.pension_relief.ty2023.income_tax.individual_net_pay
+  provenance_class: administrative
+  record_set_spec_id: hmrc.pension_relief.ty2023.income_tax.individual_net_pay.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.income_tax.individual_net_pay
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.pension_relief_breakdown
+  shared_filters:
+    contribution_type: Individual contributions to net pay arrangements
+  shared_constraints:
+    - variable: contribution_type
+      operator: ==
+      value: Individual contributions to net pay arrangements
+      label: Contribution type
+  rows:
+    - value_id: total
+      label: Total
+      ordinal: 0
+      row_number: 2
+      expected_row_header_column: G
+      expected_row_header: Total
+      table_record_kind: total
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: all
+      guard_cells:
+        - column: A
+          row: 2
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 2
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 2
+          expected_value: Individual contributions to net pay arrangements
+          label: contribution type
+        - column: D
+          row: 2
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 2
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 2
+          expected_value: Total
+          label: scheme type
+    - value_id: public_sector_occupational_scheme
+      label: Public sector occupational scheme
+      ordinal: 1
+      row_number: 7
+      expected_row_header_column: E
+      expected_row_header: Public sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Public sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Public sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 7
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 7
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 7
+          expected_value: Individual contributions to net pay arrangements
+          label: contribution type
+        - column: D
+          row: 7
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: F
+          row: 7
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 7
+          expected_value: Total
+          label: tax rate
+    - value_id: personal_or_private_sector_occupational_scheme
+      label: Personal or private sector occupational scheme
+      ordinal: 2
+      row_number: 12
+      expected_row_header_column: E
+      expected_row_header: Personal or private sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Personal or private sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Personal or private sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 12
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 12
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 12
+          expected_value: Individual contributions to net pay arrangements
+          label: contribution type
+        - column: D
+          row: 12
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: F
+          row: 12
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 12
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_benefit
+      label: Defined benefit
+      ordinal: 3
+      row_number: 17
+      expected_row_header_column: F
+      expected_row_header: Defined benefit
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined benefit
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined benefit
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 17
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 17
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 17
+          expected_value: Individual contributions to net pay arrangements
+          label: contribution type
+        - column: D
+          row: 17
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 17
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 17
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_contribution
+      label: Defined contribution
+      ordinal: 4
+      row_number: 22
+      expected_row_header_column: F
+      expected_row_header: Defined contribution
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined contribution
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined contribution
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 22
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 22
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 22
+          expected_value: Individual contributions to net pay arrangements
+          label: contribution type
+        - column: D
+          row: 22
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 22
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 22
+          expected_value: Total
+          label: tax rate
+    - value_id: basic_rate
+      label: Basic Rate
+      ordinal: 5
+      row_number: 27
+      expected_row_header_column: G
+      expected_row_header: Basic Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Basic Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Basic Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 27
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 27
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 27
+          expected_value: Individual contributions to net pay arrangements
+          label: contribution type
+        - column: D
+          row: 27
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 27
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 27
+          expected_value: Total
+          label: scheme type
+    - value_id: higher_rate
+      label: Higher Rate
+      ordinal: 6
+      row_number: 32
+      expected_row_header_column: G
+      expected_row_header: Higher Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Higher Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Higher Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 32
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 32
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 32
+          expected_value: Individual contributions to net pay arrangements
+          label: contribution type
+        - column: D
+          row: 32
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 32
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 32
+          expected_value: Total
+          label: scheme type
+    - value_id: additional_rate
+      label: Additional Rate
+      ordinal: 7
+      row_number: 37
+      expected_row_header_column: G
+      expected_row_header: Additional Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Additional Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Additional Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 37
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 37
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 37
+          expected_value: Individual contributions to net pay arrangements
+          label: contribution type
+        - column: D
+          row: 37
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 37
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 37
+          expected_value: Total
+          label: scheme type
+  measures:
+    - measure_id: relief
+      label: Income Tax relief on individual contributions to net pay arrangements
+      ordinal: 0
+      column: H
+      source_column_id: value_of_relief
+      expected_column_header_row: 1
+      expected_column_header: value_of_relief
+      concept: hmrc.pension_contribution_income_tax_relief
+      source_concept: hmrc.pension_contribution_income_tax_relief
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Income Tax
+        relief on individual contributions to net pay arrangements, by sector, scheme type and rate of
+        relief.
+      unit: gbp
+      aggregation: sum
+      value_scale: 1000000
+      expected_cell_type: number
+- record_set_id: hmrc.pension_relief.ty2023.income_tax.individual_relief_at_source
+  provenance_class: administrative
+  record_set_spec_id: hmrc.pension_relief.ty2023.income_tax.individual_relief_at_source.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.income_tax.individual_relief_at_source
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.pension_relief_breakdown
+  shared_filters:
+    contribution_type: Individual contributions to relief at source schemes
+  shared_constraints:
+    - variable: contribution_type
+      operator: ==
+      value: Individual contributions to relief at source schemes
+      label: Contribution type
+  rows:
+    - value_id: total
+      label: Total
+      ordinal: 0
+      row_number: 3
+      expected_row_header_column: G
+      expected_row_header: Total
+      table_record_kind: total
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: all
+      guard_cells:
+        - column: A
+          row: 3
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 3
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 3
+          expected_value: Individual contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 3
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 3
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 3
+          expected_value: Total
+          label: scheme type
+    - value_id: public_sector_occupational_scheme
+      label: Public sector occupational scheme
+      ordinal: 1
+      row_number: 8
+      expected_row_header_column: E
+      expected_row_header: Public sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Public sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Public sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 8
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 8
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 8
+          expected_value: Individual contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 8
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: F
+          row: 8
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 8
+          expected_value: Total
+          label: tax rate
+    - value_id: personal_or_private_sector_occupational_scheme
+      label: Personal or private sector occupational scheme
+      ordinal: 2
+      row_number: 13
+      expected_row_header_column: E
+      expected_row_header: Personal or private sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Personal or private sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Personal or private sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 13
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 13
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 13
+          expected_value: Individual contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 13
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: F
+          row: 13
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 13
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_benefit
+      label: Defined benefit
+      ordinal: 3
+      row_number: 18
+      expected_row_header_column: F
+      expected_row_header: Defined benefit
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined benefit
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined benefit
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 18
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 18
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 18
+          expected_value: Individual contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 18
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 18
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 18
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_contribution
+      label: Defined contribution
+      ordinal: 4
+      row_number: 23
+      expected_row_header_column: F
+      expected_row_header: Defined contribution
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined contribution
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined contribution
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 23
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 23
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 23
+          expected_value: Individual contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 23
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 23
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 23
+          expected_value: Total
+          label: tax rate
+    - value_id: basic_rate
+      label: Basic Rate
+      ordinal: 5
+      row_number: 28
+      expected_row_header_column: G
+      expected_row_header: Basic Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Basic Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Basic Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 28
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 28
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 28
+          expected_value: Individual contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 28
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 28
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 28
+          expected_value: Total
+          label: scheme type
+    - value_id: higher_rate
+      label: Higher Rate
+      ordinal: 6
+      row_number: 33
+      expected_row_header_column: G
+      expected_row_header: Higher Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Higher Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Higher Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 33
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 33
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 33
+          expected_value: Individual contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 33
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 33
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 33
+          expected_value: Total
+          label: scheme type
+    - value_id: additional_rate
+      label: Additional Rate
+      ordinal: 7
+      row_number: 38
+      expected_row_header_column: G
+      expected_row_header: Additional Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Additional Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Additional Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 38
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 38
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 38
+          expected_value: Individual contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 38
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 38
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 38
+          expected_value: Total
+          label: scheme type
+  measures:
+    - measure_id: relief
+      label: Income Tax relief on individual contributions to relief at source schemes
+      ordinal: 0
+      column: H
+      source_column_id: value_of_relief
+      expected_column_header_row: 1
+      expected_column_header: value_of_relief
+      concept: hmrc.pension_contribution_income_tax_relief
+      source_concept: hmrc.pension_contribution_income_tax_relief
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Income Tax
+        relief on individual contributions to relief at source schemes, by sector, scheme type and rate
+        of relief.
+      unit: gbp
+      aggregation: sum
+      value_scale: 1000000
+      expected_cell_type: number
+- record_set_id: hmrc.pension_relief.ty2023.income_tax.salary_sacrificed
+  provenance_class: administrative
+  record_set_spec_id: hmrc.pension_relief.ty2023.income_tax.salary_sacrificed.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.income_tax.salary_sacrificed
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.pension_relief_breakdown
+  shared_filters:
+    contribution_type: Salary sacrificed contributions
+  shared_constraints:
+    - variable: contribution_type
+      operator: ==
+      value: Salary sacrificed contributions
+      label: Contribution type
+  rows:
+    - value_id: total
+      label: Total
+      ordinal: 0
+      row_number: 4
+      expected_row_header_column: G
+      expected_row_header: Total
+      table_record_kind: total
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: all
+      guard_cells:
+        - column: A
+          row: 4
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 4
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 4
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 4
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 4
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 4
+          expected_value: Total
+          label: scheme type
+    - value_id: public_sector_occupational_scheme
+      label: Public sector occupational scheme
+      ordinal: 1
+      row_number: 9
+      expected_row_header_column: E
+      expected_row_header: Public sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Public sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Public sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 9
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 9
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 9
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 9
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: F
+          row: 9
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 9
+          expected_value: Total
+          label: tax rate
+    - value_id: personal_or_private_sector_occupational_scheme
+      label: Personal or private sector occupational scheme
+      ordinal: 2
+      row_number: 14
+      expected_row_header_column: E
+      expected_row_header: Personal or private sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Personal or private sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Personal or private sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 14
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 14
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 14
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 14
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: F
+          row: 14
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 14
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_benefit
+      label: Defined benefit
+      ordinal: 3
+      row_number: 19
+      expected_row_header_column: F
+      expected_row_header: Defined benefit
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined benefit
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined benefit
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 19
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 19
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 19
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 19
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 19
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 19
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_contribution
+      label: Defined contribution
+      ordinal: 4
+      row_number: 24
+      expected_row_header_column: F
+      expected_row_header: Defined contribution
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined contribution
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined contribution
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 24
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 24
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 24
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 24
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 24
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 24
+          expected_value: Total
+          label: tax rate
+    - value_id: basic_rate
+      label: Basic Rate
+      ordinal: 5
+      row_number: 29
+      expected_row_header_column: G
+      expected_row_header: Basic Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Basic Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Basic Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 29
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 29
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 29
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 29
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 29
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 29
+          expected_value: Total
+          label: scheme type
+    - value_id: higher_rate
+      label: Higher Rate
+      ordinal: 6
+      row_number: 34
+      expected_row_header_column: G
+      expected_row_header: Higher Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Higher Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Higher Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 34
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 34
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 34
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 34
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 34
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 34
+          expected_value: Total
+          label: scheme type
+    - value_id: additional_rate
+      label: Additional Rate
+      ordinal: 7
+      row_number: 39
+      expected_row_header_column: G
+      expected_row_header: Additional Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Additional Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Additional Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 39
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 39
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 39
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 39
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 39
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 39
+          expected_value: Total
+          label: scheme type
+  measures:
+    - measure_id: relief
+      label: Income Tax relief on salary sacrificed contributions
+      ordinal: 0
+      column: H
+      source_column_id: value_of_relief
+      expected_column_header_row: 1
+      expected_column_header: value_of_relief
+      concept: hmrc.pension_contribution_income_tax_relief
+      source_concept: hmrc.pension_contribution_income_tax_relief
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Income Tax
+        relief on salary sacrificed contributions, by sector, scheme type and rate of relief. The Total
+        and by-rate cells are also emitted under the per-line concepts hmrc.ss_income_tax_relief_total
+        and its by-rate siblings in this package, from the same source cells; a sum across both concept
+        families counts them twice.
+      unit: gbp
+      aggregation: sum
+      value_scale: 1000000
+      expected_cell_type: number
+- record_set_id: hmrc.pension_relief.ty2023.income_tax.employer_net_pay_and_deficit_reduction
+  provenance_class: administrative
+  record_set_spec_id: hmrc.pension_relief.ty2023.income_tax.employer_net_pay_and_deficit_reduction.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.income_tax.employer_net_pay_and_deficit_reduction
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.pension_relief_breakdown
+  shared_filters:
+    contribution_type: Employer contributions to net pay arrangements plus deficit reduction contributions
+  shared_constraints:
+    - variable: contribution_type
+      operator: ==
+      value: Employer contributions to net pay arrangements plus deficit reduction contributions
+      label: Contribution type
+  rows:
+    - value_id: total
+      label: Total
+      ordinal: 0
+      row_number: 5
+      expected_row_header_column: G
+      expected_row_header: Total
+      table_record_kind: total
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: all
+      guard_cells:
+        - column: A
+          row: 5
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 5
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 5
+          expected_value: Employer contributions to net pay arrangements plus deficit reduction contributions
+          label: contribution type
+        - column: D
+          row: 5
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 5
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 5
+          expected_value: Total
+          label: scheme type
+    - value_id: public_sector_occupational_scheme
+      label: Public sector occupational scheme
+      ordinal: 1
+      row_number: 10
+      expected_row_header_column: E
+      expected_row_header: Public sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Public sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Public sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 10
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 10
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 10
+          expected_value: Employer contributions to net pay arrangements plus deficit reduction contributions
+          label: contribution type
+        - column: D
+          row: 10
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: F
+          row: 10
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 10
+          expected_value: Total
+          label: tax rate
+    - value_id: personal_or_private_sector_occupational_scheme
+      label: Personal or private sector occupational scheme
+      ordinal: 2
+      row_number: 15
+      expected_row_header_column: E
+      expected_row_header: Personal or private sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Personal or private sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Personal or private sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 15
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 15
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 15
+          expected_value: Employer contributions to net pay arrangements plus deficit reduction contributions
+          label: contribution type
+        - column: D
+          row: 15
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: F
+          row: 15
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 15
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_benefit
+      label: Defined benefit
+      ordinal: 3
+      row_number: 20
+      expected_row_header_column: F
+      expected_row_header: Defined benefit
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined benefit
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined benefit
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 20
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 20
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 20
+          expected_value: Employer contributions to net pay arrangements plus deficit reduction contributions
+          label: contribution type
+        - column: D
+          row: 20
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 20
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 20
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_contribution
+      label: Defined contribution
+      ordinal: 4
+      row_number: 25
+      expected_row_header_column: F
+      expected_row_header: Defined contribution
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined contribution
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined contribution
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 25
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 25
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 25
+          expected_value: Employer contributions to net pay arrangements plus deficit reduction contributions
+          label: contribution type
+        - column: D
+          row: 25
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 25
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 25
+          expected_value: Total
+          label: tax rate
+    - value_id: basic_rate
+      label: Basic Rate
+      ordinal: 5
+      row_number: 30
+      expected_row_header_column: G
+      expected_row_header: Basic Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Basic Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Basic Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 30
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 30
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 30
+          expected_value: Employer contributions to net pay arrangements plus deficit reduction contributions
+          label: contribution type
+        - column: D
+          row: 30
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 30
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 30
+          expected_value: Total
+          label: scheme type
+    - value_id: higher_rate
+      label: Higher Rate
+      ordinal: 6
+      row_number: 35
+      expected_row_header_column: G
+      expected_row_header: Higher Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Higher Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Higher Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 35
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 35
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 35
+          expected_value: Employer contributions to net pay arrangements plus deficit reduction contributions
+          label: contribution type
+        - column: D
+          row: 35
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 35
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 35
+          expected_value: Total
+          label: scheme type
+    - value_id: additional_rate
+      label: Additional Rate
+      ordinal: 7
+      row_number: 40
+      expected_row_header_column: G
+      expected_row_header: Additional Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Additional Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Additional Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 40
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 40
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 40
+          expected_value: Employer contributions to net pay arrangements plus deficit reduction contributions
+          label: contribution type
+        - column: D
+          row: 40
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 40
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 40
+          expected_value: Total
+          label: scheme type
+  measures:
+    - measure_id: relief
+      label: Income Tax relief on employer contributions to net pay arrangements plus deficit reduction
+        contributions
+      ordinal: 0
+      column: H
+      source_column_id: value_of_relief
+      expected_column_header_row: 1
+      expected_column_header: value_of_relief
+      concept: hmrc.pension_contribution_income_tax_relief
+      source_concept: hmrc.pension_contribution_income_tax_relief
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Income Tax
+        relief on employer contributions to net pay arrangements plus deficit reduction contributions,
+        by sector, scheme type and rate of relief. HMRC words this contribution type 'Employer contributions
+        to net pay arrangements and on employer deficit reduction contributions' on the NICs rows and
+        '... plus deficit reduction contributions' on the Income Tax rows; each keeps its own contribution_type
+        value and both carry the Income Tax wording as their label.
+      unit: gbp
+      aggregation: sum
+      value_scale: 1000000
+      expected_cell_type: number
+- record_set_id: hmrc.pension_relief.ty2023.income_tax.employer_relief_at_source
+  provenance_class: administrative
+  record_set_spec_id: hmrc.pension_relief.ty2023.income_tax.employer_relief_at_source.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.income_tax.employer_relief_at_source
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.pension_relief_breakdown
+  shared_filters:
+    contribution_type: Employer contributions to relief at source schemes
+  shared_constraints:
+    - variable: contribution_type
+      operator: ==
+      value: Employer contributions to relief at source schemes
+      label: Contribution type
+  rows:
+    - value_id: total
+      label: Total
+      ordinal: 0
+      row_number: 6
+      expected_row_header_column: G
+      expected_row_header: Total
+      table_record_kind: total
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: all
+      guard_cells:
+        - column: A
+          row: 6
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 6
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 6
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 6
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 6
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 6
+          expected_value: Total
+          label: scheme type
+    - value_id: public_sector_occupational_scheme
+      label: Public sector occupational scheme
+      ordinal: 1
+      row_number: 11
+      expected_row_header_column: E
+      expected_row_header: Public sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Public sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Public sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 11
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 11
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 11
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 11
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: F
+          row: 11
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 11
+          expected_value: Total
+          label: tax rate
+    - value_id: personal_or_private_sector_occupational_scheme
+      label: Personal or private sector occupational scheme
+      ordinal: 2
+      row_number: 16
+      expected_row_header_column: E
+      expected_row_header: Personal or private sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Personal or private sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Personal or private sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 16
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 16
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 16
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 16
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: F
+          row: 16
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 16
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_benefit
+      label: Defined benefit
+      ordinal: 3
+      row_number: 21
+      expected_row_header_column: F
+      expected_row_header: Defined benefit
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined benefit
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined benefit
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 21
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 21
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 21
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 21
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 21
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 21
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_contribution
+      label: Defined contribution
+      ordinal: 4
+      row_number: 26
+      expected_row_header_column: F
+      expected_row_header: Defined contribution
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined contribution
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined contribution
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 26
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 26
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 26
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 26
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 26
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 26
+          expected_value: Total
+          label: tax rate
+    - value_id: basic_rate
+      label: Basic Rate
+      ordinal: 5
+      row_number: 31
+      expected_row_header_column: G
+      expected_row_header: Basic Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Basic Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Basic Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 31
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 31
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 31
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 31
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 31
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 31
+          expected_value: Total
+          label: scheme type
+    - value_id: higher_rate
+      label: Higher Rate
+      ordinal: 6
+      row_number: 36
+      expected_row_header_column: G
+      expected_row_header: Higher Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Higher Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Higher Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 36
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 36
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 36
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 36
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 36
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 36
+          expected_value: Total
+          label: scheme type
+    - value_id: additional_rate
+      label: Additional Rate
+      ordinal: 7
+      row_number: 41
+      expected_row_header_column: G
+      expected_row_header: Additional Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Additional Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Additional Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 41
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 41
+          expected_value: Income Tax
+          label: income tax or NICs
+        - column: C
+          row: 41
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 41
+          expected_value: Not applicable
+          label: NICs relief class
+        - column: E
+          row: 41
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 41
+          expected_value: Total
+          label: scheme type
+  measures:
+    - measure_id: relief
+      label: Income Tax relief on employer contributions to relief at source schemes
+      ordinal: 0
+      column: H
+      source_column_id: value_of_relief
+      expected_column_header_row: 1
+      expected_column_header: value_of_relief
+      concept: hmrc.pension_contribution_income_tax_relief
+      source_concept: hmrc.pension_contribution_income_tax_relief
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Income Tax
+        relief on employer contributions to relief at source schemes, by sector, scheme type and rate
+        of relief.
+      unit: gbp
+      aggregation: sum
+      value_scale: 1000000
+      expected_cell_type: number
+- record_set_id: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_primary
+  provenance_class: administrative
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_primary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_primary
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.pension_relief_breakdown
+  shared_filters:
+    contribution_type: Employer contributions to net pay arrangements and on employer deficit reduction
+      contributions
+    nics_relief_class: Class 1 Primary (employee)
+  shared_constraints:
+    - variable: contribution_type
+      operator: ==
+      value: Employer contributions to net pay arrangements and on employer deficit reduction contributions
+      label: Contribution type
+    - variable: nics_relief_class
+      operator: ==
+      value: Class 1 Primary (employee)
+      label: NICs relief class
+  rows:
+    - value_id: total
+      label: Total
+      ordinal: 0
+      row_number: 42
+      expected_row_header_column: G
+      expected_row_header: Total
+      table_record_kind: total
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: all
+      guard_cells:
+        - column: A
+          row: 42
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 42
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 42
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 42
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 42
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 42
+          expected_value: Total
+          label: scheme type
+    - value_id: public_sector_occupational_scheme
+      label: Public sector occupational scheme
+      ordinal: 1
+      row_number: 48
+      expected_row_header_column: E
+      expected_row_header: Public sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Public sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Public sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 48
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 48
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 48
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 48
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: F
+          row: 48
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 48
+          expected_value: Total
+          label: tax rate
+    - value_id: personal_or_private_sector_occupational_scheme
+      label: Personal or private sector occupational scheme
+      ordinal: 2
+      row_number: 54
+      expected_row_header_column: E
+      expected_row_header: Personal or private sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Personal or private sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Personal or private sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 54
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 54
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 54
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 54
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: F
+          row: 54
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 54
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_benefit
+      label: Defined benefit
+      ordinal: 3
+      row_number: 60
+      expected_row_header_column: F
+      expected_row_header: Defined benefit
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined benefit
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined benefit
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 60
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 60
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 60
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 60
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 60
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 60
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_contribution
+      label: Defined contribution
+      ordinal: 4
+      row_number: 66
+      expected_row_header_column: F
+      expected_row_header: Defined contribution
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined contribution
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined contribution
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 66
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 66
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 66
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 66
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 66
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 66
+          expected_value: Total
+          label: tax rate
+    - value_id: main_rate
+      label: Main Rate
+      ordinal: 5
+      row_number: 72
+      expected_row_header_column: G
+      expected_row_header: Main Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Main Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Main Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 72
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 72
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 72
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 72
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 72
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 72
+          expected_value: Total
+          label: scheme type
+    - value_id: additional_rate
+      label: Additional Rate
+      ordinal: 6
+      row_number: 78
+      expected_row_header_column: G
+      expected_row_header: Additional Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Additional Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Additional Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 78
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 78
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 78
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 78
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 78
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 78
+          expected_value: Total
+          label: scheme type
+  measures:
+    - measure_id: relief
+      label: Class 1 Primary (employee) NICs relief on employer contributions to net pay arrangements
+        and on employer deficit reduction contributions
+      ordinal: 0
+      column: H
+      source_column_id: value_of_relief
+      expected_column_header_row: 1
+      expected_column_header: value_of_relief
+      concept: hmrc.pension_contribution_nics_relief
+      source_concept: hmrc.pension_contribution_nics_relief
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Primary
+        (employee) NICs relief on employer contributions to net pay arrangements and on employer deficit
+        reduction contributions, by sector, scheme type and rate of relief. HMRC words this contribution
+        type 'Employer contributions to net pay arrangements and on employer deficit reduction contributions'
+        on the NICs rows and '... plus deficit reduction contributions' on the Income Tax rows; each keeps
+        its own contribution_type value and both carry the Income Tax wording as their label.
+      unit: gbp
+      aggregation: sum
+      value_scale: 1000000
+      expected_cell_type: number
+- record_set_id: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_primary
+  provenance_class: administrative
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_primary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_primary
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.pension_relief_breakdown
+  shared_filters:
+    contribution_type: Employer contributions to relief at source schemes
+    nics_relief_class: Class 1 Primary (employee)
+  shared_constraints:
+    - variable: contribution_type
+      operator: ==
+      value: Employer contributions to relief at source schemes
+      label: Contribution type
+    - variable: nics_relief_class
+      operator: ==
+      value: Class 1 Primary (employee)
+      label: NICs relief class
+  rows:
+    - value_id: total
+      label: Total
+      ordinal: 0
+      row_number: 43
+      expected_row_header_column: G
+      expected_row_header: Total
+      table_record_kind: total
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: all
+      guard_cells:
+        - column: A
+          row: 43
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 43
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 43
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 43
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 43
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 43
+          expected_value: Total
+          label: scheme type
+    - value_id: public_sector_occupational_scheme
+      label: Public sector occupational scheme
+      ordinal: 1
+      row_number: 49
+      expected_row_header_column: E
+      expected_row_header: Public sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Public sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Public sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 49
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 49
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 49
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 49
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: F
+          row: 49
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 49
+          expected_value: Total
+          label: tax rate
+    - value_id: personal_or_private_sector_occupational_scheme
+      label: Personal or private sector occupational scheme
+      ordinal: 2
+      row_number: 55
+      expected_row_header_column: E
+      expected_row_header: Personal or private sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Personal or private sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Personal or private sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 55
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 55
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 55
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 55
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: F
+          row: 55
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 55
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_benefit
+      label: Defined benefit
+      ordinal: 3
+      row_number: 61
+      expected_row_header_column: F
+      expected_row_header: Defined benefit
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined benefit
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined benefit
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 61
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 61
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 61
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 61
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 61
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 61
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_contribution
+      label: Defined contribution
+      ordinal: 4
+      row_number: 67
+      expected_row_header_column: F
+      expected_row_header: Defined contribution
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined contribution
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined contribution
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 67
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 67
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 67
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 67
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 67
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 67
+          expected_value: Total
+          label: tax rate
+    - value_id: main_rate
+      label: Main Rate
+      ordinal: 5
+      row_number: 73
+      expected_row_header_column: G
+      expected_row_header: Main Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Main Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Main Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 73
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 73
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 73
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 73
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 73
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 73
+          expected_value: Total
+          label: scheme type
+    - value_id: additional_rate
+      label: Additional Rate
+      ordinal: 6
+      row_number: 79
+      expected_row_header_column: G
+      expected_row_header: Additional Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Additional Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Additional Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 79
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 79
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 79
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 79
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 79
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 79
+          expected_value: Total
+          label: scheme type
+  measures:
+    - measure_id: relief
+      label: Class 1 Primary (employee) NICs relief on employer contributions to relief at source schemes
+      ordinal: 0
+      column: H
+      source_column_id: value_of_relief
+      expected_column_header_row: 1
+      expected_column_header: value_of_relief
+      concept: hmrc.pension_contribution_nics_relief
+      source_concept: hmrc.pension_contribution_nics_relief
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Primary
+        (employee) NICs relief on employer contributions to relief at source schemes, by sector, scheme
+        type and rate of relief.
+      unit: gbp
+      aggregation: sum
+      value_scale: 1000000
+      expected_cell_type: number
+- record_set_id: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_primary
+  provenance_class: administrative
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_primary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_primary
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.pension_relief_breakdown
+  shared_filters:
+    contribution_type: Salary sacrificed contributions
+    nics_relief_class: Class 1 Primary (employee)
+  shared_constraints:
+    - variable: contribution_type
+      operator: ==
+      value: Salary sacrificed contributions
+      label: Contribution type
+    - variable: nics_relief_class
+      operator: ==
+      value: Class 1 Primary (employee)
+      label: NICs relief class
+  rows:
+    - value_id: total
+      label: Total
+      ordinal: 0
+      row_number: 44
+      expected_row_header_column: G
+      expected_row_header: Total
+      table_record_kind: total
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: all
+      guard_cells:
+        - column: A
+          row: 44
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 44
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 44
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 44
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 44
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 44
+          expected_value: Total
+          label: scheme type
+    - value_id: public_sector_occupational_scheme
+      label: Public sector occupational scheme
+      ordinal: 1
+      row_number: 50
+      expected_row_header_column: E
+      expected_row_header: Public sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Public sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Public sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 50
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 50
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 50
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 50
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: F
+          row: 50
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 50
+          expected_value: Total
+          label: tax rate
+    - value_id: personal_or_private_sector_occupational_scheme
+      label: Personal or private sector occupational scheme
+      ordinal: 2
+      row_number: 56
+      expected_row_header_column: E
+      expected_row_header: Personal or private sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Personal or private sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Personal or private sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 56
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 56
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 56
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 56
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: F
+          row: 56
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 56
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_benefit
+      label: Defined benefit
+      ordinal: 3
+      row_number: 62
+      expected_row_header_column: F
+      expected_row_header: Defined benefit
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined benefit
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined benefit
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 62
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 62
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 62
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 62
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 62
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 62
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_contribution
+      label: Defined contribution
+      ordinal: 4
+      row_number: 68
+      expected_row_header_column: F
+      expected_row_header: Defined contribution
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined contribution
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined contribution
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 68
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 68
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 68
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 68
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 68
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 68
+          expected_value: Total
+          label: tax rate
+    - value_id: main_rate
+      label: Main Rate
+      ordinal: 5
+      row_number: 74
+      expected_row_header_column: G
+      expected_row_header: Main Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Main Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Main Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 74
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 74
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 74
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 74
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 74
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 74
+          expected_value: Total
+          label: scheme type
+    - value_id: additional_rate
+      label: Additional Rate
+      ordinal: 6
+      row_number: 80
+      expected_row_header_column: G
+      expected_row_header: Additional Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Additional Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Additional Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 80
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 80
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 80
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 80
+          expected_value: Class 1 Primary (employee)
+          label: NICs relief class
+        - column: E
+          row: 80
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 80
+          expected_value: Total
+          label: scheme type
+  measures:
+    - measure_id: relief
+      label: Class 1 Primary (employee) NICs relief on salary sacrificed contributions
+      ordinal: 0
+      column: H
+      source_column_id: value_of_relief
+      expected_column_header_row: 1
+      expected_column_header: value_of_relief
+      concept: hmrc.pension_contribution_nics_relief
+      source_concept: hmrc.pension_contribution_nics_relief
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Primary
+        (employee) NICs relief on salary sacrificed contributions, by sector, scheme type and rate of
+        relief. The Total cells are also emitted under the per-line concept hmrc.ss_nics_relief_employee
+        in this package, from the same source cells; a sum across both concept families counts them twice.
+      unit: gbp
+      aggregation: sum
+      value_scale: 1000000
+      expected_cell_type: number
+- record_set_id: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_secondary
+  provenance_class: administrative
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_secondary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.employer_net_pay_and_deficit_reduction.class_1_secondary
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.pension_relief_breakdown
+  shared_filters:
+    contribution_type: Employer contributions to net pay arrangements and on employer deficit reduction
+      contributions
+    nics_relief_class: Class 1 Secondary (employer)
+  shared_constraints:
+    - variable: contribution_type
+      operator: ==
+      value: Employer contributions to net pay arrangements and on employer deficit reduction contributions
+      label: Contribution type
+    - variable: nics_relief_class
+      operator: ==
+      value: Class 1 Secondary (employer)
+      label: NICs relief class
+  rows:
+    - value_id: total
+      label: Total
+      ordinal: 0
+      row_number: 45
+      expected_row_header_column: G
+      expected_row_header: Total
+      table_record_kind: total
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: all
+      guard_cells:
+        - column: A
+          row: 45
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 45
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 45
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 45
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 45
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 45
+          expected_value: Total
+          label: scheme type
+    - value_id: public_sector_occupational_scheme
+      label: Public sector occupational scheme
+      ordinal: 1
+      row_number: 51
+      expected_row_header_column: E
+      expected_row_header: Public sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Public sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Public sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 51
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 51
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 51
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 51
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: F
+          row: 51
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 51
+          expected_value: Total
+          label: tax rate
+    - value_id: personal_or_private_sector_occupational_scheme
+      label: Personal or private sector occupational scheme
+      ordinal: 2
+      row_number: 57
+      expected_row_header_column: E
+      expected_row_header: Personal or private sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Personal or private sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Personal or private sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 57
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 57
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 57
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 57
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: F
+          row: 57
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 57
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_benefit
+      label: Defined benefit
+      ordinal: 3
+      row_number: 63
+      expected_row_header_column: F
+      expected_row_header: Defined benefit
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined benefit
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined benefit
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 63
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 63
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 63
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 63
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 63
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 63
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_contribution
+      label: Defined contribution
+      ordinal: 4
+      row_number: 69
+      expected_row_header_column: F
+      expected_row_header: Defined contribution
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined contribution
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined contribution
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 69
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 69
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 69
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 69
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 69
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 69
+          expected_value: Total
+          label: tax rate
+    - value_id: main_rate
+      label: Main Rate
+      ordinal: 5
+      row_number: 75
+      expected_row_header_column: G
+      expected_row_header: Main Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Main Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Main Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 75
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 75
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 75
+          expected_value: Employer contributions to net pay arrangements and on employer deficit reduction
+            contributions
+          label: contribution type
+        - column: D
+          row: 75
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 75
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 75
+          expected_value: Total
+          label: scheme type
+  measures:
+    - measure_id: relief
+      label: Class 1 Secondary (employer) NICs relief on employer contributions to net pay arrangements
+        and on employer deficit reduction contributions
+      ordinal: 0
+      column: H
+      source_column_id: value_of_relief
+      expected_column_header_row: 1
+      expected_column_header: value_of_relief
+      concept: hmrc.pension_contribution_nics_relief
+      source_concept: hmrc.pension_contribution_nics_relief
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Secondary
+        (employer) NICs relief on employer contributions to net pay arrangements and on employer deficit
+        reduction contributions, by sector, scheme type and rate of relief. HMRC words this contribution
+        type 'Employer contributions to net pay arrangements and on employer deficit reduction contributions'
+        on the NICs rows and '... plus deficit reduction contributions' on the Income Tax rows; each keeps
+        its own contribution_type value and both carry the Income Tax wording as their label.
+      unit: gbp
+      aggregation: sum
+      value_scale: 1000000
+      expected_cell_type: number
+- record_set_id: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_secondary
+  provenance_class: administrative
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_secondary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.employer_relief_at_source.class_1_secondary
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.pension_relief_breakdown
+  shared_filters:
+    contribution_type: Employer contributions to relief at source schemes
+    nics_relief_class: Class 1 Secondary (employer)
+  shared_constraints:
+    - variable: contribution_type
+      operator: ==
+      value: Employer contributions to relief at source schemes
+      label: Contribution type
+    - variable: nics_relief_class
+      operator: ==
+      value: Class 1 Secondary (employer)
+      label: NICs relief class
+  rows:
+    - value_id: total
+      label: Total
+      ordinal: 0
+      row_number: 46
+      expected_row_header_column: G
+      expected_row_header: Total
+      table_record_kind: total
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: all
+      guard_cells:
+        - column: A
+          row: 46
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 46
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 46
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 46
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 46
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 46
+          expected_value: Total
+          label: scheme type
+    - value_id: public_sector_occupational_scheme
+      label: Public sector occupational scheme
+      ordinal: 1
+      row_number: 52
+      expected_row_header_column: E
+      expected_row_header: Public sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Public sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Public sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 52
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 52
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 52
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 52
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: F
+          row: 52
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 52
+          expected_value: Total
+          label: tax rate
+    - value_id: personal_or_private_sector_occupational_scheme
+      label: Personal or private sector occupational scheme
+      ordinal: 2
+      row_number: 58
+      expected_row_header_column: E
+      expected_row_header: Personal or private sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Personal or private sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Personal or private sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 58
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 58
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 58
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 58
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: F
+          row: 58
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 58
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_benefit
+      label: Defined benefit
+      ordinal: 3
+      row_number: 64
+      expected_row_header_column: F
+      expected_row_header: Defined benefit
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined benefit
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined benefit
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 64
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 64
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 64
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 64
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 64
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 64
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_contribution
+      label: Defined contribution
+      ordinal: 4
+      row_number: 70
+      expected_row_header_column: F
+      expected_row_header: Defined contribution
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined contribution
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined contribution
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 70
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 70
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 70
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 70
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 70
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 70
+          expected_value: Total
+          label: tax rate
+    - value_id: main_rate
+      label: Main Rate
+      ordinal: 5
+      row_number: 76
+      expected_row_header_column: G
+      expected_row_header: Main Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Main Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Main Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 76
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 76
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 76
+          expected_value: Employer contributions to relief at source schemes
+          label: contribution type
+        - column: D
+          row: 76
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 76
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 76
+          expected_value: Total
+          label: scheme type
+  measures:
+    - measure_id: relief
+      label: Class 1 Secondary (employer) NICs relief on employer contributions to relief at source schemes
+      ordinal: 0
+      column: H
+      source_column_id: value_of_relief
+      expected_column_header_row: 1
+      expected_column_header: value_of_relief
+      concept: hmrc.pension_contribution_nics_relief
+      source_concept: hmrc.pension_contribution_nics_relief
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Secondary
+        (employer) NICs relief on employer contributions to relief at source schemes, by sector, scheme
+        type and rate of relief.
+      unit: gbp
+      aggregation: sum
+      value_scale: 1000000
+      expected_cell_type: number
+- record_set_id: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_secondary
+  provenance_class: administrative
+  record_set_spec_id: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_secondary.v1
+  source_record_id_prefix: hmrc.pension_relief.ty2023.nics.salary_sacrificed.class_1_secondary
+  sheet_name: Tables_6_1_and_6_2
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: pension_contribution_reliefs
+  groupby_dimension: hmrc.pension_relief_breakdown
+  shared_filters:
+    contribution_type: Salary sacrificed contributions
+    nics_relief_class: Class 1 Secondary (employer)
+  shared_constraints:
+    - variable: contribution_type
+      operator: ==
+      value: Salary sacrificed contributions
+      label: Contribution type
+    - variable: nics_relief_class
+      operator: ==
+      value: Class 1 Secondary (employer)
+      label: NICs relief class
+  rows:
+    - value_id: total
+      label: Total
+      ordinal: 0
+      row_number: 47
+      expected_row_header_column: G
+      expected_row_header: Total
+      table_record_kind: total
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: all
+      guard_cells:
+        - column: A
+          row: 47
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 47
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 47
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 47
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 47
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 47
+          expected_value: Total
+          label: scheme type
+    - value_id: public_sector_occupational_scheme
+      label: Public sector occupational scheme
+      ordinal: 1
+      row_number: 53
+      expected_row_header_column: E
+      expected_row_header: Public sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Public sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Public sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 53
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 53
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 53
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 53
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: F
+          row: 53
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 53
+          expected_value: Total
+          label: tax rate
+    - value_id: personal_or_private_sector_occupational_scheme
+      label: Personal or private sector occupational scheme
+      ordinal: 2
+      row_number: 59
+      expected_row_header_column: E
+      expected_row_header: Personal or private sector occupational scheme
+      table_record_kind: detail
+      filters:
+        sector_scheme: Personal or private sector occupational scheme
+        scheme_type: all
+        tax_rate: all
+      constraints:
+        - variable: sector_scheme
+          operator: ==
+          value: Personal or private sector occupational scheme
+          label: Sector
+      guard_cells:
+        - column: A
+          row: 59
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 59
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 59
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 59
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: F
+          row: 59
+          expected_value: Total
+          label: scheme type
+        - column: G
+          row: 59
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_benefit
+      label: Defined benefit
+      ordinal: 3
+      row_number: 65
+      expected_row_header_column: F
+      expected_row_header: Defined benefit
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined benefit
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined benefit
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 65
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 65
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 65
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 65
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 65
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 65
+          expected_value: Total
+          label: tax rate
+    - value_id: defined_contribution
+      label: Defined contribution
+      ordinal: 4
+      row_number: 71
+      expected_row_header_column: F
+      expected_row_header: Defined contribution
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: Defined contribution
+        tax_rate: all
+      constraints:
+        - variable: scheme_type
+          operator: ==
+          value: Defined contribution
+          label: Scheme type
+      guard_cells:
+        - column: A
+          row: 71
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 71
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 71
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 71
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 71
+          expected_value: Total
+          label: sector scheme
+        - column: G
+          row: 71
+          expected_value: Total
+          label: tax rate
+    - value_id: main_rate
+      label: Main Rate
+      ordinal: 5
+      row_number: 77
+      expected_row_header_column: G
+      expected_row_header: Main Rate
+      table_record_kind: detail
+      filters:
+        sector_scheme: all
+        scheme_type: all
+        tax_rate: Main Rate
+      constraints:
+        - variable: tax_rate
+          operator: ==
+          value: Main Rate
+          label: Rate of relief
+      guard_cells:
+        - column: A
+          row: 77
+          expected_value: 2023 to 2024
+          label: tax year
+        - column: B
+          row: 77
+          expected_value: NICs
+          label: income tax or NICs
+        - column: C
+          row: 77
+          expected_value: Salary sacrificed contributions
+          label: contribution type
+        - column: D
+          row: 77
+          expected_value: Class 1 Secondary (employer)
+          label: NICs relief class
+        - column: E
+          row: 77
+          expected_value: Total
+          label: sector scheme
+        - column: F
+          row: 77
+          expected_value: Total
+          label: scheme type
+  measures:
+    - measure_id: relief
+      label: Class 1 Secondary (employer) NICs relief on salary sacrificed contributions
+      ordinal: 0
+      column: H
+      source_column_id: value_of_relief
+      expected_column_header_row: 1
+      expected_column_header: value_of_relief
+      concept: hmrc.pension_contribution_nics_relief
+      source_concept: hmrc.pension_contribution_nics_relief
+      concept_relation: source_label
+      concept_authority: hmrc
+      concept_evidence_url: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+      concept_evidence_notes: Private pension statistics (31 July 2025 edition), tidy CSV Tables 6.1/6.2,
+        tax year 2023 to 2024 (provisional), GBP million rounded to the nearest 100 million; Class 1 Secondary
+        (employer) NICs relief on salary sacrificed contributions, by sector, scheme type and rate of
+        relief. The Total cells are also emitted under the per-line concept hmrc.ss_nics_relief_employer
+        in this package, from the same source cells; a sum across both concept families counts them twice.
+      unit: gbp
+      aggregation: sum
+      value_scale: 1000000
+      expected_cell_type: number

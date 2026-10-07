@@ -12,12 +12,15 @@
 # (the MYE precedent). Column identity therefore rests on the sha-pinned
 # artifact and the per-row guards, and each year is its own record set.
 #
-# ScotGov's '&' spellings are aliased for the code lookup only; guards carry the
-# publisher's exact string. Excluded: the footnote rows below the councils.
+# ScotGov's '&' spellings are aliased for the code lookup only; guards and
+# geography names carry the publisher's exact string, and the register supplies
+# the ONS name beside it (chronicle#281). Excluded: the footnote rows below the councils.
 schema_version: ledger.source_package.v1
 package_id: scotgov-band-d-equivalents-2025
 label: 'ScotGov CTAXBASE 2025: Band D equivalent dwellings by council area, before
   and after council tax reduction, 1996 to 2025'
+dimension_labels:
+  'geography': 'Geography'
 artifact:
   source_name: scotgov
   source_table: 'CTAXBASE 2025 Tables: Band D equivalents'
@@ -112,7 +115,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -145,7 +148,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -332,7 +335,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -501,7 +504,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -534,7 +537,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -721,7 +724,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -890,7 +893,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -923,7 +926,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -1110,7 +1113,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -1279,7 +1282,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -1312,7 +1315,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -1499,7 +1502,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -1668,7 +1671,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -1701,7 +1704,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -1888,7 +1891,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -2057,7 +2060,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -2090,7 +2093,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -2277,7 +2280,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -2446,7 +2449,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -2479,7 +2482,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -2666,7 +2669,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -2835,7 +2838,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -2868,7 +2871,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -3055,7 +3058,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -3224,7 +3227,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -3257,7 +3260,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -3444,7 +3447,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -3613,7 +3616,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -3646,7 +3649,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -3833,7 +3836,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -4002,7 +4005,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -4035,7 +4038,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -4222,7 +4225,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -4391,7 +4394,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -4424,7 +4427,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -4611,7 +4614,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -4780,7 +4783,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -4813,7 +4816,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -5000,7 +5003,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -5169,7 +5172,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -5202,7 +5205,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -5389,7 +5392,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -5558,7 +5561,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -5591,7 +5594,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -5778,7 +5781,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -5947,7 +5950,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -5980,7 +5983,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -6167,7 +6170,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -6336,7 +6339,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -6369,7 +6372,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -6556,7 +6559,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -6725,7 +6728,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -6758,7 +6761,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -6945,7 +6948,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -7114,7 +7117,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -7147,7 +7150,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -7334,7 +7337,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -7503,7 +7506,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -7536,7 +7539,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -7723,7 +7726,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -7892,7 +7895,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -7925,7 +7928,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -8112,7 +8115,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -8281,7 +8284,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -8314,7 +8317,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -8501,7 +8504,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -8670,7 +8673,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -8703,7 +8706,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -8890,7 +8893,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -9059,7 +9062,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -9092,7 +9095,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -9279,7 +9282,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -9448,7 +9451,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -9481,7 +9484,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -9668,7 +9671,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -9837,7 +9840,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -9870,7 +9873,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -10057,7 +10060,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -10226,7 +10229,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -10259,7 +10262,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -10446,7 +10449,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -10615,7 +10618,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -10648,7 +10651,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -10835,7 +10838,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -11004,7 +11007,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -11037,7 +11040,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -11224,7 +11227,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -11393,7 +11396,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -11426,7 +11429,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -11613,7 +11616,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -11782,7 +11785,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -11815,7 +11818,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -12002,7 +12005,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -12171,7 +12174,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -12204,7 +12207,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -12391,7 +12394,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -12560,7 +12563,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -12593,7 +12596,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -12780,7 +12783,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -12949,7 +12952,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -12982,7 +12985,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -13169,7 +13172,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -13338,7 +13341,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -13371,7 +13374,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -13558,7 +13561,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -13727,7 +13730,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -13760,7 +13763,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -13947,7 +13950,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -14116,7 +14119,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -14149,7 +14152,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -14336,7 +14339,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -14505,7 +14508,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -14538,7 +14541,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -14725,7 +14728,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -14894,7 +14897,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -14927,7 +14930,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -15114,7 +15117,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -15283,7 +15286,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -15316,7 +15319,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -15503,7 +15506,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -15672,7 +15675,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -15705,7 +15708,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -15892,7 +15895,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -16061,7 +16064,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -16094,7 +16097,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -16281,7 +16284,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038
@@ -16450,7 +16453,7 @@ record_sets:
     expected_row_header: 'Argyll & Bute'
     geography_id: S12000035
     geography_level: local_authority
-    geography_name: 'Argyll and Bute'
+    geography_name: 'Argyll & Bute'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000036
@@ -16483,7 +16486,7 @@ record_sets:
     expected_row_header: 'Dumfries & Galloway'
     geography_id: S12000006
     geography_level: local_authority
-    geography_name: 'Dumfries and Galloway'
+    geography_name: 'Dumfries & Galloway'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000042
@@ -16670,7 +16673,7 @@ record_sets:
     expected_row_header: 'Perth & Kinross'
     geography_id: S12000048
     geography_level: local_authority
-    geography_name: 'Perth and Kinross'
+    geography_name: 'Perth & Kinross'
     geography_vintage: ca_2019
     table_record_kind: detail
   - value_id: s12000038

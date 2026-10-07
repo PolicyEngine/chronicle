@@ -1,0 +1,176 @@
+name: OTS anchor
+
+# The trusted tool and mutable proofs live on main. The journal checkout is
+# credential-free input only; no code from it is executed and it is never pushed.
+
+on:
+  schedule:
+    - cron: "23 6 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ots-anchor-main
+  cancel-in-progress: false
+
+jobs:
+  anchor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      # API evidence on 2026-09-02 showed no effective rules, required checks,
+      # reviews, or push restrictions blocking a GITHUB_TOKEN update to main.
+      contents: write
+    env:
+      MAIN_BRANCH: main
+      JOURNAL_BRANCH: codex/thesis-ledger-facts
+      OTS_BIN: uvx --from opentimestamps-client==0.7.2 ots
+    steps:
+      - name: Log main publication rule evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+
+          log_api() {
+            endpoint="$1"
+            printf 'gh api %s\n' "$endpoint"
+            if ! gh api "$endpoint"; then
+              printf '::warning::Could not read %s; the bounded push remains authoritative.\n' \
+                "$endpoint" >&2
+            fi
+          }
+
+          log_api "repos/$GITHUB_REPOSITORY/rules/branches/$MAIN_BRANCH"
+          log_api "repos/$GITHUB_REPOSITORY/rulesets"
+          log_api "repos/$GITHUB_REPOSITORY/branches/$MAIN_BRANCH/protection"
+
+      - name: Check out trusted main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Check out journal manifests without credentials
+        uses: actions/checkout@v4
+        with:
+          ref: codex/thesis-ledger-facts
+          path: journal
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Anchor, verify, and publish proof-only changes
+        working-directory: main
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          manifest_dir="$GITHUB_WORKSPACE/journal/releases/manifests"
+
+          anchor_and_verify() {
+            python3 scripts/ots_anchor.py run \
+              --manifests "$manifest_dir" \
+              --ots-bin "$OTS_BIN"
+            python3 scripts/ots_anchor.py verify \
+              --manifests "$manifest_dir" \
+              --ots-bin "$OTS_BIN"
+            python3 scripts/ots_anchor.py guard
+          }
+
+          refresh_journal() {
+            git -C "$GITHUB_WORKSPACE/journal" fetch \
+              --no-tags --depth=1 origin "$JOURNAL_BRANCH"
+            git -C "$GITHUB_WORKSPACE/journal" checkout \
+              --detach FETCH_HEAD
+          }
+
+          commit_proofs() {
+            git add -- ots/
+            if git diff --cached --quiet; then
+              return
+            fi
+            if git diff --quiet "origin/$MAIN_BRANCH"...HEAD; then
+              git commit \
+                -m "Update OpenTimestamps anchors for release manifests"
+            else
+              git commit --amend --no-edit
+            fi
+          }
+
+          assert_commit_scope() {
+            outside=0
+            while IFS= read -r changed_path; do
+              if [[ -z "$changed_path" ]]; then
+                continue
+              fi
+              case "$changed_path" in
+                ots/*) ;;
+                *)
+                  printf 'refusing committed path outside ots/: %s\n' \
+                    "$changed_path" >&2
+                  outside=1
+                  ;;
+              esac
+            done < <(git diff --name-only "origin/$MAIN_BRANCH"...HEAD)
+            if [[ "$outside" -ne 0 ]]; then
+              return 1
+            fi
+            if [[ -n "$(git status --porcelain)" ]]; then
+              git status --short >&2
+              printf 'refusing to push a dirty worktree\n' >&2
+              return 1
+            fi
+          }
+
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          anchor_and_verify
+          commit_proofs
+          if git diff --quiet "origin/$MAIN_BRANCH"...HEAD; then
+            printf 'no proof changes to publish\n'
+            exit 0
+          fi
+          assert_commit_scope
+
+          for attempt in 1 2 3; do
+            if push_output="$(git push origin HEAD:main 2>&1)"; then
+              printf '%s\n' "$push_output"
+              exit 0
+            fi
+            printf '%s\n' "$push_output" >&2
+            if ! git fetch --no-tags origin main; then
+              printf 'push failed and main could not be fetched for retry analysis\n' >&2
+              exit 1
+            fi
+            if git merge-base --is-ancestor HEAD origin/main; then
+              printf 'local proof commit is already contained in main\n'
+              exit 0
+            fi
+            if git merge-base --is-ancestor origin/main HEAD; then
+              printf 'push failed for a reason other than non-fast-forward\n' >&2
+              exit 1
+            fi
+            if [[ "$attempt" -eq 3 ]]; then
+              printf 'push remained non-fast-forward after 3 attempts\n' >&2
+              exit 1
+            fi
+
+            git rebase origin/main
+            refresh_journal
+            anchor_and_verify
+            commit_proofs
+            if git diff --quiet origin/main...HEAD; then
+              printf 'proof changes already landed during retry\n'
+              exit 0
+            fi
+            assert_commit_scope
+          done

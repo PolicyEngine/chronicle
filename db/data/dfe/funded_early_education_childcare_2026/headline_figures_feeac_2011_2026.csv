@@ -1,0 +1,225 @@
+time_period,time_identifier,geographic_level,country_code,country_name,entitlement_type,age,registered_children_count,registered_children_nursery_count,registered_children_reception_count,eligible_children_count,eligible_children_nursery_count,eligible_children_universal_credit_count,eligible_children_legacy_benefit_count,registered_eligible_children_percent,registered_eligible_children_nursery_percent,all_children_count,registered_all_children_percent,providers_count,state_funded_schools_count,private_and_voluntary_providers_count,independent_schools_count,local_authority_day_nurseries_count,childminders_count,state_funded_governor_run_count,other_private_voluntary_and_independent_count,staff_count
+2026,Reporting year,National,E92000001,England,Total,Total,1714427,x,x,z,x,z,z,z,x,2539433.484,67.512184,55340,16704,17322,795,401,19185,669,264,286675
+2026,Reporting year,National,E92000001,England,Working parents,Total,890483,x,x,1052000,x,z,z,85,x,2539433.484,35.066207,45822,7849,17161,547,382,18995,638,250,x
+2026,Reporting year,National,E92000001,England,Working parents,9 to 11 months,30679,x,x,66000,x,z,z,46,x,135865,22.580503,13164,57,8406,83,172,4342,30,74,x
+2026,Reporting year,National,E92000001,England,Working parents,1 year,210825,x,x,278000,x,z,z,76,x,571240.0346,36.906552,27768,153,11989,139,236,15070,59,122,x
+2026,Reporting year,National,E92000001,England,Working parents,2 years,260238,x,x,283000,x,z,z,92,x,582143.2742,44.703428,34196,1984,16486,346,324,14499,340,217,x
+2026,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,501742,x,x,627000,x,z,z,80,x,1289248.309,38.917406,38421,1988,16675,349,344,18486,360,219,x
+2026,Reporting year,National,E92000001,England,Working parents,3 years,278490,x,x,297000,x,z,z,94,x,610427.2066,45.622147,35471,7605,16306,436,325,10007,564,228,x
+2026,Reporting year,National,E92000001,England,Working parents,4 years,110251,x,x,128000,x,z,z,86,x,639757.9688,17.233236,26974,7188,14419,451,276,3936,515,189,x
+2026,Reporting year,National,E92000001,England,Working parents,3 to 4 years,388741,x,x,425000,x,z,z,91,x,1250185.175,31.094674,37184,7809,16457,491,330,11286,579,232,x
+2026,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,85629,x,x,119598,x,116929,2669,71.597351,x,582143.2742,14.709266,18786,2462,12678,139,263,2849,237,158,x
+2026,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,85629,x,x,119598,x,116929,2669,71.597351,x,582143.2742,14.709266,18786,2462,12678,139,263,2849,237,158,x
+2026,Reporting year,National,E92000001,England,Universal,Total,1127056,751322,375718,1250185.175,874467.1754,z,z,90.151125,85.91769,1250185.175,90.151125,46782,16703,16897,782,358,11178,611,253,x
+2026,Reporting year,National,E92000001,England,Universal,3 years,535220,535209,5,610427.2066,610422.2066,z,z,87.679578,87.678494,610427.2066,87.679578,37869,9000,16856,703,356,10097,606,251,x
+2026,Reporting year,National,E92000001,England,Universal,4 years,591836,216113,375713,639757.9688,264044.9688,z,z,92.50936,81.847043,639757.9688,92.50936,38360,16697,15952,772,326,3827,560,226,x
+2025,Reporting year,National,E92000001,England,Total,Total,1717085,x,x,z,x,z,z,z,x,2594300.989,66.186807,55020,16757,17792,785,278,18546,840,22,272491
+2025,Reporting year,National,E92000001,England,Working parents,Total,845741,x,x,1082000,x,z,z,78,x,2594300.989,32.599957,44827,7366,17572,538,262,18267,803,19,x
+2025,Reporting year,National,E92000001,England,Working parents,9 to 11 months,29155,x,x,67000,x,z,z,44,x,136292,21.391571,12424,32,8045,73,91,4158,25,0,x
+2025,Reporting year,National,E92000001,England,Working parents,1 year,195104,x,x,283000,x,z,z,69,x,579283.9556,33.680201,26239,106,11685,113,148,14130,53,4,x
+2025,Reporting year,National,E92000001,England,Working parents,2 years,242453,x,x,297000,x,z,z,82,x,608555.1105,39.840763,32434,1338,16715,327,207,13426,407,14,x
+2025,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,466712,x,x,647000,x,z,z,72,x,1324131.066,35.246662,36864,1344,16937,328,223,17603,415,14,x
+2025,Reporting year,National,E92000001,England,Working parents,3 years,278640,x,x,312000,x,z,z,89,x,638657.5107,43.629018,35307,7167,16527,419,221,10218,740,15,x
+2025,Reporting year,National,E92000001,England,Working parents,4 years,100389,x,x,123000,x,z,z,81,x,631512.4121,15.8966,26010,6714,14382,415,191,3638,656,14,x
+2025,Reporting year,National,E92000001,England,Working parents,3 to 4 years,379029,x,x,435000,x,z,z,87,x,1270169.923,29.840811,36832,7333,16730,468,226,11306,753,16,x
+2025,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,95031,x,x,145824,x,140277,5547,65.168285,x,608555.1105,15.615841,19008,2129,13418,134,213,2808,299,7,x
+2025,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,95031,x,x,145824,x,140277,5547,65.168285,x,608555.1105,15.615841,19008,2129,13418,134,213,2808,299,7,x
+2025,Reporting year,National,E92000001,England,Universal,Total,1155342,775994,379311,1270169.923,890858.9228,z,z,90.959641,87.106272,1270169.923,90.959641,47337,16756,17379,779,252,11351,798,22,x
+2025,Reporting year,National,E92000001,England,Universal,3 years,565961,565954,3,638657.5107,638654.5107,z,z,88.617293,88.616614,638657.5107,88.617293,38253,8668,17335,716,251,10477,789,17,x
+2025,Reporting year,National,E92000001,England,Universal,4 years,589381,210040,379308,631512.4121,252204.4121,z,z,93.32849,83.281652,631512.4121,93.32849,38365,16750,16364,769,234,3495,737,16,x
+2024,Reporting year,National,E92000001,England,Total,Total,1285393,x,x,z,x,z,z,z,x,1900554.742,67.632517,49194,16782,17511,807,277,12943,818,56,254285
+2024,Reporting year,National,E92000001,England,Working parents,Total,361790,x,x,430000,x,z,z,84,x,1270734.935,28.470926,35584,7065,16485,443,223,10575,740,53,x
+2024,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2024,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2024,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2024,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2024,Reporting year,National,E92000001,England,Working parents,3 years,259103,x,x,305000,x,z,z,85,x,623155.0534,41.579218,33874,6900,16232,381,219,9362,729,51,x
+2024,Reporting year,National,E92000001,England,Working parents,4 years,102687,x,x,125000,x,z,z,82,x,647579.8812,15.85704,25979,6522,14488,403,194,3670,659,43,x
+2024,Reporting year,National,E92000001,England,Working parents,3 to 4 years,361790,x,x,430000,x,z,z,84,x,1270734.935,28.470926,35584,7065,16485,443,223,10575,740,53,x
+2024,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,115852,x,x,154957,x,135850,19107,74.763967,x,629819.8071,18.394468,20613,1880,14226,123,222,3808,314,40,x
+2024,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,115852,x,x,154957,x,135850,19107,74.763967,x,629819.8071,18.394468,20613,1880,14226,123,222,3808,314,40,x
+2024,Reporting year,National,E92000001,England,Universal,Total,1169541,778327,391177,1270734.935,879557.9345,z,z,92.036582,88.490703,1270734.935,92.036582,46348,16782,17299,805,262,10364,784,52,x
+2024,Reporting year,National,E92000001,England,Universal,3 years,559825,559813,7,623155.0534,623148.0534,z,z,89.837192,89.836275,623155.0534,89.837192,36997,8545,17248,730,259,9387,779,49,x
+2024,Reporting year,National,E92000001,England,Universal,4 years,609716,218514,391170,647579.8812,256409.8812,z,z,94.153018,85.220585,647579.8812,94.153018,38409,16772,16378,792,237,3437,743,50,x
+2023,Reporting year,National,E92000001,England,Total,Total,1320242,x,x,z,x,z,z,z,x,1876239.346,70.366396,49898,16794,17904,817,292,13173,889,29,250662
+2023,Reporting year,National,E92000001,England,Working parents,Total,362982,x,x,452000,x,z,z,80,x,1269736.277,28.587196,35753,6769,16728,443,229,10766,794,24,x
+2023,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2023,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2023,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2023,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2023,Reporting year,National,E92000001,England,Working parents,3 years,260586,x,x,327000,x,z,z,80,x,631107.4063,41.290278,33965,6622,16488,383,227,9437,784,24,x
+2023,Reporting year,National,E92000001,England,Working parents,4 years,102396,x,x,126000,x,z,z,81,x,638628.8712,16.033725,25997,6204,14632,396,203,3847,694,21,x
+2023,Reporting year,National,E92000001,England,Working parents,3 to 4 years,362982,x,x,452000,x,z,z,80,x,1269736.277,28.587196,35753,6769,16728,443,229,10766,794,24,x
+2023,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,124211,x,x,167976,x,141942,26034,73.945683,x,606503.0684,20.479863,21064,1905,14615,130,223,3816,355,20,x
+2023,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,124211,x,x,167976,x,141942,26034,73.945683,x,606503.0684,20.479863,21064,1905,14615,130,223,3816,355,20,x
+2023,Reporting year,National,E92000001,England,Universal,Total,1196031,800129,395860,1269736.277,873876.2775,z,z,94.195229,91.560902,1269736.277,94.195229,46719,16794,17676,815,275,10289,843,27,x
+2023,Reporting year,National,E92000001,England,Universal,3 years,576886,576871,11,631107.4063,631096.4063,z,z,91.40853,91.407746,631107.4063,91.40853,37201,8475,17621,735,275,9232,836,27,x
+2023,Reporting year,National,E92000001,England,Universal,4 years,619145,223258,395849,638628.8712,242779.8712,z,z,96.949109,91.959024,638628.8712,96.949109,38829,16782,16712,810,250,3453,799,23,x
+2022,Reporting year,National,E92000001,England,Total,Total,1347644,x,x,z,x,z,z,z,x,1879259.827,71.711425,51323,16809,18526,806,230,13919,942,91,249263
+2022,Reporting year,National,E92000001,England,Working parents,Total,348126,x,x,425000,x,z,z,82,x,1263562.166,27.551157,36346,6428,17125,417,178,11280,841,77,x
+2022,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2022,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2022,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2022,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2022,Reporting year,National,E92000001,England,Working parents,3 years,249388,x,x,308000,x,z,z,81,x,623763.8674,39.981155,34351,6282,16801,362,175,9834,821,76,x
+2022,Reporting year,National,E92000001,England,Working parents,4 years,98738,x,x,117000,x,z,z,84,x,639798.2989,15.432676,26049,5897,14758,378,154,4049,748,65,x
+2022,Reporting year,National,E92000001,England,Working parents,3 to 4 years,348126,x,x,425000,x,z,z,82,x,1263562.166,27.551157,36346,6428,17125,417,178,11280,841,77,x
+2022,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,135410,x,x,188318,x,148298,40020,71.904969,x,615697.6604,21.992937,22136,1897,15274,118,194,4180,399,74,x
+2022,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,135410,x,x,188318,x,148298,40020,71.904969,x,615697.6604,21.992937,22136,1897,15274,118,194,4180,399,74,x
+2022,Reporting year,National,E92000001,England,Universal,Total,1212234,809512,402694,1263562.166,860868.1663,z,z,95.93782,94.034375,1263562.166,95.93782,47720,16809,18245,805,214,10658,903,86,x
+2022,Reporting year,National,E92000001,England,Universal,3 years,582295,582288,6,623763.8674,623757.8674,z,z,93.351832,93.351608,623763.8674,93.351832,37970,8346,18175,723,214,9530,897,85,x
+2022,Reporting year,National,E92000001,England,Universal,4 years,629939,227224,402688,639798.2989,237110.2989,z,z,98.458999,95.830506,639798.2989,98.458999,39488,16804,17172,799,192,3573,869,79,x
+2021,Reporting year,National,E92000001,England,Total,Total,1336534,x,x,z,x,z,z,z,x,1905083.012,70.156208,52445,16789,18653,809,183,14816,889,306,243710
+2021,Reporting year,National,E92000001,England,Working parents,Total,328662,x,x,432000,x,z,z,76,x,1286697.826,25.54306,36340,6021,16931,394,137,11839,762,256,x
+2021,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2021,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2021,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2021,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2021,Reporting year,National,E92000001,England,Working parents,3 years,234996,x,x,313000,x,z,z,75,x,634638.5903,37.028319,34031,5864,16589,336,135,10125,744,238,x
+2021,Reporting year,National,E92000001,England,Working parents,4 years,93666,x,x,119000,x,z,z,79,x,652059.2361,14.364646,25628,5471,14478,364,111,4362,662,180,x
+2021,Reporting year,National,E92000001,England,Working parents,3 to 4 years,328662,x,x,432000,x,z,z,76,x,1286697.826,25.54306,36340,6021,16931,394,137,11839,762,256,x
+2021,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,124543,x,x,201562,x,136979,64583,61.788928,x,618385.1859,20.140036,21922,1742,15078,118,168,4245,385,186,x
+2021,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,124543,x,x,201562,x,136979,64583,61.788928,x,618385.1859,20.140036,21922,1742,15078,118,168,4245,385,186,x
+2021,Reporting year,National,E92000001,England,Universal,Total,1211991,800108,411844,1286697.826,874853.8264,z,z,94.193911,91.456193,1286697.826,94.193911,48839,16789,18392,807,171,11574,836,270,x
+2021,Reporting year,National,E92000001,England,Universal,3 years,574845,574830,11,634638.5903,634627.5903,z,z,90.578324,90.577531,634638.5903,90.578324,38760,8220,18316,727,170,10235,831,261,x
+2021,Reporting year,National,E92000001,England,Universal,4 years,637146,225278,411833,652059.2361,240226.2361,z,z,97.712902,93.777434,652059.2361,97.712902,39914,16784,17204,801,149,3997,788,191,x
+2020,Reporting year,National,E92000001,England,Total,Total,1414983,x,x,z,x,z,z,z,x,1948051.146,72.635824,53934,16788,18822,808,329,15898,403,886,256379
+2020,Reporting year,National,E92000001,England,Working parents,Total,345704,x,x,440000,x,z,z,79,x,1310666.668,26.376195,37597,5801,17176,391,250,12884,354,741,x
+2020,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2020,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2020,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2020,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2020,Reporting year,National,E92000001,England,Working parents,3 years,248399,x,x,321000,x,z,z,77,x,653992.3445,37.981943,35274,5676,16857,337,238,11118,347,701,x
+2020,Reporting year,National,E92000001,England,Working parents,4 years,97305,x,x,119000,x,z,z,82,x,656674.323,14.817848,26316,5294,14745,354,204,4784,300,635,x
+2020,Reporting year,National,E92000001,England,Working parents,3 to 4 years,345704,x,x,440000,x,z,z,79,x,1310666.668,26.376195,37597,5801,17176,391,250,12884,354,741,x
+2020,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,143439,x,x,207392,x,87140,120252,69.163227,x,637384.4785,22.504313,22572,1734,15375,118,259,4403,215,468,x
+2020,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,143439,x,x,207392,x,87140,120252,69.163227,x,637384.4785,22.504313,22572,1734,15375,118,259,4403,215,468,x
+2020,Reporting year,National,E92000001,England,Universal,Total,1271544,857137,414352,1310666.668,896314.6676,z,z,97.015056,95.629028,1310666.668,97.015056,49397,16788,18502,807,288,11809,382,821,x
+2020,Reporting year,National,E92000001,England,Universal,3 years,621351,621318,19,653992.3445,653973.3445,z,z,95.00891,95.006625,653992.3445,95.00891,39325,8170,18425,737,287,10512,381,813,x
+2020,Reporting year,National,E92000001,England,Universal,4 years,650193,235819,414333,656674.323,242341.323,z,z,99.013008,97.308621,656674.323,99.013008,40066,16786,17254,796,256,3859,356,759,x
+2019,Reporting year,National,E92000001,England,Total,Total,1425888,x,x,z,x,z,z,z,x,1971665.94,72.318945,53832,16760,19258,832,460,15661,x,861,261919
+2019,Reporting year,National,E92000001,England,Working parents,Total,328127,x,x,425000,x,z,z,77,x,1315386.334,24.945295,36561,5329,17220,385,366,12562,x,699,x
+2019,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2019,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2019,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2019,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2019,Reporting year,National,E92000001,England,Working parents,3 years,236087,x,x,311000,x,z,z,76,x,658455.1615,35.854681,34210,5201,16856,319,352,10806,x,676,x
+2019,Reporting year,National,E92000001,England,Working parents,4 years,92040,x,x,114000,x,z,z,81,x,656931.1728,14.0106,25550,4892,14657,344,318,4762,x,577,x
+2019,Reporting year,National,E92000001,England,Working parents,3 to 4 years,328127,x,x,425000,x,z,z,77,x,1315386.334,24.945295,36561,5329,17220,385,366,12562,x,699,x
+2019,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,148751,x,x,219316,x,32867,186449,67.824965,x,656279.6061,22.665797,22744,1662,15741,127,347,4447,x,420,x
+2019,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,148751,x,x,219316,x,32867,186449,67.824965,x,656279.6061,22.665797,22744,1662,15741,127,347,4447,x,420,x
+2019,Reporting year,National,E92000001,England,Universal,Total,1277137,861736,415343,1315386.334,900043.3344,z,z,97.09216,95.743834,1315386.334,97.09216,48954,16760,18914,830,407,11260,x,783,x
+2019,Reporting year,National,E92000001,England,Universal,3 years,625658,625602,42,658455.1615,658413.1615,z,z,95.019074,95.01663,658455.1615,95.019074,38837,8080,18829,753,406,9994,x,775,x
+2019,Reporting year,National,E92000001,England,Universal,4 years,651479,236134,415301,656931.1728,241630.1728,z,z,99.170054,97.725378,656931.1728,99.170054,39901,16753,17602,813,369,3673,x,691,x
+2018,Reporting year,National,E92000001,England,Total,Total,1439594,x,x,z,x,z,z,z,x,1982394.943,72.61893,53582,16723,19290,813,425,15083,x,1248,254361
+2018,Reporting year,National,E92000001,England,Working parents,Total,296924,x,x,405000,x,z,z,73,x,1322233.551,22.456245,34915,4679,16869,339,311,11741,x,976,x
+2018,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2018,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2018,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2018,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2018,Reporting year,National,E92000001,England,Working parents,3 years,216096,x,x,295000,x,z,z,73,x,658521.7711,32.815316,32801,4555,16501,290,307,10211,x,937,x
+2018,Reporting year,National,E92000001,England,Working parents,4 years,80828,x,x,110000,x,z,z,74,x,663711.7798,12.178178,23646,4220,14046,292,260,4095,x,733,x
+2018,Reporting year,National,E92000001,England,Working parents,3 to 4 years,296924,x,x,405000,x,z,z,73,x,1322233.551,22.456245,34915,4679,16869,339,311,11741,x,976,x
+2018,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,154962,x,x,215879,x,0,215879,71.781878,x,660161.3925,23.473351,22828,1601,15761,125,342,4299,x,700,x
+2018,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,154962,x,x,215879,x,0,215879,71.781878,x,660161.3925,23.473351,22828,1601,15761,125,342,4299,x,700,x
+2018,Reporting year,National,E92000001,England,Universal,Total,1284632,865402,419176,1322233.551,903057.5508,z,z,97.15621,95.830216,1322233.551,97.15621,48529,16722,18927,810,382,10551,x,1137,x
+2018,Reporting year,National,E92000001,England,Universal,3 years,628503,628476,16,658521.7711,658505.7711,z,z,95.441491,95.43971,658521.7711,95.441491,38621,8037,18853,732,382,9491,x,1126,x
+2018,Reporting year,National,E92000001,England,Universal,4 years,656129,236926,419160,663711.7798,244551.7798,z,z,98.857519,96.881732,663711.7798,98.857519,39434,16713,17465,798,336,3143,x,979,x
+2017,Reporting year,National,E92000001,England,Total,Total,1480907,x,x,z,x,z,z,z,x,2021847.78,73.245227,x,x,x,x,x,x,x,x,x
+2017,Reporting year,National,E92000001,England,Working parents,Total,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2017,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2017,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2017,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2017,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2017,Reporting year,National,E92000001,England,Working parents,3 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2017,Reporting year,National,E92000001,England,Working parents,4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2017,Reporting year,National,E92000001,England,Working parents,3 to 4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2017,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,163249,x,x,230892,x,0,230892,70.703619,x,660228.9254,24.726121,x,x,x,x,x,x,x,x,x
+2017,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,163249,x,x,230892,x,0,230892,70.703619,x,660228.9254,24.726121,x,x,x,x,x,x,x,x,x
+2017,Reporting year,National,E92000001,England,Universal,Total,1317658,x,x,1361618.855,x,z,z,96.771427,x,1361618.855,96.771427,x,x,x,x,x,x,x,x,x
+2017,Reporting year,National,E92000001,England,Universal,3 years,632331,x,x,665008.0522,x,z,z,95.086217,x,665008.0522,95.086217,x,x,x,x,x,x,x,x,x
+2017,Reporting year,National,E92000001,England,Universal,4 years,685327,x,x,696610.8024,x,z,z,98.380186,x,696610.8024,98.380186,x,x,x,x,x,x,x,x,x
+2016,Reporting year,National,E92000001,England,Total,Total,1506355,x,x,z,x,z,z,z,x,2052444.766,73.393205,x,x,x,x,x,x,x,x,x
+2016,Reporting year,National,E92000001,England,Working parents,Total,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2016,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2016,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2016,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2016,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2016,Reporting year,National,E92000001,England,Working parents,3 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2016,Reporting year,National,E92000001,England,Working parents,4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2016,Reporting year,National,E92000001,England,Working parents,3 to 4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2016,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,166924,x,x,246085,x,0,246085,67.831847,x,665277.9188,25.090867,x,x,x,x,x,x,x,x,x
+2016,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,166924,x,x,246085,x,0,246085,67.831847,x,665277.9188,25.090867,x,x,x,x,x,x,x,x,x
+2016,Reporting year,National,E92000001,England,Universal,Total,1339431,x,x,1387166.847,x,z,z,96.558752,x,1387166.847,96.558752,x,x,x,x,x,x,x,x,x
+2016,Reporting year,National,E92000001,England,Universal,3 years,660428,x,x,696745.7615,x,z,z,94.787516,x,696745.7615,94.787516,x,x,x,x,x,x,x,x,x
+2016,Reporting year,National,E92000001,England,Universal,4 years,679003,x,x,690421.0859,x,z,z,98.346214,x,690421.0859,98.346214,x,x,x,x,x,x,x,x,x
+2015,Reporting year,National,E92000001,England,Total,Total,1478933,x,x,z,x,z,z,z,x,2072485.842,71.360343,x,x,x,x,x,x,x,x,x
+2015,Reporting year,National,E92000001,England,Working parents,Total,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2015,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2015,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2015,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2015,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2015,Reporting year,National,E92000001,England,Working parents,3 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2015,Reporting year,National,E92000001,England,Working parents,4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2015,Reporting year,National,E92000001,England,Working parents,3 to 4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2015,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,157036,x,x,269777,x,0,269777,58.209558,x,695861.8141,22.567124,x,x,x,x,x,x,x,x,x
+2015,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,157036,x,x,269777,x,0,269777,58.209558,x,695861.8141,22.567124,x,x,x,x,x,x,x,x,x
+2015,Reporting year,National,E92000001,England,Universal,Total,1321897,x,x,1376624.028,x,z,z,96.024548,x,1376624.028,96.024548,x,x,x,x,x,x,x,x,x
+2015,Reporting year,National,E92000001,England,Universal,3 years,646674,x,x,688946.6265,x,z,z,93.864165,x,688946.6265,93.864165,x,x,x,x,x,x,x,x,x
+2015,Reporting year,National,E92000001,England,Universal,4 years,675223,x,x,687677.4015,x,z,z,98.188918,x,687677.4015,98.188918,x,x,x,x,x,x,x,x,x
+2014,Reporting year,National,E92000001,England,Total,Total,1299908,x,x,z,x,z,z,z,x,1357281.491,95.772911,x,x,x,x,x,x,x,x,x
+2014,Reporting year,National,E92000001,England,Working parents,Total,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2014,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2014,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2014,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2014,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2014,Reporting year,National,E92000001,England,Working parents,3 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2014,Reporting year,National,E92000001,England,Working parents,4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2014,Reporting year,National,E92000001,England,Working parents,3 to 4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2014,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2014,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2014,Reporting year,National,E92000001,England,Universal,Total,1299908,x,x,1357281.491,x,z,z,95.772911,x,1357281.491,95.772911,x,x,x,x,x,x,x,x,x
+2014,Reporting year,National,E92000001,England,Universal,3 years,641231,x,x,685217.002,x,z,z,93.580719,x,685217.002,93.580719,x,x,x,x,x,x,x,x,x
+2014,Reporting year,National,E92000001,England,Universal,4 years,658677,x,x,672064.4885,x,z,z,98.008005,x,672064.4885,98.008005,x,x,x,x,x,x,x,x,x
+2013,Reporting year,National,E92000001,England,Total,Total,1283497,x,x,z,x,z,z,z,x,1342766.429,95.586021,x,x,x,x,x,x,x,x,x
+2013,Reporting year,National,E92000001,England,Working parents,Total,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2013,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2013,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2013,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2013,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2013,Reporting year,National,E92000001,England,Working parents,3 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2013,Reporting year,National,E92000001,England,Working parents,4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2013,Reporting year,National,E92000001,England,Working parents,3 to 4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2013,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2013,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2013,Reporting year,National,E92000001,England,Universal,Total,1283497,x,x,1342766.429,x,z,z,95.586021,x,1342766.429,95.586021,x,x,x,x,x,x,x,x,x
+2013,Reporting year,National,E92000001,England,Universal,3 years,625307,x,x,669351.4219,x,z,z,93.419836,x,669351.4219,93.419836,x,x,x,x,x,x,x,x,x
+2013,Reporting year,National,E92000001,England,Universal,4 years,658190,x,x,673415.0071,x,z,z,97.739135,x,673415.0071,97.739135,x,x,x,x,x,x,x,x,x
+2012,Reporting year,National,E92000001,England,Total,Total,1264416,x,x,z,x,z,z,z,x,1328609.861,95.168344,x,x,x,x,x,x,x,x,x
+2012,Reporting year,National,E92000001,England,Working parents,Total,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2012,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2012,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2012,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2012,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2012,Reporting year,National,E92000001,England,Working parents,3 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2012,Reporting year,National,E92000001,England,Working parents,4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2012,Reporting year,National,E92000001,England,Working parents,3 to 4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2012,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2012,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2012,Reporting year,National,E92000001,England,Universal,Total,1264416,x,x,1328609.861,x,z,z,95.168344,x,1328609.861,95.168344,x,x,x,x,x,x,x,x,x
+2012,Reporting year,National,E92000001,England,Universal,3 years,625442,x,x,670729.0221,x,z,z,93.24809,x,670729.0221,93.24809,x,x,x,x,x,x,x,x,x
+2012,Reporting year,National,E92000001,England,Universal,4 years,638974,x,x,657880.8393,x,z,z,97.1261,x,657880.8393,97.1261,x,x,x,x,x,x,x,x,x
+2011,Reporting year,National,E92000001,England,Total,Total,1224465,x,x,z,x,z,z,z,x,z,z,x,x,x,x,x,x,x,x,x
+2011,Reporting year,National,E92000001,England,Working parents,Total,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2011,Reporting year,National,E92000001,England,Working parents,9 to 11 months,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2011,Reporting year,National,E92000001,England,Working parents,1 year,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2011,Reporting year,National,E92000001,England,Working parents,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2011,Reporting year,National,E92000001,England,Working parents,9 months to 2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2011,Reporting year,National,E92000001,England,Working parents,3 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2011,Reporting year,National,E92000001,England,Working parents,4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2011,Reporting year,National,E92000001,England,Working parents,3 to 4 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2011,Reporting year,National,E92000001,England,Early learning for 2-year-olds,Total,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2011,Reporting year,National,E92000001,England,Early learning for 2-year-olds,2 years,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z,z
+2011,Reporting year,National,E92000001,England,Universal,Total,1224465,x,x,x,x,z,z,x,x,x,x,x,x,x,x,x,x,x,x,x
+2011,Reporting year,National,E92000001,England,Universal,3 years,604315,x,x,x,x,z,z,x,x,x,x,x,x,x,x,x,x,x,x,x
+2011,Reporting year,National,E92000001,England,Universal,4 years,620150,x,x,x,x,z,z,x,x,x,x,x,x,x,x,x,x,x,x,x

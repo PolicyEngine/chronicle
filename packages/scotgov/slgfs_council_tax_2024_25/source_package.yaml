@@ -53,6 +53,19 @@ package_id: scotgov-slgfs-council-tax-2024-25
 label: 'Scottish Local Government Finance Statistics 2024-25: council tax income after CTR
   (2020-21 to 2024-25), CTR funding and reduction in liability, potential yield by band, and
   average bill before and after CTR, Scotland'
+dimension_labels:
+  'scotgov.geography_row': 'Geography'
+  'scotgov.potential_yield_component': 'Council tax potential yield component'
+dimension_value_labels:
+  'council_tax_band':
+    'A': 'Band A'
+    'B': 'Band B'
+    'C': 'Band C'
+    'D': 'Band D'
+    'E': 'Band E'
+    'F': 'Band F'
+    'G': 'Band G'
+    'H': 'Band H'
 artifact:
   source_name: scotgov
   source_table: 'Scottish Local Government Finance Statistics (SLGFS) 2024-25: publication
@@ -555,7 +568,7 @@ record_sets:
       value: gross_potential_council_tax
       label: Council tax potential yield component
   measures:
-  - measure_id: band_a
+  - measure_id: potential_yield_band_a
     label: Council tax potential yield component, Band A, 2024-25 (GBP millions)
     ordinal: 0
     column: B
@@ -583,7 +596,7 @@ record_sets:
       operator: ==
       value: A
       label: Council tax band
-  - measure_id: band_b
+  - measure_id: potential_yield_band_b
     label: Council tax potential yield component, Band B, 2024-25 (GBP millions)
     ordinal: 1
     column: C
@@ -611,7 +624,7 @@ record_sets:
       operator: ==
       value: B
       label: Council tax band
-  - measure_id: band_c
+  - measure_id: potential_yield_band_c
     label: Council tax potential yield component, Band C, 2024-25 (GBP millions)
     ordinal: 2
     column: D
@@ -639,7 +652,7 @@ record_sets:
       operator: ==
       value: C
       label: Council tax band
-  - measure_id: band_d
+  - measure_id: potential_yield_band_d
     label: Council tax potential yield component, Band D, 2024-25 (GBP millions)
     ordinal: 3
     column: E
@@ -667,7 +680,7 @@ record_sets:
       operator: ==
       value: D
       label: Council tax band
-  - measure_id: band_e
+  - measure_id: potential_yield_band_e
     label: Council tax potential yield component, Band E, 2024-25 (GBP millions)
     ordinal: 4
     column: F
@@ -695,7 +708,7 @@ record_sets:
       operator: ==
       value: E
       label: Council tax band
-  - measure_id: band_f
+  - measure_id: potential_yield_band_f
     label: Council tax potential yield component, Band F, 2024-25 (GBP millions)
     ordinal: 5
     column: G
@@ -723,7 +736,7 @@ record_sets:
       operator: ==
       value: F
       label: Council tax band
-  - measure_id: band_g
+  - measure_id: potential_yield_band_g
     label: Council tax potential yield component, Band G, 2024-25 (GBP millions)
     ordinal: 6
     column: H
@@ -751,7 +764,7 @@ record_sets:
       operator: ==
       value: G
       label: Council tax band
-  - measure_id: band_h
+  - measure_id: potential_yield_band_h
     label: Council tax potential yield component, Band H, 2024-25 (GBP millions)
     ordinal: 7
     column: I
@@ -779,7 +792,7 @@ record_sets:
       operator: ==
       value: H
       label: Council tax band
-  - measure_id: total
+  - measure_id: potential_yield_total
     label: Council tax potential yield component, all bands, 2024-25 (GBP millions)
     ordinal: 8
     column: J

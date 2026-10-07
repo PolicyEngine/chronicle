@@ -5,6 +5,8 @@ schema_version: ledger.source_package.v1
 package_id: dwp-uc-households-children-april-december-2025
 label: 'DWP Stat-Xplore: Universal Credit benefit units by number of children, Great Britain, April to
   December 2025'
+dimension_labels:
+  'dwp.uc_number_of_children': 'Number of Children'
 artifact:
   source_name: dwp
   source_table: Households on Universal Credit by number of children, April to December 2025
@@ -209,7 +211,7 @@ record_sets:
     expected_column_header_row: 1
     expected_column_header: value
     concept: dwp.uc_benefit_units
-    source_concept: dwp.uc_households_on_universal_credit
+    source_concept: dwp.uc_households
     concept_relation: source_label
     concept_authority: dwp
     concept_evidence_url: https://stat-xplore.dwp.gov.uk/
@@ -408,7 +410,7 @@ record_sets:
     expected_column_header_row: 1
     expected_column_header: value
     concept: dwp.uc_benefit_units
-    source_concept: dwp.uc_households_on_universal_credit
+    source_concept: dwp.uc_households
     concept_relation: source_label
     concept_authority: dwp
     concept_evidence_url: https://stat-xplore.dwp.gov.uk/
@@ -607,7 +609,7 @@ record_sets:
     expected_column_header_row: 1
     expected_column_header: value
     concept: dwp.uc_benefit_units
-    source_concept: dwp.uc_households_on_universal_credit
+    source_concept: dwp.uc_households
     concept_relation: source_label
     concept_authority: dwp
     concept_evidence_url: https://stat-xplore.dwp.gov.uk/
@@ -806,7 +808,7 @@ record_sets:
     expected_column_header_row: 1
     expected_column_header: value
     concept: dwp.uc_benefit_units
-    source_concept: dwp.uc_households_on_universal_credit
+    source_concept: dwp.uc_households
     concept_relation: source_label
     concept_authority: dwp
     concept_evidence_url: https://stat-xplore.dwp.gov.uk/
@@ -1005,7 +1007,7 @@ record_sets:
     expected_column_header_row: 1
     expected_column_header: value
     concept: dwp.uc_benefit_units
-    source_concept: dwp.uc_households_on_universal_credit
+    source_concept: dwp.uc_households
     concept_relation: source_label
     concept_authority: dwp
     concept_evidence_url: https://stat-xplore.dwp.gov.uk/
@@ -1204,7 +1206,7 @@ record_sets:
     expected_column_header_row: 1
     expected_column_header: value
     concept: dwp.uc_benefit_units
-    source_concept: dwp.uc_households_on_universal_credit
+    source_concept: dwp.uc_households
     concept_relation: source_label
     concept_authority: dwp
     concept_evidence_url: https://stat-xplore.dwp.gov.uk/
@@ -1403,7 +1405,7 @@ record_sets:
     expected_column_header_row: 1
     expected_column_header: value
     concept: dwp.uc_benefit_units
-    source_concept: dwp.uc_households_on_universal_credit
+    source_concept: dwp.uc_households
     concept_relation: source_label
     concept_authority: dwp
     concept_evidence_url: https://stat-xplore.dwp.gov.uk/
@@ -1602,7 +1604,7 @@ record_sets:
     expected_column_header_row: 1
     expected_column_header: value
     concept: dwp.uc_benefit_units
-    source_concept: dwp.uc_households_on_universal_credit
+    source_concept: dwp.uc_households
     concept_relation: source_label
     concept_authority: dwp
     concept_evidence_url: https://stat-xplore.dwp.gov.uk/
@@ -1801,7 +1803,7 @@ record_sets:
     expected_column_header_row: 1
     expected_column_header: value
     concept: dwp.uc_benefit_units
-    source_concept: dwp.uc_households_on_universal_credit
+    source_concept: dwp.uc_households
     concept_relation: source_label
     concept_authority: dwp
     concept_evidence_url: https://stat-xplore.dwp.gov.uk/

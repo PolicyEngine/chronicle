@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-census2021-ts003-household-composition-country
+dataset: ons_ons-census2021-ts003-household-composition-country
+source_page: https://www.nomisweb.co.uk/datasets/c2021ts003
+table: Census 2021 TS003 household composition, countries (England and Wales, England,
+  Wales)
+files:
+  2021:
+    filename: census2021_ts003_household_composition_by_country.csv
+    source_url: https://www.nomisweb.co.uk/api/v01/dataset/NM_2023_1.data.csv?geography=TYPE499&date=latest&measures=20100&select=geography_name,geography_code,c2021_hhcomp_15,c2021_hhcomp_15_name,measures_name,obs_value
+    sha256: 46074f72fc314e9b11effaa48a4ae77bd90f8d0e03d519710ea3378a0d8af74b
+    size_bytes: 6963
+    fetched_at: '2026-09-03T12:52:06+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-census2021-ts003-household-composition-country/2021/46074f72fc314e9b11effaa48a4ae77bd90f8d0e03d519710ea3378a0d8af74b/census2021_ts003_household_composition_by_country.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-census2021-ts003-household-composition-country/2021/46074f72fc314e9b11effaa48a4ae77bd90f8d0e03d519710ea3378a0d8af74b/census2021_ts003_household_composition_by_country.csv

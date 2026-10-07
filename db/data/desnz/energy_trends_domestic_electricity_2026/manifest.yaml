@@ -1,0 +1,18 @@
+source_id: desnz
+package_id: desnz-energy-trends-domestic-electricity-2026
+dataset: desnz_desnz-energy-trends-domestic-electricity-2026
+source_page: https://www.gov.uk/government/statistics/electricity-section-5-energy-trends
+table: Energy Trends Table 5.5 availability and consumption of electricity
+files:
+  2026:
+    filename: et-5.5.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/6a8ecec85a0c25165ae46552/ET_5.5_AUG_26.xlsx
+    sha256: a3581a9c3015a31ed7fa7520954ecde608dcf93112aacc1b368995b799cd0aac
+    size_bytes: 297291
+    fetched_at: '2026-09-15T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-energy-trends-domestic-electricity-2026/2026/a3581a9c3015a31ed7fa7520954ecde608dcf93112aacc1b368995b799cd0aac/et-5.5.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-energy-trends-domestic-electricity-2026/2026/a3581a9c3015a31ed7fa7520954ecde608dcf93112aacc1b368995b799cd0aac/et-5.5.xlsx

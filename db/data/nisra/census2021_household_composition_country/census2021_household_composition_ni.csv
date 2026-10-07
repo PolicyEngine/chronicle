@@ -1,0 +1,24 @@
+Household Composition Code,Household Composition Label,Count
+1,One person household: Aged 66 and over,91674
+2,One person household: Other,142975
+3,Single family household: All aged 66 and over,60803
+4,Single family household: Married or civil partnership couple: No children,71216
+5,Single family household: Married or civil partnership couple: One dependent child,42878
+6,Single family household: Married or civil partnership couple: Two or more dependent children,86859
+7,Single family household: Married or civil partnership couple: All children non-dependent,62478
+8,Single family household: Cohabiting couple family: No children,30243
+9,Single family household: Cohabiting couple family: One dependent child,10958
+10,Single family household: Cohabiting couple family: Two or more dependent children,11272
+11,Single family household: Cohabiting couple family: All children non-dependent,3302
+12,Single family household: Lone parent family (female): One dependent child,28080
+13,Single family household: Lone parent family (female): Two or more dependent children,34266
+14,Single family household: Lone parent family (female): All children non-dependent,34285
+15,Single family household: Lone parent family (male): One dependent child,2906
+16,Single family household: Lone parent family (male): Two or more dependent children,1468
+17,Single family household: Lone parent family (male): All children non-dependent,10084
+18,Single family household: Other family composition,8830
+19,Other household types: One dependent child,7908
+20,Other household types: Two or more dependent children,8116
+21,Other household types: All in full-time education,2084
+22,Other household types: All aged 66 and over,641
+23,Other household types: Other family composition,15485

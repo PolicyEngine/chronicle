@@ -1,6 +1,11 @@
 schema_version: ledger.source_package.v1
 package_id: hhs-acf-liheap-fy2024-national-profile
 label: HHS ACF LIHEAP FY2024 National Profile
+dimension_value_labels:
+  'administering_entity':
+    'state_programs': 'State programs'
+  'program':
+    'liheap': 'LIHEAP'
 artifact:
   source_name: hhs_acf_liheap
   source_table: LIHEAP FY2024 National Profile (All States)

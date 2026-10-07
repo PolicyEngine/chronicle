@@ -4,10 +4,12 @@ from __future__ import annotations
 
 from dataclasses import replace
 from io import BytesIO
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import openpyxl
 import pytest
 
+from chronicle.epoch import HASH_DOMAINS
 from chronicle.harness import (
     build_fixture_source_cell_file,
     validate_fixture_source_cells,
@@ -21,6 +23,7 @@ from chronicle.sources.cells import (
     load_source_cells_jsonl,
     source_cells_from_delimited_text,
     source_cells_from_html_tables_and_text,
+    source_cells_from_ods,
     source_cells_from_xlsx,
     validate_source_cells,
 )
@@ -29,7 +32,63 @@ from chronicle.sources.rows import (
     source_cells_from_source_rows,
     source_rows_from_delimited_text,
 )
-from chronicle.sources.specs import resolve_source_record
+from chronicle.sources.specs import (
+    CellSelectorSpec,
+    resolve_cell_selector,
+    resolve_source_record,
+)
+
+
+def test_ods_numeric_text_mode_coerces_formatted_numbers_only():
+    artifact = SourceArtifactMetadata(
+        source_name="hmrc",
+        source_table="test",
+        source_file="test.ods",
+        url="https://example.test/test.ods",
+        vintage="test",
+        sha256="abc123",
+        size_bytes=10,
+        extracted_at="2026-09-03",
+        extraction_method="test",
+    )
+    content = BytesIO()
+    with ZipFile(content, "w", ZIP_DEFLATED) as archive:
+        archive.writestr(
+            "content.xml",
+            """<?xml version="1.0" encoding="UTF-8"?>
+<office:document-content
+    xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+    xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0"
+    xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">
+  <office:body>
+    <office:spreadsheet>
+      <table:table table:name="Table_1">
+        <table:table-row>
+          <table:table-cell office:value-type="string"><text:p>119,258</text:p></table:table-cell>
+          <table:table-cell office:value-type="string"><text:p>-12.5</text:p></table:table-cell>
+          <table:table-cell office:value-type="string"><text:p>[Fewer than 1]</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+    </office:spreadsheet>
+  </office:body>
+</office:document-content>
+""",
+        )
+
+    uncoerced = source_cells_from_ods(content.getvalue(), artifact)
+    cells = source_cells_from_ods(
+        content.getvalue(),
+        artifact,
+        coerce_numeric_text=True,
+    )
+
+    assert [cell.raw_value for cell in uncoerced] == [
+        "119,258",
+        "-12.5",
+        "[Fewer than 1]",
+    ]
+    assert [cell.raw_value for cell in cells] == [119_258, -12.5, "[Fewer than 1]"]
+    assert [cell.cell_type for cell in cells] == ["number", "number", "text"]
 
 
 def test_build_soi_table_1_1_source_cells_preserves_workbook_used_range():
@@ -65,6 +124,25 @@ def test_fixture_source_cells_validate():
     assert report.counts["by_sheet"] == {"TBL11": 1932}
 
 
+def test_source_cell_validation_accepts_both_row_epochs_and_rejects_unknown():
+    cell = build_soi_table_1_1_source_cells(2023)[0]
+    pair = HASH_DOMAINS["source_row"]
+
+    for prefix in pair.accepted:
+        accepted = replace(cell, source_row_key=f"{prefix}:same-payload")
+        assert validate_source_cells([accepted]).valid
+
+    report = validate_source_cells(
+        [replace(cell, source_row_key="future.source_row.v9:same-payload")]
+    )
+
+    assert not report.valid
+    error = report.errors[0]
+    assert error.code == "malformed_source_row_key"
+    assert pair.ledger in error.message
+    assert pair.chronicle in error.message
+
+
 def test_source_record_selector_guard_fails_on_changed_row_header():
     cells = build_soi_table_1_1_source_cells(2023)
     spec = build_soi_table_1_1_source_record_specs(2023)[0]
@@ -75,6 +153,45 @@ def test_source_record_selector_guard_fails_on_changed_row_header():
 
     with pytest.raises(ValueError, match="expected row header"):
         resolve_source_record(cells, bad_spec)
+
+
+def test_column_header_guard_matches_a_delimited_year_header_text():
+    # Package YAML renders a digit-only string such as '2024' to the integer
+    # 2024, while a delimited file's header row keeps the text '2024'. A guard
+    # expecting 2024 matches that text, and nothing looser.
+    artifact = SourceArtifactMetadata(
+        source_name="bea",
+        source_table="test",
+        source_file="test.csv",
+        url="https://example.test/test.csv",
+        vintage="test",
+        sha256="abc123",
+        size_bytes=10,
+        extracted_at="2026-09-25",
+        extraction_method="test",
+    )
+    rows = source_rows_from_delimited_text(
+        b"Item,2023,2024,02024,2024.0\nReturns,1,2,3,4\n",
+        artifact,
+        sheet_name="test",
+    )
+    cells = source_cells_from_source_rows(rows, selected_rows=())
+
+    def selector(column: str, header):
+        return CellSelectorSpec(
+            selector_id=f"test.{column}",
+            sheet_name="test",
+            address=f"{column}2",
+            expected_cell_type="number",
+            expected_column_header_address=f"{column}1",
+            expected_column_header=header,
+        )
+
+    assert resolve_cell_selector(cells, selector("C", 2024)).raw_value == 2
+    assert resolve_cell_selector(cells, selector("C", "2024")).raw_value == 2
+    for column, header in (("B", 2024), ("D", 2024), ("E", 2024), ("C", True)):
+        with pytest.raises(ValueError, match="expected column header"):
+            resolve_cell_selector(cells, selector(column, header))
 
 
 def test_delimited_source_row_selection_requires_exact_match():

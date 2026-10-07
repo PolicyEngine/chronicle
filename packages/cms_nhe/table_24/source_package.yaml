@@ -1,6 +1,11 @@
 schema_version: ledger.source_package.v1
 package_id: cms-nhe-table-24
 label: CMS NHE Table 24 employer-sponsored insurance premium contributions
+dimension_labels:
+  'cms_nhe.esi_premium_contributor': 'Premium contributor'
+dimension_value_labels:
+  'esi_employer_sector':
+    'private': 'Private employers'
 artifact:
   source_name: cms_nhe
   source_table: 'Employer-Sponsored Private Health Insurance: Calendar Years 1987-2024'

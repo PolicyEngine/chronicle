@@ -1,0 +1,19 @@
+source_id: hmrc
+package_id: hmrc-property-rental-income-2026
+dataset: hmrc_hmrc-property-rental-income-2026
+source_page: https://www.gov.uk/government/statistics/property-rental-income-statistics
+table: 'HMRC property rental income statistics 2026: unincorporated landlords, property
+  income and allowable expenses'
+files:
+  2026:
+    filename: property_rental_income_statistics_tables_2026.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a882b0febba21482c58cc23/property_rental_income_statistics_tables_2026.ods
+    sha256: 87627fbf6122a88f9d20ce7c98d31c103d423fb10d66d661d87324d67227c846
+    size_bytes: 14181
+    fetched_at: '2026-09-21T11:13:11+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-property-rental-income-2026/2026/87627fbf6122a88f9d20ce7c98d31c103d423fb10d66d661d87324d67227c846/property_rental_income_statistics_tables_2026.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-property-rental-income-2026/2026/87627fbf6122a88f9d20ce7c98d31c103d423fb10d66d661d87324d67227c846/property_rental_income_statistics_tables_2026.ods

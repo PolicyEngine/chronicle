@@ -1,0 +1,5551 @@
+# DfT BUS01 publisher totals for local bus passenger journeys.
+#
+# Included: BUS01a passenger journeys for 13 requested English geographies and
+# the three published urban-rural classes, plus BUS01c concessionary passenger
+# journeys for the 13 requested geographies, across all published years.
+# London appears once, as one of the nine standard regions.
+# Excluded source columns: Scotland, Wales and Great Britain (BUS01a Q:S;
+# BUS01c O:Q). This England package carries the publisher's England totals and
+# English subgeographies; the devolved-country and Great Britain totals are
+# intentionally outside its declared scope.
+#
+# Excluded optional sheets: BUS01b passenger journeys per head; BUS01d
+# concessionary journeys as a percentage; BUS01e passenger journeys by local
+# authority; BUS01f passenger journeys per head by local authority; BUS01g
+# elderly/disabled journeys by local authority; and BUS01h elderly/disabled
+# journeys as a percentage by local authority.
+#
+# No subtraction, share, per-head, or local-authority facts are derived here.
+# Every selected value is guarded by its fiscal-year row, geography column,
+# table and unit headings; BUS01c also guards both the Type value and heading.
+schema_version: ledger.source_package.v1
+package_id: dft-bus01-passenger-journeys-2025
+label: DfT BUS01 local bus passenger and concessionary journeys, years ending March 2005 to 2025
+dimension_labels:
+  "dft.bus_area": "Local bus statistics area"
+dimension_value_labels:
+  "journey_category":
+    elderly_disabled_concessionary: "Elderly/Disabled journeys"
+    total_concessionary: "Total concessionary journeys"
+artifact:
+  source_name: dft
+  source_table: BUS01a passenger journeys and BUS01c concessionary passenger journeys
+  resource_package: db
+  resource_directory: data/dft/bus01_passenger_journeys_2025
+  manifest: manifest.yaml
+  vintage: bus_statistics_2025_revised_2026_03_24
+  extracted_at: "2026-09-17"
+  extraction_method: ODS whole-workbook used-range cell parse
+  parser: ods_used_range
+  artifact_year: 2025
+record_sets:
+- &bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2005
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2005.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2005
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2005
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2005"
+    start_date: "2004-04-01"
+    end_date: "2005-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - &bus01a_england
+    value_id: england
+    label: "England"
+    ordinal: 0
+    row_number: 9
+    column: P
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "England"
+    geography_id: "E92000001"
+    geography_level: country
+    geography_name: "England"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: &bus01a_fy2005_guards
+    - column: A
+      expected_value: 2005
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - &bus01a_england_outside_london
+    value_id: england_outside_london
+    label: "England outside London"
+    ordinal: 1
+    row_number: 9
+    column: T
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "England outside London"
+    geography_id: "dft:england_outside_london"
+    geography_level: statistical_scope
+    geography_name: "England outside London"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_english_metropolitan_areas
+    value_id: english_metropolitan_areas
+    label: "English metropolitan areas"
+    ordinal: 2
+    row_number: 9
+    column: K
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "English metropolitan areas"
+    geography_id: "dft:english_metropolitan_areas"
+    geography_level: statistical_scope
+    geography_name: "English metropolitan areas"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_english_non_metropolitan_areas
+    value_id: english_non_metropolitan_areas
+    label: "English non-metropolitan areas"
+    ordinal: 3
+    row_number: 9
+    column: L
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "English non-metropolitan areas"
+    geography_id: "dft:english_non_metropolitan_areas"
+    geography_level: statistical_scope
+    geography_name: "English non-metropolitan areas"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_north_east
+    value_id: north_east
+    label: "North East"
+    ordinal: 4
+    row_number: 9
+    column: B
+    source_column_id: north_east
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "North East"
+    geography_id: "E12000001"
+    geography_level: region
+    geography_name: "North East"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_north_west
+    value_id: north_west
+    label: "North West"
+    ordinal: 5
+    row_number: 9
+    column: C
+    source_column_id: north_west
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "North West"
+    geography_id: "E12000002"
+    geography_level: region
+    geography_name: "North West"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_yorkshire_and_the_humber
+    value_id: yorkshire_and_the_humber
+    label: "Yorkshire and the Humber"
+    ordinal: 6
+    row_number: 9
+    column: D
+    source_column_id: yorkshire_and_the_humber
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "Yorkshire and the Humber"
+    geography_id: "E12000003"
+    geography_level: region
+    geography_name: "Yorkshire and the Humber"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_east_midlands
+    value_id: east_midlands
+    label: "East Midlands"
+    ordinal: 7
+    row_number: 9
+    column: E
+    source_column_id: east_midlands
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "East Midlands"
+    geography_id: "E12000004"
+    geography_level: region
+    geography_name: "East Midlands"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_west_midlands
+    value_id: west_midlands
+    label: "West Midlands"
+    ordinal: 8
+    row_number: 9
+    column: F
+    source_column_id: west_midlands
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "West Midlands"
+    geography_id: "E12000005"
+    geography_level: region
+    geography_name: "West Midlands"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_east_of_england
+    value_id: east_of_england
+    label: "East of England"
+    ordinal: 9
+    row_number: 9
+    column: G
+    source_column_id: east_of_england
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "East of England"
+    geography_id: "E12000006"
+    geography_level: region
+    geography_name: "East of England"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_london
+    value_id: london
+    label: "London"
+    ordinal: 10
+    row_number: 9
+    column: H
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "London"
+    geography_id: "E12000007"
+    geography_level: region
+    geography_name: "London"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_south_east
+    value_id: south_east
+    label: "South East"
+    ordinal: 11
+    row_number: 9
+    column: I
+    source_column_id: south_east
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "South East"
+    geography_id: "E12000008"
+    geography_level: region
+    geography_name: "South East"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_south_west
+    value_id: south_west
+    label: "South West"
+    ordinal: 12
+    row_number: 9
+    column: J
+    source_column_id: south_west
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "South West"
+    geography_id: "E12000009"
+    geography_level: region
+    geography_name: "South West"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_other_predominantly_urban_areas
+    value_id: other_predominantly_urban_areas
+    label: "Other predominantly urban areas"
+    ordinal: 13
+    row_number: 9
+    column: M
+    source_column_id: other_predominantly_urban_areas
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "Other predominantly urban areas [note 2]"
+    geography_id: "dft:other_predominantly_urban_areas"
+    geography_level: statistical_scope
+    geography_name: "Other predominantly urban areas"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_urban_with_significant_rural
+    value_id: urban_with_significant_rural
+    label: "Urban with Significant Rural"
+    ordinal: 14
+    row_number: 9
+    column: N
+    source_column_id: urban_with_significant_rural
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "Urban with Significant Rural"
+    geography_id: "dft:urban_with_significant_rural"
+    geography_level: statistical_scope
+    geography_name: "Urban with Significant Rural"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  - &bus01a_largely_or_mainly_rural
+    value_id: largely_or_mainly_rural
+    label: "Largely or Mainly Rural"
+    ordinal: 15
+    row_number: 9
+    column: O
+    source_column_id: largely_or_mainly_rural
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: "Largely or Mainly Rural"
+    geography_id: "dft:largely_or_mainly_rural"
+    geography_level: statistical_scope
+    geography_name: "Largely or Mainly Rural"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01a_fy2005_guards
+  measures: &bus01a_measures
+  - measure_id: passenger_journeys
+    label: "Passenger journeys"
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: "BUS01a Passenger journeys (millions)."
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2006
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2006.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2006
+  period: 2006
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2006"
+    start_date: "2005-04-01"
+    end_date: "2006-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: &bus01a_fy2006_guards
+    - column: A
+      expected_value: 2006
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_north_east
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_north_west
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_east_midlands
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_west_midlands
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_east_of_england
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_london
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_south_east
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_south_west
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 10
+    expected_row_header: 2006
+    guard_cells: *bus01a_fy2006_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2007
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2007.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2007
+  period: 2007
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2007"
+    start_date: "2006-04-01"
+    end_date: "2007-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: &bus01a_fy2007_guards
+    - column: A
+      expected_value: 2007
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_north_east
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_north_west
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_east_midlands
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_west_midlands
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_east_of_england
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_london
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_south_east
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_south_west
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 11
+    expected_row_header: 2007
+    guard_cells: *bus01a_fy2007_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2008
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2008.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2008
+  period: 2008
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2008"
+    start_date: "2007-04-01"
+    end_date: "2008-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: &bus01a_fy2008_guards
+    - column: A
+      expected_value: 2008
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_north_east
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_north_west
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_east_midlands
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_west_midlands
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_east_of_england
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_london
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_south_east
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_south_west
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 12
+    expected_row_header: 2008
+    guard_cells: *bus01a_fy2008_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2009
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2009.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2009
+  period: 2009
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2009"
+    start_date: "2008-04-01"
+    end_date: "2009-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: &bus01a_fy2009_guards
+    - column: A
+      expected_value: 2009
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_north_east
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_north_west
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_east_midlands
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_west_midlands
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_east_of_england
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_london
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_south_east
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_south_west
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 13
+    expected_row_header: 2009
+    guard_cells: *bus01a_fy2009_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2010
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2010.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2010
+  period: 2010
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2010"
+    start_date: "2009-04-01"
+    end_date: "2010-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: &bus01a_fy2010_guards
+    - column: A
+      expected_value: 2010
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_north_east
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_north_west
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_east_midlands
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_west_midlands
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_east_of_england
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_london
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_south_east
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_south_west
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 14
+    expected_row_header: 2010
+    guard_cells: *bus01a_fy2010_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2011
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2011.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2011
+  period: 2011
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2011"
+    start_date: "2010-04-01"
+    end_date: "2011-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: &bus01a_fy2011_guards
+    - column: A
+      expected_value: 2011
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_north_east
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_north_west
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_east_midlands
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_west_midlands
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_east_of_england
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_london
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_south_east
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_south_west
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 15
+    expected_row_header: 2011
+    guard_cells: *bus01a_fy2011_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2012
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2012.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2012
+  period: 2012
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2012"
+    start_date: "2011-04-01"
+    end_date: "2012-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: &bus01a_fy2012_guards
+    - column: A
+      expected_value: 2012
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_north_east
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_north_west
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_east_midlands
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_west_midlands
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_east_of_england
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_london
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_south_east
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_south_west
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 16
+    expected_row_header: 2012
+    guard_cells: *bus01a_fy2012_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2013
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2013.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2013
+  period: 2013
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2013"
+    start_date: "2012-04-01"
+    end_date: "2013-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: &bus01a_fy2013_guards
+    - column: A
+      expected_value: 2013
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_north_east
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_north_west
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_east_midlands
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_west_midlands
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_east_of_england
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_london
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_south_east
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_south_west
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 17
+    expected_row_header: 2013
+    guard_cells: *bus01a_fy2013_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2014
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2014.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2014
+  period: 2014
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2014"
+    start_date: "2013-04-01"
+    end_date: "2014-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: &bus01a_fy2014_guards
+    - column: A
+      expected_value: 2014
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_north_east
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_north_west
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_east_midlands
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_west_midlands
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_east_of_england
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_london
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_south_east
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_south_west
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 18
+    expected_row_header: 2014
+    guard_cells: *bus01a_fy2014_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2015
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2015.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2015
+  period: 2015
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2015"
+    start_date: "2014-04-01"
+    end_date: "2015-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: &bus01a_fy2015_guards
+    - column: A
+      expected_value: 2015
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_north_east
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_north_west
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_east_midlands
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_west_midlands
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_east_of_england
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_london
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_south_east
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_south_west
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 19
+    expected_row_header: 2015
+    guard_cells: *bus01a_fy2015_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2016
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2016.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2016
+  period: 2016
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2016"
+    start_date: "2015-04-01"
+    end_date: "2016-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: &bus01a_fy2016_guards
+    - column: A
+      expected_value: 2016
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_north_east
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_north_west
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_east_midlands
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_west_midlands
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_east_of_england
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_london
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_south_east
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_south_west
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 20
+    expected_row_header: 2016
+    guard_cells: *bus01a_fy2016_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2017
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2017.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2017
+  period: 2017
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2017"
+    start_date: "2016-04-01"
+    end_date: "2017-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: &bus01a_fy2017_guards
+    - column: A
+      expected_value: 2017
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_north_east
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_north_west
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_east_midlands
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_west_midlands
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_east_of_england
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_london
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_south_east
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_south_west
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 21
+    expected_row_header: 2017
+    guard_cells: *bus01a_fy2017_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2018
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2018.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2018
+  period: 2018
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2018"
+    start_date: "2017-04-01"
+    end_date: "2018-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: &bus01a_fy2018_guards
+    - column: A
+      expected_value: 2018
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_north_east
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_north_west
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_east_midlands
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_west_midlands
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_east_of_england
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_london
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_south_east
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_south_west
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 22
+    expected_row_header: 2018
+    guard_cells: *bus01a_fy2018_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2019
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2019.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2019
+  period: 2019
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2019"
+    start_date: "2018-04-01"
+    end_date: "2019-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: &bus01a_fy2019_guards
+    - column: A
+      expected_value: 2019
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_north_east
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_north_west
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_east_midlands
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_west_midlands
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_east_of_england
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_london
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_south_east
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_south_west
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 23
+    expected_row_header: 2019
+    guard_cells: *bus01a_fy2019_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2020
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2020.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2020
+  period: 2020
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2020"
+    start_date: "2019-04-01"
+    end_date: "2020-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: &bus01a_fy2020_guards
+    - column: A
+      expected_value: 2020
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_north_east
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_north_west
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_east_midlands
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_west_midlands
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_east_of_england
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_london
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_south_east
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_south_west
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 24
+    expected_row_header: 2020
+    guard_cells: *bus01a_fy2020_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2021
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2021.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2021
+  period: 2021
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2021"
+    start_date: "2020-04-01"
+    end_date: "2021-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: &bus01a_fy2021_guards
+    - column: A
+      expected_value: 2021
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_north_east
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_north_west
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_east_midlands
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_west_midlands
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_east_of_england
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_london
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_south_east
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_south_west
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 25
+    expected_row_header: 2021
+    guard_cells: *bus01a_fy2021_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2022
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2022.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2022
+  period: 2022
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2022"
+    start_date: "2021-04-01"
+    end_date: "2022-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: &bus01a_fy2022_guards
+    - column: A
+      expected_value: 2022
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_north_east
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_north_west
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_east_midlands
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_west_midlands
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_east_of_england
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_london
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_south_east
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_south_west
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 26
+    expected_row_header: 2022
+    guard_cells: *bus01a_fy2022_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2023
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2023.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2023
+  period: 2023
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2023"
+    start_date: "2022-04-01"
+    end_date: "2023-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: &bus01a_fy2023_guards
+    - column: A
+      expected_value: 2023
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_north_east
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_north_west
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_east_midlands
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_west_midlands
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_east_of_england
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_london
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_south_east
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_south_west
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 27
+    expected_row_header: 2023
+    guard_cells: *bus01a_fy2023_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2024
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2024.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2024
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2024"
+    start_date: "2023-04-01"
+    end_date: "2024-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: &bus01a_fy2024_guards
+    - column: A
+      expected_value: 2024
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_north_east
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_north_west
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_east_midlands
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_west_midlands
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_east_of_england
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_london
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_south_east
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_south_west
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 28
+    expected_row_header: 2024
+    guard_cells: *bus01a_fy2024_guards
+- <<: *bus01a_record_set
+  record_set_id: dft.bus01.bus01a.passenger_journeys.fy2025
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01a.passenger_journeys.fy2025.v1
+  source_record_id_prefix: dft.bus01.bus01a.passenger_journeys.fy2025
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2025"
+    start_date: "2024-04-01"
+    end_date: "2025-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01a_england
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: &bus01a_fy2025_guards
+    - column: A
+      expected_value: 2025
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: "Table BUS01a"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+  - <<: *bus01a_england_outside_london
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_english_metropolitan_areas
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_english_non_metropolitan_areas
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_north_east
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_north_west
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_yorkshire_and_the_humber
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_east_midlands
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_west_midlands
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_east_of_england
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_london
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_south_east
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_south_west
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_other_predominantly_urban_areas
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_urban_with_significant_rural
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+  - <<: *bus01a_largely_or_mainly_rural
+    row_number: 29
+    expected_row_header: 2025
+    guard_cells: *bus01a_fy2025_guards
+- &bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2008
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2008.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2008
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2008
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2008"
+    start_date: "2007-04-01"
+    end_date: "2008-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - &bus01c_england
+    value_id: england
+    label: "England"
+    ordinal: 0
+    row_number: 9
+    column: N
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "England"
+    geography_id: "E92000001"
+    geography_level: country
+    geography_name: "England"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: &bus01c_elderly_disabled_fy2008_guards
+    - column: A
+      expected_value: 2008
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - &bus01c_england_outside_london
+    value_id: england_outside_london
+    label: "England outside London"
+    ordinal: 1
+    row_number: 9
+    column: R
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "England outside London"
+    geography_id: "dft:england_outside_london"
+    geography_level: statistical_scope
+    geography_name: "England outside London"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  - &bus01c_english_metropolitan_areas
+    value_id: english_metropolitan_areas
+    label: "English metropolitan areas"
+    ordinal: 2
+    row_number: 9
+    column: L
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "English metropolitan areas"
+    geography_id: "dft:english_metropolitan_areas"
+    geography_level: statistical_scope
+    geography_name: "English metropolitan areas"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  - &bus01c_english_non_metropolitan_areas
+    value_id: english_non_metropolitan_areas
+    label: "English non-metropolitan areas"
+    ordinal: 3
+    row_number: 9
+    column: M
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "English non-metropolitan areas"
+    geography_id: "dft:english_non_metropolitan_areas"
+    geography_level: statistical_scope
+    geography_name: "English non-metropolitan areas"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  - &bus01c_north_east
+    value_id: north_east
+    label: "North East"
+    ordinal: 4
+    row_number: 9
+    column: C
+    source_column_id: north_east
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "North East"
+    geography_id: "E12000001"
+    geography_level: region
+    geography_name: "North East"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  - &bus01c_north_west
+    value_id: north_west
+    label: "North West"
+    ordinal: 5
+    row_number: 9
+    column: D
+    source_column_id: north_west
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "North West"
+    geography_id: "E12000002"
+    geography_level: region
+    geography_name: "North West"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  - &bus01c_yorkshire_and_the_humber
+    value_id: yorkshire_and_the_humber
+    label: "Yorkshire and the Humber"
+    ordinal: 6
+    row_number: 9
+    column: E
+    source_column_id: yorkshire_and_the_humber
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "Yorkshire and the Humber"
+    geography_id: "E12000003"
+    geography_level: region
+    geography_name: "Yorkshire and the Humber"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  - &bus01c_east_midlands
+    value_id: east_midlands
+    label: "East Midlands"
+    ordinal: 7
+    row_number: 9
+    column: F
+    source_column_id: east_midlands
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "East Midlands"
+    geography_id: "E12000004"
+    geography_level: region
+    geography_name: "East Midlands"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  - &bus01c_west_midlands
+    value_id: west_midlands
+    label: "West Midlands"
+    ordinal: 8
+    row_number: 9
+    column: G
+    source_column_id: west_midlands
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "West Midlands"
+    geography_id: "E12000005"
+    geography_level: region
+    geography_name: "West Midlands"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  - &bus01c_east_of_england
+    value_id: east_of_england
+    label: "East of England"
+    ordinal: 9
+    row_number: 9
+    column: H
+    source_column_id: east_of_england
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "East of England"
+    geography_id: "E12000006"
+    geography_level: region
+    geography_name: "East of England"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  - &bus01c_london
+    value_id: london
+    label: "London"
+    ordinal: 10
+    row_number: 9
+    column: I
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "London"
+    geography_id: "E12000007"
+    geography_level: region
+    geography_name: "London"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  - &bus01c_south_east
+    value_id: south_east
+    label: "South East"
+    ordinal: 11
+    row_number: 9
+    column: J
+    source_column_id: south_east
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "South East"
+    geography_id: "E12000008"
+    geography_level: region
+    geography_name: "South East"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  - &bus01c_south_west
+    value_id: south_west
+    label: "South West"
+    ordinal: 12
+    row_number: 9
+    column: K
+    source_column_id: south_west
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: "South West"
+    geography_id: "E12000009"
+    geography_level: region
+    geography_name: "South West"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *bus01c_elderly_disabled_fy2008_guards
+  measures: &bus01c_measures
+  - measure_id: passenger_journeys
+    label: "Concessionary passenger journeys"
+    ordinal: 0
+    column: N
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: "BUS01c Passenger journeys (millions), distinguished by the publisher Type column."
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2009
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2009.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2009
+  period: 2009
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2009"
+    start_date: "2008-04-01"
+    end_date: "2009-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: &bus01c_elderly_disabled_fy2009_guards
+    - column: A
+      expected_value: 2009
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+  - <<: *bus01c_north_east
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+  - <<: *bus01c_north_west
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+  - <<: *bus01c_east_midlands
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+  - <<: *bus01c_west_midlands
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+  - <<: *bus01c_east_of_england
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+  - <<: *bus01c_london
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+  - <<: *bus01c_south_east
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+  - <<: *bus01c_south_west
+    row_number: 10
+    expected_row_header: 2009
+    guard_cells: *bus01c_elderly_disabled_fy2009_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2010
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2010.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2010
+  period: 2010
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2010"
+    start_date: "2009-04-01"
+    end_date: "2010-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: &bus01c_elderly_disabled_fy2010_guards
+    - column: A
+      expected_value: 2010
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+  - <<: *bus01c_north_east
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+  - <<: *bus01c_north_west
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+  - <<: *bus01c_east_midlands
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+  - <<: *bus01c_west_midlands
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+  - <<: *bus01c_east_of_england
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+  - <<: *bus01c_london
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+  - <<: *bus01c_south_east
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+  - <<: *bus01c_south_west
+    row_number: 11
+    expected_row_header: 2010
+    guard_cells: *bus01c_elderly_disabled_fy2010_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2011
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2011.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2011
+  period: 2011
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2011"
+    start_date: "2010-04-01"
+    end_date: "2011-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: &bus01c_elderly_disabled_fy2011_guards
+    - column: A
+      expected_value: 2011
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+  - <<: *bus01c_north_east
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+  - <<: *bus01c_north_west
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+  - <<: *bus01c_east_midlands
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+  - <<: *bus01c_west_midlands
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+  - <<: *bus01c_east_of_england
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+  - <<: *bus01c_london
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+  - <<: *bus01c_south_east
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+  - <<: *bus01c_south_west
+    row_number: 12
+    expected_row_header: 2011
+    guard_cells: *bus01c_elderly_disabled_fy2011_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2012
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2012.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2012
+  period: 2012
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2012"
+    start_date: "2011-04-01"
+    end_date: "2012-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: &bus01c_elderly_disabled_fy2012_guards
+    - column: A
+      expected_value: 2012
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+  - <<: *bus01c_north_east
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+  - <<: *bus01c_north_west
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+  - <<: *bus01c_east_midlands
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+  - <<: *bus01c_west_midlands
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+  - <<: *bus01c_east_of_england
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+  - <<: *bus01c_london
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+  - <<: *bus01c_south_east
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+  - <<: *bus01c_south_west
+    row_number: 13
+    expected_row_header: 2012
+    guard_cells: *bus01c_elderly_disabled_fy2012_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2013
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2013.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2013
+  period: 2013
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2013"
+    start_date: "2012-04-01"
+    end_date: "2013-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: &bus01c_elderly_disabled_fy2013_guards
+    - column: A
+      expected_value: 2013
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+  - <<: *bus01c_north_east
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+  - <<: *bus01c_north_west
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+  - <<: *bus01c_east_midlands
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+  - <<: *bus01c_west_midlands
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+  - <<: *bus01c_east_of_england
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+  - <<: *bus01c_london
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+  - <<: *bus01c_south_east
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+  - <<: *bus01c_south_west
+    row_number: 14
+    expected_row_header: 2013
+    guard_cells: *bus01c_elderly_disabled_fy2013_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2014
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2014.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2014
+  period: 2014
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2014"
+    start_date: "2013-04-01"
+    end_date: "2014-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: &bus01c_elderly_disabled_fy2014_guards
+    - column: A
+      expected_value: 2014
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+  - <<: *bus01c_north_east
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+  - <<: *bus01c_north_west
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+  - <<: *bus01c_east_midlands
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+  - <<: *bus01c_west_midlands
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+  - <<: *bus01c_east_of_england
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+  - <<: *bus01c_london
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+  - <<: *bus01c_south_east
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+  - <<: *bus01c_south_west
+    row_number: 15
+    expected_row_header: 2014
+    guard_cells: *bus01c_elderly_disabled_fy2014_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2015
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2015.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2015
+  period: 2015
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2015"
+    start_date: "2014-04-01"
+    end_date: "2015-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: &bus01c_elderly_disabled_fy2015_guards
+    - column: A
+      expected_value: 2015
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+  - <<: *bus01c_north_east
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+  - <<: *bus01c_north_west
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+  - <<: *bus01c_east_midlands
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+  - <<: *bus01c_west_midlands
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+  - <<: *bus01c_east_of_england
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+  - <<: *bus01c_london
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+  - <<: *bus01c_south_east
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+  - <<: *bus01c_south_west
+    row_number: 16
+    expected_row_header: 2015
+    guard_cells: *bus01c_elderly_disabled_fy2015_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2016
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2016.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2016
+  period: 2016
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2016"
+    start_date: "2015-04-01"
+    end_date: "2016-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: &bus01c_elderly_disabled_fy2016_guards
+    - column: A
+      expected_value: 2016
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+  - <<: *bus01c_north_east
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+  - <<: *bus01c_north_west
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+  - <<: *bus01c_east_midlands
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+  - <<: *bus01c_west_midlands
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+  - <<: *bus01c_east_of_england
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+  - <<: *bus01c_london
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+  - <<: *bus01c_south_east
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+  - <<: *bus01c_south_west
+    row_number: 17
+    expected_row_header: 2016
+    guard_cells: *bus01c_elderly_disabled_fy2016_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2017
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2017.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2017
+  period: 2017
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2017"
+    start_date: "2016-04-01"
+    end_date: "2017-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: &bus01c_elderly_disabled_fy2017_guards
+    - column: A
+      expected_value: 2017
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+  - <<: *bus01c_north_east
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+  - <<: *bus01c_north_west
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+  - <<: *bus01c_east_midlands
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+  - <<: *bus01c_west_midlands
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+  - <<: *bus01c_east_of_england
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+  - <<: *bus01c_london
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+  - <<: *bus01c_south_east
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+  - <<: *bus01c_south_west
+    row_number: 18
+    expected_row_header: 2017
+    guard_cells: *bus01c_elderly_disabled_fy2017_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2018
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2018.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2018
+  period: 2018
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2018"
+    start_date: "2017-04-01"
+    end_date: "2018-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: &bus01c_elderly_disabled_fy2018_guards
+    - column: A
+      expected_value: 2018
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+  - <<: *bus01c_north_east
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+  - <<: *bus01c_north_west
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+  - <<: *bus01c_east_midlands
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+  - <<: *bus01c_west_midlands
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+  - <<: *bus01c_east_of_england
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+  - <<: *bus01c_london
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+  - <<: *bus01c_south_east
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+  - <<: *bus01c_south_west
+    row_number: 19
+    expected_row_header: 2018
+    guard_cells: *bus01c_elderly_disabled_fy2018_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2019
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2019.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2019
+  period: 2019
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2019"
+    start_date: "2018-04-01"
+    end_date: "2019-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: &bus01c_elderly_disabled_fy2019_guards
+    - column: A
+      expected_value: 2019
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+  - <<: *bus01c_north_east
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+  - <<: *bus01c_north_west
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+  - <<: *bus01c_east_midlands
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+  - <<: *bus01c_west_midlands
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+  - <<: *bus01c_east_of_england
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+  - <<: *bus01c_london
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+  - <<: *bus01c_south_east
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+  - <<: *bus01c_south_west
+    row_number: 20
+    expected_row_header: 2019
+    guard_cells: *bus01c_elderly_disabled_fy2019_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2020
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2020.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2020
+  period: 2020
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2020"
+    start_date: "2019-04-01"
+    end_date: "2020-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: &bus01c_elderly_disabled_fy2020_guards
+    - column: A
+      expected_value: 2020
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+  - <<: *bus01c_north_east
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+  - <<: *bus01c_north_west
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+  - <<: *bus01c_east_midlands
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+  - <<: *bus01c_west_midlands
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+  - <<: *bus01c_east_of_england
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+  - <<: *bus01c_london
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+  - <<: *bus01c_south_east
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+  - <<: *bus01c_south_west
+    row_number: 21
+    expected_row_header: 2020
+    guard_cells: *bus01c_elderly_disabled_fy2020_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2021
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2021.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2021
+  period: 2021
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2021"
+    start_date: "2020-04-01"
+    end_date: "2021-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: &bus01c_elderly_disabled_fy2021_guards
+    - column: A
+      expected_value: 2021
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+  - <<: *bus01c_north_east
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+  - <<: *bus01c_north_west
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+  - <<: *bus01c_east_midlands
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+  - <<: *bus01c_west_midlands
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+  - <<: *bus01c_east_of_england
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+  - <<: *bus01c_london
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+  - <<: *bus01c_south_east
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+  - <<: *bus01c_south_west
+    row_number: 22
+    expected_row_header: 2021
+    guard_cells: *bus01c_elderly_disabled_fy2021_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2022
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2022.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2022
+  period: 2022
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2022"
+    start_date: "2021-04-01"
+    end_date: "2022-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: &bus01c_elderly_disabled_fy2022_guards
+    - column: A
+      expected_value: 2022
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+  - <<: *bus01c_north_east
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+  - <<: *bus01c_north_west
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+  - <<: *bus01c_east_midlands
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+  - <<: *bus01c_west_midlands
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+  - <<: *bus01c_east_of_england
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+  - <<: *bus01c_london
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+  - <<: *bus01c_south_east
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+  - <<: *bus01c_south_west
+    row_number: 23
+    expected_row_header: 2022
+    guard_cells: *bus01c_elderly_disabled_fy2022_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2023
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2023.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2023
+  period: 2023
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2023"
+    start_date: "2022-04-01"
+    end_date: "2023-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: &bus01c_elderly_disabled_fy2023_guards
+    - column: A
+      expected_value: 2023
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+  - <<: *bus01c_north_east
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+  - <<: *bus01c_north_west
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+  - <<: *bus01c_east_midlands
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+  - <<: *bus01c_west_midlands
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+  - <<: *bus01c_east_of_england
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+  - <<: *bus01c_london
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+  - <<: *bus01c_south_east
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+  - <<: *bus01c_south_west
+    row_number: 24
+    expected_row_header: 2023
+    guard_cells: *bus01c_elderly_disabled_fy2023_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2024
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2024.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2024
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2024"
+    start_date: "2023-04-01"
+    end_date: "2024-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: &bus01c_elderly_disabled_fy2024_guards
+    - column: A
+      expected_value: 2024
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+  - <<: *bus01c_north_east
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+  - <<: *bus01c_north_west
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+  - <<: *bus01c_east_midlands
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+  - <<: *bus01c_west_midlands
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+  - <<: *bus01c_east_of_england
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+  - <<: *bus01c_london
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+  - <<: *bus01c_south_east
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+  - <<: *bus01c_south_west
+    row_number: 25
+    expected_row_header: 2024
+    guard_cells: *bus01c_elderly_disabled_fy2024_guards
+- <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2025
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.elderly_disabled_concessionary.fy2025.v1
+  source_record_id_prefix: dft.bus01.bus01c.elderly_disabled_concessionary.fy2025
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2025"
+    start_date: "2024-04-01"
+    end_date: "2025-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: &bus01c_elderly_disabled_fy2025_guards
+    - column: A
+      expected_value: 2025
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Elderly/Disabled journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+  - <<: *bus01c_north_east
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+  - <<: *bus01c_north_west
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+  - <<: *bus01c_east_midlands
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+  - <<: *bus01c_west_midlands
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+  - <<: *bus01c_east_of_england
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+  - <<: *bus01c_london
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+  - <<: *bus01c_south_east
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+  - <<: *bus01c_south_west
+    row_number: 26
+    expected_row_header: 2025
+    guard_cells: *bus01c_elderly_disabled_fy2025_guards
+- &bus01c_total_record_set
+  <<: *bus01c_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2008
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2008.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2008
+  period: 2008
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2008"
+    start_date: "2007-04-01"
+    end_date: "2008-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - <<: *bus01c_england
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: &bus01c_total_fy2008_guards
+    - column: A
+      expected_value: 2008
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+  - <<: *bus01c_north_east
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+  - <<: *bus01c_north_west
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+  - <<: *bus01c_east_midlands
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+  - <<: *bus01c_west_midlands
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+  - <<: *bus01c_east_of_england
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+  - <<: *bus01c_london
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+  - <<: *bus01c_south_east
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+  - <<: *bus01c_south_west
+    row_number: 27
+    expected_row_header: 2008
+    guard_cells: *bus01c_total_fy2008_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2009
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2009.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2009
+  period: 2009
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2009"
+    start_date: "2008-04-01"
+    end_date: "2009-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: &bus01c_total_fy2009_guards
+    - column: A
+      expected_value: 2009
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+  - <<: *bus01c_north_east
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+  - <<: *bus01c_north_west
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+  - <<: *bus01c_east_midlands
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+  - <<: *bus01c_west_midlands
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+  - <<: *bus01c_east_of_england
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+  - <<: *bus01c_london
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+  - <<: *bus01c_south_east
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+  - <<: *bus01c_south_west
+    row_number: 28
+    expected_row_header: 2009
+    guard_cells: *bus01c_total_fy2009_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2010
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2010.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2010
+  period: 2010
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2010"
+    start_date: "2009-04-01"
+    end_date: "2010-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: &bus01c_total_fy2010_guards
+    - column: A
+      expected_value: 2010
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+  - <<: *bus01c_north_east
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+  - <<: *bus01c_north_west
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+  - <<: *bus01c_east_midlands
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+  - <<: *bus01c_west_midlands
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+  - <<: *bus01c_east_of_england
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+  - <<: *bus01c_london
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+  - <<: *bus01c_south_east
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+  - <<: *bus01c_south_west
+    row_number: 29
+    expected_row_header: 2010
+    guard_cells: *bus01c_total_fy2010_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2011
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2011.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2011
+  period: 2011
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2011"
+    start_date: "2010-04-01"
+    end_date: "2011-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: &bus01c_total_fy2011_guards
+    - column: A
+      expected_value: 2011
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+  - <<: *bus01c_north_east
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+  - <<: *bus01c_north_west
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+  - <<: *bus01c_east_midlands
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+  - <<: *bus01c_west_midlands
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+  - <<: *bus01c_east_of_england
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+  - <<: *bus01c_london
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+  - <<: *bus01c_south_east
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+  - <<: *bus01c_south_west
+    row_number: 30
+    expected_row_header: 2011
+    guard_cells: *bus01c_total_fy2011_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2012
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2012.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2012
+  period: 2012
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2012"
+    start_date: "2011-04-01"
+    end_date: "2012-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: &bus01c_total_fy2012_guards
+    - column: A
+      expected_value: 2012
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+  - <<: *bus01c_north_east
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+  - <<: *bus01c_north_west
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+  - <<: *bus01c_east_midlands
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+  - <<: *bus01c_west_midlands
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+  - <<: *bus01c_east_of_england
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+  - <<: *bus01c_london
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+  - <<: *bus01c_south_east
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+  - <<: *bus01c_south_west
+    row_number: 31
+    expected_row_header: 2012
+    guard_cells: *bus01c_total_fy2012_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2013
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2013.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2013
+  period: 2013
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2013"
+    start_date: "2012-04-01"
+    end_date: "2013-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: &bus01c_total_fy2013_guards
+    - column: A
+      expected_value: 2013
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+  - <<: *bus01c_north_east
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+  - <<: *bus01c_north_west
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+  - <<: *bus01c_east_midlands
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+  - <<: *bus01c_west_midlands
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+  - <<: *bus01c_east_of_england
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+  - <<: *bus01c_london
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+  - <<: *bus01c_south_east
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+  - <<: *bus01c_south_west
+    row_number: 32
+    expected_row_header: 2013
+    guard_cells: *bus01c_total_fy2013_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2014
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2014.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2014
+  period: 2014
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2014"
+    start_date: "2013-04-01"
+    end_date: "2014-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: &bus01c_total_fy2014_guards
+    - column: A
+      expected_value: 2014
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+  - <<: *bus01c_north_east
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+  - <<: *bus01c_north_west
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+  - <<: *bus01c_east_midlands
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+  - <<: *bus01c_west_midlands
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+  - <<: *bus01c_east_of_england
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+  - <<: *bus01c_london
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+  - <<: *bus01c_south_east
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+  - <<: *bus01c_south_west
+    row_number: 33
+    expected_row_header: 2014
+    guard_cells: *bus01c_total_fy2014_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2015
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2015.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2015
+  period: 2015
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2015"
+    start_date: "2014-04-01"
+    end_date: "2015-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: &bus01c_total_fy2015_guards
+    - column: A
+      expected_value: 2015
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+  - <<: *bus01c_north_east
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+  - <<: *bus01c_north_west
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+  - <<: *bus01c_east_midlands
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+  - <<: *bus01c_west_midlands
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+  - <<: *bus01c_east_of_england
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+  - <<: *bus01c_london
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+  - <<: *bus01c_south_east
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+  - <<: *bus01c_south_west
+    row_number: 34
+    expected_row_header: 2015
+    guard_cells: *bus01c_total_fy2015_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2016
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2016.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2016
+  period: 2016
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2016"
+    start_date: "2015-04-01"
+    end_date: "2016-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: &bus01c_total_fy2016_guards
+    - column: A
+      expected_value: 2016
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+  - <<: *bus01c_north_east
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+  - <<: *bus01c_north_west
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+  - <<: *bus01c_east_midlands
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+  - <<: *bus01c_west_midlands
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+  - <<: *bus01c_east_of_england
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+  - <<: *bus01c_london
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+  - <<: *bus01c_south_east
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+  - <<: *bus01c_south_west
+    row_number: 35
+    expected_row_header: 2016
+    guard_cells: *bus01c_total_fy2016_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2017
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2017.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2017
+  period: 2017
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2017"
+    start_date: "2016-04-01"
+    end_date: "2017-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: &bus01c_total_fy2017_guards
+    - column: A
+      expected_value: 2017
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+  - <<: *bus01c_north_east
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+  - <<: *bus01c_north_west
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+  - <<: *bus01c_east_midlands
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+  - <<: *bus01c_west_midlands
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+  - <<: *bus01c_east_of_england
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+  - <<: *bus01c_london
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+  - <<: *bus01c_south_east
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+  - <<: *bus01c_south_west
+    row_number: 36
+    expected_row_header: 2017
+    guard_cells: *bus01c_total_fy2017_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2018
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2018.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2018
+  period: 2018
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2018"
+    start_date: "2017-04-01"
+    end_date: "2018-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: &bus01c_total_fy2018_guards
+    - column: A
+      expected_value: 2018
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+  - <<: *bus01c_north_east
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+  - <<: *bus01c_north_west
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+  - <<: *bus01c_east_midlands
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+  - <<: *bus01c_west_midlands
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+  - <<: *bus01c_east_of_england
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+  - <<: *bus01c_london
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+  - <<: *bus01c_south_east
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+  - <<: *bus01c_south_west
+    row_number: 37
+    expected_row_header: 2018
+    guard_cells: *bus01c_total_fy2018_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2019
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2019.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2019
+  period: 2019
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2019"
+    start_date: "2018-04-01"
+    end_date: "2019-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: &bus01c_total_fy2019_guards
+    - column: A
+      expected_value: 2019
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+  - <<: *bus01c_north_east
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+  - <<: *bus01c_north_west
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+  - <<: *bus01c_east_midlands
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+  - <<: *bus01c_west_midlands
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+  - <<: *bus01c_east_of_england
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+  - <<: *bus01c_london
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+  - <<: *bus01c_south_east
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+  - <<: *bus01c_south_west
+    row_number: 38
+    expected_row_header: 2019
+    guard_cells: *bus01c_total_fy2019_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2020
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2020.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2020
+  period: 2020
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2020"
+    start_date: "2019-04-01"
+    end_date: "2020-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: &bus01c_total_fy2020_guards
+    - column: A
+      expected_value: 2020
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+  - <<: *bus01c_north_east
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+  - <<: *bus01c_north_west
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+  - <<: *bus01c_east_midlands
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+  - <<: *bus01c_west_midlands
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+  - <<: *bus01c_east_of_england
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+  - <<: *bus01c_london
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+  - <<: *bus01c_south_east
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+  - <<: *bus01c_south_west
+    row_number: 39
+    expected_row_header: 2020
+    guard_cells: *bus01c_total_fy2020_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2021
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2021.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2021
+  period: 2021
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2021"
+    start_date: "2020-04-01"
+    end_date: "2021-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: &bus01c_total_fy2021_guards
+    - column: A
+      expected_value: 2021
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+  - <<: *bus01c_north_east
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+  - <<: *bus01c_north_west
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+  - <<: *bus01c_east_midlands
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+  - <<: *bus01c_west_midlands
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+  - <<: *bus01c_east_of_england
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+  - <<: *bus01c_london
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+  - <<: *bus01c_south_east
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+  - <<: *bus01c_south_west
+    row_number: 40
+    expected_row_header: 2021
+    guard_cells: *bus01c_total_fy2021_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2022
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2022.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2022
+  period: 2022
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2022"
+    start_date: "2021-04-01"
+    end_date: "2022-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: &bus01c_total_fy2022_guards
+    - column: A
+      expected_value: 2022
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+  - <<: *bus01c_north_east
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+  - <<: *bus01c_north_west
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+  - <<: *bus01c_east_midlands
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+  - <<: *bus01c_west_midlands
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+  - <<: *bus01c_east_of_england
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+  - <<: *bus01c_london
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+  - <<: *bus01c_south_east
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+  - <<: *bus01c_south_west
+    row_number: 41
+    expected_row_header: 2022
+    guard_cells: *bus01c_total_fy2022_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2023
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2023.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2023
+  period: 2023
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2023"
+    start_date: "2022-04-01"
+    end_date: "2023-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: &bus01c_total_fy2023_guards
+    - column: A
+      expected_value: 2023
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+  - <<: *bus01c_north_east
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+  - <<: *bus01c_north_west
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+  - <<: *bus01c_east_midlands
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+  - <<: *bus01c_west_midlands
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+  - <<: *bus01c_east_of_england
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+  - <<: *bus01c_london
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+  - <<: *bus01c_south_east
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+  - <<: *bus01c_south_west
+    row_number: 42
+    expected_row_header: 2023
+    guard_cells: *bus01c_total_fy2023_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2024
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2024.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2024
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2024"
+    start_date: "2023-04-01"
+    end_date: "2024-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: &bus01c_total_fy2024_guards
+    - column: A
+      expected_value: 2024
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+  - <<: *bus01c_north_east
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+  - <<: *bus01c_north_west
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+  - <<: *bus01c_east_midlands
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+  - <<: *bus01c_west_midlands
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+  - <<: *bus01c_east_of_england
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+  - <<: *bus01c_london
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+  - <<: *bus01c_south_east
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+  - <<: *bus01c_south_west
+    row_number: 43
+    expected_row_header: 2024
+    guard_cells: *bus01c_total_fy2024_guards
+- <<: *bus01c_total_record_set
+  record_set_id: dft.bus01.bus01c.total_concessionary.fy2025
+  provenance_class: administrative
+  record_set_spec_id: dft.bus01.bus01c.total_concessionary.fy2025.v1
+  source_record_id_prefix: dft.bus01.bus01c.total_concessionary.fy2025
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: "Year ending March 2025"
+    start_date: "2024-04-01"
+    end_date: "2025-03-31"
+    notes: DfT labels the reporting year by its March closing year.
+  rows:
+  - <<: *bus01c_england
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: &bus01c_total_fy2025_guards
+    - column: A
+      expected_value: 2025
+      label: fiscal-year closing year
+    - column: B
+      expected_value: "Total concessionary journeys"
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: "Table BUS01c"
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: "Passenger journeys (millions)"
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: "Year ending March"
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: "Type"
+      label: Type column heading
+  - <<: *bus01c_england_outside_london
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards
+  - <<: *bus01c_english_metropolitan_areas
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards
+  - <<: *bus01c_english_non_metropolitan_areas
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards
+  - <<: *bus01c_north_east
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards
+  - <<: *bus01c_north_west
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards
+  - <<: *bus01c_yorkshire_and_the_humber
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards
+  - <<: *bus01c_east_midlands
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards
+  - <<: *bus01c_west_midlands
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards
+  - <<: *bus01c_east_of_england
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards
+  - <<: *bus01c_london
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards
+  - <<: *bus01c_south_east
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards
+  - <<: *bus01c_south_west
+    row_number: 44
+    expected_row_header: 2025
+    guard_cells: *bus01c_total_fy2025_guards

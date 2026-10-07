@@ -1,0 +1,22 @@
+source_id: hmrc
+package_id: hmrc-pension-contribution-relief-2023-24
+dataset: hmrc_hmrc-pension-contribution-relief-2023-24
+source_page: https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics
+table: 'Private pension statistics Tables 6.1 and 6.2: Income Tax and NICs relief
+  on pension contributions, tax year 2023 to 2024 (31 July 2025 edition)'
+files:
+  2025:
+    filename: Tables_6_1_and_6_2.csv
+    source_url: https://webarchive.nationalarchives.gov.uk/ukgwa/20250731165355id_/https://assets.publishing.service.gov.uk/media/687a294e312ee8a5f0806b6d/Tables_6_1_and_6_2.csv
+    sha256: 32770777b16264650f787c622347e3670d849f0b614a4e5eab71f8fb8094c352
+    size_bytes: 11420
+    fetched_at: '2026-09-29T12:05:13+00:00'
+    notes: UK Government Web Archive capture (2025-07-31) of the 31 July 2025 edition's
+      asset https://assets.publishing.service.gov.uk/media/687a294e312ee8a5f0806b6d/Tables_6_1_and_6_2.csv,
+      which GOV.UK now answers with 410 Gone after the July 2026 replacement.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-pension-contribution-relief-2023-24/2025/32770777b16264650f787c622347e3670d849f0b614a4e5eab71f8fb8094c352/Tables_6_1_and_6_2.csv
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-pension-contribution-relief-2023-24/2025/32770777b16264650f787c622347e3670d849f0b614a4e5eab71f8fb8094c352/Tables_6_1_and_6_2.csv

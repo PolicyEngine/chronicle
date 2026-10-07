@@ -1,0 +1,67 @@
+"GEOGRAPHY_NAME","GEOGRAPHY_CODE","C2021_HHCOMP_15","C2021_HHCOMP_15_NAME","MEASURES_NAME","OBS_VALUE"
+"England and Wales","K04000001","0","Total: All households","Value",24783199
+"England and Wales","K04000001","1001","One-person household","Value",7481788
+"England and Wales","K04000001","1","One-person household: Aged 66 years and over","Value",3197845
+"England and Wales","K04000001","2","One-person household: Other","Value",4283943
+"England and Wales","K04000001","1002","Single family household","Value",15613018
+"England and Wales","K04000001","3","Single family household: All aged 66 years and over","Value",2283288
+"England and Wales","K04000001","1003","Single family household: Married or civil partnership couple","Value",7516491
+"England and Wales","K04000001","4","Single family household: Married or civil partnership couple: No children","Value",2585219
+"England and Wales","K04000001","5","Single family household: Married or civil partnership couple: Dependent children","Value",3535421
+"England and Wales","K04000001","6","Single family household: Married or civil partnership couple: All children non-dependent","Value",1395851
+"England and Wales","K04000001","1004","Single family household: Cohabiting couple family","Value",2864627
+"England and Wales","K04000001","7","Single family household: Cohabiting couple family: No children","Value",1564054
+"England and Wales","K04000001","8","Single family household: Cohabiting couple family: With dependent children","Value",1120941
+"England and Wales","K04000001","9","Single family household: Cohabiting couple family: All children non-dependent","Value",179632
+"England and Wales","K04000001","1005","Single family household: Lone parent family","Value",2756737
+"England and Wales","K04000001","10","Single family household: Lone parent family: With dependent children","Value",1719350
+"England and Wales","K04000001","11","Single family household: Lone parent family: All children non-dependent","Value",1037387
+"England and Wales","K04000001","1006","Single family household: Other single family household","Value",191875
+"England and Wales","K04000001","12","Single family household: Other single family household: Other family composition","Value",191875
+"England and Wales","K04000001","1007","Other household types","Value",1688393
+"England and Wales","K04000001","13","Other household types: With dependent children","Value",656418
+"England and Wales","K04000001","14","Other household types: Other, including all full-time students and all aged 66 years and over","Value",1031975
+"England","E92000001","0","Total: All households","Value",23436086
+"England","E92000001","1001","One-person household","Value",7052229
+"England","E92000001","1","One-person household: Aged 66 years and over","Value",3001789
+"England","E92000001","2","One-person household: Other","Value",4050440
+"England","E92000001","1002","Single family household","Value",14762923
+"England","E92000001","3","Single family household: All aged 66 years and over","Value",2145278
+"England","E92000001","1003","Single family household: Married or civil partnership couple","Value",7129794
+"England","E92000001","4","Single family household: Married or civil partnership couple: No children","Value",2440210
+"England","E92000001","5","Single family household: Married or civil partnership couple: Dependent children","Value",3375402
+"England","E92000001","6","Single family household: Married or civil partnership couple: All children non-dependent","Value",1314182
+"England","E92000001","1004","Single family household: Cohabiting couple family","Value",2708979
+"England","E92000001","7","Single family household: Cohabiting couple family: No children","Value",1486961
+"England","E92000001","8","Single family household: Cohabiting couple family: With dependent children","Value",1053001
+"England","E92000001","9","Single family household: Cohabiting couple family: All children non-dependent","Value",169017
+"England","E92000001","1005","Single family household: Lone parent family","Value",2594901
+"England","E92000001","10","Single family household: Lone parent family: With dependent children","Value",1617076
+"England","E92000001","11","Single family household: Lone parent family: All children non-dependent","Value",977825
+"England","E92000001","1006","Single family household: Other single family household","Value",183971
+"England","E92000001","12","Single family household: Other single family household: Other family composition","Value",183971
+"England","E92000001","1007","Other household types","Value",1620934
+"England","E92000001","13","Other household types: With dependent children","Value",630340
+"England","E92000001","14","Other household types: Other, including all full-time students and all aged 66 years and over","Value",990594
+"Wales","W92000004","0","Total: All households","Value",1347114
+"Wales","W92000004","1001","One-person household","Value",429559
+"Wales","W92000004","1","One-person household: Aged 66 years and over","Value",196056
+"Wales","W92000004","2","One-person household: Other","Value",233503
+"Wales","W92000004","1002","Single family household","Value",850096
+"Wales","W92000004","3","Single family household: All aged 66 years and over","Value",138010
+"Wales","W92000004","1003","Single family household: Married or civil partnership couple","Value",386697
+"Wales","W92000004","4","Single family household: Married or civil partnership couple: No children","Value",145009
+"Wales","W92000004","5","Single family household: Married or civil partnership couple: Dependent children","Value",160019
+"Wales","W92000004","6","Single family household: Married or civil partnership couple: All children non-dependent","Value",81669
+"Wales","W92000004","1004","Single family household: Cohabiting couple family","Value",155649
+"Wales","W92000004","7","Single family household: Cohabiting couple family: No children","Value",77093
+"Wales","W92000004","8","Single family household: Cohabiting couple family: With dependent children","Value",67941
+"Wales","W92000004","9","Single family household: Cohabiting couple family: All children non-dependent","Value",10615
+"Wales","W92000004","1005","Single family household: Lone parent family","Value",161836
+"Wales","W92000004","10","Single family household: Lone parent family: With dependent children","Value",102274
+"Wales","W92000004","11","Single family household: Lone parent family: All children non-dependent","Value",59562
+"Wales","W92000004","1006","Single family household: Other single family household","Value",7904
+"Wales","W92000004","12","Single family household: Other single family household: Other family composition","Value",7904
+"Wales","W92000004","1007","Other household types","Value",67459
+"Wales","W92000004","13","Other household types: With dependent children","Value",26078
+"Wales","W92000004","14","Other household types: Other, including all full-time students and all aged 66 years and over","Value",41381

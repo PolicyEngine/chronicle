@@ -1,0 +1,2461 @@
+schema_version: ledger.source_package.v1
+package_id: dft-bus0415-fares-index-2026
+label: DfT BUS0415a local bus fares index by area, quarter-end months from March 2023 through March 2026
+dimension_labels:
+  'dft.bus_fares_index_area': 'Fares index area'
+artifact:
+  source_name: dft
+  source_table: BUS0415a local bus fares index by metropolitan area status and country
+  resource_package: db
+  resource_directory: data/dft/bus0415_fares_index_2026
+  manifest: manifest.yaml
+  vintage: bus_statistics_2026_q1
+  extracted_at: '2026-08-26'
+  extraction_method: ODS whole-workbook used-range cell parse
+  parser: ods_used_range
+  artifact_year: 2026
+record_sets:
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202303
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202303.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202303
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2023-03
+  period_coverage:
+    basis: calendar
+    source_period_label: 2023 03
+    start_date: '2023-01-01'
+    end_date: '2023-03-31'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 82
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 82
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 82
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 82
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 82
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 82
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 82
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 82
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2023-03.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202306
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202306.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202306
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2023-06
+  period_coverage:
+    basis: calendar
+    source_period_label: 2023 06
+    start_date: '2023-04-01'
+    end_date: '2023-06-30'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 83
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 83
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 83
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 83
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 83
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 83
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 83
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 83
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2023-06.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202309
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202309.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202309
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2023-09
+  period_coverage:
+    basis: calendar
+    source_period_label: 2023 09
+    start_date: '2023-07-01'
+    end_date: '2023-09-30'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 84
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 84
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 84
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 84
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 84
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 84
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 84
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 84
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2023-09.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202312
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202312.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202312
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2023-12
+  period_coverage:
+    basis: calendar
+    source_period_label: 2023 12
+    start_date: '2023-10-01'
+    end_date: '2023-12-31'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 85
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 85
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 85
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 85
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 85
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 85
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 85
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 85
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2023-12.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202403
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202403.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202403
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2024-03
+  period_coverage:
+    basis: calendar
+    source_period_label: 2024 03
+    start_date: '2024-01-01'
+    end_date: '2024-03-31'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 86
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 86
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 86
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 86
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 86
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 86
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 86
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 86
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2024-03.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202406
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202406.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202406
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2024-06
+  period_coverage:
+    basis: calendar
+    source_period_label: 2024 06
+    start_date: '2024-04-01'
+    end_date: '2024-06-30'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 87
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 87
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 87
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 87
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 87
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 87
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 87
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 87
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2024-06.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202409
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202409.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202409
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2024-09
+  period_coverage:
+    basis: calendar
+    source_period_label: 2024 09
+    start_date: '2024-07-01'
+    end_date: '2024-09-30'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 88
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 88
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 88
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 88
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 88
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 88
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 88
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 88
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2024-09.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202412
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202412.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202412
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2024-12
+  period_coverage:
+    basis: calendar
+    source_period_label: 2024 12
+    start_date: '2024-10-01'
+    end_date: '2024-12-31'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 89
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 89
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 89
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 89
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 89
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 89
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 89
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 89
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2024-12.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202503
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202503.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202503
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2025-03
+  period_coverage:
+    basis: calendar
+    source_period_label: 2025 03
+    start_date: '2025-01-01'
+    end_date: '2025-03-31'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 90
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 90
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 90
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 90
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 90
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 90
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 90
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 90
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2025-03.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202506
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202506.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202506
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2025-06
+  period_coverage:
+    basis: calendar
+    source_period_label: 2025 06
+    start_date: '2025-04-01'
+    end_date: '2025-06-30'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 91
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 91
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 91
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 91
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 91
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 91
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 91
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 91
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Jun
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2025-06.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202509
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202509.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202509
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2025-09
+  period_coverage:
+    basis: calendar
+    source_period_label: 2025 09
+    start_date: '2025-07-01'
+    end_date: '2025-09-30'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 92
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 92
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 92
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 92
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 92
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 92
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 92
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 92
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Sep
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2025-09.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202512
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202512.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202512
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2025-12
+  period_coverage:
+    basis: calendar
+    source_period_label: 2025 12
+    start_date: '2025-10-01'
+    end_date: '2025-12-31'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 93
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 93
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 93
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 93
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 93
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 93
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 93
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 93
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Dec
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2025-12.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number
+- record_set_id: dft.bus0415a.local_bus_fares_index.m202603
+  provenance_class: administrative
+  record_set_spec_id: dft.bus0415a.local_bus_fares_index.m202603.v1
+  source_record_id_prefix: dft.bus0415a.local_bus_fares_index.m202603
+  sheet_name: BUS0415a
+  period_type: month
+  period: 2026-03
+  period_coverage:
+    basis: calendar
+    source_period_label: 2026 03
+    start_date: '2026-01-01'
+    end_date: '2026-03-31'
+    notes: Quarter represented by the publisher's quarter-end month row.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_services
+  domain: local_bus_fares
+  groupby_dimension: dft.bus_fares_index_area
+  rows:
+  - value_id: london
+    label: London
+    ordinal: 0
+    row_number: 94
+    column: F
+    source_column_id: london
+    expected_row_header_column: A
+    expected_row_header: 2026
+    expected_column_header_row: 9
+    expected_column_header: London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: english_metropolitan_areas
+    label: English metropolitan areas
+    ordinal: 1
+    row_number: 94
+    column: G
+    source_column_id: english_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2026
+    expected_column_header_row: 9
+    expected_column_header: English metropolitan areas
+    geography_id: dft:english_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: english_non_metropolitan_areas
+    label: English non-metropolitan areas
+    ordinal: 2
+    row_number: 94
+    column: H
+    source_column_id: english_non_metropolitan_areas
+    expected_row_header_column: A
+    expected_row_header: 2026
+    expected_column_header_row: 9
+    expected_column_header: English non metropolitan areas
+    geography_id: dft:english_non_metropolitan_areas
+    geography_level: statistical_scope
+    geography_name: English non-metropolitan areas
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: england
+    label: England
+    ordinal: 3
+    row_number: 94
+    column: I
+    source_column_id: england
+    expected_row_header_column: A
+    expected_row_header: 2026
+    expected_column_header_row: 9
+    expected_column_header: England
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: scotland
+    label: Scotland
+    ordinal: 4
+    row_number: 94
+    column: J
+    source_column_id: scotland
+    expected_row_header_column: A
+    expected_row_header: 2026
+    expected_column_header_row: 9
+    expected_column_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: wales
+    label: Wales
+    ordinal: 5
+    row_number: 94
+    column: K
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2026
+    expected_column_header_row: 9
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 6
+    row_number: 94
+    column: L
+    source_column_id: great_britain
+    expected_row_header_column: A
+    expected_row_header: 2026
+    expected_column_header_row: 9
+    expected_column_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  - value_id: england_outside_london
+    label: England outside London
+    ordinal: 7
+    row_number: 94
+    column: M
+    source_column_id: england_outside_london
+    expected_row_header_column: A
+    expected_row_header: 2026
+    expected_column_header_row: 9
+    expected_column_header: England outside London
+    geography_id: dft:england_outside_london
+    geography_level: statistical_scope
+    geography_name: England outside London
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      expected_value: Mar
+      label: quarter-end month
+  measures:
+  - measure_id: local_bus_fares_index
+    label: Local bus fares index
+    ordinal: 0
+    column: F
+    concept: dft.local_bus_fares_index
+    source_concept: dft.local_bus_fares_index
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus04-costs-fares-and-revenue
+    concept_evidence_notes: DfT BUS0415a local bus fares index, March 2005 = 100; quarter-end row 2026-03.
+    unit: index_march_2005_100
+    aggregation: ratio
+    expected_cell_type: number

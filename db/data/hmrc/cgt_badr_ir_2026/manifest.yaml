@@ -1,0 +1,18 @@
+source_id: hmrc
+package_id: hmrc-cgt-badr-ir-2026
+dataset: hmrc_hmrc-cgt-badr-ir-2026
+source_page: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+table: 'Capital Gains Tax statistics Table 4: BADR and Investors'' Relief by size of qualifying gain'
+files:
+  2026:
+    filename: Table_4_2026_Business_asset_disposal_and_investors_reliefs.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a7b242a347b198efd290ed7/Table_4_2026_Business_asset_disposal_and_investors_reliefs.ods
+    sha256: 7bd0098913e44e3c79a533690cd25ee08f627cd72935c46a874a7eab5442d5ca
+    size_bytes: 6559
+    fetched_at: '2026-09-24T15:44:57.841104+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-cgt-badr-ir-2026/2026/7bd0098913e44e3c79a533690cd25ee08f627cd72935c46a874a7eab5442d5ca/Table_4_2026_Business_asset_disposal_and_investors_reliefs.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-cgt-badr-ir-2026/2026/7bd0098913e44e3c79a533690cd25ee08f627cd72935c46a874a7eab5442d5ca/Table_4_2026_Business_asset_disposal_and_investors_reliefs.ods

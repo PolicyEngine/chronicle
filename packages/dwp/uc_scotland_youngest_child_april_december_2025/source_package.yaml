@@ -1,0 +1,581 @@
+# DWP's 'household' is the Universal Credit unit of assessment (benefit unit), not an ONS
+# household. Each monthly cube cell is preserved as published; DWP applies cell-level
+# adjustment at source, so independently queried cubes need not reconcile exactly.
+# Stat-Xplore Open Data API extract (raw API response, query echoed inside it):
+# Households on Universal Credit in Scotland, Month x Age of Youngest Child (single
+# year), April to December 2025 (chronicle#234; supersedes the May-2025 snapshot package
+# dwp-uc-scotland-youngest-child-may-2025). Geography is recoded to Scotland and guarded
+# by the S92000003 value URI on every row. The age-0 row is the publisher-precise value
+# behind the 'Scotland UC households with a child under 1' target. Entity and concepts
+# follow the April-December family-type and children packages (#188): benefit_unit,
+# concept dwp.uc_benefit_units, source_concept dwp.uc_households, so the retired May
+# package's dwp.uc_households source concept is kept.
+schema_version: ledger.source_package.v1
+package_id: dwp-uc-scotland-youngest-child-april-december-2025
+label: 'DWP Stat-Xplore: Universal Credit benefit units in Scotland by single year of age of youngest child, April to December 2025'
+dimension_labels:
+  'dwp.uc_youngest_child_age': 'Age of Youngest Child (bands and single year)'
+artifact:
+  source_name: dwp
+  source_table: 'Households on Universal Credit in Scotland by single year of age of youngest child, April to December 2025'
+  resource_package: db
+  resource_directory: data/dwp/uc_scotland_youngest_child_april_december_2025
+  manifest: manifest.yaml
+  vintage: stat_xplore_2026_09_03
+  extracted_at: '2026-09-03'
+  extraction_method: Stat-Xplore Open Data API table response parsed and unpivoted to one row per cube cell
+  parser: statxplore_table_json_rows
+  sheet_name: api_response
+  artifact_year: 2025
+record_sets:
+- &monthly
+  record_set_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_04
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_04.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_04
+  sheet_name: api_response
+  period_type: month
+  period: 2025-04
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: benefit_unit
+  entity_role: universal_credit_unit_of_assessment
+  domain: universal_credit
+  groupby_dimension: dwp.uc_youngest_child_age
+  assertion: observation
+  rows:
+  - &age_0
+    value_id: age_0
+    label: '0'
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:0'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '0'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '0', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 2, expected_value: 'April 2025', label: month}, {column: E, row: 2, expected_value: 'Scotland', label: geography}, {column: F, row: 2, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_1
+    value_id: age_1
+    label: '1'
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:1'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '1'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '1', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 3, expected_value: 'April 2025', label: month}, {column: E, row: 3, expected_value: 'Scotland', label: geography}, {column: F, row: 3, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_2
+    value_id: age_2
+    label: '2'
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:2'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '2'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '2', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 4, expected_value: 'April 2025', label: month}, {column: E, row: 4, expected_value: 'Scotland', label: geography}, {column: F, row: 4, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_3
+    value_id: age_3
+    label: '3'
+    ordinal: 3
+    row_number: 5
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:3'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '3'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '3', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 5, expected_value: 'April 2025', label: month}, {column: E, row: 5, expected_value: 'Scotland', label: geography}, {column: F, row: 5, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_4
+    value_id: age_4
+    label: '4'
+    ordinal: 4
+    row_number: 6
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:4'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '4'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '4', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 6, expected_value: 'April 2025', label: month}, {column: E, row: 6, expected_value: 'Scotland', label: geography}, {column: F, row: 6, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_5
+    value_id: age_5
+    label: '5'
+    ordinal: 5
+    row_number: 7
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:5'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '5'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '5', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 7, expected_value: 'April 2025', label: month}, {column: E, row: 7, expected_value: 'Scotland', label: geography}, {column: F, row: 7, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_6
+    value_id: age_6
+    label: '6'
+    ordinal: 6
+    row_number: 8
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:6'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '6'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '6', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 8, expected_value: 'April 2025', label: month}, {column: E, row: 8, expected_value: 'Scotland', label: geography}, {column: F, row: 8, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_7
+    value_id: age_7
+    label: '7'
+    ordinal: 7
+    row_number: 9
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:7'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '7'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '7', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 9, expected_value: 'April 2025', label: month}, {column: E, row: 9, expected_value: 'Scotland', label: geography}, {column: F, row: 9, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_8
+    value_id: age_8
+    label: '8'
+    ordinal: 8
+    row_number: 10
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:8'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '8'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '8', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 10, expected_value: 'April 2025', label: month}, {column: E, row: 10, expected_value: 'Scotland', label: geography}, {column: F, row: 10, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_9
+    value_id: age_9
+    label: '9'
+    ordinal: 9
+    row_number: 11
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '9'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '9', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 11, expected_value: 'April 2025', label: month}, {column: E, row: 11, expected_value: 'Scotland', label: geography}, {column: F, row: 11, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_10
+    value_id: age_10
+    label: '10'
+    ordinal: 10
+    row_number: 12
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:10'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '10'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '10', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 12, expected_value: 'April 2025', label: month}, {column: E, row: 12, expected_value: 'Scotland', label: geography}, {column: F, row: 12, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_11
+    value_id: age_11
+    label: '11'
+    ordinal: 11
+    row_number: 13
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:11'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '11'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '11', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 13, expected_value: 'April 2025', label: month}, {column: E, row: 13, expected_value: 'Scotland', label: geography}, {column: F, row: 13, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_12
+    value_id: age_12
+    label: '12'
+    ordinal: 12
+    row_number: 14
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:12'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '12'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '12', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 14, expected_value: 'April 2025', label: month}, {column: E, row: 14, expected_value: 'Scotland', label: geography}, {column: F, row: 14, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_13
+    value_id: age_13
+    label: '13'
+    ordinal: 13
+    row_number: 15
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:13'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '13'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '13', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 15, expected_value: 'April 2025', label: month}, {column: E, row: 15, expected_value: 'Scotland', label: geography}, {column: F, row: 15, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_14
+    value_id: age_14
+    label: '14'
+    ordinal: 14
+    row_number: 16
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:14'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '14'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '14', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 16, expected_value: 'April 2025', label: month}, {column: E, row: 16, expected_value: 'Scotland', label: geography}, {column: F, row: 16, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_15
+    value_id: age_15
+    label: '15'
+    ordinal: 15
+    row_number: 17
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:15'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '15'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '15', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 17, expected_value: 'April 2025', label: month}, {column: E, row: 17, expected_value: 'Scotland', label: geography}, {column: F, row: 17, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_16
+    value_id: age_16
+    label: '16'
+    ordinal: 16
+    row_number: 18
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:16'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '16'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '16', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 18, expected_value: 'April 2025', label: month}, {column: E, row: 18, expected_value: 'Scotland', label: geography}, {column: F, row: 18, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_17
+    value_id: age_17
+    label: '17'
+    ordinal: 17
+    row_number: 19
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:17'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '17'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '17', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 19, expected_value: 'April 2025', label: month}, {column: E, row: 19, expected_value: 'Scotland', label: geography}, {column: F, row: 19, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_18
+    value_id: age_18
+    label: '18'
+    ordinal: 18
+    row_number: 20
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:18'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '18'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '18', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 20, expected_value: 'April 2025', label: month}, {column: E, row: 20, expected_value: 'Scotland', label: geography}, {column: F, row: 20, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &age_19
+    value_id: age_19
+    label: '19'
+    ordinal: 19
+    row_number: 21
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:19'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: '19'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: '19', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 21, expected_value: 'April 2025', label: month}, {column: E, row: 21, expected_value: 'Scotland', label: geography}, {column: F, row: 21, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &no_children
+    value_id: no_children
+    label: 'No children'
+    ordinal: 20
+    row_number: 22
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9997'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: 'No children'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: 'No children', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 22, expected_value: 'April 2025', label: month}, {column: E, row: 22, expected_value: 'Scotland', label: geography}, {column: F, row: 22, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &unknown_or_missing
+    value_id: unknown_or_missing
+    label: 'Unknown or missing'
+    ordinal: 21
+    row_number: 23
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9998'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: 'Unknown or missing'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: 'Unknown or missing', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 23, expected_value: 'April 2025', label: month}, {column: E, row: 23, expected_value: 'Scotland', label: geography}, {column: F, row: 23, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  - &not_available_prior_to_april_2019
+    value_id: not_available_prior_to_april_2019
+    label: 'Not available prior to April 2019'
+    ordinal: 22
+    row_number: 24
+    expected_row_header_column: H
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9999'
+    table_record_kind: detail
+    filters: {age_of_youngest_child_bands_and_single_year: 'Not available prior to April 2019'}
+    constraints:
+    - {variable: age_of_youngest_child_bands_and_single_year, operator: '==', value: 'Not available prior to April 2019', label: age of youngest child bands and single year}
+    guard_cells: [{column: C, row: 24, expected_value: 'April 2025', label: month}, {column: E, row: 24, expected_value: 'Scotland', label: geography}, {column: F, row: 24, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]
+  measures: &measures
+  - measure_id: benefit_units
+    label: Universal Credit benefit units
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: value
+    concept: dwp.uc_benefit_units
+    source_concept: dwp.uc_households
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://stat-xplore.dwp.gov.uk/
+    concept_evidence_notes: 'Stat-Xplore ''Households on Universal Credit'' dataset, April to December 2025, Scotland, dimensioned by Age of Youngest Child (single year); query echoed in the archived API response. Single-year categories are guarded via the publisher value URIs. DWP defines a Universal Credit household as the UC unit of assessment; Chronicle normalizes that entity to benefit_unit.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_05
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_05.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_05
+  period: 2025-05
+  rows:
+  - {<<: *age_0, row_number: 25, guard_cells: [{column: C, row: 25, expected_value: 'May 2025', label: month}, {column: E, row: 25, expected_value: 'Scotland', label: geography}, {column: F, row: 25, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_1, row_number: 26, guard_cells: [{column: C, row: 26, expected_value: 'May 2025', label: month}, {column: E, row: 26, expected_value: 'Scotland', label: geography}, {column: F, row: 26, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_2, row_number: 27, guard_cells: [{column: C, row: 27, expected_value: 'May 2025', label: month}, {column: E, row: 27, expected_value: 'Scotland', label: geography}, {column: F, row: 27, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_3, row_number: 28, guard_cells: [{column: C, row: 28, expected_value: 'May 2025', label: month}, {column: E, row: 28, expected_value: 'Scotland', label: geography}, {column: F, row: 28, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_4, row_number: 29, guard_cells: [{column: C, row: 29, expected_value: 'May 2025', label: month}, {column: E, row: 29, expected_value: 'Scotland', label: geography}, {column: F, row: 29, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_5, row_number: 30, guard_cells: [{column: C, row: 30, expected_value: 'May 2025', label: month}, {column: E, row: 30, expected_value: 'Scotland', label: geography}, {column: F, row: 30, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_6, row_number: 31, guard_cells: [{column: C, row: 31, expected_value: 'May 2025', label: month}, {column: E, row: 31, expected_value: 'Scotland', label: geography}, {column: F, row: 31, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_7, row_number: 32, guard_cells: [{column: C, row: 32, expected_value: 'May 2025', label: month}, {column: E, row: 32, expected_value: 'Scotland', label: geography}, {column: F, row: 32, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_8, row_number: 33, guard_cells: [{column: C, row: 33, expected_value: 'May 2025', label: month}, {column: E, row: 33, expected_value: 'Scotland', label: geography}, {column: F, row: 33, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_9, row_number: 34, guard_cells: [{column: C, row: 34, expected_value: 'May 2025', label: month}, {column: E, row: 34, expected_value: 'Scotland', label: geography}, {column: F, row: 34, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_10, row_number: 35, guard_cells: [{column: C, row: 35, expected_value: 'May 2025', label: month}, {column: E, row: 35, expected_value: 'Scotland', label: geography}, {column: F, row: 35, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_11, row_number: 36, guard_cells: [{column: C, row: 36, expected_value: 'May 2025', label: month}, {column: E, row: 36, expected_value: 'Scotland', label: geography}, {column: F, row: 36, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_12, row_number: 37, guard_cells: [{column: C, row: 37, expected_value: 'May 2025', label: month}, {column: E, row: 37, expected_value: 'Scotland', label: geography}, {column: F, row: 37, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_13, row_number: 38, guard_cells: [{column: C, row: 38, expected_value: 'May 2025', label: month}, {column: E, row: 38, expected_value: 'Scotland', label: geography}, {column: F, row: 38, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_14, row_number: 39, guard_cells: [{column: C, row: 39, expected_value: 'May 2025', label: month}, {column: E, row: 39, expected_value: 'Scotland', label: geography}, {column: F, row: 39, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_15, row_number: 40, guard_cells: [{column: C, row: 40, expected_value: 'May 2025', label: month}, {column: E, row: 40, expected_value: 'Scotland', label: geography}, {column: F, row: 40, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_16, row_number: 41, guard_cells: [{column: C, row: 41, expected_value: 'May 2025', label: month}, {column: E, row: 41, expected_value: 'Scotland', label: geography}, {column: F, row: 41, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_17, row_number: 42, guard_cells: [{column: C, row: 42, expected_value: 'May 2025', label: month}, {column: E, row: 42, expected_value: 'Scotland', label: geography}, {column: F, row: 42, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_18, row_number: 43, guard_cells: [{column: C, row: 43, expected_value: 'May 2025', label: month}, {column: E, row: 43, expected_value: 'Scotland', label: geography}, {column: F, row: 43, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_19, row_number: 44, guard_cells: [{column: C, row: 44, expected_value: 'May 2025', label: month}, {column: E, row: 44, expected_value: 'Scotland', label: geography}, {column: F, row: 44, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *no_children, row_number: 45, guard_cells: [{column: C, row: 45, expected_value: 'May 2025', label: month}, {column: E, row: 45, expected_value: 'Scotland', label: geography}, {column: F, row: 45, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *unknown_or_missing, row_number: 46, guard_cells: [{column: C, row: 46, expected_value: 'May 2025', label: month}, {column: E, row: 46, expected_value: 'Scotland', label: geography}, {column: F, row: 46, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *not_available_prior_to_april_2019, row_number: 47, guard_cells: [{column: C, row: 47, expected_value: 'May 2025', label: month}, {column: E, row: 47, expected_value: 'Scotland', label: geography}, {column: F, row: 47, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_06
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_06.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_06
+  period: 2025-06
+  rows:
+  - {<<: *age_0, row_number: 48, guard_cells: [{column: C, row: 48, expected_value: 'June 2025', label: month}, {column: E, row: 48, expected_value: 'Scotland', label: geography}, {column: F, row: 48, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_1, row_number: 49, guard_cells: [{column: C, row: 49, expected_value: 'June 2025', label: month}, {column: E, row: 49, expected_value: 'Scotland', label: geography}, {column: F, row: 49, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_2, row_number: 50, guard_cells: [{column: C, row: 50, expected_value: 'June 2025', label: month}, {column: E, row: 50, expected_value: 'Scotland', label: geography}, {column: F, row: 50, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_3, row_number: 51, guard_cells: [{column: C, row: 51, expected_value: 'June 2025', label: month}, {column: E, row: 51, expected_value: 'Scotland', label: geography}, {column: F, row: 51, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_4, row_number: 52, guard_cells: [{column: C, row: 52, expected_value: 'June 2025', label: month}, {column: E, row: 52, expected_value: 'Scotland', label: geography}, {column: F, row: 52, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_5, row_number: 53, guard_cells: [{column: C, row: 53, expected_value: 'June 2025', label: month}, {column: E, row: 53, expected_value: 'Scotland', label: geography}, {column: F, row: 53, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_6, row_number: 54, guard_cells: [{column: C, row: 54, expected_value: 'June 2025', label: month}, {column: E, row: 54, expected_value: 'Scotland', label: geography}, {column: F, row: 54, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_7, row_number: 55, guard_cells: [{column: C, row: 55, expected_value: 'June 2025', label: month}, {column: E, row: 55, expected_value: 'Scotland', label: geography}, {column: F, row: 55, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_8, row_number: 56, guard_cells: [{column: C, row: 56, expected_value: 'June 2025', label: month}, {column: E, row: 56, expected_value: 'Scotland', label: geography}, {column: F, row: 56, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_9, row_number: 57, guard_cells: [{column: C, row: 57, expected_value: 'June 2025', label: month}, {column: E, row: 57, expected_value: 'Scotland', label: geography}, {column: F, row: 57, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_10, row_number: 58, guard_cells: [{column: C, row: 58, expected_value: 'June 2025', label: month}, {column: E, row: 58, expected_value: 'Scotland', label: geography}, {column: F, row: 58, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_11, row_number: 59, guard_cells: [{column: C, row: 59, expected_value: 'June 2025', label: month}, {column: E, row: 59, expected_value: 'Scotland', label: geography}, {column: F, row: 59, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_12, row_number: 60, guard_cells: [{column: C, row: 60, expected_value: 'June 2025', label: month}, {column: E, row: 60, expected_value: 'Scotland', label: geography}, {column: F, row: 60, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_13, row_number: 61, guard_cells: [{column: C, row: 61, expected_value: 'June 2025', label: month}, {column: E, row: 61, expected_value: 'Scotland', label: geography}, {column: F, row: 61, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_14, row_number: 62, guard_cells: [{column: C, row: 62, expected_value: 'June 2025', label: month}, {column: E, row: 62, expected_value: 'Scotland', label: geography}, {column: F, row: 62, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_15, row_number: 63, guard_cells: [{column: C, row: 63, expected_value: 'June 2025', label: month}, {column: E, row: 63, expected_value: 'Scotland', label: geography}, {column: F, row: 63, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_16, row_number: 64, guard_cells: [{column: C, row: 64, expected_value: 'June 2025', label: month}, {column: E, row: 64, expected_value: 'Scotland', label: geography}, {column: F, row: 64, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_17, row_number: 65, guard_cells: [{column: C, row: 65, expected_value: 'June 2025', label: month}, {column: E, row: 65, expected_value: 'Scotland', label: geography}, {column: F, row: 65, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_18, row_number: 66, guard_cells: [{column: C, row: 66, expected_value: 'June 2025', label: month}, {column: E, row: 66, expected_value: 'Scotland', label: geography}, {column: F, row: 66, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_19, row_number: 67, guard_cells: [{column: C, row: 67, expected_value: 'June 2025', label: month}, {column: E, row: 67, expected_value: 'Scotland', label: geography}, {column: F, row: 67, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *no_children, row_number: 68, guard_cells: [{column: C, row: 68, expected_value: 'June 2025', label: month}, {column: E, row: 68, expected_value: 'Scotland', label: geography}, {column: F, row: 68, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *unknown_or_missing, row_number: 69, guard_cells: [{column: C, row: 69, expected_value: 'June 2025', label: month}, {column: E, row: 69, expected_value: 'Scotland', label: geography}, {column: F, row: 69, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *not_available_prior_to_april_2019, row_number: 70, guard_cells: [{column: C, row: 70, expected_value: 'June 2025', label: month}, {column: E, row: 70, expected_value: 'Scotland', label: geography}, {column: F, row: 70, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_07
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_07.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_07
+  period: 2025-07
+  rows:
+  - {<<: *age_0, row_number: 71, guard_cells: [{column: C, row: 71, expected_value: 'July 2025', label: month}, {column: E, row: 71, expected_value: 'Scotland', label: geography}, {column: F, row: 71, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_1, row_number: 72, guard_cells: [{column: C, row: 72, expected_value: 'July 2025', label: month}, {column: E, row: 72, expected_value: 'Scotland', label: geography}, {column: F, row: 72, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_2, row_number: 73, guard_cells: [{column: C, row: 73, expected_value: 'July 2025', label: month}, {column: E, row: 73, expected_value: 'Scotland', label: geography}, {column: F, row: 73, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_3, row_number: 74, guard_cells: [{column: C, row: 74, expected_value: 'July 2025', label: month}, {column: E, row: 74, expected_value: 'Scotland', label: geography}, {column: F, row: 74, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_4, row_number: 75, guard_cells: [{column: C, row: 75, expected_value: 'July 2025', label: month}, {column: E, row: 75, expected_value: 'Scotland', label: geography}, {column: F, row: 75, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_5, row_number: 76, guard_cells: [{column: C, row: 76, expected_value: 'July 2025', label: month}, {column: E, row: 76, expected_value: 'Scotland', label: geography}, {column: F, row: 76, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_6, row_number: 77, guard_cells: [{column: C, row: 77, expected_value: 'July 2025', label: month}, {column: E, row: 77, expected_value: 'Scotland', label: geography}, {column: F, row: 77, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_7, row_number: 78, guard_cells: [{column: C, row: 78, expected_value: 'July 2025', label: month}, {column: E, row: 78, expected_value: 'Scotland', label: geography}, {column: F, row: 78, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_8, row_number: 79, guard_cells: [{column: C, row: 79, expected_value: 'July 2025', label: month}, {column: E, row: 79, expected_value: 'Scotland', label: geography}, {column: F, row: 79, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_9, row_number: 80, guard_cells: [{column: C, row: 80, expected_value: 'July 2025', label: month}, {column: E, row: 80, expected_value: 'Scotland', label: geography}, {column: F, row: 80, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_10, row_number: 81, guard_cells: [{column: C, row: 81, expected_value: 'July 2025', label: month}, {column: E, row: 81, expected_value: 'Scotland', label: geography}, {column: F, row: 81, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_11, row_number: 82, guard_cells: [{column: C, row: 82, expected_value: 'July 2025', label: month}, {column: E, row: 82, expected_value: 'Scotland', label: geography}, {column: F, row: 82, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_12, row_number: 83, guard_cells: [{column: C, row: 83, expected_value: 'July 2025', label: month}, {column: E, row: 83, expected_value: 'Scotland', label: geography}, {column: F, row: 83, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_13, row_number: 84, guard_cells: [{column: C, row: 84, expected_value: 'July 2025', label: month}, {column: E, row: 84, expected_value: 'Scotland', label: geography}, {column: F, row: 84, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_14, row_number: 85, guard_cells: [{column: C, row: 85, expected_value: 'July 2025', label: month}, {column: E, row: 85, expected_value: 'Scotland', label: geography}, {column: F, row: 85, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_15, row_number: 86, guard_cells: [{column: C, row: 86, expected_value: 'July 2025', label: month}, {column: E, row: 86, expected_value: 'Scotland', label: geography}, {column: F, row: 86, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_16, row_number: 87, guard_cells: [{column: C, row: 87, expected_value: 'July 2025', label: month}, {column: E, row: 87, expected_value: 'Scotland', label: geography}, {column: F, row: 87, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_17, row_number: 88, guard_cells: [{column: C, row: 88, expected_value: 'July 2025', label: month}, {column: E, row: 88, expected_value: 'Scotland', label: geography}, {column: F, row: 88, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_18, row_number: 89, guard_cells: [{column: C, row: 89, expected_value: 'July 2025', label: month}, {column: E, row: 89, expected_value: 'Scotland', label: geography}, {column: F, row: 89, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_19, row_number: 90, guard_cells: [{column: C, row: 90, expected_value: 'July 2025', label: month}, {column: E, row: 90, expected_value: 'Scotland', label: geography}, {column: F, row: 90, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *no_children, row_number: 91, guard_cells: [{column: C, row: 91, expected_value: 'July 2025', label: month}, {column: E, row: 91, expected_value: 'Scotland', label: geography}, {column: F, row: 91, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *unknown_or_missing, row_number: 92, guard_cells: [{column: C, row: 92, expected_value: 'July 2025', label: month}, {column: E, row: 92, expected_value: 'Scotland', label: geography}, {column: F, row: 92, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *not_available_prior_to_april_2019, row_number: 93, guard_cells: [{column: C, row: 93, expected_value: 'July 2025', label: month}, {column: E, row: 93, expected_value: 'Scotland', label: geography}, {column: F, row: 93, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_08
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_08.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_08
+  period: 2025-08
+  rows:
+  - {<<: *age_0, row_number: 94, guard_cells: [{column: C, row: 94, expected_value: 'August 2025', label: month}, {column: E, row: 94, expected_value: 'Scotland', label: geography}, {column: F, row: 94, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_1, row_number: 95, guard_cells: [{column: C, row: 95, expected_value: 'August 2025', label: month}, {column: E, row: 95, expected_value: 'Scotland', label: geography}, {column: F, row: 95, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_2, row_number: 96, guard_cells: [{column: C, row: 96, expected_value: 'August 2025', label: month}, {column: E, row: 96, expected_value: 'Scotland', label: geography}, {column: F, row: 96, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_3, row_number: 97, guard_cells: [{column: C, row: 97, expected_value: 'August 2025', label: month}, {column: E, row: 97, expected_value: 'Scotland', label: geography}, {column: F, row: 97, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_4, row_number: 98, guard_cells: [{column: C, row: 98, expected_value: 'August 2025', label: month}, {column: E, row: 98, expected_value: 'Scotland', label: geography}, {column: F, row: 98, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_5, row_number: 99, guard_cells: [{column: C, row: 99, expected_value: 'August 2025', label: month}, {column: E, row: 99, expected_value: 'Scotland', label: geography}, {column: F, row: 99, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_6, row_number: 100, guard_cells: [{column: C, row: 100, expected_value: 'August 2025', label: month}, {column: E, row: 100, expected_value: 'Scotland', label: geography}, {column: F, row: 100, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_7, row_number: 101, guard_cells: [{column: C, row: 101, expected_value: 'August 2025', label: month}, {column: E, row: 101, expected_value: 'Scotland', label: geography}, {column: F, row: 101, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_8, row_number: 102, guard_cells: [{column: C, row: 102, expected_value: 'August 2025', label: month}, {column: E, row: 102, expected_value: 'Scotland', label: geography}, {column: F, row: 102, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_9, row_number: 103, guard_cells: [{column: C, row: 103, expected_value: 'August 2025', label: month}, {column: E, row: 103, expected_value: 'Scotland', label: geography}, {column: F, row: 103, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_10, row_number: 104, guard_cells: [{column: C, row: 104, expected_value: 'August 2025', label: month}, {column: E, row: 104, expected_value: 'Scotland', label: geography}, {column: F, row: 104, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_11, row_number: 105, guard_cells: [{column: C, row: 105, expected_value: 'August 2025', label: month}, {column: E, row: 105, expected_value: 'Scotland', label: geography}, {column: F, row: 105, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_12, row_number: 106, guard_cells: [{column: C, row: 106, expected_value: 'August 2025', label: month}, {column: E, row: 106, expected_value: 'Scotland', label: geography}, {column: F, row: 106, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_13, row_number: 107, guard_cells: [{column: C, row: 107, expected_value: 'August 2025', label: month}, {column: E, row: 107, expected_value: 'Scotland', label: geography}, {column: F, row: 107, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_14, row_number: 108, guard_cells: [{column: C, row: 108, expected_value: 'August 2025', label: month}, {column: E, row: 108, expected_value: 'Scotland', label: geography}, {column: F, row: 108, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_15, row_number: 109, guard_cells: [{column: C, row: 109, expected_value: 'August 2025', label: month}, {column: E, row: 109, expected_value: 'Scotland', label: geography}, {column: F, row: 109, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_16, row_number: 110, guard_cells: [{column: C, row: 110, expected_value: 'August 2025', label: month}, {column: E, row: 110, expected_value: 'Scotland', label: geography}, {column: F, row: 110, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_17, row_number: 111, guard_cells: [{column: C, row: 111, expected_value: 'August 2025', label: month}, {column: E, row: 111, expected_value: 'Scotland', label: geography}, {column: F, row: 111, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_18, row_number: 112, guard_cells: [{column: C, row: 112, expected_value: 'August 2025', label: month}, {column: E, row: 112, expected_value: 'Scotland', label: geography}, {column: F, row: 112, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_19, row_number: 113, guard_cells: [{column: C, row: 113, expected_value: 'August 2025', label: month}, {column: E, row: 113, expected_value: 'Scotland', label: geography}, {column: F, row: 113, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *no_children, row_number: 114, guard_cells: [{column: C, row: 114, expected_value: 'August 2025', label: month}, {column: E, row: 114, expected_value: 'Scotland', label: geography}, {column: F, row: 114, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *unknown_or_missing, row_number: 115, guard_cells: [{column: C, row: 115, expected_value: 'August 2025', label: month}, {column: E, row: 115, expected_value: 'Scotland', label: geography}, {column: F, row: 115, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *not_available_prior_to_april_2019, row_number: 116, guard_cells: [{column: C, row: 116, expected_value: 'August 2025', label: month}, {column: E, row: 116, expected_value: 'Scotland', label: geography}, {column: F, row: 116, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_09
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_09.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_09
+  period: 2025-09
+  rows:
+  - {<<: *age_0, row_number: 117, guard_cells: [{column: C, row: 117, expected_value: 'September 2025', label: month}, {column: E, row: 117, expected_value: 'Scotland', label: geography}, {column: F, row: 117, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_1, row_number: 118, guard_cells: [{column: C, row: 118, expected_value: 'September 2025', label: month}, {column: E, row: 118, expected_value: 'Scotland', label: geography}, {column: F, row: 118, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_2, row_number: 119, guard_cells: [{column: C, row: 119, expected_value: 'September 2025', label: month}, {column: E, row: 119, expected_value: 'Scotland', label: geography}, {column: F, row: 119, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_3, row_number: 120, guard_cells: [{column: C, row: 120, expected_value: 'September 2025', label: month}, {column: E, row: 120, expected_value: 'Scotland', label: geography}, {column: F, row: 120, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_4, row_number: 121, guard_cells: [{column: C, row: 121, expected_value: 'September 2025', label: month}, {column: E, row: 121, expected_value: 'Scotland', label: geography}, {column: F, row: 121, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_5, row_number: 122, guard_cells: [{column: C, row: 122, expected_value: 'September 2025', label: month}, {column: E, row: 122, expected_value: 'Scotland', label: geography}, {column: F, row: 122, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_6, row_number: 123, guard_cells: [{column: C, row: 123, expected_value: 'September 2025', label: month}, {column: E, row: 123, expected_value: 'Scotland', label: geography}, {column: F, row: 123, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_7, row_number: 124, guard_cells: [{column: C, row: 124, expected_value: 'September 2025', label: month}, {column: E, row: 124, expected_value: 'Scotland', label: geography}, {column: F, row: 124, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_8, row_number: 125, guard_cells: [{column: C, row: 125, expected_value: 'September 2025', label: month}, {column: E, row: 125, expected_value: 'Scotland', label: geography}, {column: F, row: 125, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_9, row_number: 126, guard_cells: [{column: C, row: 126, expected_value: 'September 2025', label: month}, {column: E, row: 126, expected_value: 'Scotland', label: geography}, {column: F, row: 126, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_10, row_number: 127, guard_cells: [{column: C, row: 127, expected_value: 'September 2025', label: month}, {column: E, row: 127, expected_value: 'Scotland', label: geography}, {column: F, row: 127, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_11, row_number: 128, guard_cells: [{column: C, row: 128, expected_value: 'September 2025', label: month}, {column: E, row: 128, expected_value: 'Scotland', label: geography}, {column: F, row: 128, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_12, row_number: 129, guard_cells: [{column: C, row: 129, expected_value: 'September 2025', label: month}, {column: E, row: 129, expected_value: 'Scotland', label: geography}, {column: F, row: 129, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_13, row_number: 130, guard_cells: [{column: C, row: 130, expected_value: 'September 2025', label: month}, {column: E, row: 130, expected_value: 'Scotland', label: geography}, {column: F, row: 130, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_14, row_number: 131, guard_cells: [{column: C, row: 131, expected_value: 'September 2025', label: month}, {column: E, row: 131, expected_value: 'Scotland', label: geography}, {column: F, row: 131, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_15, row_number: 132, guard_cells: [{column: C, row: 132, expected_value: 'September 2025', label: month}, {column: E, row: 132, expected_value: 'Scotland', label: geography}, {column: F, row: 132, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_16, row_number: 133, guard_cells: [{column: C, row: 133, expected_value: 'September 2025', label: month}, {column: E, row: 133, expected_value: 'Scotland', label: geography}, {column: F, row: 133, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_17, row_number: 134, guard_cells: [{column: C, row: 134, expected_value: 'September 2025', label: month}, {column: E, row: 134, expected_value: 'Scotland', label: geography}, {column: F, row: 134, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_18, row_number: 135, guard_cells: [{column: C, row: 135, expected_value: 'September 2025', label: month}, {column: E, row: 135, expected_value: 'Scotland', label: geography}, {column: F, row: 135, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_19, row_number: 136, guard_cells: [{column: C, row: 136, expected_value: 'September 2025', label: month}, {column: E, row: 136, expected_value: 'Scotland', label: geography}, {column: F, row: 136, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *no_children, row_number: 137, guard_cells: [{column: C, row: 137, expected_value: 'September 2025', label: month}, {column: E, row: 137, expected_value: 'Scotland', label: geography}, {column: F, row: 137, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *unknown_or_missing, row_number: 138, guard_cells: [{column: C, row: 138, expected_value: 'September 2025', label: month}, {column: E, row: 138, expected_value: 'Scotland', label: geography}, {column: F, row: 138, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *not_available_prior_to_april_2019, row_number: 139, guard_cells: [{column: C, row: 139, expected_value: 'September 2025', label: month}, {column: E, row: 139, expected_value: 'Scotland', label: geography}, {column: F, row: 139, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_10
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_10.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_10
+  period: 2025-10
+  rows:
+  - {<<: *age_0, row_number: 140, guard_cells: [{column: C, row: 140, expected_value: 'October 2025', label: month}, {column: E, row: 140, expected_value: 'Scotland', label: geography}, {column: F, row: 140, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_1, row_number: 141, guard_cells: [{column: C, row: 141, expected_value: 'October 2025', label: month}, {column: E, row: 141, expected_value: 'Scotland', label: geography}, {column: F, row: 141, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_2, row_number: 142, guard_cells: [{column: C, row: 142, expected_value: 'October 2025', label: month}, {column: E, row: 142, expected_value: 'Scotland', label: geography}, {column: F, row: 142, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_3, row_number: 143, guard_cells: [{column: C, row: 143, expected_value: 'October 2025', label: month}, {column: E, row: 143, expected_value: 'Scotland', label: geography}, {column: F, row: 143, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_4, row_number: 144, guard_cells: [{column: C, row: 144, expected_value: 'October 2025', label: month}, {column: E, row: 144, expected_value: 'Scotland', label: geography}, {column: F, row: 144, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_5, row_number: 145, guard_cells: [{column: C, row: 145, expected_value: 'October 2025', label: month}, {column: E, row: 145, expected_value: 'Scotland', label: geography}, {column: F, row: 145, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_6, row_number: 146, guard_cells: [{column: C, row: 146, expected_value: 'October 2025', label: month}, {column: E, row: 146, expected_value: 'Scotland', label: geography}, {column: F, row: 146, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_7, row_number: 147, guard_cells: [{column: C, row: 147, expected_value: 'October 2025', label: month}, {column: E, row: 147, expected_value: 'Scotland', label: geography}, {column: F, row: 147, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_8, row_number: 148, guard_cells: [{column: C, row: 148, expected_value: 'October 2025', label: month}, {column: E, row: 148, expected_value: 'Scotland', label: geography}, {column: F, row: 148, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_9, row_number: 149, guard_cells: [{column: C, row: 149, expected_value: 'October 2025', label: month}, {column: E, row: 149, expected_value: 'Scotland', label: geography}, {column: F, row: 149, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_10, row_number: 150, guard_cells: [{column: C, row: 150, expected_value: 'October 2025', label: month}, {column: E, row: 150, expected_value: 'Scotland', label: geography}, {column: F, row: 150, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_11, row_number: 151, guard_cells: [{column: C, row: 151, expected_value: 'October 2025', label: month}, {column: E, row: 151, expected_value: 'Scotland', label: geography}, {column: F, row: 151, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_12, row_number: 152, guard_cells: [{column: C, row: 152, expected_value: 'October 2025', label: month}, {column: E, row: 152, expected_value: 'Scotland', label: geography}, {column: F, row: 152, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_13, row_number: 153, guard_cells: [{column: C, row: 153, expected_value: 'October 2025', label: month}, {column: E, row: 153, expected_value: 'Scotland', label: geography}, {column: F, row: 153, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_14, row_number: 154, guard_cells: [{column: C, row: 154, expected_value: 'October 2025', label: month}, {column: E, row: 154, expected_value: 'Scotland', label: geography}, {column: F, row: 154, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_15, row_number: 155, guard_cells: [{column: C, row: 155, expected_value: 'October 2025', label: month}, {column: E, row: 155, expected_value: 'Scotland', label: geography}, {column: F, row: 155, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_16, row_number: 156, guard_cells: [{column: C, row: 156, expected_value: 'October 2025', label: month}, {column: E, row: 156, expected_value: 'Scotland', label: geography}, {column: F, row: 156, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_17, row_number: 157, guard_cells: [{column: C, row: 157, expected_value: 'October 2025', label: month}, {column: E, row: 157, expected_value: 'Scotland', label: geography}, {column: F, row: 157, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_18, row_number: 158, guard_cells: [{column: C, row: 158, expected_value: 'October 2025', label: month}, {column: E, row: 158, expected_value: 'Scotland', label: geography}, {column: F, row: 158, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_19, row_number: 159, guard_cells: [{column: C, row: 159, expected_value: 'October 2025', label: month}, {column: E, row: 159, expected_value: 'Scotland', label: geography}, {column: F, row: 159, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *no_children, row_number: 160, guard_cells: [{column: C, row: 160, expected_value: 'October 2025', label: month}, {column: E, row: 160, expected_value: 'Scotland', label: geography}, {column: F, row: 160, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *unknown_or_missing, row_number: 161, guard_cells: [{column: C, row: 161, expected_value: 'October 2025', label: month}, {column: E, row: 161, expected_value: 'Scotland', label: geography}, {column: F, row: 161, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *not_available_prior_to_april_2019, row_number: 162, guard_cells: [{column: C, row: 162, expected_value: 'October 2025', label: month}, {column: E, row: 162, expected_value: 'Scotland', label: geography}, {column: F, row: 162, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_11
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_11.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_11
+  period: 2025-11
+  rows:
+  - {<<: *age_0, row_number: 163, guard_cells: [{column: C, row: 163, expected_value: 'November 2025', label: month}, {column: E, row: 163, expected_value: 'Scotland', label: geography}, {column: F, row: 163, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_1, row_number: 164, guard_cells: [{column: C, row: 164, expected_value: 'November 2025', label: month}, {column: E, row: 164, expected_value: 'Scotland', label: geography}, {column: F, row: 164, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_2, row_number: 165, guard_cells: [{column: C, row: 165, expected_value: 'November 2025', label: month}, {column: E, row: 165, expected_value: 'Scotland', label: geography}, {column: F, row: 165, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_3, row_number: 166, guard_cells: [{column: C, row: 166, expected_value: 'November 2025', label: month}, {column: E, row: 166, expected_value: 'Scotland', label: geography}, {column: F, row: 166, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_4, row_number: 167, guard_cells: [{column: C, row: 167, expected_value: 'November 2025', label: month}, {column: E, row: 167, expected_value: 'Scotland', label: geography}, {column: F, row: 167, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_5, row_number: 168, guard_cells: [{column: C, row: 168, expected_value: 'November 2025', label: month}, {column: E, row: 168, expected_value: 'Scotland', label: geography}, {column: F, row: 168, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_6, row_number: 169, guard_cells: [{column: C, row: 169, expected_value: 'November 2025', label: month}, {column: E, row: 169, expected_value: 'Scotland', label: geography}, {column: F, row: 169, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_7, row_number: 170, guard_cells: [{column: C, row: 170, expected_value: 'November 2025', label: month}, {column: E, row: 170, expected_value: 'Scotland', label: geography}, {column: F, row: 170, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_8, row_number: 171, guard_cells: [{column: C, row: 171, expected_value: 'November 2025', label: month}, {column: E, row: 171, expected_value: 'Scotland', label: geography}, {column: F, row: 171, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_9, row_number: 172, guard_cells: [{column: C, row: 172, expected_value: 'November 2025', label: month}, {column: E, row: 172, expected_value: 'Scotland', label: geography}, {column: F, row: 172, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_10, row_number: 173, guard_cells: [{column: C, row: 173, expected_value: 'November 2025', label: month}, {column: E, row: 173, expected_value: 'Scotland', label: geography}, {column: F, row: 173, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_11, row_number: 174, guard_cells: [{column: C, row: 174, expected_value: 'November 2025', label: month}, {column: E, row: 174, expected_value: 'Scotland', label: geography}, {column: F, row: 174, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_12, row_number: 175, guard_cells: [{column: C, row: 175, expected_value: 'November 2025', label: month}, {column: E, row: 175, expected_value: 'Scotland', label: geography}, {column: F, row: 175, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_13, row_number: 176, guard_cells: [{column: C, row: 176, expected_value: 'November 2025', label: month}, {column: E, row: 176, expected_value: 'Scotland', label: geography}, {column: F, row: 176, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_14, row_number: 177, guard_cells: [{column: C, row: 177, expected_value: 'November 2025', label: month}, {column: E, row: 177, expected_value: 'Scotland', label: geography}, {column: F, row: 177, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_15, row_number: 178, guard_cells: [{column: C, row: 178, expected_value: 'November 2025', label: month}, {column: E, row: 178, expected_value: 'Scotland', label: geography}, {column: F, row: 178, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_16, row_number: 179, guard_cells: [{column: C, row: 179, expected_value: 'November 2025', label: month}, {column: E, row: 179, expected_value: 'Scotland', label: geography}, {column: F, row: 179, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_17, row_number: 180, guard_cells: [{column: C, row: 180, expected_value: 'November 2025', label: month}, {column: E, row: 180, expected_value: 'Scotland', label: geography}, {column: F, row: 180, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_18, row_number: 181, guard_cells: [{column: C, row: 181, expected_value: 'November 2025', label: month}, {column: E, row: 181, expected_value: 'Scotland', label: geography}, {column: F, row: 181, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_19, row_number: 182, guard_cells: [{column: C, row: 182, expected_value: 'November 2025', label: month}, {column: E, row: 182, expected_value: 'Scotland', label: geography}, {column: F, row: 182, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *no_children, row_number: 183, guard_cells: [{column: C, row: 183, expected_value: 'November 2025', label: month}, {column: E, row: 183, expected_value: 'Scotland', label: geography}, {column: F, row: 183, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *unknown_or_missing, row_number: 184, guard_cells: [{column: C, row: 184, expected_value: 'November 2025', label: month}, {column: E, row: 184, expected_value: 'Scotland', label: geography}, {column: F, row: 184, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *not_available_prior_to_april_2019, row_number: 185, guard_cells: [{column: C, row: 185, expected_value: 'November 2025', label: month}, {column: E, row: 185, expected_value: 'Scotland', label: geography}, {column: F, row: 185, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_12
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_12.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.scotland_youngest_child_age.month2025_12
+  period: 2025-12
+  rows:
+  - {<<: *age_0, row_number: 186, guard_cells: [{column: C, row: 186, expected_value: 'December 2025', label: month}, {column: E, row: 186, expected_value: 'Scotland', label: geography}, {column: F, row: 186, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_1, row_number: 187, guard_cells: [{column: C, row: 187, expected_value: 'December 2025', label: month}, {column: E, row: 187, expected_value: 'Scotland', label: geography}, {column: F, row: 187, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_2, row_number: 188, guard_cells: [{column: C, row: 188, expected_value: 'December 2025', label: month}, {column: E, row: 188, expected_value: 'Scotland', label: geography}, {column: F, row: 188, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_3, row_number: 189, guard_cells: [{column: C, row: 189, expected_value: 'December 2025', label: month}, {column: E, row: 189, expected_value: 'Scotland', label: geography}, {column: F, row: 189, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_4, row_number: 190, guard_cells: [{column: C, row: 190, expected_value: 'December 2025', label: month}, {column: E, row: 190, expected_value: 'Scotland', label: geography}, {column: F, row: 190, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_5, row_number: 191, guard_cells: [{column: C, row: 191, expected_value: 'December 2025', label: month}, {column: E, row: 191, expected_value: 'Scotland', label: geography}, {column: F, row: 191, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_6, row_number: 192, guard_cells: [{column: C, row: 192, expected_value: 'December 2025', label: month}, {column: E, row: 192, expected_value: 'Scotland', label: geography}, {column: F, row: 192, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_7, row_number: 193, guard_cells: [{column: C, row: 193, expected_value: 'December 2025', label: month}, {column: E, row: 193, expected_value: 'Scotland', label: geography}, {column: F, row: 193, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_8, row_number: 194, guard_cells: [{column: C, row: 194, expected_value: 'December 2025', label: month}, {column: E, row: 194, expected_value: 'Scotland', label: geography}, {column: F, row: 194, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_9, row_number: 195, guard_cells: [{column: C, row: 195, expected_value: 'December 2025', label: month}, {column: E, row: 195, expected_value: 'Scotland', label: geography}, {column: F, row: 195, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_10, row_number: 196, guard_cells: [{column: C, row: 196, expected_value: 'December 2025', label: month}, {column: E, row: 196, expected_value: 'Scotland', label: geography}, {column: F, row: 196, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_11, row_number: 197, guard_cells: [{column: C, row: 197, expected_value: 'December 2025', label: month}, {column: E, row: 197, expected_value: 'Scotland', label: geography}, {column: F, row: 197, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_12, row_number: 198, guard_cells: [{column: C, row: 198, expected_value: 'December 2025', label: month}, {column: E, row: 198, expected_value: 'Scotland', label: geography}, {column: F, row: 198, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_13, row_number: 199, guard_cells: [{column: C, row: 199, expected_value: 'December 2025', label: month}, {column: E, row: 199, expected_value: 'Scotland', label: geography}, {column: F, row: 199, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_14, row_number: 200, guard_cells: [{column: C, row: 200, expected_value: 'December 2025', label: month}, {column: E, row: 200, expected_value: 'Scotland', label: geography}, {column: F, row: 200, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_15, row_number: 201, guard_cells: [{column: C, row: 201, expected_value: 'December 2025', label: month}, {column: E, row: 201, expected_value: 'Scotland', label: geography}, {column: F, row: 201, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_16, row_number: 202, guard_cells: [{column: C, row: 202, expected_value: 'December 2025', label: month}, {column: E, row: 202, expected_value: 'Scotland', label: geography}, {column: F, row: 202, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_17, row_number: 203, guard_cells: [{column: C, row: 203, expected_value: 'December 2025', label: month}, {column: E, row: 203, expected_value: 'Scotland', label: geography}, {column: F, row: 203, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_18, row_number: 204, guard_cells: [{column: C, row: 204, expected_value: 'December 2025', label: month}, {column: E, row: 204, expected_value: 'Scotland', label: geography}, {column: F, row: 204, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *age_19, row_number: 205, guard_cells: [{column: C, row: 205, expected_value: 'December 2025', label: month}, {column: E, row: 205, expected_value: 'Scotland', label: geography}, {column: F, row: 205, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *no_children, row_number: 206, guard_cells: [{column: C, row: 206, expected_value: 'December 2025', label: month}, {column: E, row: 206, expected_value: 'Scotland', label: geography}, {column: F, row: 206, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *unknown_or_missing, row_number: 207, guard_cells: [{column: C, row: 207, expected_value: 'December 2025', label: month}, {column: E, row: 207, expected_value: 'Scotland', label: geography}, {column: F, row: 207, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
+  - {<<: *not_available_prior_to_april_2019, row_number: 208, guard_cells: [{column: C, row: 208, expected_value: 'December 2025', label: month}, {column: E, row: 208, expected_value: 'Scotland', label: geography}, {column: F, row: 208, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003', label: geography value URI}]}
