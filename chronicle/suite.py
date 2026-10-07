@@ -22,7 +22,11 @@ from chronicle.core import (
     build_fact_key,
     validate_facts,
 )
-from chronicle.database import ChronicleDbBuildReport, build_chronicle_db
+from chronicle.database import (
+    ChronicleDbBuildReport,
+    build_chronicle_db,
+    build_created_at,
+)
 from chronicle.epoch import canonicalize_key
 from chronicle.sources.cells import (
     SourceCell,
@@ -282,6 +286,7 @@ def build_source_suite(
     replace: bool = False,
 ) -> BuildSuiteReport:
     """Build all reproducible Chronicle artifacts and reports for a source package."""
+    build_created_at()  # Refuse a malformed SOURCE_DATE_EPOCH before writing.
     source_package = try_load_source_package(source)
     source_id = source_package.package_id if source_package else source
     output_path = Path(output_dir)

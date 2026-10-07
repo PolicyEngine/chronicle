@@ -9,6 +9,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Callable, Sequence
 
+from chronicle.database import build_created_at
 from chronicle.dimension_labels import dimension_label_issues, dimension_labels_by_id
 from chronicle.epoch import canonicalize_key, schema_id
 from chronicle.source_package import (
@@ -388,6 +389,7 @@ def build_bundle(
     replace: bool = False,
 ) -> BuildBundleReport:
     """Build source-package suites and merge their consumer-contract facts."""
+    build_created_at()  # Refuse a malformed SOURCE_DATE_EPOCH before writing.
     output_path = Path(output_dir)
     _prepare_output_dir(output_path, replace=replace)
     reports_path = output_path / "reports"
