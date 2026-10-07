@@ -1,0 +1,19 @@
+# Immutable R2 location reserved from the receipt; hub upload/verification pending.
+source_id: ird
+package_id: ird-taxable-income-distribution-2025
+dataset: ird_taxable_income_distribution_2025
+source_page: https://www.ird.govt.nz/-/media/project/ir/home/documents/about-us/tax-statistics---current/revenue-and-refunds/tax-on-taxable-income/tax-on-taxable-income/taxable-income-distribution-of-individuals-2025.xlsx
+table: Taxable income distribution of individuals 2025
+files:
+  2024:
+    filename: taxable-income-distribution-of-individuals-2025.xlsx
+    source_url: https://www.ird.govt.nz/-/media/project/ir/home/documents/about-us/tax-statistics---current/revenue-and-refunds/tax-on-taxable-income/tax-on-taxable-income/taxable-income-distribution-of-individuals-2025.xlsx
+    sha256: fc7bf7ecdb27a08219cac1ad0cb06cc6bc8de0aae03d605c6ef8d42a15d4b592
+    size_bytes: 294932
+    fetched_at: '2026-10-07T19:23:14Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/ird/ird-taxable-income-distribution-2025/2024/fc7bf7ecdb27a08219cac1ad0cb06cc6bc8de0aae03d605c6ef8d42a15d4b592/taxable-income-distribution-of-individuals-2025.xlsx
+        uri: r2://ledger-raw/raw/nz/ird/ird-taxable-income-distribution-2025/2024/fc7bf7ecdb27a08219cac1ad0cb06cc6bc8de0aae03d605c6ef8d42a15d4b592/taxable-income-distribution-of-individuals-2025.xlsx
