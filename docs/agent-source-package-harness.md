@@ -665,8 +665,9 @@ source-package suite under `sources/<source-package>/`. `--slim` deletes each
 suite's `source_rows.jsonl`, `source_cells.jsonl`, `facts.jsonl` and
 `ledger.db` once that suite finishes and lists them in
 `reports/pruned_intermediates.json`; without it the 2023 default bundle keeps
-tens of GB of these files. Every other file is byte-identical to a full
-build's. To inspect one package's intermediates, run `build-suite` on that
+tens of GB of these files. Slim changes no file the bundle keeps: consumer
+facts, coverage, `source_packages.json` and every report match a full build's
+byte for byte. To inspect one package's intermediates, run `build-suite` on that
 package.
 
 For the UK source-package feed, use the curated UK suite and build a facts-only

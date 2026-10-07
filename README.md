@@ -286,9 +286,10 @@ This writes a root `consumer_facts.jsonl`, `source_packages.json`,
 remain nested under `sources/<source-package>/`. `--slim` deletes each suite's
 `source_rows.jsonl`, `source_cells.jsonl`, `facts.jsonl` and `ledger.db` as soon
 as that suite finishes and lists them in `reports/pruned_intermediates.json`.
-Every file a slim bundle keeps is byte-identical to a full build's, so
-`source_packages.json` and each suite's `datapackage.json` still name the
-deleted files. Without `--slim`, the 2023 default bundle keeps tens of GB of
+Slim changes no file the bundle keeps: the merged and per-suite
+`consumer_facts.jsonl`, `coverage.json`, `source_packages.json` and every
+report match a full build's byte for byte, so `source_packages.json` and each
+suite's `datapackage.json` still name the deleted files. Without `--slim`, the 2023 default bundle keeps tens of GB of
 them: each BEA NIPA suite writes a 496 MB `source_rows.jsonl` and a 1 GB
 `ledger.db` for under 100 KB of consumer facts. Leave `--slim` off only to
 inspect those files, or build the one package with `build-suite`. The bundle coverage report

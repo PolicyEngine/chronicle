@@ -154,8 +154,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     output_dir = tmp_path / "bundle"
 
     # Slim: a full default bundle keeps tens of GB of per-suite intermediates
-    # this test never reads (24 GB on 2026-09-20). Slim and full bundles keep
-    # byte-identical files (tests/test_chronicle_bundle_slim.py).
+    # this test never reads (24 GB on 2026-09-20). Slim mode changes no file
+    # the bundle keeps (tests/test_chronicle_bundle_slim.py).
     report = build_bundle(output_dir, year=2023, keep_suite_intermediates=False)
     summary = json.loads((output_dir / "reports" / "build_bundle.json").read_text())
     rows = _load_jsonl(output_dir / "consumer_facts.jsonl")

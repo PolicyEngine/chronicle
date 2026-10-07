@@ -404,9 +404,10 @@ def build_bundle(
     With ``keep_suite_intermediates=False`` each suite's
     ``SUITE_INTERMEDIATE_FILES`` are deleted as soon as that suite finishes,
     whether or not it built, and ``reports/pruned_intermediates.json`` lists
-    what was deleted. Every file the bundle keeps is byte-identical to a full
-    build's, including the reports and sidecars that still name or hash the
-    deleted files.
+    what was deleted. Slim mode changes no file the bundle keeps, so its
+    reports and sidecars still name or hash the deleted files
+    (tests/test_chronicle_bundle_slim.py compares every kept file with a full
+    build's, byte for byte).
     """
     output_path = Path(output_dir)
     _prepare_output_dir(output_path, replace=replace)

@@ -3,9 +3,10 @@
 A slim bundle deletes each source suite's ``SUITE_INTERMEDIATE_FILES`` once the
 suite finishes. Invariants:
 
-- every file a slim bundle keeps is byte-identical to a full build's, and the
-  slim bundle holds exactly the full build's files minus the intermediates plus
-  ``reports/pruned_intermediates.json``;
+- with the build clock pinned, every file a slim bundle keeps is
+  byte-identical to a full build's, and the slim bundle holds exactly the full
+  build's files minus the intermediates plus ``reports/pruned_intermediates.json``
+  (``ledger.db`` stores its build time, which the suite sidecars hash);
 - pruning deletes only the intermediate files that exist as regular files, and
   is idempotent;
 - the default keeps every intermediate and writes no pruning report.
