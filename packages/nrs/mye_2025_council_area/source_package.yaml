@@ -1,0 +1,3535 @@
+schema_version: ledger.source_package.v1
+package_id: nrs-mye-2025-council-area
+label: NRS mid-2025 single-year age/sex population by council area
+dimension_labels:
+  geography: Geography
+  age: Age
+  Sex: Sex
+artifact:
+  source_name: nrs
+  source_table: NRS mid-2025 single-year age/sex population by council area
+  resource_package: db
+  resource_directory: data/nrs/mye_2025_council_area
+  manifest: manifest.yaml
+  vintage: nrs_mid2025_2026_07_14
+  extracted_at: '2026-10-07'
+  extraction_method: Publisher artifact parsed without modifying values
+  parser: xlsx_table_full_rows
+  artifact_year: 2025
+  sheet_name: Table 1
+  header_row: 4
+record_sets:
+- record_set_id: nrs.mye_2025_council_area.2025.persons
+  provenance_class: model_output
+  record_set_spec_id: nrs.mye_2025_council_area.2025.persons.v1
+  source_record_id_prefix: nrs.mye_2025_council_area.2025.persons
+  sheet_name: Table 1
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 1
+    row_number: 2
+    expected_row_header_column: B
+    expected_row_header: S92000003
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 2
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 4
+    row_number: 5
+    expected_row_header_column: B
+    expected_row_header: S12000033
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 5
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 5
+    row_number: 6
+    expected_row_header_column: B
+    expected_row_header: S12000034
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 6
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000041
+    label: Angus
+    ordinal: 6
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: S12000041
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 7
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 7
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: S12000035
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll and Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 8
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 8
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: S12000036
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: City of Edinburgh
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 9
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 9
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: S12000005
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 10
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 10
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: S12000006
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries and Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 11
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 11
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: S12000042
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 12
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 12
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: S12000008
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 13
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 13
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: S12000045
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 14
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 14
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: S12000010
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 15
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 15
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: S12000011
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 16
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 16
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: S12000014
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 17
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000047
+    label: Fife
+    ordinal: 17
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: S12000047
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 18
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 18
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: S12000049
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 19
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000017
+    label: Highland
+    ordinal: 19
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: S12000017
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 20
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 20
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: S12000018
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 21
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 21
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: S12000019
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 22
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000020
+    label: Moray
+    ordinal: 22
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: S12000020
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 23
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 23
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: S12000013
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 24
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 24
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: S12000021
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 25
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 25
+    row_number: 26
+    expected_row_header_column: B
+    expected_row_header: S12000050
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 26
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 26
+    row_number: 27
+    expected_row_header_column: B
+    expected_row_header: S12000023
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 27
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 27
+    row_number: 28
+    expected_row_header_column: B
+    expected_row_header: S12000048
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth and Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 28
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 28
+    row_number: 29
+    expected_row_header_column: B
+    expected_row_header: S12000038
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 29
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 29
+    row_number: 30
+    expected_row_header_column: B
+    expected_row_header: S12000026
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 30
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 30
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: S12000027
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 31
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 31
+    row_number: 32
+    expected_row_header_column: B
+    expected_row_header: S12000028
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 32
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 32
+    row_number: 33
+    expected_row_header_column: B
+    expected_row_header: S12000029
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 33
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 33
+    row_number: 34
+    expected_row_header_column: B
+    expected_row_header: S12000030
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 34
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 34
+    row_number: 35
+    expected_row_header_column: B
+    expected_row_header: S12000039
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 35
+      expected_value: Persons
+      label: Sex
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 35
+    row_number: 36
+    expected_row_header_column: B
+    expected_row_header: S12000040
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 36
+      expected_value: Persons
+      label: Sex
+  measures: &id001
+  - measure_id: age_all_ages
+    label: Population All ages
+    ordinal: 0
+    column: E
+    source_column_id: All ages
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: All ages
+    filters:
+      age: All ages
+    constraints:
+    - variable: age
+      operator: ==
+      value: All ages
+      label: Publisher age
+    source_column_dimensions:
+      age: All ages
+  - measure_id: age_0
+    label: Population 0
+    ordinal: 1
+    column: F
+    source_column_id: '0'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '0'
+    filters:
+      age: '0'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '0'
+      label: Publisher age
+    source_column_dimensions:
+      age: '0'
+  - measure_id: age_1
+    label: Population 1
+    ordinal: 2
+    column: G
+    source_column_id: '1'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '1'
+    filters:
+      age: '1'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '1'
+      label: Publisher age
+    source_column_dimensions:
+      age: '1'
+  - measure_id: age_2
+    label: Population 2
+    ordinal: 3
+    column: H
+    source_column_id: '2'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '2'
+    filters:
+      age: '2'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '2'
+      label: Publisher age
+    source_column_dimensions:
+      age: '2'
+  - measure_id: age_3
+    label: Population 3
+    ordinal: 4
+    column: I
+    source_column_id: '3'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '3'
+    filters:
+      age: '3'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '3'
+      label: Publisher age
+    source_column_dimensions:
+      age: '3'
+  - measure_id: age_4
+    label: Population 4
+    ordinal: 5
+    column: J
+    source_column_id: '4'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '4'
+    filters:
+      age: '4'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '4'
+      label: Publisher age
+    source_column_dimensions:
+      age: '4'
+  - measure_id: age_5
+    label: Population 5
+    ordinal: 6
+    column: K
+    source_column_id: '5'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '5'
+    filters:
+      age: '5'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '5'
+      label: Publisher age
+    source_column_dimensions:
+      age: '5'
+  - measure_id: age_6
+    label: Population 6
+    ordinal: 7
+    column: L
+    source_column_id: '6'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '6'
+    filters:
+      age: '6'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '6'
+      label: Publisher age
+    source_column_dimensions:
+      age: '6'
+  - measure_id: age_7
+    label: Population 7
+    ordinal: 8
+    column: M
+    source_column_id: '7'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '7'
+    filters:
+      age: '7'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '7'
+      label: Publisher age
+    source_column_dimensions:
+      age: '7'
+  - measure_id: age_8
+    label: Population 8
+    ordinal: 9
+    column: N
+    source_column_id: '8'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '8'
+    filters:
+      age: '8'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '8'
+      label: Publisher age
+    source_column_dimensions:
+      age: '8'
+  - measure_id: age_9
+    label: Population 9
+    ordinal: 10
+    column: O
+    source_column_id: '9'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '9'
+    filters:
+      age: '9'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '9'
+      label: Publisher age
+    source_column_dimensions:
+      age: '9'
+  - measure_id: age_10
+    label: Population 10
+    ordinal: 11
+    column: P
+    source_column_id: '10'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '10'
+    filters:
+      age: '10'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '10'
+      label: Publisher age
+    source_column_dimensions:
+      age: '10'
+  - measure_id: age_11
+    label: Population 11
+    ordinal: 12
+    column: Q
+    source_column_id: '11'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '11'
+    filters:
+      age: '11'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '11'
+      label: Publisher age
+    source_column_dimensions:
+      age: '11'
+  - measure_id: age_12
+    label: Population 12
+    ordinal: 13
+    column: R
+    source_column_id: '12'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '12'
+    filters:
+      age: '12'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '12'
+      label: Publisher age
+    source_column_dimensions:
+      age: '12'
+  - measure_id: age_13
+    label: Population 13
+    ordinal: 14
+    column: S
+    source_column_id: '13'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '13'
+    filters:
+      age: '13'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '13'
+      label: Publisher age
+    source_column_dimensions:
+      age: '13'
+  - measure_id: age_14
+    label: Population 14
+    ordinal: 15
+    column: T
+    source_column_id: '14'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '14'
+    filters:
+      age: '14'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '14'
+      label: Publisher age
+    source_column_dimensions:
+      age: '14'
+  - measure_id: age_15
+    label: Population 15
+    ordinal: 16
+    column: U
+    source_column_id: '15'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '15'
+    filters:
+      age: '15'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '15'
+      label: Publisher age
+    source_column_dimensions:
+      age: '15'
+  - measure_id: age_16
+    label: Population 16
+    ordinal: 17
+    column: V
+    source_column_id: '16'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '16'
+    filters:
+      age: '16'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '16'
+      label: Publisher age
+    source_column_dimensions:
+      age: '16'
+  - measure_id: age_17
+    label: Population 17
+    ordinal: 18
+    column: W
+    source_column_id: '17'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '17'
+    filters:
+      age: '17'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '17'
+      label: Publisher age
+    source_column_dimensions:
+      age: '17'
+  - measure_id: age_18
+    label: Population 18
+    ordinal: 19
+    column: X
+    source_column_id: '18'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '18'
+    filters:
+      age: '18'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '18'
+      label: Publisher age
+    source_column_dimensions:
+      age: '18'
+  - measure_id: age_19
+    label: Population 19
+    ordinal: 20
+    column: Y
+    source_column_id: '19'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '19'
+    filters:
+      age: '19'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '19'
+      label: Publisher age
+    source_column_dimensions:
+      age: '19'
+  - measure_id: age_20
+    label: Population 20
+    ordinal: 21
+    column: Z
+    source_column_id: '20'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '20'
+    filters:
+      age: '20'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '20'
+      label: Publisher age
+    source_column_dimensions:
+      age: '20'
+  - measure_id: age_21
+    label: Population 21
+    ordinal: 22
+    column: AA
+    source_column_id: '21'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '21'
+    filters:
+      age: '21'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '21'
+      label: Publisher age
+    source_column_dimensions:
+      age: '21'
+  - measure_id: age_22
+    label: Population 22
+    ordinal: 23
+    column: AB
+    source_column_id: '22'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '22'
+    filters:
+      age: '22'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '22'
+      label: Publisher age
+    source_column_dimensions:
+      age: '22'
+  - measure_id: age_23
+    label: Population 23
+    ordinal: 24
+    column: AC
+    source_column_id: '23'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '23'
+    filters:
+      age: '23'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '23'
+      label: Publisher age
+    source_column_dimensions:
+      age: '23'
+  - measure_id: age_24
+    label: Population 24
+    ordinal: 25
+    column: AD
+    source_column_id: '24'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '24'
+    filters:
+      age: '24'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '24'
+      label: Publisher age
+    source_column_dimensions:
+      age: '24'
+  - measure_id: age_25
+    label: Population 25
+    ordinal: 26
+    column: AE
+    source_column_id: '25'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '25'
+    filters:
+      age: '25'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '25'
+      label: Publisher age
+    source_column_dimensions:
+      age: '25'
+  - measure_id: age_26
+    label: Population 26
+    ordinal: 27
+    column: AF
+    source_column_id: '26'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '26'
+    filters:
+      age: '26'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '26'
+      label: Publisher age
+    source_column_dimensions:
+      age: '26'
+  - measure_id: age_27
+    label: Population 27
+    ordinal: 28
+    column: AG
+    source_column_id: '27'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '27'
+    filters:
+      age: '27'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '27'
+      label: Publisher age
+    source_column_dimensions:
+      age: '27'
+  - measure_id: age_28
+    label: Population 28
+    ordinal: 29
+    column: AH
+    source_column_id: '28'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '28'
+    filters:
+      age: '28'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '28'
+      label: Publisher age
+    source_column_dimensions:
+      age: '28'
+  - measure_id: age_29
+    label: Population 29
+    ordinal: 30
+    column: AI
+    source_column_id: '29'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '29'
+    filters:
+      age: '29'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '29'
+      label: Publisher age
+    source_column_dimensions:
+      age: '29'
+  - measure_id: age_30
+    label: Population 30
+    ordinal: 31
+    column: AJ
+    source_column_id: '30'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '30'
+    filters:
+      age: '30'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '30'
+      label: Publisher age
+    source_column_dimensions:
+      age: '30'
+  - measure_id: age_31
+    label: Population 31
+    ordinal: 32
+    column: AK
+    source_column_id: '31'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '31'
+    filters:
+      age: '31'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '31'
+      label: Publisher age
+    source_column_dimensions:
+      age: '31'
+  - measure_id: age_32
+    label: Population 32
+    ordinal: 33
+    column: AL
+    source_column_id: '32'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '32'
+    filters:
+      age: '32'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '32'
+      label: Publisher age
+    source_column_dimensions:
+      age: '32'
+  - measure_id: age_33
+    label: Population 33
+    ordinal: 34
+    column: AM
+    source_column_id: '33'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '33'
+    filters:
+      age: '33'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '33'
+      label: Publisher age
+    source_column_dimensions:
+      age: '33'
+  - measure_id: age_34
+    label: Population 34
+    ordinal: 35
+    column: AN
+    source_column_id: '34'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '34'
+    filters:
+      age: '34'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '34'
+      label: Publisher age
+    source_column_dimensions:
+      age: '34'
+  - measure_id: age_35
+    label: Population 35
+    ordinal: 36
+    column: AO
+    source_column_id: '35'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '35'
+    filters:
+      age: '35'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '35'
+      label: Publisher age
+    source_column_dimensions:
+      age: '35'
+  - measure_id: age_36
+    label: Population 36
+    ordinal: 37
+    column: AP
+    source_column_id: '36'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '36'
+    filters:
+      age: '36'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '36'
+      label: Publisher age
+    source_column_dimensions:
+      age: '36'
+  - measure_id: age_37
+    label: Population 37
+    ordinal: 38
+    column: AQ
+    source_column_id: '37'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '37'
+    filters:
+      age: '37'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '37'
+      label: Publisher age
+    source_column_dimensions:
+      age: '37'
+  - measure_id: age_38
+    label: Population 38
+    ordinal: 39
+    column: AR
+    source_column_id: '38'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '38'
+    filters:
+      age: '38'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '38'
+      label: Publisher age
+    source_column_dimensions:
+      age: '38'
+  - measure_id: age_39
+    label: Population 39
+    ordinal: 40
+    column: AS
+    source_column_id: '39'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '39'
+    filters:
+      age: '39'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '39'
+      label: Publisher age
+    source_column_dimensions:
+      age: '39'
+  - measure_id: age_40
+    label: Population 40
+    ordinal: 41
+    column: AT
+    source_column_id: '40'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '40'
+    filters:
+      age: '40'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '40'
+      label: Publisher age
+    source_column_dimensions:
+      age: '40'
+  - measure_id: age_41
+    label: Population 41
+    ordinal: 42
+    column: AU
+    source_column_id: '41'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '41'
+    filters:
+      age: '41'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '41'
+      label: Publisher age
+    source_column_dimensions:
+      age: '41'
+  - measure_id: age_42
+    label: Population 42
+    ordinal: 43
+    column: AV
+    source_column_id: '42'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '42'
+    filters:
+      age: '42'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '42'
+      label: Publisher age
+    source_column_dimensions:
+      age: '42'
+  - measure_id: age_43
+    label: Population 43
+    ordinal: 44
+    column: AW
+    source_column_id: '43'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '43'
+    filters:
+      age: '43'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '43'
+      label: Publisher age
+    source_column_dimensions:
+      age: '43'
+  - measure_id: age_44
+    label: Population 44
+    ordinal: 45
+    column: AX
+    source_column_id: '44'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '44'
+    filters:
+      age: '44'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '44'
+      label: Publisher age
+    source_column_dimensions:
+      age: '44'
+  - measure_id: age_45
+    label: Population 45
+    ordinal: 46
+    column: AY
+    source_column_id: '45'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '45'
+    filters:
+      age: '45'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '45'
+      label: Publisher age
+    source_column_dimensions:
+      age: '45'
+  - measure_id: age_46
+    label: Population 46
+    ordinal: 47
+    column: AZ
+    source_column_id: '46'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '46'
+    filters:
+      age: '46'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '46'
+      label: Publisher age
+    source_column_dimensions:
+      age: '46'
+  - measure_id: age_47
+    label: Population 47
+    ordinal: 48
+    column: BA
+    source_column_id: '47'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '47'
+    filters:
+      age: '47'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '47'
+      label: Publisher age
+    source_column_dimensions:
+      age: '47'
+  - measure_id: age_48
+    label: Population 48
+    ordinal: 49
+    column: BB
+    source_column_id: '48'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '48'
+    filters:
+      age: '48'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '48'
+      label: Publisher age
+    source_column_dimensions:
+      age: '48'
+  - measure_id: age_49
+    label: Population 49
+    ordinal: 50
+    column: BC
+    source_column_id: '49'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '49'
+    filters:
+      age: '49'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '49'
+      label: Publisher age
+    source_column_dimensions:
+      age: '49'
+  - measure_id: age_50
+    label: Population 50
+    ordinal: 51
+    column: BD
+    source_column_id: '50'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '50'
+    filters:
+      age: '50'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '50'
+      label: Publisher age
+    source_column_dimensions:
+      age: '50'
+  - measure_id: age_51
+    label: Population 51
+    ordinal: 52
+    column: BE
+    source_column_id: '51'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '51'
+    filters:
+      age: '51'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '51'
+      label: Publisher age
+    source_column_dimensions:
+      age: '51'
+  - measure_id: age_52
+    label: Population 52
+    ordinal: 53
+    column: BF
+    source_column_id: '52'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '52'
+    filters:
+      age: '52'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '52'
+      label: Publisher age
+    source_column_dimensions:
+      age: '52'
+  - measure_id: age_53
+    label: Population 53
+    ordinal: 54
+    column: BG
+    source_column_id: '53'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '53'
+    filters:
+      age: '53'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '53'
+      label: Publisher age
+    source_column_dimensions:
+      age: '53'
+  - measure_id: age_54
+    label: Population 54
+    ordinal: 55
+    column: BH
+    source_column_id: '54'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '54'
+    filters:
+      age: '54'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '54'
+      label: Publisher age
+    source_column_dimensions:
+      age: '54'
+  - measure_id: age_55
+    label: Population 55
+    ordinal: 56
+    column: BI
+    source_column_id: '55'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '55'
+    filters:
+      age: '55'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '55'
+      label: Publisher age
+    source_column_dimensions:
+      age: '55'
+  - measure_id: age_56
+    label: Population 56
+    ordinal: 57
+    column: BJ
+    source_column_id: '56'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '56'
+    filters:
+      age: '56'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '56'
+      label: Publisher age
+    source_column_dimensions:
+      age: '56'
+  - measure_id: age_57
+    label: Population 57
+    ordinal: 58
+    column: BK
+    source_column_id: '57'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '57'
+    filters:
+      age: '57'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '57'
+      label: Publisher age
+    source_column_dimensions:
+      age: '57'
+  - measure_id: age_58
+    label: Population 58
+    ordinal: 59
+    column: BL
+    source_column_id: '58'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '58'
+    filters:
+      age: '58'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '58'
+      label: Publisher age
+    source_column_dimensions:
+      age: '58'
+  - measure_id: age_59
+    label: Population 59
+    ordinal: 60
+    column: BM
+    source_column_id: '59'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '59'
+    filters:
+      age: '59'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '59'
+      label: Publisher age
+    source_column_dimensions:
+      age: '59'
+  - measure_id: age_60
+    label: Population 60
+    ordinal: 61
+    column: BN
+    source_column_id: '60'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '60'
+    filters:
+      age: '60'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '60'
+      label: Publisher age
+    source_column_dimensions:
+      age: '60'
+  - measure_id: age_61
+    label: Population 61
+    ordinal: 62
+    column: BO
+    source_column_id: '61'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '61'
+    filters:
+      age: '61'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '61'
+      label: Publisher age
+    source_column_dimensions:
+      age: '61'
+  - measure_id: age_62
+    label: Population 62
+    ordinal: 63
+    column: BP
+    source_column_id: '62'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '62'
+    filters:
+      age: '62'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '62'
+      label: Publisher age
+    source_column_dimensions:
+      age: '62'
+  - measure_id: age_63
+    label: Population 63
+    ordinal: 64
+    column: BQ
+    source_column_id: '63'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '63'
+    filters:
+      age: '63'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '63'
+      label: Publisher age
+    source_column_dimensions:
+      age: '63'
+  - measure_id: age_64
+    label: Population 64
+    ordinal: 65
+    column: BR
+    source_column_id: '64'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '64'
+    filters:
+      age: '64'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '64'
+      label: Publisher age
+    source_column_dimensions:
+      age: '64'
+  - measure_id: age_65
+    label: Population 65
+    ordinal: 66
+    column: BS
+    source_column_id: '65'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '65'
+    filters:
+      age: '65'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '65'
+      label: Publisher age
+    source_column_dimensions:
+      age: '65'
+  - measure_id: age_66
+    label: Population 66
+    ordinal: 67
+    column: BT
+    source_column_id: '66'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '66'
+    filters:
+      age: '66'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '66'
+      label: Publisher age
+    source_column_dimensions:
+      age: '66'
+  - measure_id: age_67
+    label: Population 67
+    ordinal: 68
+    column: BU
+    source_column_id: '67'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '67'
+    filters:
+      age: '67'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '67'
+      label: Publisher age
+    source_column_dimensions:
+      age: '67'
+  - measure_id: age_68
+    label: Population 68
+    ordinal: 69
+    column: BV
+    source_column_id: '68'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '68'
+    filters:
+      age: '68'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '68'
+      label: Publisher age
+    source_column_dimensions:
+      age: '68'
+  - measure_id: age_69
+    label: Population 69
+    ordinal: 70
+    column: BW
+    source_column_id: '69'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '69'
+    filters:
+      age: '69'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '69'
+      label: Publisher age
+    source_column_dimensions:
+      age: '69'
+  - measure_id: age_70
+    label: Population 70
+    ordinal: 71
+    column: BX
+    source_column_id: '70'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '70'
+    filters:
+      age: '70'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '70'
+      label: Publisher age
+    source_column_dimensions:
+      age: '70'
+  - measure_id: age_71
+    label: Population 71
+    ordinal: 72
+    column: BY
+    source_column_id: '71'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '71'
+    filters:
+      age: '71'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '71'
+      label: Publisher age
+    source_column_dimensions:
+      age: '71'
+  - measure_id: age_72
+    label: Population 72
+    ordinal: 73
+    column: BZ
+    source_column_id: '72'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '72'
+    filters:
+      age: '72'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '72'
+      label: Publisher age
+    source_column_dimensions:
+      age: '72'
+  - measure_id: age_73
+    label: Population 73
+    ordinal: 74
+    column: CA
+    source_column_id: '73'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '73'
+    filters:
+      age: '73'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '73'
+      label: Publisher age
+    source_column_dimensions:
+      age: '73'
+  - measure_id: age_74
+    label: Population 74
+    ordinal: 75
+    column: CB
+    source_column_id: '74'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '74'
+    filters:
+      age: '74'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '74'
+      label: Publisher age
+    source_column_dimensions:
+      age: '74'
+  - measure_id: age_75
+    label: Population 75
+    ordinal: 76
+    column: CC
+    source_column_id: '75'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '75'
+    filters:
+      age: '75'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '75'
+      label: Publisher age
+    source_column_dimensions:
+      age: '75'
+  - measure_id: age_76
+    label: Population 76
+    ordinal: 77
+    column: CD
+    source_column_id: '76'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '76'
+    filters:
+      age: '76'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '76'
+      label: Publisher age
+    source_column_dimensions:
+      age: '76'
+  - measure_id: age_77
+    label: Population 77
+    ordinal: 78
+    column: CE
+    source_column_id: '77'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '77'
+    filters:
+      age: '77'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '77'
+      label: Publisher age
+    source_column_dimensions:
+      age: '77'
+  - measure_id: age_78
+    label: Population 78
+    ordinal: 79
+    column: CF
+    source_column_id: '78'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '78'
+    filters:
+      age: '78'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '78'
+      label: Publisher age
+    source_column_dimensions:
+      age: '78'
+  - measure_id: age_79
+    label: Population 79
+    ordinal: 80
+    column: CG
+    source_column_id: '79'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '79'
+    filters:
+      age: '79'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '79'
+      label: Publisher age
+    source_column_dimensions:
+      age: '79'
+  - measure_id: age_80
+    label: Population 80
+    ordinal: 81
+    column: CH
+    source_column_id: '80'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '80'
+    filters:
+      age: '80'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '80'
+      label: Publisher age
+    source_column_dimensions:
+      age: '80'
+  - measure_id: age_81
+    label: Population 81
+    ordinal: 82
+    column: CI
+    source_column_id: '81'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '81'
+    filters:
+      age: '81'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '81'
+      label: Publisher age
+    source_column_dimensions:
+      age: '81'
+  - measure_id: age_82
+    label: Population 82
+    ordinal: 83
+    column: CJ
+    source_column_id: '82'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '82'
+    filters:
+      age: '82'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '82'
+      label: Publisher age
+    source_column_dimensions:
+      age: '82'
+  - measure_id: age_83
+    label: Population 83
+    ordinal: 84
+    column: CK
+    source_column_id: '83'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '83'
+    filters:
+      age: '83'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '83'
+      label: Publisher age
+    source_column_dimensions:
+      age: '83'
+  - measure_id: age_84
+    label: Population 84
+    ordinal: 85
+    column: CL
+    source_column_id: '84'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '84'
+    filters:
+      age: '84'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '84'
+      label: Publisher age
+    source_column_dimensions:
+      age: '84'
+  - measure_id: age_85
+    label: Population 85
+    ordinal: 86
+    column: CM
+    source_column_id: '85'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '85'
+    filters:
+      age: '85'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '85'
+      label: Publisher age
+    source_column_dimensions:
+      age: '85'
+  - measure_id: age_86
+    label: Population 86
+    ordinal: 87
+    column: CN
+    source_column_id: '86'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '86'
+    filters:
+      age: '86'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '86'
+      label: Publisher age
+    source_column_dimensions:
+      age: '86'
+  - measure_id: age_87
+    label: Population 87
+    ordinal: 88
+    column: CO
+    source_column_id: '87'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '87'
+    filters:
+      age: '87'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '87'
+      label: Publisher age
+    source_column_dimensions:
+      age: '87'
+  - measure_id: age_88
+    label: Population 88
+    ordinal: 89
+    column: CP
+    source_column_id: '88'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '88'
+    filters:
+      age: '88'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '88'
+      label: Publisher age
+    source_column_dimensions:
+      age: '88'
+  - measure_id: age_89
+    label: Population 89
+    ordinal: 90
+    column: CQ
+    source_column_id: '89'
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '89'
+    filters:
+      age: '89'
+    constraints:
+    - variable: age
+      operator: ==
+      value: '89'
+      label: Publisher age
+    source_column_dimensions:
+      age: '89'
+  - measure_id: age_90_and_over
+    label: Population 90 and over
+    ordinal: 91
+    column: CR
+    source_column_id: 90 and over
+    concept: nrs.population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: 90 and over
+    filters:
+      age: 90 and over
+    constraints:
+    - variable: age
+      operator: ==
+      value: 90 and over
+      label: Publisher age
+    source_column_dimensions:
+      age: 90 and over
+  period_coverage:
+    start_date: '2025-06-30'
+    end_date: '2025-06-30'
+    basis: calendar
+    source_period_label: mid-2025
+    notes: Publisher usual-resident population estimate, including communal establishments.
+  shared_filters:
+    Sex: Persons
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Persons
+    label: Sex
+- record_set_id: nrs.mye_2025_council_area.2025.females
+  provenance_class: model_output
+  record_set_spec_id: nrs.mye_2025_council_area.2025.females.v1
+  source_record_id_prefix: nrs.mye_2025_council_area.2025.females
+  sheet_name: Table 1
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 2
+    row_number: 3
+    expected_row_header_column: B
+    expected_row_header: S92000003
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 3
+      expected_value: Females
+      label: Sex
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 36
+    row_number: 37
+    expected_row_header_column: B
+    expected_row_header: S12000033
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 37
+      expected_value: Females
+      label: Sex
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 37
+    row_number: 38
+    expected_row_header_column: B
+    expected_row_header: S12000034
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 38
+      expected_value: Females
+      label: Sex
+  - value_id: s12000041
+    label: Angus
+    ordinal: 38
+    row_number: 39
+    expected_row_header_column: B
+    expected_row_header: S12000041
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 39
+      expected_value: Females
+      label: Sex
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 39
+    row_number: 40
+    expected_row_header_column: B
+    expected_row_header: S12000035
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll and Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 40
+      expected_value: Females
+      label: Sex
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 40
+    row_number: 41
+    expected_row_header_column: B
+    expected_row_header: S12000036
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: City of Edinburgh
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 41
+      expected_value: Females
+      label: Sex
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 41
+    row_number: 42
+    expected_row_header_column: B
+    expected_row_header: S12000005
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 42
+      expected_value: Females
+      label: Sex
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 42
+    row_number: 43
+    expected_row_header_column: B
+    expected_row_header: S12000006
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries and Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 43
+      expected_value: Females
+      label: Sex
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 43
+    row_number: 44
+    expected_row_header_column: B
+    expected_row_header: S12000042
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 44
+      expected_value: Females
+      label: Sex
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 44
+    row_number: 45
+    expected_row_header_column: B
+    expected_row_header: S12000008
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 45
+      expected_value: Females
+      label: Sex
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 45
+    row_number: 46
+    expected_row_header_column: B
+    expected_row_header: S12000045
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 46
+      expected_value: Females
+      label: Sex
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 46
+    row_number: 47
+    expected_row_header_column: B
+    expected_row_header: S12000010
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 47
+      expected_value: Females
+      label: Sex
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 47
+    row_number: 48
+    expected_row_header_column: B
+    expected_row_header: S12000011
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 48
+      expected_value: Females
+      label: Sex
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 48
+    row_number: 49
+    expected_row_header_column: B
+    expected_row_header: S12000014
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 49
+      expected_value: Females
+      label: Sex
+  - value_id: s12000047
+    label: Fife
+    ordinal: 49
+    row_number: 50
+    expected_row_header_column: B
+    expected_row_header: S12000047
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 50
+      expected_value: Females
+      label: Sex
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 50
+    row_number: 51
+    expected_row_header_column: B
+    expected_row_header: S12000049
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 51
+      expected_value: Females
+      label: Sex
+  - value_id: s12000017
+    label: Highland
+    ordinal: 51
+    row_number: 52
+    expected_row_header_column: B
+    expected_row_header: S12000017
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 52
+      expected_value: Females
+      label: Sex
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 52
+    row_number: 53
+    expected_row_header_column: B
+    expected_row_header: S12000018
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 53
+      expected_value: Females
+      label: Sex
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 53
+    row_number: 54
+    expected_row_header_column: B
+    expected_row_header: S12000019
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 54
+      expected_value: Females
+      label: Sex
+  - value_id: s12000020
+    label: Moray
+    ordinal: 54
+    row_number: 55
+    expected_row_header_column: B
+    expected_row_header: S12000020
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 55
+      expected_value: Females
+      label: Sex
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 55
+    row_number: 56
+    expected_row_header_column: B
+    expected_row_header: S12000013
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 56
+      expected_value: Females
+      label: Sex
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 56
+    row_number: 57
+    expected_row_header_column: B
+    expected_row_header: S12000021
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 57
+      expected_value: Females
+      label: Sex
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 57
+    row_number: 58
+    expected_row_header_column: B
+    expected_row_header: S12000050
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 58
+      expected_value: Females
+      label: Sex
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 58
+    row_number: 59
+    expected_row_header_column: B
+    expected_row_header: S12000023
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 59
+      expected_value: Females
+      label: Sex
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 59
+    row_number: 60
+    expected_row_header_column: B
+    expected_row_header: S12000048
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth and Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 60
+      expected_value: Females
+      label: Sex
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 60
+    row_number: 61
+    expected_row_header_column: B
+    expected_row_header: S12000038
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 61
+      expected_value: Females
+      label: Sex
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 61
+    row_number: 62
+    expected_row_header_column: B
+    expected_row_header: S12000026
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 62
+      expected_value: Females
+      label: Sex
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 62
+    row_number: 63
+    expected_row_header_column: B
+    expected_row_header: S12000027
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 63
+      expected_value: Females
+      label: Sex
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 63
+    row_number: 64
+    expected_row_header_column: B
+    expected_row_header: S12000028
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 64
+      expected_value: Females
+      label: Sex
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 64
+    row_number: 65
+    expected_row_header_column: B
+    expected_row_header: S12000029
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 65
+      expected_value: Females
+      label: Sex
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 65
+    row_number: 66
+    expected_row_header_column: B
+    expected_row_header: S12000030
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 66
+      expected_value: Females
+      label: Sex
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 66
+    row_number: 67
+    expected_row_header_column: B
+    expected_row_header: S12000039
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 67
+      expected_value: Females
+      label: Sex
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 67
+    row_number: 68
+    expected_row_header_column: B
+    expected_row_header: S12000040
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 68
+      expected_value: Females
+      label: Sex
+  measures: *id001
+  period_coverage:
+    start_date: '2025-06-30'
+    end_date: '2025-06-30'
+    basis: calendar
+    source_period_label: mid-2025
+    notes: Publisher usual-resident population estimate, including communal establishments.
+  shared_filters:
+    Sex: Females
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Females
+    label: Sex
+- record_set_id: nrs.mye_2025_council_area.2025.males
+  provenance_class: model_output
+  record_set_spec_id: nrs.mye_2025_council_area.2025.males.v1
+  source_record_id_prefix: nrs.mye_2025_council_area.2025.males
+  sheet_name: Table 1
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 3
+    row_number: 4
+    expected_row_header_column: B
+    expected_row_header: S92000003
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 4
+      expected_value: Males
+      label: Sex
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 68
+    row_number: 69
+    expected_row_header_column: B
+    expected_row_header: S12000033
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 69
+      expected_value: Males
+      label: Sex
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 69
+    row_number: 70
+    expected_row_header_column: B
+    expected_row_header: S12000034
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 70
+      expected_value: Males
+      label: Sex
+  - value_id: s12000041
+    label: Angus
+    ordinal: 70
+    row_number: 71
+    expected_row_header_column: B
+    expected_row_header: S12000041
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 71
+      expected_value: Males
+      label: Sex
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 71
+    row_number: 72
+    expected_row_header_column: B
+    expected_row_header: S12000035
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll and Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 72
+      expected_value: Males
+      label: Sex
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 72
+    row_number: 73
+    expected_row_header_column: B
+    expected_row_header: S12000036
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: City of Edinburgh
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 73
+      expected_value: Males
+      label: Sex
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 73
+    row_number: 74
+    expected_row_header_column: B
+    expected_row_header: S12000005
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 74
+      expected_value: Males
+      label: Sex
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 74
+    row_number: 75
+    expected_row_header_column: B
+    expected_row_header: S12000006
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries and Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 75
+      expected_value: Males
+      label: Sex
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 75
+    row_number: 76
+    expected_row_header_column: B
+    expected_row_header: S12000042
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 76
+      expected_value: Males
+      label: Sex
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 76
+    row_number: 77
+    expected_row_header_column: B
+    expected_row_header: S12000008
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 77
+      expected_value: Males
+      label: Sex
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 77
+    row_number: 78
+    expected_row_header_column: B
+    expected_row_header: S12000045
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 78
+      expected_value: Males
+      label: Sex
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 78
+    row_number: 79
+    expected_row_header_column: B
+    expected_row_header: S12000010
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 79
+      expected_value: Males
+      label: Sex
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 79
+    row_number: 80
+    expected_row_header_column: B
+    expected_row_header: S12000011
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 80
+      expected_value: Males
+      label: Sex
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 80
+    row_number: 81
+    expected_row_header_column: B
+    expected_row_header: S12000014
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 81
+      expected_value: Males
+      label: Sex
+  - value_id: s12000047
+    label: Fife
+    ordinal: 81
+    row_number: 82
+    expected_row_header_column: B
+    expected_row_header: S12000047
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 82
+      expected_value: Males
+      label: Sex
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 82
+    row_number: 83
+    expected_row_header_column: B
+    expected_row_header: S12000049
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 83
+      expected_value: Males
+      label: Sex
+  - value_id: s12000017
+    label: Highland
+    ordinal: 83
+    row_number: 84
+    expected_row_header_column: B
+    expected_row_header: S12000017
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 84
+      expected_value: Males
+      label: Sex
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 84
+    row_number: 85
+    expected_row_header_column: B
+    expected_row_header: S12000018
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 85
+      expected_value: Males
+      label: Sex
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 85
+    row_number: 86
+    expected_row_header_column: B
+    expected_row_header: S12000019
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 86
+      expected_value: Males
+      label: Sex
+  - value_id: s12000020
+    label: Moray
+    ordinal: 86
+    row_number: 87
+    expected_row_header_column: B
+    expected_row_header: S12000020
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 87
+      expected_value: Males
+      label: Sex
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 87
+    row_number: 88
+    expected_row_header_column: B
+    expected_row_header: S12000013
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 88
+      expected_value: Males
+      label: Sex
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 88
+    row_number: 89
+    expected_row_header_column: B
+    expected_row_header: S12000021
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 89
+      expected_value: Males
+      label: Sex
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 89
+    row_number: 90
+    expected_row_header_column: B
+    expected_row_header: S12000050
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 90
+      expected_value: Males
+      label: Sex
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 90
+    row_number: 91
+    expected_row_header_column: B
+    expected_row_header: S12000023
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 91
+      expected_value: Males
+      label: Sex
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 91
+    row_number: 92
+    expected_row_header_column: B
+    expected_row_header: S12000048
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth and Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 92
+      expected_value: Males
+      label: Sex
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 92
+    row_number: 93
+    expected_row_header_column: B
+    expected_row_header: S12000038
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 93
+      expected_value: Males
+      label: Sex
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 93
+    row_number: 94
+    expected_row_header_column: B
+    expected_row_header: S12000026
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 94
+      expected_value: Males
+      label: Sex
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 94
+    row_number: 95
+    expected_row_header_column: B
+    expected_row_header: S12000027
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 95
+      expected_value: Males
+      label: Sex
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 95
+    row_number: 96
+    expected_row_header_column: B
+    expected_row_header: S12000028
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 96
+      expected_value: Males
+      label: Sex
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 96
+    row_number: 97
+    expected_row_header_column: B
+    expected_row_header: S12000029
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 97
+      expected_value: Males
+      label: Sex
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 97
+    row_number: 98
+    expected_row_header_column: B
+    expected_row_header: S12000030
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 98
+      expected_value: Males
+      label: Sex
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 98
+    row_number: 99
+    expected_row_header_column: B
+    expected_row_header: S12000039
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 99
+      expected_value: Males
+      label: Sex
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 99
+    row_number: 100
+    expected_row_header_column: B
+    expected_row_header: S12000040
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - column: D
+      row: 100
+      expected_value: Males
+      label: Sex
+  measures: *id001
+  period_coverage:
+    start_date: '2025-06-30'
+    end_date: '2025-06-30'
+    basis: calendar
+    source_period_label: mid-2025
+    notes: Publisher usual-resident population estimate, including communal establishments.
+  shared_filters:
+    Sex: Males
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Males
+    label: Sex

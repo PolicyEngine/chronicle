@@ -1,0 +1,19 @@
+source_id: nrs
+package_id: nrs-pcon24-population-by-age-2024-revised-2026
+dataset: nrs_nrs-pcon24-population-by-age-2024-revised-2026
+source_page: https://nrscotland.gov.uk/publications/other-geographies-mid-2011-to-mid-2024-2022-data-zones/
+table: pcon24_population_by_age_2024_revised_2026
+files:
+  2024:
+    filename: special-area-population-tables-mid-2011-to-mid-2024.xlsx
+    source_url: https://nrscotland.gov.uk/media/g4ym15ob/special-area-population-tables-mid-2011-to-mid-2024.xlsx
+    sha256: cb07c193519ea3d695c6ecabbab86cb5b53a9151dd7c97a40eead2c517d1d3c3
+    size_bytes: 14085492
+    fetched_at: '2026-10-07T13:34:58+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-pcon24-population-by-age-2024-revised-2026/2024/cb07c193519ea3d695c6ecabbab86cb5b53a9151dd7c97a40eead2c517d1d3c3/special-area-population-tables-mid-2011-to-mid-2024.xlsx
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-pcon24-population-by-age-2024-revised-2026/2024/cb07c193519ea3d695c6ecabbab86cb5b53a9151dd7c97a40eead2c517d1d3c3/special-area-population-tables-mid-2011-to-mid-2024.xlsx
+registration_kind: source_facts

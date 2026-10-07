@@ -1,0 +1,23 @@
+source_id: scotgov
+package_id: scotgov-brma-market-evidence-2016-2021
+dataset: scotgov_scotgov-brma-market-evidence-2016-2021
+source_page: https://www.gov.scot/publications/foi-202200303624/
+table: brma_market_evidence_2016_2021
+files:
+  2021:
+    filename: scot_foi_brma_2016_2021.xlsx
+    source_url: https://www.gov.scot/binaries/content/documents/govscot/publications/foi-eir-release/2023/08/foi-202200303624/documents/foi-202200303624---information-released---brma-2016-2021/foi-202200303624---information-released---brma-2016-2021/govscot%3Adocument/FOI%2B202200303624%2B-%2BInformation%2BReleased%2B-%2BBRMA%2B2016-2021.xlsx
+    sha256: dba86fa1cce920c8f646460bb13e1d99e16927d57fdf290e874f9631e804ed06
+    size_bytes: 5492687
+    fetched_at: '2026-10-07T13:35:01+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-brma-market-evidence-2016-2021/2021/dba86fa1cce920c8f646460bb13e1d99e16927d57fdf290e874f9631e804ed06/scot_foi_brma_2016_2021.xlsx
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-brma-market-evidence-2016-2021/2021/dba86fa1cce920c8f646460bb13e1d99e16927d57fdf290e874f9631e804ed06/scot_foi_brma_2016_2021.xlsx
+registration_kind: raw_only
+provenance_notes: Rent Service Scotland FOI 202200303624, released 28 August 2023.
+  Original record-level 2016-2021 workbook; October-September windows. Postcode, BRMA,
+  net rent and payment frequency retained without normalization. Shares the rent-officer
+  evidence base with PIPR and Scottish private-sector rent statistics.

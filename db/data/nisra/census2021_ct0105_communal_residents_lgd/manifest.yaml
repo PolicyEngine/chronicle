@@ -1,0 +1,19 @@
+source_id: nisra
+package_id: nisra-census2021-ct0105-communal-residents-lgd
+dataset: nisra_nisra-census2021-ct0105-communal-residents-lgd
+source_page: https://www.nisra.gov.uk/publications/ct0105-communal-establishment-residents-sex-age-and-position-establishment
+table: census2021_ct0105_communal_residents_lgd
+files:
+  2021:
+    filename: census-2021-commissioned-table-ct0105.xlsx
+    source_url: https://www.nisra.gov.uk/system/files/statistics/census-2021-commissioned-table-ct0105.xlsx
+    sha256: fa1fb0bd6044e9b4eb2379da673c162fd3f8db1372f9641b076a5cc73bf816ff
+    size_bytes: 92196
+    fetched_at: '2026-10-07T13:34:58+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-census2021-ct0105-communal-residents-lgd/2021/fa1fb0bd6044e9b4eb2379da673c162fd3f8db1372f9641b076a5cc73bf816ff/census-2021-commissioned-table-ct0105.xlsx
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-census2021-ct0105-communal-residents-lgd/2021/fa1fb0bd6044e9b4eb2379da673c162fd3f8db1372f9641b076a5cc73bf816ff/census-2021-commissioned-table-ct0105.xlsx
+registration_kind: source_facts

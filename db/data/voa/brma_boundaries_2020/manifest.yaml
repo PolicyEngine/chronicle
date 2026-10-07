@@ -1,0 +1,21 @@
+source_id: voa
+package_id: voa-brma-boundaries-2020
+dataset: voa_voa-brma-boundaries-2020
+source_page: https://assets.publishing.service.gov.uk/media/5ee0ef64d3bf7f1ec05388df/GML.zip
+table: brma_boundaries_2020
+files:
+  2020:
+    filename: GML.zip
+    source_url: https://assets.publishing.service.gov.uk/media/5ee0ef64d3bf7f1ec05388df/GML.zip
+    sha256: 66515b0a1403e4557e6501d2d5ada5e7e17b29deef2da9165ba515a66907f6c6
+    size_bytes: 3833549
+    fetched_at: '2026-10-07T13:35:04+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/voa/voa-brma-boundaries-2020/2020/66515b0a1403e4557e6501d2d5ada5e7e17b29deef2da9165ba515a66907f6c6/GML.zip
+        uri: r2://ledger-raw/raw/uk/voa/voa-brma-boundaries-2020/2020/66515b0a1403e4557e6501d2d5ada5e7e17b29deef2da9165ba515a66907f6c6/GML.zip
+registration_kind: raw_only
+provenance_notes: England BRMA boundary layer applicable May 2020; GML in the original
+  publisher ZIP. No area-to-BRMA lookup is asserted.

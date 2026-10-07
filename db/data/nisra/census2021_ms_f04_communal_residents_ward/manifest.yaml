@@ -1,0 +1,19 @@
+source_id: nisra
+package_id: nisra-census2021-ms-f04-communal-residents-ward
+dataset: nisra_nisra-census2021-ms-f04-communal-residents-ward
+source_page: https://www.nisra.gov.uk/publications/census-2021-main-statistics-communal-establishment-tables
+table: census2021_ms_f04_communal_residents_ward
+files:
+  2021:
+    filename: census-2021-ms-f04.xlsx
+    source_url: https://www.nisra.gov.uk/system/files/statistics/2026-08/census-2021-ms-f04.xlsx
+    sha256: d5c99a8748c69061be1b526c004c6744c2fd70f6c38ad04174ca3deec70bdc72
+    size_bytes: 259676
+    fetched_at: '2026-10-07T13:34:58+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-census2021-ms-f04-communal-residents-ward/2021/d5c99a8748c69061be1b526c004c6744c2fd70f6c38ad04174ca3deec70bdc72/census-2021-ms-f04.xlsx
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-census2021-ms-f04-communal-residents-ward/2021/d5c99a8748c69061be1b526c004c6744c2fd70f6c38ad04174ca3deec70bdc72/census-2021-ms-f04.xlsx
+registration_kind: source_facts

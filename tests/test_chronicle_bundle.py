@@ -187,7 +187,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "error_count": 0,
         # chronicle#322 adds 4,947 ONS observations and 3,200 DESNZ ones.
         # Inner/Outer London also add two region-level geography keys.
-        "fact_count": 426058,
+        "fact_count": 1007045,
         "geography_count": 12690,
         "period_count": 495,
         # 467 before chronicle#292 moved the congressional-district and
@@ -205,8 +205,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # as published.
         "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
-        "source_count": 55,
-        "source_package_count": 278,
+        "source_count": 56,
+        "source_package_count": 311,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -219,7 +219,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the ONS overview and detailed worksheets.
         "warning_count": 85,
     }
-    assert len(rows) == 426058
+    assert len(rows) == 1007045
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -237,7 +237,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 278
+    assert source_packages["source_package_count"] == 311
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -251,7 +251,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 426058
+    assert coverage["fact_count"] == 1007045
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -268,7 +268,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dfc_ni": 1700,
         "dfi_ni": 30,
         "dft": 2771,
-        "dwp": 56100,
+        "dwp": 148002,
         "eurostat": 207,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
@@ -281,21 +281,22 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "isc": 2,
         "jrc_euromod_be": 90,
         "kff": 52,
+        "lps": 24,
         "mbie": 5663,
         "mhclg": 118542,
         "msd": 139,
         "nbb_national_accounts": 1,
-        "nisra": 533,
+        "nisra": 11047,
         "nithc": 8,
-        "nrs": 6063,
+        "nrs": 276333,
         "obr": 355,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 105312,
+        "ons": 313132,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
-        "scotgov": 3687,
+        "scotgov": 4052,
         "sfpd_pensions": 4,
         "slc": 199,
         "spf_finances_pit": 1,
@@ -307,10 +308,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "stats_nz": 85,
         "usda_snap": 852,
         "voa": 3001,
-        "welshgov": 9325,
+        "welshgov": 9417,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 273
+    assert len(table_counts) == 306
     assert table_counts["mbie:Detailed monthly TLA tenancy bond data"] == 5663
     assert (
         table_counts[
@@ -1408,6 +1409,69 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         for quarter in range(1, 5):
             expected_period_counts[f"quarter:{year}-Q{quarter}"] += 159
     expected_period_counts["quarter:2026-Q1"] += 159
+    # chronicle#313 preserves census dates, revised back-years, publisher
+    # projection years and individual UC/PIPR months as their own periods.
+    issue_313_period_increments = {
+        "calendar_year:2011": 15732,
+        "calendar_year:2012": 15732,
+        "calendar_year:2013": 15732,
+        "calendar_year:2014": 15732,
+        "calendar_year:2015": 15744,
+        "calendar_year:2016": 15744,
+        "calendar_year:2017": 15744,
+        "calendar_year:2018": 15744,
+        "calendar_year:2019": 15744,
+        "calendar_year:2020": 15744,
+        "calendar_year:2021": 151574,
+        "calendar_year:2022": 27330,
+        "calendar_year:2023": 16116,
+        "calendar_year:2024": 30966,
+        "calendar_year:2025": 35215,
+        "calendar_year:2026": 361,
+        "calendar_year:2027": 349,
+        "calendar_year:2028": 349,
+        "calendar_year:2029": 349,
+        "calendar_year:2030": 349,
+        "calendar_year:2031": 349,
+        "calendar_year:2032": 349,
+        "calendar_year:2033": 349,
+        "calendar_year:2034": 349,
+        "calendar_year:2035": 349,
+        "calendar_year:2036": 349,
+        "calendar_year:2037": 349,
+        "calendar_year:2038": 349,
+        "calendar_year:2039": 349,
+        "calendar_year:2040": 349,
+        "calendar_year:2041": 349,
+        "calendar_year:2042": 349,
+        "calendar_year:2043": 349,
+        "calendar_year:2044": 349,
+        "calendar_year:2045": 349,
+        "calendar_year:2046": 349,
+        "calendar_year:2047": 349,
+        "month:2025-01": 8547,
+        "month:2025-02": 8547,
+        "month:2025-03": 8547,
+        "month:2025-04": 8547,
+        "month:2025-05": 8547,
+        "month:2025-06": 8547,
+        "month:2025-07": 8547,
+        "month:2025-08": 8547,
+        "month:2025-09": 8547,
+        "month:2025-10": 8547,
+        "month:2025-11": 8547,
+        "month:2025-12": 8547,
+        "month:2026-01": 8547,
+        "month:2026-02": 8547,
+        "month:2026-03": 8547,
+        "month:2026-04": 8547,
+        "month:2026-05": 8547,
+        "month:2026-06": 3141,
+        "month:2026-07": 3132,
+        "month:2026-08": 3132,
+    }
+    for key, count in issue_313_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD (#318) + 103 MSD (#319) + 84 MBIE (#320) = 4,071.
@@ -1433,9 +1497,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 31416
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 5461
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 20944
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 31596
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 5678
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 21124
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
     assert len(coverage["counts"]["by_geography"]) == 12690
     for region in (
@@ -1459,14 +1523,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["region:E13000002"] == 200
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33643,
-        "dwelling": 158150,
+        "dwelling": 250975,
         "family": 1628,
         "firm": 1440,
         "government": 3450,
-        "household": 58468,
+        "household": 159734,
         "institutional_sector": 4463,
         "pension_plan": 2,
-        "person": 108810,
+        "person": 495706,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 41368,
