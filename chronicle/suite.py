@@ -7,6 +7,7 @@ import json
 import re
 import shutil
 from dataclasses import asdict, dataclass
+from datetime import date
 from pathlib import Path
 from typing import Any, Sequence
 
@@ -990,7 +991,7 @@ def _row_semantic_evidence_issues(
     fact_key = build_fact_key(fact)
     period_values = _source_row_values(rows, "period")
     for value in period_values:
-        if not _values_equal(value, fact.period.value):
+        if not _period_matches_source_row(fact, value):
             issues.append(
                 AgentAcceptanceIssue(
                     code="fact_period_not_evidenced_by_source_row",
@@ -1142,6 +1143,31 @@ def _declared_constraint_evidenced(
         dimensions,
         str(constraint.variable),
         constraint.value,
+    )
+
+
+def _period_matches_source_row(fact: AggregateFact, value: Any) -> bool:
+    """Match a publisher date only to its exact recorded snapshot coverage."""
+    if _values_equal(value, fact.period.value):
+        return True
+    if fact.period.type != "calendar_year" or not isinstance(value, str):
+        return False
+    if re.fullmatch(r"\d{2}/\d{2}/\d{4}", value):
+        day, month, year = (int(part) for part in value.split("/"))
+    elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+        year, month, day = (int(part) for part in value.split("-"))
+    else:
+        return False
+    try:
+        snapshot = date(year, month, day)
+    except ValueError:
+        return False
+    coverage = fact.period_coverage
+    return (
+        _values_equal(snapshot.year, fact.period.value)
+        and coverage is not None
+        and coverage.start_date == snapshot.isoformat()
+        and coverage.end_date == snapshot.isoformat()
     )
 
 

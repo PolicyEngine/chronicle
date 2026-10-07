@@ -1,12 +1,14 @@
 """Publisher-period regressions for the additions to chronicle#313."""
 
+from dataclasses import replace
 from functools import cache
 
 import pytest
 
 from chronicle.consumer_contract import validate_consumer_fact_contract
+from chronicle.core import PeriodCoverage, PeriodDimension
 from chronicle.source_package import load_source_package
-from chronicle.suite import build_source_suite
+from chronicle.suite import _period_matches_source_row, build_source_suite
 
 
 @pytest.fixture(scope="module")
@@ -43,6 +45,7 @@ def test_latest_comment_inputs_have_valid_source_cells_and_contracts(
     contract = validate_consumer_fact_contract(facts_for(alias))
     assert contract.valid, contract.to_dict()
     report = build_source_suite(alias, tmp_path / alias, year=year)
+    assert report.agent_acceptance.valid, report.agent_acceptance.to_dict()
     assert report.valid, report.to_dict()
     assert report.consumer_facts.fact_count == count
     assert report.facts.fact_count == count
@@ -173,6 +176,40 @@ def test_welsh_tenure_stocks_preserve_provisional_and_absent_rows(facts_for):
     assert not any(f.geography.id == "W06000003" for f in local_authority)  # Conwy.
     assert all(f.period_coverage.end_date == "2025-03-31" for f in facts)
     assert all(f.entity.name == "dwelling" for f in facts)
+
+
+@pytest.mark.parametrize("source_date", ["31/03/2025", "2025-03-31"])
+def test_source_snapshot_date_requires_the_recorded_day(facts_for, source_date):
+    fact = facts_for("welshgov-dwelling-stock-by-tenure-2025")[0]
+    assert _period_matches_source_row(fact, source_date)
+
+
+@pytest.mark.parametrize(
+    "source_date,period,coverage",
+    [
+        ("31/02/2025", PeriodDimension("calendar_year", 2025), "point"),
+        ("30/03/2025", PeriodDimension("calendar_year", 2025), "point"),
+        ("31/03/2024", PeriodDimension("calendar_year", 2025), "point"),
+        ("2025-02-31", PeriodDimension("calendar_year", 2025), "point"),
+        ("31/03/2025", PeriodDimension("calendar_year", 2024), "point"),
+        ("31/03/2025", PeriodDimension("fiscal_year", 2025), "point"),
+        ("31/03/2025", PeriodDimension("month", "2025-03"), "point"),
+        ("31/03/2025", PeriodDimension("calendar_year", 2025), "span"),
+        ("31/03/2025", PeriodDimension("calendar_year", 2025), None),
+    ],
+)
+def test_source_snapshot_date_rejects_inexact_period_evidence(
+    facts_for, source_date, period, coverage
+):
+    fact = facts_for("welshgov-dwelling-stock-by-tenure-2025")[0]
+    if coverage == "point":
+        period_coverage = fact.period_coverage
+    elif coverage == "span":
+        period_coverage = PeriodCoverage("2025-01-01", "2025-12-31", "calendar")
+    else:
+        period_coverage = None
+    fact = replace(fact, period=period, period_coverage=period_coverage)
+    assert not _period_matches_source_row(fact, source_date)
 
 
 def test_scottish_tenure_stocks_keep_2024_and_source_fractions(facts_for):
