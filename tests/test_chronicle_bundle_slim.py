@@ -202,6 +202,8 @@ def test_slim_bundle_leaves_no_pruned_ledger_db_open(tmp_path):
     and keeps the unlinked file's blocks allocated for the whole bundle build.
     """
     output_dir = tmp_path / "bundle"
+    probe_path = tmp_path / "probe.db"
+    collector_was_enabled = gc.isenabled()
     gc.disable()
     try:
         build_bundle(
@@ -211,10 +213,19 @@ def test_slim_bundle_leaves_no_pruned_ledger_db_open(tmp_path):
             keep_suite_intermediates=False,
         )
         held = _open_sqlite_paths_under(output_dir)
+        # Positive control: the scan must see a connection left open, and stop
+        # seeing it once it is closed, or an empty result proves nothing.
+        probe = sqlite3.connect(probe_path)
+        probe_open = _open_sqlite_paths_under(tmp_path)
+        probe.close()
+        probe_closed = _open_sqlite_paths_under(tmp_path)
     finally:
-        gc.enable()
+        if collector_was_enabled:
+            gc.enable()
 
     assert held == []
+    assert [path.resolve() for path in probe_open] == [probe_path.resolve()]
+    assert probe_closed == []
 
 
 def test_prune_suite_intermediates_exhaustively(tmp_path):
