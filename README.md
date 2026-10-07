@@ -152,20 +152,31 @@ JSON report with fact counts, QA counts, warnings, and validation errors:
 uv run chronicle validate-facts --fixture
 ```
 
+The examples below write into a run directory made with `mktemp -d`, never a
+fixed shared path such as `/tmp/chronicle-suite`. `--replace` deletes the
+output directory before it writes, so runs that share an output path delete
+each other's output. Inside your own run directory, `--replace` clears only
+your earlier output. A block that starts with `RUN_DIR="$(mktemp -d)"` starts a
+new run. A block that reads an earlier step's output reuses that step's
+`$RUN_DIR`, so run it in the same shell or set `RUN_DIR` to that directory
+again.
+
 To build a tiny source-backed fixture from the packaged IRS SOI Table 1.1
 workbook and validate it:
 
 ```bash
-uv run chronicle build-fixture-facts soi-table-1-1 --year 2023 --output /tmp/chronicle-soi-facts.jsonl
-uv run chronicle validate-facts --input /tmp/chronicle-soi-facts.jsonl
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-fixture-facts soi-table-1-1 --year 2023 --output "$RUN_DIR/chronicle-soi-facts.jsonl"
+uv run chronicle validate-facts --input "$RUN_DIR/chronicle-soi-facts.jsonl"
 ```
 
 To preserve the whole used range of that workbook as source-cell records before
 semantic fact construction:
 
 ```bash
-uv run chronicle build-source-cells soi-table-1-1 --year 2023 --output /tmp/chronicle-soi-cells.jsonl
-uv run chronicle validate-source-cells --input /tmp/chronicle-soi-cells.jsonl
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-source-cells soi-table-1-1 --year 2023 --output "$RUN_DIR/chronicle-soi-cells.jsonl"
+uv run chronicle validate-source-cells --input "$RUN_DIR/chronicle-soi-cells.jsonl"
 ```
 
 Delimited source packages should preserve the whole file as row records before
@@ -173,8 +184,9 @@ selecting facts. For example, the BEA NIPA flat file pilot parses all source
 rows, then emits two selected pension contribution facts:
 
 ```bash
-uv run chronicle build-source-rows bea-nipa-pension-contributions --year 2022 --output /tmp/chronicle-bea-rows.jsonl
-uv run chronicle validate-source-rows --input /tmp/chronicle-bea-rows.jsonl
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-source-rows bea-nipa-pension-contributions --year 2022 --output "$RUN_DIR/chronicle-bea-rows.jsonl"
+uv run chronicle validate-source-rows --input "$RUN_DIR/chronicle-bea-rows.jsonl"
 ```
 
 ZIP archives with rectangular publisher files use the same row-first contract.
@@ -183,15 +195,17 @@ its CSV member into source rows/cells, and emits state-level enrollment and
 APTC facts:
 
 ```bash
+RUN_DIR="$(mktemp -d)"
 uv run chronicle validate-package cms-aca-oep-state-level --year 2024
-uv run chronicle build-suite cms-aca-oep-state-level --year 2024 --out /tmp/chronicle-cms-aca-oep-2024 --replace
+uv run chronicle build-suite cms-aca-oep-state-level --year 2024 --out "$RUN_DIR/chronicle-cms-aca-oep-2024" --replace
 ```
 
 To build a relational Chronicle DB artifact with aggregate facts, first-class
 constraints, source-cell lineage, and source-row lineage when available:
 
 ```bash
-uv run chronicle build-db --fixture --db /tmp/ledger-fixture.db --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-db --fixture --db "$RUN_DIR/ledger-fixture.db" --replace
 ```
 
 This writes queryable Chronicle-owned tables such as `source_rows`,
@@ -206,34 +220,46 @@ rows/cells, source-region spec, selector report, aggregate facts, DB artifact,
 and JSON reports into one output directory:
 
 ```bash
-uv run chronicle build-suite soi-table-1-1 --year 2023 --out /tmp/chronicle-suite --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-suite soi-table-1-1 --year 2023 --out "$RUN_DIR/chronicle-suite" --replace
 ```
 
 The same command accepts a declarative package directory. This is the preferred
 agent authoring surface:
 
 ```bash
-uv run chronicle build-suite packages/irs_soi/table_1_1 --year 2023 --out /tmp/chronicle-suite --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-suite packages/irs_soi/table_1_1 --year 2023 --out "$RUN_DIR/chronicle-suite" --replace
+```
+
+The same build-suite path also supports the SOI Table 1.4 wage pilot:
+
+```bash
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-suite soi-table-1-4 --year 2023 --out "$RUN_DIR/chronicle-suite-1-4" --replace
+uv run chronicle build-suite packages/irs_soi/table_1_4 --year 2023 --out "$RUN_DIR/chronicle-suite-1-4" --replace
 ```
 
 The first UK source packages use the OBR March 2026 EFO receipts and
 expenditure workbooks and emit 2025-26 fiscal-year aggregate facts:
 
 ```bash
-uv run chronicle validate-package obr-efo-receipts --year 2025
-uv run chronicle build-suite obr-efo-receipts --year 2025 --out /tmp/chronicle-obr-efo-receipts-2025 --replace
-uv run chronicle validate-package obr-efo-expenditure --year 2025
-uv run chronicle build-suite obr-efo-expenditure --year 2025 --out /tmp/chronicle-obr-efo-expenditure-2025 --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle validate-package obr-efo-receipts-march-2026 --year 2025
+uv run chronicle build-suite obr-efo-receipts-march-2026 --year 2025 --out "$RUN_DIR/chronicle-obr-efo-receipts-2025" --replace
+uv run chronicle validate-package obr-efo-expenditure-march-2026 --year 2025
+uv run chronicle build-suite obr-efo-expenditure-march-2026 --year 2025 --out "$RUN_DIR/chronicle-obr-efo-expenditure-2025" --replace
 uv run chronicle validate-package slc-student-support-england-2025 --year 2025
-uv run chronicle build-suite slc-student-support-england-2025 --year 2025 --out /tmp/chronicle-slc-student-support-england-2025 --replace
+uv run chronicle build-suite slc-student-support-england-2025 --year 2025 --out "$RUN_DIR/chronicle-slc-student-support-england-2025" --replace
 ```
 
 The first ZIP-backed PE migration package is the CMS Marketplace OEP
 state-level public-use release:
 
 ```bash
+RUN_DIR="$(mktemp -d)"
 uv run chronicle validate-package cms-aca-oep-state-level --year 2024
-uv run chronicle build-suite cms-aca-oep-state-level --year 2024 --out /tmp/chronicle-cms-aca-oep-2024 --replace
+uv run chronicle build-suite cms-aca-oep-state-level --year 2024 --out "$RUN_DIR/chronicle-cms-aca-oep-2024" --replace
 ```
 
 This writes:
@@ -315,9 +341,10 @@ valid, but `agent_acceptance.json` warns with
 canonical concept to resolve through Axiom:
 
 ```bash
+RUN_DIR="$(mktemp -d)"
 uv run chronicle build-suite packages/irs_soi/table_1_1 \
   --year 2023 \
-  --out /tmp/chronicle-suite \
+  --out "$RUN_DIR/chronicle-suite" \
   --replace \
   --axiom-cli axiom \
   --axiom-root ../rules-us \
@@ -400,29 +427,24 @@ key. Source-package parsers still read deterministic local/package resources,
 so builds remain reproducible without making hosted storage the source of
 schema truth.
 
-The same build-suite path also supports the SOI Table 1.4 wage pilot:
-
-```bash
-uv run chronicle build-suite soi-table-1-4 --year 2023 --out /tmp/chronicle-suite-1-4 --replace
-uv run chronicle build-suite packages/irs_soi/table_1_4 --year 2023 --out /tmp/chronicle-suite-1-4 --replace
-```
-
 To prepare the deterministic SQLite artifact for a hosted Supabase/Postgres
-mirror, export each relational table to JSONL plus a manifest:
+mirror, export each relational table to JSONL plus a manifest. This step and the
+two after it read the SOI Table 1.1 `build-suite` output, so they reuse that
+run's `$RUN_DIR`:
 
 ```bash
-uv run chronicle export-db-tables --db /tmp/chronicle-suite/ledger.db --out /tmp/chronicle-mirror --replace
+uv run chronicle export-db-tables --db "$RUN_DIR/chronicle-suite/ledger.db" --out "$RUN_DIR/chronicle-mirror" --replace
 ```
 
 To publish the deterministic build outputs to the `ledger-derived` R2 bucket:
 
 ```bash
 uv run chronicle publish-derived \
-  --dir /tmp/chronicle-suite \
+  --dir "$RUN_DIR/chronicle-suite" \
   --source-id irs_soi \
   --package-id soi-table-1-1 \
   --year 2023 \
-  --build-artifacts-out /tmp/chronicle-build-artifacts.jsonl
+  --build-artifacts-out "$RUN_DIR/chronicle-build-artifacts.jsonl"
 ```
 
 The Supabase schema for this mirror lives at
@@ -435,8 +457,8 @@ Supabase Data API, accepted mirror exports can be upserted with:
 
 ```bash
 uv run chronicle load-supabase-mirror \
-  --dir /tmp/chronicle-mirror \
-  --build-artifacts /tmp/chronicle-build-artifacts.jsonl
+  --dir "$RUN_DIR/chronicle-mirror" \
+  --build-artifacts "$RUN_DIR/chronicle-build-artifacts.jsonl"
 ```
 
 Use `--dry-run` first to validate JSONL row counts and file coverage without
@@ -457,7 +479,9 @@ To validate source-to-canonical concept alignments against an installed Axiom
 concept CLI outside the full suite:
 
 ```bash
-uv run chronicle validate-concept-alignments --input /tmp/chronicle-soi-facts.jsonl \
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-fixture-facts soi-table-1-1 --year 2023 --output "$RUN_DIR/chronicle-soi-facts.jsonl"
+uv run chronicle validate-concept-alignments --input "$RUN_DIR/chronicle-soi-facts.jsonl" \
   --axiom-cli axiom \
   --axiom-root ../rules-us
 ```
@@ -469,29 +493,7 @@ same `--axiom-cli` and `--axiom-root` flags, plus
 `--require-axiom-validation` when skipped concept checks should fail agent
 acceptance.
 
-### 4. Run Chronicle Explorer
-
-Chronicle Explorer is a Next/Tailwind app that reads the fixture fact JSONL and
-source-cell JSONL, then shows aggregate facts, source-cell lineage, and
-consumer-contract fields:
-
-```bash
-cd explorer
-npm install
-npm run dev -- --port 3090
-```
-
-Then open `http://localhost:3090`.
-
-By default, the workbench reads the current local suite outputs at
-`/tmp/ledger-us-2023-parity/sources/*` and
-`/tmp/chronicle-soi-historic-table-2-2022`. To point it at another build, set:
-
-```bash
-LEDGER_EXPLORER_DATA_DIRS=/tmp/chronicle-build-a,/tmp/chronicle-build-b npm run dev -- --port 3090
-```
-
-### 5. Query Target Inputs in Python
+### 4. Query Target Inputs in Python
 
 ```python
 from policyengine_chronicle.targets import DataSource, Target, TargetType, query_targets
