@@ -272,15 +272,26 @@ concept alignment evidence, Axiom concept validation status, and stage-report
 validity.
 
 To build the downstream integration artifact Microcosm can inspect, merge
-available source-package suites for a year into one bundle:
+available source-package suites for a year into one bundle. Give each run its
+own output directory: `--replace` deletes the directory first, so runs that
+share an `--out` path delete each other's output.
 
 ```bash
-uv run chronicle build-bundle --year 2023 --out /tmp/ledger-us-2023 --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --year 2023 --out "$RUN_DIR/ledger-us-2023" --slim
 ```
 
 This writes a root `consumer_facts.jsonl`, `source_packages.json`,
 `coverage.json`, and `reports/build_bundle.json`. Source-specific suite outputs
-remain nested under `sources/<source-package>/`. The bundle coverage report
+remain nested under `sources/<source-package>/`. `--slim` deletes each suite's
+`source_rows.jsonl`, `source_cells.jsonl`, `facts.jsonl` and `ledger.db` as soon
+as that suite finishes and lists them in `reports/pruned_intermediates.json`.
+Every file a slim bundle keeps is byte-identical to a full build's, so
+`source_packages.json` and each suite's `datapackage.json` still name the
+deleted files. Without `--slim`, the 2023 default bundle keeps tens of GB of
+them: each BEA NIPA suite writes a 496 MB `source_rows.jsonl` and a 1 GB
+`ledger.db` for under 100 KB of consumer facts. Leave `--slim` off only to
+inspect those files, or build the one package with `build-suite`. The bundle coverage report
 includes counts by source, geography, entity, period, observed measure, and
 concept plus duplicate `aggregate_fact_key` and `semantic_fact_key` diagnostics.
 The row-level downstream contract is `consumer_facts.jsonl`; the other bundle
@@ -297,8 +308,9 @@ For the UK source-package feed, build the curated UK suite and then a facts-only
 consumer artifact:
 
 ```bash
-uv run chronicle build-bundle --suite uk --out /tmp/chronicle-uk --replace
-uv run chronicle build-consumer-artifact --facts /tmp/chronicle-uk --out /tmp/chronicle-uk-artifact --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --suite uk --out "$RUN_DIR/chronicle-uk" --slim
+uv run chronicle build-consumer-artifact --facts "$RUN_DIR/chronicle-uk" --out "$RUN_DIR/chronicle-uk-artifact"
 ```
 
 The command writes a `policyengine_ledger.consumer_artifact.v2` artifact containing

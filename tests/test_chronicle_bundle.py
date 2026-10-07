@@ -14,6 +14,8 @@ from chronicle.bundle import (
     BUNDLE_COVERAGE_SCHEMA_VERSION,
     BUNDLE_SCHEMA_VERSION,
     BUNDLE_SOURCES_SCHEMA_VERSION,
+    PRUNED_INTERMEDIATES_REPORT,
+    SUITE_INTERMEDIATE_FILES,
     UK_BUNDLE_SOURCES,
     _load_jsonl as load_bundle_jsonl,
     build_bundle,
@@ -151,14 +153,27 @@ def prune_suite_intermediates(monkeypatch):
 def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     output_dir = tmp_path / "bundle"
 
-    report = build_bundle(output_dir, year=2023)
+    # Slim: a full default bundle keeps tens of GB of per-suite intermediates
+    # this test never reads (24 GB on 2026-09-20). Slim and full bundles keep
+    # byte-identical files (tests/test_chronicle_bundle_slim.py).
+    report = build_bundle(output_dir, year=2023, keep_suite_intermediates=False)
     summary = json.loads((output_dir / "reports" / "build_bundle.json").read_text())
     rows = _load_jsonl(output_dir / "consumer_facts.jsonl")
     source_packages = json.loads((output_dir / "source_packages.json").read_text())
     coverage = json.loads((output_dir / "coverage.json").read_text())
+    pruned = json.loads(
+        (output_dir / "reports" / PRUNED_INTERMEDIATES_REPORT).read_text()
+    )
 
     assert report.valid
     assert summary["valid"]
+    assert pruned["suite_count"] == summary["counts"]["source_package_count"]
+    assert pruned["file_count"] == pruned["suite_count"] * len(SUITE_INTERMEDIATE_FILES)
+    assert not [
+        path
+        for name in SUITE_INTERMEDIATE_FILES
+        for path in (output_dir / "sources").glob(f"*/{name}")
+    ]
     # chronicle#209's NZ WFF package adds 330 TY2024 facts: 329 families and 1
     # person, in one new publisher, package, source table and country.
     assert summary["counts"] == {

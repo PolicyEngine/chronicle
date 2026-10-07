@@ -651,22 +651,31 @@ aggregate facts, a relational SQLite DB artifact, and per-stage JSON reports und
 `ro-crate-metadata.json` sidecars so the generated artifacts can be described
 with common data-package conventions while Chronicle keeps its native schema strict.
 For downstream integration, agents should use the merged year bundle after
-individual source packages pass:
+individual source packages pass. Build each bundle in its own fresh directory:
+concurrent agents that share an `--out` path delete each other's output.
 
 ```bash
-uv run chronicle build-bundle --year 2023 --out /tmp/ledger-us-2023 --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --year 2023 --out "$RUN_DIR/ledger-us-2023" --slim
 ```
 
 The bundle emits a root `consumer_facts.jsonl`, `source_packages.json`,
 `coverage.json`, and `reports/build_bundle.json`, while preserving each
-source-package suite under `sources/<source-package>/`.
+source-package suite under `sources/<source-package>/`. `--slim` deletes each
+suite's `source_rows.jsonl`, `source_cells.jsonl`, `facts.jsonl` and
+`ledger.db` once that suite finishes and lists them in
+`reports/pruned_intermediates.json`; without it the 2023 default bundle keeps
+tens of GB of these files. Every other file is byte-identical to a full
+build's. To inspect one package's intermediates, run `build-suite` on that
+package.
 
 For the UK source-package feed, use the curated UK suite and build a facts-only
 consumer artifact:
 
 ```bash
-uv run chronicle build-bundle --suite uk --out /tmp/chronicle-uk --replace
-uv run chronicle build-consumer-artifact --facts /tmp/chronicle-uk --out /tmp/chronicle-uk-artifact --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --suite uk --out "$RUN_DIR/chronicle-uk" --slim
+uv run chronicle build-consumer-artifact --facts "$RUN_DIR/chronicle-uk" --out "$RUN_DIR/chronicle-uk-artifact"
 ```
 
 `--year` is inert for `--suite uk` because the UK packages are year-pinned.
