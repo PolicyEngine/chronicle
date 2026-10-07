@@ -9,7 +9,6 @@ from pathlib import Path
 
 import pytest
 
-import chronicle.bundle
 from chronicle.bundle import (
     BUNDLE_COVERAGE_SCHEMA_VERSION,
     BUNDLE_SCHEMA_VERSION,
@@ -124,32 +123,6 @@ def test_build_bundle_cli_accepts_uk_suite(tmp_path, monkeypatch):
     assert captured["suite"] == "uk"
 
 
-@pytest.fixture
-def prune_suite_intermediates(monkeypatch):
-    """Delete each source suite's intermediates once the suite is built.
-
-    Every suite in the default bundle writes source_rows.jsonl,
-    source_cells.jsonl, facts.jsonl and a per-source ledger.db, and
-    build_bundle then reads back only its consumer_facts.jsonl. A BEA NIPA
-    suite alone writes a 496 MB source_rows.jsonl and a 1 GB ledger.db for
-    under 100 KB of consumer facts. Suite runs that reached this test left
-    24 GB (2026-09-20) and 19.7 GB (2026-10-07) in pytest's temp directory.
-    The suites are still built, validated and merged exactly as before; only
-    files nothing reads afterwards are removed, so they no longer pile up
-    across the bundle's 268 source packages.
-    """
-    build_source_suite = chronicle.bundle.build_source_suite
-
-    def build_then_prune(*args, **kwargs):
-        report = build_source_suite(*args, **kwargs)
-        for output in ("source_rows", "source_cells", "facts", "database"):
-            Path(report.outputs[output]).unlink(missing_ok=True)
-        return report
-
-    monkeypatch.setattr(chronicle.bundle, "build_source_suite", build_then_prune)
-
-
-@pytest.mark.usefixtures("prune_suite_intermediates")
 def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     output_dir = tmp_path / "bundle"
 

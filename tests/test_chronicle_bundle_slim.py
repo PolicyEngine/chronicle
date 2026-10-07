@@ -14,9 +14,11 @@ suite finishes. Invariants:
 
 from __future__ import annotations
 
+import gc
 import hashlib
 import itertools
 import json
+import sqlite3
 from datetime import datetime
 from pathlib import Path
 
@@ -175,6 +177,44 @@ def test_slim_bundle_records_no_suite_that_wrote_nothing(tmp_path, monkeypatch):
     pruned = json.loads((output_dir / PRUNED_REPORT_PATH).read_text())
     assert pruned["suites"] == []
     assert (pruned["suite_count"], pruned["file_count"], pruned["bytes"]) == (0, 0, 0)
+
+
+def _open_sqlite_paths_under(root: Path) -> list[Path]:
+    """Database files under ``root`` that some live connection still holds open."""
+    held = []
+    for obj in gc.get_objects():
+        if not isinstance(obj, sqlite3.Connection):
+            continue
+        try:
+            databases = obj.execute("PRAGMA database_list").fetchall()
+        except sqlite3.ProgrammingError:
+            continue  # closed, or owned by another thread
+        for _, _, filename in databases:
+            if filename and Path(filename).resolve().is_relative_to(root.resolve()):
+                held.append(Path(filename))
+    return held
+
+
+def test_slim_bundle_leaves_no_pruned_ledger_db_open(tmp_path):
+    """A deleted ledger.db frees its storage only once its connection closes.
+
+    With the collector off, a connection left in a reference cycle stays open
+    and keeps the unlinked file's blocks allocated for the whole bundle build.
+    """
+    output_dir = tmp_path / "bundle"
+    gc.disable()
+    try:
+        build_bundle(
+            output_dir,
+            year=2023,
+            sources=SMALL_SOURCES,
+            keep_suite_intermediates=False,
+        )
+        held = _open_sqlite_paths_under(output_dir)
+    finally:
+        gc.enable()
+
+    assert held == []
 
 
 def test_prune_suite_intermediates_exhaustively(tmp_path):
