@@ -1,0 +1,19 @@
+source_id: hmrc
+package_id: hmrc-tax-free-childcare-march-2026
+dataset: hmrc_hmrc-tax-free-childcare-march-2026
+source_page: https://www.gov.uk/government/statistics/tax-free-childcare-statistics-march-2026
+table: 'Tax-Free Childcare Statistics March 2026, Table 2: Numbers of Children with Open and Used Tax-Free
+  Childcare Accounts and Government Top-up'
+files:
+  2026:
+    filename: Tables_and_Statistics_March_2026.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a0dcb07faac4bc0b0e906ef/Tables_and_Statistics_March_2026.ods
+    sha256: c2a8e82a7d1e6c85cbe119ffe0a51e692fac3e5014a37f845484dee710e7a29d
+    size_bytes: 321791
+    fetched_at: '2026-09-01T13:03:30+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/hmrc/hmrc-tax-free-childcare-march-2026/2026/c2a8e82a7d1e6c85cbe119ffe0a51e692fac3e5014a37f845484dee710e7a29d/Tables_and_Statistics_March_2026.ods
+        uri: r2://ledger-raw/raw/hmrc/hmrc-tax-free-childcare-march-2026/2026/c2a8e82a7d1e6c85cbe119ffe0a51e692fac3e5014a37f845484dee710e7a29d/Tables_and_Statistics_March_2026.ods

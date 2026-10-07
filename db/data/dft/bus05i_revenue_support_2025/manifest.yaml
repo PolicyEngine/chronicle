@@ -1,0 +1,18 @@
+source_id: dft
+package_id: dft-bus05i-revenue-support-2025
+dataset: dft_dft-bus05i-revenue-support-2025
+source_page: https://www.gov.uk/government/statistical-data-sets/bus05-subsidies-and-concessions
+table: BUS05ai operating revenue and BUS05bi support components and total net support
+files:
+  2025:
+    filename: bus05i.ods
+    source_url: https://assets.publishing.service.gov.uk/media/69c11f97b920af63be1c7631/bus05i.ods
+    sha256: a65ad97d70982bc572a8ff7415182c1b350166fc2e485e37f5678f3dbaa12fa5
+    size_bytes: 70528
+    fetched_at: '2026-08-26T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/dft/dft-bus05i-revenue-support-2025/2025/a65ad97d70982bc572a8ff7415182c1b350166fc2e485e37f5678f3dbaa12fa5/bus05i.ods
+        uri: r2://ledger-raw/raw/dft/dft-bus05i-revenue-support-2025/2025/a65ad97d70982bc572a8ff7415182c1b350166fc2e485e37f5678f3dbaa12fa5/bus05i.ods

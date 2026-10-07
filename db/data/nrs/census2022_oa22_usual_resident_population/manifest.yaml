@@ -1,0 +1,23 @@
+source_id: nrs
+package_id: nrs-census2022-oa22-usual-resident-population
+source_name: Scotland Census 2022 usual resident population by Output Area
+publisher: National Records of Scotland
+source_page: https://www.nrscotland.gov.uk/media/owpknvgk/outputarea2022_usualresidentpopulation.csv
+files:
+  2022:
+    filename: scotland_outputarea2022_population.csv
+    source_url: https://www.nrscotland.gov.uk/media/owpknvgk/outputarea2022_usualresidentpopulation.csv
+    source_table: Output Area 2022 usual resident population
+    sha256: f7af756710c56f335d9332c08f95a68a5775aec4f25f17b21ab979257ed40148
+    size_bytes: 678338
+    fetched_at: '2026-08-19'
+    retrieved_at: '2026-08-19'
+    vintage: 2022_census
+    vintages:
+    - 2022_census
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-census2022-oa22-usual-resident-population/2022/f7af756710c56f335d9332c08f95a68a5775aec4f25f17b21ab979257ed40148/scotland_outputarea2022_population.csv
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-census2022-oa22-usual-resident-population/2022/f7af756710c56f335d9332c08f95a68a5775aec4f25f17b21ab979257ed40148/scotland_outputarea2022_population.csv

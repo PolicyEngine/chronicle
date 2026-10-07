@@ -16,18 +16,32 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-from chronicle.consumer_contract import _hash_key
+from chronicle.consumer_contract import _hash_key, _require_ledger_emit
 from chronicle.core import (
     ALLOWED_ASSERTIONS,
     ALLOWED_PROVENANCE_CLASSES,
     DEFAULT_ASSERTION,
 )
+from chronicle.epoch import (
+    CONSUMER_FACT_EMIT_SCHEMA_VERSION,
+    CONSUMER_FACT_ROW_CONTRACTS,
+    EMIT_EPOCH,
+    HASH_DOMAINS,
+    SCHEMA_IDS,
+    Epoch,
+    canonicalize_key,
+    consumer_fact_row_contract,
+    hash_domain,
+    schema_id,
+)
 from policyengine_chronicle.schema import (
     CONSUMER_FACT_SCHEMA_SHA256,
+    CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION,
+    normalize_consumer_fact_row_epochs,
     validate_consumer_fact_row,
 )
 
-CONSUMER_ARTIFACT_SCHEMA_VERSION = "policyengine_ledger.consumer_artifact.v2"
+CONSUMER_ARTIFACT_SCHEMA_VERSION = schema_id("consumer_artifact")
 
 
 @dataclass(frozen=True)
@@ -57,14 +71,34 @@ def build_consumer_artifact(
     *,
     facts_path: str | Path,
     replace: bool = False,
+    emit_epoch: Epoch | str = EMIT_EPOCH,
 ) -> ConsumerArtifactBuildReport:
     """Build a reproducible facts-only artifact from consumer fact rows.
 
     ``facts_path`` is a ``consumer_facts.jsonl`` file or a bundle directory
-    containing one. The artifact contains canonical fact rows and a manifest
-    that pins their schema and content hashes. Target contracts are packaged
-    by the consumer, not Chronicle.
+    containing one. Rows may carry either accepted naming epoch on each
+    identifier (mechanism 1: dual-domain acceptance) and either row contract;
+    the artifact writes every row with its keys canonicalized to
+    ``emit_epoch`` and stamped with the emitted ``chronicle.consumer_fact.v2``
+    contract, a superset of v1, so every row conforms to the schema whose
+    sha256 the manifest pins. Target contracts are packaged by the consumer,
+    not Chronicle.
+
+    A refused call (unknown or non-Ledger ``emit_epoch``) raises before the
+    output directory is touched, so an existing artifact survives it.
     """
+    emit_epoch = _require_ledger_emit(emit_epoch, "build_consumer_artifact")
+    resolved_facts_path = _resolve_facts_path(facts_path)
+    rows = [
+        {
+            **normalize_consumer_fact_row_epochs(row, line_number, resolved_facts_path),
+            "schema_version": CONSUMER_FACT_EMIT_SCHEMA_VERSION,
+        }
+        for line_number, row in enumerate(
+            _load_consumer_rows(resolved_facts_path, validate_schema=True), start=1
+        )
+    ]
+
     output_path = Path(output_dir)
     if output_path.exists():
         if not replace:
@@ -74,15 +108,15 @@ def build_consumer_artifact(
         shutil.rmtree(output_path)
     output_path.mkdir(parents=True)
 
-    rows = _load_consumer_rows(_resolve_facts_path(facts_path), validate_schema=True)
     facts_out = output_path / "consumer_facts.jsonl"
     with facts_out.open("w") as file:
         for row in rows:
             file.write(json.dumps(row, sort_keys=True))
             file.write("\n")
 
+    artifact_schema_version = schema_id("consumer_artifact", emit_epoch)
     manifest = {
-        "schema_version": CONSUMER_ARTIFACT_SCHEMA_VERSION,
+        "schema_version": artifact_schema_version,
         "consumer_fact_schema_versions": sorted(
             {row.get("schema_version") for row in rows}
         ),
@@ -93,7 +127,7 @@ def build_consumer_artifact(
     _write_json(output_path / "manifest.json", manifest)
 
     return ConsumerArtifactBuildReport(
-        schema_version=CONSUMER_ARTIFACT_SCHEMA_VERSION,
+        schema_version=artifact_schema_version,
         output_dir=str(output_path),
         fact_row_count=len(rows),
     )
@@ -103,26 +137,62 @@ def load_consumer_artifact(path: str | Path) -> ConsumerArtifact:
     """Load a facts-only consumer artifact and verify its manifest hashes."""
     artifact_path = Path(path)
     manifest = json.loads((artifact_path / "manifest.json").read_text())
-    if manifest.get("schema_version") != CONSUMER_ARTIFACT_SCHEMA_VERSION:
+    manifest_schema_version = manifest.get("schema_version")
+    try:
+        SCHEMA_IDS["consumer_artifact"].infer_identifier_epoch(manifest_schema_version)
+    except ValueError as error:
         raise ValueError(
             "Unsupported consumer artifact schema_version: "
-            f"{manifest.get('schema_version')!r}."
-        )
+            f"{manifest_schema_version!r}; accepted forms are "
+            f"{SCHEMA_IDS['consumer_artifact'].ledger!r} and "
+            f"{SCHEMA_IDS['consumer_artifact'].chronicle!r}."
+        ) from error
     if "profiles" in manifest:
         raise ValueError(
             "Consumer artifact manifests must not contain profiles; target profiles "
             "are consumer-owned contracts and must be loaded by Microcosm."
         )
-    manifest_schema_sha256 = manifest.get("consumer_fact_schema_sha256")
-    if (
-        manifest_schema_sha256 is not None
-        and manifest_schema_sha256 != CONSUMER_FACT_SCHEMA_SHA256
-    ):
-        raise ValueError(
-            "Consumer artifact declares consumer_fact_schema_sha256 "
-            f"{manifest_schema_sha256!r}, which does not match the packaged "
-            f"consumer-fact schema {CONSUMER_FACT_SCHEMA_SHA256!r}."
+    declared_fact_schema_versions = manifest.get("consumer_fact_schema_versions")
+    if declared_fact_schema_versions is not None:
+        if not isinstance(declared_fact_schema_versions, list):
+            raise ValueError(
+                "Consumer artifact consumer_fact_schema_versions must be a list."
+            )
+        accepted_contracts = ", ".join(
+            repr(contract) for contract in CONSUMER_FACT_ROW_CONTRACTS
         )
+        for row_schema_version in declared_fact_schema_versions:
+            try:
+                consumer_fact_row_contract(row_schema_version)
+            except ValueError as error:
+                raise ValueError(
+                    "Unsupported consumer fact schema_version in artifact "
+                    f"manifest: {row_schema_version!r}; accepted contracts are "
+                    f"{accepted_contracts}."
+                ) from error
+    manifest_schema_sha256 = manifest.get("consumer_fact_schema_sha256")
+    if manifest_schema_sha256 is not None:
+        pinned_versions = sorted(
+            version
+            for version, sha256 in CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION.items()
+            if sha256 == manifest_schema_sha256
+        )
+        if not pinned_versions:
+            raise ValueError(
+                "Consumer artifact declares consumer_fact_schema_sha256 "
+                f"{manifest_schema_sha256!r}, which does not match the packaged "
+                "consumer-fact schema of either contract "
+                f"{dict(CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION)!r}."
+            )
+        if (
+            declared_fact_schema_versions is not None
+            and declared_fact_schema_versions != pinned_versions
+        ):
+            raise ValueError(
+                "Consumer artifact declares consumer_fact_schema_versions "
+                f"{declared_fact_schema_versions!r} but pins the schema sha256 "
+                f"of {pinned_versions[0]!r}."
+            )
 
     facts_file = artifact_path / "consumer_facts.jsonl"
     actual_sha256 = _sha256_file(facts_file)
@@ -132,6 +202,16 @@ def load_consumer_artifact(path: str | Path) -> ConsumerArtifact:
             f"{actual_sha256} != {manifest['facts_sha256']}."
         )
     rows = _load_consumer_rows(facts_file, validate_schema=True)
+    actual_fact_schema_versions = sorted({row.get("schema_version") for row in rows})
+    if (
+        declared_fact_schema_versions is not None
+        and declared_fact_schema_versions != actual_fact_schema_versions
+    ):
+        raise ValueError(
+            "Consumer artifact manifest declares consumer_fact_schema_versions "
+            f"{declared_fact_schema_versions!r} but its rows use "
+            f"{actual_fact_schema_versions!r}."
+        )
     declared_row_count = manifest.get("fact_row_count")
     if declared_row_count is not None and declared_row_count != len(rows):
         raise ValueError(
@@ -177,22 +257,60 @@ def _assert_finite_numbers(value: Any, *, line_number: int, path: Path) -> None:
             _assert_finite_numbers(item, line_number=line_number, path=path)
 
 
+#: Geography fields that ride on consumer rows as display metadata and never
+#: enter a fact key (chronicle#266 ``name``, chronicle#281 ``publisher_name``).
+_GEOGRAPHY_DISPLAY_KEYS = frozenset({"name", "publisher_name"})
+
+
+def _geography_key_payload(row: dict[str, Any]) -> Any:
+    """Return the row's geography as the fact key hashes it.
+
+    The publisher's ``name`` rides on v3 rows as display metadata
+    (chronicle#266) and has never been part of a key, so it is dropped here:
+    a v2 row and the v3 row that names its geography hash alike. The v4 row
+    (chronicle#281) adds the publisher's own text as ``publisher_name`` where
+    the register renames the area; it is display metadata too and the emitter
+    hashes ``level``, ``id`` and ``vintage`` only, so it is dropped likewise.
+    """
+
+    geography = row.get("geography")
+    if not isinstance(geography, dict):
+        return geography
+    return {
+        key: value
+        for key, value in geography.items()
+        if key not in _GEOGRAPHY_DISPLAY_KEYS
+    }
+
+
 def _recompute_aggregate_fact_key(row: dict[str, Any]) -> str:
     """Recompute the aggregate fact key from the row's content."""
+    declared_key = row.get("aggregate_fact_key")
+    epoch = HASH_DOMAINS["aggregate_fact"].infer_key_epoch(declared_key)
     assertion = row.get("assertion")
     payload = {
-        "source_release_key": row.get("source_release_key"),
-        "source_series_key": row.get("source_series_key"),
-        "observed_measure_key": row.get("observed_measure_key"),
+        "source_release_key": canonicalize_key(
+            "source_release", row.get("source_release_key")
+        ),
+        "source_series_key": canonicalize_key(
+            "source_series", row.get("source_series_key")
+        ),
+        "observed_measure_key": canonicalize_key(
+            "observed_measure", row.get("observed_measure_key")
+        ),
         "aggregation": row.get("aggregation"),
         "period": row.get("period"),
-        "geography": row.get("geography"),
+        "geography": _geography_key_payload(row),
         "entity": row.get("entity"),
-        "dimension_set_key": row.get("dimension_set_key"),
-        "universe_constraint_set_key": row.get("universe_constraint_set_key"),
+        "dimension_set_key": canonicalize_key(
+            "dimension_set", row.get("dimension_set_key")
+        ),
+        "universe_constraint_set_key": canonicalize_key(
+            "universe_constraint_set", row.get("universe_constraint_set_key")
+        ),
         "assertion": None if assertion == DEFAULT_ASSERTION else assertion,
     }
-    return _hash_key("ledger.aggregate_fact.v2", payload)
+    return _hash_key(hash_domain("aggregate_fact", epoch), payload)
 
 
 def _load_consumer_rows(
@@ -226,14 +344,21 @@ def _load_consumer_rows(
                         f"{key!r} but its content hashes to {recomputed!r}; the "
                         "identity key does not match the row."
                     )
-            if key in seen_keys:
+            canonical_key = canonicalize_key("aggregate_fact", key)
+            if canonical_key in seen_keys:
                 raise ValueError(
                     f"Row {line_number} of {path} repeats aggregate_fact_key "
                     f"{key!r}; consumer artifact fact rows must be unique."
                 )
-            seen_keys.add(key)
+            seen_keys.add(canonical_key)
             rows.append(row)
     return rows
+
+
+def load_consumer_rows(path: str | Path) -> tuple[dict[str, Any], ...]:
+    """Load and verify consumer-fact JSONL rows from either accepted epoch."""
+
+    return tuple(_load_consumer_rows(Path(path), validate_schema=True))
 
 
 def _validate_consumer_row_provenance(
@@ -287,4 +412,5 @@ __all__ = [
     "ConsumerArtifactBuildReport",
     "build_consumer_artifact",
     "load_consumer_artifact",
+    "load_consumer_rows",
 ]

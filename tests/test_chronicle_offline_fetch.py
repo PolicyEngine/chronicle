@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pytest
 
+from chronicle.epoch import SCHEMA_IDS
 from chronicle.sources.offline_fetch import (
     OFFLINE_FETCH_MANIFEST_SCHEMA_VERSION,
     OfflineFetchManifestError,
@@ -78,6 +79,30 @@ def test_existing_v1_fetch_manifest_remains_valid():
     assert manifest.artifacts[-1].manifest_path.endswith(
         "manifest_fy2025_monthly_source_package.yaml"
     )
+
+
+def test_accepts_chronicle_epoch_and_keeps_ledger_emit_default():
+    schema_pair = SCHEMA_IDS["offline_fetch_manifest"]
+    payload = _manifest()
+    payload["schema_version"] = schema_pair.chronicle
+
+    manifest = validate_offline_fetch_manifest(payload)
+
+    assert manifest.schema_version == schema_pair.chronicle
+    assert OFFLINE_FETCH_MANIFEST_SCHEMA_VERSION == schema_pair.ledger
+
+
+def test_rejects_unknown_schema_and_names_both_epochs():
+    schema_pair = SCHEMA_IDS["offline_fetch_manifest"]
+    payload = _manifest()
+    payload["schema_version"] = "future.offline_fetch_manifest.v9"
+
+    with pytest.raises(OfflineFetchManifestError) as error:
+        validate_offline_fetch_manifest(payload)
+
+    message = str(error.value)
+    assert schema_pair.ledger in message
+    assert schema_pair.chronicle in message
 
 
 def test_discovery_notes_are_optional_by_default_but_can_be_required():

@@ -13,6 +13,12 @@
 schema_version: ledger.source_package.v1
 package_id: isc-annual-census-2024
 label: 'ISC annual Census 2024: pupils at ISC member schools'
+dimension_labels:
+  'isc.census_line': 'ISC census line'
+  'school_membership': 'School membership'
+dimension_value_labels:
+  'school_membership':
+    'isc': 'ISC member schools'
 artifact:
   source_name: isc
   source_table: ISC annual Census 2024
@@ -42,7 +48,7 @@ record_sets:
   groupby_dimension: isc.census_line
   rows:
   - value_id: pupils_at_isc_schools
-    label: Pupils at ISC member schools, January 2024 census
+    label: Pupils at ISC member schools
     ordinal: 0
     row_number: 147
     expected_row_header_column: D

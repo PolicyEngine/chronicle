@@ -1,0 +1,203 @@
+{
+  "query" : {
+    "database" : "str:database:UC_Households",
+    "measures" : [ "str:count:UC_Households:V_F_UC_HOUSEHOLDS" ],
+    "recodes" : {
+      "str:field:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE" : {
+        "map" : [ [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003" ] ],
+        "total" : false
+      },
+      "str:field:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE" : {
+        "map" : [ [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:0" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:1" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:2" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:3" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:4" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:5" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:6" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:7" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:8" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:10" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:11" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:12" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:13" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:14" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:15" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:16" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:17" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:18" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:19" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9997" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9998" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9999" ] ],
+        "total" : false
+      },
+      "str:field:UC_Households:F_UC_HH_DATE:DATE_NAME" : {
+        "map" : [ [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202504" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202505" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202506" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202507" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202508" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202509" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202510" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202511" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202512" ] ],
+        "total" : false
+      }
+    },
+    "dimensions" : [ [ "str:field:UC_Households:F_UC_HH_DATE:DATE_NAME" ], [ "str:field:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE" ], [ "str:field:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE" ] ]
+  },
+  "database" : {
+    "id" : "UC_Households",
+    "uri" : "str:database:UC_Households",
+    "label" : "Households on Universal Credit",
+    "annotationKeys" : [ "I", "II", "III", "IV", "z" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:UC_Households:V_F_UC_HOUSEHOLDS",
+    "label" : "Households on Universal Credit",
+    "measure" : "str:count:UC_Households:V_F_UC_HOUSEHOLDS",
+    "function" : "COUNT"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:UC_Households:F_UC_HH_DATE:DATE_NAME",
+    "label" : "Month",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202504" ],
+      "labels" : [ "April 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202505" ],
+      "labels" : [ "May 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202506" ],
+      "labels" : [ "June 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202507" ],
+      "labels" : [ "July 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202508" ],
+      "labels" : [ "August 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202509" ],
+      "labels" : [ "September 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202510" ],
+      "labels" : [ "October 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202511" ],
+      "labels" : [ "November 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202512" ],
+      "labels" : [ "December 2025" ],
+      "annotationKeys" : [ "r" ]
+    } ]
+  }, {
+    "uri" : "str:field:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE",
+    "label" : "National - Regional - LA - OAs",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003" ],
+      "labels" : [ "Scotland" ]
+    } ]
+  }, {
+    "uri" : "str:field:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE",
+    "label" : "Age of Youngest Child (bands and single year)",
+    "annotationKeys" : [ "XII" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:0" ],
+      "labels" : [ "0" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:1" ],
+      "labels" : [ "1" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:2" ],
+      "labels" : [ "2" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:3" ],
+      "labels" : [ "3" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:4" ],
+      "labels" : [ "4" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:5" ],
+      "labels" : [ "5" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:6" ],
+      "labels" : [ "6" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:7" ],
+      "labels" : [ "7" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:8" ],
+      "labels" : [ "8" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9" ],
+      "labels" : [ "9" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:10" ],
+      "labels" : [ "10" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:11" ],
+      "labels" : [ "11" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:12" ],
+      "labels" : [ "12" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:13" ],
+      "labels" : [ "13" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:14" ],
+      "labels" : [ "14" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:15" ],
+      "labels" : [ "15" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:16" ],
+      "labels" : [ "16" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:17" ],
+      "labels" : [ "17" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:18" ],
+      "labels" : [ "18" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:19" ],
+      "labels" : [ "19" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9997" ],
+      "labels" : [ "No children" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9998" ],
+      "labels" : [ "Unknown or missing" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:YOUNGEST_CHILD_AGE:C_UC_YOUNGEST_CHILD_AGE:9999" ],
+      "labels" : [ "Not available prior to April 2019" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:UC_Households:V_F_UC_HOUSEHOLDS" : {
+      "values" : [ [ [ 14451, 16186, 15215, 14719, 13072, 13263, 13196, 12875, 12805, 12625, 11988, 11468, 11447, 10962, 10143, 9770, 9280, 8123, 6155, 4643, 310045, 96, 0 ] ], [ [ 14448, 16082, 15167, 14728, 13051, 13211, 13141, 12795, 12812, 12619, 12016, 11505, 11399, 11034, 10153, 9834, 9300, 8220, 6294, 4726, 318822, 96, 0 ] ], [ [ 14436, 16082, 15161, 14635, 13014, 13169, 13167, 12754, 12750, 12712, 12063, 11483, 11400, 11078, 10153, 9955, 9333, 8337, 6427, 4939, 331339, 100, 0 ] ], [ [ 14388, 16012, 15157, 14515, 13041, 13156, 13144, 12767, 12787, 12597, 12131, 11470, 11434, 11064, 10323, 9888, 9433, 8360, 6583, 5022, 341629, 110, 0 ] ], [ [ 14270, 16000, 15070, 14387, 13058, 13042, 13190, 12664, 12778, 12540, 12156, 11605, 11300, 11203, 10314, 9893, 9418, 8521, 6683, 5132, 351483, 112, 0 ] ], [ [ 14285, 15930, 15064, 14249, 13144, 13021, 13203, 12613, 12832, 12515, 12148, 11721, 11232, 11312, 10372, 9846, 9469, 8512, 6696, 5216, 360300, 100, 0 ] ], [ [ 14282, 15817, 15016, 14196, 13175, 12987, 13073, 12569, 12786, 12532, 12091, 11824, 11137, 11326, 10416, 9853, 9491, 8586, 6717, 5292, 367473, 97, 0 ] ], [ [ 14269, 15700, 14972, 14203, 13189, 12927, 12939, 12516, 12703, 12545, 12137, 11828, 11131, 11285, 10490, 9899, 9456, 8674, 6907, 5356, 374570, 94, 0 ] ], [ [ 14170, 15660, 14930, 14238, 13242, 12879, 12858, 12508, 12657, 12633, 12074, 11898, 11115, 11229, 10591, 9965, 9493, 8735, 6978, 5381, 378281, 96, 0 ] ] ],
+      "precision" : 0
+    }
+  },
+  "annotationMap" : {
+    "I" : "A limited test of the full Universal Credit service was launched in Sutton, South London on 26th November 2014, and has expanded to other areas since. This publication now includes statistics covering both the live and full Universal Credit service. Please see https://www.gov.uk/government/publications/universal-credit-transition-to-full-service for details of the areas in which the full Universal Credit service is operating.",
+    "II" : "Data for more recent months will be subject to a higher degree of revision. Universal Credit award amounts may be retrospectively revised.",
+    "III" : "Monthly award amounts include any awards due to entitlement such as the standard allowance or housing entitlement plus any advance payments. Advance payments will normally be recovered during subsequent assessment periods.",
+    "IV" : "Award, entitlement and payment information may be missing for a very small number of households on Universal Credit, where more limited information is entered onto IT systems.",
+    "z" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants.",
+    "XII" : "Users are advised that these statistics have ongoing work to improve the data quality and so are subject to revision.",
+    "r" : "Figures marked \"r\" have been revised since the previous release."
+  }
+}

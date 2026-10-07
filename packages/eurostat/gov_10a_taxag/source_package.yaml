@@ -1,6 +1,13 @@
 schema_version: ledger.source_package.v1
 package_id: eurostat-gov-10a-taxag
 label: Eurostat gov_10a_taxag tax revenue for Belgium, Germany, and France
+dimension_labels:
+  'freq': 'Time frequency'
+  'geo': 'Geopolitical entity (reporting)'
+  'na_item': 'National accounts indicator (ESA 2010)'
+  'sector': 'Sector'
+  'time': 'Time'
+  'unit': 'Unit of measure'
 artifact:
   source_name: eurostat
   source_table: Eurostat gov_10a_taxag Main national accounts tax aggregates for Belgium, Germany, and France

@@ -1,0 +1,26 @@
+source_id: nrs
+package_id: nrs-census2022-index
+source_name: Scotland Census 2022 geography and postcode index
+publisher: National Records of Scotland
+source_page: https://www.nrscotland.gov.uk/media/utrbt5ze/census_2022_index.zip
+files:
+  2022:
+    filename: scotland_census_2022_index.zip
+    source_url: https://www.nrscotland.gov.uk/media/utrbt5ze/census_2022_index.zip
+    source_table: Census 2022 index, OA to higher areas and postcode to OA household
+      counts
+    sha256: 0e4096a321cba2318dc5d2e35c197bf815ac333aebdf4cb0ddce82112b57a261
+    size_bytes: 2922015
+    fetched_at: '2026-08-19'
+    retrieved_at: '2026-08-19'
+    vintage: 2022_census
+    vintages:
+    - 2022_census
+    - 2022_ew
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-census2022-index/2022/0e4096a321cba2318dc5d2e35c197bf815ac333aebdf4cb0ddce82112b57a261/scotland_census_2022_index.zip
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-census2022-index/2022/0e4096a321cba2318dc5d2e35c197bf815ac333aebdf4cb0ddce82112b57a261/scotland_census_2022_index.zip
+    notes: Postcode_To_OA occupied household counts are cell-key perturbed.

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 import json
 import sqlite3
 import textwrap
@@ -19,6 +20,7 @@ from chronicle.core import (
     SourceRecordLayout,
     validate_facts,
 )
+from chronicle.epoch import HASH_DOMAINS, Epoch
 from chronicle.harness import main as harness_main
 from chronicle.sources.cells import (
     SourceArtifactMetadata,
@@ -30,6 +32,7 @@ from chronicle.sources.rows import SourceRow, build_source_row_key, validate_sou
 from chronicle.suite import (
     SourceRecordSuiteReport,
     SourceRegionSuiteReport,
+    _wide_table_filter_evidenced_by_source_column,
     build_agent_acceptance_report,
     build_source_cells,
     build_source_record_specs,
@@ -38,6 +41,34 @@ from chronicle.suite import (
     validate_source_record_specs,
     validate_source_regions,
 )
+
+
+def test_wide_table_evidence_requires_explicit_column_dimension():
+    assert not _wide_table_filter_evidenced_by_source_column(
+        {},
+        "provision",
+        "all",
+    )
+
+
+def test_wide_table_evidence_uses_exact_typed_column_dimension_value():
+    dimensions = {"provision": "all"}
+
+    assert _wide_table_filter_evidenced_by_source_column(
+        dimensions,
+        "provision",
+        "all",
+    )
+    assert not _wide_table_filter_evidenced_by_source_column(
+        dimensions,
+        "provision",
+        "All",
+    )
+    assert not _wide_table_filter_evidenced_by_source_column(
+        dimensions,
+        "registration_basis",
+        "registered_children",
+    )
 
 
 def test_build_source_suite_writes_artifacts_and_reports(tmp_path):
@@ -500,6 +531,67 @@ def test_agent_acceptance_accepts_source_row_bound_constraints():
 
     assert report.valid
     assert report.checks["row_lineage_semantics_evidenced"]
+
+    chronicle_row_key = HASH_DOMAINS["source_row"].key_for_epoch(
+        row_key,
+        Epoch.CHRONICLE,
+    )
+    chronicle_cell_key = HASH_DOMAINS["source_cell"].key_for_epoch(
+        build_source_cell_key(cell),
+        Epoch.CHRONICLE,
+    )
+    chronicle_cell = replace(cell, source_row_key=chronicle_row_key)
+    chronicle_fact = replace(
+        fact,
+        source_cell_keys=(chronicle_cell_key,),
+        source_row_keys=(chronicle_row_key,),
+    )
+    chronicle_report = build_agent_acceptance_report(
+        [chronicle_fact],
+        [row],
+        [chronicle_cell],
+        source_rows=validate_source_rows([row]),
+        source_cells=validate_source_cells([chronicle_cell]),
+        source_regions=SourceRegionSuiteReport(
+            region_count=0,
+            covered_cell_count=0,
+            errors=(),
+        ),
+        source_records=SourceRecordSuiteReport(
+            spec_count=1,
+            resolved_count=1,
+            lineaged_count=1,
+            errors=(),
+        ),
+        fact_report=validate_facts([chronicle_fact]),
+        concept_alignments=ConceptAlignmentReport(
+            alignment_count=0,
+            checked_count=0,
+            alignments=(),
+            errors=(),
+        ),
+    )
+
+    assert chronicle_report.valid
+    assert chronicle_report.checks["row_lineage_semantics_evidenced"]
+
+    invalid_fact = replace(fact, source_row_keys=(123,))
+    invalid_report = build_agent_acceptance_report(
+        [invalid_fact],
+        [row],
+        [cell],
+        source_rows=validate_source_rows([row]),
+        source_cells=validate_source_cells([cell]),
+        source_regions=SourceRegionSuiteReport(0, 0, ()),
+        source_records=SourceRecordSuiteReport(1, 1, 1, ()),
+        fact_report=validate_facts([invalid_fact]),
+        concept_alignments=ConceptAlignmentReport(0, 0, (), ()),
+    )
+
+    assert not invalid_report.valid
+    assert "fact_source_row_lineage_unresolved" in {
+        error.code for error in invalid_report.errors
+    }
 
 
 def test_agent_acceptance_accepts_age_constraints_from_source_cell_header():

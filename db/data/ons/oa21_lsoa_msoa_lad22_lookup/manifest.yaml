@@ -1,0 +1,24 @@
+source_id: ons
+package_id: ons-oa21-lsoa-msoa-lad22-lookup
+source_name: ONS OA21 to LSOA, MSOA and LAD exact-fit lookup
+publisher: Office for National Statistics
+source_page: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/b9ca90c10aaa4b8d9791e9859a38ca67/csv?layers=0
+files:
+  2021:
+    filename: ew_oa21_lsoa_msoa_lad22_hierarchy.csv
+    source_url: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/b9ca90c10aaa4b8d9791e9859a38ca67/csv?layers=0
+    source_table: Output Area (2021) to LSOA to MSOA to LAD (December 2021) Exact
+      Fit Lookup in EW
+    sha256: 1b7e715936374c586efbe669d82e3f3d6d093dc5295c2d99ce6ea2349f85153a
+    size_bytes: 18193283
+    fetched_at: '2026-08-19'
+    retrieved_at: '2026-08-19'
+    vintage: 2021_census
+    vintages:
+    - 2021_census
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-oa21-lsoa-msoa-lad22-lookup/2021/1b7e715936374c586efbe669d82e3f3d6d093dc5295c2d99ce6ea2349f85153a/ew_oa21_lsoa_msoa_lad22_hierarchy.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-oa21-lsoa-msoa-lad22-lookup/2021/1b7e715936374c586efbe669d82e3f3d6d093dc5295c2d99ce6ea2349f85153a/ew_oa21_lsoa_msoa_lad22_hierarchy.csv

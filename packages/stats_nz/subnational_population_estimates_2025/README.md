@@ -56,6 +56,13 @@ footnote have guards. The tests compare every admitted value against the
 publisher workbook and every regional code/name against the independent
 publisher classification.
 
+Dimension labels follow the bundle's one-label-per-id rule. `geography` is
+"Geography" and `person.age_band` is "Age band", the labels the other packages
+that emit those ids already use. These two labels are Chronicle's wording. The
+band values carry the publisher's headers `0–14`, `15–39`, `40–64` and `65+`
+(Table 3!D6:G6). Statbel writes its band as `65_plus`, so the merged bundle
+warns that the two packages word that value differently.
+
 ## Artifacts and remaining access gaps
 
 See [NZ population source notes](../../../docs/pe-nz-population-source-notes.md)

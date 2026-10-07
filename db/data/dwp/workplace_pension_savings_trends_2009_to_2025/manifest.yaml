@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-workplace-pension-savings-trends-2009-to-2025
+dataset: dwp_dwp-workplace-pension-savings-trends-2009-to-2025
+source_page: https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2025
+table: 'Workplace pension participation and savings trends of employees: 2009 to 2025,
+  data tables'
+files:
+  2026:
+    filename: workplace-pension-participation-2009-2025-ods.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a689e7bf938595f17d020ed/workplace-pension-participation-2009-2025-ods.ods
+    sha256: e29ef124c3e8a65b56918614cf6e13116ffff7b1f4f5f845e132bd1467ca4bab
+    size_bytes: 283250
+    fetched_at: '2026-09-29T11:54:12+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-workplace-pension-savings-trends-2009-to-2025/2026/e29ef124c3e8a65b56918614cf6e13116ffff7b1f4f5f845e132bd1467ca4bab/workplace-pension-participation-2009-2025-ods.ods
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-workplace-pension-savings-trends-2009-to-2025/2026/e29ef124c3e8a65b56918614cf6e13116ffff7b1f4f5f845e132bd1467ca4bab/workplace-pension-participation-2009-2025-ods.ods

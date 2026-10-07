@@ -238,6 +238,46 @@ def test_scotgov_slgfs_2024_25_council_tax_tables():
     assert {fact.period.value for fact in averages} == set(range(2020, 2025))
 
 
+def test_scotgov_band_measure_ids_distinguish_stock_from_potential_yield():
+    stock = _facts("scotgov-council-tax-bands-2025", 2025)
+    potential_yield = _facts("scotgov-slgfs-council-tax-2024-25", 2026)
+
+    stock_ids = {
+        fact.layout.measure_id
+        for fact in stock
+        if fact.measure.concept.startswith("scotgov.chargeable_dwellings_")
+    }
+    potential_yield_ids = {
+        fact.layout.measure_id
+        for fact in potential_yield
+        if fact.measure.concept.startswith("scotgov.council_tax_potential_yield.")
+    }
+
+    assert stock_ids == {
+        "band_a",
+        "band_b",
+        "band_c",
+        "band_d",
+        "band_e",
+        "band_f",
+        "band_g",
+        "band_h",
+        "total",
+    }
+    assert potential_yield_ids == {
+        "potential_yield_band_a",
+        "potential_yield_band_b",
+        "potential_yield_band_c",
+        "potential_yield_band_d",
+        "potential_yield_band_e",
+        "potential_yield_band_f",
+        "potential_yield_band_g",
+        "potential_yield_band_h",
+        "potential_yield_total",
+    }
+    assert stock_ids.isdisjoint(potential_yield_ids)
+
+
 @pytest.mark.parametrize(
     ("alias", "year", "period", "debit", "collected", "extra_concept", "extra"),
     [

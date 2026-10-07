@@ -1,6 +1,9 @@
 schema_version: ledger.source_package.v1
 package_id: usda-snap-fy69-to-current
 label: USDA FNS SNAP FY69 to current archive FY24 national and state summary
+dimension_labels:
+  'usda_snap.state_or_territory': 'State or territory'
+  'usda_snap.summary_scope': 'SNAP summary scope'
 artifact:
   source_name: usda_snap
   source_table: SNAP Monthly State Participation and Benefit Summary FY69 to current

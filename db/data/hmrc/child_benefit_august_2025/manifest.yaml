@@ -1,0 +1,18 @@
+source_id: hmrc
+package_id: hmrc-child-benefit-august-2025
+dataset: hmrc_hmrc-child-benefit-august-2025
+source_page: https://www.gov.uk/government/statistics/child-benefit-statistics-annual-release-august-2025/child-benefit-statistics-with-small-area-statistics-2025
+table: 'Child Benefit Statistics: Annual Release, data at August 2025, main tables'
+files:
+  2025:
+    filename: Child_Benefit_August_2025_Main_Tables.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a8d696901bbff0bf8f97903/Child_Benefit_August_2025_Main_Tables.ods
+    sha256: c610f9509901f21efc28b76d24fae01c43d281b6867a14f28b6847d0e16cc69d
+    size_bytes: 396044
+    fetched_at: '2026-09-03T12:35:33+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-child-benefit-august-2025/2025/c610f9509901f21efc28b76d24fae01c43d281b6867a14f28b6847d0e16cc69d/Child_Benefit_August_2025_Main_Tables.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-child-benefit-august-2025/2025/c610f9509901f21efc28b76d24fae01c43d281b6867a14f28b6847d0e16cc69d/Child_Benefit_August_2025_Main_Tables.ods

@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: nbb-national-accounts-household-disposable-income-2024
 label: NBB national accounts 2024 household disposable income validation target
+dimension_labels:
+  'measure': 'Measure'
 artifact:
   source_name: nbb_national_accounts
   source_table: Household income accounts, gross disposable income, Belgium

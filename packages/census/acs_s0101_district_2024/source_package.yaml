@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: census-acs-s0101-congressional-district-age-2024
 label: Census ACS 2024 S0101 congressional district population by age band
+dimension_labels:
+  'age': 'Age'
 artifact:
   source_name: census_acs
   source_table: ACS 2024 1-year subject table S0101 congressional district age bands

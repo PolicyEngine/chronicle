@@ -11,8 +11,9 @@ import re
 from typing import Any, NoReturn
 from urllib.parse import urlsplit
 
+from chronicle.epoch import SCHEMA_IDS, schema_id
 
-OFFLINE_FETCH_MANIFEST_SCHEMA_VERSION = "ledger.offline_fetch_manifest.v1"
+OFFLINE_FETCH_MANIFEST_SCHEMA_VERSION = schema_id("offline_fetch_manifest")
 
 _LOWERCASE_SHA256 = re.compile(r"[0-9a-f]{64}")
 _MISSING = object()
@@ -123,18 +124,20 @@ def validate_offline_fetch_manifest(
     source: str = "offline fetch manifest",
     require_discovery_notes: bool = False,
 ) -> OfflineFetchManifest:
-    """Validate a parsed ``ledger.offline_fetch_manifest.v1`` mapping."""
+    """Validate a parsed offline-fetch manifest from either accepted epoch."""
 
     if not isinstance(payload, Mapping):
         _fail(source, "$", "must be a JSON object")
     _reject_unknown_fields(payload, _MANIFEST_FIELDS, source=source, location="$")
 
     schema_version = _required_string(payload, "schema_version", source=source)
-    if schema_version != OFFLINE_FETCH_MANIFEST_SCHEMA_VERSION:
+    offline_fetch_schema = SCHEMA_IDS["offline_fetch_manifest"]
+    if schema_version not in offline_fetch_schema.accepted:
         _fail(
             source,
             "schema_version",
-            f"must be {OFFLINE_FETCH_MANIFEST_SCHEMA_VERSION!r}",
+            f"must be {offline_fetch_schema.ledger!r} or "
+            f"{offline_fetch_schema.chronicle!r}",
         )
 
     generated_for = _required_string(payload, "generated_for", source=source)

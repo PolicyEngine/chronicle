@@ -1,0 +1,18 @@
+source_id: desnz
+package_id: desnz-need-scotland-2024
+dataset: desnz_desnz-need-scotland-2024
+source_page: https://www.gov.uk/government/statistics/national-energy-efficiency-data-framework-need-consumption-data-tables-2026
+table: NEED consumption headline tables, Scotland, 2024
+files:
+  2024:
+    filename: need-scotland-2024.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/6a282784db0592d809052b14/Consumption_headline_Scotland_2024.xlsx
+    sha256: 8ab896011221f0c285dd969719a4f66d50bb0611df91d794ce108568a855d3e3
+    size_bytes: 368091
+    fetched_at: '2026-09-15T14:13:59+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-need-scotland-2024/2024/8ab896011221f0c285dd969719a4f66d50bb0611df91d794ce108568a855d3e3/need-scotland-2024.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-need-scotland-2024/2024/8ab896011221f0c285dd969719a4f66d50bb0611df91d794ce108568a855d3e3/need-scotland-2024.xlsx

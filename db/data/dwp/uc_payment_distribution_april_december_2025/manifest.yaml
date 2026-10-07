@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-uc-payment-distribution-april-december-2025
+dataset: dwp_dwp-uc-payment-distribution-april-december-2025
+source_page: https://stat-xplore.dwp.gov.uk/
+table: Households on Universal Credit by monthly award amount band and family type,
+  April to December 2025
+files:
+  2025:
+    filename: uc_households_payment_distribution_april_december_2025.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: a3323badad32271e4ff95e5dcc6fe37bc4682ba47626292262089d7e45376632
+    size_bytes: 23104
+    fetched_at: '2026-09-03T12:43:17Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-uc-payment-distribution-april-december-2025/2025/a3323badad32271e4ff95e5dcc6fe37bc4682ba47626292262089d7e45376632/uc_households_payment_distribution_april_december_2025.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-uc-payment-distribution-april-december-2025/2025/a3323badad32271e4ff95e5dcc6fe37bc4682ba47626292262089d7e45376632/uc_households_payment_distribution_april_december_2025.json

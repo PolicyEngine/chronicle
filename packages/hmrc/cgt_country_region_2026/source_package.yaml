@@ -1,0 +1,485 @@
+# HMRC writes each English region as 'England - <region>'. A row's geography
+# name is that text without the prefix, so E12000003 is HMRC's 'Yorkshire &
+# Humber'; the export names it from the register and keeps this as
+# publisher_name (chronicle#281).
+schema_version: ledger.source_package.v1
+package_id: hmrc-cgt-country-region-2026
+label: 'HMRC Capital Gains Tax statistics 2026, Table 5: taxpayers, gains and liabilities by UK country
+  and region, 2023-24 and 2024-25'
+dimension_labels:
+  'geography': 'Geography'
+artifact:
+  source_name: hmrc
+  source_table: 'Capital Gains Tax statistics Table 5: taxpayers, gains and liabilities by UK country
+    and region'
+  resource_package: db
+  resource_directory: data/hmrc/cgt_country_region_2026
+  manifest: manifest.yaml
+  vintage: cgt_statistics_2026
+  extracted_at: '2026-09-03'
+  extraction_method: ODS whole-workbook used-range parse with numeric-text coercion
+  parser: ods_numeric_text_used_range
+  artifact_year: 2026
+record_sets:
+- record_set_id: hmrc.cgt_table5_2026.country_region.ty2023
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table5_2026.country_region.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_table5_2026.country_region.ty2023
+  sheet_name: 5_2_2023-24
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    notes: HMRC marks the 2023-24 statistics as provisional.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: geography
+  rows:
+  - value_id: england
+    label: England - All
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: England - All
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: north_east
+    label: England - North East
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: England - North East
+    geography_id: E12000001
+    geography_level: region
+    geography_name: North East
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: north_west
+    label: England - North West
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: England - North West
+    geography_id: E12000002
+    geography_level: region
+    geography_name: North West
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: yorkshire_humber
+    label: England - Yorkshire & Humber
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: England - Yorkshire & Humber
+    geography_id: E12000003
+    geography_level: region
+    geography_name: Yorkshire & Humber
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: east_midlands
+    label: England - East Midlands
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: England - East Midlands
+    geography_id: E12000004
+    geography_level: region
+    geography_name: East Midlands
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: west_midlands
+    label: England - West Midlands
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: England - West Midlands
+    geography_id: E12000005
+    geography_level: region
+    geography_name: West Midlands
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: east
+    label: England - East of England
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: England - East of England
+    geography_id: E12000006
+    geography_level: region
+    geography_name: East of England
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: london
+    label: England - London
+    ordinal: 7
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: England - London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: south_east
+    label: England - South East
+    ordinal: 8
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: England - South East
+    geography_id: E12000008
+    geography_level: region
+    geography_name: South East
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: south_west
+    label: England - South West
+    ordinal: 9
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: England - South West
+    geography_id: E12000009
+    geography_level: region
+    geography_name: South West
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: wales
+    label: Wales
+    ordinal: 10
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: scotland
+    label: Scotland
+    ordinal: 11
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 12
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: united_kingdom
+    label: All
+    ordinal: 13
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: All
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: taxpayers_total
+    label: CGT taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers_total
+    expected_column_header_row: 7
+    expected_column_header: Number of taypayers
+    concept: hmrc.cgt_taxpayers_total
+    source_concept: hmrc.cgt_taxpayers_total
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 5.2, 2023-24; counts are thousands and amounts
+      are GBP millions. Totals may not sum due to rounding.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains_total
+    label: Chargeable gains
+    ordinal: 1
+    column: C
+    source_column_id: gains_total
+    expected_column_header_row: 7
+    expected_column_header: Amount of gains
+    concept: hmrc.cgt_gains_total
+    source_concept: hmrc.cgt_gains_total
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 5.2, 2023-24; counts are thousands and amounts
+      are GBP millions. Totals may not sum due to rounding.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax_total
+    label: CGT liabilities
+    ordinal: 2
+    column: D
+    source_column_id: tax_total
+    expected_column_header_row: 7
+    expected_column_header: Amount of tax
+    concept: hmrc.cgt_tax_total
+    source_concept: hmrc.cgt_tax_total
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 5.2, 2023-24; counts are thousands and amounts
+      are GBP millions. Totals may not sum due to rounding.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.cgt_table5_2026.country_region.ty2024
+  provenance_class: administrative
+  record_set_spec_id: hmrc.cgt_table5_2026.country_region.ty2024.v1
+  source_record_id_prefix: hmrc.cgt_table5_2026.country_region.ty2024
+  sheet_name: 5_1_2024-25
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    notes: HMRC marks the 2024-25 statistics as provisional.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: geography
+  rows:
+  - value_id: england
+    label: England - All
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: England - All
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: current
+    table_record_kind: total
+  - value_id: north_east
+    label: England - North East
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: England - North East
+    geography_id: E12000001
+    geography_level: region
+    geography_name: North East
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: north_west
+    label: England - North West
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: England - North West
+    geography_id: E12000002
+    geography_level: region
+    geography_name: North West
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: yorkshire_humber
+    label: England - Yorkshire & Humber
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: England - Yorkshire & Humber
+    geography_id: E12000003
+    geography_level: region
+    geography_name: Yorkshire & Humber
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: east_midlands
+    label: England - East Midlands
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: England - East Midlands
+    geography_id: E12000004
+    geography_level: region
+    geography_name: East Midlands
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: west_midlands
+    label: England - West Midlands
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: England - West Midlands
+    geography_id: E12000005
+    geography_level: region
+    geography_name: West Midlands
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: east
+    label: England - East of England
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: England - East of England
+    geography_id: E12000006
+    geography_level: region
+    geography_name: East of England
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: london
+    label: England - London
+    ordinal: 7
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: England - London
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: south_east
+    label: England - South East
+    ordinal: 8
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: England - South East
+    geography_id: E12000008
+    geography_level: region
+    geography_name: South East
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: south_west
+    label: England - South West
+    ordinal: 9
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: England - South West
+    geography_id: E12000009
+    geography_level: region
+    geography_name: South West
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: wales
+    label: Wales
+    ordinal: 10
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: scotland
+    label: Scotland
+    ordinal: 11
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 12
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+  - value_id: united_kingdom
+    label: All
+    ordinal: 13
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: All
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: taxpayers_total
+    label: CGT taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers_total
+    expected_column_header_row: 7
+    expected_column_header: Number of taypayers
+    concept: hmrc.cgt_taxpayers_total
+    source_concept: hmrc.cgt_taxpayers_total
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 5.1, 2024-25; counts are thousands and amounts
+      are GBP millions. Totals may not sum due to rounding.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: gains_total
+    label: Chargeable gains
+    ordinal: 1
+    column: C
+    source_column_id: gains_total
+    expected_column_header_row: 7
+    expected_column_header: Amount of gains
+    concept: hmrc.cgt_gains_total
+    source_concept: hmrc.cgt_gains_total
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 5.1, 2024-25; counts are thousands and amounts
+      are GBP millions. Totals may not sum due to rounding.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: tax_total
+    label: CGT liabilities
+    ordinal: 2
+    column: D
+    source_column_id: tax_total
+    expected_column_header_row: 7
+    expected_column_header: Amount of tax
+    concept: hmrc.cgt_tax_total
+    source_concept: hmrc.cgt_tax_total
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 5.1, 2024-25; counts are thousands and amounts
+      are GBP millions. Totals may not sum due to rounding.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000

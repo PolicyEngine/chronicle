@@ -152,6 +152,12 @@ rows:
         label: end age
 ```
 
+Package YAML renders a digit-only string such as `'2024'` to the integer 2024,
+while a delimited file's header row keeps the text `2024`. A guard that expects
+an integer therefore also matches a cell holding exactly that integer's digits,
+so a year-selecting package can check a CSV year header with
+`expected_column_header_by_year`. `02024`, `2024.0` and booleans still fail.
+
 Use `range_label_guards` when a fact sums a dense row range and interior labels
 are part of the fact definition. Endpoint guards catch off-by-one boundaries,
 but they do not catch an inserted, duplicated, or shifted interior label. Range
@@ -334,22 +340,16 @@ uv run chronicle build-suite dwp-pip-daily-living-foi-2025 \
   --out /tmp/chronicle-dwp-pip-daily-living-foi-2025 \
   --replace
 
-uv run chronicle validate-package dwp-uc-payment-distribution-may-2025 --year 2025
-uv run chronicle build-suite dwp-uc-payment-distribution-may-2025 \
+uv run chronicle validate-package dwp-uc-payment-distribution-april-december-2025 --year 2025
+uv run chronicle build-suite dwp-uc-payment-distribution-april-december-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-payment-distribution-may-2025 \
+  --out /tmp/chronicle-dwp-uc-payment-distribution-april-december-2025 \
   --replace
 
-uv run chronicle validate-package dwp-uc-childcare-element-march-2021-august-2025 --year 2025
-uv run chronicle build-suite dwp-uc-childcare-element-march-2021-august-2025 \
+uv run chronicle validate-package dwp-uc-childcare-element-march-2021-may-2026 --year 2025
+uv run chronicle build-suite dwp-uc-childcare-element-march-2021-may-2026 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-childcare-element-2025 \
-  --replace
-
-uv run chronicle validate-package dwp-uc-households-carer-entitlement-april-december-2025 --year 2025
-uv run chronicle build-suite dwp-uc-households-carer-entitlement-april-december-2025 \
-  --year 2025 \
-  --out /tmp/chronicle-dwp-uc-carer-entitlement-2025 \
+  --out /tmp/chronicle-dwp-uc-childcare-element-2021-2026 \
   --replace
 
 uv run chronicle validate-package dwp-uc-households-children-april-december-2025 --year 2025
@@ -364,22 +364,112 @@ uv run chronicle build-suite dwp-uc-households-family-type-april-december-2025 \
   --out /tmp/chronicle-dwp-uc-households-family-type-april-december-2025 \
   --replace
 
-uv run chronicle validate-package dwp-uc-households-housing-entitlement-april-december-2025 --year 2025
-uv run chronicle build-suite dwp-uc-households-housing-entitlement-april-december-2025 \
+uv run chronicle validate-package dwp-uc-scotland-youngest-child-april-december-2025 --year 2025
+uv run chronicle build-suite dwp-uc-scotland-youngest-child-april-december-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-housing-entitlement-2025 \
+  --out /tmp/chronicle-dwp-uc-scotland-youngest-child-april-december-2025 \
   --replace
 
-uv run chronicle validate-package dwp-uc-households-lcwra-entitlement-april-december-2025 --year 2025
-uv run chronicle build-suite dwp-uc-households-lcwra-entitlement-april-december-2025 \
+uv run chronicle validate-package dwp-uc-households-family-type-child-entitlement-april-december-2025 --year 2025
+uv run chronicle build-suite dwp-uc-households-family-type-child-entitlement-april-december-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-lcwra-entitlement-2025 \
+  --out /tmp/chronicle-dwp-uc-family-type-child-entitlement-2025 \
   --replace
 
-uv run chronicle validate-package dwp-uc-scotland-youngest-child-may-2025 --year 2025
-uv run chronicle build-suite dwp-uc-scotland-youngest-child-may-2025 \
+uv run chronicle validate-package dwp-uc-households-children-child-entitlement-april-december-2025 --year 2025
+uv run chronicle build-suite dwp-uc-households-children-child-entitlement-april-december-2025 \
   --year 2025 \
-  --out /tmp/chronicle-dwp-uc-scotland-youngest-child-may-2025 \
+  --out /tmp/chronicle-dwp-uc-children-child-entitlement-2025 \
+  --replace
+
+uv run chronicle validate-package dwp-uc-households-family-type-payment-indicator-april-december-2025 --year 2025
+uv run chronicle build-suite dwp-uc-households-family-type-payment-indicator-april-december-2025 \
+  --year 2025 \
+  --out /tmp/chronicle-dwp-uc-family-type-payment-indicator-2025 \
+  --replace
+
+uv run chronicle validate-package dwp-uc-households-family-type-payment-indicator-child-entitlement-april-2023-may-2026 --year 2025
+uv run chronicle build-suite dwp-uc-households-family-type-payment-indicator-child-entitlement-april-2023-may-2026 \
+  --year 2025 \
+  --out /tmp/chronicle-dwp-uc-family-type-payment-indicator-child-entitlement-2023-2026 \
+  --replace
+
+uv run chronicle validate-package dwp-uc-households-children-payment-indicator-child-entitlement-april-2023-may-2026 --year 2025
+uv run chronicle build-suite dwp-uc-households-children-payment-indicator-child-entitlement-april-2023-may-2026 \
+  --year 2025 \
+  --out /tmp/chronicle-dwp-uc-children-payment-indicator-child-entitlement-2023-2026 \
+  --replace
+
+uv run chronicle validate-package dwp-uc-households-housing-tenure-payment-indicator-january-2023-may-2026 --year 2025
+uv run chronicle build-suite dwp-uc-households-housing-tenure-payment-indicator-january-2023-may-2026 \
+  --year 2025 \
+  --out /tmp/chronicle-dwp-uc-housing-tenure-payment-indicator-2023-2026 \
+  --replace
+
+uv run chronicle validate-package dwp-uc-households-housing-entitlement-payment-indicator-january-2023-may-2026 --year 2025
+uv run chronicle build-suite dwp-uc-households-housing-entitlement-payment-indicator-january-2023-may-2026 \
+  --year 2025 \
+  --out /tmp/chronicle-dwp-uc-housing-entitlement-payment-indicator-2023-2026 \
+  --replace
+
+uv run chronicle validate-package dwp-uc-households-lcw-entitlement-payment-indicator-january-2023-may-2026 --year 2025
+uv run chronicle build-suite dwp-uc-households-lcw-entitlement-payment-indicator-january-2023-may-2026 \
+  --year 2025 \
+  --out /tmp/chronicle-dwp-uc-lcw-entitlement-payment-indicator-2023-2026 \
+  --replace
+
+uv run chronicle validate-package dwp-uc-households-lcw-entitlement-group-payment-indicator-january-2023-may-2026 --year 2025
+uv run chronicle build-suite dwp-uc-households-lcw-entitlement-group-payment-indicator-january-2023-may-2026 \
+  --year 2025 \
+  --out /tmp/chronicle-dwp-uc-lcw-entitlement-group-payment-indicator-2023-2026 \
+  --replace
+
+uv run chronicle validate-package dwp-uc-households-carer-entitlement-payment-indicator-january-2023-may-2026 --year 2025
+uv run chronicle build-suite dwp-uc-households-carer-entitlement-payment-indicator-january-2023-may-2026 \
+  --year 2025 \
+  --out /tmp/chronicle-dwp-uc-carer-entitlement-payment-indicator-2023-2026 \
+  --replace
+
+uv run chronicle validate-package dwp-uc-people-employment-indicator-january-2023-may-2026 --year 2025
+uv run chronicle build-suite dwp-uc-people-employment-indicator-january-2023-may-2026 \
+  --year 2025 \
+  --out /tmp/chronicle-dwp-uc-people-employment-indicator-2023-2026 \
+  --replace
+
+uv run chronicle validate-package dwp-hb-claimants-client-type-tenure-january-2023-february-2026 --year 2025
+uv run chronicle build-suite dwp-hb-claimants-client-type-tenure-january-2023-february-2026 \
+  --year 2025 \
+  --out /tmp/chronicle-dwp-hb-claimants-client-type-tenure-2023-2026 \
+  --replace
+
+uv run chronicle validate-package dwp-hb-claimants-client-type-tenure-accommodation-type-september-2025-february-2026 --year 2025
+uv run chronicle build-suite dwp-hb-claimants-client-type-tenure-accommodation-type-september-2025-february-2026 \
+  --year 2025 \
+  --out /tmp/chronicle-dwp-hb-claimants-accommodation-type-2025-2026 \
+  --replace
+
+uv run chronicle validate-package hmrc-child-benefit-august-2025 --year 2025
+uv run chronicle build-suite hmrc-child-benefit-august-2025 \
+  --year 2025 \
+  --out /tmp/chronicle-hmrc-child-benefit-august-2025 \
+  --replace
+
+uv run chronicle validate-package ons-census2021-ts003-household-composition-country --year 2021
+uv run chronicle build-suite ons-census2021-ts003-household-composition-country \
+  --year 2021 \
+  --out /tmp/chronicle-ons-census2021-ts003-household-composition-country \
+  --replace
+
+uv run chronicle validate-package nrs-census2022-uv113-household-composition-country --year 2022
+uv run chronicle build-suite nrs-census2022-uv113-household-composition-country \
+  --year 2022 \
+  --out /tmp/chronicle-nrs-census2022-uv113-household-composition-country \
+  --replace
+
+uv run chronicle validate-package nisra-census2021-household-composition-country --year 2021
+uv run chronicle build-suite nisra-census2021-household-composition-country \
+  --year 2021 \
+  --out /tmp/chronicle-nisra-census2021-household-composition-country \
   --replace
 
 uv run chronicle validate-package hmrc-salary-sacrifice-relief-2024-25 --year 2024
@@ -704,6 +794,75 @@ record_sets:
     survey_instrument: ACS 1-year
     record_set_spec_id: census_acs.s0101.national_age.v1
 ```
+
+Every fact also carries a label for each dimension it has (its filters and its
+record set's `groupby_dimension`) and for each of their values
+(chronicle#261): Microcosm's calibration hierarchy displays them and takes them
+only from Chronicle. Most labels come from the source itself: a Stat-Xplore
+field label, the publisher's text in a full-row table, the row label of the
+record set's groupby axis, a number or date, or the label on the `==`
+constraint that pairs with a filter (unless it only repeats the identifier).
+Declare the rest at the top of the package, quoting every id so YAML cannot
+load `No` or `Yes` as a boolean:
+
+```yaml
+dimension_labels:
+  dwp.carer_entitlement: 'Carer Entitlement'
+dimension_value_labels:
+  payment_indicator:
+    'all': Total
+```
+
+A groupby axis whose rows cross several fields takes the label of its leading field, the one its id names; the crossed fields carry their own labels as dimensions of the same fact. A declaration wins over every recovered label. `build-bundle` reports an error
+for any package fact with an unlabelled or doubly labelled dimension or value,
+and for a dimension id two packages label differently (chronicle#265 — the rule
+covers every country, since a consumer reads one artifact); publisher row labels
+that differ across one groupby value's rows are a warning, since Chronicle keeps
+them as published. `build_facts` refuses a declaration no fact uses.
+
+Every fact also carries the publisher's name for its geography (chronicle#266),
+taken from the record set's or the row's `geography_name`. `build-bundle`
+reports an error for a fact below country level whose geography has no name:
+Microcosm labels a sub-national tier from the fact and falls back to its own
+catalog only for identifiers it already knows, and an identifier is not a name.
+A country-level geography may stay unnamed, and no name is ever invented from
+the code. Where two packages name one area differently — the IRS truncates
+county names to twenty characters, and ONS writes "Yorkshire and The Humber"
+where HMRC writes "the" — Chronicle keeps each publisher's text and warns, the
+same way it does for a groupby value's row labels.
+
+### Pinned artifacts and year labels
+
+`artifact.artifact_year` pins the file. A package with `artifact_year: 2022`
+reads the manifest's 2022 file at every `--year`, but each `{year}` and
+`{filing_year}` in the package still renders from `--year`. So a pinned package
+writes its labels as literals (`period: '2022'`, `record_set_id:
+irs_soi.ty2022.…`, `vintage: tax_year_2022`, `legal_vintage: tax_year_2022`)
+unless `--year` also changes what it reads, through `column_by_year`,
+`sheet_name_by_year` or a `selected_rows` filter on `{year}`. Otherwise a
+`--year 2023` build would stamp the 2022 file's facts as 2023 (chronicle#117).
+A consumer that wants a value at another period declares that alignment
+itself; Chronicle records the publisher's period.
+
+The harness enforces the rule. For a build at year Y other than the artifact
+year A, it compares what each record set selects at Y and at A: the artifact's
+parser, sheet, archive member and rendered `selected_rows`, and the record
+set's sheet, rows, columns, value scaling and guard cells. If a record set
+selects the same cells at both years while any other rendered field differs
+(period, record ids, `vintage`, `source_table`, `legal_vintage`, filters,
+constraints or notes), then:
+
+- the build refuses with `ArtifactYearRestampError`;
+- `validate-package` reports `artifact_year_restamp`;
+- a default `build-bundle` skips the package for that year and gives the reason
+  under `skipped_sources`;
+- an explicit `build-bundle --source` fails the bundle.
+
+The check compiles record-set specs only and never parses the artifact.
+Year-selecting pinned packages still build at other years and read that
+year's column, sheet or rows. A year the file does not cover fails with its
+own error, such as `No source artifact for year 2027` or a selected-row
+mismatch.
 
 Agents may add new package directories and YAML specs. They should not modify
 `chronicle.core`, `chronicle.database`, or `chronicle.suite` unless the package cannot be

@@ -17,6 +17,13 @@ from pathlib import Path
 from typing import Any
 
 from chronicle.core import AggregateFact, build_aggregate_constraints, build_fact_key
+from chronicle.epoch import (
+    EMIT_EPOCH,
+    HASH_DOMAINS,
+    Epoch,
+    hash_domain,
+    schema_id,
+)
 from chronicle.sources.cells import (
     SourceCell,
     build_source_cell_key,
@@ -33,7 +40,7 @@ from chronicle.sources.rows import (
     source_row_to_mapping,
 )
 
-LEDGER_DB_SCHEMA_VERSION = "ledger.relational.v1"
+LEDGER_DB_SCHEMA_VERSION = schema_id("relational", Epoch.LEDGER)
 
 
 @dataclass(frozen=True)
@@ -63,20 +70,38 @@ def build_chronicle_db(
     source_rows: list[SourceRow] | None = None,
     build_id: str | None = None,
     replace: bool = False,
+    emit_epoch: Epoch | str = EMIT_EPOCH,
 ) -> ChronicleDbBuildReport:
-    """Build a deterministic SQLite Chronicle database artifact."""
+    """Build a deterministic SQLite Chronicle database artifact.
+
+    ``emit_epoch`` may be the enum member or its string value. An explicit
+    ``build_id`` must carry an accepted build-domain prefix; it is validated
+    before the filesystem is touched so a refused call leaves an existing
+    database in place.
+    """
+    try:
+        emit_epoch = Epoch(emit_epoch)
+    except ValueError as error:
+        raise ValueError(
+            f"build_chronicle_db: unknown emit epoch {emit_epoch!r}; expected "
+            f"{Epoch.LEDGER.value!r} or {Epoch.CHRONICLE.value!r}"
+        ) from error
+    cells = source_cells or []
+    rows = source_rows or []
+    columns = source_columns_from_source_rows(rows)
+    source_row_values_count = sum(len(row.values) for row in rows)
+    resolved_build_id = (
+        HASH_DOMAINS["build"].key_for_epoch(build_id, emit_epoch)
+        if build_id is not None
+        else _build_id(facts, cells, rows, epoch=emit_epoch)
+    )
+
     path = Path(db_path)
     if path.exists():
         if not replace:
             raise FileExistsError(f"Chronicle DB already exists: {path}")
         path.unlink()
     path.parent.mkdir(parents=True, exist_ok=True)
-
-    cells = source_cells or []
-    rows = source_rows or []
-    columns = source_columns_from_source_rows(rows)
-    source_row_values_count = sum(len(row.values) for row in rows)
-    resolved_build_id = build_id or _build_id(facts, cells, rows)
     fact_constraints = [(fact, build_aggregate_constraints(fact)) for fact in facts]
     source_record_ids = {
         fact.source_record_id for fact in facts if fact.source_record_id is not None
@@ -102,13 +127,24 @@ def build_chronicle_db(
             source_row_values_count=source_row_values_count,
             source_cells_count=len(cells),
             source_artifacts_count=len(artifact_sha256s),
+            emit_epoch=emit_epoch,
         )
-        _insert_source_rows(connection, rows)
-        _insert_source_columns(connection, columns)
-        _insert_source_row_values(connection, rows, columns)
-        _insert_source_cells(connection, cells)
+        _insert_source_rows(connection, rows, emit_epoch=emit_epoch)
+        _insert_source_columns(connection, columns, emit_epoch=emit_epoch)
+        _insert_source_row_values(
+            connection,
+            rows,
+            columns,
+            emit_epoch=emit_epoch,
+        )
+        _insert_source_cells(connection, cells, emit_epoch=emit_epoch)
         _insert_concept_alignments(connection, facts, resolved_build_id)
-        _insert_facts(connection, fact_constraints, resolved_build_id)
+        _insert_facts(
+            connection,
+            fact_constraints,
+            resolved_build_id,
+            emit_epoch=emit_epoch,
+        )
         _create_indexes(connection)
         connection.commit()
 
@@ -393,6 +429,7 @@ def _insert_build(
     source_row_values_count: int,
     source_cells_count: int,
     source_artifacts_count: int,
+    emit_epoch: Epoch,
 ) -> None:
     connection.execute(
         """
@@ -413,7 +450,7 @@ def _insert_build(
         """,
         (
             build_id,
-            LEDGER_DB_SCHEMA_VERSION,
+            schema_id("relational", emit_epoch),
             datetime.now(timezone.utc).isoformat(),
             facts_count,
             constraints_count,
@@ -430,6 +467,8 @@ def _insert_build(
 def _insert_source_cells(
     connection: sqlite3.Connection,
     cells: list[SourceCell],
+    *,
+    emit_epoch: Epoch,
 ) -> None:
     artifacts = {cell.artifact.sha256: cell.artifact for cell in cells}
     for artifact in artifacts.values():
@@ -458,9 +497,16 @@ def _insert_source_cells(
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
-                build_source_cell_key(cell),
+                build_source_cell_key(cell, epoch=emit_epoch),
                 cell.artifact.sha256,
-                cell.source_row_key,
+                (
+                    HASH_DOMAINS["source_row"].key_for_epoch(
+                        cell.source_row_key,
+                        emit_epoch,
+                    )
+                    if cell.source_row_key is not None
+                    else None
+                ),
                 cell.sheet_name,
                 cell.row_number,
                 cell.column_number,
@@ -479,6 +525,8 @@ def _insert_source_cells(
 def _insert_source_rows(
     connection: sqlite3.Connection,
     rows: list[SourceRow],
+    *,
+    emit_epoch: Epoch,
 ) -> None:
     artifacts = {row.artifact.sha256: row.artifact for row in rows}
     for artifact in artifacts.values():
@@ -497,7 +545,7 @@ def _insert_source_rows(
             VALUES (?, ?, ?, ?, ?)
             """,
             (
-                build_source_row_key(row),
+                build_source_row_key(row, epoch=emit_epoch),
                 row.artifact.sha256,
                 row.sheet_name,
                 row.row_number,
@@ -509,6 +557,8 @@ def _insert_source_rows(
 def _insert_source_columns(
     connection: sqlite3.Connection,
     columns: list[SourceColumn],
+    *,
+    emit_epoch: Epoch,
 ) -> None:
     for column in columns:
         connection.execute(
@@ -524,7 +574,7 @@ def _insert_source_columns(
             VALUES (?, ?, ?, ?, ?, ?)
             """,
             (
-                build_source_column_key(column),
+                build_source_column_key(column, epoch=emit_epoch),
                 column.artifact.sha256,
                 column.sheet_name,
                 column.column_number,
@@ -538,10 +588,12 @@ def _insert_source_row_values(
     connection: sqlite3.Connection,
     rows: list[SourceRow],
     columns: list[SourceColumn],
+    *,
+    emit_epoch: Epoch,
 ) -> None:
     column_keys = {
         (column.artifact.sha256, column.sheet_name, column.column_number): (
-            build_source_column_key(column),
+            build_source_column_key(column, epoch=emit_epoch),
             column.normalized_name,
         )
         for column in columns
@@ -565,7 +617,7 @@ def _insert_source_row_values(
     """
     batch = []
     for row in rows:
-        source_row_key = build_source_row_key(row)
+        source_row_key = build_source_row_key(row, epoch=emit_epoch)
         for column_number, (raw_name, value) in enumerate(
             row.values.items(),
             start=1,
@@ -584,7 +636,7 @@ def _insert_source_row_values(
             )
             batch.append(
                 (
-                    build_source_row_value_key(row_value),
+                    build_source_row_value_key(row_value, epoch=emit_epoch),
                     source_row_key,
                     source_column_key,
                     row.artifact.sha256,
@@ -648,9 +700,21 @@ def _insert_facts(
     connection: sqlite3.Connection,
     fact_constraints: list[tuple[AggregateFact, tuple[Any, ...]]],
     build_id: str,
+    *,
+    emit_epoch: Epoch,
 ) -> None:
     for fact, constraints in fact_constraints:
-        fact_key = build_fact_key(fact)
+        fact_key = build_fact_key(fact, epoch=emit_epoch)
+        source_cell_keys = _lineage_keys_for_epoch(
+            "source_cell",
+            fact.source_cell_keys,
+            emit_epoch,
+        )
+        source_row_keys = _lineage_keys_for_epoch(
+            "source_row",
+            fact.source_row_keys,
+            emit_epoch,
+        )
         if fact.source_record_id is not None:
             connection.execute(
                 """
@@ -673,8 +737,8 @@ def _insert_facts(
                     fact.source.source_table,
                     fact.source.source_file,
                     fact.source.vintage,
-                    len(fact.source_row_keys),
-                    len(fact.source_cell_keys),
+                    len(source_row_keys),
+                    len(source_cell_keys),
                 ),
             )
         _insert_aggregate_fact(connection, fact, fact_key, build_id)
@@ -708,7 +772,7 @@ def _insert_facts(
                     constraint.label,
                 ),
             )
-        for ordinal, source_cell_key in enumerate(fact.source_cell_keys):
+        for ordinal, source_cell_key in enumerate(source_cell_keys):
             connection.execute(
                 """
                 INSERT INTO fact_source_cells (
@@ -718,9 +782,13 @@ def _insert_facts(
                 )
                 VALUES (?, ?, ?)
                 """,
-                (fact_key, source_cell_key, ordinal),
+                (
+                    fact_key,
+                    source_cell_key,
+                    ordinal,
+                ),
             )
-        for ordinal, source_row_key in enumerate(fact.source_row_keys):
+        for ordinal, source_row_key in enumerate(source_row_keys):
             connection.execute(
                 """
                 INSERT INTO fact_source_rows (
@@ -730,7 +798,11 @@ def _insert_facts(
                 )
                 VALUES (?, ?, ?)
                 """,
-                (fact_key, source_row_key, ordinal),
+                (
+                    fact_key,
+                    source_row_key,
+                    ordinal,
+                ),
             )
 
 
@@ -926,41 +998,103 @@ def _build_id(
     facts: list[AggregateFact],
     cells: list[SourceCell],
     rows: list[SourceRow],
+    *,
+    epoch: Epoch = EMIT_EPOCH,
 ) -> str:
     digest = hashlib.sha256()
     _update_build_hash(digest, "schema", {"version": LEDGER_DB_SCHEMA_VERSION})
-    for fact in sorted(facts, key=build_fact_key):
+    for fact in sorted(
+        facts,
+        key=lambda item: build_fact_key(item, epoch=Epoch.LEDGER),
+    ):
         _update_build_hash(
             digest,
             "fact",
             {
-                "fact_key": build_fact_key(fact),
-                "fact": asdict(fact),
+                "fact_key": build_fact_key(fact, epoch=Epoch.LEDGER),
+                "fact": _canonical_fact_mapping(fact),
                 "constraints": [
                     asdict(constraint)
                     for constraint in build_aggregate_constraints(fact)
                 ],
             },
         )
-    for cell in sorted(cells, key=build_source_cell_key):
+    for cell in sorted(
+        cells,
+        key=lambda item: build_source_cell_key(item, epoch=Epoch.LEDGER),
+    ):
         _update_build_hash(
             digest,
             "source_cell",
             {
-                "source_cell_key": build_source_cell_key(cell),
-                "source_cell": source_cell_to_mapping(cell),
+                "source_cell_key": build_source_cell_key(
+                    cell,
+                    epoch=Epoch.LEDGER,
+                ),
+                "source_cell": _canonical_source_cell_mapping(cell),
             },
         )
-    for row in sorted(rows, key=build_source_row_key):
+    for row in sorted(
+        rows,
+        key=lambda item: build_source_row_key(item, epoch=Epoch.LEDGER),
+    ):
         _update_build_hash(
             digest,
             "source_row",
             {
-                "source_row_key": build_source_row_key(row),
+                "source_row_key": build_source_row_key(
+                    row,
+                    epoch=Epoch.LEDGER,
+                ),
                 "source_row": source_row_to_mapping(row),
             },
         )
-    return f"ledger.build.v1:{digest.hexdigest()[:24]}"
+    return f"{hash_domain('build', epoch)}:{digest.hexdigest()[:24]}"
+
+
+def _canonical_fact_mapping(fact: AggregateFact) -> dict[str, Any]:
+    """Return a build-hash payload independent of accepted key epochs."""
+    mapping = asdict(fact)
+    # Labels (chronicle#261) enter the hash only when present, so a fact
+    # without them keeps the build hash it had before they existed.
+    for label_field in ("dimension_labels", "dimension_value_labels"):
+        if not mapping[label_field]:
+            mapping.pop(label_field)
+    if mapping["layout"] and mapping["layout"]["groupby_dimension_label"] is None:
+        mapping["layout"].pop("groupby_dimension_label")
+    mapping["source_cell_keys"] = _lineage_keys_for_epoch(
+        "source_cell",
+        fact.source_cell_keys,
+        Epoch.LEDGER,
+    )
+    mapping["source_row_keys"] = _lineage_keys_for_epoch(
+        "source_row",
+        fact.source_row_keys,
+        Epoch.LEDGER,
+    )
+    return mapping
+
+
+def _lineage_keys_for_epoch(
+    domain_name: str,
+    keys: tuple[str, ...],
+    epoch: Epoch,
+) -> tuple[str, ...]:
+    """Return stable, first-seen lineage identities for database emission."""
+
+    pair = HASH_DOMAINS[domain_name]
+    return tuple(dict.fromkeys(pair.key_for_epoch(key, epoch) for key in keys))
+
+
+def _canonical_source_cell_mapping(cell: SourceCell) -> dict[str, Any]:
+    """Return a source-cell build payload independent of row-key epoch."""
+    mapping = source_cell_to_mapping(cell)
+    if cell.source_row_key is not None:
+        mapping["source_row_key"] = HASH_DOMAINS["source_row"].key_for_epoch(
+            cell.source_row_key,
+            Epoch.LEDGER,
+        )
+    return mapping
 
 
 def _update_build_hash(

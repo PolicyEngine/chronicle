@@ -1,0 +1,226 @@
+{
+  "query" : {
+    "database" : "str:database:ESA_Caseload_new",
+    "measures" : [ "str:count:ESA_Caseload_new:V_F_ESA_NEW" ],
+    "recodes" : {
+      "str:field:ESA_Caseload_new:V_F_ESA_NEW:ESA_PHASE" : {
+        "map" : [ [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:ESA_PHASE:C_ESA_ESA_PHASE:1" ], [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:ESA_PHASE:C_ESA_ESA_PHASE:2" ], [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:ESA_PHASE:C_ESA_ESA_PHASE:3" ], [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:ESA_PHASE:C_ESA_ESA_PHASE:99" ] ],
+        "total" : true
+      },
+      "str:field:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME" : {
+        "map" : [ [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201805" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201808" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201811" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201902" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201905" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201908" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201911" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202002" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202005" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202008" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202011" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202102" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202105" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202108" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202111" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202202" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202205" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202208" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202211" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202302" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202305" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202308" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202311" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202402" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202405" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202408" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202411" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202502" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202505" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202508" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202511" ], [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202603" ] ],
+        "total" : false
+      },
+      "str:field:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE" : {
+        "map" : [ [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE:C_ESA_PAYMENT_TYPE:1" ], [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE:C_ESA_PAYMENT_TYPE:2" ], [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE:C_ESA_PAYMENT_TYPE:3" ], [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE:C_ESA_PAYMENT_TYPE:4" ], [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE:C_ESA_PAYMENT_TYPE:99" ] ],
+        "total" : true
+      }
+    },
+    "dimensions" : [ [ "str:field:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME" ], [ "str:field:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE" ], [ "str:field:ESA_Caseload_new:V_F_ESA_NEW:ESA_PHASE" ] ]
+  },
+  "database" : {
+    "id" : "ESA_Caseload_new",
+    "uri" : "str:database:ESA_Caseload_new",
+    "label" : "ESA - Data from May 2018",
+    "annotationKeys" : [ "I", "II" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:ESA_Caseload_new:V_F_ESA_NEW",
+    "label" : "Employment and Support Allowance Caseload - 2021 Geographies",
+    "measure" : "str:count:ESA_Caseload_new:V_F_ESA_NEW",
+    "function" : "COUNT"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME",
+    "label" : "Quarter",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201805" ],
+      "labels" : [ "May-18" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201808" ],
+      "labels" : [ "Aug-18" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201811" ],
+      "labels" : [ "Nov-18" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201902" ],
+      "labels" : [ "Feb-19" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201905" ],
+      "labels" : [ "May-19" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201908" ],
+      "labels" : [ "Aug-19" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:201911" ],
+      "labels" : [ "Nov-19" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202002" ],
+      "labels" : [ "Feb-20" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202005" ],
+      "labels" : [ "May-20" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202008" ],
+      "labels" : [ "Aug-20" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202011" ],
+      "labels" : [ "Nov-20" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202102" ],
+      "labels" : [ "Feb-21" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202105" ],
+      "labels" : [ "May-21" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202108" ],
+      "labels" : [ "Aug-21" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202111" ],
+      "labels" : [ "Nov-21" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202202" ],
+      "labels" : [ "Feb-22" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202205" ],
+      "labels" : [ "May-22" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202208" ],
+      "labels" : [ "Aug-22" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202211" ],
+      "labels" : [ "Nov-22" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202302" ],
+      "labels" : [ "Feb-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202305" ],
+      "labels" : [ "May-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202308" ],
+      "labels" : [ "Aug-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202311" ],
+      "labels" : [ "Nov-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202402" ],
+      "labels" : [ "Feb-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202405" ],
+      "labels" : [ "May-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202408" ],
+      "labels" : [ "Aug-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202411" ],
+      "labels" : [ "Nov-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202502" ],
+      "labels" : [ "Feb-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202505" ],
+      "labels" : [ "May-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202508" ],
+      "labels" : [ "Aug-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202511" ],
+      "labels" : [ "Nov-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:F_ESA_QTR_NEW:DATE_NAME:C_ESA_QTR_NEW:202603" ],
+      "labels" : [ "Mar-26" ]
+    } ]
+  }, {
+    "uri" : "str:field:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE",
+    "label" : "Payment type",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE:C_ESA_PAYMENT_TYPE:1" ],
+      "labels" : [ "Contributions based" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE:C_ESA_PAYMENT_TYPE:2" ],
+      "labels" : [ "Both income and contributions based" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE:C_ESA_PAYMENT_TYPE:3" ],
+      "labels" : [ "Income based" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE:C_ESA_PAYMENT_TYPE:4" ],
+      "labels" : [ "No payments - Credits only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:PAYMENT_TYPE:C_ESA_PAYMENT_TYPE:99" ],
+      "labels" : [ "Unknown" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  }, {
+    "uri" : "str:field:ESA_Caseload_new:V_F_ESA_NEW:ESA_PHASE",
+    "label" : "Phase of ESA claim",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:ESA_PHASE:C_ESA_ESA_PHASE:1" ],
+      "labels" : [ "Assessment phase" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:ESA_PHASE:C_ESA_ESA_PHASE:2" ],
+      "labels" : [ "Work Related Activity group" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:ESA_PHASE:C_ESA_ESA_PHASE:3" ],
+      "labels" : [ "Support group" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:ESA_Caseload_new:V_F_ESA_NEW:ESA_PHASE:C_ESA_ESA_PHASE:99" ],
+      "labels" : [ "Unknown" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:ESA_Caseload_new:V_F_ESA_NEW" : {
+      "values" : [ [ [ 48065, 16263, 365925, 0, 430257 ], [ 5140, 3951, 393502, 0, 402592 ], [ 128364, 335549, 824293, 7, 1288212 ], [ 6784, 39243, 6383, 74966, 127380 ], [ 0, 0, 0, 0, 0 ], [ 188356, 395009, 1590105, 74976, 2248443 ] ], [ [ 41765, 14589, 361796, 0, 418149 ], [ 3865, 3481, 398513, 0, 405860 ], [ 102341, 327587, 831293, 0, 1261221 ], [ 5976, 39735, 6456, 73279, 125449 ], [ 0, 0, 0, 0, 0 ], [ 153942, 385396, 1598050, 73280, 2210677 ] ], [ [ 33477, 13113, 345560, 0, 392148 ], [ 2587, 3139, 411721, 0, 417446 ], [ 70775, 308903, 828264, 0, 1207952 ], [ 4817, 39568, 6651, 70950, 121985 ], [ 0, 0, 0, 0, 0 ], [ 111653, 364726, 1592198, 70958, 2139536 ] ], [ [ 30929, 12627, 332993, 0, 376547 ], [ 1475, 3001, 423556, 0, 428034 ], [ 43095, 288065, 821428, 0, 1152587 ], [ 4006, 38958, 6720, 66584, 116268 ], [ 0, 0, 0, 0, 0 ], [ 79505, 342650, 1584693, 66587, 2073432 ] ], [ [ 29214, 11069, 319081, 0, 359362 ], [ 776, 2578, 434725, 0, 438076 ], [ 28225, 264471, 813644, 0, 1106350 ], [ 3570, 38329, 6724, 63040, 111668 ], [ 0, 0, 0, 0, 0 ], [ 61783, 316450, 1574178, 63042, 2015450 ] ], [ [ 30519, 9345, 318420, 0, 358286 ], [ 482, 2131, 436855, 0, 439468 ], [ 20057, 241868, 808444, 0, 1070364 ], [ 3362, 37698, 6710, 60489, 108260 ], [ 0, 0, 0, 0, 0 ], [ 54415, 291037, 1570427, 60492, 1976374 ] ], [ [ 31282, 8426, 320016, 0, 359724 ], [ 349, 1674, 433852, 0, 435876 ], [ 15718, 219094, 800596, 0, 1035416 ], [ 3281, 37039, 6767, 58351, 105437 ], [ 0, 0, 0, 0, 0 ], [ 50630, 266236, 1561231, 58358, 1936451 ] ], [ [ 30257, 7750, 322043, 0, 360042 ], [ 273, 1130, 433787, 0, 435192 ], [ 12260, 201772, 796168, 0, 1010205 ], [ 3290, 36773, 6856, 58035, 104952 ], [ 0, 0, 0, 0, 0 ], [ 46070, 247428, 1558852, 58041, 1910387 ] ], [ [ 46028, 6308, 321081, 0, 373416 ], [ 240, 764, 429621, 0, 430632 ], [ 10811, 191495, 787572, 0, 989877 ], [ 3298, 35158, 6372, 62619, 107440 ], [ 0, 0, 0, 0, 0 ], [ 60374, 233728, 1544644, 62616, 1901371 ] ], [ [ 51410, 3674, 325465, 0, 380546 ], [ 230, 470, 425579, 0, 426281 ], [ 9764, 185502, 777795, 0, 973058 ], [ 4011, 35246, 6230, 59924, 105403 ], [ 0, 0, 0, 0, 0 ], [ 65411, 224890, 1535063, 59924, 1885290 ] ], [ [ 61074, 2058, 326894, 0, 390028 ], [ 243, 272, 419041, 0, 419562 ], [ 8892, 177987, 765385, 0, 952262 ], [ 4954, 35086, 6248, 61053, 107336 ], [ 0, 0, 0, 0, 0 ], [ 75161, 215404, 1517563, 61053, 1869183 ] ], [ [ 60625, 2604, 329982, 0, 393209 ], [ 188, 185, 411064, 0, 411435 ], [ 7325, 170232, 752213, 0, 929768 ], [ 8403, 34410, 6285, 62074, 111172 ], [ 0, 0, 0, 0, 0 ], [ 76534, 207429, 1499549, 62077, 1845584 ] ], [ [ 57870, 3772, 333583, 0, 395223 ], [ 83, 138, 403793, 0, 404015 ], [ 5784, 162585, 736961, 0, 905338 ], [ 10874, 33362, 6060, 60906, 111206 ], [ 0, 0, 0, 0, 0 ], [ 74616, 199860, 1480399, 60908, 1815782 ] ], [ [ 56860, 3999, 338461, 0, 399318 ], [ 40, 136, 394760, 0, 394937 ], [ 4768, 155348, 721702, 0, 881819 ], [ 8995, 33414, 5995, 59752, 108150 ], [ 0, 0, 0, 0, 0 ], [ 70664, 192896, 1460918, 59748, 1784232 ] ], [ [ 58024, 3630, 341579, 0, 403229 ], [ 24, 131, 386123, 0, 386276 ], [ 3816, 149395, 704383, 0, 857595 ], [ 6966, 33296, 6036, 58308, 104609 ], [ 0, 0, 0, 0, 0 ], [ 68829, 186452, 1438124, 58308, 1751716 ] ], [ [ 54187, 4003, 349386, 0, 407582 ], [ 12, 104, 377668, 0, 377785 ], [ 3057, 143978, 690023, 0, 837068 ], [ 5818, 32976, 6077, 57132, 102007 ], [ 0, 0, 0, 0, 0 ], [ 63075, 181064, 1423158, 57132, 1724431 ] ], [ [ 53300, 4198, 353734, 0, 411229 ], [ 12, 93, 370112, 0, 370216 ], [ 2516, 139314, 675209, 0, 817039 ], [ 5323, 32699, 5675, 56578, 100282 ], [ 0, 0, 0, 0, 0 ], [ 61146, 176298, 1404730, 56583, 1698764 ] ], [ [ 48947, 4514, 360969, 0, 414430 ], [ 5, 91, 361914, 0, 362006 ], [ 2027, 135012, 659991, 0, 797028 ], [ 4838, 32840, 5777, 56178, 99641 ], [ 0, 0, 0, 0, 0 ], [ 55818, 172454, 1388646, 56185, 1673099 ] ], [ [ 48608, 4548, 366195, 0, 419345 ], [ 5, 78, 353952, 0, 354038 ], [ 1696, 131250, 644522, 0, 777474 ], [ 4280, 32529, 5919, 55647, 98378 ], [ 0, 0, 0, 0, 0 ], [ 54591, 168407, 1370589, 55647, 1649230 ] ], [ [ 47286, 4722, 371919, 0, 423937 ], [ 0, 70, 345932, 0, 346001 ], [ 1425, 127283, 630735, 0, 759451 ], [ 4072, 32585, 6073, 55731, 98458 ], [ 0, 0, 0, 0, 0 ], [ 52786, 164666, 1354664, 55736, 1627844 ] ], [ [ 47140, 5128, 375222, 0, 427492 ], [ 0, 67, 340475, 0, 340542 ], [ 1217, 123549, 617490, 0, 742255 ], [ 3583, 32130, 5015, 55141, 95869 ], [ 0, 0, 0, 0, 0 ], [ 51942, 160873, 1338196, 55144, 1606159 ] ], [ [ 44582, 5671, 381494, 0, 431745 ], [ 0, 76, 333156, 0, 333231 ], [ 1040, 119398, 604893, 0, 725336 ], [ 3352, 32127, 5235, 53469, 94187 ], [ 0, 0, 0, 0, 0 ], [ 48975, 157274, 1324780, 53476, 1584495 ] ], [ [ 45428, 5555, 383921, 0, 434902 ], [ 0, 98, 326179, 0, 326274 ], [ 1006, 113773, 592352, 0, 707133 ], [ 3265, 32044, 5651, 52129, 93096 ], [ 0, 0, 0, 0, 0 ], [ 49703, 151471, 1308106, 52129, 1561409 ] ], [ [ 42412, 5828, 389649, 0, 437893 ], [ 6, 109, 319993, 0, 320106 ], [ 904, 104685, 583152, 5, 688743 ], [ 3287, 32189, 5895, 51603, 92981 ], [ 0, 0, 0, 0, 0 ], [ 46610, 142812, 1298694, 51607, 1539726 ] ], [ [ 39219, 6051, 396048, 0, 441326 ], [ 5, 119, 315045, 0, 315165 ], [ 592, 95296, 575189, 0, 671076 ], [ 3059, 31822, 5180, 50778, 90842 ], [ 0, 0, 0, 0, 0 ], [ 42876, 133290, 1291458, 50782, 1518405 ] ], [ [ 39408, 5916, 399270, 0, 444599 ], [ 9, 109, 309597, 0, 309714 ], [ 578, 85332, 564315, 0, 650222 ], [ 2803, 31259, 5672, 49939, 89670 ], [ 0, 0, 0, 0, 0 ], [ 42798, 122615, 1278854, 49939, 1494204 ] ], [ [ 38976, 5588, 417521, 0, 462089 ], [ 0, 81, 289382, 0, 289468 ], [ 481, 69118, 512831, 0, 582422 ], [ 2582, 31085, 5851, 48399, 87922 ], [ 0, 0, 0, 0, 0 ], [ 42038, 105870, 1225581, 48403, 1421898 ] ], [ [ 39870, 5332, 442279, 0, 487480 ], [ 0, 57, 259585, 0, 259639 ], [ 274, 56071, 442747, 0, 499093 ], [ 2404, 28982, 5718, 46709, 83815 ], [ 0, 0, 0, 0, 0 ], [ 42546, 90443, 1150330, 46705, 1330027 ] ], [ [ 38402, 4814, 504861, 0, 548080 ], [ 0, 47, 193722, 0, 193765 ], [ 122, 36259, 314158, 0, 350543 ], [ 2334, 28676, 5555, 46275, 82841 ], [ 0, 0, 0, 0, 0 ], [ 40855, 69799, 1018295, 46275, 1175221 ] ], [ [ 39388, 4608, 580749, 0, 624745 ], [ 0, 35, 113763, 0, 113801 ], [ 47, 16366, 162155, 0, 178567 ], [ 2280, 28559, 5613, 45320, 81777 ], [ 0, 0, 0, 0, 0 ], [ 41713, 49573, 862274, 45320, 998885 ] ], [ [ 42693, 4144, 671115, 0, 717952 ], [ 0, 9, 19120, 0, 19130 ], [ 12, 2922, 27434, 0, 30371 ], [ 2240, 27088, 5822, 43270, 78419 ], [ 0, 0, 0, 0, 0 ], [ 44950, 34161, 723487, 43273, 845873 ] ], [ [ 55973, 3314, 675531, 0, 734815 ], [ 0, 0, 1626, 0, 1626 ], [ 6, 140, 1706, 0, 1853 ], [ 2193, 24005, 5592, 41684, 73476 ], [ 0, 0, 0, 0, 0 ], [ 58174, 27458, 684457, 41684, 811771 ] ] ],
+      "precision" : 0
+    }
+  },
+  "annotationMap" : {
+    "I" : "The move to publishing benefit data via the Stat-Xplore instead of the DWP Tabulation Tool has involved adopting a new disclosure control methodology, in line with other benefits published via this new tool. Although the data still comes from the same source there may be small differences in the outputs displayed using this new tool, when compared to the Tabulation Tool.",
+    "II" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants."
+  }
+}

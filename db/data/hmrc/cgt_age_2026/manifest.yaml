@@ -1,0 +1,19 @@
+source_id: hmrc
+package_id: hmrc-cgt-age-2026
+dataset: hmrc_hmrc-cgt-age-2026
+source_page: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+table: 'Capital Gains Tax statistics Table 6: individual taxpayers, gains and liabilities
+  by age'
+files:
+  2026:
+    filename: Table_6_2026_Age_statistics.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a7b246e347b198efd290ed8/Table_6_2026_Age_statistics.ods
+    sha256: 03207433a4b07f9bb065bd9a45631cd4a48f97f9afef36fdfeab7819c81073fb
+    size_bytes: 6634
+    fetched_at: '2026-09-03T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-cgt-age-2026/2026/03207433a4b07f9bb065bd9a45631cd4a48f97f9afef36fdfeab7819c81073fb/Table_6_2026_Age_statistics.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-cgt-age-2026/2026/03207433a4b07f9bb065bd9a45631cd4a48f97f9afef36fdfeab7819c81073fb/Table_6_2026_Age_statistics.ods

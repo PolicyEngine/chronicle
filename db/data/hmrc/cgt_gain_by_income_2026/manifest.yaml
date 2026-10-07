@@ -1,0 +1,19 @@
+source_id: hmrc
+package_id: hmrc-cgt-gain-by-income-2026
+dataset: hmrc_hmrc-cgt-gain-by-income-2026
+source_page: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+table: 'Capital Gains Tax statistics Table 3: individual taxpayers and gains by size
+  of gain and taxable income'
+files:
+  2026:
+    filename: Table_3_2026_Size_of_gain_by_income.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a85a2e654bcee010d51454b/Table_3_2026_Size_of_gain_by_income.ods
+    sha256: 0e70feda364e2674b9f97a25f6f632dde9e3fa4f77ca2947402532d399929d14
+    size_bytes: 9904
+    fetched_at: '2026-09-03T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-cgt-gain-by-income-2026/2026/0e70feda364e2674b9f97a25f6f632dde9e3fa4f77ca2947402532d399929d14/Table_3_2026_Size_of_gain_by_income.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-cgt-gain-by-income-2026/2026/0e70feda364e2674b9f97a25f6f632dde9e3fa4f77ca2947402532d399929d14/Table_3_2026_Size_of_gain_by_income.ods

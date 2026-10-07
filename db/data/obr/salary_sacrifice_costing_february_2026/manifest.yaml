@@ -1,0 +1,19 @@
+source_id: obr
+package_id: obr-salary-sacrifice-costing-february-2026
+dataset: obr_obr-salary-sacrifice-costing-february-2026
+source_page: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+table: 'Supplementary forecast information release: costing of charging NICs on salary-sacrificed
+  pension contributions, Table 1.1'
+files:
+  2026:
+    filename: Supplementary-forecast-information-salary-sacrifice-costing-1.pdf
+    source_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-salary-sacrifice-costing-1.pdf
+    sha256: 1829b4150529da1a5dbbbe394724fa1a0c450d1c9f44f5917921e16c3a186b1d
+    size_bytes: 158354
+    fetched_at: '2026-09-29T11:58:21+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/obr/obr-salary-sacrifice-costing-february-2026/2026/1829b4150529da1a5dbbbe394724fa1a0c450d1c9f44f5917921e16c3a186b1d/Supplementary-forecast-information-salary-sacrifice-costing-1.pdf
+        uri: r2://ledger-raw/raw/uk/obr/obr-salary-sacrifice-costing-february-2026/2026/1829b4150529da1a5dbbbe394724fa1a0c450d1c9f44f5917921e16c3a186b1d/Supplementary-forecast-information-salary-sacrifice-costing-1.pdf

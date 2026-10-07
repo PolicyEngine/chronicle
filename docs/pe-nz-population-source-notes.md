@@ -57,6 +57,11 @@ age categories, sex categories, 2025 REGC boundaries, reference date, and source
 revision vintage before it can extend this package. In particular,
 `POPES_SUB_003` advertises **2026 boundaries** and is not a substitute.
 
+The regional five-year-age × sex table is a **follow-up**, not part of this
+package. This package lands only the 85 partial counts above. The follow-up
+extends it once an authorized export passes those checks; until then the
+package emits no five-year-age or sex-specific fact.
+
 ## S8: national single-year ages remain missing
 
 The pinned [19 August 2025 national release](https://www.stats.govt.nz/information-releases/national-population-estimates-at-30-june-2025/)

@@ -1,0 +1,19 @@
+source_id: desnz
+package_id: desnz-qep-electricity-unit-fixed-costs-2026
+dataset: desnz_desnz-qep-electricity-unit-fixed-costs-2026
+source_page: https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics
+table: 'Quarterly Energy Prices table 2.2.4: average variable unit costs and fixed
+  costs for standard electricity'
+files:
+  2026:
+    filename: table_224.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/6a4245b97ac6fd9c6a94aae2/table_224__1_.xlsx
+    sha256: 1a28aad7d06bc2696dafef85704e6aa308d7c4b0d1e2fdfcbbd21d4d811f8d02
+    size_bytes: 213479
+    fetched_at: '2026-09-15T14:12:42+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-qep-electricity-unit-fixed-costs-2026/2026/1a28aad7d06bc2696dafef85704e6aa308d7c4b0d1e2fdfcbbd21d4d811f8d02/table_224.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-qep-electricity-unit-fixed-costs-2026/2026/1a28aad7d06bc2696dafef85704e6aa308d7c4b0d1e2fdfcbbd21d4d811f8d02/table_224.xlsx

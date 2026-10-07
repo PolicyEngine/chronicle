@@ -143,6 +143,7 @@ class SourceRecordSetRow:
     geography_vintage: str | None = None
     filters: dict[str, Scalar] = field(default_factory=dict)
     constraints: tuple[AggregateConstraint, ...] = ()
+    source_row_dimensions: dict[str, Scalar] = field(default_factory=dict)
     value_scale: int | float = 1
     source_row_id: str | None = None
     table_record_kind: str = "detail"
@@ -167,6 +168,7 @@ class SourceRecordSetMeasure:
     divisor_column: str | None = None
     round_to: int | float | None = None
     source_column_id: str | None = None
+    source_column_dimensions: dict[str, Scalar] = field(default_factory=dict)
     expected_cell_type: str = "number"
     expected_column_header_row: int | None = None
     expected_column_header: Scalar = None
@@ -469,8 +471,8 @@ def resolve_source_record(
                 f"{divisor!r}."
             )
         value = value / divisor
-        if spec.round_to is not None:
-            value = round(value / spec.round_to) * spec.round_to
+    if spec.round_to is not None:
+        value = round(value / spec.round_to) * spec.round_to
     lineage_cells = [
         *value_cells,
         *divisor_cells,
@@ -736,12 +738,33 @@ def _resolve_guard_cell(
         raise ValueError(
             f"Selector {spec.selector_id!r} missing {label} {address}"
         ) from exc
-    if guard_cell.raw_value != expected_value:
+    if not _guard_value_matches(guard_cell.raw_value, expected_value):
         raise ValueError(
             f"Selector {spec.selector_id!r} expected {label} "
             f"{expected_value!r}, got {guard_cell.raw_value!r}"
         )
     return guard_cell
+
+
+def _guard_value_matches(raw_value: Scalar, expected_value: Scalar) -> bool:
+    """Whether a guard cell holds the value a source package expects.
+
+    Package YAML renders a digit-only string such as ``'2024'`` to the integer
+    2024, so an author cannot ask for the text ``'2024'`` that a delimited
+    file's header row keeps. That text matches the integer it renders to, and
+    nothing looser: not ``'02024'``, ``'2024.0'`` or a boolean.
+    """
+    if raw_value == expected_value:
+        return True
+    return (
+        isinstance(expected_value, int)
+        and not isinstance(expected_value, bool)
+        and isinstance(raw_value, str)
+        and raw_value.isascii()
+        and raw_value.isdigit()
+        and (raw_value == "0" or not raw_value.startswith("0"))
+        and int(raw_value) == expected_value
+    )
 
 
 def _scale_value(value: Scalar, scale: int | float) -> int | float | str:
@@ -817,6 +840,8 @@ def _record_set_spec_hash(spec: SourceRecordSetSpec) -> str:
             row.pop("expected_row_header", None)
         if row.get("expected_row_header_column") is None:
             row.pop("expected_row_header_column", None)
+        if not row.get("source_row_dimensions"):
+            row.pop("source_row_dimensions", None)
         if not row.get("guard_cells"):
             row.pop("guard_cells", None)
         else:
@@ -846,6 +871,8 @@ def _record_set_spec_hash(spec: SourceRecordSetSpec) -> str:
             measure.pop("divisor_column", None)
         if measure.get("round_to") is None:
             measure.pop("round_to", None)
+        if not measure.get("source_column_dimensions"):
+            measure.pop("source_column_dimensions", None)
         if measure.get("expected_column_header") is None:
             measure.pop("expected_column_header", None)
         if measure.get("expected_column_header_row") is None:

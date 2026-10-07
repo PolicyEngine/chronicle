@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: cbo-individual-income-tax-receipts-2026-02
 label: CBO federal individual income tax receipts
+dimension_labels:
+  'cbo.revenue_source': 'Revenue source'
 artifact:
   source_name: cbo
   source_table: CBO budget and economic data, individual income tax receipts

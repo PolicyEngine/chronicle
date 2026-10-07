@@ -1,0 +1,455 @@
+# DWP's 'household' is the Universal Credit unit of assessment (benefit unit), not an ONS
+# household. Each monthly cube cell is preserved as published; DWP applies cell-level
+# adjustment at source, so independently queried cubes need not reconcile exactly.
+# Stat-Xplore Open Data API extract (raw API response, query echoed inside it):
+# Households on Universal Credit, Month x Number of Children x Child Entitlement, April
+# to December 2025 (chronicle#233). Number of Children counts all children or young
+# people under 20 declared as living in the household and verified by DWP, whether or
+# not they are dependants of the claimant; Child Entitlement records whether the award
+# includes a child element. Publisher categories are kept verbatim, including the
+# 'Unknown or missing' and 'Not available prior to April 2019' cells.
+schema_version: ledger.source_package.v1
+package_id: dwp-uc-households-children-child-entitlement-april-december-2025
+label: 'DWP Stat-Xplore: Universal Credit benefit units by number of children and child entitlement, Great Britain, April to December 2025'
+dimension_labels:
+  'dwp.uc_number_of_children': 'Number of Children'
+artifact:
+  source_name: dwp
+  source_table: 'Households on Universal Credit by number of children and child entitlement, April to December 2025'
+  resource_package: db
+  resource_directory: data/dwp/uc_households_children_child_entitlement_april_december_2025
+  manifest: manifest.yaml
+  vintage: stat_xplore_2026_09_03
+  extracted_at: '2026-09-03'
+  extraction_method: Stat-Xplore Open Data API table response parsed and unpivoted to one row per cube cell
+  parser: statxplore_table_json_rows
+  sheet_name: api_response
+  artifact_year: 2025
+record_sets:
+- &monthly
+  record_set_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_04
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_04.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_04
+  sheet_name: api_response
+  period_type: month
+  period: 2025-04
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: benefit_unit
+  entity_role: universal_credit_unit_of_assessment
+  domain: universal_credit
+  groupby_dimension: dwp.uc_number_of_children
+  assertion: observation
+  rows:
+  - &children_0__child_entitlement_no
+    value_id: children_0__child_entitlement_no
+    label: '0, No'
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:0'
+    table_record_kind: detail
+    filters: {number_of_children: '0', child_entitlement: 'No'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '0', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'No', label: child entitlement}
+    guard_cells: [{column: C, row: 2, expected_value: 'April 2025', label: month}, {column: H, row: 2, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]
+  - &children_0__child_entitlement_yes
+    value_id: children_0__child_entitlement_yes
+    label: '0, Yes'
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:0'
+    table_record_kind: detail
+    filters: {number_of_children: '0', child_entitlement: 'Yes'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '0', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'Yes', label: child entitlement}
+    guard_cells: [{column: C, row: 3, expected_value: 'April 2025', label: month}, {column: H, row: 3, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]
+  - &children_1__child_entitlement_no
+    value_id: children_1__child_entitlement_no
+    label: '1, No'
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:1'
+    table_record_kind: detail
+    filters: {number_of_children: '1', child_entitlement: 'No'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '1', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'No', label: child entitlement}
+    guard_cells: [{column: C, row: 4, expected_value: 'April 2025', label: month}, {column: H, row: 4, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]
+  - &children_1__child_entitlement_yes
+    value_id: children_1__child_entitlement_yes
+    label: '1, Yes'
+    ordinal: 3
+    row_number: 5
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:1'
+    table_record_kind: detail
+    filters: {number_of_children: '1', child_entitlement: 'Yes'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '1', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'Yes', label: child entitlement}
+    guard_cells: [{column: C, row: 5, expected_value: 'April 2025', label: month}, {column: H, row: 5, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]
+  - &children_2__child_entitlement_no
+    value_id: children_2__child_entitlement_no
+    label: '2, No'
+    ordinal: 4
+    row_number: 6
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:2'
+    table_record_kind: detail
+    filters: {number_of_children: '2', child_entitlement: 'No'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '2', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'No', label: child entitlement}
+    guard_cells: [{column: C, row: 6, expected_value: 'April 2025', label: month}, {column: H, row: 6, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]
+  - &children_2__child_entitlement_yes
+    value_id: children_2__child_entitlement_yes
+    label: '2, Yes'
+    ordinal: 5
+    row_number: 7
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:2'
+    table_record_kind: detail
+    filters: {number_of_children: '2', child_entitlement: 'Yes'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '2', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'Yes', label: child entitlement}
+    guard_cells: [{column: C, row: 7, expected_value: 'April 2025', label: month}, {column: H, row: 7, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]
+  - &children_3__child_entitlement_no
+    value_id: children_3__child_entitlement_no
+    label: '3, No'
+    ordinal: 6
+    row_number: 8
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:3'
+    table_record_kind: detail
+    filters: {number_of_children: '3', child_entitlement: 'No'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '3', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'No', label: child entitlement}
+    guard_cells: [{column: C, row: 8, expected_value: 'April 2025', label: month}, {column: H, row: 8, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]
+  - &children_3__child_entitlement_yes
+    value_id: children_3__child_entitlement_yes
+    label: '3, Yes'
+    ordinal: 7
+    row_number: 9
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:3'
+    table_record_kind: detail
+    filters: {number_of_children: '3', child_entitlement: 'Yes'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '3', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'Yes', label: child entitlement}
+    guard_cells: [{column: C, row: 9, expected_value: 'April 2025', label: month}, {column: H, row: 9, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]
+  - &children_4__child_entitlement_no
+    value_id: children_4__child_entitlement_no
+    label: '4, No'
+    ordinal: 8
+    row_number: 10
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:4'
+    table_record_kind: detail
+    filters: {number_of_children: '4', child_entitlement: 'No'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '4', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'No', label: child entitlement}
+    guard_cells: [{column: C, row: 10, expected_value: 'April 2025', label: month}, {column: H, row: 10, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]
+  - &children_4__child_entitlement_yes
+    value_id: children_4__child_entitlement_yes
+    label: '4, Yes'
+    ordinal: 9
+    row_number: 11
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:4'
+    table_record_kind: detail
+    filters: {number_of_children: '4', child_entitlement: 'Yes'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '4', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'Yes', label: child entitlement}
+    guard_cells: [{column: C, row: 11, expected_value: 'April 2025', label: month}, {column: H, row: 11, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]
+  - &children_5_or_more__child_entitlement_no
+    value_id: children_5_or_more__child_entitlement_no
+    label: '5 or more, No'
+    ordinal: 10
+    row_number: 12
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:5'
+    table_record_kind: detail
+    filters: {number_of_children: '5 or more', child_entitlement: 'No'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '5 or more', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'No', label: child entitlement}
+    guard_cells: [{column: C, row: 12, expected_value: 'April 2025', label: month}, {column: H, row: 12, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]
+  - &children_5_or_more__child_entitlement_yes
+    value_id: children_5_or_more__child_entitlement_yes
+    label: '5 or more, Yes'
+    ordinal: 11
+    row_number: 13
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:5'
+    table_record_kind: detail
+    filters: {number_of_children: '5 or more', child_entitlement: 'Yes'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: '5 or more', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'Yes', label: child entitlement}
+    guard_cells: [{column: C, row: 13, expected_value: 'April 2025', label: month}, {column: H, row: 13, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]
+  - &children_unknown_or_missing__child_entitlement_no
+    value_id: children_unknown_or_missing__child_entitlement_no
+    label: 'Unknown or missing, No'
+    ordinal: 12
+    row_number: 14
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:9998'
+    table_record_kind: detail
+    filters: {number_of_children: 'Unknown or missing', child_entitlement: 'No'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: 'Unknown or missing', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'No', label: child entitlement}
+    guard_cells: [{column: C, row: 14, expected_value: 'April 2025', label: month}, {column: H, row: 14, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]
+  - &children_unknown_or_missing__child_entitlement_yes
+    value_id: children_unknown_or_missing__child_entitlement_yes
+    label: 'Unknown or missing, Yes'
+    ordinal: 13
+    row_number: 15
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:9998'
+    table_record_kind: detail
+    filters: {number_of_children: 'Unknown or missing', child_entitlement: 'Yes'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: 'Unknown or missing', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'Yes', label: child entitlement}
+    guard_cells: [{column: C, row: 15, expected_value: 'April 2025', label: month}, {column: H, row: 15, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]
+  - &children_not_available_prior_to_april_2019__child_entitlement_no
+    value_id: children_not_available_prior_to_april_2019__child_entitlement_no
+    label: 'Not available prior to April 2019, No'
+    ordinal: 14
+    row_number: 16
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:9999'
+    table_record_kind: detail
+    filters: {number_of_children: 'Not available prior to April 2019', child_entitlement: 'No'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: 'Not available prior to April 2019', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'No', label: child entitlement}
+    guard_cells: [{column: C, row: 16, expected_value: 'April 2025', label: month}, {column: H, row: 16, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]
+  - &children_not_available_prior_to_april_2019__child_entitlement_yes
+    value_id: children_not_available_prior_to_april_2019__child_entitlement_yes
+    label: 'Not available prior to April 2019, Yes'
+    ordinal: 15
+    row_number: 17
+    expected_row_header_column: F
+    expected_row_header: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:NUMBER_OF_CHILDREN:C_UC_NUMBER_OF_CHILDREN:9999'
+    table_record_kind: detail
+    filters: {number_of_children: 'Not available prior to April 2019', child_entitlement: 'Yes'}
+    constraints:
+    - {variable: number_of_children, operator: '==', value: 'Not available prior to April 2019', label: number of children}
+    - {variable: child_entitlement, operator: '==', value: 'Yes', label: child entitlement}
+    guard_cells: [{column: C, row: 17, expected_value: 'April 2025', label: month}, {column: H, row: 17, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]
+  measures: &measures
+  - measure_id: benefit_units
+    label: Universal Credit benefit units
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: value
+    concept: dwp.uc_benefit_units
+    source_concept: dwp.uc_households
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://stat-xplore.dwp.gov.uk/
+    concept_evidence_notes: 'Stat-Xplore ''Households on Universal Credit'' dataset, April to December 2025, Great Britain, dimensioned by Number of Children x Child Entitlement (Yes/No child element in the award); query echoed in the archived API response. DWP defines a Universal Credit household as the UC unit of assessment; Chronicle normalizes that entity to benefit_unit.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_05
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_05.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_05
+  period: 2025-05
+  rows:
+  - {<<: *children_0__child_entitlement_no, row_number: 18, guard_cells: [{column: C, row: 18, expected_value: 'May 2025', label: month}, {column: H, row: 18, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_0__child_entitlement_yes, row_number: 19, guard_cells: [{column: C, row: 19, expected_value: 'May 2025', label: month}, {column: H, row: 19, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_no, row_number: 20, guard_cells: [{column: C, row: 20, expected_value: 'May 2025', label: month}, {column: H, row: 20, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_yes, row_number: 21, guard_cells: [{column: C, row: 21, expected_value: 'May 2025', label: month}, {column: H, row: 21, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_no, row_number: 22, guard_cells: [{column: C, row: 22, expected_value: 'May 2025', label: month}, {column: H, row: 22, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_yes, row_number: 23, guard_cells: [{column: C, row: 23, expected_value: 'May 2025', label: month}, {column: H, row: 23, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_no, row_number: 24, guard_cells: [{column: C, row: 24, expected_value: 'May 2025', label: month}, {column: H, row: 24, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_yes, row_number: 25, guard_cells: [{column: C, row: 25, expected_value: 'May 2025', label: month}, {column: H, row: 25, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_no, row_number: 26, guard_cells: [{column: C, row: 26, expected_value: 'May 2025', label: month}, {column: H, row: 26, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_yes, row_number: 27, guard_cells: [{column: C, row: 27, expected_value: 'May 2025', label: month}, {column: H, row: 27, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_no, row_number: 28, guard_cells: [{column: C, row: 28, expected_value: 'May 2025', label: month}, {column: H, row: 28, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_yes, row_number: 29, guard_cells: [{column: C, row: 29, expected_value: 'May 2025', label: month}, {column: H, row: 29, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_no, row_number: 30, guard_cells: [{column: C, row: 30, expected_value: 'May 2025', label: month}, {column: H, row: 30, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_yes, row_number: 31, guard_cells: [{column: C, row: 31, expected_value: 'May 2025', label: month}, {column: H, row: 31, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_no, row_number: 32, guard_cells: [{column: C, row: 32, expected_value: 'May 2025', label: month}, {column: H, row: 32, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_yes, row_number: 33, guard_cells: [{column: C, row: 33, expected_value: 'May 2025', label: month}, {column: H, row: 33, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_06
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_06.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_06
+  period: 2025-06
+  rows:
+  - {<<: *children_0__child_entitlement_no, row_number: 34, guard_cells: [{column: C, row: 34, expected_value: 'June 2025', label: month}, {column: H, row: 34, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_0__child_entitlement_yes, row_number: 35, guard_cells: [{column: C, row: 35, expected_value: 'June 2025', label: month}, {column: H, row: 35, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_no, row_number: 36, guard_cells: [{column: C, row: 36, expected_value: 'June 2025', label: month}, {column: H, row: 36, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_yes, row_number: 37, guard_cells: [{column: C, row: 37, expected_value: 'June 2025', label: month}, {column: H, row: 37, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_no, row_number: 38, guard_cells: [{column: C, row: 38, expected_value: 'June 2025', label: month}, {column: H, row: 38, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_yes, row_number: 39, guard_cells: [{column: C, row: 39, expected_value: 'June 2025', label: month}, {column: H, row: 39, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_no, row_number: 40, guard_cells: [{column: C, row: 40, expected_value: 'June 2025', label: month}, {column: H, row: 40, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_yes, row_number: 41, guard_cells: [{column: C, row: 41, expected_value: 'June 2025', label: month}, {column: H, row: 41, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_no, row_number: 42, guard_cells: [{column: C, row: 42, expected_value: 'June 2025', label: month}, {column: H, row: 42, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_yes, row_number: 43, guard_cells: [{column: C, row: 43, expected_value: 'June 2025', label: month}, {column: H, row: 43, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_no, row_number: 44, guard_cells: [{column: C, row: 44, expected_value: 'June 2025', label: month}, {column: H, row: 44, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_yes, row_number: 45, guard_cells: [{column: C, row: 45, expected_value: 'June 2025', label: month}, {column: H, row: 45, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_no, row_number: 46, guard_cells: [{column: C, row: 46, expected_value: 'June 2025', label: month}, {column: H, row: 46, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_yes, row_number: 47, guard_cells: [{column: C, row: 47, expected_value: 'June 2025', label: month}, {column: H, row: 47, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_no, row_number: 48, guard_cells: [{column: C, row: 48, expected_value: 'June 2025', label: month}, {column: H, row: 48, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_yes, row_number: 49, guard_cells: [{column: C, row: 49, expected_value: 'June 2025', label: month}, {column: H, row: 49, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_07
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_07.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_07
+  period: 2025-07
+  rows:
+  - {<<: *children_0__child_entitlement_no, row_number: 50, guard_cells: [{column: C, row: 50, expected_value: 'July 2025', label: month}, {column: H, row: 50, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_0__child_entitlement_yes, row_number: 51, guard_cells: [{column: C, row: 51, expected_value: 'July 2025', label: month}, {column: H, row: 51, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_no, row_number: 52, guard_cells: [{column: C, row: 52, expected_value: 'July 2025', label: month}, {column: H, row: 52, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_yes, row_number: 53, guard_cells: [{column: C, row: 53, expected_value: 'July 2025', label: month}, {column: H, row: 53, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_no, row_number: 54, guard_cells: [{column: C, row: 54, expected_value: 'July 2025', label: month}, {column: H, row: 54, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_yes, row_number: 55, guard_cells: [{column: C, row: 55, expected_value: 'July 2025', label: month}, {column: H, row: 55, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_no, row_number: 56, guard_cells: [{column: C, row: 56, expected_value: 'July 2025', label: month}, {column: H, row: 56, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_yes, row_number: 57, guard_cells: [{column: C, row: 57, expected_value: 'July 2025', label: month}, {column: H, row: 57, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_no, row_number: 58, guard_cells: [{column: C, row: 58, expected_value: 'July 2025', label: month}, {column: H, row: 58, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_yes, row_number: 59, guard_cells: [{column: C, row: 59, expected_value: 'July 2025', label: month}, {column: H, row: 59, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_no, row_number: 60, guard_cells: [{column: C, row: 60, expected_value: 'July 2025', label: month}, {column: H, row: 60, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_yes, row_number: 61, guard_cells: [{column: C, row: 61, expected_value: 'July 2025', label: month}, {column: H, row: 61, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_no, row_number: 62, guard_cells: [{column: C, row: 62, expected_value: 'July 2025', label: month}, {column: H, row: 62, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_yes, row_number: 63, guard_cells: [{column: C, row: 63, expected_value: 'July 2025', label: month}, {column: H, row: 63, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_no, row_number: 64, guard_cells: [{column: C, row: 64, expected_value: 'July 2025', label: month}, {column: H, row: 64, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_yes, row_number: 65, guard_cells: [{column: C, row: 65, expected_value: 'July 2025', label: month}, {column: H, row: 65, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_08
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_08.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_08
+  period: 2025-08
+  rows:
+  - {<<: *children_0__child_entitlement_no, row_number: 66, guard_cells: [{column: C, row: 66, expected_value: 'August 2025', label: month}, {column: H, row: 66, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_0__child_entitlement_yes, row_number: 67, guard_cells: [{column: C, row: 67, expected_value: 'August 2025', label: month}, {column: H, row: 67, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_no, row_number: 68, guard_cells: [{column: C, row: 68, expected_value: 'August 2025', label: month}, {column: H, row: 68, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_yes, row_number: 69, guard_cells: [{column: C, row: 69, expected_value: 'August 2025', label: month}, {column: H, row: 69, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_no, row_number: 70, guard_cells: [{column: C, row: 70, expected_value: 'August 2025', label: month}, {column: H, row: 70, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_yes, row_number: 71, guard_cells: [{column: C, row: 71, expected_value: 'August 2025', label: month}, {column: H, row: 71, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_no, row_number: 72, guard_cells: [{column: C, row: 72, expected_value: 'August 2025', label: month}, {column: H, row: 72, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_yes, row_number: 73, guard_cells: [{column: C, row: 73, expected_value: 'August 2025', label: month}, {column: H, row: 73, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_no, row_number: 74, guard_cells: [{column: C, row: 74, expected_value: 'August 2025', label: month}, {column: H, row: 74, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_yes, row_number: 75, guard_cells: [{column: C, row: 75, expected_value: 'August 2025', label: month}, {column: H, row: 75, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_no, row_number: 76, guard_cells: [{column: C, row: 76, expected_value: 'August 2025', label: month}, {column: H, row: 76, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_yes, row_number: 77, guard_cells: [{column: C, row: 77, expected_value: 'August 2025', label: month}, {column: H, row: 77, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_no, row_number: 78, guard_cells: [{column: C, row: 78, expected_value: 'August 2025', label: month}, {column: H, row: 78, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_yes, row_number: 79, guard_cells: [{column: C, row: 79, expected_value: 'August 2025', label: month}, {column: H, row: 79, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_no, row_number: 80, guard_cells: [{column: C, row: 80, expected_value: 'August 2025', label: month}, {column: H, row: 80, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_yes, row_number: 81, guard_cells: [{column: C, row: 81, expected_value: 'August 2025', label: month}, {column: H, row: 81, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_09
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_09.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_09
+  period: 2025-09
+  rows:
+  - {<<: *children_0__child_entitlement_no, row_number: 82, guard_cells: [{column: C, row: 82, expected_value: 'September 2025', label: month}, {column: H, row: 82, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_0__child_entitlement_yes, row_number: 83, guard_cells: [{column: C, row: 83, expected_value: 'September 2025', label: month}, {column: H, row: 83, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_no, row_number: 84, guard_cells: [{column: C, row: 84, expected_value: 'September 2025', label: month}, {column: H, row: 84, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_yes, row_number: 85, guard_cells: [{column: C, row: 85, expected_value: 'September 2025', label: month}, {column: H, row: 85, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_no, row_number: 86, guard_cells: [{column: C, row: 86, expected_value: 'September 2025', label: month}, {column: H, row: 86, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_yes, row_number: 87, guard_cells: [{column: C, row: 87, expected_value: 'September 2025', label: month}, {column: H, row: 87, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_no, row_number: 88, guard_cells: [{column: C, row: 88, expected_value: 'September 2025', label: month}, {column: H, row: 88, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_yes, row_number: 89, guard_cells: [{column: C, row: 89, expected_value: 'September 2025', label: month}, {column: H, row: 89, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_no, row_number: 90, guard_cells: [{column: C, row: 90, expected_value: 'September 2025', label: month}, {column: H, row: 90, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_yes, row_number: 91, guard_cells: [{column: C, row: 91, expected_value: 'September 2025', label: month}, {column: H, row: 91, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_no, row_number: 92, guard_cells: [{column: C, row: 92, expected_value: 'September 2025', label: month}, {column: H, row: 92, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_yes, row_number: 93, guard_cells: [{column: C, row: 93, expected_value: 'September 2025', label: month}, {column: H, row: 93, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_no, row_number: 94, guard_cells: [{column: C, row: 94, expected_value: 'September 2025', label: month}, {column: H, row: 94, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_yes, row_number: 95, guard_cells: [{column: C, row: 95, expected_value: 'September 2025', label: month}, {column: H, row: 95, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_no, row_number: 96, guard_cells: [{column: C, row: 96, expected_value: 'September 2025', label: month}, {column: H, row: 96, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_yes, row_number: 97, guard_cells: [{column: C, row: 97, expected_value: 'September 2025', label: month}, {column: H, row: 97, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_10
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_10.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_10
+  period: 2025-10
+  rows:
+  - {<<: *children_0__child_entitlement_no, row_number: 98, guard_cells: [{column: C, row: 98, expected_value: 'October 2025', label: month}, {column: H, row: 98, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_0__child_entitlement_yes, row_number: 99, guard_cells: [{column: C, row: 99, expected_value: 'October 2025', label: month}, {column: H, row: 99, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_no, row_number: 100, guard_cells: [{column: C, row: 100, expected_value: 'October 2025', label: month}, {column: H, row: 100, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_yes, row_number: 101, guard_cells: [{column: C, row: 101, expected_value: 'October 2025', label: month}, {column: H, row: 101, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_no, row_number: 102, guard_cells: [{column: C, row: 102, expected_value: 'October 2025', label: month}, {column: H, row: 102, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_yes, row_number: 103, guard_cells: [{column: C, row: 103, expected_value: 'October 2025', label: month}, {column: H, row: 103, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_no, row_number: 104, guard_cells: [{column: C, row: 104, expected_value: 'October 2025', label: month}, {column: H, row: 104, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_yes, row_number: 105, guard_cells: [{column: C, row: 105, expected_value: 'October 2025', label: month}, {column: H, row: 105, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_no, row_number: 106, guard_cells: [{column: C, row: 106, expected_value: 'October 2025', label: month}, {column: H, row: 106, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_yes, row_number: 107, guard_cells: [{column: C, row: 107, expected_value: 'October 2025', label: month}, {column: H, row: 107, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_no, row_number: 108, guard_cells: [{column: C, row: 108, expected_value: 'October 2025', label: month}, {column: H, row: 108, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_yes, row_number: 109, guard_cells: [{column: C, row: 109, expected_value: 'October 2025', label: month}, {column: H, row: 109, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_no, row_number: 110, guard_cells: [{column: C, row: 110, expected_value: 'October 2025', label: month}, {column: H, row: 110, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_yes, row_number: 111, guard_cells: [{column: C, row: 111, expected_value: 'October 2025', label: month}, {column: H, row: 111, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_no, row_number: 112, guard_cells: [{column: C, row: 112, expected_value: 'October 2025', label: month}, {column: H, row: 112, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_yes, row_number: 113, guard_cells: [{column: C, row: 113, expected_value: 'October 2025', label: month}, {column: H, row: 113, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_11
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_11.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_11
+  period: 2025-11
+  rows:
+  - {<<: *children_0__child_entitlement_no, row_number: 114, guard_cells: [{column: C, row: 114, expected_value: 'November 2025', label: month}, {column: H, row: 114, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_0__child_entitlement_yes, row_number: 115, guard_cells: [{column: C, row: 115, expected_value: 'November 2025', label: month}, {column: H, row: 115, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_no, row_number: 116, guard_cells: [{column: C, row: 116, expected_value: 'November 2025', label: month}, {column: H, row: 116, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_yes, row_number: 117, guard_cells: [{column: C, row: 117, expected_value: 'November 2025', label: month}, {column: H, row: 117, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_no, row_number: 118, guard_cells: [{column: C, row: 118, expected_value: 'November 2025', label: month}, {column: H, row: 118, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_yes, row_number: 119, guard_cells: [{column: C, row: 119, expected_value: 'November 2025', label: month}, {column: H, row: 119, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_no, row_number: 120, guard_cells: [{column: C, row: 120, expected_value: 'November 2025', label: month}, {column: H, row: 120, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_yes, row_number: 121, guard_cells: [{column: C, row: 121, expected_value: 'November 2025', label: month}, {column: H, row: 121, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_no, row_number: 122, guard_cells: [{column: C, row: 122, expected_value: 'November 2025', label: month}, {column: H, row: 122, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_yes, row_number: 123, guard_cells: [{column: C, row: 123, expected_value: 'November 2025', label: month}, {column: H, row: 123, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_no, row_number: 124, guard_cells: [{column: C, row: 124, expected_value: 'November 2025', label: month}, {column: H, row: 124, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_yes, row_number: 125, guard_cells: [{column: C, row: 125, expected_value: 'November 2025', label: month}, {column: H, row: 125, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_no, row_number: 126, guard_cells: [{column: C, row: 126, expected_value: 'November 2025', label: month}, {column: H, row: 126, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_yes, row_number: 127, guard_cells: [{column: C, row: 127, expected_value: 'November 2025', label: month}, {column: H, row: 127, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_no, row_number: 128, guard_cells: [{column: C, row: 128, expected_value: 'November 2025', label: month}, {column: H, row: 128, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_yes, row_number: 129, guard_cells: [{column: C, row: 129, expected_value: 'November 2025', label: month}, {column: H, row: 129, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+- <<: *monthly
+  record_set_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_12
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_12.v1
+  source_record_id_prefix: dwp.statx.uc_benefit_units.children_child_entitlement.month2025_12
+  period: 2025-12
+  rows:
+  - {<<: *children_0__child_entitlement_no, row_number: 130, guard_cells: [{column: C, row: 130, expected_value: 'December 2025', label: month}, {column: H, row: 130, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_0__child_entitlement_yes, row_number: 131, guard_cells: [{column: C, row: 131, expected_value: 'December 2025', label: month}, {column: H, row: 131, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_no, row_number: 132, guard_cells: [{column: C, row: 132, expected_value: 'December 2025', label: month}, {column: H, row: 132, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_1__child_entitlement_yes, row_number: 133, guard_cells: [{column: C, row: 133, expected_value: 'December 2025', label: month}, {column: H, row: 133, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_no, row_number: 134, guard_cells: [{column: C, row: 134, expected_value: 'December 2025', label: month}, {column: H, row: 134, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_2__child_entitlement_yes, row_number: 135, guard_cells: [{column: C, row: 135, expected_value: 'December 2025', label: month}, {column: H, row: 135, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_no, row_number: 136, guard_cells: [{column: C, row: 136, expected_value: 'December 2025', label: month}, {column: H, row: 136, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_3__child_entitlement_yes, row_number: 137, guard_cells: [{column: C, row: 137, expected_value: 'December 2025', label: month}, {column: H, row: 137, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_no, row_number: 138, guard_cells: [{column: C, row: 138, expected_value: 'December 2025', label: month}, {column: H, row: 138, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_4__child_entitlement_yes, row_number: 139, guard_cells: [{column: C, row: 139, expected_value: 'December 2025', label: month}, {column: H, row: 139, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_no, row_number: 140, guard_cells: [{column: C, row: 140, expected_value: 'December 2025', label: month}, {column: H, row: 140, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_5_or_more__child_entitlement_yes, row_number: 141, guard_cells: [{column: C, row: 141, expected_value: 'December 2025', label: month}, {column: H, row: 141, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_no, row_number: 142, guard_cells: [{column: C, row: 142, expected_value: 'December 2025', label: month}, {column: H, row: 142, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_unknown_or_missing__child_entitlement_yes, row_number: 143, guard_cells: [{column: C, row: 143, expected_value: 'December 2025', label: month}, {column: H, row: 143, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_no, row_number: 144, guard_cells: [{column: C, row: 144, expected_value: 'December 2025', label: month}, {column: H, row: 144, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:0', label: child entitlement value URI}]}
+  - {<<: *children_not_available_prior_to_april_2019__child_entitlement_yes, row_number: 145, guard_cells: [{column: C, row: 145, expected_value: 'December 2025', label: month}, {column: H, row: 145, expected_value: 'str:value:UC_Households:V_F_UC_HOUSEHOLDS:HCCHILD_ENTITLEMENT:C_UC_CHILD_ENTITLEMENT:1', label: child entitlement value URI}]}

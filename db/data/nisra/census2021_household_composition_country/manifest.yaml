@@ -1,0 +1,19 @@
+source_id: nisra
+package_id: nisra-census2021-household-composition-country
+dataset: nisra_nisra-census2021-household-composition-country
+source_page: https://build.nisra.gov.uk/en/custom/data?d=HOUSEHOLD&v=HH_FAMILY_COMPOSITION_AGG23
+table: 'NISRA Census 2021 flexible table: households by household composition (HH_FAMILY_COMPOSITION_AGG23),
+  Northern Ireland'
+files:
+  2021:
+    filename: census2021_household_composition_ni.csv
+    source_url: https://build.nisra.gov.uk/en/custom/table.csv?d=HOUSEHOLD&v=HH_FAMILY_COMPOSITION_AGG23
+    sha256: 65df197a12abf34d91dc447154371827a8a8d037461b86c34a91dc828c5fbb02
+    size_bytes: 1783
+    fetched_at: '2026-09-03T12:52:07+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-census2021-household-composition-country/2021/65df197a12abf34d91dc447154371827a8a8d037461b86c34a91dc828c5fbb02/census2021_household_composition_ni.csv
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-census2021-household-composition-country/2021/65df197a12abf34d91dc447154371827a8a8d037461b86c34a91dc828c5fbb02/census2021_household_composition_ni.csv

@@ -1,0 +1,18 @@
+source_id: ons
+package_id: ons-census2021-ts046-central-heating-ltla
+dataset: ons_ons-census2021-ts046-central-heating-ltla
+source_page: https://www.ons.gov.uk/datasets/TS046/editions/2021/versions/4
+table: Census 2021 TS046 type of central heating in household, version 4
+files:
+  2021:
+    filename: ons-ts046-version-4.csv
+    source_url: https://download.ons.gov.uk/downloads/datasets/TS046/editions/2021/versions/4.csv
+    sha256: 572c007288266f73b09f640be87feef2d641413a8a749f90cb2b64294dc62354
+    size_bytes: 237221
+    fetched_at: '2026-09-15T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-census2021-ts046-central-heating-ltla/2021/572c007288266f73b09f640be87feef2d641413a8a749f90cb2b64294dc62354/ons-ts046-version-4.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-census2021-ts046-central-heating-ltla/2021/572c007288266f73b09f640be87feef2d641413a8a749f90cb2b64294dc62354/ons-ts046-version-4.csv

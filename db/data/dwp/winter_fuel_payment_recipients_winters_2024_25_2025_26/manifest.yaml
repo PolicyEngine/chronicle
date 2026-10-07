@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-winter-fuel-payment-recipients-winters-2024-25-2025-26
+dataset: dwp_dwp-winter-fuel-payment-recipients-winters-2024-25-2025-26
+source_page: https://stat-xplore.dwp.gov.uk/
+table: Winter Fuel Payment recipients by country, age band, amount and gender, winters
+  2024 to 2025 and 2025 to 2026
+files:
+  2026:
+    filename: winter_fuel_payment_recipients_by_country_age_band_amount_and_gender_winters_2024_25_2025_26.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: 9e23cca2dc8a48c2870c6dba6d688f4ba63fb6265d102fd62fb5ce0daf917e62
+    size_bytes: 10268
+    fetched_at: '2026-09-29T12:51:12+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-winter-fuel-payment-recipients-winters-2024-25-2025-26/2026/9e23cca2dc8a48c2870c6dba6d688f4ba63fb6265d102fd62fb5ce0daf917e62/winter_fuel_payment_recipients_by_country_age_band_amount_and_gender_winters_2024_25_2025_26.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-winter-fuel-payment-recipients-winters-2024-25-2025-26/2026/9e23cca2dc8a48c2870c6dba6d688f4ba63fb6265d102fd62fb5ce0daf917e62/winter_fuel_payment_recipients_by_country_age_band_amount_and_gender_winters_2024_25_2025_26.json

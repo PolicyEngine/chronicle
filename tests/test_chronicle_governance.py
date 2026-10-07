@@ -6,6 +6,8 @@ from pathlib import Path
 
 import yaml
 
+from chronicle.epoch import SCHEMA_IDS, schema_id
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,7 +20,8 @@ def test_chronicle_governance_files_define_required_review_surface():
     codeowners = codeowners_path.read_text()
     pr_template = template_path.read_text()
 
-    assert agents["schema_version"] == "policyengine_ledger.approved_agents.v1"
+    assert agents["schema_version"] in SCHEMA_IDS["approved_agents"].accepted
+    assert agents["schema_version"] == schema_id("approved_agents")
     assert agents["owners"]["github_team"] == "PolicyEngine/core-developers"
     assert "@PolicyEngine/core-developers" in codeowners
     assert "/packages/** @PolicyEngine/core-developers" in codeowners

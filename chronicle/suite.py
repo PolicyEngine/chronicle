@@ -23,6 +23,7 @@ from chronicle.core import (
     validate_facts,
 )
 from chronicle.database import ChronicleDbBuildReport, build_chronicle_db
+from chronicle.epoch import canonicalize_key
 from chronicle.sources.cells import (
     SourceCell,
     SourceCellReport,
@@ -39,6 +40,7 @@ from chronicle.sources.rows import (
 )
 from chronicle.sources.specs import (
     SourceRecordSpec,
+    SourceRecordSetSpec,
     SourceRegionSpec,
     build_cells_by_sheet_address,
     resolve_source_record,
@@ -320,12 +322,16 @@ def build_source_suite(
         source_region_report.to_dict(),
     )
 
+    source_record_set_specs = (
+        source_package.build_source_record_set_specs(year) if source_package else []
+    )
+    source_record_specs = (
+        source_package.build_source_record_specs(year)
+        if source_package
+        else build_source_record_specs(source, year=year)
+    )
     source_record_report = validate_source_record_specs(
-        (
-            source_package.build_source_record_specs(year)
-            if source_package
-            else build_source_record_specs(source, year=year)
-        ),
+        source_record_specs,
         cells,
     )
     _write_report(
@@ -386,6 +392,12 @@ def build_source_suite(
         fact_report=fact_report,
         concept_alignments=concept_report,
         require_axiom_validation=require_axiom_validation,
+        source_column_dimensions_by_record_id=(
+            _source_column_dimensions_by_record_id(source_record_set_specs)
+        ),
+        source_row_dimensions_by_record_id=(
+            _source_row_dimensions_by_record_id(source_record_set_specs)
+        ),
         selected_only_source_parse=(
             bool(source_package)
             and source_package.artifact.parser == "delimited_text_selected_rows"
@@ -546,6 +558,19 @@ def validate_source_regions(
     )
 
 
+def _canonicalize_lineage_key(domain_name: str, key: Any) -> str:
+    """Canonicalize an accepted lineage key without hiding invalid prefixes."""
+
+    if not isinstance(key, str):
+        return f"<invalid-{domain_name}-key:{key!r}>"
+    try:
+        return canonicalize_key(domain_name, key)
+    except ValueError:
+        # ``validate_facts`` reports the dual-prefix error. Keeping an unknown
+        # value here lets agent acceptance also report it as unresolved.
+        return key
+
+
 def build_agent_acceptance_report(
     facts: list[AggregateFact],
     rows: list[SourceRow],
@@ -558,6 +583,8 @@ def build_agent_acceptance_report(
     fact_report: ValidationReport,
     concept_alignments: ConceptAlignmentReport,
     require_axiom_validation: bool = False,
+    source_column_dimensions_by_record_id: dict[str, dict[str, Any]] | None = None,
+    source_row_dimensions_by_record_id: dict[str, dict[str, Any]] | None = None,
     selected_only_source_parse: bool = False,
 ) -> AgentAcceptanceReport:
     """Build the stricter report agents should satisfy before review."""
@@ -567,9 +594,16 @@ def build_agent_acceptance_report(
         **{row.artifact.sha256: row.artifact for row in rows},
         **{cell.artifact.sha256: cell.artifact for cell in cells},
     }
-    source_rows_by_key = {build_source_row_key(row): row for row in rows}
+    source_rows_by_key = {
+        canonicalize_key("source_row", build_source_row_key(row)): row for row in rows
+    }
     source_row_keys = set(source_rows_by_key)
-    source_cells_by_key = {build_source_cell_key(cell): cell for cell in cells}
+    source_cells_by_key = {
+        canonicalize_key("source_cell", build_source_cell_key(cell)): cell
+        for cell in cells
+    }
+    source_column_dimensions_by_record_id = source_column_dimensions_by_record_id or {}
+    source_row_dimensions_by_record_id = source_row_dimensions_by_record_id or {}
     raw_r2_link_count = 0
 
     if not cells and not rows:
@@ -644,8 +678,12 @@ def build_agent_acceptance_report(
                     )
                 )
                 continue
+            canonical_row_keys = [
+                _canonicalize_lineage_key("source_row", key)
+                for key in fact.source_row_keys
+            ]
             unresolved_keys = [
-                key for key in fact.source_row_keys if key not in source_row_keys
+                key for key in canonical_row_keys if key not in source_row_keys
             ]
             if unresolved_keys:
                 missing_row_resolution_count += 1
@@ -663,12 +701,30 @@ def build_agent_acceptance_report(
                 continue
             for issue in _row_semantic_evidence_issues(
                 fact,
-                [source_rows_by_key[key] for key in fact.source_row_keys],
+                [source_rows_by_key[key] for key in canonical_row_keys],
                 [
-                    source_cells_by_key[key]
+                    source_cells_by_key[canonical_key]
                     for key in fact.source_cell_keys
-                    if key in source_cells_by_key
+                    if (
+                        canonical_key := _canonicalize_lineage_key(
+                            "source_cell",
+                            key,
+                        )
+                    )
+                    in source_cells_by_key
                 ],
+                source_column_dimensions=(
+                    source_column_dimensions_by_record_id.get(
+                        fact.source_record_id or "",
+                        {},
+                    )
+                ),
+                source_row_dimensions=(
+                    source_row_dimensions_by_record_id.get(
+                        fact.source_record_id or "",
+                        {},
+                    )
+                ),
             ):
                 row_semantic_error_count += 1
                 errors.append(issue)
@@ -924,8 +980,13 @@ def _row_semantic_evidence_issues(
     fact: AggregateFact,
     rows: list[SourceRow],
     cells: list[SourceCell],
+    *,
+    source_column_dimensions: dict[str, Any] | None = None,
+    source_row_dimensions: dict[str, Any] | None = None,
 ) -> list[AgentAcceptanceIssue]:
     issues: list[AgentAcceptanceIssue] = []
+    source_column_dimensions = source_column_dimensions or {}
+    source_row_dimensions = source_row_dimensions or {}
     fact_key = build_fact_key(fact)
     period_values = _source_row_values(rows, "period")
     for value in period_values:
@@ -943,11 +1004,25 @@ def _row_semantic_evidence_issues(
             )
 
     for variable, value in fact.filters.items():
-        if value in (None, "all"):
+        if value is None:
+            continue
+        if value == "all" and not (source_column_dimensions or source_row_dimensions):
             continue
         matched_values = _source_row_values(rows, variable)
         if not matched_values:
             if _filter_evidenced_by_source_cells(cells, variable, value):
+                continue
+            if _wide_table_filter_evidenced_by_source_column(
+                source_column_dimensions,
+                variable,
+                value,
+            ):
+                continue
+            if _declared_dimension_evidences(
+                source_row_dimensions,
+                variable,
+                value,
+            ):
                 continue
             issues.append(
                 AgentAcceptanceIssue(
@@ -981,6 +1056,16 @@ def _row_semantic_evidence_issues(
             continue
         if _constraint_evidenced_by_source_cells(cells, constraint):
             continue
+        if _wide_table_constraint_evidenced_by_source_column(
+            source_column_dimensions,
+            constraint,
+        ):
+            continue
+        if _declared_constraint_evidenced(
+            source_row_dimensions,
+            constraint,
+        ):
+            continue
         matched_values = _source_row_values(rows, constraint.variable)
         if not matched_values:
             issues.append(
@@ -1010,6 +1095,84 @@ def _row_semantic_evidence_issues(
                     )
                 )
     return issues
+
+
+def _wide_table_filter_evidenced_by_source_column(
+    source_column_dimensions: dict[str, Any],
+    variable: str,
+    expected: Any,
+) -> bool:
+    """Accept an explicitly declared dimension of a guarded source column."""
+    return _declared_dimension_evidences(
+        source_column_dimensions,
+        variable,
+        expected,
+    )
+
+
+def _declared_dimension_evidences(
+    dimensions: dict[str, Any],
+    variable: str,
+    expected: Any,
+) -> bool:
+    """Accept an explicitly declared semantic dimension of a source axis."""
+    if variable not in dimensions:
+        return False
+    declared = dimensions[variable]
+    return type(declared) is type(expected) and declared == expected
+
+
+def _wide_table_constraint_evidenced_by_source_column(
+    source_column_dimensions: dict[str, Any],
+    constraint: Any,
+) -> bool:
+    return _declared_constraint_evidenced(
+        source_column_dimensions,
+        constraint,
+    )
+
+
+def _declared_constraint_evidenced(
+    dimensions: dict[str, Any],
+    constraint: Any,
+) -> bool:
+    if constraint.operator != "==":
+        return False
+    return _declared_dimension_evidences(
+        dimensions,
+        str(constraint.variable),
+        constraint.value,
+    )
+
+
+def _source_column_dimensions_by_record_id(
+    record_sets: list[SourceRecordSetSpec],
+) -> dict[str, dict[str, Any]]:
+    """Index explicit wide-column dimensions without changing fact payloads."""
+    return {
+        f"{record_set.source_record_id_prefix}.{row.value_id}.{measure.measure_id}": (
+            dict(measure.source_column_dimensions)
+        )
+        for record_set in record_sets
+        for row in record_set.rows
+        for measure in record_set.measures
+        if measure.source_column_dimensions
+    }
+
+
+def _source_row_dimensions_by_record_id(
+    record_sets: list[SourceRecordSetSpec],
+) -> dict[str, dict[str, Any]]:
+    """Index explicit row dimensions for row-header tables."""
+    return {
+        f"{record_set.source_record_id_prefix}.{row.value_id}.{measure.measure_id}": (
+            dict(row.source_row_dimensions)
+        )
+        for record_set in record_sets
+        for row in record_set.rows
+        for measure in record_set.measures
+        if row.source_row_dimensions
+    }
 
 
 def _constraint_evidenced_by_source_cells(
@@ -1356,7 +1519,39 @@ def _source_cell_age_range(cell: SourceCell) -> tuple[int, int | None] | None:
     return None
 
 
+def _statxplore_age_range(label: str) -> tuple[int, int | None] | None:
+    """Read a DWP Stat-Xplore 'Age (bands and single year)' item label.
+
+    The field's value sets label single years as bare digits ('66'), bands as
+    '65-69', the open top band as '90 and over' and the open bottom band as
+    'Under 65'. 'Unknown' and a recode's 'Total' carry no age.
+    """
+    label = label.strip()
+    if re.fullmatch(r"\d+", label):
+        lower = int(label)
+        return lower, lower + 1
+    match = re.fullmatch(r"(\d+)\s*[-–]\s*(\d+)", label)
+    if match:
+        return int(match.group(1)), int(match.group(2)) + 1
+    match = re.fullmatch(r"(\d+)\s+and\s+over", label, re.I)
+    if match:
+        return int(match.group(1)), None
+    match = re.fullmatch(r"under\s+(\d+)", label, re.I)
+    if match:
+        return 0, int(match.group(1))
+    return None
+
+
 def _source_row_age_range(row: SourceRow) -> tuple[int, int | None] | None:
+    # Stat-Xplore names its age column after the field label, and its labels
+    # carry no "Age" prefix, so they are read only from that column.
+    matched, value = _source_row_value_without_interpretation(
+        row, "age_bands_and_single_year"
+    )
+    if matched and value is not None:
+        age_range = _statxplore_age_range(str(value))
+        if age_range is not None:
+            return age_range
     for variable in (
         "C_AGE_NAME",
         "AGE_NAME",

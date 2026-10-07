@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import os
-from dataclasses import dataclass, replace
+from dataclasses import asdict, dataclass, field, replace
 from importlib.resources import files
 from io import BytesIO
 from pathlib import Path
@@ -32,6 +32,8 @@ from chronicle.core import (
     AggregateFact,
     build_label,
 )
+from chronicle.dimension_labels import label_facts, unused_label_declarations
+from chronicle.epoch import SCHEMA_IDS, schema_id
 from chronicle.sources.cells import (
     SourceArtifactMetadata,
     SourceCell,
@@ -57,6 +59,7 @@ from chronicle.sources.rows import (
     source_rows_from_ons_timeseries_json,
     source_rows_from_delimited_text,
     source_rows_from_xlsx_table,
+    statxplore_field_labels,
 )
 from chronicle.sources.specs import (
     SourceRecord,
@@ -73,6 +76,7 @@ from chronicle.sources.specs import (
 )
 
 SOURCE_PACKAGE_RESOURCE_PACKAGE = "packages"
+SOURCE_PACKAGE_SCHEMA_VERSION = schema_id("source_package")
 SOURCE_PACKAGE_ALIASES = {
     "stats-nz-subnational-population-estimates-2025": Path(
         "stats_nz/subnational_population_estimates_2025"
@@ -87,8 +91,152 @@ SOURCE_PACKAGE_ALIASES = {
         "bea/regional_personal_income_state"
     ),
     "hmrc-spi-income-bands-2023-24": Path("hmrc/spi_income_bands_2023_24"),
-    "hmrc-cgt-size-of-gain-2025": Path("hmrc/cgt_size_of_gain_2025"),
-    "hmrc-cgt-statistics-2025": Path("hmrc/cgt_statistics_2025"),
+    "hmrc-spi-income-by-region-2023-24": Path("hmrc/spi_income_by_region_2023_24"),
+    "hmrc-income-tax-liabilities-july-2026": Path(
+        "hmrc/income_tax_liabilities_july_2026"
+    ),
+    "hmrc-property-rental-income-2026": Path("hmrc/property_rental_income_2026"),
+    "dwp-benefit-expenditure-caseload-spring-2026": Path(
+        "dwp/benefit_expenditure_caseload_spring_2026"
+    ),
+    "dwp-esa-caseload-payment-type-phase-may-2018-march-2026": Path(
+        "dwp/esa_caseload_payment_type_phase_may_2018_march_2026"
+    ),
+    # chronicle#302: UK pension facts (State Pension, Pension Credit, NI, workplace
+    # pensions, salary sacrifice, Winter Fuel Payment).
+    "dfc-ni-pension-credit-statistics-may-2026": Path(
+        "dfc_ni/pension_credit_statistics_may_2026"
+    ),
+    "dfc-ni-state-pension-statistics-may-2026": Path(
+        "dfc_ni/state_pension_statistics_may_2026"
+    ),
+    "dwp-attendance-allowance-entitled-country-award-age-gender-february-2023-march-2026": Path(
+        "dwp/attendance_allowance_entitled_country_award_age_gender_february_2023_march_2026"
+    ),
+    "dwp-pension-credit-amount-band-type-february-2023-march-2026": Path(
+        "dwp/pension_credit_amount_band_type_february_2023_march_2026"
+    ),
+    "dwp-pension-credit-gender-type-february-2023-march-2026": Path(
+        "dwp/pension_credit_gender_type_february_2023_march_2026"
+    ),
+    "dwp-pension-credit-region-type-partner-age-february-2023-march-2026": Path(
+        "dwp/pension_credit_region_type_partner_age_february_2023_march_2026"
+    ),
+    "dwp-pension-credit-type-partner-age-february-2023-march-2026": Path(
+        "dwp/pension_credit_type_partner_age_february_2023_march_2026"
+    ),
+    "dwp-state-pension-age-gender-type-february-2023-march-2026": Path(
+        "dwp/state_pension_age_gender_type_february_2023_march_2026"
+    ),
+    "dwp-state-pension-amount-band-type-february-2023-march-2026": Path(
+        "dwp/state_pension_amount_band_type_february_2023_march_2026"
+    ),
+    "dwp-state-pension-category-protected-payment-february-2023-march-2026": Path(
+        "dwp/state_pension_category_protected_payment_february_2023_march_2026"
+    ),
+    "dwp-state-pension-region-type-gender-february-2023-march-2026": Path(
+        "dwp/state_pension_region_type_gender_february_2023_march_2026"
+    ),
+    "dwp-winter-fuel-payment-recipients-winter-2023-24": Path(
+        "dwp/winter_fuel_payment_recipients_winter_2023_24"
+    ),
+    "dwp-winter-fuel-payment-recipients-winters-2024-25-2025-26": Path(
+        "dwp/winter_fuel_payment_recipients_winters_2024_25_2025_26"
+    ),
+    "dwp-winter-fuel-payment-statistics-winter-2023-24": Path(
+        "dwp/winter_fuel_payment_statistics_winter_2023_24"
+    ),
+    "dwp-winter-fuel-payment-statistics-winter-2024-25": Path(
+        "dwp/winter_fuel_payment_statistics_winter_2024_25"
+    ),
+    "dwp-winter-fuel-payment-statistics-winter-2025-26": Path(
+        "dwp/winter_fuel_payment_statistics_winter_2025_26"
+    ),
+    "dwp-workplace-pension-savings-trends-2009-to-2025": Path(
+        "dwp/workplace_pension_savings_trends_2009_to_2025"
+    ),
+    "hmrc-pension-contribution-relief-2023-24": Path(
+        "hmrc/pension_contribution_relief_2023_24"
+    ),
+    "hmrc-winter-fuel-payment-charge-2025": Path(
+        "hmrc/winter_fuel_payment_charge_2025"
+    ),
+    "obr-salary-sacrifice-costing-february-2026": Path(
+        "obr/salary_sacrifice_costing_february_2026"
+    ),
+    "ons-ashe-employee-contribution-bands-by-age-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_age_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-age-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_age_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employee-contribution-bands-by-business-size-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_business_size_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-business-size-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_business_size_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employee-contribution-bands-by-industry-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_industry_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-industry-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_industry_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employee-contribution-bands-by-occupation-2024-full-pay": Path(
+        "ons/ashe_employee_contribution_bands_by_occupation_2024_full_pay"
+    ),
+    "ons-ashe-employee-contribution-bands-by-occupation-2024-qualifying-earnings": Path(
+        "ons/ashe_employee_contribution_bands_by_occupation_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employer-contribution-bands-by-age-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_age_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-age-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_age_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employer-contribution-bands-by-business-size-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_business_size_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-business-size-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_business_size_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employer-contribution-bands-by-industry-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_industry_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-industry-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_industry_2024_qualifying_earnings"
+    ),
+    "ons-ashe-employer-contribution-bands-by-occupation-2024-full-pay": Path(
+        "ons/ashe_employer_contribution_bands_by_occupation_2024_full_pay"
+    ),
+    "ons-ashe-employer-contribution-bands-by-occupation-2024-qualifying-earnings": Path(
+        "ons/ashe_employer_contribution_bands_by_occupation_2024_qualifying_earnings"
+    ),
+    "ons-ashe-pension-membership-by-age-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_age_earnings_2024"
+    ),
+    "ons-ashe-pension-membership-by-business-size-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_business_size_earnings_2024"
+    ),
+    "ons-ashe-pension-membership-by-industry-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_industry_earnings_2024"
+    ),
+    "ons-ashe-pension-membership-by-occupation-earnings-2024": Path(
+        "ons/ashe_pension_membership_by_occupation_earnings_2024"
+    ),
+    "ons-employee-workplace-pensions-summary-2024": Path(
+        "ons/employee_workplace_pensions_summary_2024"
+    ),
+    # end chronicle#302
+    "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
+    "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
+    "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),
+    "hmrc-cgt-carried-interest-2026": Path("hmrc/cgt_carried_interest_2026"),
+    "hmrc-cgt-country-region-2026": Path("hmrc/cgt_country_region_2026"),
+    "hmrc-cgt-gain-by-income-2026": Path("hmrc/cgt_gain_by_income_2026"),
+    "hmrc-cgt-residential-property-2026": Path("hmrc/cgt_residential_property_2026"),
+    "hmrc-cgt-size-of-gain-2026": Path("hmrc/cgt_size_of_gain_2026"),
+    "hmrc-cgt-statistics-2026": Path("hmrc/cgt_statistics_2026"),
     "hmrc-spi-income-by-area-2023-24": Path("hmrc/spi_income_by_area_2023_24"),
     "hmrc-salary-sacrifice-relief-2024-25": Path(
         "hmrc/salary_sacrifice_relief_2024_25"
@@ -96,6 +244,8 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-salary-sacrifice-reform-2029-headcounts": Path(
         "hmrc/salary_sacrifice_reform_2029_headcounts"
     ),
+    "hmrc-tax-free-childcare-march-2026": Path("hmrc/tax_free_childcare_march_2026"),
+    "hmrc-child-benefit-august-2025": Path("hmrc/child_benefit_august_2025"),
     "ici-fact-book-table-30": Path("ici/fact_book_table_30"),
     "isc-annual-census-2023": Path("isc/annual_census_2023"),
     "isc-annual-census-2024": Path("isc/annual_census_2024"),
@@ -108,6 +258,9 @@ SOURCE_PACKAGE_ALIASES = {
     "mhclg-council-tax-collection-england-2025-26": Path(
         "mhclg/council_tax_collection_england_2025_26"
     ),
+    "mhclg-council-taxbase-england-2023": Path("mhclg/council_taxbase_england_2023"),
+    "mhclg-council-taxbase-england-2024": Path("mhclg/council_taxbase_england_2024"),
+    "mhclg-council-taxbase-england-2025": Path("mhclg/council_taxbase_england_2025"),
     "mhclg-ehs-weekly-housing-costs-2023-24": Path(
         "mhclg/ehs_weekly_housing_costs_2023_24"
     ),
@@ -132,13 +285,70 @@ SOURCE_PACKAGE_ALIASES = {
     "fpb-economic-outlook-2026-2031-june-2026": Path(
         "fpb/economic_outlook_2026_2031_june_2026"
     ),
+    "dfe-funded-early-education-childcare-2026": Path(
+        "dfe/funded_early_education_childcare_2026"
+    ),
+    "dfi-ni-bus-concessionary-journeys-2024-25": Path(
+        "dfi_ni/bus_concessionary_journeys_2024_25"
+    ),
+    "dft-bus01-passenger-journeys-2025": Path("dft/bus01_passenger_journeys_2025"),
+    "dft-bus0415-fares-index-2026": Path("dft/bus0415_fares_index_2026"),
+    "dft-bus05i-revenue-support-2025": Path("dft/bus05i_revenue_support_2025"),
+    "dft-veh1103-cars-fuel-type-2025": Path("dft/veh1103_cars_fuel_type_2025"),
+    "dft-nts0303-mode-trips-2025": Path("dft/nts0303_mode_trips_2025"),
+    "dft-nts0313-mode-use-frequency-2025": Path("dft/nts0313_mode_use_frequency_2025"),
+    "dft-nts0601-age-mode-trips-2025": Path("dft/nts0601_age_mode_trips_2025"),
+    "dft-nts0621-local-bus-use-frequency-2025": Path(
+        "dft/nts0621_local_bus_use_frequency_2025"
+    ),
+    "dft-nts0705-local-bus-trips-2024": Path("dft/nts0705_local_bus_trips_2024"),
     "dft-nts-vehicle-ownership-2024": Path("dft/nts_vehicle_ownership_2024"),
+    "dfc-ni-uc-statistics-may-2026": Path("dfc_ni/uc_statistics_may_2026"),
+    "dfi-ni-public-transport-statistics-2024-25": Path(
+        "dfi_ni/public_transport_statistics_2024_25"
+    ),
+    "desnz-energy-trends-domestic-electricity-2026": Path(
+        "desnz/energy_trends_domestic_electricity_2026"
+    ),
+    "desnz-energy-trends-domestic-gas-2026": Path(
+        "desnz/energy_trends_domestic_gas_2026"
+    ),
+    "desnz-monthly-annual-road-fuel-prices-august-2026": Path(
+        "desnz/monthly_annual_road_fuel_prices_august_2026"
+    ),
+    "desnz-need-england-wales-2023": Path("desnz/need_england_wales_2023"),
+    "desnz-need-england-wales-2024": Path("desnz/need_england_wales_2024"),
+    "desnz-need-scotland-2023": Path("desnz/need_scotland_2023"),
+    "desnz-need-scotland-2024": Path("desnz/need_scotland_2024"),
+    "desnz-qep-electricity-annual-bills-2026": Path(
+        "desnz/qep_electricity_annual_bills_2026"
+    ),
+    "desnz-qep-electricity-unit-fixed-costs-2026": Path(
+        "desnz/qep_electricity_unit_fixed_costs_2026"
+    ),
+    "desnz-qep-gas-annual-bills-2026": Path("desnz/qep_gas_annual_bills_2026"),
+    "desnz-qep-gas-unit-fixed-costs-2026": Path("desnz/qep_gas_unit_fixed_costs_2026"),
+    "desnz-subnational-electricity-consumption-2024": Path(
+        "desnz/subnational_electricity_consumption_2024"
+    ),
+    "desnz-subnational-gas-consumption-2024": Path(
+        "desnz/subnational_gas_consumption_2024"
+    ),
+    "desnz-weekly-road-fuel-prices-september-2026": Path(
+        "desnz/weekly_road_fuel_prices_september_2026"
+    ),
     "dwp-benefit-cap-november-2025": Path("dwp/benefit_cap_november_2025"),
     "dwp-benefit-statistics-february-2026": Path(
         "dwp/benefit_statistics_february_2026"
     ),
-    "dwp-uc-childcare-element-march-2021-august-2025": Path(
-        "dwp/uc_childcare_element_march_2021_august_2025"
+    "dwp-hb-claimants-client-type-tenure-january-2023-february-2026": Path(
+        "dwp/hb_claimants_client_type_tenure_january_2023_february_2026"
+    ),
+    "dwp-hb-claimants-client-type-tenure-accommodation-type-september-2025-february-2026": Path(
+        "dwp/hb_claimants_client_type_tenure_accommodation_type_september_2025_february_2026"
+    ),
+    "dwp-uc-childcare-element-march-2021-may-2026": Path(
+        "dwp/uc_childcare_element_march_2021_may_2026"
     ),
     "dwp-uc-deductions-march-2025-february-2026": Path(
         "dwp/uc_deductions_march_2025_february_2026"
@@ -153,26 +363,50 @@ SOURCE_PACKAGE_ALIASES = {
     "dwp-uc-households-by-local-authority-may-2025": Path(
         "dwp/uc_households_by_local_authority_may_2025"
     ),
-    "dwp-uc-households-carer-entitlement-april-december-2025": Path(
-        "dwp/uc_households_carer_entitlement_april_december_2025"
-    ),
     "dwp-uc-households-children-april-december-2025": Path(
         "dwp/uc_households_children_april_december_2025"
     ),
     "dwp-uc-households-family-type-april-december-2025": Path(
         "dwp/uc_households_family_type_april_december_2025"
     ),
-    "dwp-uc-households-housing-entitlement-april-december-2025": Path(
-        "dwp/uc_households_housing_entitlement_april_december_2025"
+    "dwp-uc-households-family-type-child-entitlement-april-december-2025": Path(
+        "dwp/uc_households_family_type_child_entitlement_april_december_2025"
     ),
-    "dwp-uc-households-lcwra-entitlement-april-december-2025": Path(
-        "dwp/uc_households_lcwra_entitlement_april_december_2025"
+    "dwp-uc-households-children-child-entitlement-april-december-2025": Path(
+        "dwp/uc_households_children_child_entitlement_april_december_2025"
     ),
-    "dwp-uc-payment-distribution-may-2025": Path(
-        "dwp/uc_payment_distribution_may_2025"
+    "dwp-uc-households-family-type-payment-indicator-april-december-2025": Path(
+        "dwp/uc_households_family_type_payment_indicator_april_december_2025"
     ),
-    "dwp-uc-scotland-youngest-child-may-2025": Path(
-        "dwp/uc_scotland_youngest_child_may_2025"
+    "dwp-uc-households-family-type-payment-indicator-child-entitlement-april-2023-may-2026": Path(
+        "dwp/uc_households_family_type_payment_indicator_child_entitlement_april_2023_may_2026"
+    ),
+    "dwp-uc-households-children-payment-indicator-child-entitlement-april-2023-may-2026": Path(
+        "dwp/uc_households_children_payment_indicator_child_entitlement_april_2023_may_2026"
+    ),
+    "dwp-uc-households-housing-tenure-payment-indicator-january-2023-may-2026": Path(
+        "dwp/uc_households_housing_tenure_payment_indicator_january_2023_may_2026"
+    ),
+    "dwp-uc-households-housing-entitlement-payment-indicator-january-2023-may-2026": Path(
+        "dwp/uc_households_housing_entitlement_payment_indicator_january_2023_may_2026"
+    ),
+    "dwp-uc-households-lcw-entitlement-payment-indicator-january-2023-may-2026": Path(
+        "dwp/uc_households_lcw_entitlement_payment_indicator_january_2023_may_2026"
+    ),
+    "dwp-uc-households-lcw-entitlement-group-payment-indicator-january-2023-may-2026": Path(
+        "dwp/uc_households_lcw_entitlement_group_payment_indicator_january_2023_may_2026"
+    ),
+    "dwp-uc-households-carer-entitlement-payment-indicator-january-2023-may-2026": Path(
+        "dwp/uc_households_carer_entitlement_payment_indicator_january_2023_may_2026"
+    ),
+    "dwp-uc-people-employment-indicator-january-2023-may-2026": Path(
+        "dwp/uc_people_employment_indicator_january_2023_may_2026"
+    ),
+    "dwp-uc-payment-distribution-april-december-2025": Path(
+        "dwp/uc_payment_distribution_april_december_2025"
+    ),
+    "dwp-uc-scotland-youngest-child-april-december-2025": Path(
+        "dwp/uc_scotland_youngest_child_april_december_2025"
     ),
     "dwp-uc-two-child-limit-2025": Path("dwp/uc_two_child_limit_2025"),
     "cbo-revenue-projections-income-by-source-2026-02": Path(
@@ -281,6 +515,9 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-vat-firm-sector-targets-2024-25": Path(
         "hmrc/vat_firm_sector_targets_2024_25"
     ),
+    "hmrc-hydrocarbon-oils-quantities-june-2026": Path(
+        "hmrc/hydrocarbon_oils_quantities_june_2026"
+    ),
     "eurostat-gov-10a-taxag": Path("eurostat/gov_10a_taxag"),
     "eurostat-gov-10a-taxag-2025": Path("eurostat/gov_10a_taxag_2025"),
     "eurostat-spr-exp-func": Path("eurostat/spr_exp_func"),
@@ -292,8 +529,14 @@ SOURCE_PACKAGE_ALIASES = {
         "kff/marketplace_effectuated_enrollment"
     ),
     "ons-census2021-ts041-households-lad": Path("ons/census2021_ts041_households_lad"),
+    "ons-census2021-ts003-household-composition-country": Path(
+        "ons/census2021_ts003_household_composition_country"
+    ),
     "ons-census2021-ts041-households-pcon24": Path(
         "ons/census2021_ts041_households_pcon24"
+    ),
+    "ons-census2021-ts046-central-heating-ltla": Path(
+        "ons/census2021_ts046_central_heating_ltla"
     ),
     "ons-mye-2023-uk-countries": Path("ons/mye_2023_uk_countries"),
     "ons-mye-2023-england-regions": Path("ons/mye_2023_england_regions"),
@@ -306,20 +549,37 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/subnational_dwellings_by_tenure_2024"
     ),
     "ons-pipr-rents-by-area-june-2026": Path("ons/pipr_rents_by_area_june_2026"),
+    "ons-consumer-trends-current-price-2026": Path(
+        "ons/consumer_trends_current_price_2026"
+    ),
     "nrs-census2022-households-ukpc24": Path("nrs/census2022_households_ukpc24"),
     "nrs-pcon24-population-by-age-2024": Path("nrs/pcon24_population_by_age_2024"),
+    "nrs-census2022-uv113-household-composition-country": Path(
+        "nrs/census2022_uv113_household_composition_country"
+    ),
     "nrs-census2022-uv404-tenure-council-area": Path(
         "nrs/census2022_uv404_tenure_council_area"
+    ),
+    "nrs-census2022-uv407-central-heating-council-area": Path(
+        "nrs/census2022_uv407_central_heating_council_area"
     ),
     "nisra-census2021-households-lgd": Path("nisra/census2021_households_lgd"),
     "nisra-census2021-households-pcon24": Path("nisra/census2021_households_pcon24"),
     "nisra-pcon24-population-by-age-2024": Path("nisra/pcon24_population_by_age_2024"),
     "nisra-census2021-tenure-lgd": Path("nisra/census2021_tenure_lgd"),
+    "nisra-census2021-household-composition-country": Path(
+        "nisra/census2021_household_composition_country"
+    ),
+    "nithc-annual-report-accounts-2024-25": Path(
+        "nithc/annual_report_accounts_2024_25"
+    ),
     "ons-uk-population-projections-2024": Path("ons/npp_2024_uk"),
     "scotgov-band-d-council-tax-rates-2026-27": Path(
         "scotgov/band_d_council_tax_rates_2026_27"
     ),
     "scotgov-band-d-equivalents-2025": Path("scotgov/band_d_equivalents_2025"),
+    "scotgov-council-tax-bands-2023": Path("scotgov/council_tax_bands_2023"),
+    "scotgov-council-tax-bands-2024": Path("scotgov/council_tax_bands_2024"),
     "scotgov-council-tax-bands-2025": Path("scotgov/council_tax_bands_2025"),
     "scotgov-council-tax-collection-2024-25": Path(
         "scotgov/council_tax_collection_2024_25"
@@ -331,7 +591,19 @@ SOURCE_PACKAGE_ALIASES = {
     "scotgov-scottish-budget-social-security-assistance-2026": Path(
         "scotgov/scottish_budget_social_security_assistance_2026"
     ),
+    "scotgov-bus-coach-statistics-2023-24": Path(
+        "scotgov/bus_coach_statistics_2023_24"
+    ),
+    "scotgov-bus-coach-statistics-2024-25": Path(
+        "scotgov/bus_coach_statistics_2024_25"
+    ),
     "welshgov-council-tax-levels-2026-27": Path("welshgov/council_tax_levels_2026_27"),
+    "welshgov-council-tax-dwellings-2023-24-to-2026-27": Path(
+        "welshgov/council_tax_dwellings_2023_24_to_2026_27"
+    ),
+    "welshgov-transport-revenue-outturn-2024-25": Path(
+        "welshgov/transport_revenue_outturn_2024_25"
+    ),
     "welshgov-council-tax-collection-2024-25": Path(
         "welshgov/council_tax_collection_2024_25"
     ),
@@ -340,12 +612,24 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "welshgov-ctrs-annual-report-2024-25": Path("welshgov/ctrs_annual_report_2024_25"),
     "welshgov-ctrs-annual-report-2025-26": Path("welshgov/ctrs_annual_report_2025_26"),
+    "welshgov-bus-statistics-2024-25": Path("welshgov/bus_statistics_2024_25"),
     "voa-council-tax-bands-2025": Path("voa/council_tax_bands_2025"),
     "voa-council-tax-stock-by-lad-2025": Path("voa/council_tax_stock_by_lad_2025"),
     "obr-efo-receipts-march-2026": Path("obr/efo_receipts_march_2026"),
     "obr-efo-expenditure-march-2026": Path("obr/efo_expenditure_march_2026"),
     "obr-efo-economy-march-2026": Path("obr/efo_economy_march_2026"),
     "obr-efo-aggregates-march-2026": Path("obr/efo_aggregates_march_2026"),
+    "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
+        "obr/fuel_duty_receipts_by_vehicle_april_2024"
+    ),
+    "ofgem-energy-price-cap-q1-2024": Path("ofgem/energy_price_cap_q1_2024"),
+    "ofgem-energy-price-cap-levels-2024-2026": Path(
+        "ofgem/energy_price_cap_levels_2024_2026"
+    ),
+    "orr-government-support-7270-2024-25": Path("orr/government_support_7270_2024_25"),
+    "orr-government-support-7271-2024-25": Path("orr/government_support_7271_2024_25"),
+    "orr-rail-fares-7180-2026": Path("orr/rail_fares_7180_2026"),
+    "orr-rail-finance-7223-2024-25": Path("orr/rail_finance_7223_2024_25"),
     "ons-national-balance-sheet-land-2025": Path(
         "ons/national_balance_sheet_land_2025"
     ),
@@ -486,6 +770,17 @@ class SourceArtifactSpec:
             )
         return []
 
+    def source_column_labels(self, year: int) -> dict[str, str]:
+        """Return the publisher's labels for parsed source-row columns.
+
+        Only Stat-Xplore responses carry them: each field's label, keyed by the
+        column the parser names after it.
+        """
+        if self.parser != "statxplore_table_json_rows":
+            return {}
+        content, _filename, _source_url, _raw_r2 = self._artifact_content(year)
+        return statxplore_field_labels(content)
+
     def build_source_cells(
         self,
         year: int,
@@ -545,6 +840,12 @@ class SourceArtifactSpec:
             )
         if self.parser == "ods_used_range":
             return source_cells_from_ods(content, artifact)
+        if self.parser == "ods_numeric_text_used_range":
+            return source_cells_from_ods(
+                content,
+                artifact,
+                coerce_numeric_text=True,
+            )
         if self.parser == "html_tables_and_text":
             return source_cells_from_html_tables_and_text(content, artifact)
         if self.parser == "pdf_text_numbers":
@@ -1051,9 +1352,22 @@ class SourcePackage:
     artifact: SourceArtifactSpec
     record_sets: tuple[DeclarativeRecordSet, ...]
     package_path: Path
+    # Declared labels for dimensions and values the parser cannot recover
+    # (chronicle#261); see chronicle.dimension_labels for the other sources.
+    dimension_labels: dict[str, str] | None = None
+    dimension_value_labels: dict[str, dict[str, str]] | None = None
+    # Memo of artifact_year_restamp_issues by build year. The verdict depends
+    # only on the package's declarations, which a loaded package never changes.
+    _restamp_issues_by_year: dict[Any, tuple[SourcePackageIssue, ...]] = field(
+        default_factory=dict,
+        init=False,
+        repr=False,
+        compare=False,
+    )
 
     def build_source_rows(self, year: int) -> list[SourceRow]:
         """Build full source rows for row-oriented artifacts."""
+        self._require_year_reads_its_own_data(year)
         return self.artifact.build_source_rows(year)
 
     def build_source_cells(
@@ -1063,6 +1377,7 @@ class SourcePackage:
         source_rows: list[SourceRow] | None = None,
     ) -> list[SourceCell]:
         """Build whole-artifact source cells for this package."""
+        self._require_year_reads_its_own_data(year)
         return self.artifact.build_source_cells(year, source_rows=source_rows)
 
     def build_source_record_set_specs(
@@ -1070,7 +1385,18 @@ class SourcePackage:
         year: int,
     ) -> list[SourceRecordSetSpec]:
         """Build compact record-set specs for this package."""
+        self._require_year_reads_its_own_data(year)
+        return self._compile_record_set_specs(year)
+
+    def _compile_record_set_specs(self, year: int) -> list[SourceRecordSetSpec]:
+        """Compile record-set specs without the artifact-year restamp guard."""
         return [record_set.to_record_set_spec(year) for record_set in self.record_sets]
+
+    def _require_year_reads_its_own_data(self, year: int) -> None:
+        """Refuse a build whose year would only relabel the pinned artifact."""
+        issues = artifact_year_restamp_issues(self, year)
+        if issues:
+            raise ArtifactYearRestampError(self, year, issues)
 
     def build_source_regions(self, year: int):
         """Build source-region specs implied by the package record sets."""
@@ -1113,7 +1439,9 @@ class SourcePackage:
         cells: list[SourceCell] | None = None,
         source_rows: list[SourceRow] | None = None,
     ) -> list[AggregateFact]:
-        """Build source-lineaged Chronicle aggregate facts."""
+        """Build source-lineaged Chronicle aggregate facts and their labels."""
+        if source_rows is None:
+            source_rows = self.build_source_rows(year)
         if cells is None:
             cells = self.build_source_cells(year, source_rows=source_rows)
         source = _source_provenance_from_cells(cells)
@@ -1125,7 +1453,386 @@ class SourcePackage:
         ):
             fact = _fact_from_source_record(record, source)
             facts.append(replace(fact, label=build_label(fact)))
-        return facts
+        unused = unused_label_declarations(
+            facts,
+            dimension_labels=self.dimension_labels,
+            dimension_value_labels=self.dimension_value_labels,
+        )
+        if unused:
+            raise ValueError(
+                f"Source package {self.package_id!r} declares labels no fact "
+                f"uses: {unused}."
+            )
+        return label_facts(
+            facts,
+            dimension_labels=self.dimension_labels,
+            dimension_value_labels=self.dimension_value_labels,
+            field_labels=self.artifact.source_column_labels(year),
+            source_rows=source_rows,
+        )
+
+
+ARTIFACT_YEAR_RESTAMP_CODE = "artifact_year_restamp"
+
+# The declarations that decide what a build reads: which file, sheet and
+# selected rows, and per (row, measure) cell the column, rows, header and guard
+# expectations and value scaling (_cell_selection). A pinned package always reads
+# the file of its ``artifact_year``, so when these render the same at two build
+# years, both builds read the same cells. Every other compiled field (period,
+# record ids, legal_vintage, filters, constraints, geography, concept and layout
+# labels) names or dates the facts built from those cells.
+_ARTIFACT_SELECTION_FIELDS = (
+    "parser",
+    "archive_member",
+    "sheets",
+    "delimiter",
+    "header_row",
+)
+_ARTIFACT_LABEL_FIELDS = ("vintage", "source_table")
+_RESTAMP_MESSAGE_MOVES = 6
+
+
+class ArtifactYearRestampError(ValueError):
+    """A pinned-artifact build whose year would only relabel another year's data.
+
+    ``artifact_year`` pins which file a package reads. When a build at another
+    year selects exactly the cells the ``artifact_year`` build selects, every
+    ``{year}`` label it renders (period, record ids, vintage, legal_vintage)
+    would restamp that file's facts as the requested year.
+    """
+
+    def __init__(
+        self,
+        package: SourcePackage,
+        year: int,
+        issues: list[SourcePackageIssue] | tuple[SourcePackageIssue, ...],
+    ) -> None:
+        self.package_id = package.package_id
+        self.artifact_year = package.artifact.artifact_year
+        self.year = year
+        self.issues = tuple(issues)
+        more = len(self.issues) - 1
+        suffix = f" ({more} more record set(s) affected.)" if more else ""
+        super().__init__(f"{self.issues[0].message}{suffix}")
+
+
+def artifact_year_restamp_issues(
+    package: SourcePackage,
+    year: int,
+) -> list[SourcePackageIssue]:
+    """Return restamp issues for building a pinned package at ``year``.
+
+    A package pinned to ``artifact_year`` A reads A's file at every build year.
+    A build at year Y != A is a restamp when a record set selects the same cells
+    at Y as at A (same artifact and record-set selection) while any label the
+    build renders differs, such as the period, record ids, artifact vintage or
+    legal_vintage. Packages whose selection follows the year
+    (``column_by_year``, ``sheet_name_by_year``, ``selected_rows`` that filter
+    on ``{year}``, or a guard cell whose expected value follows the year) pass;
+    a build at a year their file does not cover then fails with its own error.
+    The check compiles record-set specs only and never parses the artifact.
+    """
+    artifact_year = package.artifact.artifact_year
+    if (
+        artifact_year is None
+        or not isinstance(year, int)
+        or isinstance(year, bool)
+        or year == artifact_year
+    ):
+        return []
+    cached = package._restamp_issues_by_year.get(year)
+    if cached is None:
+        cached = tuple(_restamp_issues(package, year, artifact_year))
+        package._restamp_issues_by_year[year] = cached
+    return list(cached)
+
+
+def _restamp_issues(
+    package: SourcePackage,
+    year: int,
+    artifact_year: int,
+) -> list[SourcePackageIssue]:
+    if not _declarations_depend_on_year(package):
+        return []  # every declaration renders the same at every year
+    artifact = package.artifact
+    try:
+        if _artifact_selection(artifact, year) != _artifact_selection(
+            artifact, artifact_year
+        ):
+            return []
+        entries_at_year = _selected_row_entries(artifact, year)
+        entries_at_artifact_year = _selected_row_entries(artifact, artifact_year)
+        specs_at_year = package._compile_record_set_specs(year)
+        specs_at_artifact_year = package._compile_record_set_specs(artifact_year)
+    except (KeyError, TypeError, ValueError):
+        # A declaration that renders or compiles at only one of the two years
+        # selects by year (for example a column_by_year without that year). A
+        # build at a year that cannot compile fails with its own error.
+        return []
+    sheet_selects = _sheet_name_selects(artifact)
+    artifact_moves = []
+    label_fields = _ARTIFACT_LABEL_FIELDS + (
+        ("sheet_name",) if _artifact_sheet_role(artifact) == "label" else ()
+    )
+    for name in label_fields:
+        value = getattr(artifact, name)
+        at_artifact_year = _render_string(value, year=artifact_year) if value else value
+        at_year = _render_string(value, year=year) if value else value
+        if at_artifact_year != at_year:
+            artifact_moves.append((f"artifact.{name}", at_artifact_year, at_year))
+    issues = []
+    for spec_at_year, spec_at_artifact_year in zip(
+        specs_at_year,
+        specs_at_artifact_year,
+        strict=True,
+    ):
+        moves = _restamped_cell_moves(
+            spec_at_year,
+            spec_at_artifact_year,
+            entries_at_year=entries_at_year,
+            entries_at_artifact_year=entries_at_artifact_year,
+            sheet_selects=sheet_selects,
+        )
+        if moves is None:
+            continue
+        moves = [*artifact_moves, *moves]
+        if not moves:
+            continue
+        issues.append(
+            SourcePackageIssue(
+                code=ARTIFACT_YEAR_RESTAMP_CODE,
+                message=_restamp_message(
+                    package,
+                    year=year,
+                    artifact_year=artifact_year,
+                    record_set_id=spec_at_artifact_year.record_set_id,
+                    moves=moves,
+                ),
+                record_set_id=spec_at_year.record_set_id,
+            )
+        )
+    return issues
+
+
+def _restamped_cell_moves(
+    spec_at_year: SourceRecordSetSpec,
+    spec_at_artifact_year: SourceRecordSetSpec,
+    *,
+    entries_at_year: tuple[Any, ...],
+    entries_at_artifact_year: tuple[Any, ...],
+    sheet_selects: bool,
+) -> list[tuple[str, Any, Any]] | None:
+    """The record set's moved fields when some cell is read alike at both years.
+
+    A record set builds one fact per (row, measure) cell. A cell is read alike
+    when its row, its measure, its guard cells, the record set's sheet (for a
+    spreadsheet) and the ``selected_rows`` entries its rows come from all
+    render the same at both years. Returns ``None`` when no cell is read alike.
+    Otherwise it returns every field of the record set that differs. Each
+    fact carries ``layout.record_set_spec_hash``, a hash of the whole compiled
+    record set, so any difference relabels the alike cells' facts. One
+    year-selected measure beside a fixed one, or one ``{year}`` selected row
+    beside a fixed one, therefore no longer hides the fixed cells
+    (chronicle#292 review).
+    """
+
+    if sheet_selects and spec_at_year.sheet_name != spec_at_artifact_year.sheet_name:
+        return None
+    alike = any(
+        _cell_selection(row_at_year, measure_at_year, entries_at_year)
+        == _cell_selection(
+            row_at_artifact_year, measure_at_artifact_year, entries_at_artifact_year
+        )
+        for row_at_year, row_at_artifact_year in zip(
+            spec_at_year.rows, spec_at_artifact_year.rows, strict=True
+        )
+        for measure_at_year, measure_at_artifact_year in zip(
+            spec_at_year.measures, spec_at_artifact_year.measures, strict=True
+        )
+    )
+    if not alike:
+        return None
+    return _changed_leaves(asdict(spec_at_artifact_year), asdict(spec_at_year))
+
+
+def _cell_selection(
+    row: Any, measure: Any, entries: tuple[Any, ...]
+) -> tuple[Any, ...]:
+    """What one (row, measure) cell reads, resolved as the compiler resolves it.
+
+    ``compile_source_record_set_specs`` reads ``row.column or measure.column``
+    and lets a row's column-header expectation override the measure's, so a
+    fixed row column is read alike even when the measure's column follows the
+    year.
+    """
+
+    referenced = {row.row_number}
+    if row.row_end_number:
+        referenced.update(range(row.row_number, row.row_end_number + 1))
+    referenced.update(
+        guard.row
+        for guard in row.guard_cells
+        if isinstance(guard.row, int) and not isinstance(guard.row, bool)
+    )
+    return (
+        row.column or measure.column,
+        (
+            row.expected_column_header_row
+            if row.expected_column_header_row is not None
+            else measure.expected_column_header_row
+        ),
+        (
+            row.expected_column_header
+            if row.expected_column_header is not None
+            else measure.expected_column_header
+        ),
+        row.row_number,
+        row.row_end_number,
+        row.value_scale,
+        row.expected_row_header,
+        row.expected_row_header_column,
+        measure.divisor_column,
+        measure.value_scale,
+        measure.round_to,
+        measure.expected_cell_type,
+        tuple(
+            (guard.column, guard.expected_value, guard.row) for guard in row.guard_cells
+        ),
+        tuple(
+            (guard.column, guard.expected_values) for guard in row.range_label_guards
+        ),
+        tuple(
+            _selected_row_entry(entries, row_number)
+            for row_number in sorted(number for number in referenced if number)
+        ),
+    )
+
+
+def _selected_row_entries(artifact: SourceArtifactSpec, year: int) -> tuple[Any, ...]:
+    return tuple(
+        tuple((key, str(_render_value(value, year=year))) for key, value in row.items())
+        for row in artifact.selected_rows
+    )
+
+
+def _selected_row_entry(entries: tuple[Any, ...], row_number: int) -> Any:
+    # A selected_rows extract numbers its rows from 2 in declaration order
+    # (row 1 is the header): row r reads entry r - 2.
+    if not entries:
+        return None
+    index = row_number - 2
+    return entries[index] if 0 <= index < len(entries) else ("row", row_number)
+
+
+def _sheet_name_selects(artifact: SourceArtifactSpec) -> bool:
+    """Whether a record set's sheet name picks data (a spreadsheet) or only labels.
+
+    Delimited text, JSON, HTML and PDF parsers name a virtual sheet; reading the
+    same bytes under another sheet name reads the same cells.
+    """
+
+    parser = str(artifact.parser or "")
+    return any(kind in parser for kind in ("xls", "ods"))
+
+
+def _artifact_sheet_role(artifact: SourceArtifactSpec) -> str:
+    """What the artifact-level ``sheet_name`` does for this parser.
+
+    ``xlsx_table_full_rows`` reads the named sheet ("selects"). The used-range
+    spreadsheet parsers never read it; their record sets name the sheet
+    ("unused"). Every other parser names a virtual sheet with it, a label on
+    each cell ("label").
+    """
+
+    parser = str(artifact.parser or "")
+    if parser == "xlsx_table_full_rows":
+        return "selects"
+    if "used_range" in parser:
+        return "unused"
+    return "label"
+
+
+def _declarations_depend_on_year(package: SourcePackage) -> bool:
+    """Whether any declaration renders ``{year}``/``{filing_year}`` or is by-year."""
+    return _mentions_year(asdict(package.artifact)) or any(
+        _mentions_year(record_set.payload) for record_set in package.record_sets
+    )
+
+
+def _mentions_year(value: Any) -> bool:
+    if isinstance(value, str):
+        return "{year" in value or "{filing_year" in value
+    if isinstance(value, dict):
+        return any(
+            (isinstance(key, str) and key.endswith("_by_year")) or _mentions_year(item)
+            for key, item in value.items()
+        )
+    if isinstance(value, list | tuple):
+        return any(_mentions_year(item) for item in value)
+    return False
+
+
+def _artifact_selection(artifact: SourceArtifactSpec, year: int) -> tuple[Any, ...]:
+    """What the artifact reads apart from ``selected_rows`` (compared per row)."""
+
+    sheet_name = None
+    if artifact.sheet_name and _artifact_sheet_role(artifact) == "selects":
+        sheet_name = _render_string(artifact.sheet_name, year=year)
+    return (
+        tuple(getattr(artifact, name) for name in _ARTIFACT_SELECTION_FIELDS),
+        sheet_name,
+        len(artifact.selected_rows),
+    )
+
+
+def _changed_leaves(
+    before: Any,
+    after: Any,
+    path: str = "",
+) -> list[tuple[str, Any, Any]]:
+    if isinstance(before, dict) and isinstance(after, dict):
+        changes = []
+        for key in dict.fromkeys([*before, *after]):
+            child = f"{path}.{key}" if path else str(key)
+            changes.extend(_changed_leaves(before.get(key), after.get(key), child))
+        return changes
+    if (
+        isinstance(before, list | tuple)
+        and isinstance(after, list | tuple)
+        and len(before) == len(after)
+    ):
+        changes = []
+        for index, (item_before, item_after) in enumerate(
+            zip(before, after, strict=True)
+        ):
+            changes.extend(_changed_leaves(item_before, item_after, f"{path}[{index}]"))
+        return changes
+    return [] if before == after else [(path, before, after)]
+
+
+def _restamp_message(
+    package: SourcePackage,
+    *,
+    year: int,
+    artifact_year: int,
+    record_set_id: str,
+    moves: list[tuple[str, Any, Any]],
+) -> str:
+    shown = "; ".join(
+        f"{path} {before!r} -> {after!r}"
+        for path, before, after in moves[:_RESTAMP_MESSAGE_MOVES]
+    )
+    if len(moves) > _RESTAMP_MESSAGE_MOVES:
+        shown += f"; and {len(moves) - _RESTAMP_MESSAGE_MOVES} more"
+    return (
+        f"Source package {package.package_id!r} pins artifact_year "
+        f"{artifact_year}, so a build at year {year} reads the same cells as "
+        f"the {artifact_year} build of record set {record_set_id!r} but "
+        f"relabels them: {shown}. Write year labels as literals (for example "
+        f"period: '{artifact_year}'), or select the year's data with "
+        "column_by_year, sheet_name_by_year or a {year}-templated "
+        "selected_rows filter."
+    )
 
 
 def load_source_package(source: str | Path) -> SourcePackage:
@@ -1134,8 +1841,13 @@ def load_source_package(source: str | Path) -> SourcePackage:
     with path.open("r", encoding="utf-8") as file:
         payload = yaml.safe_load(file)
     schema_version = _required(payload, "schema_version", str(path))
-    if schema_version != "ledger.source_package.v1":
-        raise ValueError(f"Unsupported source package schema: {schema_version}")
+    source_package_schema = SCHEMA_IDS["source_package"]
+    if schema_version not in source_package_schema.accepted:
+        raise ValueError(
+            f"Unsupported source package schema: {schema_version!r}; accepted "
+            f"forms are {source_package_schema.ledger!r} and "
+            f"{source_package_schema.chronicle!r}"
+        )
     package_dir = path.parent
     return SourcePackage(
         package_id=_required(payload, "package_id", str(path)),
@@ -1145,7 +1857,61 @@ def load_source_package(source: str | Path) -> SourcePackage:
         ),
         record_sets=_record_sets_from_mapping(payload, path),
         package_path=package_dir,
+        dimension_labels=_dimension_labels_from_mapping(
+            payload.get("dimension_labels"),
+            context=f"{path}: dimension_labels",
+        ),
+        dimension_value_labels=_dimension_value_labels_from_mapping(
+            payload.get("dimension_value_labels"),
+            context=f"{path}: dimension_value_labels",
+        ),
     )
+
+
+def _dimension_labels_from_mapping(payload: Any, *, context: str) -> dict[str, str]:
+    """Load one ``id: label`` block with string ids and non-empty labels.
+
+    Ids must be strings in YAML: an unquoted ``No`` or ``Yes`` loads as a
+    boolean and would label a value that does not exist.
+    """
+    if payload is None:
+        return {}
+    if not isinstance(payload, dict):
+        raise TypeError(f"{context} must be a mapping.")
+    labels = {}
+    for key, label in payload.items():
+        if not isinstance(key, str) or not key:
+            raise TypeError(
+                f"{context}: id {key!r} must be a quoted, non-empty string."
+            )
+        if not isinstance(label, str) or not label.strip():
+            raise TypeError(f"{context}.{key}: label must be a non-empty string.")
+        labels[key] = label.strip()
+    return labels
+
+
+def _dimension_value_labels_from_mapping(
+    payload: Any,
+    *,
+    context: str,
+) -> dict[str, dict[str, str]]:
+    """Load the ``dimension id: {value id: label}`` block of a package."""
+    if payload is None:
+        return {}
+    if not isinstance(payload, dict):
+        raise TypeError(f"{context} must be a mapping.")
+    value_labels = {}
+    for dimension_id, labels in payload.items():
+        if not isinstance(dimension_id, str) or not dimension_id:
+            raise TypeError(
+                f"{context}: dimension id {dimension_id!r} must be a quoted, "
+                "non-empty string."
+            )
+        value_labels[dimension_id] = _dimension_labels_from_mapping(
+            labels,
+            context=f"{context}.{dimension_id}",
+        )
+    return value_labels
 
 
 def try_load_source_package(source: str | Path) -> SourcePackage | None:
@@ -1201,7 +1967,7 @@ def validate_source_package(
         )
 
     try:
-        record_sets = package.build_source_record_set_specs(year)
+        record_sets = package._compile_record_set_specs(year)
     except (KeyError, TypeError, ValueError) as exc:
         errors.append(
             SourcePackageIssue(
@@ -1218,6 +1984,9 @@ def validate_source_package(
             warnings=tuple(warnings),
         )
 
+    # A pinned package that would only relabel its artifact at this year is
+    # invalid here; the build methods refuse it with ArtifactYearRestampError.
+    errors.extend(artifact_year_restamp_issues(package, year))
     counts["record_set_count"] = len(record_sets)
     record_set_ids: dict[str, list[int]] = {}
     source_record_ids: dict[str, list[int]] = {}
@@ -1725,6 +2494,10 @@ def _row_from_mapping(payload: dict[str, Any], *, year: int) -> SourceRecordSetR
             _constraint_from_mapping(constraint, year=year)
             for constraint in payload.get("constraints", ())
         ),
+        source_row_dimensions={
+            str(key): _render_value(value, year=year)
+            for key, value in payload.get("source_row_dimensions", {}).items()
+        },
         value_scale=_render_value(payload.get("value_scale", 1), year=year),
         source_row_id=payload.get("source_row_id"),
         table_record_kind=payload.get("table_record_kind", "detail"),
@@ -1875,6 +2648,10 @@ def _measure_from_mapping(
             if payload.get("source_column_id") is not None
             else None
         ),
+        source_column_dimensions={
+            str(key): _render_value(value, year=year)
+            for key, value in payload.get("source_column_dimensions", {}).items()
+        },
         expected_cell_type=payload.get("expected_cell_type", "number"),
         expected_column_header_row=(
             int(payload["expected_column_header_row"])
@@ -2321,7 +3098,7 @@ def _scaffold_template(
     resource_directory: str,
     manifest: str,
 ) -> str:
-    return f"""schema_version: ledger.source_package.v1
+    return f"""schema_version: {SOURCE_PACKAGE_SCHEMA_VERSION}
 package_id: {package_id}
 label: TODO package label
 artifact:

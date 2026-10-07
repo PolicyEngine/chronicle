@@ -3,23 +3,32 @@
 from __future__ import annotations
 
 from collections import Counter
-from dataclasses import replace
+from dataclasses import asdict, replace
 import hashlib
 import html
 from io import BytesIO
 import json
+import os
 from pathlib import Path
+import subprocess
+import sys
 
 import openpyxl
 import pytest
 import yaml
 
-from chronicle.bundle import build_bundle, build_bundle_coverage
+from chronicle.bundle import (
+    _cross_package_dimension_label_errors,
+    _dimension_label_reports,
+    build_bundle,
+    build_bundle_coverage,
+)
 from chronicle.consumer_contract import (
     consumer_fact_rows,
     validate_consumer_fact_contract,
 )
 from chronicle.core import validate_facts
+from chronicle.dimension_labels import dimension_labels_by_id
 from chronicle.source_package import (
     SOURCE_PACKAGE_ALIASES,
     load_source_package,
@@ -62,6 +71,18 @@ AGE_BANDS = {
     "40_64": ("F", 40, 65),
     "65_plus": ("G", 65, None),
 }
+# Each band's value cells: Table 1 holds all ages, Table 3 the broad bands.
+BAND_COLUMNS = {
+    "all": ("Table 1", "D"),
+    **{band: ("Table 3", column) for band, (column, *_) in AGE_BANDS.items()},
+}
+NATIONAL_ROWS = {"Table 1": 25, "Table 3": 64}
+BOUNDARY_FOOTNOTES = {"Table 1": "A29", "Table 3": "A68"}
+# Other packages that emit this package's person.age_band dimension.
+STATBEL_POPULATION_ALIASES = (
+    "statbel-population-structure-2025",
+    "statbel-population-structure-2026",
+)
 
 
 def _artifact(package_name):
@@ -69,6 +90,34 @@ def _artifact(package_name):
     manifest = yaml.safe_load((directory / "manifest.yaml").read_text())
     entry = manifest["files"][2025]
     return (directory / entry["filename"]).read_bytes(), entry
+
+
+def _build_digests(cells, facts):
+    """Return the SHA-256 of each serialized build output: cells, facts, rows."""
+
+    def digest(lines):
+        return hashlib.sha256("\n".join(lines).encode()).hexdigest()
+
+    def dumped(item):
+        return json.dumps(asdict(item), sort_keys=True, default=str)
+
+    return {
+        "source_cells": digest(dumped(cell) for cell in cells),
+        "facts": digest(dumped(fact) for fact in facts),
+        "consumer_rows": digest(
+            json.dumps(row, sort_keys=True) for row in consumer_fact_rows(facts)
+        ),
+    }
+
+
+_REBUILD_SCRIPT = f"""
+import json
+from chronicle.source_package import load_source_package
+from tests.test_chronicle_nz_population import _build_digests
+package = load_source_package({ALIAS!r})
+cells = package.build_source_cells(2025)
+print(json.dumps(_build_digests(cells, package.build_facts(2025, cells=cells))))
+"""
 
 
 @pytest.fixture(scope="module")
@@ -190,6 +239,99 @@ def test_national_total_is_published_not_reconciled_from_regions(population, wor
     assert "99" not in totals  # Do not construct an outside-region residual.
     assert totals["NZ"].geography.level == "country"
     assert totals["NZ"].source_record_id.endswith(".all_ages.nz.population")
+
+
+def test_each_fact_reads_its_own_cell_and_regions_never_feed_the_nation(
+    population,
+):
+    package, cells, facts = population
+    cells_by_key = {build_source_cell_key(cell): cell for cell in cells}
+    specs = package.build_source_record_specs(2025)
+    value_cells = {}
+    for fact, spec in zip(facts, specs, strict=True):
+        # The first lineage key is the one value cell; the rest are its column
+        # header and guard cells, all of them text.
+        value_cell, *context_cells = (
+            cells_by_key[key] for key in fact.source_cell_keys
+        )
+        assert (value_cell.sheet_name, value_cell.address) == (
+            spec.selector.sheet_name,
+            spec.selector.address,
+        )
+        assert value_cell.raw_value == fact.value
+        assert all(type(cell.raw_value) is str for cell in context_cells)
+        value_cells[fact.source_record_id] = fact.source_cell_keys[0]
+    assert len(set(value_cells.values())) == len(facts) == 85
+
+    for band, (sheet, column) in BAND_COLUMNS.items():
+        band_facts = [
+            fact for fact in facts if fact.filters.get("person.age_band", "all") == band
+        ]
+        regional = [fact for fact in band_facts if fact.geography.level == "region"]
+        (national,) = [fact for fact in band_facts if fact.geography.id == "NZ"]
+        assert len(regional) == 16
+        assert len({fact.geography.id for fact in regional}) == 16
+        # The nation is its own fact, read from its own published cell.
+        national_cell = cells_by_key[national.source_cell_keys[0]]
+        assert (national_cell.sheet_name, national_cell.address) == (
+            sheet,
+            f"{column}{NATIONAL_ROWS[sheet]}",
+        )
+        regional_value_keys = {fact.source_cell_keys[0] for fact in regional}
+        assert not set(national.source_cell_keys) & regional_value_keys
+
+
+def test_every_row_records_reference_date_and_regc_2025_boundaries(population):
+    _package, cells, facts = population
+    footnotes = {
+        build_source_cell_key(cell)
+        for cell in cells
+        if BOUNDARY_FOOTNOTES.get(cell.sheet_name) == cell.address
+    }
+    assert {
+        cell.raw_value
+        for cell in cells
+        if BOUNDARY_FOOTNOTES.get(cell.sheet_name) == cell.address
+    } == {"2. Boundaries at 1 January 2025."}
+    assert len(footnotes) == 2
+    rows = consumer_fact_rows(facts)
+    assert len(rows) == 85
+    for row in rows:
+        coverage = row["period_coverage"]
+        assert coverage["start_date"] == coverage["end_date"] == "2025-06-30"
+        assert row["period"] == {"type": "calendar_year", "value": 2025}
+        # Each row's lineage carries its table's boundary footnote.
+        assert len(footnotes & set(row["lineage"]["source_cell_keys"])) == 1
+        notes = row["concept_alignment"]["evidence_notes"]
+        assert "1 January 2025 boundaries" in notes
+        geography = row["geography"]
+        if geography["level"] == "region":
+            assert geography["vintage"] == "regc_2025"
+        else:
+            # New Zealand is the country, not a REGC 2025 area; its boundary is
+            # the footnote in its lineage.
+            assert (geography["level"], geography["id"], geography["vintage"]) == (
+                "country",
+                "NZ",
+                "current",
+            )
+
+
+def test_rebuilding_the_package_is_byte_identical(population):
+    # Rebuild in fresh interpreters with different hash seeds, so that set or
+    # dict ordering cannot make a build differ from the in-process one.
+    _package, cells, facts = population
+    expected = _build_digests(cells, facts)
+    for seed in ("1", "2"):
+        completed = subprocess.run(
+            [sys.executable, "-c", _REBUILD_SCRIPT],
+            capture_output=True,
+            check=True,
+            cwd=REPO_ROOT,
+            env={**os.environ, "PYTHONHASHSEED": seed},
+            text=True,
+        )
+        assert json.loads(completed.stdout.splitlines()[-1]) == expected
 
 
 def test_age_universes_are_only_published_broad_bands_and_all_sexes(population):
@@ -320,3 +462,40 @@ def test_explicit_single_package_bundle_passes_all_source_gates(tmp_path):
     assert len(coverage["counts"]["by_geography"]) == 17
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert not coverage["duplicates"]["semantic_fact_keys"]
+
+
+def test_every_dimension_and_value_carries_one_bundle_label(population, workbook):
+    # build-bundle refuses a package that leaves a dimension or value without a
+    # Chronicle label (chronicle#261, #265).
+    _package, _cells, facts = population
+    assert _dimension_label_reports(ALIAS, consumer_fact_rows(facts)) == ([], [])
+    for fact in facts:
+        assert fact.dimension_labels["geography"] == "Geography"
+        assert fact.layout.groupby_dimension_label == "Geography"
+        band = fact.filters.get("person.age_band")
+        if band is None:
+            assert "person.age_band" not in fact.dimension_labels
+            continue
+        column = AGE_BANDS[band][0]
+        assert fact.dimension_labels["person.age_band"] == "Age band"
+        # The value label is the publisher's own column header, Table 3!D6:G6.
+        assert fact.dimension_value_labels["person.age_band"] == {
+            band: workbook["Table 3"][f"{column}6"].value
+        }
+
+
+def test_person_age_band_keeps_the_label_statbel_gives_it():
+    # One dimension id carries one label across the bundle (chronicle#265), and
+    # Statbel's population-structure packages are the other packages on main
+    # that emit person.age_band. The default-bundle test covers `geography`.
+    labels = {}
+    for alias in (ALIAS, *STATBEL_POPULATION_ALIASES):
+        package = load_source_package(alias)
+        rows = consumer_fact_rows(package.build_facts(package.artifact.artifact_year))
+        for dimension_id, found in dimension_labels_by_id(rows).items():
+            for label in found:
+                labels.setdefault(dimension_id, {}).setdefault(label, []).append(alias)
+    assert labels["person.age_band"] == {
+        "Age band": [ALIAS, *STATBEL_POPULATION_ALIASES]
+    }
+    assert _cross_package_dimension_label_errors(labels) == []

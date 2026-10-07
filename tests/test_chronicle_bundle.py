@@ -3,14 +3,67 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
+from datetime import date, timedelta
+from pathlib import Path
 
-from chronicle.bundle import UK_BUNDLE_SOURCES, build_bundle, build_bundle_coverage
+import pytest
+
+from chronicle.bundle import (
+    BUNDLE_COVERAGE_SCHEMA_VERSION,
+    BUNDLE_SCHEMA_VERSION,
+    BUNDLE_SOURCES_SCHEMA_VERSION,
+    UK_BUNDLE_SOURCES,
+    _load_jsonl as load_bundle_jsonl,
+    build_bundle,
+    build_bundle_coverage,
+)
+from chronicle.epoch import CONSUMER_FACT_EMIT_SCHEMA_VERSION, HASH_DOMAINS, Epoch
 from chronicle.harness import build_bundle_dir
 from chronicle.harness import main as harness_main
 
 
 def _load_jsonl(path):
     return [json.loads(line) for line in path.read_text().splitlines() if line]
+
+
+def _fixture_consumer_rows():
+    path = Path(__file__).parents[1] / "chronicle" / "fixtures" / "consumer_facts.jsonl"
+    return _load_jsonl(path)
+
+
+def _row_for_epoch(row, epoch):
+    # Only the key identifiers move between epochs; the row keeps the contract
+    # it was published under (chronicle#266).
+    transformed = json.loads(json.dumps(row))
+    for field_name, domain_name in (
+        ("aggregate_fact_key", "aggregate_fact"),
+        ("semantic_fact_key", "semantic_fact"),
+        ("legacy_fact_key", "fact"),
+        ("source_release_key", "source_release"),
+        ("source_series_key", "source_series"),
+        ("observed_measure_key", "observed_measure"),
+        ("dimension_set_key", "dimension_set"),
+        ("universe_constraint_set_key", "universe_constraint_set"),
+    ):
+        transformed[field_name] = HASH_DOMAINS[domain_name].key_for_epoch(
+            transformed[field_name], epoch
+        )
+    alignment = transformed.get("concept_alignment")
+    if alignment:
+        alignment["concept_alignment_key"] = HASH_DOMAINS[
+            "concept_alignment"
+        ].key_for_epoch(alignment["concept_alignment_key"], epoch)
+    lineage = transformed["lineage"]
+    for field_name, domain_name in (
+        ("source_cell_keys", "source_cell"),
+        ("source_row_keys", "source_row"),
+    ):
+        lineage[field_name] = [
+            HASH_DOMAINS[domain_name].key_for_epoch(key, epoch)
+            for key in lineage[field_name]
+        ]
+    return transformed
 
 
 def test_build_bundle_dir_uk_suite_uses_curated_sources(tmp_path, monkeypatch):
@@ -32,6 +85,16 @@ def test_build_bundle_dir_uk_suite_uses_curated_sources(tmp_path, monkeypatch):
     report = build_bundle_dir(tmp_path / "bundle", year=2023, suite="uk")
 
     assert report.valid
+    assert "dfc-ni-uc-statistics-may-2026" in UK_BUNDLE_SOURCES
+    assert "dfc-ni-uc-statistics-may-2025" not in UK_BUNDLE_SOURCES
+    assert "hmrc-cgt-statistics-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-cgt-statistics-2025" not in UK_BUNDLE_SOURCES
+    assert "hmrc-cgt-size-of-gain-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-cgt-size-of-gain-2025" not in UK_BUNDLE_SOURCES
+    assert "hmrc-cgt-asset-type-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-cgt-residential-property-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-cgt-badr-ir-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-cgt-carried-interest-2026" in UK_BUNDLE_SOURCES
     assert tuple(captured["sources"]) == UK_BUNDLE_SOURCES
     assert captured["output_dir"] == tmp_path / "bundle"
 
@@ -69,20 +132,45 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
 
     assert report.valid
     assert summary["valid"]
+    # chronicle#211's Stats NZ package adds 85 population counts at 30 June
+    # 2025: 16 regional council areas and New Zealand, each for all ages and
+    # four age bands, from one new publisher, package and source table over 17
+    # new geographies.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 171940,
-        "geography_count": 12553,
-        "period_count": 192,
-        "semantic_duplicate_key_count": 121,
+        "fact_count": 408230,
+        "geography_count": 12609,
+        "period_count": 495,
+        # 467 before chronicle#292 moved the congressional-district and
+        # state_2022 rows from their ty2023 restamp to TY2022. There the CD
+        # file's state-total and US rows share semantic keys with the Historic
+        # Table 2 rows for the same TY2022 cells (two IRS publications of one
+        # cell): 1,560 new duplicate keys among the changed packages' own
+        # builds, for a bundle-wide net of +1,555. The HT2 and CD N01000/A01000
+        # rows then took one Form 1040 line 7 concept
+        # (docs/concept-migrations.md), adding 104 more: 51 states and the US
+        # for returns and amount. chronicle#302's State Pension, Pension Credit
+        # and Winter Fuel Payment packages reach the same totals through more
+        # than one cut or release (+198). Sixteen of those differ: the Winter
+        # Fuel Payment 2023-24 workbook against the Stat-Xplore cube, both kept
+        # as published.
+        "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
-        "source_count": 44,
-        "source_package_count": 152,
-        "warning_count": 1,
+        "source_count": 51,
+        "source_package_count": 269,
+        # 1 semantic-duplicate warning, plus the publisher wording Chronicle
+        # keeps as published: values two packages word differently, groupby
+        # rows that drift inside one package (chronicle#265, #266), and the
+        # areas the canonical name register does not yet carry - every UK one
+        # it does has stopped warning (chronicle#281). chronicle#302 adds two:
+        # ASHE writes '30 to 39' and '40 to 49' where NTS0601 writes 'Age 30 to 39'.
+        # chronicle#211 adds one: Stats NZ heads its oldest band '65+' where
+        # Statbel's population-structure rows write '65_plus'.
+        "warning_count": 79,
     }
-    assert len(rows) == 171940
+    assert len(rows) == 408230
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -100,7 +188,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 152
+    assert source_packages["source_package_count"] == 269
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -114,7 +202,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 171940
+    assert coverage["fact_count"] == 408230
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -126,29 +214,36 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "cms_medicaid": 515,
         "cms_medicare": 1,
         "cms_nhe": 3,
-        "dft": 81,
-        "dwp": 6547,
+        "desnz": 5697,
+        "dfe": 770,
+        "dfc_ni": 1700,
+        "dfi_ni": 30,
+        "dft": 2771,
+        "dwp": 56100,
         "eurostat": 207,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 20551,
+        "hmrc": 31515,
         "ici": 12,
         "irs_soi": 40063,
         "isc": 2,
         "jrc_euromod_be": 90,
         "kff": 52,
-        "mhclg": 2712,
+        "mhclg": 118542,
         "nbb_national_accounts": 1,
-        "nisra": 510,
-        "nrs": 5589,
-        "obr": 270,
+        "nisra": 533,
+        "nithc": 8,
+        "nrs": 6063,
+        "obr": 355,
+        "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 65647,
+        "ons": 100365,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
-        "scotgov": 2787,
+        "orr": 99,
+        "scotgov": 3687,
         "sfpd_pensions": 4,
         "slc": 199,
         "spf_finances_pit": 1,
@@ -159,10 +254,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "stats_nz": 85,
         "usda_snap": 852,
         "voa": 3001,
-        "welshgov": 216,
+        "welshgov": 9325,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 147
+    assert len(table_counts) == 264
     assert (
         table_counts[
             "stats_nz:Subnational population estimates: At 30 June 2025 "
@@ -172,16 +267,161 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert (
         table_counts[
-            "dwp:Universal Credit childcare element statistics to August 2025, Table 1"
+            "dwp:State Pension caseload and mean weekly amount by age, gender and "
+            "type of pension, Great Britain residents, February 2023 to March 2026"
         ]
-        == 54
+        == 4879
     )
     assert (
         table_counts[
-            "dwp:Households on Universal Credit with carer entitlement, "
-            "April to December 2025"
+            "dwp:Pension Credit caseload and mean weekly award by region, type of "
+            "Pension Credit, partner indicator and age band, February 2023 to March 2026"
+        ]
+        == 22966
+    )
+    assert (
+        table_counts[
+            "ons:ASHE pension tables P10: employer pension contribution bands (full "
+            "pay) by pension type and SIC2007 industry, 2024 provisional"
+        ]
+        == 1208
+    )
+    assert (
+        table_counts[
+            "hmrc:Capital Gains Tax statistics Table 4: BADR and Investors' "
+            "Relief by size of qualifying gain"
+        ]
+        == 126
+    )
+    assert (
+        table_counts[
+            "dwp:Households on Universal Credit by family type, "
+            "payment indicator and child entitlement, April 2023 to May 2026"
+        ]
+        == 760
+    )
+    assert (
+        table_counts[
+            "dwp:Households on Universal Credit by number of children, "
+            "payment indicator and child entitlement, April 2023 to May 2026"
+        ]
+        == 1824
+    )
+    assert (
+        table_counts["dfe:Funded early education and childcare 2026, Headline figures"]
+        == 770
+    )
+    assert (
+        table_counts[
+            "hmrc:Tax-Free Childcare Statistics March 2026, Table 2: Numbers "
+            "of Children with Open and Used Tax-Free Childcare Accounts and "
+            "Government Top-up"
+        ]
+        == 126
+    )
+    assert (
+        table_counts[
+            "dft:BUS05i estimated operating revenue and net support for local bus services"
+        ]
+        == 102
+    )
+    assert (
+        table_counts[
+            "dft:BUS01a passenger journeys and BUS01c concessionary passenger journeys"
+        ]
+        == 804
+    )
+    assert (
+        table_counts[
+            "dft:NTS0303a: Average number of trips by main mode (trips per person "
+            "per year): England, 2002 onwards"
         ]
         == 9
+    )
+    assert (
+        table_counts[
+            "dft:NTS0601a: Average number of trips by sex, age and main mode "
+            "(trips per person per year): England, 2002 onwards"
+        ]
+        == 81
+    )
+    assert (
+        table_counts[
+            "dfi_ni:Public Transport Statistics Northern Ireland 2024-25 Figure 6"
+        ]
+        == 6
+    )
+    assert (
+        table_counts[
+            "dft:NTS0705a average trips by household income quintile and main mode"
+        ]
+        == 24
+    )
+    assert (
+        table_counts[
+            "dft:BUS0415a local bus fares index by metropolitan area status and country"
+        ]
+        == 104
+    )
+    assert (
+        table_counts[
+            "hmrc:Capital Gains Tax statistics Table 3: individual taxpayers and "
+            "gains by size of gain and taxable income"
+        ]
+        == 290
+    )
+    assert (
+        table_counts[
+            "hmrc:Capital Gains Tax statistics Table 5: taxpayers, gains and "
+            "liabilities by UK country and region"
+        ]
+        == 84
+    )
+    assert (
+        table_counts[
+            "hmrc:Capital Gains Tax statistics Table 6: individual taxpayers, gains "
+            "and liabilities by age"
+        ]
+        == 60
+    )
+    assert (
+        table_counts[
+            "hmrc:Capital Gains Tax statistics Table 7: taxpayer disposals, disposal "
+            "proceeds and gains by asset type and period of ownership"
+        ]
+        == 171
+    )
+    assert (
+        table_counts[
+            "hmrc:Capital Gains Tax statistics Table 8: residential property disposals"
+        ]
+        == 268
+    )
+    assert (
+        table_counts[
+            "hmrc:Capital Gains Tax statistics Table 9: estimated taxpayers reporting "
+            "carried-interest gains, amounts of gains and tax"
+        ]
+        == 68
+    )
+    assert (
+        table_counts[
+            "dfc_ni:Universal Credit Statistics supplementary tables, May 2026"
+        ]
+        == 1189
+    )
+    assert (
+        table_counts[
+            "ons:Price Index of Private Rents, UK: monthly price statistics, "
+            "July 2026 edition (data to June 2026)"
+        ]
+        == 14656
+    )
+    assert (
+        table_counts[
+            "dwp:Universal Credit childcare element statistics to May 2026, Tables 1 and 3"
+        ]
+        == 252
     )
     assert (
         table_counts[
@@ -192,23 +432,66 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert (
         table_counts[
-            "dwp:Households on Universal Credit by family type, April to December 2025"
+            "dwp:Households on Universal Credit by family type, "
+            "April to December 2023 through 2025"
         ]
-        == 45
+        == 162
     )
     assert (
         table_counts[
-            "dwp:Households on Universal Credit with housing entitlement, "
-            "April to December 2025"
+            "dwp:Households on Universal Credit by housing entitlement tenure and payment indicator, "
+            "January 2023 to May 2026"
         ]
-        == 9
+        == 492
     )
     assert (
         table_counts[
-            "dwp:Households on Universal Credit with LCWRA entitlement, "
-            "April to December 2025"
+            "dwp:Households on Universal Credit by housing entitlement and payment indicator, "
+            "January 2023 to May 2026"
         ]
-        == 9
+        == 123
+    )
+    assert (
+        table_counts[
+            "dwp:Households on Universal Credit by limited capability for work entitlement "
+            "and payment indicator, January 2023 to May 2026"
+        ]
+        == 492
+    )
+    assert (
+        table_counts[
+            "dwp:Households on Universal Credit by limited capability for work entitlement "
+            "group and payment indicator, January 2023 to May 2026"
+        ]
+        == 123
+    )
+    assert (
+        table_counts[
+            "dwp:Households on Universal Credit by carer entitlement and payment indicator, "
+            "January 2023 to May 2026"
+        ]
+        == 246
+    )
+    assert (
+        table_counts[
+            "dwp:People on Universal Credit by employment indicator, "
+            "January 2023 to May 2026"
+        ]
+        == 162
+    )
+    assert (
+        table_counts[
+            "dwp:Housing Benefit claimants by client type and tenure, "
+            "January 2023 to February 2026"
+        ]
+        == 456
+    )
+    assert (
+        table_counts[
+            "dwp:Housing Benefit claimants by client type, tenure and accommodation type, "
+            "September 2025 to February 2026"
+        ]
+        == 288
     )
     assert table_counts["usda_snap:SNAP FY2025 Monthly State Participation"] == 636
     assert (
@@ -364,11 +647,17 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert (
         table_counts[
-            "hmrc:Capital Gains Tax statistics Table 2.1a: estimated number of "
-            "taxpayers, amounts of gains and tax liabilities by size of gain for "
-            "individuals"
+            "hmrc:Capital Gains Tax statistics Table 2: estimated number of taxpayers, "
+            "amounts of gains and tax liabilities by size of gain"
         ]
-        == 18
+        == 51
+    )
+    assert (
+        table_counts[
+            "hmrc:Capital Gains Tax statistics Table 1: taxpayer numbers, gains and "
+            "tax liabilities by year of disposal"
+        ]
+        == 342
     )
     assert (
         table_counts[
@@ -489,7 +778,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         ]
         == 54
     )
-    assert coverage["counts"]["by_period"] == {
+    expected_period_counts = {
         "academic_year:2013": 6,
         "academic_year:2014": 6,
         "academic_year:2015": 6,
@@ -534,14 +823,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "calendar_year:2015": 74,
         "calendar_year:2016": 72,
         "calendar_year:2017": 72,
-        "calendar_year:2018": 86,
-        "calendar_year:2019": 85,
-        "calendar_year:2020": 85,
-        "calendar_year:2021": 4017,
-        "calendar_year:2022": 2075,
-        "calendar_year:2023": 6343,
-        "calendar_year:2024": 33936,
-        "calendar_year:2025": 4656,
+        "calendar_year:2018": 176,
+        "calendar_year:2019": 175,
+        "calendar_year:2020": 175,
+        "calendar_year:2021": 4196,
+        "calendar_year:2022": 2223,
+        "calendar_year:2023": 6445,
+        "calendar_year:2024": 34038,
+        "calendar_year:2025": 4661,
         "calendar_year:2026": 341,
         "calendar_year:2027": 320,
         "calendar_year:2028": 320,
@@ -575,74 +864,105 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fiscal_year:2020": 44,
         "fiscal_year:2021": 52,
         "fiscal_year:2022": 52,
-        "fiscal_year:2023": 405,
-        "fiscal_year:2024": 697,
-        "fiscal_year:2025": 1310,
-        "fiscal_year:2026": 1445,
+        "fiscal_year:2023": 2467,
+        "fiscal_year:2024": 2770,
+        "fiscal_year:2025": 3394,
+        "fiscal_year:2026": 3528,
         "fiscal_year:2027": 34,
         "fiscal_year:2028": 35,
         "fiscal_year:2029": 35,
         "fiscal_year:2030": 31,
-        "month:2021-03": 1,
-        "month:2021-04": 1,
-        "month:2021-05": 1,
-        "month:2021-06": 1,
-        "month:2021-07": 1,
-        "month:2021-08": 1,
-        "month:2021-09": 1,
-        "month:2021-10": 1,
-        "month:2021-11": 1,
-        "month:2021-12": 1,
-        "month:2022-01": 1,
-        "month:2022-02": 1,
-        "month:2022-03": 1,
-        "month:2022-04": 1,
-        "month:2022-05": 1,
-        "month:2022-06": 1,
-        "month:2022-07": 1,
-        "month:2022-08": 1,
-        "month:2022-09": 1,
-        "month:2022-10": 1,
-        "month:2022-11": 1,
-        "month:2022-12": 1,
-        "month:2023-01": 2,
-        "month:2023-02": 1,
-        "month:2023-03": 1,
-        "month:2023-04": 1,
-        "month:2023-05": 1,
-        "month:2023-06": 1,
-        "month:2023-07": 1,
-        "month:2023-08": 1,
-        "month:2023-09": 1,
-        "month:2023-10": 1,
-        "month:2023-11": 1,
-        "month:2023-12": 7,
-        "month:2024-01": 2,
-        "month:2024-02": 1,
-        "month:2024-03": 1,
-        "month:2024-04": 1,
-        "month:2024-05": 1,
-        "month:2024-06": 1,
-        "month:2024-07": 1,
-        "month:2024-08": 1,
-        "month:2024-09": 1,
-        "month:2024-10": 107,
-        "month:2024-11": 107,
-        "month:2024-12": 377,
-        "month:2025-01": 109,
-        "month:2025-02": 107,
-        "month:2025-03": 229,
-        "month:2025-04": 112,
-        "month:2025-05": 6221,
-        "month:2025-06": 20,
-        "month:2025-07": 20,
-        "month:2025-08": 24,
-        "month:2025-09": 28,
-        "month:2025-10": 19,
-        "month:2025-11": 34,
-        "month:2025-12": 275,
-        "month:2026-01": 3,
-        "month:2026-02": 7,
+        "month:2003-08": 7,
+        "month:2004-08": 7,
+        "month:2005-08": 7,
+        "month:2006-08": 7,
+        "month:2007-08": 7,
+        "month:2008-08": 7,
+        "month:2009-08": 7,
+        "month:2010-08": 7,
+        "month:2011-05": 21,
+        "month:2011-08": 18,
+        "month:2012-05": 21,
+        "month:2012-08": 18,
+        "month:2013-05": 21,
+        "month:2013-08": 22,
+        "month:2014-05": 21,
+        "month:2014-08": 22,
+        "month:2015-05": 21,
+        "month:2015-08": 22,
+        "month:2016-05": 21,
+        "month:2016-08": 22,
+        "month:2017-05": 21,
+        "month:2017-08": 22,
+        "month:2018-05": 21,
+        "month:2018-08": 22,
+        "month:2019-05": 21,
+        "month:2019-08": 23,
+        "month:2020-05": 21,
+        "month:2020-08": 23,
+        "month:2021-03": 4,
+        "month:2021-04": 4,
+        "month:2021-05": 25,
+        "month:2021-06": 4,
+        "month:2021-07": 4,
+        "month:2021-08": 27,
+        "month:2021-09": 4,
+        "month:2021-10": 4,
+        "month:2021-11": 4,
+        "month:2021-12": 4,
+        "month:2022-01": 4,
+        "month:2022-02": 4,
+        "month:2022-03": 4,
+        "month:2022-04": 4,
+        "month:2022-05": 25,
+        "month:2022-06": 4,
+        "month:2022-07": 4,
+        "month:2022-08": 27,
+        "month:2022-09": 4,
+        "month:2022-10": 4,
+        "month:2022-11": 4,
+        "month:2022-12": 4,
+        "month:2023-01": 435,
+        "month:2023-02": 434,
+        "month:2023-03": 442,
+        "month:2023-04": 508,
+        "month:2023-05": 529,
+        "month:2023-06": 516,
+        "month:2023-07": 508,
+        "month:2023-08": 531,
+        "month:2023-09": 813,
+        "month:2023-10": 39118,
+        "month:2023-11": 508,
+        "month:2023-12": 522,
+        "month:2024-01": 503,
+        "month:2024-02": 502,
+        "month:2024-03": 510,
+        "month:2024-04": 508,
+        "month:2024-05": 529,
+        "month:2024-06": 516,
+        "month:2024-07": 508,
+        "month:2024-08": 531,
+        "month:2024-09": 813,
+        "month:2024-10": 39224,
+        "month:2024-11": 614,
+        "month:2024-12": 892,
+        "month:2025-01": 610,
+        "month:2025-02": 608,
+        "month:2025-03": 738,
+        "month:2025-04": 805,
+        "month:2025-05": 6772,
+        "month:2025-06": 721,
+        "month:2025-07": 713,
+        "month:2025-08": 1150,
+        "month:2025-09": 1066,
+        "month:2025-10": 39371,
+        "month:2025-11": 776,
+        "month:2025-12": 1025,
+        "month:2026-01": 553,
+        "month:2026-02": 557,
+        "month:2026-03": 498,
+        "month:2026-04": 490,
+        "month:2026-05": 487,
         "month:2026-06": 348,
         "tax_year:1987": 9,
         "tax_year:1988": 9,
@@ -669,20 +989,302 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "tax_year:2009": 9,
         "tax_year:2010": 9,
         "tax_year:2011": 9,
-        "tax_year:2012": 9,
-        "tax_year:2013": 9,
-        "tax_year:2014": 9,
-        "tax_year:2015": 9,
-        "tax_year:2016": 9,
+        "tax_year:2012": 11,
+        "tax_year:2013": 11,
+        "tax_year:2014": 11,
+        "tax_year:2015": 11,
+        "tax_year:2016": 11,
         "tax_year:2017": 9,
-        "tax_year:2018": 9,
-        "tax_year:2019": 9,
-        "tax_year:2020": 9,
-        "tax_year:2021": 9,
-        "tax_year:2022": 41237,
-        "tax_year:2023": 63054,
-        "tax_year:2024": 40,
+        "tax_year:2018": 11,
+        "tax_year:2019": 11,
+        "tax_year:2020": 16,
+        "tax_year:2021": 42,
+        # chronicle#292: 26,888 CD, state and IRA facts move from their
+        # ty2023 restamp to TY2022, and the 5 W-2 facts to TY2020.
+        "tax_year:2022": 68158,
+        "tax_year:2023": 36449,
+        "tax_year:2024": 328,
     }
+    for fiscal_year in range(2017, 2026):
+        key = f"fiscal_year:{fiscal_year}"
+        expected_period_counts[key] += 2
+    for year, count in {
+        2011: 4,
+        2012: 18,
+        2013: 18,
+        2014: 18,
+        2015: 32,
+        2016: 32,
+        2017: 32,
+        2018: 64,
+        2019: 64,
+        2020: 64,
+        2021: 64,
+        2022: 64,
+        2023: 64,
+        2024: 64,
+        2025: 84,
+        2026: 84,
+    }.items():
+        key = f"month:{year}-01"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    year, month = 2017, 4
+    while (year, month) <= (2026, 3):
+        key = f"month:{year}-{month:02d}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + 1
+        year, month = (year + 1, 1) if month == 12 else (year, month + 1)
+    for year, count in {
+        2020: 7,
+        2021: 7,
+        2022: 7,
+        2023: 249,
+        2024: 22,
+        2025: 21,
+        2026: 4,
+    }.items():
+        expected_period_counts[f"calendar_year:{year}"] += count
+    for year, count in {
+        2015: 7,
+        2016: 7,
+        2017: 7,
+        2018: 7,
+        2019: 11,
+        2020: 13,
+        2021: 13,
+        2022: 21,
+        2023: 28,
+        2024: 22,
+        2025: 9,
+        2026: 7,
+        2027: 7,
+        2028: 7,
+    }.items():
+        expected_period_counts[f"fiscal_year:{year}"] += count
+    for year in range(2020, 2023):
+        for month in range(1, 13):
+            key = f"month:{year}-{month:02d}"
+            expected_period_counts[key] = expected_period_counts.get(key, 0) + 2
+    issue_254_monthly_increments = {
+        2023: (4,) * 12,
+        2024: (4,) * 12,
+        2025: (4,) * 12,
+        2026: (4, 4, 4, 4, 4, 4, 2, 2),
+    }
+    for year, increments in issue_254_monthly_increments.items():
+        for month, count in enumerate(increments, start=1):
+            key = f"month:{year}-{month:02d}"
+            expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    for year in range(2020, 2026):
+        for quarter in range(1, 5):
+            count = 7 if (year, quarter) == (2024, 1) else 3
+            expected_period_counts[f"quarter:{year}-Q{quarter}"] = count
+    expected_period_counts["quarter:2026-Q1"] = 3
+    observation_date = date(2023, 1, 2)
+    while observation_date <= date(2026, 9, 7):
+        iso_year, iso_week, _ = observation_date.isocalendar()
+        expected_period_counts[f"week:{iso_year}-W{iso_week:02d}"] = 3
+        observation_date += timedelta(days=7)
+    issue_257_period_increments = {
+        "calendar_year:2003": 63,
+        "calendar_year:2005": 63,
+        "calendar_year:2006": 36,
+        "calendar_year:2007": 63,
+        "calendar_year:2008": 36,
+        "calendar_year:2009": 72,
+        "calendar_year:2010": 72,
+        "calendar_year:2011": 72,
+        "calendar_year:2012": 72,
+        "calendar_year:2013": 72,
+        "calendar_year:2014": 72,
+        "calendar_year:2015": 72,
+        "calendar_year:2016": 72,
+        "calendar_year:2017": 72,
+        "calendar_year:2018": 72,
+        "calendar_year:2019": 72,
+        "calendar_year:2020": 72,
+        "calendar_year:2021": 81,
+        "calendar_year:2022": 81,
+        "calendar_year:2023": 81,
+        "calendar_year:2024": 81,
+        "calendar_year:2025": 82,
+        "fiscal_year:2022": 276,
+        "fiscal_year:2023": 280,
+        "fiscal_year:2024": 289,
+        "quarter:2024-Q1": 303,
+        "quarter:2024-Q2": 303,
+        "quarter:2024-Q3": 303,
+        "quarter:2024-Q4": 303,
+        "quarter:2025-Q1": 303,
+        "quarter:2025-Q2": 303,
+        "quarter:2025-Q3": 303,
+        "quarter:2025-Q4": 303,
+        "quarter:2026-Q1": 303,
+        "quarter:2026-Q2": 303,
+        "quarter:2026-Q3": 303,
+        "quarter:2026-Q4": 303,
+    }
+    for key, count in issue_257_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    issue_270_period_increments = {
+        "calendar_year:2020": 4,
+        "calendar_year:2021": 3976,
+        "calendar_year:2022": 422,
+        "calendar_year:2023": 1733,
+        "calendar_year:2024": 1960,
+        "calendar_year:2025": 274,
+        "fiscal_year:2023": 268,
+        "fiscal_year:2024": 268,
+        "fiscal_year:2025": 268,
+        "quarter:2020-Q1": 4,
+        "quarter:2020-Q2": 4,
+        "quarter:2020-Q3": 4,
+        "quarter:2020-Q4": 4,
+        "quarter:2021-Q1": 4,
+        "quarter:2021-Q2": 4,
+        "quarter:2021-Q3": 4,
+        "quarter:2021-Q4": 4,
+        "quarter:2022-Q1": 6,
+        "quarter:2022-Q2": 6,
+        "quarter:2022-Q3": 6,
+        "quarter:2022-Q4": 6,
+        "quarter:2023-Q1": 6,
+        "quarter:2023-Q2": 6,
+        "quarter:2023-Q3": 6,
+        "quarter:2023-Q4": 6,
+        "quarter:2024-Q1": 6,
+        "quarter:2024-Q2": 6,
+        "quarter:2024-Q3": 6,
+        "quarter:2024-Q4": 6,
+        "quarter:2025-Q1": 6,
+        "quarter:2025-Q2": 6,
+        "quarter:2025-Q3": 6,
+        "quarter:2025-Q4": 6,
+        "quarter:2026-Q1": 6,
+        "quarter:2026-Q2": 1,
+    }
+    for key, count in issue_270_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    issue_272_tax_year_increments = {
+        "tax_year:2023": 212,
+        "tax_year:2024": 91,
+        "tax_year:2025": 24,
+    }
+    for key, count in issue_272_tax_year_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    for year in range(2005, 2026):
+        count = 16 if year <= 2007 else 42
+        if 2019 <= year <= 2024:
+            count += 1
+        if 2023 <= year <= 2025:
+            count += 26
+        key = f"fiscal_year:{year}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    for year in (2023, 2024, 2025):
+        key = f"calendar_year:{year}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + 30
+    year, month = 2023, 4
+    while (year, month) <= (2026, 3):
+        key = f"month:{year}-{month:02d}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + 5
+        year, month = (year + 1, 1) if month == 12 else (year, month + 1)
+    # The income packages of chronicle#280: the SPI 2023-24 band and region
+    # tables, the HMRC Income Tax liabilities outturn and projections, the
+    # property rental income series, the DWP outturn and forecast tables and
+    # the quarterly ESA caseload cube.
+    issue_280_period_increments = {
+        "fiscal_year:2023": 216,
+        "fiscal_year:2024": 222,
+        "fiscal_year:2025": 222,
+        "fiscal_year:2026": 222,
+        "tax_year:2020": 82,
+        "tax_year:2021": 82,
+        "tax_year:2022": 82,
+        "tax_year:2023": 6941,
+        "tax_year:2024": 416,
+        "tax_year:2025": 310,
+        "tax_year:2026": 310,
+    }
+    for month in (
+        "2018-05",
+        "2018-08",
+        "2018-11",
+        "2019-02",
+        "2019-05",
+        "2019-08",
+        "2019-11",
+        "2020-02",
+        "2020-05",
+        "2020-08",
+        "2020-11",
+        "2021-02",
+        "2021-05",
+        "2021-08",
+        "2021-11",
+        "2022-02",
+        "2022-05",
+        "2022-08",
+        "2022-11",
+        "2023-02",
+        "2023-05",
+        "2023-08",
+        "2023-11",
+        "2024-02",
+        "2024-05",
+        "2024-08",
+        "2024-11",
+        "2025-02",
+        "2025-05",
+        "2025-08",
+        "2025-11",
+        "2026-03",
+    ):
+        issue_280_period_increments[f"month:{month}"] = 23
+    for key, count in issue_280_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # The UK pension packages of chronicle#302: Stat-Xplore State Pension,
+    # Pension Credit and Attendance Allowance months from February 2023, the
+    # Northern Ireland rolling series to May 2026, workplace pensions, salary
+    # sacrifice, Winter Fuel Payment, and the DWP forecast tables to 2030-31.
+    issue_302_period_increments = {
+        "calendar_year:2023": 352,
+        "calendar_year:2024": 15707,
+        "calendar_year:2025": 313,
+        "fiscal_year:2023": 593,
+        "fiscal_year:2024": 441,
+        "fiscal_year:2025": 353,
+        "fiscal_year:2026": 113,
+        "fiscal_year:2027": 344,
+        "fiscal_year:2028": 344,
+        "fiscal_year:2029": 344,
+        "fiscal_year:2030": 344,
+        "month:2023-02": 2947,
+        "month:2023-05": 2915,
+        "month:2023-08": 2895,
+        "month:2023-11": 2896,
+        "month:2024-02": 2892,
+        "month:2024-05": 2894,
+        "month:2024-08": 2893,
+        "month:2024-11": 2896,
+        "month:2025-02": 2897,
+        "month:2025-05": 2898,
+        "month:2025-08": 2896,
+        "month:2025-11": 2899,
+        "month:2026-02": 30,
+        "month:2026-03": 2864,
+        "month:2026-05": 121,
+        "tax_year:2023": 86,
+        "tax_year:2024": 79,
+        "tax_year:2025": 5,
+        "tax_year:2030": 1,
+    }
+    for key, count in issue_302_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#211: Stats NZ's population estimates at 30 June 2025.
+    expected_period_counts["calendar_year:2025"] += 85
+    assert coverage["counts"]["by_period"] == expected_period_counts
+    assert coverage["counts"]["by_geography"]["country:NZ"] == 5
+    for regional_council in (*range(1, 10), *range(12, 19)):
+        assert coverage["counts"]["by_geography"][f"region:{regional_council:02d}"] == 5
     assert coverage["counts"]["by_geography"]["country:BE"] == 4888
     assert coverage["counts"]["by_geography"]["country:DE"] == 36
     assert coverage["counts"]["by_geography"]["country:FR"] == 36
@@ -695,29 +1297,38 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 4297
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 497
-    assert coverage["counts"]["by_geography"]["country:NZ"] == 5
-    assert coverage["counts"]["by_geography"]["region:01"] == 5
-    assert coverage["counts"]["by_geography"]["region:02"] == 5
-    assert len(coverage["counts"]["by_geography"]) == 12553
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 26269
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 5261
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 20744
+    assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
+    assert len(coverage["counts"]["by_geography"]) == 12609
     assert coverage["counts"]["by_entity"] == {
-        "benefit_unit": 233,
-        "dwelling": 12733,
-        "family": 107,
-        "firm": 1439,
-        "government": 1313,
-        "household": 40724,
-        "institutional_sector": 133,
+        "benefit_unit": 33643,
+        "dwelling": 152487,
+        "family": 1299,
+        "firm": 1440,
+        "government": 3412,
+        "household": 53521,
+        "institutional_sector": 1263,
         "pension_plan": 2,
-        "person": 60551,
+        "person": 105159,
         "return": 14600,
         "social_protection_scheme": 36,
-        "tax_unit": 40069,
+        "tax_unit": 41368,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 121
-    assert summary["warnings"] == [
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
+    assert Counter(warning["code"] for warning in summary["warnings"]) == {
+        "conflicting_geography_name_across_packages": 50,
+        "conflicting_groupby_value_label": 16,
+        "conflicting_value_label_across_packages": 12,
+        "duplicate_semantic_fact_key": 1,
+    }
+    assert [
+        warning
+        for warning in summary["warnings"]
+        if warning["code"] == "duplicate_semantic_fact_key"
+    ] == [
         {
             "code": "duplicate_semantic_fact_key",
             "message": (
@@ -726,13 +1337,77 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             ),
         }
     ]
+    # chronicle#266 kept each publisher's wording, and chronicle#281's register
+    # now answers with one name for every identifier it carries. What is left is
+    # what it does not: the IRS truncating county names to twenty characters.
+    # The 95 UK areas that warned here - local authorities, constituencies,
+    # regions and countries - no longer do.
+    geography_names = [
+        warning
+        for warning in summary["warnings"]
+        if warning["code"] == "conflicting_geography_name_across_packages"
+    ]
+    assert Counter(warning["key"].split(":")[0] for warning in geography_names) == {
+        "county": 50,
+    }
+    assert sorted(
+        warning["key"]
+        for warning in summary["warnings"]
+        if warning["code"] == "conflicting_value_label_across_packages"
+    ) == [
+        "age=85_plus",
+        "age=age_20",
+        "age=age_21",
+        "age_band=30 to 39",
+        "age_band=40 to 49",
+        "household_type=couple_3_plus_children_households",
+        "measure=country_total",
+        "ons.household_type=couple_3_plus_children_households",
+        "person.age_band=65_plus",
+        "sex=female",
+        "us:statutes/26/62#adjusted_gross_income=all",
+        "us:statutes/26/62#adjusted_gross_income=under_1",
+    ]
+    # E12000003 is the case chronicle#281 was opened on: six packages wrote
+    # "Yorkshire and The Humber" and five "Yorkshire and the Humber". The
+    # register carries the identifier, so the export names it once and the
+    # warning is gone. Each package still states its own wording, which the
+    # row keeps as geography.publisher_name.
+    assert [
+        warning for warning in geography_names if warning["key"] == "region:E12000003"
+    ] == []
+    assert {warning["key"].split(":")[1][0] for warning in geography_names} == {"0"}
     for source in (
-        "dwp-uc-childcare-element-march-2021-august-2025",
-        "dwp-uc-households-carer-entitlement-april-december-2025",
+        "dfe-funded-early-education-childcare-2026",
+        "dfi-ni-bus-concessionary-journeys-2024-25",
+        "dft-bus01-passenger-journeys-2025",
+        "dft-bus0415-fares-index-2026",
+        "dft-bus05i-revenue-support-2025",
+        "dft-nts0303-mode-trips-2025",
+        "dft-nts0601-age-mode-trips-2025",
+        "dft-nts0705-local-bus-trips-2024",
+        "dwp-hb-claimants-client-type-tenure-accommodation-type-september-2025-february-2026",
+        "dwp-hb-claimants-client-type-tenure-january-2023-february-2026",
+        "dwp-uc-childcare-element-march-2021-may-2026",
+        "dwp-uc-households-carer-entitlement-payment-indicator-january-2023-may-2026",
         "dwp-uc-households-children-april-december-2025",
         "dwp-uc-households-family-type-april-december-2025",
-        "dwp-uc-households-housing-entitlement-april-december-2025",
-        "dwp-uc-households-lcwra-entitlement-april-december-2025",
+        "dwp-uc-households-housing-entitlement-payment-indicator-january-2023-may-2026",
+        "dwp-uc-households-housing-tenure-payment-indicator-january-2023-may-2026",
+        "dwp-uc-households-lcw-entitlement-group-payment-indicator-january-2023-may-2026",
+        "dwp-uc-households-lcw-entitlement-payment-indicator-january-2023-may-2026",
+        "dwp-uc-people-employment-indicator-january-2023-may-2026",
+        "hmrc-tax-free-childcare-march-2026",
+        "dfc-ni-uc-statistics-may-2026",
+        "hmrc-cgt-age-2026",
+        "hmrc-cgt-asset-type-2026",
+        "hmrc-cgt-badr-ir-2026",
+        "hmrc-cgt-carried-interest-2026",
+        "hmrc-cgt-country-region-2026",
+        "hmrc-cgt-gain-by-income-2026",
+        "hmrc-cgt-residential-property-2026",
+        "hmrc-cgt-size-of-gain-2026",
+        "hmrc-cgt-statistics-2026",
     ):
         assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
     for source in (
@@ -868,7 +1543,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         / "consumer_facts.jsonl"
     ).exists()
     assert (
-        output_dir / "sources" / "hmrc-cgt-size-of-gain-2025" / "consumer_facts.jsonl"
+        output_dir / "sources" / "hmrc-cgt-size-of-gain-2026" / "consumer_facts.jsonl"
     ).exists()
     assert (
         output_dir
@@ -1120,3 +1795,124 @@ def test_build_bundle_coverage_reports_duplicate_keys():
     assert coverage["counts"]["by_source"] == {"irs_soi": 2}
     assert coverage["duplicates"]["aggregate_fact_keys"][0]["count"] == 2
     assert coverage["duplicates"]["semantic_fact_keys"][0]["count"] == 2
+
+
+def test_bundle_jsonl_ingestion_accepts_chronicle_only_rows(tmp_path):
+    row = _row_for_epoch(_fixture_consumer_rows()[0], Epoch.CHRONICLE)
+    path = tmp_path / "consumer_facts.jsonl"
+    path.write_text(json.dumps(row, sort_keys=True) + "\n")
+
+    loaded = load_bundle_jsonl(path)
+
+    assert loaded == [row]
+    assert loaded[0]["schema_version"] == CONSUMER_FACT_EMIT_SCHEMA_VERSION
+    assert loaded[0]["aggregate_fact_key"].startswith("chronicle.aggregate_fact.v3:")
+
+
+def test_bundle_jsonl_ingestion_accepts_mixed_epoch_rows(tmp_path):
+    ledger_row, chronicle_source = _fixture_consumer_rows()[:2]
+    chronicle_row = _row_for_epoch(chronicle_source, Epoch.CHRONICLE)
+    path = tmp_path / "consumer_facts.jsonl"
+    path.write_text(
+        "".join(
+            json.dumps(row, sort_keys=True) + "\n"
+            for row in (ledger_row, chronicle_row)
+        )
+    )
+
+    loaded = load_bundle_jsonl(path)
+
+    assert loaded == [ledger_row, chronicle_row]
+    # Both rows use the same row contract; their keys are in different epochs.
+    assert {row["schema_version"] for row in loaded} == {
+        CONSUMER_FACT_EMIT_SCHEMA_VERSION
+    }
+    assert loaded[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
+    assert loaded[1]["aggregate_fact_key"].startswith("chronicle.aggregate_fact.v3:")
+
+
+def test_bundle_jsonl_ingestion_rejects_unknown_key_domain(tmp_path):
+    row = _row_for_epoch(_fixture_consumer_rows()[0], Epoch.CHRONICLE)
+    digest = row["aggregate_fact_key"].partition(":")[2]
+    row["aggregate_fact_key"] = f"future.aggregate_fact.v4:{digest}"
+    path = tmp_path / "consumer_facts.jsonl"
+    path.write_text(json.dumps(row, sort_keys=True) + "\n")
+
+    with pytest.raises(ValueError) as error:
+        load_bundle_jsonl(path)
+
+    message = str(error.value)
+    assert "ledger.aggregate_fact.v2" in message
+    assert "chronicle.aggregate_fact.v3" in message
+
+
+def test_bundle_coverage_canonicalizes_cross_epoch_identities():
+    ledger_row = _fixture_consumer_rows()[0]
+    chronicle_row = _row_for_epoch(ledger_row, Epoch.CHRONICLE)
+
+    coverage = build_bundle_coverage([ledger_row, chronicle_row])
+
+    assert BUNDLE_SCHEMA_VERSION == "ledger.bundle.v1"
+    assert BUNDLE_COVERAGE_SCHEMA_VERSION == "ledger.bundle_coverage.v1"
+    assert BUNDLE_SOURCES_SCHEMA_VERSION == "ledger.bundle_sources.v1"
+    assert coverage["unique_counts"] == {
+        "aggregate_fact_key": 1,
+        "semantic_fact_key": 1,
+        "source_release_key": 1,
+        "source_series_key": 1,
+        "observed_measure_key": 1,
+        "dimension_set_key": 1,
+        "universe_constraint_set_key": 1,
+    }
+    assert coverage["duplicates"]["aggregate_fact_keys"] == [
+        {
+            "key": ledger_row["aggregate_fact_key"],
+            "count": 2,
+            "sources": ["irs_soi:Publication 1304 Table 1.1"],
+            "legacy_fact_keys": [ledger_row["legacy_fact_key"]],
+        }
+    ]
+
+
+def test_bundle_coverage_preserves_non_string_identity_scalars(tmp_path):
+    identity_fields = (
+        "aggregate_fact_key",
+        "semantic_fact_key",
+        "legacy_fact_key",
+        "source_release_key",
+        "source_series_key",
+        "observed_measure_key",
+        "dimension_set_key",
+        "universe_constraint_set_key",
+    )
+    rows = [_fixture_consumer_rows()[0]]
+    for value in (None, 7):
+        row = json.loads(json.dumps(rows[0]))
+        for field_name in identity_fields:
+            row[field_name] = value
+        rows.append(row)
+    path = tmp_path / "consumer_facts.jsonl"
+    path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows))
+
+    loaded = load_bundle_jsonl(path)
+    coverage = build_bundle_coverage(loaded)
+
+    for field_name in identity_fields:
+        assert [row[field_name] for row in loaded] == [
+            rows[0][field_name],
+            None,
+            7,
+        ]
+    assert coverage["unique_counts"] == {
+        "aggregate_fact_key": 3,
+        "semantic_fact_key": 3,
+        "source_release_key": 3,
+        "source_series_key": 3,
+        "observed_measure_key": 3,
+        "dimension_set_key": 3,
+        "universe_constraint_set_key": 3,
+    }
+    assert coverage["duplicates"] == {
+        "aggregate_fact_keys": [],
+        "semantic_fact_keys": [],
+    }

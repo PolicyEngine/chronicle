@@ -5,6 +5,24 @@
 schema_version: ledger.source_package.v1
 package_id: stats-nz-subnational-population-estimates-2025
 label: 'Stats NZ 30 June 2025 provisional regional population: all ages and broad age groups (partial)'
+# Chronicle-owned labels (chronicle#261, #265). The age-band values are the
+# publisher's column headers at Table 3!D6:G6. The two dimension labels are
+# Chronicle's wording, not publisher text: the bundle allows one label per
+# dimension id, and the other packages that emit these ids already use these
+# labels ('Geography' everywhere; 'Age band' in Statbel's population
+# structure). The publisher's own headings are Table 3!D5 'Population by age
+# group (years)' and Table 1!A5 'Regional council area(2)'. Each geography value
+# takes its row's label: the publisher's row text, less the footnote marker in
+# 'New Zealand(3)' and 'New Zealand(4)'.
+dimension_labels:
+  'geography': 'Geography'
+  'person.age_band': 'Age band'
+dimension_value_labels:
+  'person.age_band':
+    '0_14': '0–14'
+    '15_39': '15–39'
+    '40_64': '40–64'
+    '65_plus': '65+'
 artifact:
   source_name: stats_nz
   source_table: 'Subnational population estimates: At 30 June 2025 (provisional), Tables 1 and 3'

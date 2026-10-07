@@ -1,0 +1,942 @@
+schema_version: ledger.source_package.v1
+package_id: hmrc-cgt-carried-interest-2026
+label: 'HMRC Capital Gains Tax statistics 2026, Table 9: individual taxpayers,
+  carried-interest gains and tax, 2023-24 and 2024-25'
+dimension_labels:
+  'sex': 'Sex'
+  'cgt_carried_interest_gain_band': 'Carried-interest gain band'
+  'age_band': 'Age band'
+  'hmrc.cgt_carried_interest_year': 'Year of disposal'
+dimension_value_labels:
+  'sex':
+    'female': 'Female'
+    'male': 'Male'
+  'cgt_carried_interest_gain_band':
+    'gain_0_to_9999': 'GBP 0 to GBP 9,999'
+    'gain_10000_to_24999': 'GBP 10,000 to GBP 24,999'
+    'gain_25000_to_49999': 'GBP 25,000 to GBP 49,999'
+    'gain_50000_to_99999': 'GBP 50,000 to GBP 99,999'
+    'gain_100000_to_249999': 'GBP 100,000 to GBP 249,999'
+    'gain_250000_to_499999': 'GBP 250,000 to GBP 499,999'
+    'gain_500000_to_999999': 'GBP 500,000 to GBP 999,999'
+    'gain_1000000_to_1999999': 'GBP 1,000,000 to GBP 1,999,999'
+    'gain_2000000_to_4999999': 'GBP 2,000,000 to GBP 4,999,999'
+    'gain_5000000_plus': 'GBP 5,000,000 or greater'
+  'age_band':
+    'age_0_to_34': '34 and below'
+    'age_35_to_44': '35 to 44'
+    'age_45_to_54': '45 to 54'
+    'age_55_to_64': '55 to 64'
+    'age_65_plus': '65 and above'
+    'all_ages': 'All'
+artifact:
+  source_name: hmrc
+  source_table: 'Capital Gains Tax statistics Table 9: estimated taxpayers reporting
+    carried-interest gains, amounts of gains and tax'
+  resource_package: db
+  resource_directory: data/hmrc/cgt_carried_interest_2026
+  manifest: manifest.yaml
+  vintage: cgt_statistics_2026
+  extracted_at: '2026-09-16'
+  extraction_method: ODS whole-workbook used-range parse with numeric-text coercion
+  parser: ods_numeric_text_used_range
+  artifact_year: 2026
+record_sets:
+- record_set_id: hmrc.cgt_carried_interest_2026.table9a.ty2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_carried_interest_2026.table9a.by_sex.ty2023.v1
+  source_record_id_prefix: hmrc.cgt_carried_interest_2026.table9a.ty2023
+  sheet_name: Table_9a
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    notes: HMRC marks statistics from 2021-22 onward as provisional.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: hmrc.cgt_carried_interest_year
+  rows:
+  - value_id: ty2023
+    label: Year of disposal 2023 to 2024
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 2023 to 2024
+    table_record_kind: total
+  measures: &table9a_measures
+  - measure_id: taxpayers_female
+    label: Female taxpayers reporting carried-interest gains
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers_female
+    expected_column_header_row: 6
+    expected_column_header: Number of female taxpayers reporting carried interest gains
+    concept: hmrc.cgt_carried_interest_taxpayers_individuals
+    source_concept: hmrc.cgt_table9a.carried_interest_taxpayers_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9a; individuals reporting carried-interest
+      gains. Counts are rounded to the nearest 10 and stored as raw counts.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    filters:
+      sex: female
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+  - measure_id: taxpayers_male
+    label: Male taxpayers reporting carried-interest gains
+    ordinal: 1
+    column: C
+    source_column_id: taxpayers_male
+    expected_column_header_row: 6
+    expected_column_header: Number of male taxpayers reporting carried interest gains
+    concept: hmrc.cgt_carried_interest_taxpayers_individuals
+    source_concept: hmrc.cgt_table9a.carried_interest_taxpayers_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9a; individuals reporting carried-interest
+      gains. Counts are rounded to the nearest 10 and stored as raw counts.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    filters:
+      sex: male
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+  - measure_id: taxpayers_total
+    label: Total taxpayers reporting carried-interest gains
+    ordinal: 2
+    column: D
+    source_column_id: taxpayers_total
+    expected_column_header_row: 6
+    expected_column_header: Total number of taxpayers reporting carried interest gains
+    concept: hmrc.cgt_carried_interest_taxpayers_individuals
+    source_concept: hmrc.cgt_table9a.carried_interest_taxpayers_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9a; individuals reporting carried-interest
+      gains. Counts are rounded to the nearest 10 and stored as raw counts.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: gains_female
+    label: Carried-interest gains from female taxpayers
+    ordinal: 3
+    column: E
+    source_column_id: gains_female
+    expected_column_header_row: 6
+    expected_column_header: Amounts of carried interest gains from female taxpayers
+    concept: hmrc.cgt_carried_interest_gains_individuals
+    source_concept: hmrc.cgt_table9a.carried_interest_gains_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9a; gains are before losses and before
+      the Annual Exempt Amount, published in GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      sex: female
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+- record_set_id: hmrc.cgt_carried_interest_2026.table9b.ty2024.remaining_bands
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_carried_interest_2026.table9b.by_gain_band.ty2024.remaining_bands.v1
+  source_record_id_prefix: hmrc.cgt_carried_interest_2026.table9b.ty2024.remaining_bands
+  sheet_name: Table_9b
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    notes: HMRC marks the figures as provisional and subject to late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_carried_interest_gain_band
+  rows:
+  - value_id: gain_10000_to_24999
+    label: GBP 10,000 to GBP 24,999
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: 10000
+    table_record_kind: detail
+    filters:
+      cgt_carried_interest_gain_band: gain_10000_to_24999
+    constraints:
+    - variable: cgt_carried_interest_gain_band
+      operator: ==
+      value: gain_10000_to_24999
+      label: Carried-interest gain band
+    - variable: cgt_gain
+      operator: '>='
+      value: 10000
+      unit: gbp
+      label: Carried-interest gain lower bound
+    - variable: cgt_gain
+      operator: <
+      value: 25000
+      unit: gbp
+      label: Carried-interest gain upper bound
+  - value_id: gain_25000_to_49999
+    label: GBP 25,000 to GBP 49,999
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: 25000
+    table_record_kind: detail
+    filters:
+      cgt_carried_interest_gain_band: gain_25000_to_49999
+    constraints:
+    - variable: cgt_carried_interest_gain_band
+      operator: ==
+      value: gain_25000_to_49999
+      label: Carried-interest gain band
+    - variable: cgt_gain
+      operator: '>='
+      value: 25000
+      unit: gbp
+      label: Carried-interest gain lower bound
+    - variable: cgt_gain
+      operator: <
+      value: 50000
+      unit: gbp
+      label: Carried-interest gain upper bound
+  - value_id: gain_50000_to_99999
+    label: GBP 50,000 to GBP 99,999
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 50000
+    table_record_kind: detail
+    filters:
+      cgt_carried_interest_gain_band: gain_50000_to_99999
+    constraints:
+    - variable: cgt_carried_interest_gain_band
+      operator: ==
+      value: gain_50000_to_99999
+      label: Carried-interest gain band
+    - variable: cgt_gain
+      operator: '>='
+      value: 50000
+      unit: gbp
+      label: Carried-interest gain lower bound
+    - variable: cgt_gain
+      operator: <
+      value: 100000
+      unit: gbp
+      label: Carried-interest gain upper bound
+  - value_id: gain_100000_to_249999
+    label: GBP 100,000 to GBP 249,999
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: 100000
+    table_record_kind: detail
+    filters:
+      cgt_carried_interest_gain_band: gain_100000_to_249999
+    constraints:
+    - variable: cgt_carried_interest_gain_band
+      operator: ==
+      value: gain_100000_to_249999
+      label: Carried-interest gain band
+    - variable: cgt_gain
+      operator: '>='
+      value: 100000
+      unit: gbp
+      label: Carried-interest gain lower bound
+    - variable: cgt_gain
+      operator: <
+      value: 250000
+      unit: gbp
+      label: Carried-interest gain upper bound
+  - value_id: gain_250000_to_499999
+    label: GBP 250,000 to GBP 499,999
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: 250000
+    table_record_kind: detail
+    filters:
+      cgt_carried_interest_gain_band: gain_250000_to_499999
+    constraints:
+    - variable: cgt_carried_interest_gain_band
+      operator: ==
+      value: gain_250000_to_499999
+      label: Carried-interest gain band
+    - variable: cgt_gain
+      operator: '>='
+      value: 250000
+      unit: gbp
+      label: Carried-interest gain lower bound
+    - variable: cgt_gain
+      operator: <
+      value: 500000
+      unit: gbp
+      label: Carried-interest gain upper bound
+  - value_id: gain_500000_to_999999
+    label: GBP 500,000 to GBP 999,999
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 500000
+    table_record_kind: detail
+    filters:
+      cgt_carried_interest_gain_band: gain_500000_to_999999
+    constraints:
+    - variable: cgt_carried_interest_gain_band
+      operator: ==
+      value: gain_500000_to_999999
+      label: Carried-interest gain band
+    - variable: cgt_gain
+      operator: '>='
+      value: 500000
+      unit: gbp
+      label: Carried-interest gain lower bound
+    - variable: cgt_gain
+      operator: <
+      value: 1000000
+      unit: gbp
+      label: Carried-interest gain upper bound
+  - value_id: gain_1000000_to_1999999
+    label: GBP 1,000,000 to GBP 1,999,999
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 1000000
+    table_record_kind: detail
+    filters:
+      cgt_carried_interest_gain_band: gain_1000000_to_1999999
+    constraints:
+    - variable: cgt_carried_interest_gain_band
+      operator: ==
+      value: gain_1000000_to_1999999
+      label: Carried-interest gain band
+    - variable: cgt_gain
+      operator: '>='
+      value: 1000000
+      unit: gbp
+      label: Carried-interest gain lower bound
+    - variable: cgt_gain
+      operator: <
+      value: 2000000
+      unit: gbp
+      label: Carried-interest gain upper bound
+  - value_id: gain_2000000_to_4999999
+    label: GBP 2,000,000 to GBP 4,999,999
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 2000000
+    table_record_kind: detail
+    filters:
+      cgt_carried_interest_gain_band: gain_2000000_to_4999999
+    constraints:
+    - variable: cgt_carried_interest_gain_band
+      operator: ==
+      value: gain_2000000_to_4999999
+      label: Carried-interest gain band
+    - variable: cgt_gain
+      operator: '>='
+      value: 2000000
+      unit: gbp
+      label: Carried-interest gain lower bound
+    - variable: cgt_gain
+      operator: <
+      value: 5000000
+      unit: gbp
+      label: Carried-interest gain upper bound
+  - value_id: gain_5000000_plus
+    label: GBP 5,000,000 or greater
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 5000000
+    table_record_kind: detail
+    filters:
+      cgt_carried_interest_gain_band: gain_5000000_plus
+    constraints:
+    - variable: cgt_carried_interest_gain_band
+      operator: ==
+      value: gain_5000000_plus
+      label: Carried-interest gain band
+    - variable: cgt_gain
+      operator: '>='
+      value: 5000000
+      unit: gbp
+      label: Carried-interest gain lower bound
+  - value_id: all_gain_bands
+    label: All carried-interest gain bands
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Total
+    table_record_kind: total
+  measures:
+  - measure_id: taxpayers
+    label: Taxpayers reporting carried-interest gains
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 6
+    expected_column_header: Number of taxpayers reporting carried interest gains
+    concept: hmrc.cgt_carried_interest_taxpayers_individuals
+    source_concept: hmrc.cgt_table9b.carried_interest_taxpayers_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9b; individuals reporting carried-interest
+      gains. Counts are rounded to the nearest 10 and stored as raw counts.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: gains
+    label: Carried-interest gains
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 6
+    expected_column_header: Amounts of carried interest gains
+    concept: hmrc.cgt_carried_interest_gains_individuals
+    source_concept: hmrc.cgt_table9b.carried_interest_gains_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9b; gains are before losses and before
+      the Annual Exempt Amount, published in GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: tax
+    label: Tax on carried interest
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 6
+    expected_column_header: Amounts of tax on carried interest
+    concept: hmrc.cgt_carried_interest_tax_individuals
+    source_concept: hmrc.cgt_table9b.carried_interest_tax_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9b; tax on carried interest is published
+      in GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.cgt_carried_interest_2026.table9c.ty2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_carried_interest_2026.table9c.by_age_band.ty2024.v1
+  source_record_id_prefix: hmrc.cgt_carried_interest_2026.table9c.ty2024
+  sheet_name: Table_9c
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    notes: HMRC assigns age at the end of the tax year and marks the figures as provisional and subject
+      to late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: age_band
+  rows:
+  - value_id: age_0_to_34
+    label: 34 and below
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: 34 and below
+    table_record_kind: detail
+    filters:
+      age_band: age_0_to_34
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: age_0_to_34
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 0
+      label: Age lower bound
+    - variable: age
+      operator: <=
+      value: 34
+      label: Age upper bound
+  - value_id: age_35_to_44
+    label: 35 to 44
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: 35 to 44
+    table_record_kind: detail
+    filters:
+      age_band: age_35_to_44
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: age_35_to_44
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 35
+      label: Age lower bound
+    - variable: age
+      operator: <=
+      value: 44
+      label: Age upper bound
+  - value_id: age_45_to_54
+    label: 45 to 54
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 45 to 54
+    table_record_kind: detail
+    filters:
+      age_band: age_45_to_54
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: age_45_to_54
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 45
+      label: Age lower bound
+    - variable: age
+      operator: <=
+      value: 54
+      label: Age upper bound
+  - value_id: age_55_to_64
+    label: 55 to 64
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: 55 to 64
+    table_record_kind: detail
+    filters:
+      age_band: age_55_to_64
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: age_55_to_64
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 55
+      label: Age lower bound
+    - variable: age
+      operator: <=
+      value: 64
+      label: Age upper bound
+  - value_id: age_65_plus
+    label: 65 and above
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: 65 and above
+    table_record_kind: detail
+    filters:
+      age_band: age_65_plus
+    constraints:
+    - variable: age_band
+      operator: ==
+      value: age_65_plus
+      label: Age band
+    - variable: age
+      operator: '>='
+      value: 65
+      label: Age lower bound
+  - value_id: all_ages
+    label: All
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: All
+    table_record_kind: total
+  measures:
+  - measure_id: taxpayers
+    label: Taxpayers reporting carried-interest gains
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 7
+    expected_column_header: Number of taxpayers reporting carried interest gains
+    concept: hmrc.cgt_carried_interest_taxpayers_individuals
+    source_concept: hmrc.cgt_table9c.carried_interest_taxpayers_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9c; individuals reporting carried-interest
+      gains. Counts are rounded to the nearest 10 and stored as raw counts.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: gains
+    label: Carried-interest gains
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 7
+    expected_column_header: Amounts of carried interest gains
+    concept: hmrc.cgt_carried_interest_gains_individuals
+    source_concept: hmrc.cgt_table9c.carried_interest_gains_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9c; gains are before losses and before
+      the Annual Exempt Amount, published in GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: tax
+    label: Tax on carried interest
+    ordinal: 2
+    column: D
+    source_column_id: tax
+    expected_column_header_row: 7
+    expected_column_header: Amounts of tax on carried interest
+    concept: hmrc.cgt_carried_interest_tax_individuals
+    source_concept: hmrc.cgt_table9c.carried_interest_tax_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9c; tax on carried interest is published
+      in GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.cgt_carried_interest_2026.table9a.ty2023.remaining_measures
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_carried_interest_2026.table9a.by_sex.ty2023.remaining_measures.v1
+  source_record_id_prefix: hmrc.cgt_carried_interest_2026.table9a.ty2023.remaining_measures
+  sheet_name: Table_9a
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    basis: tax
+    source_period_label: 2023 to 2024 tax year
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    notes: HMRC marks statistics from 2021-22 onward as provisional.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: hmrc.cgt_carried_interest_year
+  rows:
+  - value_id: ty2023
+    label: Year of disposal 2023 to 2024
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 2023 to 2024
+    table_record_kind: total
+  measures: &table9a_remaining_measures
+  - measure_id: gains_male
+    label: Carried-interest gains from male taxpayers
+    ordinal: 4
+    column: F
+    source_column_id: gains_male
+    expected_column_header_row: 6
+    expected_column_header: Amounts of carried interest gains from male taxpayers
+    concept: hmrc.cgt_carried_interest_gains_individuals
+    source_concept: hmrc.cgt_table9a.carried_interest_gains_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9a; gains are before losses and before
+      the Annual Exempt Amount, published in GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      sex: male
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+  - measure_id: gains_total
+    label: Total carried-interest gains
+    ordinal: 5
+    column: G
+    source_column_id: gains_total
+    expected_column_header_row: 6
+    expected_column_header: Total amounts of carried interest gains
+    concept: hmrc.cgt_carried_interest_gains_individuals
+    source_concept: hmrc.cgt_table9a.carried_interest_gains_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9a; gains are before losses and before
+      the Annual Exempt Amount, published in GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: tax_female
+    label: Tax on carried interest from female taxpayers
+    ordinal: 6
+    column: H
+    source_column_id: tax_female
+    expected_column_header_row: 6
+    expected_column_header: Amounts of tax on carried interest from female taxpayers
+    concept: hmrc.cgt_carried_interest_tax_individuals
+    source_concept: hmrc.cgt_table9a.carried_interest_tax_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9a; tax on carried interest is published
+      in GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      sex: female
+    constraints:
+    - variable: sex
+      operator: ==
+      value: female
+      label: Sex
+  - measure_id: tax_male
+    label: Tax on carried interest from male taxpayers
+    ordinal: 7
+    column: I
+    source_column_id: tax_male
+    expected_column_header_row: 6
+    expected_column_header: Amounts of tax on carried interest from male taxpayers
+    concept: hmrc.cgt_carried_interest_tax_individuals
+    source_concept: hmrc.cgt_table9a.carried_interest_tax_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9a; tax on carried interest is published
+      in GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters:
+      sex: male
+    constraints:
+    - variable: sex
+      operator: ==
+      value: male
+      label: Sex
+  - measure_id: tax_total
+    label: Total tax on carried interest
+    ordinal: 8
+    column: J
+    source_column_id: tax_total
+    expected_column_header_row: 6
+    expected_column_header: Total amounts of tax on carried interest
+    concept: hmrc.cgt_carried_interest_tax_individuals
+    source_concept: hmrc.cgt_table9a.carried_interest_tax_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9a; tax on carried interest is published
+      in GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.cgt_carried_interest_2026.table9a.ty2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_carried_interest_2026.table9a.by_sex.ty2024.v1
+  source_record_id_prefix: hmrc.cgt_carried_interest_2026.table9a.ty2024
+  sheet_name: Table_9a
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    notes: HMRC marks statistics from 2021-22 onward as provisional.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: hmrc.cgt_carried_interest_year
+  rows:
+  - value_id: ty2024
+    label: Year of disposal 2024 to 2025
+    ordinal: 0
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 2024 to 2025
+    table_record_kind: total
+  measures: *table9a_measures
+- record_set_id: hmrc.cgt_carried_interest_2026.table9a.ty2024.remaining_measures
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_carried_interest_2026.table9a.by_sex.ty2024.remaining_measures.v1
+  source_record_id_prefix: hmrc.cgt_carried_interest_2026.table9a.ty2024.remaining_measures
+  sheet_name: Table_9a
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    notes: HMRC marks statistics from 2021-22 onward as provisional.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: hmrc.cgt_carried_interest_year
+  rows:
+  - value_id: ty2024
+    label: Year of disposal 2024 to 2025
+    ordinal: 0
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 2024 to 2025
+    table_record_kind: total
+  measures: *table9a_remaining_measures
+- record_set_id: hmrc.cgt_carried_interest_2026.table9b.ty2024.gain_0_to_9999
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.cgt_carried_interest_2026.table9b.by_gain_band.ty2024.gain_0_to_9999.v1
+  source_record_id_prefix: hmrc.cgt_carried_interest_2026.table9b.ty2024.gain_0_to_9999
+  sheet_name: Table_9b
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    basis: tax
+    source_period_label: 2024 to 2025 tax year
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    notes: HMRC marks the figures as provisional and subject to late and amended returns.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: taxpayer
+  domain: capital_gains_tax
+  groupby_dimension: cgt_carried_interest_gain_band
+  rows:
+  - value_id: gain_0_to_9999
+    label: GBP 0 to GBP 9,999
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: 0
+    guard_cells:
+    - column: D
+      expected_value: '[Less than 1]'
+      label: Publisher-suppressed tax amount retained without a numeric fact
+    table_record_kind: detail
+    filters:
+      cgt_carried_interest_gain_band: gain_0_to_9999
+    constraints:
+    - variable: cgt_carried_interest_gain_band
+      operator: ==
+      value: gain_0_to_9999
+      label: Carried-interest gain band
+    - variable: cgt_gain
+      operator: '>='
+      value: 0
+      unit: gbp
+      label: Carried-interest gain lower bound
+    - variable: cgt_gain
+      operator: <
+      value: 10000
+      unit: gbp
+      label: Carried-interest gain upper bound
+  measures:
+  - measure_id: taxpayers
+    label: Taxpayers reporting carried-interest gains
+    ordinal: 0
+    column: B
+    source_column_id: taxpayers
+    expected_column_header_row: 6
+    expected_column_header: Number of taxpayers reporting carried interest gains
+    concept: hmrc.cgt_carried_interest_taxpayers_individuals
+    source_concept: hmrc.cgt_table9b.carried_interest_taxpayers_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9b; individuals reporting carried-interest
+      gains. Counts are rounded to the nearest 10 and stored as raw counts.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: gains
+    label: Carried-interest gains
+    ordinal: 1
+    column: C
+    source_column_id: gains
+    expected_column_header_row: 6
+    expected_column_header: Amounts of carried interest gains
+    concept: hmrc.cgt_carried_interest_gains_individuals
+    source_concept: hmrc.cgt_table9b.carried_interest_gains_individuals
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+    concept_evidence_notes: HMRC CGT statistics 2026, Table 9b; gains are before losses and before
+      the Annual Exempt Amount, published in GBP millions.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number

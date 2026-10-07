@@ -37,6 +37,14 @@ jobs:
         run: >
           uv run pytest -q
 
+      # Keep this security-sensitive operational surface explicit even though
+      # the broad Chronicle lint and test commands above also cover it.
+      - name: Lint OpenTimestamps anchoring
+        run: uv run ruff check scripts/ots_anchor.py tests/test_ots_anchor.py
+
+      - name: Test OpenTimestamps anchoring
+        run: uv run pytest -q tests/test_ots_anchor.py
+
       - name: Build source input database
         run: |
           uv run chronicle --db /tmp/chronicle-targets-ci.db init
@@ -61,12 +69,33 @@ jobs:
           import policyengine_chronicle.targets
           from policyengine_chronicle.schema import (
               CONSUMER_FACT_SCHEMA_SHA256,
+              CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION,
               consumer_fact_schema,
           )
 
           assert policyengine_chronicle.__name__ == "policyengine_chronicle"
-          # The pinned consumer-fact schema must ship inside the wheel.
-          assert consumer_fact_schema()["title"] == "Ledger consumer fact contract row"
+          # Every consumer-fact contract must ship inside the wheel: frozen v1,
+          # the v2 labels contract, the v3 geography-name contract, and the v4
+          # contract rows are emitted under.
+          assert (
+              consumer_fact_schema("ledger.consumer_fact.v1")["title"]
+              == "Ledger consumer fact contract row"
+          )
+          assert consumer_fact_schema()["title"] == "Chronicle consumer fact contract row"
+          assert consumer_fact_schema()["properties"]["schema_version"] == {
+              "const": "chronicle.consumer_fact.v4"
+          }
+          assert set(CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION) == {
+              "ledger.consumer_fact.v1",
+              "chronicle.consumer_fact.v2",
+              "chronicle.consumer_fact.v3",
+              "chronicle.consumer_fact.v4",
+          }
+          # v4 rows take their UK area names from the register, which the
+          # export reads from package data, so the wheel must carry it.
+          from chronicle.geography_names import canonical_geography_name
+
+          assert canonical_geography_name("E06000001") == "Hartlepool"
           assert len(CONSUMER_FACT_SCHEMA_SHA256) == 64
           PY
           /tmp/chronicle-wheel-smoke/bin/chronicle --help >/dev/null

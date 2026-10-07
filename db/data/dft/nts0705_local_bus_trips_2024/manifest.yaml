@@ -1,0 +1,18 @@
+source_id: dft
+package_id: dft-nts0705-local-bus-trips-2024
+dataset: dft_dft-nts0705-local-bus-trips-2024
+source_page: https://www.gov.uk/government/statistical-data-sets/nts07-car-ownership-and-access
+table: NTS0705a average trips by household income quintile and main mode
+files:
+  2024:
+    filename: nts0705.ods
+    source_url: https://assets.publishing.service.gov.uk/media/68a43c0a32d2c63f869343d9/nts0705.ods
+    sha256: b69f135d23cf3c10a3c10f6b5d4ffe1c6ae053013a36c4ad9c72b2920c438e17
+    size_bytes: 83621
+    fetched_at: '2026-08-26T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/dft/dft-nts0705-local-bus-trips-2024/2024/b69f135d23cf3c10a3c10f6b5d4ffe1c6ae053013a36c4ad9c72b2920c438e17/nts0705.ods
+        uri: r2://ledger-raw/raw/dft/dft-nts0705-local-bus-trips-2024/2024/b69f135d23cf3c10a3c10f6b5d4ffe1c6ae053013a36c4ad9c72b2920c438e17/nts0705.ods

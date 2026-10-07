@@ -1,0 +1,19 @@
+source_id: hmrc
+package_id: hmrc-cgt-statistics-2026
+dataset: hmrc_hmrc-cgt-statistics-2026
+source_page: https://www.gov.uk/government/statistics/capital-gains-tax-statistics
+table: 'Capital Gains Tax statistics Table 1: taxpayer numbers, gains and tax liabilities
+  by year of disposal'
+files:
+  2026:
+    filename: Table_1_2026_Taxpayer_numbers_gains_and_tax_liabilities.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a7b23f1bbafcd1db3b6e420/Table_1_2026_Taxpayer_numbers_gains_and_tax_liabilities.ods
+    sha256: d1413c30486f590d952d6e9c8940af6356ec796414418781412a89ba4c90c1ef
+    size_bytes: 9696
+    fetched_at: '2026-09-03T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-cgt-statistics-2026/2026/d1413c30486f590d952d6e9c8940af6356ec796414418781412a89ba4c90c1ef/Table_1_2026_Taxpayer_numbers_gains_and_tax_liabilities.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-cgt-statistics-2026/2026/d1413c30486f590d952d6e9c8940af6356ec796414418781412a89ba4c90c1ef/Table_1_2026_Taxpayer_numbers_gains_and_tax_liabilities.ods

@@ -1,0 +1,237 @@
+{
+  "query" : {
+    "database" : "str:database:UC_Households",
+    "measures" : [ "str:count:UC_Households:V_F_UC_HOUSEHOLDS" ],
+    "recodes" : {
+      "str:field:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band" : {
+        "map" : [ [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:0" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:1" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:2" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:3" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:4" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:5" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:6" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:7" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:8" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:9" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:10" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:11" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:12" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:13" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:14" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:15" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:16" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:17" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:18" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:19" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:20" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:21" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:22" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:23" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:24" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:25" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:26" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:27" ] ],
+        "total" : false
+      },
+      "str:field:UC_Households:F_UC_HH_DATE:DATE_NAME" : {
+        "map" : [ [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202504" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202505" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202506" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202507" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202508" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202509" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202510" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202511" ], [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202512" ] ],
+        "total" : false
+      },
+      "str:field:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type" : {
+        "map" : [ [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type:C_UC_FAMILY_TYPE:1" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type:C_UC_FAMILY_TYPE:2" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type:C_UC_FAMILY_TYPE:3" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type:C_UC_FAMILY_TYPE:4" ], [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type:C_UC_FAMILY_TYPE:99" ] ],
+        "total" : false
+      }
+    },
+    "dimensions" : [ [ "str:field:UC_Households:F_UC_HH_DATE:DATE_NAME" ], [ "str:field:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band" ], [ "str:field:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type" ] ]
+  },
+  "database" : {
+    "id" : "UC_Households",
+    "uri" : "str:database:UC_Households",
+    "label" : "Households on Universal Credit",
+    "annotationKeys" : [ "I", "II", "III", "IV", "z" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:UC_Households:V_F_UC_HOUSEHOLDS",
+    "label" : "Households on Universal Credit",
+    "measure" : "str:count:UC_Households:V_F_UC_HOUSEHOLDS",
+    "function" : "COUNT"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:UC_Households:F_UC_HH_DATE:DATE_NAME",
+    "label" : "Month",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202504" ],
+      "labels" : [ "April 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202505" ],
+      "labels" : [ "May 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202506" ],
+      "labels" : [ "June 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202507" ],
+      "labels" : [ "July 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202508" ],
+      "labels" : [ "August 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202509" ],
+      "labels" : [ "September 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202510" ],
+      "labels" : [ "October 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202511" ],
+      "labels" : [ "November 2025" ],
+      "annotationKeys" : [ "r" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:F_UC_HH_DATE:DATE_NAME:C_UC_HH_DATE:202512" ],
+      "labels" : [ "December 2025" ],
+      "annotationKeys" : [ "r" ]
+    } ]
+  }, {
+    "uri" : "str:field:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band",
+    "label" : "Monthly Award Amount (bands)",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:0" ],
+      "labels" : [ "No payment" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:1" ],
+      "labels" : [ "£0.01 to £100.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:2" ],
+      "labels" : [ "£100.01 to £200.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:3" ],
+      "labels" : [ "£200.01 to £300.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:4" ],
+      "labels" : [ "£300.01 to £400.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:5" ],
+      "labels" : [ "£400.01 to £500.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:6" ],
+      "labels" : [ "£500.01 to £600.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:7" ],
+      "labels" : [ "£600.01 to £700.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:8" ],
+      "labels" : [ "£700.01 to £800.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:9" ],
+      "labels" : [ "£800.01 to £900.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:10" ],
+      "labels" : [ "£900.01 to £1000.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:11" ],
+      "labels" : [ "£1000.01 to £1100.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:12" ],
+      "labels" : [ "£1100.01 to £1200.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:13" ],
+      "labels" : [ "£1200.01 to £1300.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:14" ],
+      "labels" : [ "£1300.01 to £1400.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:15" ],
+      "labels" : [ "£1400.01 to £1500.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:16" ],
+      "labels" : [ "£1500.01 or over" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:17" ],
+      "labels" : [ "£1500.01 to £1600.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:18" ],
+      "labels" : [ "£1600.01 to £1700.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:19" ],
+      "labels" : [ "£1700.01 to £1800.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:20" ],
+      "labels" : [ "£1800.01 to £1900.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:21" ],
+      "labels" : [ "£1900.01 to £2000.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:22" ],
+      "labels" : [ "£2000.01 to £2100.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:23" ],
+      "labels" : [ "£2100.01 to £2200.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:24" ],
+      "labels" : [ "£2200.01 to £2300.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:25" ],
+      "labels" : [ "£2300.01 to £2400.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:26" ],
+      "labels" : [ "£2400.01 to £2500.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnpayment_band:C_UC_PAYMENT_BAND:27" ],
+      "labels" : [ "£2500.01 or over" ]
+    } ]
+  }, {
+    "uri" : "str:field:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type",
+    "label" : "Family Type",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type:C_UC_FAMILY_TYPE:1" ],
+      "labels" : [ "Single, no children" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type:C_UC_FAMILY_TYPE:2" ],
+      "labels" : [ "Single, with children" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type:C_UC_FAMILY_TYPE:3" ],
+      "labels" : [ "Couple, no children" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type:C_UC_FAMILY_TYPE:4" ],
+      "labels" : [ "Couple, with children" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:UC_Households:V_F_UC_HOUSEHOLDS:hnfamily_type:C_UC_FAMILY_TYPE:99" ],
+      "labels" : [ "Unknown or missing family type" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:UC_Households:V_F_UC_HOUSEHOLDS" : {
+      "values" : [ [ [ 345734, 74530, 34878, 79534, 44 ], [ 86442, 26000, 7458, 19564, 6 ], [ 118150, 35618, 8615, 23193, 19 ], [ 224862, 44673, 11352, 26990, 28 ], [ 425235, 56920, 10892, 29917, 16 ], [ 96208, 68036, 12425, 33175, 33 ], [ 115978, 98800, 12517, 36338, 71 ], [ 145629, 109720, 15360, 38238, 63 ], [ 395598, 100052, 14015, 41492, 48 ], [ 297659, 103266, 17625, 40767, 45 ], [ 90535, 128004, 12363, 42495, 74 ], [ 112608, 134067, 14681, 41211, 94 ], [ 187938, 125228, 12795, 42067, 66 ], [ 175134, 119658, 17342, 41277, 53 ], [ 116447, 131169, 13956, 38690, 85 ], [ 74762, 140080, 11141, 38477, 76 ], [ 0, 0, 0, 0, 0 ], [ 41122, 130403, 9111, 38059, 83 ], [ 23293, 101598, 7777, 33938, 66 ], [ 17203, 85932, 5141, 29396, 34 ], [ 11542, 77162, 3141, 28339, 40 ], [ 8807, 67174, 2137, 25767, 34 ], [ 6244, 48752, 1638, 22798, 27 ], [ 5899, 41062, 1156, 20047, 14 ], [ 4502, 32528, 833, 17188, 16 ], [ 1723, 26208, 601, 14990, 7 ], [ 1426, 21054, 513, 12345, 6 ], [ 3330, 79861, 1283, 59411, 27 ] ], [ [ 327592, 67972, 34883, 73985, 48 ], [ 101135, 24827, 7561, 18893, 9 ], [ 121147, 34634, 8778, 22589, 12 ], [ 174120, 43613, 11642, 26759, 24 ], [ 369408, 55645, 10745, 29283, 29 ], [ 197606, 68104, 12258, 33046, 35 ], [ 106602, 89159, 12412, 35830, 60 ], [ 143153, 117080, 15625, 38304, 55 ], [ 379884, 98795, 14278, 40451, 51 ], [ 341229, 101933, 17613, 40354, 49 ], [ 94020, 125220, 12329, 41817, 57 ], [ 106142, 129438, 15050, 41327, 91 ], [ 182346, 129457, 12430, 40802, 64 ], [ 191808, 117491, 17851, 42080, 67 ], [ 130475, 128663, 14504, 38367, 84 ], [ 86227, 139382, 11912, 38702, 74 ], [ 0, 0, 0, 0, 0 ], [ 47368, 134299, 9494, 38111, 94 ], [ 27104, 106664, 8466, 33803, 59 ], [ 18545, 86112, 5757, 29944, 46 ], [ 12741, 80255, 3527, 28209, 48 ], [ 9802, 70300, 2367, 25968, 35 ], [ 6380, 50764, 1792, 23244, 20 ], [ 6020, 43179, 1210, 20620, 18 ], [ 5485, 34414, 961, 17676, 11 ], [ 1824, 27698, 658, 15512, 10 ], [ 1540, 22088, 574, 12961, 7 ], [ 3579, 85359, 1443, 62686, 27 ] ], [ [ 346800, 70057, 34994, 75015, 52 ], [ 86273, 24763, 7471, 18941, 11 ], [ 125895, 34386, 8875, 22910, 17 ], [ 174634, 44051, 11736, 26524, 23 ], [ 363639, 56617, 10932, 29091, 17 ], [ 199593, 67850, 12193, 32753, 27 ], [ 108610, 88369, 12763, 35170, 65 ], [ 142788, 116377, 15964, 37903, 65 ], [ 389082, 97150, 14731, 40054, 46 ], [ 355422, 100905, 17973, 39863, 46 ], [ 99139, 124177, 12926, 41015, 70 ], [ 107402, 125956, 15436, 40771, 86 ], [ 188624, 131940, 12652, 40610, 75 ], [ 201649, 115836, 18688, 40985, 62 ], [ 140769, 126061, 15450, 37483, 73 ], [ 96527, 136758, 12690, 37991, 78 ], [ 0, 0, 0, 0, 0 ], [ 54017, 139266, 9932, 37860, 100 ], [ 30198, 108123, 9098, 33876, 58 ], [ 20334, 86347, 6152, 29475, 44 ], [ 13776, 81355, 3739, 27833, 51 ], [ 10658, 72309, 2581, 26030, 38 ], [ 6807, 51818, 1995, 23425, 24 ], [ 6409, 43842, 1362, 20746, 18 ], [ 5791, 35285, 1047, 17877, 12 ], [ 1990, 29045, 766, 15729, 12 ], [ 1636, 22702, 632, 13186, 5 ], [ 3902, 88101, 1645, 64034, 28 ] ], [ [ 338056, 74636, 34779, 75093, 61 ], [ 96275, 25364, 7528, 18858, 11 ], [ 127389, 34790, 8757, 22611, 18 ], [ 178074, 44546, 12017, 26456, 26 ], [ 367625, 57496, 10972, 28769, 29 ], [ 202569, 67494, 12327, 32393, 23 ], [ 111130, 88094, 12916, 35189, 60 ], [ 145982, 116923, 16209, 37618, 79 ], [ 393768, 96500, 15024, 40102, 49 ], [ 370447, 101661, 18589, 39663, 44 ], [ 102116, 123921, 13147, 41236, 75 ], [ 113295, 125331, 15902, 40267, 84 ], [ 193405, 131930, 13111, 40224, 83 ], [ 207844, 116326, 19381, 40639, 60 ], [ 147207, 126204, 16166, 37219, 74 ], [ 103683, 136886, 13232, 37557, 65 ], [ 0, 0, 0, 0, 0 ], [ 58193, 139070, 10478, 37642, 107 ], [ 32182, 108137, 9378, 33591, 60 ], [ 21163, 86375, 6245, 29495, 56 ], [ 14368, 81370, 3821, 27649, 50 ], [ 10958, 72429, 2680, 25999, 43 ], [ 6852, 51958, 2017, 23220, 27 ], [ 6338, 43609, 1427, 20590, 13 ], [ 5927, 35071, 1057, 17790, 14 ], [ 1965, 28854, 751, 15684, 13 ], [ 1622, 22681, 594, 13095, 8 ], [ 3808, 87716, 1571, 63580, 31 ] ], [ [ 372073, 86815, 34954, 78566, 63 ], [ 65119, 26790, 7439, 18988, 10 ], [ 127688, 36218, 8799, 22781, 21 ], [ 185424, 46512, 12390, 26493, 24 ], [ 372226, 60364, 10985, 28673, 25 ], [ 207150, 66851, 12464, 32220, 24 ], [ 113347, 88072, 12896, 34391, 44 ], [ 149074, 116869, 16646, 37321, 71 ], [ 399587, 96440, 15143, 39830, 51 ], [ 389899, 100906, 19339, 38830, 49 ], [ 106529, 122788, 13411, 40655, 81 ], [ 121282, 124463, 16312, 39855, 82 ], [ 197878, 129540, 13254, 39813, 76 ], [ 213843, 115233, 19932, 40516, 53 ], [ 153659, 125072, 16682, 36984, 68 ], [ 111835, 135702, 13673, 37041, 59 ], [ 0, 0, 0, 0, 0 ], [ 63307, 137910, 10893, 37470, 95 ], [ 34737, 107202, 9837, 33344, 65 ], [ 22453, 85353, 6598, 29144, 45 ], [ 14891, 80523, 3982, 27408, 54 ], [ 11354, 72152, 2792, 25752, 42 ], [ 7042, 51476, 2149, 22951, 23 ], [ 6474, 43327, 1504, 20380, 21 ], [ 6116, 34884, 1052, 17620, 13 ], [ 1932, 28523, 797, 15435, 11 ], [ 1685, 22444, 608, 12900, 7 ], [ 3837, 86373, 1554, 62499, 31 ] ], [ [ 355265, 91218, 35138, 80159, 58 ], [ 85788, 28176, 7526, 19222, 12 ], [ 129643, 37390, 8838, 23010, 14 ], [ 196965, 48006, 12592, 26504, 12 ], [ 373339, 62993, 10950, 29148, 22 ], [ 210825, 67778, 12585, 32208, 31 ], [ 115619, 88541, 13151, 34961, 45 ], [ 152203, 117811, 16941, 36929, 73 ], [ 404450, 96913, 15596, 39795, 46 ], [ 409490, 102166, 19900, 39245, 48 ], [ 109314, 122748, 13596, 40589, 79 ], [ 127190, 123618, 16420, 39803, 85 ], [ 201588, 129180, 13593, 39643, 81 ], [ 218871, 115260, 20420, 40317, 63 ], [ 158908, 124304, 17201, 36450, 69 ], [ 118156, 134715, 14017, 36775, 72 ], [ 0, 0, 0, 0, 0 ], [ 67419, 135829, 11236, 36726, 86 ], [ 36759, 106466, 10167, 33215, 53 ], [ 23639, 84316, 6775, 28788, 44 ], [ 15541, 79924, 4194, 27134, 52 ], [ 11722, 71378, 2905, 25407, 42 ], [ 7203, 50870, 2250, 22642, 23 ], [ 6754, 42763, 1565, 20358, 23 ], [ 6219, 34404, 1139, 17258, 15 ], [ 1955, 27992, 765, 15243, 21 ], [ 1748, 22228, 628, 12703, 0 ], [ 3876, 84353, 1706, 61340, 28 ] ], [ [ 339755, 87142, 34821, 79288, 54 ], [ 101589, 28291, 7607, 19181, 13 ], [ 131954, 37477, 8820, 22734, 17 ], [ 206791, 48543, 12766, 26424, 23 ], [ 373989, 64217, 11123, 29007, 25 ], [ 214696, 68381, 12623, 32584, 28 ], [ 117047, 88268, 13304, 34503, 48 ], [ 153279, 117438, 17126, 37446, 73 ], [ 408711, 97294, 16090, 39528, 41 ], [ 425990, 103776, 20041, 39145, 48 ], [ 112035, 122685, 13912, 40307, 78 ], [ 132257, 123614, 16845, 39100, 78 ], [ 204682, 128842, 13846, 39245, 72 ], [ 222765, 115193, 20821, 40004, 61 ], [ 163650, 124045, 17841, 36806, 68 ], [ 124138, 133754, 14476, 36397, 66 ], [ 0, 0, 0, 0, 0 ], [ 71038, 135351, 11582, 36499, 97 ], [ 38742, 106368, 10531, 32984, 49 ], [ 24774, 84769, 7009, 28852, 49 ], [ 15923, 80200, 4336, 26969, 55 ], [ 12009, 71511, 3067, 25089, 42 ], [ 7288, 51534, 2373, 22824, 27 ], [ 6757, 43049, 1640, 20114, 16 ], [ 6352, 34810, 1172, 17398, 15 ], [ 1929, 28394, 785, 15150, 12 ], [ 1736, 22658, 669, 12732, 8 ], [ 3705, 86688, 1702, 61921, 26 ] ], [ [ 356193, 87104, 34937, 80756, 54 ], [ 91389, 27918, 7450, 19055, 10 ], [ 133963, 37631, 8911, 22555, 12 ], [ 214922, 48684, 12902, 26531, 25 ], [ 369991, 64399, 10980, 28855, 28 ], [ 217287, 68242, 12748, 31900, 23 ], [ 119121, 88568, 13433, 34289, 51 ], [ 154214, 116090, 17253, 36732, 70 ], [ 410292, 97352, 16339, 39273, 40 ], [ 439833, 103203, 20475, 38521, 52 ], [ 114400, 122158, 14098, 39637, 81 ], [ 137808, 122835, 17061, 39114, 80 ], [ 207646, 128122, 14064, 38726, 80 ], [ 225774, 113914, 21110, 39494, 66 ], [ 167877, 122711, 17965, 36131, 78 ], [ 129974, 132363, 14793, 35867, 82 ], [ 0, 0, 0, 0, 0 ], [ 75643, 132964, 11855, 36043, 97 ], [ 41274, 106005, 10803, 32487, 61 ], [ 26243, 85058, 7326, 28388, 54 ], [ 16774, 80378, 4531, 27099, 51 ], [ 12463, 71932, 3156, 24903, 45 ], [ 7357, 52085, 2453, 22623, 34 ], [ 7033, 44409, 1730, 20035, 18 ], [ 6436, 36348, 1190, 17411, 11 ], [ 1852, 29984, 828, 15465, 18 ], [ 1790, 23649, 624, 12750, 11 ], [ 3450, 92910, 1646, 63566, 34 ] ], [ [ 350278, 87745, 35319, 81980, 61 ], [ 91304, 27903, 7517, 18960, 10 ], [ 130800, 37729, 8780, 22599, 14 ], [ 218438, 48187, 12907, 25843, 23 ], [ 378116, 64140, 10930, 28500, 22 ], [ 217915, 67992, 12809, 31564, 32 ], [ 118846, 88326, 13425, 33941, 57 ], [ 155072, 116376, 17236, 36206, 71 ], [ 416380, 97103, 16236, 38668, 50 ], [ 447736, 103271, 20726, 37924, 57 ], [ 115932, 121762, 14038, 39498, 65 ], [ 140336, 122864, 17386, 38638, 84 ], [ 210362, 127964, 14111, 38623, 88 ], [ 227788, 113799, 21371, 39357, 71 ], [ 170677, 122713, 18224, 35932, 77 ], [ 132905, 132891, 15036, 35793, 79 ], [ 0, 0, 0, 0, 0 ], [ 77361, 133912, 11976, 36071, 95 ], [ 42165, 106514, 10822, 32548, 68 ], [ 26691, 85152, 7379, 28441, 50 ], [ 16616, 80875, 4566, 27172, 61 ], [ 12430, 72151, 3168, 25348, 46 ], [ 7388, 52458, 2514, 22623, 29 ], [ 6890, 44507, 1684, 20122, 28 ], [ 6393, 36451, 1213, 17597, 15 ], [ 1787, 29919, 766, 15391, 15 ], [ 1701, 23833, 610, 12854, 8 ], [ 2986, 93095, 1488, 63373, 33 ] ] ],
+      "precision" : 0
+    }
+  },
+  "annotationMap" : {
+    "I" : "A limited test of the full Universal Credit service was launched in Sutton, South London on 26th November 2014, and has expanded to other areas since. This publication now includes statistics covering both the live and full Universal Credit service. Please see https://www.gov.uk/government/publications/universal-credit-transition-to-full-service for details of the areas in which the full Universal Credit service is operating.",
+    "II" : "Data for more recent months will be subject to a higher degree of revision. Universal Credit award amounts may be retrospectively revised.",
+    "III" : "Monthly award amounts include any awards due to entitlement such as the standard allowance or housing entitlement plus any advance payments. Advance payments will normally be recovered during subsequent assessment periods.",
+    "IV" : "Award, entitlement and payment information may be missing for a very small number of households on Universal Credit, where more limited information is entered onto IT systems.",
+    "z" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants.",
+    "r" : "Figures marked \"r\" have been revised since the previous release."
+  }
+}

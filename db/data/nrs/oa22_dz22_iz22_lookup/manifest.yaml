@@ -1,0 +1,25 @@
+source_id: nrs
+package_id: nrs-oa22-dz22-iz22-lookup
+source_name: NRS OA 2022 to Data Zone and Intermediate Zone lookup
+publisher: National Records of Scotland
+source_page: https://www.nrscotland.gov.uk/media/iz3evrqt/oa22_dz22_iz22.zip
+files:
+  2022:
+    filename: scotland_oa22_dz22_iz22.zip
+    source_url: https://www.nrscotland.gov.uk/media/iz3evrqt/oa22_dz22_iz22.zip
+    source_table: OA2022 to Data Zone 2022 to Intermediate Zone 2022 lookup
+    sha256: 3565794561306479b6c618aaa3915f1f29fdce31ee798fdcdab45f880a7ba4aa
+    size_bytes: 237841
+    fetched_at: '2026-08-19'
+    retrieved_at: '2026-08-19'
+    vintage: 2022_census
+    vintages:
+    - 2022_census
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-oa22-dz22-iz22-lookup/2022/3565794561306479b6c618aaa3915f1f29fdce31ee798fdcdab45f880a7ba4aa/scotland_oa22_dz22_iz22.zip
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-oa22-dz22-iz22-lookup/2022/3565794561306479b6c618aaa3915f1f29fdce31ee798fdcdab45f880a7ba4aa/scotland_oa22_dz22_iz22.zip
+    notes: The publisher re-uploaded the server copy on 3 November 2025; this registration
+      preserves the pinned cached bytes.

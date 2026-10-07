@@ -2,7 +2,11 @@
 # September 2025, Scotland row by council tax band A-H plus total. The
 # Scotland row is publisher-emitted as in-workbook SUM formulas over the 32
 # local-authority rows; the parser reads the publisher's cached computed
-# values (total 2,623,149). The per-LA rows are wave-3 scope (#134).
+# values (total 2,623,149). The 32 council-area rows are ported too, in their
+# own record set with the same concepts, measure ids and period (chronicle#262),
+# so each council leg parents under the Scotland row; codes come from
+# scotgov-band-d-equivalents-2025, and geography names are the publisher's, '&'
+# spellings included, with the register supplying the ONS name (chronicle#281).
 # policyengine-uk-data downloads this workbook at runtime and falls back to
 # hardcoded 2024-25 band shares x a hardcoded total when gov.scot blocks the
 # fetch - that fallback is uk-data-computed and excluded per the facts-only
@@ -12,6 +16,9 @@ schema_version: ledger.source_package.v1
 package_id: scotgov-council-tax-bands-2025
 label: 'Scottish Government chargeable dwellings September 2025: Scotland by council tax band
   (CTAXBASE 2025)'
+dimension_labels:
+  'geography': 'Geography'
+  'scotgov.geography_row': 'Geography'
 artifact:
   source_name: scotgov
   source_table: Number of chargeable dwellings, September 2025 (CTAXBASE 2025)
@@ -212,6 +219,519 @@ record_sets:
     concept_evidence_notes: 'Scottish Government council tax datasets, ''Number of chargeable
       dwellings September 2025'' (CTAXBASE 2025), sheet ''Chargeable Dwellings 2025'', Scotland
       row, column: Total.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: scotgov.ctaxbase2025.chargeable_dwellings.council_area
+  provenance_class: administrative
+  record_set_spec_id: uk.local_geography.council_tax_stock.scotland_ctaxbase_chargeable_dwellings.by_council_area.v1
+  source_record_id_prefix: scotgov.ctaxbase2025.chargeable_dwellings.council_area
+  sheet_name: Chargeable Dwellings 2025
+  period_type: month
+  period: 2025-09
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: chargeable_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: s12000033
+    label: 'Aberdeen City'
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: 'Aberdeen City'
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: 'Aberdeen City'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: 'Aberdeenshire'
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 'Aberdeenshire'
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: 'Aberdeenshire'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: 'Angus'
+    ordinal: 2
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: 'Angus'
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: 'Angus'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: 'Argyll and Bute'
+    ordinal: 3
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: 'Argyll & Bute'
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: 'Argyll & Bute'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: 'City of Edinburgh'
+    ordinal: 4
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 'City of Edinburgh'
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: 'City of Edinburgh'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: 'Clackmannanshire'
+    ordinal: 5
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 'Clackmannanshire'
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: 'Clackmannanshire'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: 'Dumfries and Galloway'
+    ordinal: 6
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 'Dumfries & Galloway'
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: 'Dumfries & Galloway'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: 'Dundee City'
+    ordinal: 7
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 'Dundee City'
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: 'Dundee City'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: 'East Ayrshire'
+    ordinal: 8
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 'East Ayrshire'
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: 'East Ayrshire'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: 'East Dunbartonshire'
+    ordinal: 9
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: 'East Dunbartonshire'
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: 'East Dunbartonshire'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: 'East Lothian'
+    ordinal: 10
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: 'East Lothian'
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: 'East Lothian'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: 'East Renfrewshire'
+    ordinal: 11
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: 'East Renfrewshire'
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: 'East Renfrewshire'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: 'Falkirk'
+    ordinal: 12
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: 'Falkirk'
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: 'Falkirk'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: 'Fife'
+    ordinal: 13
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: 'Fife'
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: 'Fife'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: 'Glasgow City'
+    ordinal: 14
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: 'Glasgow City'
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: 'Glasgow City'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: 'Highland'
+    ordinal: 15
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: 'Highland'
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: 'Highland'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: 'Inverclyde'
+    ordinal: 16
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: 'Inverclyde'
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: 'Inverclyde'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: 'Midlothian'
+    ordinal: 17
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: 'Midlothian'
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: 'Midlothian'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: 'Moray'
+    ordinal: 18
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: 'Moray'
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: 'Moray'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: 'Na h-Eileanan Siar'
+    ordinal: 19
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: 'Na h-Eileanan Siar'
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: 'Na h-Eileanan Siar'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: 'North Ayrshire'
+    ordinal: 20
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: 'North Ayrshire'
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: 'North Ayrshire'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: 'North Lanarkshire'
+    ordinal: 21
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: 'North Lanarkshire'
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: 'North Lanarkshire'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: 'Orkney Islands'
+    ordinal: 22
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: 'Orkney Islands'
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: 'Orkney Islands'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: 'Perth and Kinross'
+    ordinal: 23
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: 'Perth & Kinross'
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: 'Perth & Kinross'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: 'Renfrewshire'
+    ordinal: 24
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: 'Renfrewshire'
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: 'Renfrewshire'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: 'Scottish Borders'
+    ordinal: 25
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: 'Scottish Borders'
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: 'Scottish Borders'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: 'Shetland Islands'
+    ordinal: 26
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: 'Shetland Islands'
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: 'Shetland Islands'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: 'South Ayrshire'
+    ordinal: 27
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: 'South Ayrshire'
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: 'South Ayrshire'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: 'South Lanarkshire'
+    ordinal: 28
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: 'South Lanarkshire'
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: 'South Lanarkshire'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: 'Stirling'
+    ordinal: 29
+    row_number: 38
+    expected_row_header_column: A
+    expected_row_header: 'Stirling'
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: 'Stirling'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: 'West Dunbartonshire'
+    ordinal: 30
+    row_number: 39
+    expected_row_header_column: A
+    expected_row_header: 'West Dunbartonshire'
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: 'West Dunbartonshire'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: 'West Lothian'
+    ordinal: 31
+    row_number: 40
+    expected_row_header_column: A
+    expected_row_header: 'West Lothian'
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: 'West Lothian'
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  measures:
+  - measure_id: band_a
+    label: Chargeable dwellings, Band A
+    ordinal: 0
+    column: B
+    source_column_id: band_a
+    expected_column_header_row: 5
+    expected_column_header: Band A
+    concept: scotgov.chargeable_dwellings_band_a
+    source_concept: scotgov.chargeable_dwellings_band_a
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/council-tax-datasets/
+    concept_evidence_notes: 'Scottish Government council tax datasets, ''Number of chargeable dwellings September 2025'' (CTAXBASE 2025), sheet ''Chargeable Dwellings 2025'', council-area rows, column: Band A.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: band_b
+    label: Chargeable dwellings, Band B
+    ordinal: 1
+    column: C
+    source_column_id: band_b
+    expected_column_header_row: 5
+    expected_column_header: Band B
+    concept: scotgov.chargeable_dwellings_band_b
+    source_concept: scotgov.chargeable_dwellings_band_b
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/council-tax-datasets/
+    concept_evidence_notes: 'Scottish Government council tax datasets, ''Number of chargeable dwellings September 2025'' (CTAXBASE 2025), sheet ''Chargeable Dwellings 2025'', council-area rows, column: Band B.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: band_c
+    label: Chargeable dwellings, Band C
+    ordinal: 2
+    column: D
+    source_column_id: band_c
+    expected_column_header_row: 5
+    expected_column_header: Band C
+    concept: scotgov.chargeable_dwellings_band_c
+    source_concept: scotgov.chargeable_dwellings_band_c
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/council-tax-datasets/
+    concept_evidence_notes: 'Scottish Government council tax datasets, ''Number of chargeable dwellings September 2025'' (CTAXBASE 2025), sheet ''Chargeable Dwellings 2025'', council-area rows, column: Band C.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: band_d
+    label: Chargeable dwellings, Band D
+    ordinal: 3
+    column: E
+    source_column_id: band_d
+    expected_column_header_row: 5
+    expected_column_header: Band D
+    concept: scotgov.chargeable_dwellings_band_d
+    source_concept: scotgov.chargeable_dwellings_band_d
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/council-tax-datasets/
+    concept_evidence_notes: 'Scottish Government council tax datasets, ''Number of chargeable dwellings September 2025'' (CTAXBASE 2025), sheet ''Chargeable Dwellings 2025'', council-area rows, column: Band D.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: band_e
+    label: Chargeable dwellings, Band E
+    ordinal: 4
+    column: F
+    source_column_id: band_e
+    expected_column_header_row: 5
+    expected_column_header: Band E
+    concept: scotgov.chargeable_dwellings_band_e
+    source_concept: scotgov.chargeable_dwellings_band_e
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/council-tax-datasets/
+    concept_evidence_notes: 'Scottish Government council tax datasets, ''Number of chargeable dwellings September 2025'' (CTAXBASE 2025), sheet ''Chargeable Dwellings 2025'', council-area rows, column: Band E.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: band_f
+    label: Chargeable dwellings, Band F
+    ordinal: 5
+    column: G
+    source_column_id: band_f
+    expected_column_header_row: 5
+    expected_column_header: Band F
+    concept: scotgov.chargeable_dwellings_band_f
+    source_concept: scotgov.chargeable_dwellings_band_f
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/council-tax-datasets/
+    concept_evidence_notes: 'Scottish Government council tax datasets, ''Number of chargeable dwellings September 2025'' (CTAXBASE 2025), sheet ''Chargeable Dwellings 2025'', council-area rows, column: Band F.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: band_g
+    label: Chargeable dwellings, Band G
+    ordinal: 6
+    column: H
+    source_column_id: band_g
+    expected_column_header_row: 5
+    expected_column_header: Band G
+    concept: scotgov.chargeable_dwellings_band_g
+    source_concept: scotgov.chargeable_dwellings_band_g
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/council-tax-datasets/
+    concept_evidence_notes: 'Scottish Government council tax datasets, ''Number of chargeable dwellings September 2025'' (CTAXBASE 2025), sheet ''Chargeable Dwellings 2025'', council-area rows, column: Band G.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: band_h
+    label: Chargeable dwellings, Band H
+    ordinal: 7
+    column: I
+    source_column_id: band_h
+    expected_column_header_row: 5
+    expected_column_header: Band H
+    concept: scotgov.chargeable_dwellings_band_h
+    source_concept: scotgov.chargeable_dwellings_band_h
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/council-tax-datasets/
+    concept_evidence_notes: 'Scottish Government council tax datasets, ''Number of chargeable dwellings September 2025'' (CTAXBASE 2025), sheet ''Chargeable Dwellings 2025'', council-area rows, column: Band H.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: total
+    label: Chargeable dwellings, Total
+    ordinal: 8
+    column: J
+    source_column_id: total
+    expected_column_header_row: 5
+    expected_column_header: Total
+    concept: scotgov.chargeable_dwellings_total
+    source_concept: scotgov.chargeable_dwellings_total
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/council-tax-datasets/
+    concept_evidence_notes: 'Scottish Government council tax datasets, ''Number of chargeable dwellings September 2025'' (CTAXBASE 2025), sheet ''Chargeable Dwellings 2025'', council-area rows, column: Total.'
     unit: count
     aggregation: sum
     expected_cell_type: number

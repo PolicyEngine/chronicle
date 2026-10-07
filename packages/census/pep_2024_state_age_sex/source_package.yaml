@@ -1,6 +1,8 @@
 schema_version: ledger.source_package.v1
 package_id: census-pep-2024-state-age-sex
 label: Census PEP Vintage 2024 state resident population by age
+dimension_labels:
+  'age': 'Age'
 artifact:
   source_name: census_pep
   source_table: Annual State Resident Population Estimates by Single Year of Age, Sex, Race,

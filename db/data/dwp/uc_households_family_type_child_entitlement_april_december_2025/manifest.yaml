@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-uc-households-family-type-child-entitlement-april-december-2025
+dataset: dwp_dwp-uc-households-family-type-child-entitlement-april-december-2025
+source_page: https://stat-xplore.dwp.gov.uk/
+table: Households on Universal Credit by family type and child entitlement, April
+  to December 2025
+files:
+  2025:
+    filename: uc_households_by_family_type_and_child_entitlement_april_december_2025.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: e317eff1512d2d36e4064d5976be26ea950e3478e1c08122fd9ab35341fb5d57
+    size_bytes: 7982
+    fetched_at: '2026-09-03T12:42:09Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-uc-households-family-type-child-entitlement-april-december-2025/2025/e317eff1512d2d36e4064d5976be26ea950e3478e1c08122fd9ab35341fb5d57/uc_households_by_family_type_and_child_entitlement_april_december_2025.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-uc-households-family-type-child-entitlement-april-december-2025/2025/e317eff1512d2d36e4064d5976be26ea950e3478e1c08122fd9ab35341fb5d57/uc_households_by_family_type_and_child_entitlement_april_december_2025.json

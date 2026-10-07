@@ -1,0 +1,18 @@
+source_id: nrs
+package_id: nrs-census2022-uv113-household-composition-country
+dataset: nrs_nrs-census2022-uv113-household-composition-country
+source_page: https://statistics.ukdataservice.ac.uk/dataset/scotland-s-census-2022-uv113-household-composition-households
+table: Scotland's Census 2022 UV113 household composition, households, country
+files:
+  2022:
+    filename: census2022_uv113_household_composition_households_country.csv
+    source_url: https://ukds-ckan.s3.eu-west-1.amazonaws.com/2022/NRS/UV113/census_2022_UV113_Household_composition_Households_ctry.csv
+    sha256: a1750c3af04f522c1e2c5327f8b15d24f54f5639c73372401c38ab59ddf9cfe3
+    size_bytes: 3155
+    fetched_at: '2026-09-03T12:52:07+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-census2022-uv113-household-composition-country/2022/a1750c3af04f522c1e2c5327f8b15d24f54f5639c73372401c38ab59ddf9cfe3/census2022_uv113_household_composition_households_country.csv
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-census2022-uv113-household-composition-country/2022/a1750c3af04f522c1e2c5327f8b15d24f54f5639c73372401c38ab59ddf9cfe3/census2022_uv113_household_composition_households_country.csv

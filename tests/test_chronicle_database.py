@@ -8,13 +8,16 @@ import sqlite3
 import pytest
 
 from chronicle.core import build_aggregate_constraints
-from chronicle.jurisdictions.us.soi import AXIOM_IRC_AGI_CONCEPT
 from chronicle.database import build_chronicle_db
+from chronicle.epoch import HASH_DOMAINS, Epoch
 from chronicle.harness import build_chronicle_db_file
 from chronicle.jurisdictions.us.soi import (
+    AXIOM_IRC_AGI_CONCEPT,
     build_soi_table_1_1_source_cells,
     build_soi_table_1_1_facts,
 )
+from chronicle.sources.cells import build_source_cell_key
+from chronicle.sources.rows import SourceRow, build_source_row_key
 
 
 def test_build_aggregate_constraints_lifts_agi_filters():
@@ -48,6 +51,9 @@ def test_build_chronicle_db_writes_aggregate_fact_constraints_and_lineage(tmp_pa
 
     with sqlite3.connect(db_path) as connection:
         connection.row_factory = sqlite3.Row
+        build = connection.execute(
+            "SELECT build_id, schema_version FROM ledger_builds"
+        ).fetchone()
         artifact = connection.execute(
             """
             SELECT raw_r2_bucket, raw_r2_key, raw_r2_uri
@@ -75,6 +81,8 @@ def test_build_chronicle_db_writes_aggregate_fact_constraints_and_lineage(tmp_pa
         assert all_returns["domain"] == "all_individual_income_tax_returns"
         assert all_returns["provenance_class"] == "administrative"
         assert all_returns["survey_instrument"] is None
+        assert build["build_id"].startswith("ledger.build.v1:")
+        assert build["schema_version"] == "ledger.relational.v1"
         assert artifact["raw_r2_bucket"] == "ledger-raw"
         assert artifact["raw_r2_key"].startswith("raw/irs_soi/soi-table-1-1/2023/")
         assert artifact["raw_r2_uri"].startswith("r2://ledger-raw/")
@@ -174,6 +182,210 @@ def test_build_chronicle_db_build_id_changes_when_fact_payload_changes(tmp_path)
     )
 
     assert original.build_id != changed.build_id
+
+
+def test_build_chronicle_db_emits_chronicle_epoch_with_valid_lineage(tmp_path):
+    fact = next(
+        fact
+        for fact in build_soi_table_1_1_facts(2023)
+        if fact.source_record_id == "irs_soi.ty2023.table_1_1.all.return_count"
+    )
+    cell = next(
+        cell for cell in build_soi_table_1_1_source_cells(2023) if cell.address == "B10"
+    )
+    row = SourceRow(
+        artifact=cell.artifact,
+        sheet_name=cell.sheet_name,
+        row_number=cell.row_number,
+        values={"Returns": cell.raw_value},
+    )
+    ledger_row_key = build_source_row_key(row)
+    cell = replace(cell, source_row_key=ledger_row_key)
+    fact = replace(fact, source_row_keys=(ledger_row_key,))
+
+    ledger = build_chronicle_db(
+        [fact],
+        tmp_path / "ledger.db",
+        source_cells=[cell],
+        source_rows=[row],
+    )
+    chronicle = build_chronicle_db(
+        [fact],
+        tmp_path / "chronicle.db",
+        source_cells=[cell],
+        source_rows=[row],
+        emit_epoch=Epoch.CHRONICLE,
+    )
+
+    assert (
+        ledger.build_id.split(":", maxsplit=1)[1]
+        == chronicle.build_id.split(":", maxsplit=1)[1]
+    )
+    assert chronicle.build_id.startswith("chronicle.build.v2:")
+    with sqlite3.connect(tmp_path / "chronicle.db") as connection:
+        build = connection.execute(
+            "SELECT build_id, schema_version FROM ledger_builds"
+        ).fetchone()
+        keys = connection.execute(
+            """
+            SELECT
+                aggregate_facts.fact_key,
+                fact_source_cells.source_cell_key,
+                fact_source_rows.source_row_key,
+                source_cells.source_row_key
+            FROM aggregate_facts
+            JOIN fact_source_cells USING (fact_key)
+            JOIN fact_source_rows USING (fact_key)
+            JOIN source_cells USING (source_cell_key)
+            """
+        ).fetchone()
+        row_value_keys = connection.execute(
+            """
+            SELECT
+                source_row_values.source_row_value_key,
+                source_rows.source_row_key,
+                source_columns.source_column_key
+            FROM source_row_values
+            JOIN source_rows USING (source_row_key)
+            JOIN source_columns USING (source_column_key)
+            """
+        ).fetchone()
+        foreign_key_errors = connection.execute("PRAGMA foreign_key_check").fetchall()
+
+    assert build == (chronicle.build_id, "chronicle.relational.v2")
+    assert keys[0].startswith("chronicle.fact.v2:")
+    assert keys[1].startswith("chronicle.source_cell.v2:")
+    assert keys[2].startswith("chronicle.source_row.v2:")
+    assert keys[3] == keys[2]
+    assert row_value_keys[0].startswith("chronicle.source_row_value.v2:")
+    assert row_value_keys[1].startswith("chronicle.source_row.v2:")
+    assert row_value_keys[2].startswith("chronicle.source_column.v2:")
+    assert foreign_key_errors == []
+
+
+@pytest.mark.parametrize("emit_epoch", [Epoch.LEDGER, Epoch.CHRONICLE])
+def test_build_chronicle_db_defensively_deduplicates_lineage_aliases(
+    tmp_path,
+    emit_epoch,
+):
+    fact = next(
+        fact
+        for fact in build_soi_table_1_1_facts(2023)
+        if fact.source_record_id == "irs_soi.ty2023.table_1_1.all.return_count"
+    )
+    cell = next(
+        cell for cell in build_soi_table_1_1_source_cells(2023) if cell.address == "B10"
+    )
+    row = SourceRow(
+        artifact=cell.artifact,
+        sheet_name=cell.sheet_name,
+        row_number=cell.row_number,
+        values={"Returns": cell.raw_value},
+    )
+    source_cell_key = build_source_cell_key(cell)
+    source_row_key = build_source_row_key(row)
+    cell = replace(cell, source_row_key=source_row_key)
+    fact = replace(
+        fact,
+        source_cell_keys=(
+            source_cell_key,
+            HASH_DOMAINS["source_cell"].key_for_epoch(
+                source_cell_key,
+                Epoch.CHRONICLE,
+            ),
+        ),
+        source_row_keys=(
+            source_row_key,
+            HASH_DOMAINS["source_row"].key_for_epoch(
+                source_row_key,
+                Epoch.CHRONICLE,
+            ),
+        ),
+    )
+    db_path = tmp_path / f"{emit_epoch}.db"
+
+    build_chronicle_db(
+        [fact],
+        db_path,
+        source_cells=[cell],
+        source_rows=[row],
+        emit_epoch=emit_epoch,
+    )
+
+    with sqlite3.connect(db_path) as connection:
+        source_cell_links = connection.execute(
+            "SELECT source_cell_key, ordinal FROM fact_source_cells"
+        ).fetchall()
+        source_row_links = connection.execute(
+            "SELECT source_row_key, ordinal FROM fact_source_rows"
+        ).fetchall()
+        lineage_counts = connection.execute(
+            """
+            SELECT source_cell_count, source_row_count
+            FROM source_records
+            """
+        ).fetchone()
+
+    assert source_cell_links == [
+        (
+            HASH_DOMAINS["source_cell"].key_for_epoch(
+                source_cell_key,
+                emit_epoch,
+            ),
+            0,
+        )
+    ]
+    assert source_row_links == [
+        (
+            HASH_DOMAINS["source_row"].key_for_epoch(
+                source_row_key,
+                emit_epoch,
+            ),
+            0,
+        )
+    ]
+    assert lineage_counts == (1, 1)
+
+
+def test_build_chronicle_db_rejects_unknown_explicit_build_epoch(tmp_path):
+    with pytest.raises(
+        ValueError,
+        match=(
+            "ledger[.]build[.]v1.*chronicle[.]build[.]v2|"
+            "chronicle[.]build[.]v2.*ledger[.]build[.]v1"
+        ),
+    ):
+        build_chronicle_db(
+            [],
+            tmp_path / "unknown-build.db",
+            build_id="future.build.v9:unknown",
+        )
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"build_id": "future.build.v9:unknown"}, "ledger[.]build[.]v1"),
+        ({"emit_epoch": "bogus"}, "unknown emit epoch"),
+    ],
+)
+def test_refused_build_leaves_an_existing_db_untouched(tmp_path, kwargs, message):
+    db_path = tmp_path / "existing.db"
+    build_chronicle_db([], db_path)
+    before = db_path.read_bytes()
+
+    with pytest.raises(ValueError, match=message):
+        build_chronicle_db([], db_path, replace=True, **kwargs)
+
+    assert db_path.read_bytes() == before
+
+
+def test_build_chronicle_db_accepts_epoch_string(tmp_path):
+    report = build_chronicle_db(
+        [], tmp_path / "string-epoch.db", emit_epoch="chronicle"
+    )
+
+    assert report.build_id.startswith("chronicle.build.v2:")
 
 
 def test_build_chronicle_db_rejects_unresolved_source_cell_lineage(tmp_path):

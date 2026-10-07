@@ -37,6 +37,7 @@ UK_STORAGE_TARGET_FILES = {
     "council_tax_bands_2024.csv",
     "demographics.csv",
     "dfc-ni-uc-stats-supp-tables-may-2025.ods",
+    "dfc-ni-uc-stats-supp-tables-may-2026.ods",
     "incomes.csv",
     "incomes_projection.csv",
     "la_count_households.xlsx",

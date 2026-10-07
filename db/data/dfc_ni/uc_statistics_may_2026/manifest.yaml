@@ -1,0 +1,18 @@
+source_id: dfc_ni
+package_id: dfc-ni-uc-statistics-may-2026
+dataset: dfc_ni_dfc-ni-uc-statistics-may-2026
+source_page: https://www.communities-ni.gov.uk/publications/universal-credit-statistics-may-2026
+table: Universal Credit Statistics supplementary tables, May 2026
+files:
+  2026:
+    filename: dfc-ni-uc-stats-supp-tables-may-2026.ods
+    source_url: https://www.communities-ni.gov.uk/system/files/2026-08/dfc-ni-uc-stats-supp-tables-may-2026.ods
+    sha256: c7a88e51666cdddfccc4acf25d4170701b81ef0777458827ab2e097b6d8719e5
+    size_bytes: 221104
+    fetched_at: '2026-09-03T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/dfc_ni/dfc-ni-uc-statistics-may-2026/2026/c7a88e51666cdddfccc4acf25d4170701b81ef0777458827ab2e097b6d8719e5/dfc-ni-uc-stats-supp-tables-may-2026.ods
+        uri: r2://ledger-raw/raw/dfc_ni/dfc-ni-uc-statistics-may-2026/2026/c7a88e51666cdddfccc4acf25d4170701b81ef0777458827ab2e097b6d8719e5/dfc-ni-uc-stats-supp-tables-may-2026.ods
