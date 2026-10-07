@@ -4,7 +4,7 @@ label: Welsh Government dwelling stock by tenure and local authority, 31 March 2
 dimension_labels:
   geography: Geography
   Tenure: Tenure
-  welshgov.publication_status: Publication status
+  publication_status: Publication status
 artifact:
   source_name: welshgov
   source_table: Welsh Government dwelling stock by tenure and local authority, 31 March 2025, June 2026
@@ -1897,13 +1897,13 @@ record_sets:
     notes: Provisional. Publisher dwelling stock, not households.
   shared_filters:
     Tenure: Privately rented
-    welshgov.publication_status: provisional
+    publication_status: provisional
   shared_constraints:
   - variable: Tenure
     operator: ==
     value: Privately rented
     label: Tenure
-  - variable: welshgov.publication_status
+  - variable: publication_status
     operator: ==
     value: provisional
     label: Publication status
@@ -2591,13 +2591,13 @@ record_sets:
     notes: Provisional. Publisher dwelling stock, not households.
   shared_filters:
     Tenure: Owner occupied
-    welshgov.publication_status: provisional
+    publication_status: provisional
   shared_constraints:
   - variable: Tenure
     operator: ==
     value: Owner occupied
     label: Tenure
-  - variable: welshgov.publication_status
+  - variable: publication_status
     operator: ==
     value: provisional
     label: Publication status
@@ -4129,5 +4129,5 @@ record_sets:
     value: Local Authority
     label: Tenure
 dimension_value_labels:
-  welshgov.publication_status:
+  publication_status:
     provisional: Provisional

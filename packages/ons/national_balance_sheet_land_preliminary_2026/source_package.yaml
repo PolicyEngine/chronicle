@@ -4,7 +4,7 @@ label: 'ONS preliminary national balance sheet: household, non-financial corpora
   land values, end-2025'
 dimension_labels:
   ons.nbs_asset_category: Balance sheet year
-  ons.publication_status: Publication status
+  publication_status: Publication status
 artifact:
   source_name: ons
   source_table: Preliminary UK national balance sheet estimates, 10 June 2026, Tables 2, 3 and 11
@@ -71,9 +71,9 @@ record_sets:
     source_period_label: End of 2025
     notes: Preliminary current-price balance-sheet stock, not an annual flow.
   shared_filters:
-    ons.publication_status: preliminary
+    publication_status: preliminary
   shared_constraints:
-  - variable: ons.publication_status
+  - variable: publication_status
     operator: ==
     value: preliminary
     label: Publication status
@@ -127,9 +127,9 @@ record_sets:
     source_period_label: End of 2025
     notes: Preliminary current-price balance-sheet stock, not an annual flow.
   shared_filters:
-    ons.publication_status: preliminary
+    publication_status: preliminary
   shared_constraints:
-  - variable: ons.publication_status
+  - variable: publication_status
     operator: ==
     value: preliminary
     label: Publication status
@@ -183,12 +183,12 @@ record_sets:
     source_period_label: End of 2025
     notes: Preliminary current-price balance-sheet stock, not an annual flow.
   shared_filters:
-    ons.publication_status: preliminary
+    publication_status: preliminary
   shared_constraints:
-  - variable: ons.publication_status
+  - variable: publication_status
     operator: ==
     value: preliminary
     label: Publication status
 dimension_value_labels:
-  ons.publication_status:
+  publication_status:
     preliminary: Preliminary

@@ -4,7 +4,7 @@ label: Scottish Government estimated dwelling stock by tenure and council area, 
   edition
 dimension_labels:
   geography: Geography
-  scotgov.tenure: Tenure
+  dwelling_stock_tenure: Tenure
 artifact:
   source_name: scotgov
   source_table: Scottish Government estimated dwelling stock by tenure and council area, 31 March 2024,
@@ -588,12 +588,12 @@ record_sets:
     source_period_label: 31 March 2024
     notes: Publisher dwelling stock estimates; stocks and occupancy definitions differ by tenure.
   shared_filters:
-    scotgov.tenure: all_dwellings
+    dwelling_stock_tenure: all_dwellings
   shared_constraints:
-  - variable: scotgov.tenure
+  - variable: dwelling_stock_tenure
     operator: ==
     value: all_dwellings
-    label: scotgov.tenure
+    label: dwelling_stock_tenure
 - record_set_id: scotgov.dwelling_stock.2024.owner_occupied
   provenance_class: model_output
   record_set_spec_id: scotgov.dwelling_stock.2024.owner_occupied.v1
@@ -1162,12 +1162,12 @@ record_sets:
     source_period_label: 31 March 2024
     notes: Publisher dwelling stock estimates; stocks and occupancy definitions differ by tenure.
   shared_filters:
-    scotgov.tenure: owner_occupied
+    dwelling_stock_tenure: owner_occupied
   shared_constraints:
-  - variable: scotgov.tenure
+  - variable: dwelling_stock_tenure
     operator: ==
     value: owner_occupied
-    label: scotgov.tenure
+    label: dwelling_stock_tenure
 - record_set_id: scotgov.dwelling_stock.2024.rented_privately_or_with_job_business
   provenance_class: model_output
   record_set_spec_id: scotgov.dwelling_stock.2024.rented_privately_or_with_job_business.v1
@@ -1736,12 +1736,12 @@ record_sets:
     source_period_label: 31 March 2024
     notes: Publisher dwelling stock estimates; stocks and occupancy definitions differ by tenure.
   shared_filters:
-    scotgov.tenure: rented_privately_or_with_job_business
+    dwelling_stock_tenure: rented_privately_or_with_job_business
   shared_constraints:
-  - variable: scotgov.tenure
+  - variable: dwelling_stock_tenure
     operator: ==
     value: rented_privately_or_with_job_business
-    label: scotgov.tenure
+    label: dwelling_stock_tenure
 - record_set_id: scotgov.dwelling_stock.2024.vacant_private_and_second_homes
   provenance_class: model_output
   record_set_spec_id: scotgov.dwelling_stock.2024.vacant_private_and_second_homes.v1
@@ -2310,12 +2310,12 @@ record_sets:
     source_period_label: 31 March 2024
     notes: Publisher dwelling stock estimates; stocks and occupancy definitions differ by tenure.
   shared_filters:
-    scotgov.tenure: vacant_private_and_second_homes
+    dwelling_stock_tenure: vacant_private_and_second_homes
   shared_constraints:
-  - variable: scotgov.tenure
+  - variable: dwelling_stock_tenure
     operator: ==
     value: vacant_private_and_second_homes
-    label: scotgov.tenure
+    label: dwelling_stock_tenure
 - record_set_id: scotgov.dwelling_stock.2024.housing_associations
   provenance_class: model_output
   record_set_spec_id: scotgov.dwelling_stock.2024.housing_associations.v1
@@ -2884,12 +2884,12 @@ record_sets:
     source_period_label: 31 March 2024
     notes: Publisher dwelling stock estimates; stocks and occupancy definitions differ by tenure.
   shared_filters:
-    scotgov.tenure: housing_associations
+    dwelling_stock_tenure: housing_associations
   shared_constraints:
-  - variable: scotgov.tenure
+  - variable: dwelling_stock_tenure
     operator: ==
     value: housing_associations
-    label: scotgov.tenure
+    label: dwelling_stock_tenure
 - record_set_id: scotgov.dwelling_stock.2024.local_authorities_new_towns_scottish_homes
   provenance_class: model_output
   record_set_spec_id: scotgov.dwelling_stock.2024.local_authorities_new_towns_scottish_homes.v1
@@ -3364,14 +3364,14 @@ record_sets:
     source_period_label: 31 March 2024
     notes: Publisher dwelling stock estimates; stocks and occupancy definitions differ by tenure.
   shared_filters:
-    scotgov.tenure: local_authorities_new_towns_scottish_homes
+    dwelling_stock_tenure: local_authorities_new_towns_scottish_homes
   shared_constraints:
-  - variable: scotgov.tenure
+  - variable: dwelling_stock_tenure
     operator: ==
     value: local_authorities_new_towns_scottish_homes
-    label: scotgov.tenure
+    label: dwelling_stock_tenure
 dimension_value_labels:
-  scotgov.tenure:
+  dwelling_stock_tenure:
     all_dwellings: Total number of dwellings
     owner_occupied: Total Number of Owner-Occupied Dwellings
     rented_privately_or_with_job_business: Total number of dwellings which are Rented privately or with

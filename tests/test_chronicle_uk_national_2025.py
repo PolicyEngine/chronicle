@@ -4,6 +4,7 @@ from functools import cache
 
 import pytest
 
+from chronicle.consumer_contract import validate_consumer_fact_contract
 from chronicle.source_package import load_source_package
 from chronicle.suite import build_source_suite
 
@@ -36,12 +37,14 @@ def facts_for():
     ],
 )
 def test_latest_comment_inputs_have_valid_source_cells_and_contracts(
-    tmp_path, alias, year, count
+    tmp_path, facts_for, alias, year, count
 ):
     """Check guards, raw-fact boundary, contracts and DB lineage end to end."""
+    contract = validate_consumer_fact_contract(facts_for(alias))
+    assert contract.valid, contract.to_dict()
     report = build_source_suite(alias, tmp_path / alias, year=year)
     assert report.valid, report.to_dict()
-    assert report.consumer_facts.valid, report.consumer_facts.to_dict()
+    assert report.consumer_facts.fact_count == count
     assert report.facts.fact_count == count
     assert report.source_records.lineaged_count == count
 
@@ -80,7 +83,7 @@ def test_slc_repayments_are_posted_fiscal_year_flows(facts_for):
     assert all(f.period_coverage.end_date == "2026-03-31" for f in facts)
     assert all(f.measure.unit == "gbp" for f in facts)
     # Footnote 24 labels Tables 4A/4B provisional, not Table 1A repayments.
-    assert all("slc.publication_status" not in f.filters for f in facts)
+    assert all("publication_status" not in f.filters for f in facts)
 
 
 def test_slc_provisional_support_keeps_early_year_basis_and_different_totals(facts_for):
@@ -89,9 +92,9 @@ def test_slc_provisional_support_keeps_early_year_basis_and_different_totals(fac
     assert {f.period.value for f in facts} == {2025}
     assert all(f.period_coverage.end_date == "2025-10-31" for f in facts)
     assert all(f.provenance_class == "administrative" for f in facts)
-    assert all(f.filters["slc.publication_status"] == "provisional" for f in facts)
+    assert all(f.filters["publication_status"] == "provisional" for f in facts)
     counts = {
-        f.filters["slc.early_year_award_line"]: f.value
+        f.filters["early_year_award_line"]: f.value
         for f in facts
         if f.measure.unit == "count"
     }
@@ -128,7 +131,7 @@ def test_preliminary_land_is_a_publisher_sector_stock(facts_for):
         "households": 4_485_171_000_000,
         "non_financial_corporations": 2_063_534_000_000,
     }
-    assert all(f.filters["ons.publication_status"] == "preliminary" for f in facts)
+    assert all(f.filters["publication_status"] == "preliminary" for f in facts)
     assert all(f.period_coverage.end_date == "2025-12-31" for f in facts)
 
 
@@ -152,7 +155,9 @@ def test_isc_pupil_total_keeps_january_and_membership_scope(facts_for, year, tot
     assert fact.period_coverage.start_date == census_day
     assert fact.period_coverage.end_date == census_day
     assert fact.filters["school_membership"] == "isc"
-    assert fact.source_cell_keys and fact.source_row_keys
+    # PDF extraction supplies page/text/number cell lineage, rather than CSV rows.
+    assert len(fact.source_cell_keys) == 4
+    assert fact.source_record_id
 
 
 def test_welsh_tenure_stocks_preserve_provisional_and_absent_rows(facts_for):
@@ -161,13 +166,8 @@ def test_welsh_tenure_stocks_preserve_provisional_and_absent_rows(facts_for):
     assert wales["All tenures"].value == 1_487_200
     assert wales["Owner occupied"].value == 1_061_000
     assert wales["Privately rented"].value == 184_900
-    assert (
-        wales["Owner occupied"].filters["welshgov.publication_status"] == "provisional"
-    )
-    assert (
-        wales["Privately rented"].filters["welshgov.publication_status"]
-        == "provisional"
-    )
+    assert wales["Owner occupied"].filters["publication_status"] == "provisional"
+    assert wales["Privately rented"].filters["publication_status"] == "provisional"
     local_authority = [f for f in facts if f.filters["Tenure"] == "Local Authority"]
     assert len(local_authority) == 12  # Wales and 11 LAs have source rows.
     assert not any(f.geography.id == "W06000003" for f in local_authority)  # Conwy.
@@ -178,7 +178,9 @@ def test_welsh_tenure_stocks_preserve_provisional_and_absent_rows(facts_for):
 def test_scottish_tenure_stocks_keep_2024_and_source_fractions(facts_for):
     facts = facts_for("scotgov-dwelling-stock-by-tenure-2024")
     national = {
-        f.filters["scotgov.tenure"]: f for f in facts if f.geography.id == "S92000003"
+        f.filters["dwelling_stock_tenure"]: f
+        for f in facts
+        if f.geography.id == "S92000003"
     }
     assert national["all_dwellings"].value == 2_731_099
     assert any(f.value != int(f.value) for f in facts)
@@ -188,7 +190,8 @@ def test_scottish_tenure_stocks_keep_2024_and_source_fractions(facts_for):
     # Six non-applicable LA ownership cells are absent, rather than numeric zero.
     assert (
         sum(
-            f.filters["scotgov.tenure"] == "local_authorities_new_towns_scottish_homes"
+            f.filters["dwelling_stock_tenure"]
+            == "local_authorities_new_towns_scottish_homes"
             for f in facts
         )
         == 27
