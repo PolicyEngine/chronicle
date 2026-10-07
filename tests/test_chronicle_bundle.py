@@ -134,12 +134,16 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert summary["valid"]
     # chronicle#209's NZ WFF package adds 330 TY2024 facts: 329 families and 1
     # person, in one new publisher, package, source table and country.
+    # MBIE adds 5,670 May 2025–April 2026 dwelling/bond-record facts, one
+    # publisher/package/table and 67 new geography keys (NZ already exists).
+    # The single-source build adds no warnings or duplicate keys; all twelve
+    # months and the dwelling entity already occur in the default bundle.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 408475,
-        "geography_count": 12593,
+        "fact_count": 414145,
+        "geography_count": 12660,
         "period_count": 495,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
@@ -156,8 +160,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # as published.
         "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
-        "source_count": 51,
-        "source_package_count": 269,
+        "source_count": 52,
+        "source_package_count": 270,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -166,7 +170,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # ASHE writes '30 to 39' and '40 to 49' where NTS0601 writes 'Age 30 to 39'.
         "warning_count": 78,
     }
-    assert len(rows) == 408475
+    assert len(rows) == 414145
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -184,7 +188,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 269
+    assert source_packages["source_package_count"] == 270
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -198,7 +202,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 408475
+    assert coverage["fact_count"] == 414145
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -228,6 +232,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "isc": 2,
         "jrc_euromod_be": 90,
         "kff": 52,
+        "mbie": 5670,
         "mhclg": 118542,
         "nbb_national_accounts": 1,
         "nisra": 533,
@@ -253,7 +258,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9325,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 264
+    assert len(table_counts) == 265
+    assert table_counts["mbie:Detailed monthly TLA tenancy bond data"] == 5670
     assert table_counts["ird:Working for Families statistics - September 2025"] == 330
     assert (
         table_counts[
@@ -1272,8 +1278,28 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # chronicle#209: IRD's Working for Families statistics for the 2024 tax
     # year (1 April 2023 to 31 March 2024).
     expected_period_counts["tax_year:2024"] += 330
+    mbie_month_increments = {
+        "month:2025-05": 476,
+        "month:2025-06": 476,
+        "month:2025-07": 476,
+        "month:2025-08": 469,
+        "month:2025-09": 476,
+        "month:2025-10": 469,
+        "month:2025-11": 476,
+        "month:2025-12": 469,
+        "month:2026-01": 469,
+        "month:2026-02": 476,
+        "month:2026-03": 462,
+        "month:2026-04": 476,
+    }
+    for key, count in mbie_month_increments.items():
+        expected_period_counts[key] += count
     assert coverage["counts"]["by_period"] == expected_period_counts
-    assert coverage["counts"]["by_geography"]["country:NZ"] == 330
+    assert coverage["counts"]["by_geography"]["country:NZ"] == 414
+    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-054"] == 63
+    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-057"] == 77
+    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-066"] == 70
+    assert coverage["counts"]["by_geography"]["statistical_scope:nz-mbie-location-na"] == 84
     assert coverage["counts"]["by_geography"]["country:BE"] == 4888
     assert coverage["counts"]["by_geography"]["country:DE"] == 36
     assert coverage["counts"]["by_geography"]["country:FR"] == 36
@@ -1290,10 +1316,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["country:E92000001"] == 5261
     assert coverage["counts"]["by_geography"]["country:K03000001"] == 20744
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
-    assert len(coverage["counts"]["by_geography"]) == 12593
+    assert len(coverage["counts"]["by_geography"]) == 12660
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33643,
-        "dwelling": 152487,
+        "dwelling": 158157,
         "family": 1628,
         "firm": 1440,
         "government": 3412,

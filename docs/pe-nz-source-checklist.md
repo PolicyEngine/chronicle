@@ -66,7 +66,7 @@ tests, and record a verified `raw/nz/...` R2 URI.
 | `msd/benefit_fact_sheets_supplementary_march_2026` | [ ] | [ ] | [ ] | |
 | `msd/nzs_vp_fact_sheet_march_2026` | [ ] | [ ] | [ ] | |
 | `msd/annual_report_benefit_expenses_2025` | [ ] | [ ] | [ ] | |
-| `mbie/tenancy_bond_rents_tla_2026` | [ ] | [ ] | [ ] | |
+| `mbie/tenancy_bond_rents_tla_2026` | [x] | [x] | [ ] | 5,670 administrative facts, May 2025–April 2026; 66 TA IDs plus ALL/NA. R2 upload pending; source scope and TA-register caveats below. |
 | `stats_nz/qes_average_earnings_march_2026` | [ ] | [ ] | [ ] | |
 
 ### WFF source semantics
@@ -87,3 +87,29 @@ fact. Independently published family and credit totals are not reconciled here.
 The workbook was uploaded to the manifest's immutable `raw/nz/ird/...` key and
 downloaded again on 2026-08-29. Its SHA-256 remained
 `95ae66f4d44f3f47ea3daa006328b22f061a163cf7e31b487342cde649390833`.
+
+### MBIE tenancy bond source semantics
+
+The staged CSV's latest published month is April 2026; the package pins
+May 2025–April 2026 with the existing full-row parser and `selected_rows`.
+No revision-final status is supplied. Seven source measures yield 5,670 facts:
+lodged/active/closed bond counts, median and geometric mean weekly rent, and
+upper/lower quartile rent cut-points. Geometric mean uses the approximate
+mean mapping above; quartiles carry labelled 25/75 percentile constraints and
+remain NZD per week, not shares or annual amounts. The log standard deviation
+column is preserved as raw rows/cells without a semantic fact because no
+faithful aggregation exists in the current vocabulary.
+
+The file has no bedrooms, dwelling-type or arithmetic-mean columns. It also
+has no definitions connecting the rent summaries to newly lodged bonds or
+active stock, so the rent population is explicitly unspecified. Both bond
+counts are preserved without treating them as household counts.
+
+There are 66 positive location IDs, plus separately retained ALL and NA.
+`ta_2025` follows the checklist ruling; an authoritative register is not staged
+and the official ID/name comparison is pending. The file contains no Chatham
+Islands row. Missing Kaikoura (August/October 2025, March 2026), Westland
+(December 2025) and Waimate (January/March 2026) rows remain absent; no reason
+for their omission is supplied. The manifest's `raw/nz/mbie/...` key was built
+with Chronicle's own key builder. R2 upload/round-trip verification remains
+the hub's pending checklist item.
