@@ -55,6 +55,9 @@ jobs:
           scripts
           tests
 
+      - name: Test UK calibration source additions
+        run: uv run pytest -q tests/test_chronicle_uk_national_2025.py
+
       - name: Test Chronicle surface
         # --durations lists the slowest tests so a slowdown is visible in the
         # log instead of only in the job's total time.

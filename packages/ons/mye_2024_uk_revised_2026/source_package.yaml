@@ -1,0 +1,311 @@
+schema_version: ledger.source_package.v1
+package_id: ons-mye-2024-uk-revised-2026
+label: ONS revised mid-2024 UK, country and English-region population totals, October 2026 vintage
+dimension_labels:
+  geography: Geography
+artifact:
+  source_name: ons
+  source_table: ONS revised mid-2024 UK, country and English-region population totals, October 2026 vintage
+  resource_package: db
+  resource_directory: data/ons/mye_2025_uk
+  manifest: manifest.yaml
+  vintage: mid_2024_revised_in_mid_2025_2026_10_01
+  extracted_at: '2026-10-07'
+  extraction_method: Publisher artifact parsed without modifying values
+  parser: xlsx_used_range
+  artifact_year: 2025
+  sheets:
+  - MYE3
+record_sets:
+- record_set_id: ons.mid2024.revised_2026.mye3.all_ages
+  provenance_class: model_output
+  record_set_spec_id: ons.mid2024.revised_2026.mye3.all_ages.v1
+  source_record_id_prefix: ons.mid2024.revised_2026.mye3.all_ages
+  sheet_name: MYE3
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows:
+  - value_id: k02000001
+    label: United Kingdom
+    ordinal: 8
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: K02000001
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 9
+      expected_value: UNITED KINGDOM
+      label: Publisher area name
+  - value_id: k03000001
+    label: Great Britain
+    ordinal: 9
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: K03000001
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 10
+      expected_value: GREAT BRITAIN
+      label: Publisher area name
+  - value_id: k04000001
+    label: England And Wales
+    ordinal: 10
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: K04000001
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England And Wales
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 11
+      expected_value: ENGLAND AND WALES
+      label: Publisher area name
+  - value_id: e92000001
+    label: England
+    ordinal: 11
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: E92000001
+    geography_id: E92000001
+    geography_level: country
+    geography_name: England
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 12
+      expected_value: ENGLAND
+      label: Publisher area name
+  - value_id: e12000001
+    label: North East
+    ordinal: 12
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: E12000001
+    geography_id: E12000001
+    geography_level: region
+    geography_name: North East
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 13
+      expected_value: NORTH EAST
+      label: Publisher area name
+  - value_id: e12000002
+    label: North West
+    ordinal: 26
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: E12000002
+    geography_id: E12000002
+    geography_level: region
+    geography_name: North West
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 27
+      expected_value: NORTH WEST
+      label: Publisher area name
+  - value_id: e12000003
+    label: Yorkshire And The Humber
+    ordinal: 65
+    row_number: 66
+    expected_row_header_column: A
+    expected_row_header: E12000003
+    geography_id: E12000003
+    geography_level: region
+    geography_name: Yorkshire And The Humber
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 66
+      expected_value: YORKSHIRE AND THE HUMBER
+      label: Publisher area name
+  - value_id: e12000004
+    label: East Midlands
+    ordinal: 83
+    row_number: 84
+    expected_row_header_column: A
+    expected_row_header: E12000004
+    geography_id: E12000004
+    geography_level: region
+    geography_name: East Midlands
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 84
+      expected_value: EAST MIDLANDS
+      label: Publisher area name
+  - value_id: e12000005
+    label: West Midlands
+    ordinal: 123
+    row_number: 124
+    expected_row_header_column: A
+    expected_row_header: E12000005
+    geography_id: E12000005
+    geography_level: region
+    geography_name: West Midlands
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 124
+      expected_value: WEST MIDLANDS
+      label: Publisher area name
+  - value_id: e12000006
+    label: East
+    ordinal: 158
+    row_number: 159
+    expected_row_header_column: A
+    expected_row_header: E12000006
+    geography_id: E12000006
+    geography_level: region
+    geography_name: East
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 159
+      expected_value: EAST
+      label: Publisher area name
+  - value_id: e12000007
+    label: London
+    ordinal: 209
+    row_number: 210
+    expected_row_header_column: A
+    expected_row_header: E12000007
+    geography_id: E12000007
+    geography_level: region
+    geography_name: London
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 210
+      expected_value: LONDON
+      label: Publisher area name
+  - value_id: e12000008
+    label: South East
+    ordinal: 243
+    row_number: 244
+    expected_row_header_column: A
+    expected_row_header: E12000008
+    geography_id: E12000008
+    geography_level: region
+    geography_name: South East
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 244
+      expected_value: SOUTH EAST
+      label: Publisher area name
+  - value_id: e12000009
+    label: South West
+    ordinal: 314
+    row_number: 315
+    expected_row_header_column: A
+    expected_row_header: E12000009
+    geography_id: E12000009
+    geography_level: region
+    geography_name: South West
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 315
+      expected_value: SOUTH WEST
+      label: Publisher area name
+  - value_id: w92000004
+    label: Wales
+    ordinal: 344
+    row_number: 345
+    expected_row_header_column: A
+    expected_row_header: W92000004
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 345
+      expected_value: WALES
+      label: Publisher area name
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 367
+    row_number: 368
+    expected_row_header_column: A
+    expected_row_header: S92000003
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 368
+      expected_value: SCOTLAND
+      label: Publisher area name
+  - value_id: n92000002
+    label: Northern Ireland
+    ordinal: 400
+    row_number: 401
+    expected_row_header_column: A
+    expected_row_header: N92000002
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 401
+      expected_value: NORTHERN IRELAND
+      label: Publisher area name
+  measures:
+  - measure_id: ons_mid_year_population_estimate
+    label: Resident population
+    ordinal: 0
+    column: D
+    source_column_id: Estimated Population mid-2024
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 8
+    expected_column_header: Estimated Population mid-2024
+    concept_evidence_notes: 'Revised mid-2024 all-age estimate as published in the 1 October 2026 mid-2025
+      release. UK: 69,256,274. The original mid-2024 vintage remains a separate source package.'
+  period_coverage:
+    start_date: '2024-06-30'
+    end_date: '2024-06-30'
+    basis: calendar
+    source_period_label: mid-2024 (revised October 2026)
+    notes: This workbook supplies revised all-age totals; its single-year age sheets refer to mid-2025.

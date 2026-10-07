@@ -95,10 +95,12 @@ def test_household_controls_keep_private_households_projections_and_stock_distin
     )
 
     stock = load_source_package("lps-housing-stock-lgd-2026").build_facts(2026)
-    assert len(stock) == 24
-    assert {f.period.value for f in stock} == {2025, 2026}
+    assert len(stock) == 72
+    assert {f.period.value for f in stock} == set(range(2021, 2027))
     assert all(f.entity.name == "dwelling" for f in stock)
-    assert {f.period_coverage.end_date for f in stock} == {"2025-04-01", "2026-04-01"}
+    assert {f.period_coverage.end_date for f in stock} == {
+        f"{year}-04-01" for year in range(2021, 2027)
+    }
 
 
 def test_rm120_retains_age_sex_residence_and_2023_lad_boundaries():

@@ -1,0 +1,3601 @@
+schema_version: ledger.source_package.v1
+package_id: slc-student-support-england-2025-provisional-2025-26
+label: 'SLC student support England 2025: provisional 2025/26 early-in-year awards and paid support, at
+  31 October 2025'
+dimension_labels:
+  slc.early_year_award_line: Early-in-year support line
+  slc.publication_status: Publication status
+artifact:
+  source_name: slc
+  source_table: 'SLC student support England 2025: provisional 2025/26 early-in-year awards and paid support,
+    at 31 October 2025'
+  resource_package: db
+  resource_directory: data/slc/student_support_england_2025
+  manifest: manifest.yaml
+  vintage: support_2025_early_year_2025_26
+  extracted_at: '2026-10-07'
+  extraction_method: Publisher artifact parsed without modifying values
+  parser: xlsx_used_range
+  artifact_year: 2025
+  sheets:
+  - Table 7C(i)
+  - Table 7C(ii)
+record_sets:
+- record_set_id: slc.support_2025.early_year.table_7c_i.number_awarded_or_paid.ay2025
+  provenance_class: administrative
+  record_set_spec_id: slc.support_2025.early_year.table_7c_i.number_awarded_or_paid.ay2025.v1
+  source_record_id_prefix: slc.support_2025.early_year.table_7c_i.number_awarded_or_paid.ay2025
+  sheet_name: Table 7C(i)
+  period_type: academic_year
+  period: 2025
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: student_support_recipient
+  domain: student_support
+  groupby_dimension: slc.early_year_award_line
+  rows:
+  - value_id: summary_undergraduate_england_england_full_time_total
+    label: Undergraduate / England / England full-time total
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: E
+    expected_row_header: 'England full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_england_england_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_england_england_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_england_england_part_time_total
+    label: Undergraduate / England / England part-time total
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: E
+    expected_row_header: 'England part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_england_england_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_england_england_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_england_england_undergraduate_total_33_35
+    label: Undergraduate / England / England undergraduate total [33][35]
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: E
+    expected_row_header: England undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_england_england_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_england_england_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10
+    label: Undergraduate / EU (outside UK) / EU (Outside UK) full-time total [10]
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: E
+    expected_row_header: EU (Outside UK) full-time total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10
+    label: Undergraduate / EU (outside UK) / EU (Outside UK) part-time total [10]
+    ordinal: 4
+    row_number: 14
+    expected_row_header_column: E
+    expected_row_header: EU (Outside UK) part-time total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10
+    label: Undergraduate / EU (outside UK) / EU (outside UK) undergraduate total [10]
+    ordinal: 5
+    row_number: 15
+    expected_row_header_column: E
+    expected_row_header: EU (outside UK) undergraduate total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_undergraduate_total_10_33_35
+    label: Undergraduate / Undergraduate total [10][33][35]
+    ordinal: 6
+    row_number: 16
+    expected_row_header_column: D
+    expected_row_header: Undergraduate total [10][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_undergraduate_total_10_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_undergraduate_total_10_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_england_england_master_s_total_10
+    label: Postgraduate / England / England master's total [10]
+    ordinal: 7
+    row_number: 17
+    expected_row_header_column: E
+    expected_row_header: England master's total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_england_england_master_s_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_england_england_master_s_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_england_england_doctoral_total_10_29
+    label: Postgraduate / England / England doctoral total [10][29]
+    ordinal: 8
+    row_number: 18
+    expected_row_header_column: E
+    expected_row_header: England doctoral total [10][29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_england_england_doctoral_total_10_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_england_england_doctoral_total_10_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_england_england_postgraduate_total_10_29
+    label: Postgraduate / England / England postgraduate total [10][29]
+    ordinal: 9
+    row_number: 19
+    expected_row_header_column: E
+    expected_row_header: England postgraduate total [10][29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_england_england_postgraduate_total_10_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_england_england_postgraduate_total_10_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10
+    label: Postgraduate / EU (outside UK) / EU (Outside UK) master's total [10]
+    ordinal: 10
+    row_number: 20
+    expected_row_header_column: E
+    expected_row_header: EU (Outside UK) master's total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_10_29
+    label: Postgraduate / EU (outside UK) / EU (Outside UK) doctoral total [10][29]
+    ordinal: 11
+    row_number: 21
+    expected_row_header_column: E
+    expected_row_header: EU (Outside UK) doctoral total [10][29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_10_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_10_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29
+    label: Postgraduate / EU (outside UK) / EU (outside UK) postgraduate total [10][29]
+    ordinal: 12
+    row_number: 22
+    expected_row_header_column: E
+    expected_row_header: EU (outside UK) postgraduate total [10][29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_postgraduate_total_10_29
+    label: Postgraduate / Postgraduate total [10][29]
+    ordinal: 13
+    row_number: 23
+    expected_row_header_column: D
+    expected_row_header: Postgraduate total [10][29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_postgraduate_total_10_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_postgraduate_total_10_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_grand_total_10_33_35
+    label: Grand total [10][33][35]
+    ordinal: 14
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: Grand total [10][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_grand_total_10_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_grand_total_10_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  measures:
+  - measure_id: slc_early_year_support_number_awarded_or_paid
+    label: Number awarded or paid
+    ordinal: 0
+    column: R
+    source_column_id: 2025/26
+    concept: slc.early_year_support.number_awarded_or_paid
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 8
+    expected_column_header: 2025/26
+    value_scale: 1000
+    concept_evidence_notes: Provisional early-in-year support at 31 October 2025, not a complete academic-year
+      payment total. England-domiciled students and EU (outside UK)-domiciled students studying in England.
+      Award/payment basis follows footnote 9; counts in thousands, amounts in GBP million, average awards
+      in GBP. Table 7C(ii) excludes postgraduate DSA (footnote 31); overlapping totals retained separately
+      without reconciliation.
+  period_coverage:
+    start_date: '2025-10-31'
+    end_date: '2025-10-31'
+    basis: calendar
+    source_period_label: 2025/26, effective 31 October 2025
+    notes: Provisional early-in-year awards/paid support; academic-year identity stores opening year 2025.
+  shared_filters:
+    slc.publication_status: provisional
+  shared_constraints:
+  - variable: slc.publication_status
+    operator: ==
+    value: provisional
+    label: Publication status
+- record_set_id: slc.support_2025.early_year.table_7c_i.amount_awarded_or_paid.ay2025
+  provenance_class: administrative
+  record_set_spec_id: slc.support_2025.early_year.table_7c_i.amount_awarded_or_paid.ay2025.v1
+  source_record_id_prefix: slc.support_2025.early_year.table_7c_i.amount_awarded_or_paid.ay2025
+  sheet_name: Table 7C(i)
+  period_type: academic_year
+  period: 2025
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: student_support_recipient
+  domain: student_support
+  groupby_dimension: slc.early_year_award_line
+  rows:
+  - value_id: summary_undergraduate_england_england_full_time_total
+    label: Undergraduate / England / England full-time total
+    ordinal: 0
+    row_number: 30
+    expected_row_header_column: E
+    expected_row_header: 'England full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_england_england_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_england_england_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_england_england_part_time_total
+    label: Undergraduate / England / England part-time total
+    ordinal: 1
+    row_number: 31
+    expected_row_header_column: E
+    expected_row_header: 'England part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_england_england_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_england_england_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_england_england_undergraduate_total_33_35
+    label: Undergraduate / England / England undergraduate total [33][35]
+    ordinal: 2
+    row_number: 32
+    expected_row_header_column: E
+    expected_row_header: England undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_england_england_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_england_england_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    label: Undergraduate / EU (outside UK) / EU (Outside UK) full-time total
+    ordinal: 3
+    row_number: 33
+    expected_row_header_column: E
+    expected_row_header: 'EU (Outside UK) full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    label: Undergraduate / EU (outside UK) / EU (Outside UK) part-time total
+    ordinal: 4
+    row_number: 34
+    expected_row_header_column: E
+    expected_row_header: 'EU (Outside UK) part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    label: Undergraduate / EU (outside UK) / EU (outside UK) undergraduate total
+    ordinal: 5
+    row_number: 35
+    expected_row_header_column: E
+    expected_row_header: 'EU (outside UK) undergraduate total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_undergraduate_total_33_35
+    label: Undergraduate / Undergraduate total [33][35]
+    ordinal: 6
+    row_number: 36
+    expected_row_header_column: D
+    expected_row_header: Undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_england_england_master_s_total
+    label: Postgraduate / England / England master's total
+    ordinal: 7
+    row_number: 37
+    expected_row_header_column: E
+    expected_row_header: 'England master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_england_england_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_england_england_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_england_england_doctoral_total_29
+    label: Postgraduate / England / England doctoral total [29]
+    ordinal: 8
+    row_number: 38
+    expected_row_header_column: E
+    expected_row_header: England doctoral total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_england_england_doctoral_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_england_england_doctoral_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_england_england_postgraduate_total_29
+    label: Postgraduate / England / England postgraduate total [29]
+    ordinal: 9
+    row_number: 39
+    expected_row_header_column: E
+    expected_row_header: England postgraduate total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_england_england_postgraduate_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_england_england_postgraduate_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    label: Postgraduate / EU (outside UK) / EU (Outside UK) master's total
+    ordinal: 10
+    row_number: 40
+    expected_row_header_column: E
+    expected_row_header: 'EU (Outside UK) master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+    label: Postgraduate / EU (outside UK) / EU (Outside UK) doctoral total [29]
+    ordinal: 11
+    row_number: 41
+    expected_row_header_column: E
+    expected_row_header: EU (Outside UK) doctoral total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29
+    label: Postgraduate / EU (outside UK) / EU (outside UK) postgraduate total [29]
+    ordinal: 12
+    row_number: 42
+    expected_row_header_column: E
+    expected_row_header: EU (outside UK) postgraduate total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_postgraduate_total_29
+    label: Postgraduate / Postgraduate total [29]
+    ordinal: 13
+    row_number: 43
+    expected_row_header_column: D
+    expected_row_header: Postgraduate total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_postgraduate_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_postgraduate_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_grand_total_33_35
+    label: Grand total [33][35]
+    ordinal: 14
+    row_number: 44
+    expected_row_header_column: B
+    expected_row_header: Grand total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_grand_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_grand_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 28
+      expected_value: 2025/26
+      label: Academic-year column
+  measures:
+  - measure_id: slc_early_year_support_amount_awarded_or_paid
+    label: Amount awarded or paid
+    ordinal: 0
+    column: R
+    source_column_id: 2025/26
+    concept: slc.early_year_support.amount_awarded_or_paid
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 28
+    expected_column_header: 2025/26
+    value_scale: 1000000
+    concept_evidence_notes: Provisional early-in-year support at 31 October 2025, not a complete academic-year
+      payment total. England-domiciled students and EU (outside UK)-domiciled students studying in England.
+      Award/payment basis follows footnote 9; counts in thousands, amounts in GBP million, average awards
+      in GBP. Table 7C(ii) excludes postgraduate DSA (footnote 31); overlapping totals retained separately
+      without reconciliation.
+  period_coverage:
+    start_date: '2025-10-31'
+    end_date: '2025-10-31'
+    basis: calendar
+    source_period_label: 2025/26, effective 31 October 2025
+    notes: Provisional early-in-year awards/paid support; academic-year identity stores opening year 2025.
+  shared_filters:
+    slc.publication_status: provisional
+  shared_constraints:
+  - variable: slc.publication_status
+    operator: ==
+    value: provisional
+    label: Publication status
+- record_set_id: slc.support_2025.early_year.table_7c_i.average_amount_awarded_or_paid.ay2025
+  provenance_class: administrative
+  record_set_spec_id: slc.support_2025.early_year.table_7c_i.average_amount_awarded_or_paid.ay2025.v1
+  source_record_id_prefix: slc.support_2025.early_year.table_7c_i.average_amount_awarded_or_paid.ay2025
+  sheet_name: Table 7C(i)
+  period_type: academic_year
+  period: 2025
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: student_support_recipient
+  domain: student_support
+  groupby_dimension: slc.early_year_award_line
+  rows:
+  - value_id: summary_undergraduate_england_england_full_time_total
+    label: Undergraduate / England / England full-time total
+    ordinal: 0
+    row_number: 50
+    expected_row_header_column: E
+    expected_row_header: 'England full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_england_england_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_england_england_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_england_england_part_time_total
+    label: Undergraduate / England / England part-time total
+    ordinal: 1
+    row_number: 51
+    expected_row_header_column: E
+    expected_row_header: 'England part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_england_england_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_england_england_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_england_england_undergraduate_total_33_35
+    label: Undergraduate / England / England undergraduate total [33][35]
+    ordinal: 2
+    row_number: 52
+    expected_row_header_column: E
+    expected_row_header: England undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_england_england_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_england_england_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    label: Undergraduate / EU (outside UK) / EU (Outside UK) full-time total
+    ordinal: 3
+    row_number: 53
+    expected_row_header_column: E
+    expected_row_header: 'EU (Outside UK) full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    label: Undergraduate / EU (outside UK) / EU (Outside UK) part-time total
+    ordinal: 4
+    row_number: 54
+    expected_row_header_column: E
+    expected_row_header: 'EU (Outside UK) part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    label: Undergraduate / EU (outside UK) / EU (outside UK) undergraduate total
+    ordinal: 5
+    row_number: 55
+    expected_row_header_column: E
+    expected_row_header: 'EU (outside UK) undergraduate total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_undergraduate_undergraduate_total_33_35
+    label: Undergraduate / Undergraduate total [33][35]
+    ordinal: 6
+    row_number: 56
+    expected_row_header_column: D
+    expected_row_header: Undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_undergraduate_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_undergraduate_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_england_england_master_s_total
+    label: Postgraduate / England / England master's total
+    ordinal: 7
+    row_number: 57
+    expected_row_header_column: E
+    expected_row_header: 'England master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_england_england_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_england_england_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_england_england_doctoral_total_29
+    label: Postgraduate / England / England doctoral total [29]
+    ordinal: 8
+    row_number: 58
+    expected_row_header_column: E
+    expected_row_header: England doctoral total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_england_england_doctoral_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_england_england_doctoral_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_england_england_postgraduate_total_29
+    label: Postgraduate / England / England postgraduate total [29]
+    ordinal: 9
+    row_number: 59
+    expected_row_header_column: E
+    expected_row_header: England postgraduate total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_england_england_postgraduate_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_england_england_postgraduate_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    label: Postgraduate / EU (outside UK) / EU (Outside UK) master's total
+    ordinal: 10
+    row_number: 60
+    expected_row_header_column: E
+    expected_row_header: 'EU (Outside UK) master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+    label: Postgraduate / EU (outside UK) / EU (Outside UK) doctoral total [29]
+    ordinal: 11
+    row_number: 61
+    expected_row_header_column: E
+    expected_row_header: EU (Outside UK) doctoral total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29
+    label: Postgraduate / EU (outside UK) / EU (outside UK) postgraduate total [29]
+    ordinal: 12
+    row_number: 62
+    expected_row_header_column: E
+    expected_row_header: EU (outside UK) postgraduate total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_postgraduate_postgraduate_total_29
+    label: Postgraduate / Postgraduate total [29]
+    ordinal: 13
+    row_number: 63
+    expected_row_header_column: D
+    expected_row_header: Postgraduate total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_postgraduate_postgraduate_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_postgraduate_postgraduate_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: summary_grand_total_33_35
+    label: Grand total [33][35]
+    ordinal: 14
+    row_number: 64
+    expected_row_header_column: B
+    expected_row_header: Grand total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: summary_grand_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: summary_grand_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: R
+      row: 48
+      expected_value: 2025/26
+      label: Academic-year column
+  measures:
+  - measure_id: slc_early_year_support_average_amount_awarded_or_paid
+    label: Average amount awarded or paid
+    ordinal: 0
+    column: R
+    source_column_id: 2025/26
+    concept: slc.early_year_support.average_amount_awarded_or_paid
+    unit: gbp
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 48
+    expected_column_header: 2025/26
+    value_scale: 1
+    concept_evidence_notes: Provisional early-in-year support at 31 October 2025, not a complete academic-year
+      payment total. England-domiciled students and EU (outside UK)-domiciled students studying in England.
+      Award/payment basis follows footnote 9; counts in thousands, amounts in GBP million, average awards
+      in GBP. Table 7C(ii) excludes postgraduate DSA (footnote 31); overlapping totals retained separately
+      without reconciliation.
+  period_coverage:
+    start_date: '2025-10-31'
+    end_date: '2025-10-31'
+    basis: calendar
+    source_period_label: 2025/26, effective 31 October 2025
+    notes: Provisional early-in-year awards/paid support; academic-year identity stores opening year 2025.
+  shared_filters:
+    slc.publication_status: provisional
+  shared_constraints:
+  - variable: slc.publication_status
+    operator: ==
+    value: provisional
+    label: Publication status
+- record_set_id: slc.support_2025.early_year.table_7c_ii.number_new_returning_awarded_or_paid.ay2025
+  provenance_class: administrative
+  record_set_spec_id: slc.support_2025.early_year.table_7c_ii.number_new_returning_awarded_or_paid.ay2025.v1
+  source_record_id_prefix: slc.support_2025.early_year.table_7c_ii.number_new_returning_awarded_or_paid.ay2025
+  sheet_name: Table 7C(ii)
+  period_type: academic_year
+  period: 2025
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: student_support_recipient
+  domain: student_support
+  groupby_dimension: slc.early_year_award_line
+  rows:
+  - value_id: new_returning_new_undergraduate_england_england_full_time_total_10
+    label: New / Undergraduate / England / England full-time total [10]
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: F
+    expected_row_header: England full-time total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_england_england_full_time_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_england_england_full_time_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_england_england_part_time_total_10
+    label: New / Undergraduate / England / England part-time total [10]
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: F
+    expected_row_header: England part-time total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_england_england_part_time_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_england_england_part_time_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_england_england_undergraduate_total_10_33_35
+    label: New / Undergraduate / England / England undergraduate total [10][33][35]
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: F
+    expected_row_header: England undergraduate total [10][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_england_england_undergraduate_total_10_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_england_england_undergraduate_total_10_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10
+    label: New / Undergraduate / EU (outside UK) / EU (Outside UK) full-time total [10]
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) full-time total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10
+    label: New / Undergraduate / EU (outside UK) / EU (Outside UK) part-time total [10]
+    ordinal: 4
+    row_number: 14
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) part-time total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10
+    label: New / Undergraduate / EU (outside UK) / EU (Outside UK) undergraduate total [10]
+    ordinal: 5
+    row_number: 15
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) undergraduate total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_undergraduate_total_10_33_35
+    label: New / Undergraduate / Undergraduate total [10][33][35]
+    ordinal: 6
+    row_number: 16
+    expected_row_header_column: E
+    expected_row_header: Undergraduate total [10][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_undergraduate_total_10_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_undergraduate_total_10_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_england_england_master_s_total_10
+    label: New / Postgraduate / England / England master's total [10]
+    ordinal: 7
+    row_number: 17
+    expected_row_header_column: F
+    expected_row_header: England master's total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_england_england_master_s_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_england_england_master_s_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_england_england_doctoral_total_10_29_31
+    label: New / Postgraduate / England / England doctoral total [10][29][31]
+    ordinal: 8
+    row_number: 18
+    expected_row_header_column: F
+    expected_row_header: England doctoral total [10][29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_england_england_doctoral_total_10_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_england_england_doctoral_total_10_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_england_england_postgraduate_total_10_29_31
+    label: New / Postgraduate / England / England postgraduate total [10][29][31]
+    ordinal: 9
+    row_number: 19
+    expected_row_header_column: F
+    expected_row_header: England postgraduate total [10][29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_england_england_postgraduate_total_10_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_england_england_postgraduate_total_10_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10
+    label: New / Postgraduate / EU (outside UK) / EU (Outside UK) master's total [10]
+    ordinal: 10
+    row_number: 20
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) master's total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29_31
+    label: New / Postgraduate / EU (outside UK) / EU (Outside UK) postgraduate total [10][29][31]
+    ordinal: 12
+    row_number: 22
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) postgraduate total [10][29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_postgraduate_total_10_29_31
+    label: New / Postgraduate / Postgraduate total [10][29][31]
+    ordinal: 13
+    row_number: 23
+    expected_row_header_column: E
+    expected_row_header: Postgraduate total [10][29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_postgraduate_total_10_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_postgraduate_total_10_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_total_new_10_31_33_35
+    label: Total new [10][31][33][35]
+    ordinal: 14
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: Total new [10][31][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_total_new_10_31_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_total_new_10_31_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_england_england_full_time_total_10
+    label: Returning / Undergraduate / England / England full-time total [10]
+    ordinal: 15
+    row_number: 25
+    expected_row_header_column: F
+    expected_row_header: England full-time total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_england_england_full_time_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_england_england_full_time_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_england_england_part_time_total_10
+    label: Returning / Undergraduate / England / England part-time total [10]
+    ordinal: 16
+    row_number: 26
+    expected_row_header_column: F
+    expected_row_header: England part-time total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_england_england_part_time_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_england_england_part_time_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_england_england_undergraduate_total_10_33_35
+    label: Returning / Undergraduate / England / England undergraduate total [10][33][35]
+    ordinal: 17
+    row_number: 27
+    expected_row_header_column: F
+    expected_row_header: England undergraduate total [10][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_england_england_undergraduate_total_10_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_england_england_undergraduate_total_10_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10
+    label: Returning / Undergraduate / EU (outside UK) / EU (Outside UK) full-time total [10]
+    ordinal: 18
+    row_number: 28
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) full-time total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10
+    label: Returning / Undergraduate / EU (outside UK) / EU (Outside UK) part-time total [10]
+    ordinal: 19
+    row_number: 29
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) part-time total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10
+    label: Returning / Undergraduate / EU (outside UK) / EU (Outside UK) undergraduate total [10]
+    ordinal: 20
+    row_number: 30
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) undergraduate total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_undergraduate_total_10_33_35
+    label: Returning / Undergraduate / Undergraduate total [10][33][35]
+    ordinal: 21
+    row_number: 31
+    expected_row_header_column: E
+    expected_row_header: Undergraduate total [10][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_undergraduate_total_10_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_undergraduate_total_10_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_england_england_master_s_total_10
+    label: Returning / Postgraduate / England / England master's total [10]
+    ordinal: 22
+    row_number: 32
+    expected_row_header_column: F
+    expected_row_header: England master's total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_england_england_master_s_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_england_england_master_s_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_england_england_doctoral_total_10_29_31
+    label: Returning / Postgraduate / England / England doctoral total [10][29][31]
+    ordinal: 23
+    row_number: 33
+    expected_row_header_column: F
+    expected_row_header: England doctoral total [10][29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_england_england_doctoral_total_10_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_england_england_doctoral_total_10_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_england_england_postgraduate_total_10_29_31
+    label: Returning / Postgraduate / England / England postgraduate total [10][29][31]
+    ordinal: 24
+    row_number: 34
+    expected_row_header_column: F
+    expected_row_header: England postgraduate total [10][29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_england_england_postgraduate_total_10_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_england_england_postgraduate_total_10_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10
+    label: Returning / Postgraduate / EU (outside UK) / EU (Outside UK) master's total [10]
+    ordinal: 25
+    row_number: 35
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) master's total [10]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_10_29
+    label: Returning / Postgraduate / EU (outside UK) / EU (Outside UK) doctoral total [10][29]
+    ordinal: 26
+    row_number: 36
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) doctoral total [10][29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_10_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_10_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29_31
+    label: Returning / Postgraduate / EU (outside UK) / EU (Outside UK) postgraduate total [10][29][31]
+    ordinal: 27
+    row_number: 37
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) postgraduate total [10][29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_postgraduate_total_10_29_31
+    label: Returning / Postgraduate / Postgraduate total [10][29][31]
+    ordinal: 28
+    row_number: 38
+    expected_row_header_column: E
+    expected_row_header: Postgraduate total [10][29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_postgraduate_total_10_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_postgraduate_total_10_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_total_returning_10_31_33_35
+    label: Total returning [10][31][33][35]
+    ordinal: 29
+    row_number: 39
+    expected_row_header_column: B
+    expected_row_header: Total returning [10][31][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_total_returning_10_31_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_total_returning_10_31_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_grand_total_10_31_33_35
+    label: Grand total [10][31][33][35]
+    ordinal: 30
+    row_number: 40
+    expected_row_header_column: B
+    expected_row_header: Grand total [10][31][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_grand_total_10_31_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_grand_total_10_31_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 8
+      expected_value: 2025/26
+      label: Academic-year column
+  measures:
+  - measure_id: slc_early_year_support_number_new_returning_awarded_or_paid
+    label: Number new returning awarded or paid
+    ordinal: 0
+    column: M
+    source_column_id: 2025/26
+    concept: slc.early_year_support.number_new_returning_awarded_or_paid
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 8
+    expected_column_header: 2025/26
+    value_scale: 1000
+    concept_evidence_notes: Provisional early-in-year support at 31 October 2025, not a complete academic-year
+      payment total. England-domiciled students and EU (outside UK)-domiciled students studying in England.
+      Award/payment basis follows footnote 9; counts in thousands, amounts in GBP million, average awards
+      in GBP. Table 7C(ii) excludes postgraduate DSA (footnote 31); overlapping totals retained separately
+      without reconciliation.
+  period_coverage:
+    start_date: '2025-10-31'
+    end_date: '2025-10-31'
+    basis: calendar
+    source_period_label: 2025/26, effective 31 October 2025
+    notes: Provisional early-in-year awards/paid support; academic-year identity stores opening year 2025.
+  shared_filters:
+    slc.publication_status: provisional
+  shared_constraints:
+  - variable: slc.publication_status
+    operator: ==
+    value: provisional
+    label: Publication status
+- record_set_id: slc.support_2025.early_year.table_7c_ii.amount_new_returning_awarded_or_paid.ay2025
+  provenance_class: administrative
+  record_set_spec_id: slc.support_2025.early_year.table_7c_ii.amount_new_returning_awarded_or_paid.ay2025.v1
+  source_record_id_prefix: slc.support_2025.early_year.table_7c_ii.amount_new_returning_awarded_or_paid.ay2025
+  sheet_name: Table 7C(ii)
+  period_type: academic_year
+  period: 2025
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: student_support_recipient
+  domain: student_support
+  groupby_dimension: slc.early_year_award_line
+  rows:
+  - value_id: new_returning_new_undergraduate_england_england_full_time_total
+    label: New / Undergraduate / England / England full-time total
+    ordinal: 0
+    row_number: 46
+    expected_row_header_column: F
+    expected_row_header: 'England full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_england_england_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_england_england_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_england_england_part_time_total
+    label: New / Undergraduate / England / England part-time total
+    ordinal: 1
+    row_number: 47
+    expected_row_header_column: F
+    expected_row_header: 'England part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_england_england_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_england_england_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_england_england_undergraduate_total_33_35
+    label: New / Undergraduate / England / England undergraduate total [33][35]
+    ordinal: 2
+    row_number: 48
+    expected_row_header_column: F
+    expected_row_header: England undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_england_england_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_england_england_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    label: New / Undergraduate / EU (outside UK) / EU (Outside UK) full-time total
+    ordinal: 3
+    row_number: 49
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    label: New / Undergraduate / EU (outside UK) / EU (Outside UK) part-time total
+    ordinal: 4
+    row_number: 50
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    label: New / Undergraduate / EU (outside UK) / EU (Outside UK) undergraduate total
+    ordinal: 5
+    row_number: 51
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) undergraduate total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_undergraduate_total_33_35
+    label: New / Undergraduate / Undergraduate total [33][35]
+    ordinal: 6
+    row_number: 52
+    expected_row_header_column: E
+    expected_row_header: Undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_england_england_master_s_total
+    label: New / Postgraduate / England / England master's total
+    ordinal: 7
+    row_number: 53
+    expected_row_header_column: F
+    expected_row_header: 'England master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_england_england_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_england_england_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_england_england_doctoral_total_29
+    label: New / Postgraduate / England / England doctoral total [29]
+    ordinal: 8
+    row_number: 54
+    expected_row_header_column: F
+    expected_row_header: England doctoral total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_england_england_doctoral_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_england_england_doctoral_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_england_england_postgraduate_total_29_31
+    label: New / Postgraduate / England / England postgraduate total [29][31]
+    ordinal: 9
+    row_number: 55
+    expected_row_header_column: F
+    expected_row_header: England postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_england_england_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_england_england_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    label: New / Postgraduate / EU (outside UK) / EU (Outside UK) master's total
+    ordinal: 10
+    row_number: 56
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+    label: New / Postgraduate / EU (outside UK) / EU (Outside UK) doctoral total [29]
+    ordinal: 11
+    row_number: 57
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) doctoral total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+    label: New / Postgraduate / EU (outside UK) / EU (Outside UK) postgraduate total [29][31]
+    ordinal: 12
+    row_number: 58
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_postgraduate_total_29_31
+    label: New / Postgraduate / Postgraduate total [29][31]
+    ordinal: 13
+    row_number: 59
+    expected_row_header_column: E
+    expected_row_header: Postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_total_new_31_33_35
+    label: Total new [31][33][35]
+    ordinal: 14
+    row_number: 60
+    expected_row_header_column: B
+    expected_row_header: Total new [31][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_total_new_31_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_total_new_31_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_england_england_full_time_total
+    label: Returning / Undergraduate / England / England full-time total
+    ordinal: 15
+    row_number: 61
+    expected_row_header_column: F
+    expected_row_header: 'England full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_england_england_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_england_england_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_england_england_part_time_total
+    label: Returning / Undergraduate / England / England part-time total
+    ordinal: 16
+    row_number: 62
+    expected_row_header_column: F
+    expected_row_header: 'England part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_england_england_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_england_england_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_england_england_undergraduate_total_33_35
+    label: Returning / Undergraduate / England / England undergraduate total [33][35]
+    ordinal: 17
+    row_number: 63
+    expected_row_header_column: F
+    expected_row_header: England undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_england_england_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_england_england_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    label: Returning / Undergraduate / EU (outside UK) / EU (Outside UK) full-time total
+    ordinal: 18
+    row_number: 64
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    label: Returning / Undergraduate / EU (outside UK) / EU (Outside UK) part-time total
+    ordinal: 19
+    row_number: 65
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    label: Returning / Undergraduate / EU (outside UK) / EU (Outside UK) undergraduate total
+    ordinal: 20
+    row_number: 66
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) undergraduate total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_undergraduate_total_33_35
+    label: Returning / Undergraduate / Undergraduate total [33][35]
+    ordinal: 21
+    row_number: 67
+    expected_row_header_column: E
+    expected_row_header: Undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_england_england_master_s_total
+    label: Returning / Postgraduate / England / England master's total
+    ordinal: 22
+    row_number: 68
+    expected_row_header_column: F
+    expected_row_header: 'England master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_england_england_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_england_england_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_england_england_doctoral_total_29
+    label: Returning / Postgraduate / England / England doctoral total [29]
+    ordinal: 23
+    row_number: 69
+    expected_row_header_column: F
+    expected_row_header: England doctoral total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_england_england_doctoral_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_england_england_doctoral_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_england_england_postgraduate_total_29_31
+    label: Returning / Postgraduate / England / England postgraduate total [29][31]
+    ordinal: 24
+    row_number: 70
+    expected_row_header_column: F
+    expected_row_header: England postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_england_england_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_england_england_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    label: Returning / Postgraduate / EU (outside UK) / EU (Outside UK) master's total
+    ordinal: 25
+    row_number: 71
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+    label: Returning / Postgraduate / EU (outside UK) / EU (Outside UK) doctoral total [29]
+    ordinal: 26
+    row_number: 72
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) doctoral total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+    label: Returning / Postgraduate / EU (outside UK) / EU (Outside UK) postgraduate total [29][31]
+    ordinal: 27
+    row_number: 73
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_postgraduate_total_29_31
+    label: Returning / Postgraduate / Postgraduate total [29][31]
+    ordinal: 28
+    row_number: 74
+    expected_row_header_column: E
+    expected_row_header: Postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_total_returning_31_33_35
+    label: Total returning [31][33][35]
+    ordinal: 29
+    row_number: 75
+    expected_row_header_column: B
+    expected_row_header: Total returning [31][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_total_returning_31_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_total_returning_31_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_grand_total_31_33_35
+    label: Grand total [31][33][35]
+    ordinal: 30
+    row_number: 76
+    expected_row_header_column: B
+    expected_row_header: Grand total [31][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_grand_total_31_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_grand_total_31_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 44
+      expected_value: 2025/26
+      label: Academic-year column
+  measures:
+  - measure_id: slc_early_year_support_amount_new_returning_awarded_or_paid
+    label: Amount new returning awarded or paid
+    ordinal: 0
+    column: M
+    source_column_id: 2025/26
+    concept: slc.early_year_support.amount_new_returning_awarded_or_paid
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 44
+    expected_column_header: 2025/26
+    value_scale: 1000000
+    concept_evidence_notes: Provisional early-in-year support at 31 October 2025, not a complete academic-year
+      payment total. England-domiciled students and EU (outside UK)-domiciled students studying in England.
+      Award/payment basis follows footnote 9; counts in thousands, amounts in GBP million, average awards
+      in GBP. Table 7C(ii) excludes postgraduate DSA (footnote 31); overlapping totals retained separately
+      without reconciliation.
+  period_coverage:
+    start_date: '2025-10-31'
+    end_date: '2025-10-31'
+    basis: calendar
+    source_period_label: 2025/26, effective 31 October 2025
+    notes: Provisional early-in-year awards/paid support; academic-year identity stores opening year 2025.
+  shared_filters:
+    slc.publication_status: provisional
+  shared_constraints:
+  - variable: slc.publication_status
+    operator: ==
+    value: provisional
+    label: Publication status
+- record_set_id: slc.support_2025.early_year.table_7c_ii.average_new_returning_awarded_or_paid.ay2025
+  provenance_class: administrative
+  record_set_spec_id: slc.support_2025.early_year.table_7c_ii.average_new_returning_awarded_or_paid.ay2025.v1
+  source_record_id_prefix: slc.support_2025.early_year.table_7c_ii.average_new_returning_awarded_or_paid.ay2025
+  sheet_name: Table 7C(ii)
+  period_type: academic_year
+  period: 2025
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: student_support_recipient
+  domain: student_support
+  groupby_dimension: slc.early_year_award_line
+  rows:
+  - value_id: new_returning_new_undergraduate_england_england_full_time_total
+    label: New / Undergraduate / England / England full-time total
+    ordinal: 0
+    row_number: 82
+    expected_row_header_column: F
+    expected_row_header: 'England full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_england_england_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_england_england_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_england_england_part_time_total
+    label: New / Undergraduate / England / England part-time total
+    ordinal: 1
+    row_number: 83
+    expected_row_header_column: F
+    expected_row_header: 'England part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_england_england_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_england_england_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_england_england_undergraduate_total_33_35
+    label: New / Undergraduate / England / England undergraduate total [33][35]
+    ordinal: 2
+    row_number: 84
+    expected_row_header_column: F
+    expected_row_header: England undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_england_england_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_england_england_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    label: New / Undergraduate / EU (outside UK) / EU (Outside UK) full-time total
+    ordinal: 3
+    row_number: 85
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    label: New / Undergraduate / EU (outside UK) / EU (Outside UK) part-time total
+    ordinal: 4
+    row_number: 86
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    label: New / Undergraduate / EU (outside UK) / EU (Outside UK) undergraduate total
+    ordinal: 5
+    row_number: 87
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) undergraduate total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_undergraduate_undergraduate_total_33_35
+    label: New / Undergraduate / Undergraduate total [33][35]
+    ordinal: 6
+    row_number: 88
+    expected_row_header_column: E
+    expected_row_header: Undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_undergraduate_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_undergraduate_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_england_england_master_s_total
+    label: New / Postgraduate / England / England master's total
+    ordinal: 7
+    row_number: 89
+    expected_row_header_column: F
+    expected_row_header: 'England master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_england_england_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_england_england_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_england_england_doctoral_total_29_31
+    label: New / Postgraduate / England / England doctoral total [29][31]
+    ordinal: 8
+    row_number: 90
+    expected_row_header_column: F
+    expected_row_header: England doctoral total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_england_england_doctoral_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_england_england_doctoral_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_england_england_postgraduate_total_29_31
+    label: New / Postgraduate / England / England postgraduate total [29][31]
+    ordinal: 9
+    row_number: 91
+    expected_row_header_column: F
+    expected_row_header: England postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_england_england_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_england_england_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    label: New / Postgraduate / EU (outside UK) / EU (Outside UK) master's total
+    ordinal: 10
+    row_number: 92
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+    label: New / Postgraduate / EU (outside UK) / EU (Outside UK) postgraduate total [29][31]
+    ordinal: 12
+    row_number: 94
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_new_postgraduate_postgraduate_total_29_31
+    label: New / Postgraduate / Postgraduate total [29][31]
+    ordinal: 13
+    row_number: 95
+    expected_row_header_column: E
+    expected_row_header: Postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_new_postgraduate_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_new_postgraduate_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_total_new_31_33_35
+    label: Total new [31][33][35]
+    ordinal: 14
+    row_number: 96
+    expected_row_header_column: B
+    expected_row_header: Total new [31][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_total_new_31_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_total_new_31_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_england_england_full_time_total
+    label: Returning / Undergraduate / England / England full-time total
+    ordinal: 15
+    row_number: 97
+    expected_row_header_column: F
+    expected_row_header: 'England full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_england_england_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_england_england_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_england_england_part_time_total
+    label: Returning / Undergraduate / England / England part-time total
+    ordinal: 16
+    row_number: 98
+    expected_row_header_column: F
+    expected_row_header: 'England part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_england_england_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_england_england_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_england_england_undergraduate_total_33_35
+    label: Returning / Undergraduate / England / England undergraduate total [33][35]
+    ordinal: 17
+    row_number: 99
+    expected_row_header_column: F
+    expected_row_header: England undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_england_england_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_england_england_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    label: Returning / Undergraduate / EU (outside UK) / EU (Outside UK) full-time total
+    ordinal: 18
+    row_number: 100
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) full-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    label: Returning / Undergraduate / EU (outside UK) / EU (Outside UK) part-time total
+    ordinal: 19
+    row_number: 101
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) part-time total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    label: Returning / Undergraduate / EU (outside UK) / EU (Outside UK) undergraduate total
+    ordinal: 20
+    row_number: 102
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) undergraduate total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_undergraduate_undergraduate_total_33_35
+    label: Returning / Undergraduate / Undergraduate total [33][35]
+    ordinal: 21
+    row_number: 103
+    expected_row_header_column: E
+    expected_row_header: Undergraduate total [33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_undergraduate_undergraduate_total_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_undergraduate_undergraduate_total_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_england_england_master_s_total
+    label: Returning / Postgraduate / England / England master's total
+    ordinal: 22
+    row_number: 104
+    expected_row_header_column: F
+    expected_row_header: 'England master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_england_england_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_england_england_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_england_england_doctoral_total_29
+    label: Returning / Postgraduate / England / England doctoral total [29]
+    ordinal: 23
+    row_number: 105
+    expected_row_header_column: F
+    expected_row_header: England doctoral total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_england_england_doctoral_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_england_england_doctoral_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_england_england_postgraduate_total_29_31
+    label: Returning / Postgraduate / England / England postgraduate total [29][31]
+    ordinal: 24
+    row_number: 106
+    expected_row_header_column: F
+    expected_row_header: England postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_england_england_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_england_england_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    label: Returning / Postgraduate / EU (outside UK) / EU (Outside UK) master's total
+    ordinal: 25
+    row_number: 107
+    expected_row_header_column: F
+    expected_row_header: 'EU (Outside UK) master''s total '
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+    label: Returning / Postgraduate / EU (outside UK) / EU (Outside UK) doctoral total [29]
+    ordinal: 26
+    row_number: 108
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) doctoral total [29]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+    label: Returning / Postgraduate / EU (outside UK) / EU (Outside UK) postgraduate total [29][31]
+    ordinal: 27
+    row_number: 109
+    expected_row_header_column: F
+    expected_row_header: EU (Outside UK) postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_returning_postgraduate_postgraduate_total_29_31
+    label: Returning / Postgraduate / Postgraduate total [29][31]
+    ordinal: 28
+    row_number: 110
+    expected_row_header_column: E
+    expected_row_header: Postgraduate total [29][31]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_returning_postgraduate_postgraduate_total_29_31
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_returning_postgraduate_postgraduate_total_29_31
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_total_returning_31_33_35
+    label: Total returning [31[[33][35]
+    ordinal: 29
+    row_number: 111
+    expected_row_header_column: B
+    expected_row_header: Total returning [31[[33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_total_returning_31_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_total_returning_31_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  - value_id: new_returning_grand_total_31_33_35
+    label: Grand total [31][33][35]
+    ordinal: 30
+    row_number: 112
+    expected_row_header_column: B
+    expected_row_header: Grand total [31][33][35]
+    table_record_kind: total
+    filters:
+      slc.early_year_award_line: new_returning_grand_total_31_33_35
+    constraints:
+    - variable: slc.early_year_award_line
+      operator: ==
+      value: new_returning_grand_total_31_33_35
+      label: Early-in-year support line
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: 'Effective Date: 31st October of relevant academic year'
+      label: Effective date
+    - column: M
+      row: 80
+      expected_value: 2025/26
+      label: Academic-year column
+  measures:
+  - measure_id: slc_early_year_support_average_new_returning_awarded_or_paid
+    label: Average new returning awarded or paid
+    ordinal: 0
+    column: M
+    source_column_id: 2025/26
+    concept: slc.early_year_support.average_new_returning_awarded_or_paid
+    unit: gbp
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 80
+    expected_column_header: 2025/26
+    value_scale: 1
+    concept_evidence_notes: Provisional early-in-year support at 31 October 2025, not a complete academic-year
+      payment total. England-domiciled students and EU (outside UK)-domiciled students studying in England.
+      Award/payment basis follows footnote 9; counts in thousands, amounts in GBP million, average awards
+      in GBP. Table 7C(ii) excludes postgraduate DSA (footnote 31); overlapping totals retained separately
+      without reconciliation.
+  period_coverage:
+    start_date: '2025-10-31'
+    end_date: '2025-10-31'
+    basis: calendar
+    source_period_label: 2025/26, effective 31 October 2025
+    notes: Provisional early-in-year awards/paid support; academic-year identity stores opening year 2025.
+  shared_filters:
+    slc.publication_status: provisional
+  shared_constraints:
+  - variable: slc.publication_status
+    operator: ==
+    value: provisional
+    label: Publication status
+dimension_value_labels:
+  slc.early_year_award_line:
+    summary_undergraduate_england_england_full_time_total: Undergraduate / England / England full-time
+      total
+    summary_undergraduate_england_england_part_time_total: Undergraduate / England / England part-time
+      total
+    summary_undergraduate_england_england_undergraduate_total_33_35: Undergraduate / England / England
+      undergraduate total [33][35]
+    summary_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10: Undergraduate / EU (outside
+      UK) / EU (Outside UK) full-time total [10]
+    summary_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10: Undergraduate / EU (outside
+      UK) / EU (Outside UK) part-time total [10]
+    summary_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10: Undergraduate / EU (outside
+      UK) / EU (outside UK) undergraduate total [10]
+    summary_undergraduate_undergraduate_total_10_33_35: Undergraduate / Undergraduate total [10][33][35]
+    summary_postgraduate_england_england_master_s_total_10: Postgraduate / England / England master's
+      total [10]
+    summary_postgraduate_england_england_doctoral_total_10_29: Postgraduate / England / England doctoral
+      total [10][29]
+    summary_postgraduate_england_england_postgraduate_total_10_29: Postgraduate / England / England postgraduate
+      total [10][29]
+    summary_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10: Postgraduate / EU (outside UK)
+      / EU (Outside UK) master's total [10]
+    summary_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_10_29: Postgraduate / EU (outside
+      UK) / EU (Outside UK) doctoral total [10][29]
+    summary_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29: Postgraduate / EU (outside
+      UK) / EU (outside UK) postgraduate total [10][29]
+    summary_postgraduate_postgraduate_total_10_29: Postgraduate / Postgraduate total [10][29]
+    summary_grand_total_10_33_35: Grand total [10][33][35]
+    summary_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total: Undergraduate / EU (outside UK)
+      / EU (Outside UK) full-time total
+    summary_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total: Undergraduate / EU (outside UK)
+      / EU (Outside UK) part-time total
+    summary_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total: Undergraduate / EU (outside
+      UK) / EU (outside UK) undergraduate total
+    summary_undergraduate_undergraduate_total_33_35: Undergraduate / Undergraduate total [33][35]
+    summary_postgraduate_england_england_master_s_total: Postgraduate / England / England master's total
+    summary_postgraduate_england_england_doctoral_total_29: Postgraduate / England / England doctoral
+      total [29]
+    summary_postgraduate_england_england_postgraduate_total_29: Postgraduate / England / England postgraduate
+      total [29]
+    summary_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total: Postgraduate / EU (outside UK) /
+      EU (Outside UK) master's total
+    summary_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29: Postgraduate / EU (outside UK)
+      / EU (Outside UK) doctoral total [29]
+    summary_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29: Postgraduate / EU (outside
+      UK) / EU (outside UK) postgraduate total [29]
+    summary_postgraduate_postgraduate_total_29: Postgraduate / Postgraduate total [29]
+    summary_grand_total_33_35: Grand total [33][35]
+    new_returning_new_undergraduate_england_england_full_time_total_10: New / Undergraduate / England
+      / England full-time total [10]
+    new_returning_new_undergraduate_england_england_part_time_total_10: New / Undergraduate / England
+      / England part-time total [10]
+    new_returning_new_undergraduate_england_england_undergraduate_total_10_33_35: New / Undergraduate
+      / England / England undergraduate total [10][33][35]
+    new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10: New / Undergraduate
+      / EU (outside UK) / EU (Outside UK) full-time total [10]
+    new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10: New / Undergraduate
+      / EU (outside UK) / EU (Outside UK) part-time total [10]
+    new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10: New / Undergraduate
+      / EU (outside UK) / EU (Outside UK) undergraduate total [10]
+    new_returning_new_undergraduate_undergraduate_total_10_33_35: New / Undergraduate / Undergraduate
+      total [10][33][35]
+    new_returning_new_postgraduate_england_england_master_s_total_10: New / Postgraduate / England / England
+      master's total [10]
+    new_returning_new_postgraduate_england_england_doctoral_total_10_29_31: New / Postgraduate / England
+      / England doctoral total [10][29][31]
+    new_returning_new_postgraduate_england_england_postgraduate_total_10_29_31: New / Postgraduate / England
+      / England postgraduate total [10][29][31]
+    new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10: New / Postgraduate /
+      EU (outside UK) / EU (Outside UK) master's total [10]
+    new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29_31: New / Postgraduate
+      / EU (outside UK) / EU (Outside UK) postgraduate total [10][29][31]
+    new_returning_new_postgraduate_postgraduate_total_10_29_31: New / Postgraduate / Postgraduate total
+      [10][29][31]
+    new_returning_total_new_10_31_33_35: Total new [10][31][33][35]
+    new_returning_returning_undergraduate_england_england_full_time_total_10: Returning / Undergraduate
+      / England / England full-time total [10]
+    new_returning_returning_undergraduate_england_england_part_time_total_10: Returning / Undergraduate
+      / England / England part-time total [10]
+    new_returning_returning_undergraduate_england_england_undergraduate_total_10_33_35: Returning / Undergraduate
+      / England / England undergraduate total [10][33][35]
+    new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total_10: Returning /
+      Undergraduate / EU (outside UK) / EU (Outside UK) full-time total [10]
+    new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total_10: Returning /
+      Undergraduate / EU (outside UK) / EU (Outside UK) part-time total [10]
+    new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total_10: Returning
+      / Undergraduate / EU (outside UK) / EU (Outside UK) undergraduate total [10]
+    new_returning_returning_undergraduate_undergraduate_total_10_33_35: Returning / Undergraduate / Undergraduate
+      total [10][33][35]
+    new_returning_returning_postgraduate_england_england_master_s_total_10: Returning / Postgraduate /
+      England / England master's total [10]
+    new_returning_returning_postgraduate_england_england_doctoral_total_10_29_31: Returning / Postgraduate
+      / England / England doctoral total [10][29][31]
+    new_returning_returning_postgraduate_england_england_postgraduate_total_10_29_31: Returning / Postgraduate
+      / England / England postgraduate total [10][29][31]
+    new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total_10: Returning / Postgraduate
+      / EU (outside UK) / EU (Outside UK) master's total [10]
+    new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_10_29: Returning /
+      Postgraduate / EU (outside UK) / EU (Outside UK) doctoral total [10][29]
+    new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_10_29_31: Returning
+      / Postgraduate / EU (outside UK) / EU (Outside UK) postgraduate total [10][29][31]
+    new_returning_returning_postgraduate_postgraduate_total_10_29_31: Returning / Postgraduate / Postgraduate
+      total [10][29][31]
+    new_returning_total_returning_10_31_33_35: Total returning [10][31][33][35]
+    new_returning_grand_total_10_31_33_35: Grand total [10][31][33][35]
+    new_returning_new_undergraduate_england_england_full_time_total: New / Undergraduate / England / England
+      full-time total
+    new_returning_new_undergraduate_england_england_part_time_total: New / Undergraduate / England / England
+      part-time total
+    new_returning_new_undergraduate_england_england_undergraduate_total_33_35: New / Undergraduate / England
+      / England undergraduate total [33][35]
+    new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total: New / Undergraduate /
+      EU (outside UK) / EU (Outside UK) full-time total
+    new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total: New / Undergraduate /
+      EU (outside UK) / EU (Outside UK) part-time total
+    new_returning_new_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total: New / Undergraduate
+      / EU (outside UK) / EU (Outside UK) undergraduate total
+    new_returning_new_undergraduate_undergraduate_total_33_35: New / Undergraduate / Undergraduate total
+      [33][35]
+    new_returning_new_postgraduate_england_england_master_s_total: New / Postgraduate / England / England
+      master's total
+    new_returning_new_postgraduate_england_england_doctoral_total_29: New / Postgraduate / England / England
+      doctoral total [29]
+    new_returning_new_postgraduate_england_england_postgraduate_total_29_31: New / Postgraduate / England
+      / England postgraduate total [29][31]
+    new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total: New / Postgraduate / EU
+      (outside UK) / EU (Outside UK) master's total
+    new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29: New / Postgraduate /
+      EU (outside UK) / EU (Outside UK) doctoral total [29]
+    new_returning_new_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31: New / Postgraduate
+      / EU (outside UK) / EU (Outside UK) postgraduate total [29][31]
+    new_returning_new_postgraduate_postgraduate_total_29_31: New / Postgraduate / Postgraduate total [29][31]
+    new_returning_total_new_31_33_35: Total new [31][33][35]
+    new_returning_returning_undergraduate_england_england_full_time_total: Returning / Undergraduate /
+      England / England full-time total
+    new_returning_returning_undergraduate_england_england_part_time_total: Returning / Undergraduate /
+      England / England part-time total
+    new_returning_returning_undergraduate_england_england_undergraduate_total_33_35: Returning / Undergraduate
+      / England / England undergraduate total [33][35]
+    new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_full_time_total: Returning / Undergraduate
+      / EU (outside UK) / EU (Outside UK) full-time total
+    new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_part_time_total: Returning / Undergraduate
+      / EU (outside UK) / EU (Outside UK) part-time total
+    new_returning_returning_undergraduate_eu_outside_uk_eu_outside_uk_undergraduate_total: Returning /
+      Undergraduate / EU (outside UK) / EU (Outside UK) undergraduate total
+    new_returning_returning_undergraduate_undergraduate_total_33_35: Returning / Undergraduate / Undergraduate
+      total [33][35]
+    new_returning_returning_postgraduate_england_england_master_s_total: Returning / Postgraduate / England
+      / England master's total
+    new_returning_returning_postgraduate_england_england_doctoral_total_29: Returning / Postgraduate /
+      England / England doctoral total [29]
+    new_returning_returning_postgraduate_england_england_postgraduate_total_29_31: Returning / Postgraduate
+      / England / England postgraduate total [29][31]
+    new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_master_s_total: Returning / Postgraduate
+      / EU (outside UK) / EU (Outside UK) master's total
+    new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_doctoral_total_29: Returning / Postgraduate
+      / EU (outside UK) / EU (Outside UK) doctoral total [29]
+    new_returning_returning_postgraduate_eu_outside_uk_eu_outside_uk_postgraduate_total_29_31: Returning
+      / Postgraduate / EU (outside UK) / EU (Outside UK) postgraduate total [29][31]
+    new_returning_returning_postgraduate_postgraduate_total_29_31: Returning / Postgraduate / Postgraduate
+      total [29][31]
+    new_returning_total_returning_31_33_35: Total returning [31[[33][35]
+    new_returning_grand_total_31_33_35: Grand total [31][33][35]
+    new_returning_new_postgraduate_england_england_doctoral_total_29_31: New / Postgraduate / England
+      / England doctoral total [29][31]
+  slc.publication_status:
+    provisional: Provisional

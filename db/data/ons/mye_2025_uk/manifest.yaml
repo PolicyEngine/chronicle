@@ -16,7 +16,6 @@ files:
         bucket: ledger-raw
         key: raw/uk/ons/ons-mye-2025-uk/2025/8ae244e3341257ecccaee55f4973fe12f46afe6656ead6c1a9ed3f4f8585e40f/mye25tablesuk.xlsx
         uri: r2://ledger-raw/raw/uk/ons/ons-mye-2025-uk/2025/8ae244e3341257ecccaee55f4973fe12f46afe6656ead6c1a9ed3f4f8585e40f/mye25tablesuk.xlsx
-registration_kind: raw_only
-provenance_notes: ONS UK mid-2025 age/sex population workbook, released 1 October
-  2026; raw companion to the separate Nomis local-authority fact package. Usual residents
-  including communal establishments.
+registration_kind: source_facts
+provenance_notes: UK mid-2025 usual-resident age/sex estimates and revised mid-2024
+  all-age controls, released 1 October 2026; includes communal establishments.

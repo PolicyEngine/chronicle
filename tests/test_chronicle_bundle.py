@@ -194,7 +194,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "error_count": 0,
         # chronicle#322 adds 4,947 ONS observations and 3,200 DESNZ ones.
         # Inner/Outer London also add two region-level geography keys.
-        "fact_count": 1007045,
+        "fact_count": 1012054,
         "geography_count": 20547,
         "period_count": 511,
         # 467 before chronicle#292 moved the congressional-district and
@@ -212,10 +212,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # as published.
         # chronicle#313 retains overlapping census cuts and publisher releases
         # of population, UC and rent observations (+5,406 semantic keys).
-        "semantic_duplicate_key_count": 7730,
+        # The latest DfI edition retains twelve historical bus-receipt cells.
+        "semantic_duplicate_key_count": 7742,
         "skipped_source_count": 10,
         "source_count": 56,
-        "source_package_count": 311,
+        "source_package_count": 322,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -246,14 +247,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1007045
+    assert row_count == 1012054
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 311
+    assert source_packages["source_package_count"] == 322
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -267,7 +268,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1007045
+    assert coverage["fact_count"] == 1012054
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -282,7 +283,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "desnz": 8897,
         "dfe": 770,
         "dfc_ni": 1700,
-        "dfi_ni": 30,
+        "dfi_ni": 44,
         "dft": 2771,
         "dwp": 148002,
         "eurostat": 207,
@@ -294,10 +295,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "ici": 12,
         "ird": 3852,
         "irs_soi": 40063,
-        "isc": 2,
+        "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
-        "lps": 24,
+        "lps": 72,
         "mbie": 5663,
         "mhclg": 118542,
         "msd": 139,
@@ -308,13 +309,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "obr": 355,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 313132,
+        "ons": 317591,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
-        "scotgov": 4052,
+        "scotgov": 4244,
         "sfpd_pensions": 4,
-        "slc": 199,
+        "slc": 343,
         "spf_finances_pit": 1,
         "ssa": 426,
         "statbel_fiscal_income": 565,
@@ -324,10 +325,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "stats_nz": 85,
         "usda_snap": 852,
         "voa": 3001,
-        "welshgov": 9417,
+        "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 306
+    assert len(table_counts) == 317
     assert table_counts["mbie:Detailed monthly TLA tenancy bond data"] == 5663
     assert (
         table_counts[
@@ -1488,6 +1489,31 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in issue_313_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # National additions requested in issue 313's latest comment. Early-year
+    # student support keeps AY2025; employment and ISC keep source months.
+    issue_313_comment_period_increments = {
+        "academic_year:2025": 136,
+        "calendar_year:2021": 12,
+        "calendar_year:2022": 12,
+        "calendar_year:2023": 12,
+        "calendar_year:2024": 220,
+        "calendar_year:2025": 4569,
+        "fiscal_year:2019": 2,
+        "fiscal_year:2020": 2,
+        "fiscal_year:2021": 2,
+        "fiscal_year:2022": 2,
+        "fiscal_year:2023": 2,
+        "fiscal_year:2024": 2,
+        "fiscal_year:2025": 10,
+        "month:2025-01": 1,
+        "month:2025-03": 6,
+        "month:2025-06": 6,
+        "month:2025-09": 6,
+        "month:2025-12": 6,
+        "month:2026-01": 1,
+    }
+    for key, count in issue_313_comment_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD (#318) + 103 MSD (#319) + 84 MBIE (#320) = 4,071.
@@ -1513,9 +1539,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 31596
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 5678
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 21124
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 31902
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 6099
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 21401
+    assert coverage["counts"]["by_geography"]["country:K04000001"] == 1148
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
     assert len(coverage["counts"]["by_geography"]) == 20547
     for region in (
@@ -1539,20 +1566,20 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["region:E13000002"] == 200
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33643,
-        "dwelling": 250975,
+        "dwelling": 251365,
         "family": 1628,
         "firm": 1440,
         "government": 3450,
         "household": 159734,
-        "institutional_sector": 4463,
+        "institutional_sector": 4480,
         "pension_plan": 2,
-        "person": 495706,
+        "person": 500308,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 41368,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 7730
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 7742
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 78,
         "conflicting_groupby_value_label": 22,

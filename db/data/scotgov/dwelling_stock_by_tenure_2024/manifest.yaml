@@ -1,0 +1,19 @@
+source_id: scotgov
+package_id: scotgov-dwelling-stock-by-tenure-2024
+dataset: scotgov_scotgov-dwelling-stock-by-tenure-2024
+source_page: https://www.gov.scot/publications/housing-statistics-stock-by-tenure/
+table: dwelling_stock_by_tenure_2024
+files:
+  2024:
+    filename: 2024-25_Stock_by_tenure.xlsx
+    source_url: https://www.gov.scot/binaries/content/documents/govscot/publications/statistics/2018/09/housing-statistics-stock-by-tenure/documents/stock-by-tenure-2017/stock-by-tenure-2017/govscot%3Adocument/2024-25%2B-%2BStock%2Bby%2Btenure.xlsx
+    sha256: f258dc8b690a93f05f8f45f73a660bfb1502e4e8e32a66bedd18a30553f3f4ee
+    size_bytes: 160923
+    fetched_at: '2026-10-07T16:07:17+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-dwelling-stock-by-tenure-2024/2024/f258dc8b690a93f05f8f45f73a660bfb1502e4e8e32a66bedd18a30553f3f4ee/2024-25_Stock_by_tenure.xlsx
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-dwelling-stock-by-tenure-2024/2024/f258dc8b690a93f05f8f45f73a660bfb1502e4e8e32a66bedd18a30553f3f4ee/2024-25_Stock_by_tenure.xlsx
+registration_kind: source_facts

@@ -81,6 +81,31 @@ SOURCE_PACKAGE_ALIASES = {
     "stats-nz-subnational-population-estimates-2025": Path(
         "stats_nz/subnational_population_estimates_2025"
     ),
+    "ons-mye-2025-uk": Path("ons/mye_2025_uk"),
+    "ons-mye-2024-uk-revised-2026": Path("ons/mye_2024_uk_revised_2026"),
+    "slc-student-loan-repayments-england-2026": Path(
+        "slc/student_loan_repayments_england_2026"
+    ),
+    "slc-student-support-england-2025-provisional-2025-26": Path(
+        "slc/student_support_england_2025_provisional_2025_26"
+    ),
+    "ons-public-sector-employment-june-2026": Path(
+        "ons/public_sector_employment_june_2026"
+    ),
+    "ons-national-balance-sheet-land-preliminary-2026": Path(
+        "ons/national_balance_sheet_land_preliminary_2026"
+    ),
+    "dfi-ni-public-transport-statistics-2025-26": Path(
+        "dfi_ni/public_transport_statistics_2025_26"
+    ),
+    "isc-annual-census-2025": Path("isc/annual_census_2025"),
+    "isc-annual-census-2026": Path("isc/annual_census_2026"),
+    "welshgov-dwelling-stock-by-tenure-2025": Path(
+        "welshgov/dwelling_stock_by_tenure_2025"
+    ),
+    "scotgov-dwelling-stock-by-tenure-2024": Path(
+        "scotgov/dwelling_stock_by_tenure_2024"
+    ),
     "ons-household-totals-country-region-2015-2025": Path(
         "ons/household_totals_country_region_2015_2025"
     ),

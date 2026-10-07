@@ -1,0 +1,4133 @@
+schema_version: ledger.source_package.v1
+package_id: welshgov-dwelling-stock-by-tenure-2025
+label: Welsh Government dwelling stock by tenure and local authority, 31 March 2025, June 2026 edition
+dimension_labels:
+  geography: Geography
+  Tenure: Tenure
+  welshgov.publication_status: Publication status
+artifact:
+  source_name: welshgov
+  source_table: Welsh Government dwelling stock by tenure and local authority, 31 March 2025, June 2026
+    edition
+  resource_package: db
+  resource_directory: data/welshgov/dwelling_stock_by_tenure_2025
+  manifest: manifest.yaml
+  vintage: welsh_dwelling_stock_2026_06_04
+  extracted_at: '2026-10-07'
+  extraction_method: Publisher artifact parsed without modifying values
+  parser: delimited_text_full_rows
+  artifact_year: 2025
+  sheet_name: wales_dwelling_stock_by_tenure.csv
+record_sets:
+- record_set_id: welshgov.dwelling_stock.2025.total_social_housing
+  provenance_class: model_output
+  record_set_spec_id: welshgov.dwelling_stock.2025.total_social_housing.v1
+  source_record_id_prefix: welshgov.dwelling_stock.2025.total_social_housing
+  sheet_name: wales_dwelling_stock_by_tenure.csv
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: housing_stock
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: w92000004
+    label: Wales
+    ordinal: 1
+    row_number: 2
+    expected_row_header_column: H
+    expected_row_header: W92000004
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000001
+    label: Isle of Anglesey
+    ordinal: 182
+    row_number: 183
+    expected_row_header_column: H
+    expected_row_header: W06000001
+    geography_id: W06000001
+    geography_level: local_authority
+    geography_name: Isle of Anglesey
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 183
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 183
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 183
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000002
+    label: Gwynedd
+    ordinal: 334
+    row_number: 335
+    expected_row_header_column: H
+    expected_row_header: W06000002
+    geography_id: W06000002
+    geography_level: local_authority
+    geography_name: Gwynedd
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 335
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 335
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 335
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000003
+    label: Conwy
+    ordinal: 472
+    row_number: 473
+    expected_row_header_column: H
+    expected_row_header: W06000003
+    geography_id: W06000003
+    geography_level: local_authority
+    geography_name: Conwy
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 473
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 473
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 473
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000004
+    label: Denbighshire
+    ordinal: 606
+    row_number: 607
+    expected_row_header_column: H
+    expected_row_header: W06000004
+    geography_id: W06000004
+    geography_level: local_authority
+    geography_name: Denbighshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 607
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 607
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 607
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000005
+    label: Flintshire
+    ordinal: 758
+    row_number: 759
+    expected_row_header_column: H
+    expected_row_header: W06000005
+    geography_id: W06000005
+    geography_level: local_authority
+    geography_name: Flintshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 759
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 759
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 759
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000006
+    label: Wrexham
+    ordinal: 909
+    row_number: 910
+    expected_row_header_column: H
+    expected_row_header: W06000006
+    geography_id: W06000006
+    geography_level: local_authority
+    geography_name: Wrexham
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 910
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 910
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 910
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000024
+    label: Merthyr Tydfil
+    ordinal: 1066
+    row_number: 1067
+    expected_row_header_column: H
+    expected_row_header: W06000024
+    geography_id: W06000024
+    geography_level: local_authority
+    geography_name: Merthyr Tydfil
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1067
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1067
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1067
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000008
+    label: Ceredigion
+    ordinal: 1198
+    row_number: 1199
+    expected_row_header_column: H
+    expected_row_header: W06000008
+    geography_id: W06000008
+    geography_level: local_authority
+    geography_name: Ceredigion
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1199
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1199
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1199
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000009
+    label: Pembrokeshire
+    ordinal: 1340
+    row_number: 1341
+    expected_row_header_column: H
+    expected_row_header: W06000009
+    geography_id: W06000009
+    geography_level: local_authority
+    geography_name: Pembrokeshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1341
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1341
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1341
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000010
+    label: Carmarthenshire
+    ordinal: 1488
+    row_number: 1489
+    expected_row_header_column: H
+    expected_row_header: W06000010
+    geography_id: W06000010
+    geography_level: local_authority
+    geography_name: Carmarthenshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1489
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1489
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1489
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000011
+    label: Swansea
+    ordinal: 1647
+    row_number: 1648
+    expected_row_header_column: H
+    expected_row_header: W06000011
+    geography_id: W06000011
+    geography_level: local_authority
+    geography_name: Swansea
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1648
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1648
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1648
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000012
+    label: Neath Port Talbot
+    ordinal: 1799
+    row_number: 1800
+    expected_row_header_column: H
+    expected_row_header: W06000012
+    geography_id: W06000012
+    geography_level: local_authority
+    geography_name: Neath Port Talbot
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1800
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1800
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1800
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000013
+    label: Bridgend
+    ordinal: 1935
+    row_number: 1936
+    expected_row_header_column: H
+    expected_row_header: W06000013
+    geography_id: W06000013
+    geography_level: local_authority
+    geography_name: Bridgend
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1936
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1936
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1936
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000014
+    label: Vale of Glamorgan
+    ordinal: 2063
+    row_number: 2064
+    expected_row_header_column: H
+    expected_row_header: W06000014
+    geography_id: W06000014
+    geography_level: local_authority
+    geography_name: Vale of Glamorgan
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2064
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2064
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2064
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000015
+    label: Cardiff
+    ordinal: 2216
+    row_number: 2217
+    expected_row_header_column: H
+    expected_row_header: W06000015
+    geography_id: W06000015
+    geography_level: local_authority
+    geography_name: Cardiff
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2217
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2217
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2217
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000016
+    label: Rhondda Cynon Taf
+    ordinal: 2371
+    row_number: 2372
+    expected_row_header_column: H
+    expected_row_header: W06000016
+    geography_id: W06000016
+    geography_level: local_authority
+    geography_name: Rhondda Cynon Taf
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2372
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2372
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2372
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000018
+    label: Caerphilly
+    ordinal: 2506
+    row_number: 2507
+    expected_row_header_column: H
+    expected_row_header: W06000018
+    geography_id: W06000018
+    geography_level: local_authority
+    geography_name: Caerphilly
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2507
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2507
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2507
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000019
+    label: Blaenau Gwent
+    ordinal: 2660
+    row_number: 2661
+    expected_row_header_column: H
+    expected_row_header: W06000019
+    geography_id: W06000019
+    geography_level: local_authority
+    geography_name: Blaenau Gwent
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2661
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2661
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2661
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000020
+    label: Torfaen
+    ordinal: 2795
+    row_number: 2796
+    expected_row_header_column: H
+    expected_row_header: W06000020
+    geography_id: W06000020
+    geography_level: local_authority
+    geography_name: Torfaen
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2796
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2796
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2796
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000021
+    label: Monmouthshire
+    ordinal: 2931
+    row_number: 2932
+    expected_row_header_column: H
+    expected_row_header: W06000021
+    geography_id: W06000021
+    geography_level: local_authority
+    geography_name: Monmouthshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2932
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2932
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2932
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000022
+    label: Newport
+    ordinal: 3069
+    row_number: 3070
+    expected_row_header_column: H
+    expected_row_header: W06000022
+    geography_id: W06000022
+    geography_level: local_authority
+    geography_name: Newport
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3070
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3070
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3070
+      expected_value: Total social Housing
+      label: Publisher tenure
+  - value_id: w06000023
+    label: Powys
+    ordinal: 3205
+    row_number: 3206
+    expected_row_header_column: H
+    expected_row_header: W06000023
+    geography_id: W06000023
+    geography_level: local_authority
+    geography_name: Powys
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3206
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3206
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3206
+      expected_value: Total social Housing
+      label: Publisher tenure
+  measures:
+  - measure_id: welshgov_dwelling_stock_by_tenure
+    label: Dwelling stock
+    ordinal: 0
+    column: A
+    source_column_id: Data values
+    concept: welshgov.dwelling_stock_by_tenure
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: Data values
+    concept_evidence_notes: Dwelling stocks at 31 March 2025, rounded by the publisher to the nearest
+      100. Owner occupied and privately rented counts are provisional; Wales need not equal the sum of
+      local areas. Official statistics in development following temporary accreditation suspension; no
+      reconciliation or conversion to household counts.
+  period_coverage:
+    start_date: '2025-03-31'
+    end_date: '2025-03-31'
+    basis: calendar
+    source_period_label: 31 March 2025
+    notes: Publisher dwelling stock, not households.
+  shared_filters:
+    Tenure: Total social Housing
+  shared_constraints:
+  - variable: Tenure
+    operator: ==
+    value: Total social Housing
+    label: Tenure
+- record_set_id: welshgov.dwelling_stock.2025.all_tenures
+  provenance_class: model_output
+  record_set_spec_id: welshgov.dwelling_stock.2025.all_tenures.v1
+  source_record_id_prefix: welshgov.dwelling_stock.2025.all_tenures
+  sheet_name: wales_dwelling_stock_by_tenure.csv
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: housing_stock
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: w92000004
+    label: Wales
+    ordinal: 2
+    row_number: 3
+    expected_row_header_column: H
+    expected_row_header: W92000004
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000001
+    label: Isle of Anglesey
+    ordinal: 178
+    row_number: 179
+    expected_row_header_column: H
+    expected_row_header: W06000001
+    geography_id: W06000001
+    geography_level: local_authority
+    geography_name: Isle of Anglesey
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 179
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 179
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 179
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000002
+    label: Gwynedd
+    ordinal: 332
+    row_number: 333
+    expected_row_header_column: H
+    expected_row_header: W06000002
+    geography_id: W06000002
+    geography_level: local_authority
+    geography_name: Gwynedd
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 333
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 333
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 333
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000003
+    label: Conwy
+    ordinal: 467
+    row_number: 468
+    expected_row_header_column: H
+    expected_row_header: W06000003
+    geography_id: W06000003
+    geography_level: local_authority
+    geography_name: Conwy
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 468
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 468
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 468
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000004
+    label: Denbighshire
+    ordinal: 605
+    row_number: 606
+    expected_row_header_column: H
+    expected_row_header: W06000004
+    geography_id: W06000004
+    geography_level: local_authority
+    geography_name: Denbighshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 606
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 606
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 606
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000005
+    label: Flintshire
+    ordinal: 756
+    row_number: 757
+    expected_row_header_column: H
+    expected_row_header: W06000005
+    geography_id: W06000005
+    geography_level: local_authority
+    geography_name: Flintshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 757
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 757
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 757
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000006
+    label: Wrexham
+    ordinal: 915
+    row_number: 916
+    expected_row_header_column: H
+    expected_row_header: W06000006
+    geography_id: W06000006
+    geography_level: local_authority
+    geography_name: Wrexham
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 916
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 916
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 916
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000024
+    label: Merthyr Tydfil
+    ordinal: 1067
+    row_number: 1068
+    expected_row_header_column: H
+    expected_row_header: W06000024
+    geography_id: W06000024
+    geography_level: local_authority
+    geography_name: Merthyr Tydfil
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1068
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1068
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1068
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000008
+    label: Ceredigion
+    ordinal: 1199
+    row_number: 1200
+    expected_row_header_column: H
+    expected_row_header: W06000008
+    geography_id: W06000008
+    geography_level: local_authority
+    geography_name: Ceredigion
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1200
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1200
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1200
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000009
+    label: Pembrokeshire
+    ordinal: 1337
+    row_number: 1338
+    expected_row_header_column: H
+    expected_row_header: W06000009
+    geography_id: W06000009
+    geography_level: local_authority
+    geography_name: Pembrokeshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1338
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1338
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1338
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000010
+    label: Carmarthenshire
+    ordinal: 1492
+    row_number: 1493
+    expected_row_header_column: H
+    expected_row_header: W06000010
+    geography_id: W06000010
+    geography_level: local_authority
+    geography_name: Carmarthenshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1493
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1493
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1493
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000011
+    label: Swansea
+    ordinal: 1645
+    row_number: 1646
+    expected_row_header_column: H
+    expected_row_header: W06000011
+    geography_id: W06000011
+    geography_level: local_authority
+    geography_name: Swansea
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1646
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1646
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1646
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000012
+    label: Neath Port Talbot
+    ordinal: 1795
+    row_number: 1796
+    expected_row_header_column: H
+    expected_row_header: W06000012
+    geography_id: W06000012
+    geography_level: local_authority
+    geography_name: Neath Port Talbot
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1796
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1796
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1796
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000013
+    label: Bridgend
+    ordinal: 1934
+    row_number: 1935
+    expected_row_header_column: H
+    expected_row_header: W06000013
+    geography_id: W06000013
+    geography_level: local_authority
+    geography_name: Bridgend
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1935
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1935
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1935
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000014
+    label: Vale of Glamorgan
+    ordinal: 2066
+    row_number: 2067
+    expected_row_header_column: H
+    expected_row_header: W06000014
+    geography_id: W06000014
+    geography_level: local_authority
+    geography_name: Vale of Glamorgan
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2067
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2067
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2067
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000015
+    label: Cardiff
+    ordinal: 2221
+    row_number: 2222
+    expected_row_header_column: H
+    expected_row_header: W06000015
+    geography_id: W06000015
+    geography_level: local_authority
+    geography_name: Cardiff
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2222
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2222
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2222
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000016
+    label: Rhondda Cynon Taf
+    ordinal: 2369
+    row_number: 2370
+    expected_row_header_column: H
+    expected_row_header: W06000016
+    geography_id: W06000016
+    geography_level: local_authority
+    geography_name: Rhondda Cynon Taf
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2370
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2370
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2370
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000018
+    label: Caerphilly
+    ordinal: 2504
+    row_number: 2505
+    expected_row_header_column: H
+    expected_row_header: W06000018
+    geography_id: W06000018
+    geography_level: local_authority
+    geography_name: Caerphilly
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2505
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2505
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2505
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000019
+    label: Blaenau Gwent
+    ordinal: 2662
+    row_number: 2663
+    expected_row_header_column: H
+    expected_row_header: W06000019
+    geography_id: W06000019
+    geography_level: local_authority
+    geography_name: Blaenau Gwent
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2663
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2663
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2663
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000020
+    label: Torfaen
+    ordinal: 2797
+    row_number: 2798
+    expected_row_header_column: H
+    expected_row_header: W06000020
+    geography_id: W06000020
+    geography_level: local_authority
+    geography_name: Torfaen
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2798
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2798
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2798
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000021
+    label: Monmouthshire
+    ordinal: 2930
+    row_number: 2931
+    expected_row_header_column: H
+    expected_row_header: W06000021
+    geography_id: W06000021
+    geography_level: local_authority
+    geography_name: Monmouthshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2931
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2931
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2931
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000022
+    label: Newport
+    ordinal: 3066
+    row_number: 3067
+    expected_row_header_column: H
+    expected_row_header: W06000022
+    geography_id: W06000022
+    geography_level: local_authority
+    geography_name: Newport
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3067
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3067
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3067
+      expected_value: All tenures
+      label: Publisher tenure
+  - value_id: w06000023
+    label: Powys
+    ordinal: 3206
+    row_number: 3207
+    expected_row_header_column: H
+    expected_row_header: W06000023
+    geography_id: W06000023
+    geography_level: local_authority
+    geography_name: Powys
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3207
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3207
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3207
+      expected_value: All tenures
+      label: Publisher tenure
+  measures:
+  - measure_id: welshgov_dwelling_stock_by_tenure
+    label: Dwelling stock
+    ordinal: 0
+    column: A
+    source_column_id: Data values
+    concept: welshgov.dwelling_stock_by_tenure
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: Data values
+    concept_evidence_notes: Dwelling stocks at 31 March 2025, rounded by the publisher to the nearest
+      100. Owner occupied and privately rented counts are provisional; Wales need not equal the sum of
+      local areas. Official statistics in development following temporary accreditation suspension; no
+      reconciliation or conversion to household counts.
+  period_coverage:
+    start_date: '2025-03-31'
+    end_date: '2025-03-31'
+    basis: calendar
+    source_period_label: 31 March 2025
+    notes: Publisher dwelling stock, not households.
+  shared_filters:
+    Tenure: All tenures
+  shared_constraints:
+  - variable: Tenure
+    operator: ==
+    value: All tenures
+    label: Tenure
+- record_set_id: welshgov.dwelling_stock.2025.privately_rented
+  provenance_class: model_output
+  record_set_spec_id: welshgov.dwelling_stock.2025.privately_rented.v1
+  source_record_id_prefix: welshgov.dwelling_stock.2025.privately_rented
+  sheet_name: wales_dwelling_stock_by_tenure.csv
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: housing_stock
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: w92000004
+    label: Wales
+    ordinal: 3
+    row_number: 4
+    expected_row_header_column: H
+    expected_row_header: W92000004
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 4
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 4
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 4
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 4
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000001
+    label: Isle of Anglesey
+    ordinal: 180
+    row_number: 181
+    expected_row_header_column: H
+    expected_row_header: W06000001
+    geography_id: W06000001
+    geography_level: local_authority
+    geography_name: Isle of Anglesey
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 181
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 181
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 181
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 181
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000002
+    label: Gwynedd
+    ordinal: 331
+    row_number: 332
+    expected_row_header_column: H
+    expected_row_header: W06000002
+    geography_id: W06000002
+    geography_level: local_authority
+    geography_name: Gwynedd
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 332
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 332
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 332
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 332
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000003
+    label: Conwy
+    ordinal: 468
+    row_number: 469
+    expected_row_header_column: H
+    expected_row_header: W06000003
+    geography_id: W06000003
+    geography_level: local_authority
+    geography_name: Conwy
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 469
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 469
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 469
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 469
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000004
+    label: Denbighshire
+    ordinal: 607
+    row_number: 608
+    expected_row_header_column: H
+    expected_row_header: W06000004
+    geography_id: W06000004
+    geography_level: local_authority
+    geography_name: Denbighshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 608
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 608
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 608
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 608
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000005
+    label: Flintshire
+    ordinal: 759
+    row_number: 760
+    expected_row_header_column: H
+    expected_row_header: W06000005
+    geography_id: W06000005
+    geography_level: local_authority
+    geography_name: Flintshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 760
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 760
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 760
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 760
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000006
+    label: Wrexham
+    ordinal: 914
+    row_number: 915
+    expected_row_header_column: H
+    expected_row_header: W06000006
+    geography_id: W06000006
+    geography_level: local_authority
+    geography_name: Wrexham
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 915
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 915
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 915
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 915
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000024
+    label: Merthyr Tydfil
+    ordinal: 1062
+    row_number: 1063
+    expected_row_header_column: H
+    expected_row_header: W06000024
+    geography_id: W06000024
+    geography_level: local_authority
+    geography_name: Merthyr Tydfil
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1063
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1063
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1063
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 1063
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000008
+    label: Ceredigion
+    ordinal: 1200
+    row_number: 1201
+    expected_row_header_column: H
+    expected_row_header: W06000008
+    geography_id: W06000008
+    geography_level: local_authority
+    geography_name: Ceredigion
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1201
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1201
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1201
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 1201
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000009
+    label: Pembrokeshire
+    ordinal: 1335
+    row_number: 1336
+    expected_row_header_column: H
+    expected_row_header: W06000009
+    geography_id: W06000009
+    geography_level: local_authority
+    geography_name: Pembrokeshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1336
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1336
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1336
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 1336
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000010
+    label: Carmarthenshire
+    ordinal: 1493
+    row_number: 1494
+    expected_row_header_column: H
+    expected_row_header: W06000010
+    geography_id: W06000010
+    geography_level: local_authority
+    geography_name: Carmarthenshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1494
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1494
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1494
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 1494
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000011
+    label: Swansea
+    ordinal: 1641
+    row_number: 1642
+    expected_row_header_column: H
+    expected_row_header: W06000011
+    geography_id: W06000011
+    geography_level: local_authority
+    geography_name: Swansea
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1642
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1642
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1642
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 1642
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000012
+    label: Neath Port Talbot
+    ordinal: 1794
+    row_number: 1795
+    expected_row_header_column: H
+    expected_row_header: W06000012
+    geography_id: W06000012
+    geography_level: local_authority
+    geography_name: Neath Port Talbot
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1795
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1795
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1795
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 1795
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000013
+    label: Bridgend
+    ordinal: 1936
+    row_number: 1937
+    expected_row_header_column: H
+    expected_row_header: W06000013
+    geography_id: W06000013
+    geography_level: local_authority
+    geography_name: Bridgend
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1937
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1937
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1937
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 1937
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000014
+    label: Vale of Glamorgan
+    ordinal: 2064
+    row_number: 2065
+    expected_row_header_column: H
+    expected_row_header: W06000014
+    geography_id: W06000014
+    geography_level: local_authority
+    geography_name: Vale of Glamorgan
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2065
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2065
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2065
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 2065
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000015
+    label: Cardiff
+    ordinal: 2217
+    row_number: 2218
+    expected_row_header_column: H
+    expected_row_header: W06000015
+    geography_id: W06000015
+    geography_level: local_authority
+    geography_name: Cardiff
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2218
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2218
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2218
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 2218
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000016
+    label: Rhondda Cynon Taf
+    ordinal: 2374
+    row_number: 2375
+    expected_row_header_column: H
+    expected_row_header: W06000016
+    geography_id: W06000016
+    geography_level: local_authority
+    geography_name: Rhondda Cynon Taf
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2375
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2375
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2375
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 2375
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000018
+    label: Caerphilly
+    ordinal: 2508
+    row_number: 2509
+    expected_row_header_column: H
+    expected_row_header: W06000018
+    geography_id: W06000018
+    geography_level: local_authority
+    geography_name: Caerphilly
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2509
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2509
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2509
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 2509
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000019
+    label: Blaenau Gwent
+    ordinal: 2659
+    row_number: 2660
+    expected_row_header_column: H
+    expected_row_header: W06000019
+    geography_id: W06000019
+    geography_level: local_authority
+    geography_name: Blaenau Gwent
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2660
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2660
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2660
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 2660
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000020
+    label: Torfaen
+    ordinal: 2798
+    row_number: 2799
+    expected_row_header_column: H
+    expected_row_header: W06000020
+    geography_id: W06000020
+    geography_level: local_authority
+    geography_name: Torfaen
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2799
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2799
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2799
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 2799
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000021
+    label: Monmouthshire
+    ordinal: 2932
+    row_number: 2933
+    expected_row_header_column: H
+    expected_row_header: W06000021
+    geography_id: W06000021
+    geography_level: local_authority
+    geography_name: Monmouthshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2933
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2933
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2933
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 2933
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000022
+    label: Newport
+    ordinal: 3068
+    row_number: 3069
+    expected_row_header_column: H
+    expected_row_header: W06000022
+    geography_id: W06000022
+    geography_level: local_authority
+    geography_name: Newport
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3069
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3069
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3069
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 3069
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000023
+    label: Powys
+    ordinal: 3201
+    row_number: 3202
+    expected_row_header_column: H
+    expected_row_header: W06000023
+    geography_id: W06000023
+    geography_level: local_authority
+    geography_name: Powys
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3202
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3202
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3202
+      expected_value: Privately rented
+      label: Publisher tenure
+    - column: S
+      row: 3202
+      expected_value: Provisional
+      label: Publisher provisional flag
+  measures:
+  - measure_id: welshgov_dwelling_stock_by_tenure
+    label: Dwelling stock
+    ordinal: 0
+    column: A
+    source_column_id: Data values
+    concept: welshgov.dwelling_stock_by_tenure
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: Data values
+    concept_evidence_notes: Dwelling stocks at 31 March 2025, rounded by the publisher to the nearest
+      100. Owner occupied and privately rented counts are provisional; Wales need not equal the sum of
+      local areas. Official statistics in development following temporary accreditation suspension; no
+      reconciliation or conversion to household counts.
+  period_coverage:
+    start_date: '2025-03-31'
+    end_date: '2025-03-31'
+    basis: calendar
+    source_period_label: 31 March 2025
+    notes: Provisional. Publisher dwelling stock, not households.
+  shared_filters:
+    Tenure: Privately rented
+    welshgov.publication_status: provisional
+  shared_constraints:
+  - variable: Tenure
+    operator: ==
+    value: Privately rented
+    label: Tenure
+  - variable: welshgov.publication_status
+    operator: ==
+    value: provisional
+    label: Publication status
+- record_set_id: welshgov.dwelling_stock.2025.owner_occupied
+  provenance_class: model_output
+  record_set_spec_id: welshgov.dwelling_stock.2025.owner_occupied.v1
+  source_record_id_prefix: welshgov.dwelling_stock.2025.owner_occupied
+  sheet_name: wales_dwelling_stock_by_tenure.csv
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: housing_stock
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: w92000004
+    label: Wales
+    ordinal: 4
+    row_number: 5
+    expected_row_header_column: H
+    expected_row_header: W92000004
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 5
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 5
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 5
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 5
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000001
+    label: Isle of Anglesey
+    ordinal: 176
+    row_number: 177
+    expected_row_header_column: H
+    expected_row_header: W06000001
+    geography_id: W06000001
+    geography_level: local_authority
+    geography_name: Isle of Anglesey
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 177
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 177
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 177
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 177
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000002
+    label: Gwynedd
+    ordinal: 330
+    row_number: 331
+    expected_row_header_column: H
+    expected_row_header: W06000002
+    geography_id: W06000002
+    geography_level: local_authority
+    geography_name: Gwynedd
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 331
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 331
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 331
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 331
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000003
+    label: Conwy
+    ordinal: 469
+    row_number: 470
+    expected_row_header_column: H
+    expected_row_header: W06000003
+    geography_id: W06000003
+    geography_level: local_authority
+    geography_name: Conwy
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 470
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 470
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 470
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 470
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000004
+    label: Denbighshire
+    ordinal: 608
+    row_number: 609
+    expected_row_header_column: H
+    expected_row_header: W06000004
+    geography_id: W06000004
+    geography_level: local_authority
+    geography_name: Denbighshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 609
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 609
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 609
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 609
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000005
+    label: Flintshire
+    ordinal: 760
+    row_number: 761
+    expected_row_header_column: H
+    expected_row_header: W06000005
+    geography_id: W06000005
+    geography_level: local_authority
+    geography_name: Flintshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 761
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 761
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 761
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 761
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000006
+    label: Wrexham
+    ordinal: 913
+    row_number: 914
+    expected_row_header_column: H
+    expected_row_header: W06000006
+    geography_id: W06000006
+    geography_level: local_authority
+    geography_name: Wrexham
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 914
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 914
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 914
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 914
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000024
+    label: Merthyr Tydfil
+    ordinal: 1065
+    row_number: 1066
+    expected_row_header_column: H
+    expected_row_header: W06000024
+    geography_id: W06000024
+    geography_level: local_authority
+    geography_name: Merthyr Tydfil
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1066
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1066
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1066
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 1066
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000008
+    label: Ceredigion
+    ordinal: 1201
+    row_number: 1202
+    expected_row_header_column: H
+    expected_row_header: W06000008
+    geography_id: W06000008
+    geography_level: local_authority
+    geography_name: Ceredigion
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1202
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1202
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1202
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 1202
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000009
+    label: Pembrokeshire
+    ordinal: 1336
+    row_number: 1337
+    expected_row_header_column: H
+    expected_row_header: W06000009
+    geography_id: W06000009
+    geography_level: local_authority
+    geography_name: Pembrokeshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1337
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1337
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1337
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 1337
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000010
+    label: Carmarthenshire
+    ordinal: 1494
+    row_number: 1495
+    expected_row_header_column: H
+    expected_row_header: W06000010
+    geography_id: W06000010
+    geography_level: local_authority
+    geography_name: Carmarthenshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1495
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1495
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1495
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 1495
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000011
+    label: Swansea
+    ordinal: 1644
+    row_number: 1645
+    expected_row_header_column: H
+    expected_row_header: W06000011
+    geography_id: W06000011
+    geography_level: local_authority
+    geography_name: Swansea
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1645
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1645
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1645
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 1645
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000012
+    label: Neath Port Talbot
+    ordinal: 1796
+    row_number: 1797
+    expected_row_header_column: H
+    expected_row_header: W06000012
+    geography_id: W06000012
+    geography_level: local_authority
+    geography_name: Neath Port Talbot
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1797
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1797
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1797
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 1797
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000013
+    label: Bridgend
+    ordinal: 1933
+    row_number: 1934
+    expected_row_header_column: H
+    expected_row_header: W06000013
+    geography_id: W06000013
+    geography_level: local_authority
+    geography_name: Bridgend
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1934
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1934
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1934
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 1934
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000014
+    label: Vale of Glamorgan
+    ordinal: 2068
+    row_number: 2069
+    expected_row_header_column: H
+    expected_row_header: W06000014
+    geography_id: W06000014
+    geography_level: local_authority
+    geography_name: Vale of Glamorgan
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2069
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2069
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2069
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 2069
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000015
+    label: Cardiff
+    ordinal: 2218
+    row_number: 2219
+    expected_row_header_column: H
+    expected_row_header: W06000015
+    geography_id: W06000015
+    geography_level: local_authority
+    geography_name: Cardiff
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2219
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2219
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2219
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 2219
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000016
+    label: Rhondda Cynon Taf
+    ordinal: 2373
+    row_number: 2374
+    expected_row_header_column: H
+    expected_row_header: W06000016
+    geography_id: W06000016
+    geography_level: local_authority
+    geography_name: Rhondda Cynon Taf
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2374
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2374
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2374
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 2374
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000018
+    label: Caerphilly
+    ordinal: 2509
+    row_number: 2510
+    expected_row_header_column: H
+    expected_row_header: W06000018
+    geography_id: W06000018
+    geography_level: local_authority
+    geography_name: Caerphilly
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2510
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2510
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2510
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 2510
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000019
+    label: Blaenau Gwent
+    ordinal: 2661
+    row_number: 2662
+    expected_row_header_column: H
+    expected_row_header: W06000019
+    geography_id: W06000019
+    geography_level: local_authority
+    geography_name: Blaenau Gwent
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2662
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2662
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2662
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 2662
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000020
+    label: Torfaen
+    ordinal: 2796
+    row_number: 2797
+    expected_row_header_column: H
+    expected_row_header: W06000020
+    geography_id: W06000020
+    geography_level: local_authority
+    geography_name: Torfaen
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2797
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2797
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2797
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 2797
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000021
+    label: Monmouthshire
+    ordinal: 2933
+    row_number: 2934
+    expected_row_header_column: H
+    expected_row_header: W06000021
+    geography_id: W06000021
+    geography_level: local_authority
+    geography_name: Monmouthshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2934
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2934
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2934
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 2934
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000022
+    label: Newport
+    ordinal: 3067
+    row_number: 3068
+    expected_row_header_column: H
+    expected_row_header: W06000022
+    geography_id: W06000022
+    geography_level: local_authority
+    geography_name: Newport
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3068
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3068
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3068
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 3068
+      expected_value: Provisional
+      label: Publisher provisional flag
+  - value_id: w06000023
+    label: Powys
+    ordinal: 3207
+    row_number: 3208
+    expected_row_header_column: H
+    expected_row_header: W06000023
+    geography_id: W06000023
+    geography_level: local_authority
+    geography_name: Powys
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3208
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3208
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3208
+      expected_value: Owner occupied
+      label: Publisher tenure
+    - column: S
+      row: 3208
+      expected_value: Provisional
+      label: Publisher provisional flag
+  measures:
+  - measure_id: welshgov_dwelling_stock_by_tenure
+    label: Dwelling stock
+    ordinal: 0
+    column: A
+    source_column_id: Data values
+    concept: welshgov.dwelling_stock_by_tenure
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: Data values
+    concept_evidence_notes: Dwelling stocks at 31 March 2025, rounded by the publisher to the nearest
+      100. Owner occupied and privately rented counts are provisional; Wales need not equal the sum of
+      local areas. Official statistics in development following temporary accreditation suspension; no
+      reconciliation or conversion to household counts.
+  period_coverage:
+    start_date: '2025-03-31'
+    end_date: '2025-03-31'
+    basis: calendar
+    source_period_label: 31 March 2025
+    notes: Provisional. Publisher dwelling stock, not households.
+  shared_filters:
+    Tenure: Owner occupied
+    welshgov.publication_status: provisional
+  shared_constraints:
+  - variable: Tenure
+    operator: ==
+    value: Owner occupied
+    label: Tenure
+  - variable: welshgov.publication_status
+    operator: ==
+    value: provisional
+    label: Publication status
+- record_set_id: welshgov.dwelling_stock.2025.owner_occupied_privately_rented
+  provenance_class: model_output
+  record_set_spec_id: welshgov.dwelling_stock.2025.owner_occupied_privately_rented.v1
+  source_record_id_prefix: welshgov.dwelling_stock.2025.owner_occupied_privately_rented
+  sheet_name: wales_dwelling_stock_by_tenure.csv
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: housing_stock
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: w92000004
+    label: Wales
+    ordinal: 5
+    row_number: 6
+    expected_row_header_column: H
+    expected_row_header: W92000004
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 6
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 6
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 6
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000001
+    label: Isle of Anglesey
+    ordinal: 177
+    row_number: 178
+    expected_row_header_column: H
+    expected_row_header: W06000001
+    geography_id: W06000001
+    geography_level: local_authority
+    geography_name: Isle of Anglesey
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 178
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 178
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 178
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000002
+    label: Gwynedd
+    ordinal: 333
+    row_number: 334
+    expected_row_header_column: H
+    expected_row_header: W06000002
+    geography_id: W06000002
+    geography_level: local_authority
+    geography_name: Gwynedd
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 334
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 334
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 334
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000003
+    label: Conwy
+    ordinal: 470
+    row_number: 471
+    expected_row_header_column: H
+    expected_row_header: W06000003
+    geography_id: W06000003
+    geography_level: local_authority
+    geography_name: Conwy
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 471
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 471
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 471
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000004
+    label: Denbighshire
+    ordinal: 609
+    row_number: 610
+    expected_row_header_column: H
+    expected_row_header: W06000004
+    geography_id: W06000004
+    geography_level: local_authority
+    geography_name: Denbighshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 610
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 610
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 610
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000005
+    label: Flintshire
+    ordinal: 761
+    row_number: 762
+    expected_row_header_column: H
+    expected_row_header: W06000005
+    geography_id: W06000005
+    geography_level: local_authority
+    geography_name: Flintshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 762
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 762
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 762
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000006
+    label: Wrexham
+    ordinal: 912
+    row_number: 913
+    expected_row_header_column: H
+    expected_row_header: W06000006
+    geography_id: W06000006
+    geography_level: local_authority
+    geography_name: Wrexham
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 913
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 913
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 913
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000024
+    label: Merthyr Tydfil
+    ordinal: 1064
+    row_number: 1065
+    expected_row_header_column: H
+    expected_row_header: W06000024
+    geography_id: W06000024
+    geography_level: local_authority
+    geography_name: Merthyr Tydfil
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1065
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1065
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1065
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000008
+    label: Ceredigion
+    ordinal: 1202
+    row_number: 1203
+    expected_row_header_column: H
+    expected_row_header: W06000008
+    geography_id: W06000008
+    geography_level: local_authority
+    geography_name: Ceredigion
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1203
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1203
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1203
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000009
+    label: Pembrokeshire
+    ordinal: 1341
+    row_number: 1342
+    expected_row_header_column: H
+    expected_row_header: W06000009
+    geography_id: W06000009
+    geography_level: local_authority
+    geography_name: Pembrokeshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1342
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1342
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1342
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000010
+    label: Carmarthenshire
+    ordinal: 1491
+    row_number: 1492
+    expected_row_header_column: H
+    expected_row_header: W06000010
+    geography_id: W06000010
+    geography_level: local_authority
+    geography_name: Carmarthenshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1492
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1492
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1492
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000011
+    label: Swansea
+    ordinal: 1643
+    row_number: 1644
+    expected_row_header_column: H
+    expected_row_header: W06000011
+    geography_id: W06000011
+    geography_level: local_authority
+    geography_name: Swansea
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1644
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1644
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1644
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000012
+    label: Neath Port Talbot
+    ordinal: 1797
+    row_number: 1798
+    expected_row_header_column: H
+    expected_row_header: W06000012
+    geography_id: W06000012
+    geography_level: local_authority
+    geography_name: Neath Port Talbot
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1798
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1798
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1798
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000013
+    label: Bridgend
+    ordinal: 1932
+    row_number: 1933
+    expected_row_header_column: H
+    expected_row_header: W06000013
+    geography_id: W06000013
+    geography_level: local_authority
+    geography_name: Bridgend
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1933
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1933
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1933
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000014
+    label: Vale of Glamorgan
+    ordinal: 2069
+    row_number: 2070
+    expected_row_header_column: H
+    expected_row_header: W06000014
+    geography_id: W06000014
+    geography_level: local_authority
+    geography_name: Vale of Glamorgan
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2070
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2070
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2070
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000015
+    label: Cardiff
+    ordinal: 2219
+    row_number: 2220
+    expected_row_header_column: H
+    expected_row_header: W06000015
+    geography_id: W06000015
+    geography_level: local_authority
+    geography_name: Cardiff
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2220
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2220
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2220
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000016
+    label: Rhondda Cynon Taf
+    ordinal: 2372
+    row_number: 2373
+    expected_row_header_column: H
+    expected_row_header: W06000016
+    geography_id: W06000016
+    geography_level: local_authority
+    geography_name: Rhondda Cynon Taf
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2373
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2373
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2373
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000018
+    label: Caerphilly
+    ordinal: 2505
+    row_number: 2506
+    expected_row_header_column: H
+    expected_row_header: W06000018
+    geography_id: W06000018
+    geography_level: local_authority
+    geography_name: Caerphilly
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2506
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2506
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2506
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000019
+    label: Blaenau Gwent
+    ordinal: 2657
+    row_number: 2658
+    expected_row_header_column: H
+    expected_row_header: W06000019
+    geography_id: W06000019
+    geography_level: local_authority
+    geography_name: Blaenau Gwent
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2658
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2658
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2658
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000020
+    label: Torfaen
+    ordinal: 2799
+    row_number: 2800
+    expected_row_header_column: H
+    expected_row_header: W06000020
+    geography_id: W06000020
+    geography_level: local_authority
+    geography_name: Torfaen
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2800
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2800
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2800
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000021
+    label: Monmouthshire
+    ordinal: 2934
+    row_number: 2935
+    expected_row_header_column: H
+    expected_row_header: W06000021
+    geography_id: W06000021
+    geography_level: local_authority
+    geography_name: Monmouthshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2935
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2935
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2935
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000022
+    label: Newport
+    ordinal: 3065
+    row_number: 3066
+    expected_row_header_column: H
+    expected_row_header: W06000022
+    geography_id: W06000022
+    geography_level: local_authority
+    geography_name: Newport
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3066
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3066
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3066
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  - value_id: w06000023
+    label: Powys
+    ordinal: 3202
+    row_number: 3203
+    expected_row_header_column: H
+    expected_row_header: W06000023
+    geography_id: W06000023
+    geography_level: local_authority
+    geography_name: Powys
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3203
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3203
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3203
+      expected_value: Owner occupied/Privately rented
+      label: Publisher tenure
+  measures:
+  - measure_id: welshgov_dwelling_stock_by_tenure
+    label: Dwelling stock
+    ordinal: 0
+    column: A
+    source_column_id: Data values
+    concept: welshgov.dwelling_stock_by_tenure
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: Data values
+    concept_evidence_notes: Dwelling stocks at 31 March 2025, rounded by the publisher to the nearest
+      100. Owner occupied and privately rented counts are provisional; Wales need not equal the sum of
+      local areas. Official statistics in development following temporary accreditation suspension; no
+      reconciliation or conversion to household counts.
+  period_coverage:
+    start_date: '2025-03-31'
+    end_date: '2025-03-31'
+    basis: calendar
+    source_period_label: 31 March 2025
+    notes: Publisher dwelling stock, not households.
+  shared_filters:
+    Tenure: Owner occupied/Privately rented
+  shared_constraints:
+  - variable: Tenure
+    operator: ==
+    value: Owner occupied/Privately rented
+    label: Tenure
+- record_set_id: welshgov.dwelling_stock.2025.registered_social_landlord
+  provenance_class: model_output
+  record_set_spec_id: welshgov.dwelling_stock.2025.registered_social_landlord.v1
+  source_record_id_prefix: welshgov.dwelling_stock.2025.registered_social_landlord
+  sheet_name: wales_dwelling_stock_by_tenure.csv
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: housing_stock
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: w92000004
+    label: Wales
+    ordinal: 6
+    row_number: 7
+    expected_row_header_column: H
+    expected_row_header: W92000004
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 7
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 7
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 7
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000001
+    label: Isle of Anglesey
+    ordinal: 181
+    row_number: 182
+    expected_row_header_column: H
+    expected_row_header: W06000001
+    geography_id: W06000001
+    geography_level: local_authority
+    geography_name: Isle of Anglesey
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 182
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 182
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 182
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000002
+    label: Gwynedd
+    ordinal: 329
+    row_number: 330
+    expected_row_header_column: H
+    expected_row_header: W06000002
+    geography_id: W06000002
+    geography_level: local_authority
+    geography_name: Gwynedd
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 330
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 330
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 330
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000003
+    label: Conwy
+    ordinal: 471
+    row_number: 472
+    expected_row_header_column: H
+    expected_row_header: W06000003
+    geography_id: W06000003
+    geography_level: local_authority
+    geography_name: Conwy
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 472
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 472
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 472
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000004
+    label: Denbighshire
+    ordinal: 603
+    row_number: 604
+    expected_row_header_column: H
+    expected_row_header: W06000004
+    geography_id: W06000004
+    geography_level: local_authority
+    geography_name: Denbighshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 604
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 604
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 604
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000005
+    label: Flintshire
+    ordinal: 757
+    row_number: 758
+    expected_row_header_column: H
+    expected_row_header: W06000005
+    geography_id: W06000005
+    geography_level: local_authority
+    geography_name: Flintshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 758
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 758
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 758
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000006
+    label: Wrexham
+    ordinal: 911
+    row_number: 912
+    expected_row_header_column: H
+    expected_row_header: W06000006
+    geography_id: W06000006
+    geography_level: local_authority
+    geography_name: Wrexham
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 912
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 912
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 912
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000024
+    label: Merthyr Tydfil
+    ordinal: 1063
+    row_number: 1064
+    expected_row_header_column: H
+    expected_row_header: W06000024
+    geography_id: W06000024
+    geography_level: local_authority
+    geography_name: Merthyr Tydfil
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1064
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1064
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1064
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000008
+    label: Ceredigion
+    ordinal: 1203
+    row_number: 1204
+    expected_row_header_column: H
+    expected_row_header: W06000008
+    geography_id: W06000008
+    geography_level: local_authority
+    geography_name: Ceredigion
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1204
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1204
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1204
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000009
+    label: Pembrokeshire
+    ordinal: 1339
+    row_number: 1340
+    expected_row_header_column: H
+    expected_row_header: W06000009
+    geography_id: W06000009
+    geography_level: local_authority
+    geography_name: Pembrokeshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1340
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1340
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1340
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000010
+    label: Carmarthenshire
+    ordinal: 1490
+    row_number: 1491
+    expected_row_header_column: H
+    expected_row_header: W06000010
+    geography_id: W06000010
+    geography_level: local_authority
+    geography_name: Carmarthenshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1491
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1491
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1491
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000011
+    label: Swansea
+    ordinal: 1642
+    row_number: 1643
+    expected_row_header_column: H
+    expected_row_header: W06000011
+    geography_id: W06000011
+    geography_level: local_authority
+    geography_name: Swansea
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1643
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1643
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1643
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000012
+    label: Neath Port Talbot
+    ordinal: 1798
+    row_number: 1799
+    expected_row_header_column: H
+    expected_row_header: W06000012
+    geography_id: W06000012
+    geography_level: local_authority
+    geography_name: Neath Port Talbot
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1799
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1799
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1799
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000013
+    label: Bridgend
+    ordinal: 1937
+    row_number: 1938
+    expected_row_header_column: H
+    expected_row_header: W06000013
+    geography_id: W06000013
+    geography_level: local_authority
+    geography_name: Bridgend
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1938
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1938
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1938
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000014
+    label: Vale of Glamorgan
+    ordinal: 2067
+    row_number: 2068
+    expected_row_header_column: H
+    expected_row_header: W06000014
+    geography_id: W06000014
+    geography_level: local_authority
+    geography_name: Vale of Glamorgan
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2068
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2068
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2068
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000015
+    label: Cardiff
+    ordinal: 2222
+    row_number: 2223
+    expected_row_header_column: H
+    expected_row_header: W06000015
+    geography_id: W06000015
+    geography_level: local_authority
+    geography_name: Cardiff
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2223
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2223
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2223
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000016
+    label: Rhondda Cynon Taf
+    ordinal: 2370
+    row_number: 2371
+    expected_row_header_column: H
+    expected_row_header: W06000016
+    geography_id: W06000016
+    geography_level: local_authority
+    geography_name: Rhondda Cynon Taf
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2371
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2371
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2371
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000018
+    label: Caerphilly
+    ordinal: 2507
+    row_number: 2508
+    expected_row_header_column: H
+    expected_row_header: W06000018
+    geography_id: W06000018
+    geography_level: local_authority
+    geography_name: Caerphilly
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2508
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2508
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2508
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000019
+    label: Blaenau Gwent
+    ordinal: 2658
+    row_number: 2659
+    expected_row_header_column: H
+    expected_row_header: W06000019
+    geography_id: W06000019
+    geography_level: local_authority
+    geography_name: Blaenau Gwent
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2659
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2659
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2659
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000020
+    label: Torfaen
+    ordinal: 2800
+    row_number: 2801
+    expected_row_header_column: H
+    expected_row_header: W06000020
+    geography_id: W06000020
+    geography_level: local_authority
+    geography_name: Torfaen
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2801
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2801
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2801
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000021
+    label: Monmouthshire
+    ordinal: 2935
+    row_number: 2936
+    expected_row_header_column: H
+    expected_row_header: W06000021
+    geography_id: W06000021
+    geography_level: local_authority
+    geography_name: Monmouthshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2936
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2936
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2936
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000022
+    label: Newport
+    ordinal: 3070
+    row_number: 3071
+    expected_row_header_column: H
+    expected_row_header: W06000022
+    geography_id: W06000022
+    geography_level: local_authority
+    geography_name: Newport
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3071
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3071
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3071
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  - value_id: w06000023
+    label: Powys
+    ordinal: 3203
+    row_number: 3204
+    expected_row_header_column: H
+    expected_row_header: W06000023
+    geography_id: W06000023
+    geography_level: local_authority
+    geography_name: Powys
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3204
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3204
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3204
+      expected_value: Registered Social Landlord
+      label: Publisher tenure
+  measures:
+  - measure_id: welshgov_dwelling_stock_by_tenure
+    label: Dwelling stock
+    ordinal: 0
+    column: A
+    source_column_id: Data values
+    concept: welshgov.dwelling_stock_by_tenure
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: Data values
+    concept_evidence_notes: Dwelling stocks at 31 March 2025, rounded by the publisher to the nearest
+      100. Owner occupied and privately rented counts are provisional; Wales need not equal the sum of
+      local areas. Official statistics in development following temporary accreditation suspension; no
+      reconciliation or conversion to household counts.
+  period_coverage:
+    start_date: '2025-03-31'
+    end_date: '2025-03-31'
+    basis: calendar
+    source_period_label: 31 March 2025
+    notes: Publisher dwelling stock, not households.
+  shared_filters:
+    Tenure: Registered Social Landlord
+  shared_constraints:
+  - variable: Tenure
+    operator: ==
+    value: Registered Social Landlord
+    label: Tenure
+- record_set_id: welshgov.dwelling_stock.2025.local_authority
+  provenance_class: model_output
+  record_set_spec_id: welshgov.dwelling_stock.2025.local_authority.v1
+  source_record_id_prefix: welshgov.dwelling_stock.2025.local_authority
+  sheet_name: wales_dwelling_stock_by_tenure.csv
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: housing_stock
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: w92000004
+    label: Wales
+    ordinal: 7
+    row_number: 8
+    expected_row_header_column: H
+    expected_row_header: W92000004
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 8
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 8
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 8
+      expected_value: Local Authority
+      label: Publisher tenure
+  - value_id: w06000001
+    label: Isle of Anglesey
+    ordinal: 179
+    row_number: 180
+    expected_row_header_column: H
+    expected_row_header: W06000001
+    geography_id: W06000001
+    geography_level: local_authority
+    geography_name: Isle of Anglesey
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 180
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 180
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 180
+      expected_value: Local Authority
+      label: Publisher tenure
+  - value_id: w06000004
+    label: Denbighshire
+    ordinal: 604
+    row_number: 605
+    expected_row_header_column: H
+    expected_row_header: W06000004
+    geography_id: W06000004
+    geography_level: local_authority
+    geography_name: Denbighshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 605
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 605
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 605
+      expected_value: Local Authority
+      label: Publisher tenure
+  - value_id: w06000005
+    label: Flintshire
+    ordinal: 762
+    row_number: 763
+    expected_row_header_column: H
+    expected_row_header: W06000005
+    geography_id: W06000005
+    geography_level: local_authority
+    geography_name: Flintshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 763
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 763
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 763
+      expected_value: Local Authority
+      label: Publisher tenure
+  - value_id: w06000006
+    label: Wrexham
+    ordinal: 910
+    row_number: 911
+    expected_row_header_column: H
+    expected_row_header: W06000006
+    geography_id: W06000006
+    geography_level: local_authority
+    geography_name: Wrexham
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 911
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 911
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 911
+      expected_value: Local Authority
+      label: Publisher tenure
+  - value_id: w06000009
+    label: Pembrokeshire
+    ordinal: 1338
+    row_number: 1339
+    expected_row_header_column: H
+    expected_row_header: W06000009
+    geography_id: W06000009
+    geography_level: local_authority
+    geography_name: Pembrokeshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1339
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1339
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1339
+      expected_value: Local Authority
+      label: Publisher tenure
+  - value_id: w06000010
+    label: Carmarthenshire
+    ordinal: 1489
+    row_number: 1490
+    expected_row_header_column: H
+    expected_row_header: W06000010
+    geography_id: W06000010
+    geography_level: local_authority
+    geography_name: Carmarthenshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1490
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1490
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1490
+      expected_value: Local Authority
+      label: Publisher tenure
+  - value_id: w06000011
+    label: Swansea
+    ordinal: 1646
+    row_number: 1647
+    expected_row_header_column: H
+    expected_row_header: W06000011
+    geography_id: W06000011
+    geography_level: local_authority
+    geography_name: Swansea
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 1647
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 1647
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 1647
+      expected_value: Local Authority
+      label: Publisher tenure
+  - value_id: w06000014
+    label: Vale of Glamorgan
+    ordinal: 2065
+    row_number: 2066
+    expected_row_header_column: H
+    expected_row_header: W06000014
+    geography_id: W06000014
+    geography_level: local_authority
+    geography_name: Vale of Glamorgan
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2066
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2066
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2066
+      expected_value: Local Authority
+      label: Publisher tenure
+  - value_id: w06000015
+    label: Cardiff
+    ordinal: 2220
+    row_number: 2221
+    expected_row_header_column: H
+    expected_row_header: W06000015
+    geography_id: W06000015
+    geography_level: local_authority
+    geography_name: Cardiff
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2221
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2221
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2221
+      expected_value: Local Authority
+      label: Publisher tenure
+  - value_id: w06000018
+    label: Caerphilly
+    ordinal: 2510
+    row_number: 2511
+    expected_row_header_column: H
+    expected_row_header: W06000018
+    geography_id: W06000018
+    geography_level: local_authority
+    geography_name: Caerphilly
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 2511
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 2511
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 2511
+      expected_value: Local Authority
+      label: Publisher tenure
+  - value_id: w06000023
+    label: Powys
+    ordinal: 3204
+    row_number: 3205
+    expected_row_header_column: H
+    expected_row_header: W06000023
+    geography_id: W06000023
+    geography_level: local_authority
+    geography_name: Powys
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: C
+      row: 3205
+      expected_value: Dwelling stock estimates (number)
+      label: Number rather than percentage
+    - column: K
+      row: 3205
+      expected_value: 31/03/2025
+      label: Reference date
+    - column: O
+      row: 3205
+      expected_value: Local Authority
+      label: Publisher tenure
+  measures:
+  - measure_id: welshgov_dwelling_stock_by_tenure
+    label: Dwelling stock
+    ordinal: 0
+    column: A
+    source_column_id: Data values
+    concept: welshgov.dwelling_stock_by_tenure
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: Data values
+    concept_evidence_notes: Dwelling stocks at 31 March 2025, rounded by the publisher to the nearest
+      100. Owner occupied and privately rented counts are provisional; Wales need not equal the sum of
+      local areas. Official statistics in development following temporary accreditation suspension; no
+      reconciliation or conversion to household counts.
+  period_coverage:
+    start_date: '2025-03-31'
+    end_date: '2025-03-31'
+    basis: calendar
+    source_period_label: 31 March 2025
+    notes: Publisher dwelling stock, not households.
+  shared_filters:
+    Tenure: Local Authority
+  shared_constraints:
+  - variable: Tenure
+    operator: ==
+    value: Local Authority
+    label: Tenure
+dimension_value_labels:
+  welshgov.publication_status:
+    provisional: Provisional
