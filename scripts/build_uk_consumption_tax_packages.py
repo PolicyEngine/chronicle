@@ -153,6 +153,31 @@ def build_ons() -> None:
             "tourism_flow": "Tourism flow",
         }
     )
+    value_labels = payload["dimension_value_labels"]
+    value_labels.update(
+        {
+            "price_basis": {"current_prices": "Current prices"},
+            "seasonal_adjustment": {
+                "not_seasonally_adjusted": "Not seasonally adjusted"
+            },
+            "published_unit": {"gbp_million": "£ million"},
+            "consumption_concept": {
+                "domestic": "Domestic consumption on UK territory",
+                "national": "National consumption by UK residents",
+                "national_adjustment": "Tourism adjustment to national consumption",
+            },
+            "publication_status": {
+                "published": "Published value",
+                "not_available": "Not available ([x])",
+            },
+            "tourism_flow": {
+                "net_tourism": "Net tourism",
+                "non_residents_spending_in_uk": "Non-residents' spending in the UK",
+                "residents_spending_abroad": "UK residents' spending abroad",
+            },
+            "cdid": {},
+        }
+    )
     selected = {
         (record["sheet_name"], record["rows"][0]["filters"]["coicop"])
         for record in legacy
@@ -169,6 +194,17 @@ def build_ons() -> None:
         }
     finally:
         workbook.close()
+    value_labels["source_sheet"] = {
+        sheet: f"{sheet}: "
+        + (
+            "National and domestic consumption totals"
+            if sheet == "0CN"
+            else "Tourism adjustments"
+            if sheet == "TOURCN"
+            else str(table[5][1]).replace("\n", " ")
+        )
+        for sheet, table in tables.items()
+    }
     for record in legacy:
         sheet = record["sheet_name"]
         record["entity_role"] = ONS_ROLES["domestic"]
@@ -234,6 +270,11 @@ def build_ons() -> None:
                     "TOUR2": "residents_spending_abroad",
                 }[code]
             categories[sheet, column] = classification, constraints(classification)
+            if (sheet, code) not in selected:
+                # A CDID repeated across sheets gets one display label, while
+                # each fact's layout still keeps that sheet's publisher wording.
+                cdid = classification["cdid"]
+                value_labels["cdid"].setdefault(cdid, f"{cdid}: {label}")
 
     row_templates = {}
     for sheet, table in tables.items():
@@ -493,6 +534,44 @@ def build_road_fuel() -> None:
                     "biofuel_treatment",
                     "geography_kind",
                 ]
+            },
+        },
+        "dimension_value_labels": {
+            "population_scope": {
+                "vehicles_travelling_in_area": "Vehicles travelling in the area"
+            },
+            "electric_vehicle_treatment": {
+                "excluded": "Electric-vehicle kilometres excluded"
+            },
+            "estimate_basis": {
+                "spatial_estimates_without_dukes_normalisation": "Spatial estimates without DUKES normalisation"
+            },
+            "national_inventory_basis": {
+                "normalised_to_adjusted_dukes_fuel_sales": "National inventory normalised to adjusted DUKES fuel sales"
+            },
+            "road_type": {"all_roads": "All roads"},
+            "vehicle_type": {
+                "buses_and_coaches": "Buses and coaches",
+                "cars": "Cars",
+                "motorcycles": "Motorcycles",
+                "hgv": "Heavy goods vehicles",
+                "lgv": "Light goods vehicles",
+                "all_vehicles": "All vehicles",
+            },
+            "fuel": {
+                "diesel": "Diesel",
+                "petrol": "Petrol",
+                "natural_gas": "Natural gas",
+                "lpg": "LPG",
+                "all_fuels": "All fuels",
+            },
+            "biofuel_treatment": {
+                "includes_blended_biofuels": "Includes blended biofuels"
+            },
+            "geography_kind": {
+                "country": "Country aggregate",
+                "english_region": "English region",
+                "london_subregion": "London subdivision",
             },
         },
         "artifact": {

@@ -16,6 +16,38 @@ dimension_labels:
   fuel: Fuel
   biofuel_treatment: Biofuel treatment
   geography_kind: Geography kind
+dimension_value_labels:
+  population_scope:
+    vehicles_travelling_in_area: Vehicles travelling in the area
+  electric_vehicle_treatment:
+    excluded: Electric-vehicle kilometres excluded
+  estimate_basis:
+    spatial_estimates_without_dukes_normalisation: Spatial estimates without DUKES
+      normalisation
+  national_inventory_basis:
+    normalised_to_adjusted_dukes_fuel_sales: National inventory normalised to adjusted
+      DUKES fuel sales
+  road_type:
+    all_roads: All roads
+  vehicle_type:
+    buses_and_coaches: Buses and coaches
+    cars: Cars
+    motorcycles: Motorcycles
+    hgv: Heavy goods vehicles
+    lgv: Light goods vehicles
+    all_vehicles: All vehicles
+  fuel:
+    diesel: Diesel
+    petrol: Petrol
+    natural_gas: Natural gas
+    lpg: LPG
+    all_fuels: All fuels
+  biofuel_treatment:
+    includes_blended_biofuels: Includes blended biofuels
+  geography_kind:
+    country: Country aggregate
+    english_region: English region
+    london_subregion: London subdivision
 artifact:
   source_name: desnz
   source_table: Sub-national road transport fuel consumption statistics, 2005-2024

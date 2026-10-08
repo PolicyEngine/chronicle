@@ -8,9 +8,13 @@ from pathlib import Path
 import pytest
 import yaml
 
-from chronicle.bundle import UK_BUNDLE_SOURCES
-from chronicle.consumer_contract import validate_consumer_fact_contract
+from chronicle.bundle import UK_BUNDLE_SOURCES, build_bundle
+from chronicle.consumer_contract import (
+    consumer_fact_rows,
+    validate_consumer_fact_contract,
+)
 from chronicle.core import validate_facts
+from chronicle.dimension_labels import dimension_label_issues
 from chronicle.source_package import SOURCE_PACKAGE_ALIASES, load_source_package
 from chronicle.sources.cells import build_source_cell_key, validate_source_cells
 
@@ -338,3 +342,26 @@ def test_road_fuel_exposes_travel_scope_and_methodology(road_fuel_data):
     # The tables and accompanying methodology publish no factors converting
     # ktoe into litres or tonnes: consumers must supply those separately.
     assert not any("conversion_factor" in fact.measure.concept for fact in facts)
+
+
+@pytest.mark.parametrize("fixture", ["ons_data", "road_fuel_data"])
+def test_consumption_facts_have_complete_bundle_dimension_labels(request, fixture):
+    _, facts = request.getfixturevalue(fixture)
+    issues = dimension_label_issues(consumer_fact_rows(facts))
+    # The ONS overview and detailed sheets sometimes word the same division
+    # differently. Keep that publisher wording as a warning, as bundles do.
+    errors = [
+        issue for issue in issues if issue.code != "conflicting_groupby_value_label"
+    ]
+    assert not errors, [issue.to_dict() for issue in errors]
+
+
+def test_consumption_sources_build_a_valid_merged_bundle(tmp_path):
+    report = build_bundle(tmp_path / "consumption", year=2023, sources=[ONS, ROAD_FUEL])
+    assert report.valid, report.to_dict()["errors"]
+    assert report.coverage["fact_count"] == 8364
+    assert len(report.source_packages) == 2
+    assert report.coverage["counts"]["by_source"] == {"ons": 5164, "desnz": 3200}
+    assert len(report.coverage["counts"]["by_geography"]) == 16
+    assert len(report.coverage["counts"]["by_period"]) == 46
+    assert not report.coverage["duplicates"]["aggregate_fact_keys"]
