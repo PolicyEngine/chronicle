@@ -1349,7 +1349,7 @@ class DeclarativeRecordSet:
             provenance_class=provenance_class,
             survey_instrument=survey_instrument,
             shared_filters={
-                key: _render_value(value, year=year)
+                key: _render_dimension_value(key, value, year=year)
                 for key, value in self.payload.get("shared_filters", {}).items()
             },
             shared_constraints=tuple(
@@ -2508,7 +2508,7 @@ def _row_from_mapping(payload: dict[str, Any], *, year: int) -> SourceRecordSetR
         geography_name=payload.get("geography_name"),
         geography_vintage=payload.get("geography_vintage"),
         filters={
-            key: _render_value(value, year=year)
+            key: _render_dimension_value(key, value, year=year)
             for key, value in payload.get("filters", {}).items()
         },
         constraints=tuple(
@@ -2702,7 +2702,7 @@ def _measure_from_mapping(
             else None
         ),
         filters={
-            key: _render_value(value, year=year)
+            key: _render_dimension_value(key, value, year=year)
             for key, value in payload.get("filters", {}).items()
         },
         constraints=tuple(
@@ -2779,10 +2779,13 @@ def _constraint_from_mapping(
     *,
     year: int,
 ) -> AggregateConstraint:
+    variable = _required(payload, "variable", "constraint")
     return AggregateConstraint(
-        variable=_required(payload, "variable", "constraint"),
+        variable=variable,
         operator=_required(payload, "operator", "constraint"),
-        value=_render_value(_required(payload, "value", "constraint"), year=year),
+        value=_render_dimension_value(
+            variable, _required(payload, "value", "constraint"), year=year
+        ),
         unit=payload.get("unit"),
         role=payload.get("role", "filter"),
         label=payload.get("label"),
@@ -2968,6 +2971,19 @@ def _optional_rendered_string(value: Any, *, year: int) -> str | None:
     if value is None:
         return None
     return _render_string(str(value), year=year).strip()
+
+
+def _render_dimension_value(variable: str, value: Any, *, year: int) -> Any:
+    # COICOP codes are identifiers, even when all characters are digits.
+    # Numeric workbook headers still use _render_value for selector guards.
+    if variable == "coicop":
+        if isinstance(value, str):
+            return _render_string(value, year=year)
+        if isinstance(value, list):
+            return [
+                _render_dimension_value(variable, item, year=year) for item in value
+            ]
+    return _render_value(value, year=year)
 
 
 def _render_value(value: Any, *, year: int) -> Any:

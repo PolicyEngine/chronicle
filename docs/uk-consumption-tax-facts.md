@@ -9,8 +9,15 @@ observations with source-cell lineage.
 
 `ons-consumer-trends-current-price-2026` reuses the preserved `cpnsa.xlsx` with
 SHA-256 `109e53de0c09d30327ae2053a0487cee159fe44135884707c9000c252438143c`.
-It retains the September 2026 vintage and every existing energy and road-fuel
-source-record identifier. The extension selects 0CN, every column of 01CN–12CN,
+The workbook's cover sheet identifies the 30 June 2026 release, covering January
+to March 2026. Chronicle acquired these bytes on 9 September 2026; that date is
+`extracted_at`, not the publication vintage. Facts carry
+`vintage=2026_06_30_release_2026_q1`. The publisher's current URL now serves a
+later release; adding the 30 September 2026 release requires a separate vintage
+and artifact, preserving this workbook's bytes and checksum.
+
+The extension retains every existing energy and road-fuel source-record
+identifier. It selects 0CN, every column of 01CN–12CN,
 and annual TOURCN observations. Selectors guard the period, COICOP header and
 ONS CDID identifier.
 
@@ -33,6 +40,29 @@ Use `source_sheet` when selecting divisions or net tourism: the workbook repeats
 these series on its overview and detailed sheets. Chronicle preserves both
 publisher locations. `consumption_concept` distinguishes `domestic`, `national`
 and `national_adjustment`; `tourism_flow` identifies the tourism direction.
+COICOP codes remain strings in filters and constraints, including `0`, `10`,
+`11` and `12`. Domestic facts use entity role `households_on_uk_territory`;
+national facts use `resident_households`. Signed tourism adjustments use
+`household_tourism_adjustment` because their components concern both residents
+and non-residents.
+
+The seven existing series (04.5, 04.5.1–04.5.4, 07.2.2 and 07.3.2) keep their
+specific `ons.household_expenditure.*` measure concepts. The added series use
+`ons.household_final_consumption_expenditure`. To select the complete feed,
+filter by COICOP, source sheet, period and consumption concept rather than only
+the generic measure concept.
+
+### Consumer migration
+
+The 217 existing facts retain their source-record IDs and values, but their
+aggregate and semantic fact keys change. Their domestic entity role changes
+from `resident_households` to `households_on_uk_territory`; they gain
+`price_basis`, `seasonal_adjustment`, `published_unit`, `source_sheet` and
+`consumption_concept`; and their lineage includes the value, COICOP header and
+CDID guard cells. The corrected publication vintage also changes provenance
+and source-cell keys. Consumers must refresh pinned keys and role selectors.
+Microcosm's `ons_household_expenditure_facts.json` vendors 42 annual rows affected
+by this migration; see [microcosm#1113](https://github.com/PolicyEngine/microcosm/issues/1113).
 
 ONS publishes current prices, without seasonal adjustment, in £ million.
 Numeric facts retain the package's `gbp` representation through a scale of
@@ -40,6 +70,11 @@ Numeric facts retain the package's `gbp` representation through a scale of
 `seasonal_adjustment`. Cells containing `[x]` in 04.4.4, 04.5.5 and 09.6 retain
 that string and `publication_status=not_available`. Consumers must handle these
 markers before monetary calculations. Chronicle supplies no zero replacement.
+
+Domestic 07.2.2 includes non-residents' fuel spending in the UK. TOURCN supplies
+no COICOP-specific tourism split, so this feed alone cannot convert domestic
+07.2.2 to the national consumption concept. A survey-based bridge needs a
+separate source or consumer assumption for that adjustment.
 
 ## DESNZ road transport fuel consumption
 
@@ -61,9 +96,17 @@ and `fuel`; values stay in `ktoe` (thousand tonnes of oil equivalent). The
 The geography set includes the UK, GB, England, Wales, Scotland and Northern
 Ireland, eight English regions, Inner London and Outer London. The publisher
 prints Inner and Outer London separately. Chronicle adds no combined London
-total. It selects each country's published total once; the England summary row
+total. Both London subdivisions use `geography_level=region` within the current
+schema, so a level-only filter returns ten areas. `geography_kind` distinguishes
+`english_region` (eight), `london_subregion` (two) and `country` (six).
+It selects each country's published total once; the England summary row
 uses the country code E92000001. Local-authority figures remain in the preserved
 workbook and source cells, outside emitted facts.
+
+The emitted columns also exclude the personal-transport and freight-transport
+subtotals, the bioenergy "of which" column, and road-type breakdowns. Those
+cells remain in the preserved workbook. Consumers splitting duty on blended
+biofuel must select or source the bioenergy component separately.
 
 The accompanying [methodology](https://www.gov.uk/government/statistics/uk-road-transport-fuel-consumption-at-regional-and-local-authority-level-2005-to-2024/sub-national-road-transport-fuel-consumption-statistics-methodology-summary-2005-2024-web-accessible)
 distinguishes the spatial mapping from the national emissions inventory. It
@@ -77,7 +120,7 @@ basis. The methodology page and its acquisition manifest are preserved under
 
 `population_scope=vehicles_travelling_in_area` records area-based activity.
 `electric_vehicle_treatment=excluded` records the removal of electric-vehicle
-kilometres. Petrol and diesel facts carry
+kilometres. Petrol, diesel and all-vehicle/all-fuel facts carry
 `biofuel_treatment=includes_blended_biofuels`, following workbook Note 6.
 The workbook and methodology publish no ktoe-to-litres or ktoe-to-tonnes
 conversion factors. Consumers supply those factors separately.

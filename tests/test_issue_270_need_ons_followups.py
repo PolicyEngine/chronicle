@@ -155,7 +155,9 @@ def test_ons_energy_subclasses_preserve_publisher_cells_and_concepts():
         fact = annual_2024[coicop]
         assert fact.measure.concept == concept
         assert {cells_by_key[key].address for key in fact.source_cell_keys} == {
-            f"{column}36"
+            f"{column}36",
+            f"{column}7",
+            f"{column}8",
         }
         assert fact.measure.unit == "gbp"
         assert fact.aggregation.method == "sum"

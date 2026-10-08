@@ -36,6 +36,11 @@ ONS_BASIS = {
     "seasonal_adjustment": "not_seasonally_adjusted",
     "published_unit": "gbp_million",
 }
+ONS_ROLES = {
+    "domestic": "households_on_uk_territory",
+    "national": "resident_households",
+    "national_adjustment": "household_tourism_adjustment",
+}
 
 
 class MergeKey(str):
@@ -133,6 +138,7 @@ def build_ons() -> None:
             "source_table": "Consumer Trends current price, not seasonally adjusted, 0CN, 01CN-12CN and TOURCN",
             "sheets": ["Notes", *ONS_SHEETS],
             "extraction_method": "XLSX used-range cell parse of declared sheets",
+            "vintage": "2026_06_30_release_2026_q1",
         }
     )
     payload["dimension_labels"].update(
@@ -165,7 +171,7 @@ def build_ons() -> None:
         workbook.close()
     for record in legacy:
         sheet = record["sheet_name"]
-        record["entity_role"] = "households_on_uk_territory"
+        record["entity_role"] = ONS_ROLES["domestic"]
         shared = {**ONS_BASIS, "source_sheet": sheet, "consumption_concept": "domestic"}
         record["shared_filters"] = shared
         record["shared_constraints"] = constraints(shared)
@@ -238,7 +244,7 @@ def build_ons() -> None:
             period_type, value, suffix, coverage, frequency = parsed
             header = 7 if period_type == "calendar_year" else 41
             shared = {**ONS_BASIS, "source_sheet": sheet, **frequency}
-            groups = {"published": [], "not_available": []}
+            groups = {}
             for column, raw_code in enumerate(table[6][1:], 2):
                 code = coicop_code(raw_code)
                 if (sheet, code) in selected:
@@ -273,19 +279,20 @@ def build_ons() -> None:
                         "filters": classification,
                         "constraints": category_constraints,
                     }
-                groups[status].append(
+                group = (classification["consumption_concept"], status)
+                groups.setdefault(group, []).append(
                     {
                         MergeKey("<<"): row_templates[template_key],
                         "row_number": row_number,
                         "expected_row_header": values[0],
                     }
                 )
-            for status, rows in groups.items():
-                if not rows:
-                    continue
+            for (consumption_concept, status), rows in groups.items():
                 identifier = (
                     f"ons.consumer_trends.expanded_{sheet.lower()}.{suffix}.{status}"
                 )
+                if consumption_concept != "domestic":
+                    identifier += f".{consumption_concept}"
                 filters = {**shared, "publication_status": status}
                 payload["record_sets"].append(
                     {
@@ -303,7 +310,7 @@ def build_ons() -> None:
                         "geography_name": "United Kingdom",
                         "geography_vintage": "current",
                         "entity": "household",
-                        "entity_role": "household_consumers",
+                        "entity_role": ONS_ROLES[consumption_concept],
                         "domain": "household_consumption_expenditure",
                         "groupby_dimension": "ons.coicop",
                         "shared_filters": filters,
@@ -317,7 +324,7 @@ def build_ons() -> None:
     write_package(
         ONS_DIRECTORY,
         payload,
-        "# Same preserved September 2026 workbook; no new download.\n"
+        "# Preserved 30 June 2026 release, acquired 9 September; no new download.\n"
         "# Published [x] markers and signed tourism adjustments are retained.\n"
         "# Regenerate with scripts/build_uk_consumption_tax_packages.py.\n",
     )
@@ -360,7 +367,7 @@ def build_road_fuel() -> None:
     measures = []
     for ordinal, (column, vehicle, fuel) in enumerate(vehicle_columns):
         filters = {"vehicle_type": vehicle, "fuel": fuel}
-        if fuel in {"petrol", "diesel"}:
+        if fuel in {"petrol", "diesel", "all_fuels"}:
             filters["biofuel_treatment"] = "includes_blended_biofuels"
         label = tables[2024][3][openpyxl.utils.column_index_from_string(column) - 1]
         measures.append(
@@ -400,6 +407,13 @@ def build_road_fuel() -> None:
                 header_column, expected = "C", name
             else:
                 continue
+            geography_filters = {
+                "geography_kind": "london_subregion"
+                if geography.startswith("E13")
+                else "english_region"
+                if geography.startswith("E12")
+                else "country"
+            }
             rows.append(
                 {
                     "value_id": geography.lower(),
@@ -429,6 +443,8 @@ def build_road_fuel() -> None:
                     else "country",
                     "geography_name": str(name).removesuffix(" total"),
                     "geography_vintage": "2025-12",
+                    "filters": geography_filters,
+                    "constraints": constraints(geography_filters),
                 }
             )
         identifier = f"desnz.road_transport.fuel_consumption.cy{year}"
@@ -470,7 +486,13 @@ def build_road_fuel() -> None:
             "desnz.road_transport.area": "Published geography",
             **{
                 key: key.replace("_", " ").capitalize()
-                for key in [*basis, "vehicle_type", "fuel", "biofuel_treatment"]
+                for key in [
+                    *basis,
+                    "vehicle_type",
+                    "fuel",
+                    "biofuel_treatment",
+                    "geography_kind",
+                ]
             },
         },
         "artifact": {

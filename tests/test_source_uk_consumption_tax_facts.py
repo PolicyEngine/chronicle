@@ -6,6 +6,7 @@ import hashlib
 from pathlib import Path
 
 import pytest
+import yaml
 
 from chronicle.bundle import UK_BUNDLE_SOURCES
 from chronicle.consumer_contract import validate_consumer_fact_contract
@@ -37,15 +38,20 @@ def test_road_fuel_is_registered_in_the_uk_bundle():
     assert ROAD_FUEL in UK_BUNDLE_SOURCES
 
 
-@pytest.mark.parametrize("fixture", ["ons_data", "road_fuel_data"])
-def test_consumption_facts_preserve_lineage_and_consumer_contract(request, fixture):
+@pytest.mark.parametrize(
+    ("fixture", "lineage_count"), [("ons_data", 3), ("road_fuel_data", 4)]
+)
+def test_consumption_facts_preserve_lineage_and_consumer_contract(
+    request, fixture, lineage_count
+):
     cells, facts = request.getfixturevalue(fixture)
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
     assert validate_consumer_fact_contract(facts).valid
     keys = {build_source_cell_key(cell) for cell in cells}
     assert all(set(fact.source_cell_keys) <= keys for fact in facts)
-    assert all(len(fact.source_cell_keys) == 1 for fact in facts)
+    # Value cells and publisher classification guards all remain in lineage.
+    assert all(len(fact.source_cell_keys) == lineage_count for fact in facts)
     assert {fact.assertion for fact in facts} == {"observation"}
 
 
@@ -57,6 +63,39 @@ def test_ons_uses_the_existing_preserved_vintage(ons_data):
     # 166 columns across 0CN and 01CN-12CN, in 31 periods, plus three
     # annual TOURCN series in six years. Published [x] cells remain facts.
     assert len(ons_data[1]) == 166 * 31 + 3 * 6
+    assert {fact.source.vintage for fact in ons_data[1]} == {
+        "2026_06_30_release_2026_q1"
+    }
+    assert {fact.source.extracted_at for fact in ons_data[1]} == {"2026-09-09"}
+
+
+def test_ons_coicop_identifiers_and_constraints_are_strings(ons_data):
+    for fact in ons_data[1]:
+        assert isinstance(fact.filters["coicop"], str)
+        coicop_constraints = [
+            constraint
+            for constraint in fact.constraints
+            if constraint.variable == "coicop"
+        ]
+        assert coicop_constraints
+        assert all(
+            isinstance(constraint.value, str)
+            and constraint.value == fact.filters["coicop"]
+            for constraint in coicop_constraints
+        )
+
+
+def test_ons_entity_roles_match_consumption_concepts_across_all_series(ons_data):
+    roles = {}
+    for fact in ons_data[1]:
+        roles.setdefault(fact.filters["consumption_concept"], set()).add(
+            fact.entity.role
+        )
+    assert roles == {
+        "domestic": {"households_on_uk_territory"},
+        "national": {"resident_households"},
+        "national_adjustment": {"household_tourism_adjustment"},
+    }
 
 
 def test_ons_divisions_and_vat_bridge_classes_cover_every_period(ons_data):
@@ -145,11 +184,16 @@ def test_ons_unavailable_cells_keep_published_markers_and_addresses(ons_data):
     assert len(marked) == 3 * 31
     assert {fact.filters["coicop"] for fact in marked} == {"04.4.4", "04.5.5", "09.6"}
     assert all(fact.filters["publication_status"] == "not_available" for fact in marked)
-    assert all(by_key[fact.source_cell_keys[0]].raw_value == "[x]" for fact in marked)
     for fact in marked:
+        value_cells = [
+            by_key[key]
+            for key in fact.source_cell_keys
+            if by_key[key].raw_value == "[x]"
+        ]
+        assert len(value_cells) == 1
         if fact.period.type == "calendar_year" and fact.period.value == 2024:
             assert (
-                by_key[fact.source_cell_keys[0]].address
+                value_cells[0].address
                 == {
                     "04.4.4": "P36",
                     "04.5.5": "V36",
@@ -221,8 +265,48 @@ def test_road_fuel_retains_publisher_car_values_without_litre_conversion(
     # 2024 sheet O384 and K384, not HMRC clearances × an OBR cars share.
     assert uk_cars["petrol"].value == pytest.approx(14605.695206681678)
     assert uk_cars["diesel"].value == pytest.approx(9571.883358666924)
-    assert by_key[uk_cars["petrol"].source_cell_keys[0]].address == "O384"
-    assert by_key[uk_cars["diesel"].source_cell_keys[0]].address == "K384"
+    for fuel, column in [("petrol", "O"), ("diesel", "K")]:
+        lineage = {
+            by_key[key].address: by_key[key] for key in uk_cars[fuel].source_cell_keys
+        }
+        assert set(lineage) == {f"{column}384", f"{column}4", "C384", "A1"}
+        assert lineage[f"{column}384"].raw_value == uk_cars[fuel].value
+
+
+def test_road_fuel_distinguishes_london_subregions_from_english_regions(road_fuel_data):
+    facts = [fact for fact in road_fuel_data[1] if fact.period.value == 2024]
+    regions = {
+        fact.geography.id
+        for fact in facts
+        if fact.filters["geography_kind"] == "english_region"
+    }
+    london = {
+        fact.geography.id
+        for fact in facts
+        if fact.filters["geography_kind"] == "london_subregion"
+    }
+    assert len(regions) == 8
+    assert all(code.startswith("E12") for code in regions)
+    assert london == {"E13000001", "E13000002"}
+    assert all(
+        fact.geography.level == "region"
+        for fact in facts
+        if fact.geography.id in regions | london
+    )
+
+
+@pytest.mark.parametrize(
+    "relative_path", ["manifest.yaml", "methodology/manifest.yaml"]
+)
+def test_road_fuel_raw_artifacts_have_content_addressed_r2_provenance(relative_path):
+    path = ROOT / "db/data/desnz/road_transport_fuel_consumption_2024" / relative_path
+    artifact = yaml.safe_load(path.read_text())["files"][2026]
+    storage = artifact["storage"]["r2"]
+    assert storage["provider"] == "r2"
+    assert storage["bucket"] == "ledger-raw"
+    assert storage["key"].startswith("raw/uk/desnz/")
+    assert storage["key"].endswith(f"/{artifact['sha256']}/{artifact['filename']}")
+    assert storage["uri"] == f"r2://ledger-raw/{storage['key']}"
 
 
 def test_road_fuel_exposes_travel_scope_and_methodology(road_fuel_data):
@@ -247,7 +331,7 @@ def test_road_fuel_exposes_travel_scope_and_methodology(road_fuel_data):
     assert all(
         fact.filters["biofuel_treatment"] == "includes_blended_biofuels"
         for fact in facts
-        if fact.filters["fuel"] in {"petrol", "diesel"}
+        if fact.filters["fuel"] in {"petrol", "diesel", "all_fuels"}
     )
     assert {fact.entity.name for fact in facts} == {"institutional_sector"}
     assert {fact.entity.role for fact in facts} == {"road_transport"}

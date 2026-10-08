@@ -15,6 +15,7 @@ dimension_labels:
   vehicle_type: Vehicle type
   fuel: Fuel
   biofuel_treatment: Biofuel treatment
+  geography_kind: Geography kind
 artifact:
   source_name: desnz
   source_table: Sub-national road transport fuel consumption statistics, 2005-2024
@@ -121,6 +122,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -143,6 +151,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -165,6 +180,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -187,6 +209,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -209,6 +238,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -231,6 +267,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -253,6 +296,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -275,6 +325,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -297,6 +354,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -319,6 +383,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -341,6 +412,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -363,6 +441,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -385,6 +470,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -407,6 +499,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -429,6 +528,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -451,6 +557,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: &id002
   - measure_id: buses_and_coaches_diesel
     label: Buses total
@@ -808,6 +921,7 @@ record_sets:
     filters:
       vehicle_type: all_vehicles
       fuel: all_fuels
+      biofuel_treatment: includes_blended_biofuels
     constraints:
     - variable: vehicle_type
       operator: ==
@@ -817,6 +931,10 @@ record_sets:
       operator: ==
       value: all_fuels
       label: Fuel
+    - variable: biofuel_treatment
+      operator: ==
+      value: includes_blended_biofuels
+      label: Biofuel treatment
 - record_set_id: desnz.road_transport.fuel_consumption.cy2006
   provenance_class: administrative
   assertion: observation
@@ -883,6 +1001,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -905,6 +1030,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -927,6 +1059,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -949,6 +1088,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -971,6 +1117,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -993,6 +1146,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -1015,6 +1175,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -1037,6 +1204,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -1059,6 +1233,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -1081,6 +1262,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -1103,6 +1291,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -1125,6 +1320,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -1147,6 +1349,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -1169,6 +1378,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -1191,6 +1407,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -1213,6 +1436,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2007
   provenance_class: administrative
@@ -1280,6 +1510,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -1302,6 +1539,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -1324,6 +1568,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -1346,6 +1597,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -1368,6 +1626,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -1390,6 +1655,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -1412,6 +1684,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -1434,6 +1713,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -1456,6 +1742,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -1478,6 +1771,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -1500,6 +1800,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -1522,6 +1829,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -1544,6 +1858,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -1566,6 +1887,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -1588,6 +1916,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -1610,6 +1945,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2008
   provenance_class: administrative
@@ -1677,6 +2019,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -1699,6 +2048,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -1721,6 +2077,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -1743,6 +2106,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -1765,6 +2135,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -1787,6 +2164,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -1809,6 +2193,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -1831,6 +2222,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -1853,6 +2251,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -1875,6 +2280,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -1897,6 +2309,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -1919,6 +2338,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -1941,6 +2367,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -1963,6 +2396,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -1985,6 +2425,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -2007,6 +2454,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2009
   provenance_class: administrative
@@ -2074,6 +2528,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -2096,6 +2557,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -2118,6 +2586,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -2140,6 +2615,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -2162,6 +2644,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -2184,6 +2673,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -2206,6 +2702,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -2228,6 +2731,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -2250,6 +2760,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -2272,6 +2789,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -2294,6 +2818,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -2316,6 +2847,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -2338,6 +2876,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -2360,6 +2905,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -2382,6 +2934,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -2404,6 +2963,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2010
   provenance_class: administrative
@@ -2471,6 +3037,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -2493,6 +3066,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -2515,6 +3095,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -2537,6 +3124,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -2559,6 +3153,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -2581,6 +3182,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -2603,6 +3211,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -2625,6 +3240,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -2647,6 +3269,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -2669,6 +3298,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -2691,6 +3327,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -2713,6 +3356,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -2735,6 +3385,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -2757,6 +3414,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -2779,6 +3443,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -2801,6 +3472,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2011
   provenance_class: administrative
@@ -2868,6 +3546,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -2890,6 +3575,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -2912,6 +3604,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -2934,6 +3633,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -2956,6 +3662,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -2978,6 +3691,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -3000,6 +3720,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -3022,6 +3749,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -3044,6 +3778,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -3066,6 +3807,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -3088,6 +3836,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -3110,6 +3865,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -3132,6 +3894,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -3154,6 +3923,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -3176,6 +3952,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -3198,6 +3981,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2012
   provenance_class: administrative
@@ -3265,6 +4055,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -3287,6 +4084,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -3309,6 +4113,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -3331,6 +4142,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -3353,6 +4171,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -3375,6 +4200,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -3397,6 +4229,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -3419,6 +4258,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -3441,6 +4287,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -3463,6 +4316,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -3485,6 +4345,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -3507,6 +4374,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -3529,6 +4403,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -3551,6 +4432,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -3573,6 +4461,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -3595,6 +4490,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2013
   provenance_class: administrative
@@ -3662,6 +4564,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -3684,6 +4593,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -3706,6 +4622,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -3728,6 +4651,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -3750,6 +4680,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -3772,6 +4709,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -3794,6 +4738,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -3816,6 +4767,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -3838,6 +4796,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -3860,6 +4825,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -3882,6 +4854,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -3904,6 +4883,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -3926,6 +4912,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -3948,6 +4941,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -3970,6 +4970,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -3992,6 +4999,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2014
   provenance_class: administrative
@@ -4059,6 +5073,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -4081,6 +5102,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -4103,6 +5131,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -4125,6 +5160,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -4147,6 +5189,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -4169,6 +5218,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -4191,6 +5247,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -4213,6 +5276,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -4235,6 +5305,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -4257,6 +5334,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -4279,6 +5363,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -4301,6 +5392,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -4323,6 +5421,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -4345,6 +5450,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -4367,6 +5479,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -4389,6 +5508,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2015
   provenance_class: administrative
@@ -4456,6 +5582,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -4478,6 +5611,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -4500,6 +5640,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -4522,6 +5669,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -4544,6 +5698,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -4566,6 +5727,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -4588,6 +5756,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -4610,6 +5785,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -4632,6 +5814,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -4654,6 +5843,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -4676,6 +5872,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -4698,6 +5901,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -4720,6 +5930,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -4742,6 +5959,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -4764,6 +5988,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -4786,6 +6017,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2016
   provenance_class: administrative
@@ -4853,6 +6091,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -4875,6 +6120,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -4897,6 +6149,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -4919,6 +6178,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -4941,6 +6207,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -4963,6 +6236,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -4985,6 +6265,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -5007,6 +6294,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -5029,6 +6323,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -5051,6 +6352,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -5073,6 +6381,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -5095,6 +6410,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -5117,6 +6439,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -5139,6 +6468,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -5161,6 +6497,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -5183,6 +6526,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2017
   provenance_class: administrative
@@ -5250,6 +6600,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -5272,6 +6629,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -5294,6 +6658,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -5316,6 +6687,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -5338,6 +6716,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -5360,6 +6745,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -5382,6 +6774,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -5404,6 +6803,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -5426,6 +6832,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -5448,6 +6861,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -5470,6 +6890,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -5492,6 +6919,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -5514,6 +6948,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -5536,6 +6977,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -5558,6 +7006,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -5580,6 +7035,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2018
   provenance_class: administrative
@@ -5647,6 +7109,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -5669,6 +7138,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -5691,6 +7167,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -5713,6 +7196,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -5735,6 +7225,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -5757,6 +7254,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -5779,6 +7283,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -5801,6 +7312,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -5823,6 +7341,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -5845,6 +7370,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -5867,6 +7399,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -5889,6 +7428,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -5911,6 +7457,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -5933,6 +7486,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -5955,6 +7515,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -5977,6 +7544,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2019
   provenance_class: administrative
@@ -6044,6 +7618,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -6066,6 +7647,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -6088,6 +7676,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -6110,6 +7705,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -6132,6 +7734,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -6154,6 +7763,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -6176,6 +7792,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -6198,6 +7821,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -6220,6 +7850,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -6242,6 +7879,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -6264,6 +7908,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -6286,6 +7937,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -6308,6 +7966,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -6330,6 +7995,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -6352,6 +8024,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -6374,6 +8053,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2020
   provenance_class: administrative
@@ -6441,6 +8127,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -6463,6 +8156,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -6485,6 +8185,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -6507,6 +8214,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -6529,6 +8243,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -6551,6 +8272,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -6573,6 +8301,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -6595,6 +8330,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -6617,6 +8359,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -6639,6 +8388,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -6661,6 +8417,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -6683,6 +8446,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -6705,6 +8475,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -6727,6 +8504,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -6749,6 +8533,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -6771,6 +8562,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2021
   provenance_class: administrative
@@ -6838,6 +8636,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -6860,6 +8665,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -6882,6 +8694,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -6904,6 +8723,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -6926,6 +8752,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -6948,6 +8781,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -6970,6 +8810,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -6992,6 +8839,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -7014,6 +8868,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -7036,6 +8897,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -7058,6 +8926,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -7080,6 +8955,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -7102,6 +8984,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -7124,6 +9013,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -7146,6 +9042,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -7168,6 +9071,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2022
   provenance_class: administrative
@@ -7235,6 +9145,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -7257,6 +9174,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -7279,6 +9203,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -7301,6 +9232,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -7323,6 +9261,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -7345,6 +9290,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -7367,6 +9319,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -7389,6 +9348,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -7411,6 +9377,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -7433,6 +9406,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -7455,6 +9435,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -7477,6 +9464,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -7499,6 +9493,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -7521,6 +9522,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -7543,6 +9551,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -7565,6 +9580,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2023
   provenance_class: administrative
@@ -7632,6 +9654,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -7654,6 +9683,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -7676,6 +9712,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -7698,6 +9741,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -7720,6 +9770,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -7742,6 +9799,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -7764,6 +9828,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -7786,6 +9857,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -7808,6 +9886,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -7830,6 +9915,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -7852,6 +9944,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -7874,6 +9973,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -7896,6 +10002,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -7918,6 +10031,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -7940,6 +10060,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -7962,6 +10089,13 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002
 - record_set_id: desnz.road_transport.fuel_consumption.cy2024
   provenance_class: administrative
@@ -8029,6 +10163,13 @@ record_sets:
     geography_level: country
     geography_name: Wales
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: s92000003
     label: Scotland total
     ordinal: 1
@@ -8051,6 +10192,13 @@ record_sets:
     geography_level: country
     geography_name: Scotland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e12000001
     label: North East total
     ordinal: 2
@@ -8073,6 +10221,13 @@ record_sets:
     geography_level: region
     geography_name: North East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000002
     label: North West total
     ordinal: 3
@@ -8095,6 +10250,13 @@ record_sets:
     geography_level: region
     geography_name: North West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000003
     label: Yorkshire and the Humber total
     ordinal: 4
@@ -8117,6 +10279,13 @@ record_sets:
     geography_level: region
     geography_name: Yorkshire and the Humber
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000004
     label: East Midlands total
     ordinal: 5
@@ -8139,6 +10308,13 @@ record_sets:
     geography_level: region
     geography_name: East Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000005
     label: West Midlands total
     ordinal: 6
@@ -8161,6 +10337,13 @@ record_sets:
     geography_level: region
     geography_name: West Midlands
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000006
     label: East of England total
     ordinal: 7
@@ -8183,6 +10366,13 @@ record_sets:
     geography_level: region
     geography_name: East of England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e13000001
     label: Inner London total
     ordinal: 8
@@ -8205,6 +10395,13 @@ record_sets:
     geography_level: region
     geography_name: Inner London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e13000002
     label: Outer London total
     ordinal: 9
@@ -8227,6 +10424,13 @@ record_sets:
     geography_level: region
     geography_name: Outer London
     geography_vintage: 2025-12
+    filters:
+      geography_kind: london_subregion
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: london_subregion
+      label: Geography kind
   - value_id: e12000008
     label: South East total
     ordinal: 10
@@ -8249,6 +10453,13 @@ record_sets:
     geography_level: region
     geography_name: South East
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: e12000009
     label: South West total
     ordinal: 11
@@ -8271,6 +10482,13 @@ record_sets:
     geography_level: region
     geography_name: South West
     geography_vintage: 2025-12
+    filters:
+      geography_kind: english_region
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: english_region
+      label: Geography kind
   - value_id: n92000002
     label: Northern Ireland total
     ordinal: 12
@@ -8293,6 +10511,13 @@ record_sets:
     geography_level: country
     geography_name: Northern Ireland
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k03000001
     label: Great Britain total
     ordinal: 13
@@ -8315,6 +10540,13 @@ record_sets:
     geography_level: country
     geography_name: Great Britain
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: e92000001
     label: England
     ordinal: 14
@@ -8337,6 +10569,13 @@ record_sets:
     geography_level: country
     geography_name: England
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   - value_id: k02000001
     label: United Kingdom total
     ordinal: 15
@@ -8359,4 +10598,11 @@ record_sets:
     geography_level: country
     geography_name: United Kingdom
     geography_vintage: 2025-12
+    filters:
+      geography_kind: country
+    constraints:
+    - variable: geography_kind
+      operator: ==
+      value: country
+      label: Geography kind
   measures: *id002

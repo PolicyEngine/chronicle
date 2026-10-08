@@ -10,3 +10,9 @@ files:
     sha256: 7ef875c8fe92a3a2f3642e74c78109d1873b74e961d66ef4ec4bb6344b6ab5d8
     size_bytes: 148423
     fetched_at: '2026-10-08T12:21:49+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-road-transport-fuel-consumption-2024-methodology/2026/7ef875c8fe92a3a2f3642e74c78109d1873b74e961d66ef4ec4bb6344b6ab5d8/methodology.html
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-road-transport-fuel-consumption-2024-methodology/2026/7ef875c8fe92a3a2f3642e74c78109d1873b74e961d66ef4ec4bb6344b6ab5d8/methodology.html
