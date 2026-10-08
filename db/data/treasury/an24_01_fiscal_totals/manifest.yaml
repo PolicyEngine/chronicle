@@ -1,5 +1,3 @@
-# Immutable staged publisher bytes; hub upload pending. Treasury currently
-# requires explicit --r2-prefix raw/nz when publishing with Chronicle.
 source_id: treasury
 package_id: treasury-an24-01-fiscal-totals
 dataset: treasury_an24_01_fiscal_totals

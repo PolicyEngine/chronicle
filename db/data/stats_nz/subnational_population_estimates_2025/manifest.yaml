@@ -1,0 +1,18 @@
+source_id: stats_nz
+package_id: subnational_population_estimates_2025
+dataset: stats_nz_subnational_population_estimates_2025
+source_page: https://www.stats.govt.nz/information-releases/subnational-population-estimates-at-30-june-2025/
+table: 'Subnational population estimates: At 30 June 2025 (provisional)'
+files:
+  2025:
+    filename: subnational-population-estimates-at-30-june-2025-provisional.xlsx
+    source_url: https://www.stats.govt.nz/assets/Uploads/Subnational-population-estimates/Subnational-population-estimates-At-30-June-2025/Download-data/subnational-population-estimates-at-30-june-2025-provisional.xlsx
+    sha256: 001e8a896cfb50f5ed17836dc815b235e3bcca55ee91c9869a2afaeb054b50a6
+    size_bytes: 97990
+    fetched_at: '2026-08-30T01:38:43+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/subnational_population_estimates_2025/2025/001e8a896cfb50f5ed17836dc815b235e3bcca55ee91c9869a2afaeb054b50a6/subnational-population-estimates-at-30-june-2025-provisional.xlsx
+        uri: r2://ledger-raw/raw/nz/stats_nz/subnational_population_estimates_2025/2025/001e8a896cfb50f5ed17836dc815b235e3bcca55ee91c9869a2afaeb054b50a6/subnational-population-estimates-at-30-june-2025-provisional.xlsx
