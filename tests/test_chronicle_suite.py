@@ -7,6 +7,8 @@ import json
 import sqlite3
 import textwrap
 
+import pytest
+
 from chronicle.concepts import ConceptAlignmentReport
 from chronicle.core import (
     Aggregation,
@@ -32,6 +34,7 @@ from chronicle.sources.rows import SourceRow, build_source_row_key, validate_sou
 from chronicle.suite import (
     SourceRecordSuiteReport,
     SourceRegionSuiteReport,
+    _row_semantic_evidence_issues,
     _wide_table_filter_evidenced_by_source_column,
     build_agent_acceptance_report,
     build_source_cells,
@@ -41,6 +44,108 @@ from chronicle.suite import (
     validate_source_record_specs,
     validate_source_regions,
 )
+
+
+def _sex_row_evidence(expected, publisher, *, variable="sex", operator="=="):
+    artifact = SourceArtifactMetadata(
+        source_name="nrs",
+        source_table="population",
+        source_file="population.xlsx",
+        url="https://example.test/population.xlsx",
+        vintage="mid2025",
+        sha256="abc123",
+        size_bytes=10,
+        extracted_at="2026-10-07",
+        extraction_method="test",
+    )
+    row = SourceRow(
+        artifact=artifact,
+        sheet_name="Table 1",
+        row_number=2,
+        values={"Period": 2025, variable: publisher, "Population": 100},
+    )
+    fact = AggregateFact(
+        value=100,
+        period=PeriodDimension(type="calendar_year", value=2025),
+        geography=GeographyDimension(level="country", id="S92000003"),
+        entity=EntityDimension(name="person", role="resident_population"),
+        measure=Measure(concept="nrs.population_estimate", unit="count"),
+        aggregation=Aggregation(method="sum"),
+        provenance_class="model_output",
+        source=SourceProvenance(source_name="nrs", source_table="population"),
+        domain="resident_population",
+        filters={variable: expected},
+        source_record_id="nrs.population.sex",
+        source_row_keys=(build_source_row_key(row),),
+        constraints=(
+            AggregateConstraint(variable=variable, operator=operator, value=expected),
+        ),
+    )
+    return fact, row
+
+
+@pytest.mark.parametrize(
+    "expected,publisher",
+    [
+        ("all", "Persons"),
+        ("all", "All persons"),
+        ("female", "Females"),
+        ("male", "Males"),
+        ("female", "Female"),
+        ("male", "Male"),
+    ],
+)
+def test_row_acceptance_matches_canonical_sex_to_publisher_label(expected, publisher):
+    fact, row = _sex_row_evidence(expected, publisher)
+    assert _row_semantic_evidence_issues(fact, [row], []) == []
+    assert row.values["sex"] == publisher
+
+
+@pytest.mark.parametrize(
+    "expected,publisher",
+    [
+        ("female", "Males"),
+        ("male", "Females"),
+        ("all", "Females"),
+        ("all", "Unknown"),
+        ("female", "Unknown"),
+        ("female", 2),
+    ],
+)
+def test_row_acceptance_rejects_opposite_or_unknown_sex(expected, publisher):
+    fact, row = _sex_row_evidence(expected, publisher)
+    issues = _row_semantic_evidence_issues(fact, [row], [])
+    assert "row_constraint_value_mismatch" in {issue.code for issue in issues}
+    if expected != "all":
+        assert "row_filter_value_mismatch" in {issue.code for issue in issues}
+
+
+def test_row_acceptance_rejects_mixed_sex_witnesses():
+    fact, female = _sex_row_evidence("female", "Females")
+    _, male = _sex_row_evidence("female", "Males")
+    issues = _row_semantic_evidence_issues(fact, [female, male], [])
+    assert "row_constraint_value_mismatch" in {issue.code for issue in issues}
+
+
+def test_row_acceptance_requires_a_publisher_sex_witness():
+    fact, row = _sex_row_evidence("female", "Females")
+    row = replace(row, values={"Period": 2025, "Population": 100})
+    assert {issue.code for issue in _row_semantic_evidence_issues(fact, [row], [])} == {
+        "row_filter_not_evidenced",
+        "row_constraint_not_evidenced",
+    }
+
+
+def test_sex_aliases_do_not_normalize_other_dimensions_or_constraint_operators():
+    fact, row = _sex_row_evidence("female", "Females", variable="category")
+    assert {issue.code for issue in _row_semantic_evidence_issues(fact, [row], [])} == {
+        "row_filter_value_mismatch",
+        "row_constraint_value_mismatch",
+    }
+    fact, row = _sex_row_evidence("female", "Females", operator=">=")
+    assert {issue.code for issue in _row_semantic_evidence_issues(fact, [row], [])} == {
+        "row_constraint_value_mismatch",
+    }
 
 
 def test_wide_table_evidence_requires_explicit_column_dimension():

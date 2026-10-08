@@ -5,7 +5,7 @@ from functools import cache
 
 import pytest
 
-from chronicle.bundle import _dimension_label_reports
+from chronicle.bundle import UK_BUNDLE_SOURCES, _dimension_label_reports
 from chronicle.consumer_contract import (
     consumer_fact_rows,
     validate_consumer_fact_contract,
@@ -23,6 +23,41 @@ def facts_for():
         return package.build_facts(package.artifact.artifact_year)
 
     return build
+
+
+@pytest.mark.parametrize(
+    "alias",
+    [
+        alias
+        for alias in UK_BUNDLE_SOURCES
+        if "-mye-" in alias or "-population-by-age-" in alias
+    ],
+)
+def test_uk_mid_year_population_packages_share_the_consumer_representation(alias):
+    """Check every curated vintage without rebuilding its publisher artifact."""
+    package = load_source_package(alias)
+    allowed_filters = {"age", "sex"}
+    # Preserve the reviewed Nomis publisher age_name axis in both LAD vintages.
+    if alias in {"ons-lad-population-by-age-2024", "ons-lad-population-by-age-2025"}:
+        allowed_filters.add("age_name")
+    # The existing Nomis constituency edition names the same publisher axis c_age_name.
+    if alias == "ons-pcon24-population-by-age-2024":
+        allowed_filters.add("c_age_name")
+    # The existing 2024 NISRA constituency package retains its publisher band axis.
+    if alias == "nisra-pcon24-population-by-age-2024":
+        allowed_filters.add("five_year_age_bands")
+    for record_set in package.record_sets:
+        payload = record_set.payload
+        assert payload["domain"] == "resident_population", alias
+        assert payload["entity_role"] == "resident_population", alias
+        assert payload["groupby_dimension"] in {"age", "geography"}, alias
+        filters = [payload.get("shared_filters", {})]
+        filters.extend(row.get("filters", {}) for row in payload["rows"])
+        filters.extend(measure.get("filters", {}) for measure in payload["measures"])
+        for dimensions in filters:
+            assert set(dimensions) <= allowed_filters, alias
+            if "sex" in dimensions:
+                assert dimensions["sex"] in {"all", "female", "male"}, alias
 
 
 @pytest.mark.parametrize(

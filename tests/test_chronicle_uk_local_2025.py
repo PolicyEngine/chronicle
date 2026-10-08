@@ -225,7 +225,7 @@ def test_devolved_mid2025_population_keeps_single_years_and_open_age_band():
             f.value
             for f in scotland
             if f.geography.id == "S92000003"
-            and f.filters == {"Sex": "Persons", "age": "All ages"}
+            and f.filters == {"sex": "all", "age": "All ages"}
         )
         == 5_545_500
     )

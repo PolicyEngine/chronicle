@@ -4,8 +4,12 @@ label: NRS mid-2025 single-year age/sex population by council area
 dimension_labels:
   geography: Geography
   age: Age
-  Sex: Sex
+  sex: Sex
 dimension_value_labels:
+  sex:
+    all: Persons
+    female: Females
+    male: Males
   age:
     All ages: All ages
     90 and over: 90 and over
@@ -35,8 +39,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s92000003
@@ -2415,11 +2419,11 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.mye_2025_council_area.2025.females
   provenance_class: model_output
@@ -2433,8 +2437,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s92000003
@@ -2973,11 +2977,11 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.mye_2025_council_area.2025.males
   provenance_class: model_output
@@ -2991,8 +2995,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s92000003
@@ -3531,9 +3535,9 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex

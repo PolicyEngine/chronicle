@@ -4,8 +4,12 @@ label: NRS revised mid-2011 to mid-2024 single-year age/sex population, UKPC24, 
 dimension_labels:
   geography: Geography
   age: Age
-  Sex: Sex
+  sex: Sex
 dimension_value_labels:
+  sex:
+    all: Persons
+    female: Females
+    male: Males
   age:
     All ages: All ages
     90 and over: 90 and over
@@ -36,8 +40,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -3028,11 +3032,11 @@ record_sets:
     source_period_label: mid-2011
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2011.females
   provenance_class: model_output
@@ -3046,8 +3050,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -4198,11 +4202,11 @@ record_sets:
     source_period_label: mid-2011
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2011.males
   provenance_class: model_output
@@ -4216,8 +4220,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -5368,11 +5372,11 @@ record_sets:
     source_period_label: mid-2011
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2012.persons
   provenance_class: model_output
@@ -5386,8 +5390,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -6538,11 +6542,11 @@ record_sets:
     source_period_label: mid-2012
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2012.females
   provenance_class: model_output
@@ -6556,8 +6560,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -7708,11 +7712,11 @@ record_sets:
     source_period_label: mid-2012
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2012.males
   provenance_class: model_output
@@ -7726,8 +7730,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -8878,11 +8882,11 @@ record_sets:
     source_period_label: mid-2012
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2013.persons
   provenance_class: model_output
@@ -8896,8 +8900,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -10048,11 +10052,11 @@ record_sets:
     source_period_label: mid-2013
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2013.females
   provenance_class: model_output
@@ -10066,8 +10070,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -11218,11 +11222,11 @@ record_sets:
     source_period_label: mid-2013
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2013.males
   provenance_class: model_output
@@ -11236,8 +11240,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -12388,11 +12392,11 @@ record_sets:
     source_period_label: mid-2013
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2014.persons
   provenance_class: model_output
@@ -12406,8 +12410,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -13558,11 +13562,11 @@ record_sets:
     source_period_label: mid-2014
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2014.females
   provenance_class: model_output
@@ -13576,8 +13580,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -14728,11 +14732,11 @@ record_sets:
     source_period_label: mid-2014
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2014.males
   provenance_class: model_output
@@ -14746,8 +14750,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -15898,11 +15902,11 @@ record_sets:
     source_period_label: mid-2014
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2015.persons
   provenance_class: model_output
@@ -15916,8 +15920,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -17068,11 +17072,11 @@ record_sets:
     source_period_label: mid-2015
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2015.females
   provenance_class: model_output
@@ -17086,8 +17090,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -18238,11 +18242,11 @@ record_sets:
     source_period_label: mid-2015
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2015.males
   provenance_class: model_output
@@ -18256,8 +18260,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -19408,11 +19412,11 @@ record_sets:
     source_period_label: mid-2015
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2016.persons
   provenance_class: model_output
@@ -19426,8 +19430,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -20578,11 +20582,11 @@ record_sets:
     source_period_label: mid-2016
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2016.females
   provenance_class: model_output
@@ -20596,8 +20600,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -21748,11 +21752,11 @@ record_sets:
     source_period_label: mid-2016
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2016.males
   provenance_class: model_output
@@ -21766,8 +21770,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -22918,11 +22922,11 @@ record_sets:
     source_period_label: mid-2016
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2017.persons
   provenance_class: model_output
@@ -22936,8 +22940,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -24088,11 +24092,11 @@ record_sets:
     source_period_label: mid-2017
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2017.females
   provenance_class: model_output
@@ -24106,8 +24110,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -25258,11 +25262,11 @@ record_sets:
     source_period_label: mid-2017
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2017.males
   provenance_class: model_output
@@ -25276,8 +25280,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -26428,11 +26432,11 @@ record_sets:
     source_period_label: mid-2017
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2018.persons
   provenance_class: model_output
@@ -26446,8 +26450,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -27598,11 +27602,11 @@ record_sets:
     source_period_label: mid-2018
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2018.females
   provenance_class: model_output
@@ -27616,8 +27620,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -28768,11 +28772,11 @@ record_sets:
     source_period_label: mid-2018
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2018.males
   provenance_class: model_output
@@ -28786,8 +28790,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -29938,11 +29942,11 @@ record_sets:
     source_period_label: mid-2018
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2019.persons
   provenance_class: model_output
@@ -29956,8 +29960,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -31108,11 +31112,11 @@ record_sets:
     source_period_label: mid-2019
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2019.females
   provenance_class: model_output
@@ -31126,8 +31130,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -32278,11 +32282,11 @@ record_sets:
     source_period_label: mid-2019
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2019.males
   provenance_class: model_output
@@ -32296,8 +32300,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -33448,11 +33452,11 @@ record_sets:
     source_period_label: mid-2019
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2020.persons
   provenance_class: model_output
@@ -33466,8 +33470,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -34618,11 +34622,11 @@ record_sets:
     source_period_label: mid-2020
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2020.females
   provenance_class: model_output
@@ -34636,8 +34640,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -35788,11 +35792,11 @@ record_sets:
     source_period_label: mid-2020
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2020.males
   provenance_class: model_output
@@ -35806,8 +35810,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -36958,11 +36962,11 @@ record_sets:
     source_period_label: mid-2020
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2021.persons
   provenance_class: model_output
@@ -36976,8 +36980,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -38128,11 +38132,11 @@ record_sets:
     source_period_label: mid-2021
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2021.females
   provenance_class: model_output
@@ -38146,8 +38150,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -39298,11 +39302,11 @@ record_sets:
     source_period_label: mid-2021
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2021.males
   provenance_class: model_output
@@ -39316,8 +39320,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -40468,11 +40472,11 @@ record_sets:
     source_period_label: mid-2021
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2022.persons
   provenance_class: model_output
@@ -40486,8 +40490,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -41638,11 +41642,11 @@ record_sets:
     source_period_label: mid-2022
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2022.females
   provenance_class: model_output
@@ -41656,8 +41660,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -42808,11 +42812,11 @@ record_sets:
     source_period_label: mid-2022
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2022.males
   provenance_class: model_output
@@ -42826,8 +42830,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -43978,11 +43982,11 @@ record_sets:
     source_period_label: mid-2022
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2023.persons
   provenance_class: model_output
@@ -43996,8 +44000,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -45148,11 +45152,11 @@ record_sets:
     source_period_label: mid-2023
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2023.females
   provenance_class: model_output
@@ -45166,8 +45170,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -46318,11 +46322,11 @@ record_sets:
     source_period_label: mid-2023
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2023.males
   provenance_class: model_output
@@ -46336,8 +46340,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -47488,11 +47492,11 @@ record_sets:
     source_period_label: mid-2023
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons
   provenance_class: model_output
@@ -47506,8 +47510,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -48658,11 +48662,11 @@ record_sets:
     source_period_label: mid-2024
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Persons
+    sex: all
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Persons
+    value: all
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.females
   provenance_class: model_output
@@ -48676,8 +48680,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -49828,11 +49832,11 @@ record_sets:
     source_period_label: mid-2024
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Females
+    sex: female
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Females
+    value: female
     label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.males
   provenance_class: model_output
@@ -49846,8 +49850,8 @@ record_sets:
   geography_name: United Kingdom
   geography_vintage: current
   entity: person
-  entity_role: usual_resident
-  domain: population
+  entity_role: resident_population
+  domain: resident_population
   groupby_dimension: geography
   rows:
   - value_id: s14000060
@@ -50998,9 +51002,9 @@ record_sets:
     source_period_label: mid-2024
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    Sex: Males
+    sex: male
   shared_constraints:
-  - variable: Sex
+  - variable: sex
     operator: ==
-    value: Males
+    value: male
     label: Sex

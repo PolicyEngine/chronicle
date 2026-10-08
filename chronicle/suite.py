@@ -1258,9 +1258,29 @@ def _filter_value_matches_source_value(
 ) -> bool:
     if _values_equal(source_value, expected):
         return True
+    if _normalize_semantic_name(variable) == "sex":
+        return _canonical_sex_matches_source_value(expected, source_value)
     if _normalize_semantic_name(variable) != "incomerange":
         return False
     return _income_range_contains(expected, source_value)
+
+
+def _canonical_sex_matches_source_value(expected: Any, source_value: Any) -> bool:
+    """Match bounded publisher sex labels without altering the raw source row."""
+    if not isinstance(expected, str) or not isinstance(source_value, str):
+        return False
+    if expected not in {"all", "female", "male"}:
+        return False
+    aliases = {
+        "all": "all",
+        "persons": "all",
+        "all persons": "all",
+        "female": "female",
+        "females": "female",
+        "male": "male",
+        "males": "male",
+    }
+    return aliases.get(source_value.strip().casefold()) == expected
 
 
 def _income_range_contains(expected: Any, source_value: Any) -> bool:
@@ -1317,6 +1337,15 @@ def _constraint_evidenced_by_source_rows(
     constraint: Any,
 ) -> bool:
     """Accept source-coded bands as evidence for interpreted bounds."""
+    if (
+        _normalize_semantic_name(str(constraint.variable)) == "sex"
+        and constraint.operator == "=="
+    ):
+        values = _source_row_values(rows, constraint.variable)
+        return bool(values) and all(
+            _canonical_sex_matches_source_value(constraint.value, value)
+            for value in values
+        )
     if _is_age_variable(str(constraint.variable)):
         return _age_band_constraint_matches(
             rows,

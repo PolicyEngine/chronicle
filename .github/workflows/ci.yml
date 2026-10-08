@@ -23,8 +23,8 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  chronicle:
-    name: Chronicle checks
+  bundle:
+    name: Chronicle bundle
     runs-on: ubuntu-latest
     # Kill a hung run instead of letting it hold a slot for GitHub's 360-minute
     # default. Successful runs on main-based branches took 76-147 min on Oct 7-8
@@ -56,11 +56,11 @@ jobs:
           tests
 
       - name: Test UK calibration source additions
-        run: uv run pytest -q tests/test_chronicle_uk_national_2025.py
+        run: uv run pytest -q --durations=30 tests/test_chronicle_uk_national_2025.py
 
       - name: Test merged Chronicle bundles
         run: >
-          uv run pytest -q tests/test_chronicle_bundle.py
+          uv run pytest -q --durations=30 tests/test_chronicle_bundle.py
           --basetemp=/tmp/chronicle-bundle-ci
 
       - name: Upload failed bundle reports
@@ -75,22 +75,42 @@ jobs:
             /tmp/chronicle-bundle-ci/**/coverage.json
             /tmp/chronicle-bundle-ci/**/source_packages.json
 
+  surface:
+    name: Chronicle surface
+    runs-on: ubuntu-latest
+    timeout-minutes: 210
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: uv sync --locked --all-extras
+
       - name: Test Chronicle surface
         # --durations lists the slowest tests so a slowdown is visible in the
         # log instead of only in the job's total time.
         run: >
-          uv run pytest -q --durations=25
+          uv run pytest -q --durations=30
           --ignore=tests/test_chronicle_uk_national_2025.py
           --ignore=tests/test_chronicle_bundle.py
           --ignore=tests/test_ots_anchor.py
 
-      # Keep this security-sensitive operational surface explicit. The broad
-      # Chronicle lint also covers it; its tests run only in the step below.
+      # Keep this security-sensitive operational surface explicit. The bundle
+      # job lint also covers it; its tests run only in the step below.
       - name: Lint OpenTimestamps anchoring
         run: uv run ruff check scripts/ots_anchor.py tests/test_ots_anchor.py
 
       - name: Test OpenTimestamps anchoring
-        run: uv run pytest -q tests/test_ots_anchor.py
+        run: uv run pytest -q --durations=30 tests/test_ots_anchor.py
 
       - name: Build source input database
         run: |
@@ -146,3 +166,20 @@ jobs:
           assert len(CONSUMER_FACT_SCHEMA_SHA256) == 64
           PY
           /tmp/chronicle-wheel-smoke/bin/chronicle --help >/dev/null
+
+  chronicle:
+    name: Chronicle checks
+    needs: [bundle, surface]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Require bundle and surface checks
+        env:
+          BUNDLE_RESULT: ${{ needs.bundle.result }}
+          SURFACE_RESULT: ${{ needs.surface.result }}
+        run: |
+          if [[ "$BUNDLE_RESULT" != "success" || "$SURFACE_RESULT" != "success" ]]; then
+            printf 'Bundle: %s; surface: %s\n' "$BUNDLE_RESULT" "$SURFACE_RESULT"
+            exit 1
+          fi

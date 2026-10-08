@@ -28,6 +28,10 @@ Chronicle preserves the publisher artifacts requested in [issue 313](https://git
 
 Every artifact manifest records its source URL, extraction timestamp, SHA-256, byte size and uploaded R2 location. Full-row parsers retain physical source-row coordinates in the lineage key and cell note; selectors address the compact virtual-cell table with its header on row 1.
 
+The default merged bundle grows from 408,475 to 994,471 facts, an increase of 143.5% (2.43 times the previous volume). Consumers should assess ingestion time and memory before a Microcosm pin bump. Moving generated record-set declarations to R2 is a possible follow-up architecture change; this change retains the existing Git-based package declarations.
+
+Expected semantic overlaps comprise the May 2025 UC snapshots and the January 2025–May 2026 series: 4,424 constituency-by-child keys, 632 constituency keys and 350 local-authority keys (5,406 total). The new DfI passenger-receipt edition also retains 12 FY2019/20–2024/25 keys present in the preceding edition. Both extraction vintages remain available; publisher revisions can make their values differ, so consumers select or reconcile them. Overlapping geography, population, census and rent evidence is distinct from these 5,418 additional semantic duplicate keys.
+
 ## Raw geography and rent evidence
 
 The following directories under `db/data/` have `registration_kind: raw_only` and no fact-package alias:
