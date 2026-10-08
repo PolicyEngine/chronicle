@@ -78,6 +78,9 @@ from chronicle.sources.specs import (
 SOURCE_PACKAGE_RESOURCE_PACKAGE = "packages"
 SOURCE_PACKAGE_SCHEMA_VERSION = schema_id("source_package")
 SOURCE_PACKAGE_ALIASES = {
+    "stats-nz-subnational-population-estimates-2025": Path(
+        "stats_nz/subnational_population_estimates_2025"
+    ),
     "bea-nipa-personal-income-components": Path("bea/nipa_personal_income_components"),
     "bea-nipa-personal-income-disposition": Path(
         "bea/nipa_personal_income_disposition"

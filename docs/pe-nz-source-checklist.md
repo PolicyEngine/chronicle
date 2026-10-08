@@ -53,8 +53,8 @@ tests, and record a verified `raw/nz/...` R2 URI.
 
 | Package from #176 | Artifact pinned | Package valid | `raw/nz` verified | Notes |
 |---|---:|---:|---:|---|
-| `stats_nz/subnational_population_estimates_2025` | [ ] | [ ] | [ ] | |
-| `stats_nz/national_population_estimates_2025` | [ ] | [ ] | [ ] | |
+| `stats_nz/subnational_population_estimates_2025` | [x] | [ ] | [x] | **Partial:** 85 validated workbook counts (16 regions + published NZ total; all ages/four broad age bands). Five-year-age × sex coverage is missing; its ADE structure request returned HTTP 401. Package-completion box stays unchecked. [Evidence and access notes](pe-nz-population-source-notes.md). |
+| `stats_nz/national_population_estimates_2025` | [ ] | [ ] | [ ] | **Blocked:** no original-vintage single-year-age artifact acquired. The 19 August 2025 release points to Infoshare, not an XLSX. Landing-page evidence only is hash-pinned in `raw/nz`; it emits zero facts. [Evidence and access notes](pe-nz-population-source-notes.md). |
 | `stats_nz/census_2023_households_by_region` | [ ] | [ ] | [ ] | |
 | `stats_nz/census_2023_family_type` | [ ] | [ ] | [ ] | |
 | `stats_nz/census_2023_ethnicity_age_region` | [ ] | [ ] | [ ] | |
