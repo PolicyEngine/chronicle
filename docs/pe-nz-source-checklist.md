@@ -92,7 +92,7 @@ downloaded again on 2026-08-29. Its SHA-256 remained
 
 | Package | Artifact pinned | Package valid | `raw/nz` verified | Notes |
 |---|---:|---:|---:|---|
-| `treasury/an24_01_fiscal_totals` | [x] | [x] | [ ] | 27 Treasury-published analytical observations in the TY2019 column; unchanged NZD amounts and verbatim Notes. CC0-1.0; hub R2 upload pending. |
+| `treasury/an24_01_fiscal_totals` | [x] | [x] | [x] | 27 Treasury-published analytical observations in the TY2019 column; unchanged NZD amounts and verbatim Notes. CC0-1.0. Raw CSV and licence published under `raw/nz/treasury/...` and verified by SHA-256 on 2026-10-07. |
 
 The fiscal totals CSV and its CC0 licence are preserved unchanged at Treasury
 repository commit `6e840d54b67bb7f34c63b9d34897e234317445c3`. The package
