@@ -1,4 +1,6 @@
 # Keep pinned source artifacts byte-for-byte identical to their publishers.
+db/data/desnz/road_transport_fuel_consumption_2024/methodology/methodology.html -diff -text
+db/data/desnz/road_transport_fuel_consumption_2024/subnational-road-transport-fuel-consumption-tables-2005-2024.xlsx -diff -text
 db/data/dft/bus01_passenger_journeys_2025/bus01.ods -diff
 db/data/dft/nts0303_mode_trips_2025/nts0303.ods -diff
 db/data/dft/nts0601_age_mode_trips_2025/nts0601.ods -diff

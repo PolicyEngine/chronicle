@@ -340,6 +340,13 @@ def test_ons_consumer_trends_sheets_share_one_coicop_constraint_key():
     facts = load_source_package("ons-consumer-trends-current-price-2026").build_facts(
         2026
     )
+    # Keep this regression scoped to the seven series introduced in #254/#270.
+    # Issue #322 adds whole-table coverage on these and other worksheets.
+    facts = [
+        fact
+        for fact in facts
+        if not fact.layout.record_set_id.startswith("ons.consumer_trends.expanded_")
+    ]
     by_sheet = {"04cn": set(), "07cn": set()}
     for fact in facts:
         record_set_id = fact.layout.record_set_id

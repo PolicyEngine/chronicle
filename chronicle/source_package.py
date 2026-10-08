@@ -346,6 +346,9 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "desnz-qep-gas-annual-bills-2026": Path("desnz/qep_gas_annual_bills_2026"),
     "desnz-qep-gas-unit-fixed-costs-2026": Path("desnz/qep_gas_unit_fixed_costs_2026"),
+    "desnz-road-transport-fuel-consumption-2024": Path(
+        "desnz/road_transport_fuel_consumption_2024"
+    ),
     "desnz-subnational-electricity-consumption-2024": Path(
         "desnz/subnational_electricity_consumption_2024"
     ),

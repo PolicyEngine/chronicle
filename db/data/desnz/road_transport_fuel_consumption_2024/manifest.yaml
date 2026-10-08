@@ -1,0 +1,13 @@
+source_id: desnz
+package_id: desnz-road-transport-fuel-consumption-2024
+dataset: desnz_desnz-road-transport-fuel-consumption-2024
+source_page: https://www.gov.uk/government/statistics/uk-road-transport-fuel-consumption-at-regional-and-local-authority-level-2005-to-2024
+table: Sub-national road transport fuel consumption statistics, 2005-2024
+methodology_manifest: methodology/manifest.yaml
+files:
+  2026:
+    filename: subnational-road-transport-fuel-consumption-tables-2005-2024.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/6a3ba06f4c7605ab567238bb/subnational-road-transport-fuel-consumption-tables-2005-2024.xlsx
+    sha256: 1b6d8596659ed9e4e6cb946b904f967a48d9eda175709c7f0b3801f87d0fc39f
+    size_bytes: 4544586
+    fetched_at: '2026-10-08T12:16:25+00:00'
