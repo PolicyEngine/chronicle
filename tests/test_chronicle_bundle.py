@@ -262,7 +262,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the ONS overview and detailed worksheets.
         # chronicle#313 adds 27 English county wording differences and one
         # Scottish BRMA difference, preserving each publisher's name.
-        "warning_count": 113,
+        # It also retains detached/terraced casing differences between DESNZ
+        # and PIPR, plus SLC's two literal returning-support footnote spellings.
+        "warning_count": 116,
     }
     row_count = 0
     provenance_classes = set()
@@ -1615,8 +1617,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 7742
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 78,
-        "conflicting_groupby_value_label": 22,
-        "conflicting_value_label_across_packages": 12,
+        "conflicting_groupby_value_label": 23,
+        "conflicting_value_label_across_packages": 14,
         "duplicate_semantic_fact_key": 1,
     }
     assert [
@@ -1661,6 +1663,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "measure=country_total",
         "ons.household_type=couple_3_plus_children_households",
         "person.age_band=65_plus",
+        "property_type=detached",
+        "property_type=terraced",
         "sex=female",
         "us:statutes/26/62#adjusted_gross_income=all",
         "us:statutes/26/62#adjusted_gross_income=under_1",

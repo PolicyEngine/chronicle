@@ -5,7 +5,11 @@ from functools import cache
 
 import pytest
 
-from chronicle.consumer_contract import validate_consumer_fact_contract
+from chronicle.bundle import _dimension_label_reports
+from chronicle.consumer_contract import (
+    consumer_fact_rows,
+    validate_consumer_fact_contract,
+)
 from chronicle.core import PeriodCoverage, PeriodDimension
 from chronicle.source_package import load_source_package
 from chronicle.suite import _period_matches_source_row, build_source_suite
@@ -107,6 +111,30 @@ def test_slc_provisional_support_keeps_early_year_basis_and_different_totals(fac
     averages = [f for f in facts if f.aggregation.method == "mean"]
     assert averages
     assert all(f.measure.unit == "gbp" for f in averages)
+
+
+def test_slc_returning_support_keeps_both_publisher_footnote_spellings(facts_for):
+    alias = "slc-student-support-england-2025-provisional-2025-26"
+    facts = facts_for(alias)
+    axis = "early_year_award_line"
+    line = "new_returning_total_returning_31_33_35"
+    returning = {f.aggregation.method: f for f in facts if f.filters[axis] == line}
+    # Table 7C(ii)!B75 and B111 contain different literal footnote spellings.
+    labels = {
+        "sum": "Total returning [31][33][35]",
+        "mean": "Total returning [31[[33][35]",
+    }
+    assert set(returning) == set(labels)
+    for method, label in labels.items():
+        fact = returning[method]
+        assert fact.layout.groupby_value_label == label
+        assert fact.dimension_value_labels[axis][line] == label
+
+    errors, warnings = _dimension_label_reports(alias, consumer_fact_rows(facts))
+    assert not errors, [error.to_dict() for error in errors]
+    assert [(warning.code, warning.key) for warning in warnings] == [
+        ("conflicting_groupby_value_label", f"{axis}={line}")
+    ]
 
 
 def test_public_sector_employment_keeps_four_published_quarters(facts_for):
