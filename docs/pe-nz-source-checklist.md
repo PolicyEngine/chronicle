@@ -87,3 +87,38 @@ fact. Independently published family and credit totals are not reconciled here.
 The workbook was uploaded to the manifest's immutable `raw/nz/ird/...` key and
 downloaded again on 2026-08-29. Its SHA-256 remained
 `95ae66f4d44f3f47ea3daa006328b22f061a163cf7e31b487342cde649390833`.
+
+## Wave-2 fiscal comparators (#177 subset)
+
+| Package | Artifact pinned | Package valid | `raw/nz` verified | Notes |
+|---|---:|---:|---:|---|
+| `treasury/an24_01_fiscal_totals` | [x] | [x] | [x] | 27 Treasury-published analytical observations in the TY2019 column; unchanged NZD amounts and verbatim Notes. CC0-1.0. Raw CSV and licence published under `raw/nz/treasury/...` and verified by SHA-256 on 2026-10-07. |
+
+The fiscal totals CSV and its CC0 licence are preserved unchanged at Treasury
+repository commit `6e840d54b67bb7f34c63b9d34897e234317445c3`. The package
+records Treasury as publisher and uses `assertion: observation` with
+`provenance_class: model_output` for its analytical fiscal totals. It does not
+recompute Treasury's weighting, excise proportions, or other derivations.
+All quantities retain the publisher's `TY2019` column label, represented as
+`tax_year: 2019` with 1 April 2018 to 31 March 2019 tax-year coverage. Notes
+retain the underlying fiscal-year inputs: PBFF model budget total and Winter
+Energy Payment use FY2019 directly. Tax-year coverage describes the published
+column, rather than asserting that every input actual covers that span.
+
+In particular, **Accommodation Supplement** is the publisher's Quantity label
+for **NZD 1,531,000,000**. Its Notes describe a weighted average of
+**Accommodation Assistance** actuals for FY2018 and FY2019. The package preserves
+both pieces of evidence; the source does not establish an AS-only cash-paid or
+full-entitlement amount. Best Start includes Parental tax credit; Jobseeker
+Support includes Emergency Benefit; NZ Super and Vets combines both programmes;
+Student loan is a fair-value write-down on new borrowing. These qualifications
+remain in each fact's source evidence.
+
+Receipt hashes and sizes pin the CSV and licence. Manifest R2 locations use
+Chronicle's `build_r2_key` with explicit `prefix="raw/nz"`; the current publisher
+country map does not include Treasury, so the hub must likewise pass
+`--r2-prefix raw/nz` when publishing. The locations are declared for the hub's
+pre-merge upload and have not been remotely verified by this lane.
+
+The Budget 2026 Estimates and MSD Benefit System Report are outside this
+package. Their artifacts were not staged, so no facts from them are emitted.
