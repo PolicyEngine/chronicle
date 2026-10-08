@@ -53,19 +53,19 @@ tests, and record a verified `raw/nz/...` R2 URI.
 
 | Package from #176 | Artifact pinned | Package valid | `raw/nz` verified | Notes |
 |---|---:|---:|---:|---|
-| `stats_nz/subnational_population_estimates_2025` | [ ] | [ ] | [ ] | |
-| `stats_nz/national_population_estimates_2025` | [ ] | [ ] | [ ] | |
+| `stats_nz/subnational_population_estimates_2025` | [x] | [ ] | [x] | **Partial:** 85 validated workbook counts (16 regions + published NZ total; all ages/four broad age bands). Five-year-age × sex coverage is missing; its ADE structure request returned HTTP 401. Package-completion box stays unchecked. [Evidence and access notes](pe-nz-population-source-notes.md). |
+| `stats_nz/national_population_estimates_2025` | [ ] | [ ] | [ ] | **Blocked:** no original-vintage single-year-age artifact acquired. The 19 August 2025 release points to Infoshare, not an XLSX. Landing-page evidence only is hash-pinned in `raw/nz`; it emits zero facts. [Evidence and access notes](pe-nz-population-source-notes.md). |
 | `stats_nz/census_2023_households_by_region` | [ ] | [ ] | [ ] | |
 | `stats_nz/census_2023_family_type` | [ ] | [ ] | [ ] | |
 | `stats_nz/census_2023_ethnicity_age_region` | [ ] | [ ] | [ ] | |
-| `ird/taxable_income_distribution_2025` | [ ] | [ ] | [ ] | |
-| `ird/wage_salary_distribution_2025` | [ ] | [ ] | [ ] | |
+| `ird/taxable_income_distribution_2025` | [x] | [x] | [x] | I1, TY2024 (September 2025 release): 3,522 administrative facts; full national income bands, age marginals, and Tab 4 age × band counts. Raw workbook published to its `raw/nz/ird/...` key and verified by SHA-256 on 2026-10-07. |
+| `ird/wage_salary_distribution_2025` | [ ] | [ ] | [ ] | I2 deferred: revised wage/salary workbook is not staged; its direct publisher file URL remains unresolved. |
 | `ird/working_for_families_statistics_sept_2025` | [x] | [x] | [x] | TY2024: 330 administrative facts; count/entitlement, children, family size, and full published income table. |
 | `ird/student_loan_statistics_march_2026` | [ ] | [ ] | [ ] | |
-| `msd/benefit_fact_sheets_national_june_2026` | [x] | [x] | [ ] | Row 10: June 2026 supersedes March; 46 administrative count facts, benefit × age, published benefit-status cuts, and separate national supplementary totals. Canonical R2 key checked locally; hub upload pending. |
-| `msd/benefit_fact_sheets_supplementary_june_2026` | [x] | [x] | [ ] | Row 11: 36 all-ages counts across 11 W&I regions plus Other regions; combined SPB/TAS preserved. No regional AS status split or national reconstruction. Canonical R2 key checked locally; hub upload pending. |
-| `msd/nzs_vp_fact_sheet_june_2026` | [x] | [x] | [ ] | Row 12: 46 June 2026 NZS/VP recipient count facts, including published additional-support and demographic cuts. Canonical R2 key checked locally; hub upload pending. |
-| `msd/annual_report_benefit_expenses_2025` | [x] | [x] | [ ] | Row 13: 11 actual FY2024/25 expense facts, fiscal_year 2024, published $000 × 1000. Accommodation Assistance 2,232,026; total 38,267,536 in source $000. Payment-definition evidence absent from staged PDF. Canonical R2 key checked locally; hub upload pending. |
+| `msd/benefit_fact_sheets_national_june_2026` | [x] | [x] | [x] | Row 10: June 2026 supersedes March; 46 administrative count facts, benefit × age, published benefit-status cuts, and separate national supplementary totals. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
+| `msd/benefit_fact_sheets_supplementary_june_2026` | [x] | [x] | [x] | Row 11: 36 all-ages counts across 11 W&I regions plus Other regions; combined SPB/TAS preserved. No regional AS status split or national reconstruction. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
+| `msd/nzs_vp_fact_sheet_june_2026` | [x] | [x] | [x] | Row 12: 46 June 2026 NZS/VP recipient count facts, including published additional-support and demographic cuts. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
+| `msd/annual_report_benefit_expenses_2025` | [x] | [x] | [x] | Row 13: 11 actual FY2024/25 expense facts, fiscal_year 2024, published $000 × 1000. Accommodation Assistance 2,232,026; total 38,267,536 in source $000. Payment-definition evidence absent from staged PDF. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
 | `mbie/tenancy_bond_rents_tla_2026` | [ ] | [ ] | [ ] | |
 | `stats_nz/qes_average_earnings_march_2026` | [ ] | [ ] | [ ] | |
 
@@ -115,4 +115,92 @@ item; the candidate missing source is the Treasury Vote Social Development
 2024/25 Estimates PDF, whose URL is recorded as unverified in the annual package's
 [evidence note](../packages/msd/annual_report_benefit_expenses_2025/evidence.md).
 All four canonical `raw/nz/msd/...` keys are derived with Chronicle's key builder
-from the hub's receipts; the hub must upload and verify the objects before merge.
+from the hub's receipts. The hub published all four objects with `chronicle publish-raw`
+and verified each by streaming it back (SHA-256 matches the manifest) on 2026-10-07.
+
+### Taxable-income source semantics (I1)
+
+The staged `taxable-income-distribution-of-individuals-2025.xlsx` is the
+September 2025 release, extracted from IRD systems on 12 September 2025. Its
+latest published income tax year is **2024**, evidenced by `Income tables
+2001-24!BU4`, `BU285`, and the title of `Age by income band distribution!A1`.
+Every emitted fact refers to 1 April 2023 to 31 March 2024. The Explanatory
+notes, stored as text in `xl/drawings/drawing1.xml` inside the unchanged source,
+describe a March-year basis and population data from 2016 onward. Historical
+cells are preserved but this package emits only TY2024 observations.
+
+The individual universe is IRD's administrative coverage, including qualifying
+children and part-year records, passive-income-only individuals (added with
+automatic assessments from 2019), and taxable welfare/NZ Super/earnings-related
+ACC income. It excludes nonresident-return filers, individuals with no taxable
+income who did not file, and
+people whose only income is correctly source-taxed PIE income (`Explanatory
+notes!A40:C49`). Taxable income is assessable income less allowable deductions
+and claimed losses, excluding exempt and PIE income (drawing 1, shape 2;
+`Explanatory notes!A58:C62`). Tax on taxable income applies the publisher's
+personal tax scale with IETC and specified IR3/PTS rebates, excluding WFF,
+overseas taxes paid that may reduce New Zealand tax payable, donation tax credits,
+and other listed rebates (drawing 1, shape 3).
+This is the publisher's defined tax calculation, rather than a cash-collection
+measure. These source qualifications accompany the facts as concept evidence.
+
+National bands retain all 237 published rows, including `nil`, the
+`$0.01    -   $100` band and the negative nil-band tax value at `BW8`.
+The national top band is `Over $1,000,000`; Tab 4's top band is
+`Over $180,000`. Band spelling and spacing remain publisher labels, including
+irregular lower endpoints. No interval endpoints, means, or aligned values are
+constructed. The notes place loss-making individuals in the nil band; the graph
+notes in `xl/drawings/drawing2.xml` say low-income groups omitted from graphs
+remain in the tables.
+
+Tab 4 preserves all 15 age columns, including `Unknown`, and each column's
+separately published `All` row. The income sheet also publishes age marginals
+and their own total. Those cells remain independent facts: for example,
+the income sheet's unknown-age count (`BU303`, 4,990) differs from Tab 4's
+unknown-age total (`B189`, 5,050). Totals read the publisher's cached formula
+values; Chronicle does not calculate sums of bands or reconcile the different
+tables. The package parses the complete used ranges of both data worksheets,
+including unselected historical, decile and percentile cells, and preserves
+the complete immutable workbook bytes.
+
+The manifest pins receipt SHA-256
+`fc7bf7ecdb27a08219cac1ad0cb06cc6bc8de0aae03d605c6ef8d42a15d4b592`,
+294,932 bytes, fetched `2026-10-07T19:23:14Z`. Its `raw/nz/ird/...` location
+was constructed with Chronicle's key builder; upload and download verification
+remain for the hub. I2 is not implemented: no revised wage/salary workbook was
+staged and the hub must resolve and stage its exact publisher file URL first.
+
+## Wave-2 fiscal comparators (#177 subset)
+
+| Package | Artifact pinned | Package valid | `raw/nz` verified | Notes |
+|---|---:|---:|---:|---|
+| `treasury/an24_01_fiscal_totals` | [x] | [x] | [x] | 27 Treasury-published analytical observations in the TY2019 column; unchanged NZD amounts and verbatim Notes. CC0-1.0. Raw CSV and licence published under `raw/nz/treasury/...` and verified by SHA-256 on 2026-10-07. |
+
+The fiscal totals CSV and its CC0 licence are preserved unchanged at Treasury
+repository commit `6e840d54b67bb7f34c63b9d34897e234317445c3`. The package
+records Treasury as publisher and uses `assertion: observation` with
+`provenance_class: model_output` for its analytical fiscal totals. It does not
+recompute Treasury's weighting, excise proportions, or other derivations.
+All quantities retain the publisher's `TY2019` column label, represented as
+`tax_year: 2019` with 1 April 2018 to 31 March 2019 tax-year coverage. Notes
+retain the underlying fiscal-year inputs: PBFF model budget total and Winter
+Energy Payment use FY2019 directly. Tax-year coverage describes the published
+column, rather than asserting that every input actual covers that span.
+
+In particular, **Accommodation Supplement** is the publisher's Quantity label
+for **NZD 1,531,000,000**. Its Notes describe a weighted average of
+**Accommodation Assistance** actuals for FY2018 and FY2019. The package preserves
+both pieces of evidence; the source does not establish an AS-only cash-paid or
+full-entitlement amount. Best Start includes Parental tax credit; Jobseeker
+Support includes Emergency Benefit; NZ Super and Vets combines both programmes;
+Student loan is a fair-value write-down on new borrowing. These qualifications
+remain in each fact's source evidence.
+
+Receipt hashes and sizes pin the CSV and licence. Manifest R2 locations use
+Chronicle's `build_r2_key` with explicit `prefix="raw/nz"`; the current publisher
+country map does not include Treasury, so the hub must likewise pass
+`--r2-prefix raw/nz` when publishing. The locations are declared for the hub's
+pre-merge upload and have not been remotely verified by this lane.
+
+The Budget 2026 Estimates and MSD Benefit System Report are outside this
+package. Their artifacts were not staged, so no facts from them are emitted.
