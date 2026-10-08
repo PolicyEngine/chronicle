@@ -246,7 +246,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#313 overlaps May2025 UC snapshots with the monthly series:
         # 4,424 constituency-child + 632 constituency + 350 LAD keys (+5,406).
         # The latest DfI edition retains twelve historical bus-receipt cells.
-        "semantic_duplicate_key_count": 7742,
+        # The revised NRS2024 edition shares the established concept, PCON24
+        # vintage and age constraints with 57 x 92 predecessor keys (+5,244).
+        "semantic_duplicate_key_count": 12986,
         "skipped_source_count": 10,
         "source_count": 56,
         "source_package_count": 322,
@@ -264,9 +266,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Scottish BRMA difference, preserving each publisher's name.
         # It also retains detached/terraced casing differences between DESNZ
         # and PIPR, plus SLC's two literal returning-support footnote spellings.
-        # Canonical sex IDs retain Persons/All persons and Male/Males labels,
-        # adding exactly sex=all and sex=male wording warnings (+2).
-        "warning_count": 118,
+        # Male/Males wording remains; total sex axes are omitted, matching
+        # predecessors, so there is no sex=all wording warning.
+        "warning_count": 117,
     }
     row_count = 0
     provenance_classes = set()
@@ -1616,11 +1618,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "tax_unit": 41368,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 7742
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 12986
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 78,
         "conflicting_groupby_value_label": 23,
-        "conflicting_value_label_across_packages": 16,
+        "conflicting_value_label_across_packages": 15,
         "duplicate_semantic_fact_key": 1,
     }
     assert [
@@ -1667,7 +1669,6 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "person.age_band=65_plus",
         "property_type=detached",
         "property_type=terraced",
-        "sex=all",
         "sex=female",
         "sex=male",
         "us:statutes/26/62#adjusted_gross_income=all",

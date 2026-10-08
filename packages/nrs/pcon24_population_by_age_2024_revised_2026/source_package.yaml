@@ -7,12 +7,10 @@ dimension_labels:
   sex: Sex
 dimension_value_labels:
   sex:
-    all: Persons
     female: Females
     male: Males
   age:
-    All ages: All ages
-    90 and over: 90 and over
+    90_plus: 90 and over
 artifact:
   source_name: nrs
   source_table: NRS revised mid-2011 to mid-2024 single-year age/sex population, UKPC24, 2022 data-zone
@@ -1190,27 +1188,18 @@ record_sets:
     ordinal: 0
     column: E
     source_column_id: All ages
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: All ages
-    filters:
-      age: All ages
-    constraints:
-    - variable: age
-      operator: ==
-      value: All ages
-      label: Publisher age
-    source_column_dimensions:
-      age: All ages
   - measure_id: age_0
     label: Population 0
     ordinal: 1
     column: F
     source_column_id: '0'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1230,7 +1219,7 @@ record_sets:
     ordinal: 2
     column: G
     source_column_id: '1'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1250,7 +1239,7 @@ record_sets:
     ordinal: 3
     column: H
     source_column_id: '2'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1270,7 +1259,7 @@ record_sets:
     ordinal: 4
     column: I
     source_column_id: '3'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1290,7 +1279,7 @@ record_sets:
     ordinal: 5
     column: J
     source_column_id: '4'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1310,7 +1299,7 @@ record_sets:
     ordinal: 6
     column: K
     source_column_id: '5'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1330,7 +1319,7 @@ record_sets:
     ordinal: 7
     column: L
     source_column_id: '6'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1350,7 +1339,7 @@ record_sets:
     ordinal: 8
     column: M
     source_column_id: '7'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1370,7 +1359,7 @@ record_sets:
     ordinal: 9
     column: N
     source_column_id: '8'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1390,7 +1379,7 @@ record_sets:
     ordinal: 10
     column: O
     source_column_id: '9'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1410,7 +1399,7 @@ record_sets:
     ordinal: 11
     column: P
     source_column_id: '10'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1430,7 +1419,7 @@ record_sets:
     ordinal: 12
     column: Q
     source_column_id: '11'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1450,7 +1439,7 @@ record_sets:
     ordinal: 13
     column: R
     source_column_id: '12'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1470,7 +1459,7 @@ record_sets:
     ordinal: 14
     column: S
     source_column_id: '13'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1490,7 +1479,7 @@ record_sets:
     ordinal: 15
     column: T
     source_column_id: '14'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1510,7 +1499,7 @@ record_sets:
     ordinal: 16
     column: U
     source_column_id: '15'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1530,7 +1519,7 @@ record_sets:
     ordinal: 17
     column: V
     source_column_id: '16'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1550,7 +1539,7 @@ record_sets:
     ordinal: 18
     column: W
     source_column_id: '17'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1570,7 +1559,7 @@ record_sets:
     ordinal: 19
     column: X
     source_column_id: '18'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1590,7 +1579,7 @@ record_sets:
     ordinal: 20
     column: Y
     source_column_id: '19'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1610,7 +1599,7 @@ record_sets:
     ordinal: 21
     column: Z
     source_column_id: '20'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1630,7 +1619,7 @@ record_sets:
     ordinal: 22
     column: AA
     source_column_id: '21'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1650,7 +1639,7 @@ record_sets:
     ordinal: 23
     column: AB
     source_column_id: '22'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1670,7 +1659,7 @@ record_sets:
     ordinal: 24
     column: AC
     source_column_id: '23'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1690,7 +1679,7 @@ record_sets:
     ordinal: 25
     column: AD
     source_column_id: '24'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1710,7 +1699,7 @@ record_sets:
     ordinal: 26
     column: AE
     source_column_id: '25'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1730,7 +1719,7 @@ record_sets:
     ordinal: 27
     column: AF
     source_column_id: '26'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1750,7 +1739,7 @@ record_sets:
     ordinal: 28
     column: AG
     source_column_id: '27'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1770,7 +1759,7 @@ record_sets:
     ordinal: 29
     column: AH
     source_column_id: '28'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1790,7 +1779,7 @@ record_sets:
     ordinal: 30
     column: AI
     source_column_id: '29'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1810,7 +1799,7 @@ record_sets:
     ordinal: 31
     column: AJ
     source_column_id: '30'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1830,7 +1819,7 @@ record_sets:
     ordinal: 32
     column: AK
     source_column_id: '31'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1850,7 +1839,7 @@ record_sets:
     ordinal: 33
     column: AL
     source_column_id: '32'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1870,7 +1859,7 @@ record_sets:
     ordinal: 34
     column: AM
     source_column_id: '33'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1890,7 +1879,7 @@ record_sets:
     ordinal: 35
     column: AN
     source_column_id: '34'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1910,7 +1899,7 @@ record_sets:
     ordinal: 36
     column: AO
     source_column_id: '35'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1930,7 +1919,7 @@ record_sets:
     ordinal: 37
     column: AP
     source_column_id: '36'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1950,7 +1939,7 @@ record_sets:
     ordinal: 38
     column: AQ
     source_column_id: '37'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1970,7 +1959,7 @@ record_sets:
     ordinal: 39
     column: AR
     source_column_id: '38'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1990,7 +1979,7 @@ record_sets:
     ordinal: 40
     column: AS
     source_column_id: '39'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2010,7 +1999,7 @@ record_sets:
     ordinal: 41
     column: AT
     source_column_id: '40'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2030,7 +2019,7 @@ record_sets:
     ordinal: 42
     column: AU
     source_column_id: '41'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2050,7 +2039,7 @@ record_sets:
     ordinal: 43
     column: AV
     source_column_id: '42'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2070,7 +2059,7 @@ record_sets:
     ordinal: 44
     column: AW
     source_column_id: '43'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2090,7 +2079,7 @@ record_sets:
     ordinal: 45
     column: AX
     source_column_id: '44'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2110,7 +2099,7 @@ record_sets:
     ordinal: 46
     column: AY
     source_column_id: '45'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2130,7 +2119,7 @@ record_sets:
     ordinal: 47
     column: AZ
     source_column_id: '46'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2150,7 +2139,7 @@ record_sets:
     ordinal: 48
     column: BA
     source_column_id: '47'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2170,7 +2159,7 @@ record_sets:
     ordinal: 49
     column: BB
     source_column_id: '48'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2190,7 +2179,7 @@ record_sets:
     ordinal: 50
     column: BC
     source_column_id: '49'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2210,7 +2199,7 @@ record_sets:
     ordinal: 51
     column: BD
     source_column_id: '50'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2230,7 +2219,7 @@ record_sets:
     ordinal: 52
     column: BE
     source_column_id: '51'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2250,7 +2239,7 @@ record_sets:
     ordinal: 53
     column: BF
     source_column_id: '52'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2270,7 +2259,7 @@ record_sets:
     ordinal: 54
     column: BG
     source_column_id: '53'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2290,7 +2279,7 @@ record_sets:
     ordinal: 55
     column: BH
     source_column_id: '54'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2310,7 +2299,7 @@ record_sets:
     ordinal: 56
     column: BI
     source_column_id: '55'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2330,7 +2319,7 @@ record_sets:
     ordinal: 57
     column: BJ
     source_column_id: '56'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2350,7 +2339,7 @@ record_sets:
     ordinal: 58
     column: BK
     source_column_id: '57'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2370,7 +2359,7 @@ record_sets:
     ordinal: 59
     column: BL
     source_column_id: '58'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2390,7 +2379,7 @@ record_sets:
     ordinal: 60
     column: BM
     source_column_id: '59'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2410,7 +2399,7 @@ record_sets:
     ordinal: 61
     column: BN
     source_column_id: '60'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2430,7 +2419,7 @@ record_sets:
     ordinal: 62
     column: BO
     source_column_id: '61'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2450,7 +2439,7 @@ record_sets:
     ordinal: 63
     column: BP
     source_column_id: '62'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2470,7 +2459,7 @@ record_sets:
     ordinal: 64
     column: BQ
     source_column_id: '63'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2490,7 +2479,7 @@ record_sets:
     ordinal: 65
     column: BR
     source_column_id: '64'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2510,7 +2499,7 @@ record_sets:
     ordinal: 66
     column: BS
     source_column_id: '65'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2530,7 +2519,7 @@ record_sets:
     ordinal: 67
     column: BT
     source_column_id: '66'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2550,7 +2539,7 @@ record_sets:
     ordinal: 68
     column: BU
     source_column_id: '67'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2570,7 +2559,7 @@ record_sets:
     ordinal: 69
     column: BV
     source_column_id: '68'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2590,7 +2579,7 @@ record_sets:
     ordinal: 70
     column: BW
     source_column_id: '69'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2610,7 +2599,7 @@ record_sets:
     ordinal: 71
     column: BX
     source_column_id: '70'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2630,7 +2619,7 @@ record_sets:
     ordinal: 72
     column: BY
     source_column_id: '71'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2650,7 +2639,7 @@ record_sets:
     ordinal: 73
     column: BZ
     source_column_id: '72'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2670,7 +2659,7 @@ record_sets:
     ordinal: 74
     column: CA
     source_column_id: '73'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2690,7 +2679,7 @@ record_sets:
     ordinal: 75
     column: CB
     source_column_id: '74'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2710,7 +2699,7 @@ record_sets:
     ordinal: 76
     column: CC
     source_column_id: '75'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2730,7 +2719,7 @@ record_sets:
     ordinal: 77
     column: CD
     source_column_id: '76'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2750,7 +2739,7 @@ record_sets:
     ordinal: 78
     column: CE
     source_column_id: '77'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2770,7 +2759,7 @@ record_sets:
     ordinal: 79
     column: CF
     source_column_id: '78'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2790,7 +2779,7 @@ record_sets:
     ordinal: 80
     column: CG
     source_column_id: '79'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2810,7 +2799,7 @@ record_sets:
     ordinal: 81
     column: CH
     source_column_id: '80'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2830,7 +2819,7 @@ record_sets:
     ordinal: 82
     column: CI
     source_column_id: '81'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2850,7 +2839,7 @@ record_sets:
     ordinal: 83
     column: CJ
     source_column_id: '82'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2870,7 +2859,7 @@ record_sets:
     ordinal: 84
     column: CK
     source_column_id: '83'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2890,7 +2879,7 @@ record_sets:
     ordinal: 85
     column: CL
     source_column_id: '84'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2910,7 +2899,7 @@ record_sets:
     ordinal: 86
     column: CM
     source_column_id: '85'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2930,7 +2919,7 @@ record_sets:
     ordinal: 87
     column: CN
     source_column_id: '86'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2950,7 +2939,7 @@ record_sets:
     ordinal: 88
     column: CO
     source_column_id: '87'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2970,7 +2959,7 @@ record_sets:
     ordinal: 89
     column: CP
     source_column_id: '88'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -2990,7 +2979,7 @@ record_sets:
     ordinal: 90
     column: CQ
     source_column_id: '89'
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -3010,34 +2999,27 @@ record_sets:
     ordinal: 91
     column: CR
     source_column_id: 90 and over
-    concept: nrs.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
     expected_column_header_row: 1
     expected_column_header: 90 and over
     filters:
-      age: 90 and over
+      age: 90_plus
     constraints:
     - variable: age
       operator: ==
-      value: 90 and over
+      value: 90_plus
       label: Publisher age
     source_column_dimensions:
-      age: 90 and over
+      age: 90_plus
   period_coverage:
     start_date: '2011-06-30'
     end_date: '2011-06-30'
     basis: calendar
     source_period_label: mid-2011
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2011.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2011.females.v1
@@ -6541,13 +6523,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2012
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2012.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2012.females.v1
@@ -10051,13 +10026,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2013
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2013.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2013.females.v1
@@ -13561,13 +13529,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2014
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2014.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2014.females.v1
@@ -17071,13 +17032,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2015
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2015.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2015.females.v1
@@ -20581,13 +20535,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2016
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2016.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2016.females.v1
@@ -24091,13 +24038,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2017
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2017.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2017.females.v1
@@ -27601,13 +27541,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2018
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2018.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2018.females.v1
@@ -31111,13 +31044,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2019
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2019.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2019.females.v1
@@ -34621,13 +34547,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2020
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2020.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2020.females.v1
@@ -38131,13 +38050,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2021
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2021.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2021.females.v1
@@ -41641,13 +41553,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2022
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2022.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2022.females.v1
@@ -45151,13 +45056,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2023
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2023.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2023.females.v1
@@ -48661,13 +48559,6 @@ record_sets:
     basis: calendar
     source_period_label: mid-2024
     notes: Publisher usual-resident population estimate, including communal establishments.
-  shared_filters:
-    sex: all
-  shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: Sex
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.females.v1

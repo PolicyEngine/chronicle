@@ -222,18 +222,31 @@ def test_devolved_mid2025_population_keeps_single_years_and_open_age_band():
     assert all(f.geography.id.startswith(("S12", "S92")) for f in scotland)
     assert (
         next(
-            f.value
-            for f in scotland
-            if f.geography.id == "S92000003"
-            and f.filters == {"sex": "all", "age": "All ages"}
+            f.value for f in scotland if f.geography.id == "S92000003" and not f.filters
         )
         == 5_545_500
     )
     ni = load_source_package("nisra-mye-2025-lgd-single-year-age").build_facts(2025)
     assert len(ni) == 12 * 3 * 91
-    oldest = [f for f in ni if f.filters["age"] == 90]
+    oldest = [f for f in ni if f.filters["age"] == "90_plus"]
     assert len(oldest) == 12 * 3
     assert all("90 and over" in f.measure.concept_evidence_notes for f in oldest)
+    assert all(
+        f.dimension_value_labels["age"]["90_plus"] == "90 and over" for f in oldest
+    )
+    for fact in oldest:
+        assert ("age", ">=", 90, "years") in {
+            (c.variable, c.operator, c.value, c.unit) for c in fact.constraints
+        }
+        assert not any(
+            c.variable == "age" and c.operator == "==" and c.value == 90
+            for c in fact.constraints
+        )
+        assert fact.source_cell_keys and fact.source_row_keys
+    assert all(
+        f.measure.concept == "ons.mid_year_population_estimate" for f in scotland + ni
+    )
+    assert {f.filters.get("sex") for f in scotland + ni} == {None, "female", "male"}
     assert all(f.period_coverage.end_date == "2025-06-30" for f in scotland + ni)
     revised = load_source_package("nrs-pcon24-population-by-age-2024-revised-2026")
     specs = revised.build_source_record_set_specs(2024)

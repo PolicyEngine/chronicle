@@ -2,6 +2,8 @@
 
 from dataclasses import replace
 from functools import cache
+import json
+from pathlib import Path
 
 import pytest
 
@@ -54,10 +56,25 @@ def test_uk_mid_year_population_packages_share_the_consumer_representation(alias
         filters = [payload.get("shared_filters", {})]
         filters.extend(row.get("filters", {}) for row in payload["rows"])
         filters.extend(measure.get("filters", {}) for measure in payload["measures"])
+        assert all(
+            measure["concept"] == "ons.mid_year_population_estimate"
+            for measure in payload["measures"]
+        ), alias
         for dimensions in filters:
             assert set(dimensions) <= allowed_filters, alias
             if "sex" in dimensions:
-                assert dimensions["sex"] in {"all", "female", "male"}, alias
+                assert dimensions["sex"] in {"female", "male"}, alias
+            assert dimensions.get("age") not in {
+                "all",
+                "all_ages",
+                "All ages",
+                "90 and over",
+                90,
+            }, alias
+            if dimensions.get("age") == "90_plus":
+                assert (
+                    package.dimension_value_labels["age"]["90_plus"] == "90 and over"
+                ), alias
 
 
 @pytest.mark.parametrize(
@@ -65,6 +82,7 @@ def test_uk_mid_year_population_packages_share_the_consumer_representation(alias
     [
         ("ons-mye-2025-uk", 2025, 4416),
         ("ons-mye-2024-uk-revised-2026", 2025, 16),
+        ("nisra-mye-2025-lgd-single-year-age", 2025, 3276),
         ("lps-housing-stock-lgd-2026", 2026, 72),
         ("slc-student-loan-repayments-england-2026", 2026, 8),
         ("slc-student-support-england-2025-provisional-2025-26", 2025, 136),
@@ -89,6 +107,22 @@ def test_latest_comment_inputs_have_valid_source_cells_and_contracts(
     assert report.consumer_facts.fact_count == count
     assert report.facts.fact_count == count
     assert report.source_records.lineaged_count == count
+    if alias == "nisra-mye-2025-lgd-single-year-age":
+        assert report.source_rows.row_count == 90_120
+        assert (
+            report.source_cells.cell_count == 22_940
+        )  # 22,939 Flat cells + definition.
+        with Path(report.outputs["source_cells"]).open() as source_cells:
+            definitions = [
+                cell
+                for line in source_cells
+                if (cell := json.loads(line))["sheet_name"] == "Contents"
+            ]
+        assert len(definitions) == 1
+        assert definitions[0]["address"] == "A20"
+        assert definitions[0]["raw_value"] == (
+            "3. Within this dataset, age=90 refers to those aged 90 and over."
+        )
 
 
 def test_mid2025_higher_geographies_and_sexes_keep_the_revised_vintage(facts_for):

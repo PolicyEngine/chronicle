@@ -7,9 +7,10 @@ dimension_labels:
   age: Age
 dimension_value_labels:
   sex:
-    all: All persons
     female: Females
     male: Males
+  age:
+    90_plus: 90 and over
 artifact:
   source_name: nisra
   source_table: NISRA mid-2025 population by LGD, sex and single year of age
@@ -13438,7 +13439,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -13451,13 +13452,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 0
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 0
@@ -13772,7 +13768,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -13785,13 +13781,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 1
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 1
@@ -14106,7 +14097,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -14119,13 +14110,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 2
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 2
@@ -14440,7 +14426,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -14453,13 +14439,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 3
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 3
@@ -14774,7 +14755,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -14787,13 +14768,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 4
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 4
@@ -15108,7 +15084,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -15121,13 +15097,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 5
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 5
@@ -15442,7 +15413,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -15455,13 +15426,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 6
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 6
@@ -15776,7 +15742,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -15789,13 +15755,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 7
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 7
@@ -16110,7 +16071,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -16123,13 +16084,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 8
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 8
@@ -16444,7 +16400,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -16457,13 +16413,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 9
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 9
@@ -16778,7 +16729,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -16791,13 +16742,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 10
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 10
@@ -17112,7 +17058,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -17125,13 +17071,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 11
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 11
@@ -17446,7 +17387,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -17459,13 +17400,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 12
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 12
@@ -17780,7 +17716,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -17793,13 +17729,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 13
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 13
@@ -18114,7 +18045,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -18127,13 +18058,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 14
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 14
@@ -18448,7 +18374,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -18461,13 +18387,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 15
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 15
@@ -18782,7 +18703,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -18795,13 +18716,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 16
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 16
@@ -19116,7 +19032,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -19129,13 +19045,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 17
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 17
@@ -19450,7 +19361,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -19463,13 +19374,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 18
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 18
@@ -19784,7 +19690,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -19797,13 +19703,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 19
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 19
@@ -20118,7 +20019,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -20131,13 +20032,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 20
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 20
@@ -20452,7 +20348,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -20465,13 +20361,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 21
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 21
@@ -20786,7 +20677,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -20799,13 +20690,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 22
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 22
@@ -21120,7 +21006,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21133,13 +21019,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 23
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 23
@@ -21454,7 +21335,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21467,13 +21348,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 24
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 24
@@ -21788,7 +21664,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21801,13 +21677,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 25
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 25
@@ -22122,7 +21993,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22135,13 +22006,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 26
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 26
@@ -22456,7 +22322,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22469,13 +22335,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 27
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 27
@@ -22790,7 +22651,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22803,13 +22664,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 28
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 28
@@ -23124,7 +22980,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23137,13 +22993,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 29
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 29
@@ -23458,7 +23309,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23471,13 +23322,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 30
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 30
@@ -23792,7 +23638,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23805,13 +23651,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 31
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 31
@@ -24126,7 +23967,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24139,13 +23980,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 32
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 32
@@ -24460,7 +24296,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24473,13 +24309,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 33
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 33
@@ -24794,7 +24625,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24807,13 +24638,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 34
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 34
@@ -25128,7 +24954,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25141,13 +24967,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 35
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 35
@@ -25462,7 +25283,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25475,13 +25296,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 36
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 36
@@ -25796,7 +25612,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25809,13 +25625,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 37
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 37
@@ -26130,7 +25941,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26143,13 +25954,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 38
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 38
@@ -26464,7 +26270,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26477,13 +26283,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 39
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 39
@@ -26798,7 +26599,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26811,13 +26612,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 40
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 40
@@ -27132,7 +26928,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27145,13 +26941,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 41
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 41
@@ -27466,7 +27257,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27479,13 +27270,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 42
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 42
@@ -27800,7 +27586,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27813,13 +27599,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 43
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 43
@@ -28134,7 +27915,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28147,13 +27928,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 44
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 44
@@ -28468,7 +28244,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28481,13 +28257,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 45
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 45
@@ -28802,7 +28573,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28815,13 +28586,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 46
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 46
@@ -29136,7 +28902,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -29149,13 +28915,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 47
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 47
@@ -29470,7 +29231,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -29483,13 +29244,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 48
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 48
@@ -29804,7 +29560,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -29817,13 +29573,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 49
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 49
@@ -30138,7 +29889,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -30151,13 +29902,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 50
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 50
@@ -30472,7 +30218,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -30485,13 +30231,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 51
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 51
@@ -30806,7 +30547,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -30819,13 +30560,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 52
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 52
@@ -31140,7 +30876,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -31153,13 +30889,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 53
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 53
@@ -31474,7 +31205,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -31487,13 +31218,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 54
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 54
@@ -31808,7 +31534,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -31821,13 +31547,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 55
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 55
@@ -32142,7 +31863,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -32155,13 +31876,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 56
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 56
@@ -32476,7 +32192,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -32489,13 +32205,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 57
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 57
@@ -32810,7 +32521,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -32823,13 +32534,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 58
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 58
@@ -33144,7 +32850,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -33157,13 +32863,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 59
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 59
@@ -33478,7 +33179,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -33491,13 +33192,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 60
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 60
@@ -33812,7 +33508,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -33825,13 +33521,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 61
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 61
@@ -34146,7 +33837,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -34159,13 +33850,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 62
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 62
@@ -34480,7 +34166,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -34493,13 +34179,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 63
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 63
@@ -34814,7 +34495,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -34827,13 +34508,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 64
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 64
@@ -35148,7 +34824,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -35161,13 +34837,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 65
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 65
@@ -35482,7 +35153,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -35495,13 +35166,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 66
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 66
@@ -35816,7 +35482,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -35829,13 +35495,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 67
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 67
@@ -36150,7 +35811,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -36163,13 +35824,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 68
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 68
@@ -36484,7 +36140,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -36497,13 +36153,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 69
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 69
@@ -36818,7 +36469,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -36831,13 +36482,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 70
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 70
@@ -37152,7 +36798,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -37165,13 +36811,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 71
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 71
@@ -37486,7 +37127,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -37499,13 +37140,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 72
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 72
@@ -37820,7 +37456,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -37833,13 +37469,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 73
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 73
@@ -38154,7 +37785,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -38167,13 +37798,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 74
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 74
@@ -38488,7 +38114,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -38501,13 +38127,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 75
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 75
@@ -38822,7 +38443,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -38835,13 +38456,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 76
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 76
@@ -39156,7 +38772,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -39169,13 +38785,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 77
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 77
@@ -39490,7 +39101,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -39503,13 +39114,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 78
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 78
@@ -39824,7 +39430,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -39837,13 +39443,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 79
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 79
@@ -40158,7 +39759,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -40171,13 +39772,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 80
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 80
@@ -40492,7 +40088,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -40505,13 +40101,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 81
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 81
@@ -40826,7 +40417,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -40839,13 +40430,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 82
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 82
@@ -41160,7 +40746,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -41173,13 +40759,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 83
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 83
@@ -41494,7 +41075,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -41507,13 +41088,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 84
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 84
@@ -41828,7 +41404,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -41841,13 +41417,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 85
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 85
@@ -42162,7 +41733,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -42175,13 +41746,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 86
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 86
@@ -42496,7 +42062,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -42509,13 +42075,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 87
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 87
@@ -42830,7 +42391,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -42843,13 +42404,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 88
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 88
@@ -43164,7 +42720,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -43177,13 +42733,8 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
     age: 89
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
     value: 89
@@ -43215,6 +42766,8 @@ record_sets:
     geography_name: NORTHERN IRELAND
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1082
@@ -43239,6 +42792,8 @@ record_sets:
     geography_name: Antrim and Newtownabbey
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1083
@@ -43263,6 +42818,8 @@ record_sets:
     geography_name: Ards and North Down
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1084
@@ -43287,6 +42844,8 @@ record_sets:
     geography_name: Armagh City, Banbridge and Craigavon
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1085
@@ -43311,6 +42870,8 @@ record_sets:
     geography_name: Belfast
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1086
@@ -43335,6 +42896,8 @@ record_sets:
     geography_name: Causeway Coast and Glens
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1087
@@ -43359,6 +42922,8 @@ record_sets:
     geography_name: Derry City and Strabane
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1088
@@ -43383,6 +42948,8 @@ record_sets:
     geography_name: Fermanagh and Omagh
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1089
@@ -43407,6 +42974,8 @@ record_sets:
     geography_name: Lisburn and Castlereagh
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1090
@@ -43431,6 +43000,8 @@ record_sets:
     geography_name: Mid and East Antrim
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1091
@@ -43455,6 +43026,8 @@ record_sets:
     geography_name: Mid Ulster
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1092
@@ -43479,6 +43052,8 @@ record_sets:
     geography_name: Newry, Mourne and Down
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 1093
@@ -43498,7 +43073,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -43513,17 +43088,17 @@ record_sets:
     source_period_label: mid-2025
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
-    sex: all
-    age: 90
+    age: 90_plus
   shared_constraints:
-  - variable: sex
-    operator: ==
-    value: all
-    label: sex
   - variable: age
     operator: ==
+    value: 90_plus
+    label: age band
+  - variable: age
+    operator: ">="
     value: 90
-    label: age
+    unit: years
+    label: Age lower bound
 - record_set_id: nisra.mye_2025_lgd_single_year_age.females.age_0
   provenance_class: model_output
   record_set_spec_id: nisra.mye_2025_lgd_single_year_age.females.age_0.v1
@@ -43834,7 +43409,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -44168,7 +43743,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -44502,7 +44077,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -44836,7 +44411,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -45170,7 +44745,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -45504,7 +45079,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -45838,7 +45413,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -46172,7 +45747,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -46506,7 +46081,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -46840,7 +46415,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -47174,7 +46749,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -47508,7 +47083,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -47842,7 +47417,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -48176,7 +47751,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -48510,7 +48085,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -48844,7 +48419,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -49178,7 +48753,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -49512,7 +49087,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -49846,7 +49421,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -50180,7 +49755,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -50514,7 +50089,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -50848,7 +50423,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -51182,7 +50757,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -51516,7 +51091,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -51850,7 +51425,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -52184,7 +51759,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -52518,7 +52093,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -52852,7 +52427,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -53186,7 +52761,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -53520,7 +53095,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -53854,7 +53429,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -54188,7 +53763,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -54522,7 +54097,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -54856,7 +54431,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -55190,7 +54765,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -55524,7 +55099,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -55858,7 +55433,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -56192,7 +55767,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -56526,7 +56101,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -56860,7 +56435,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -57194,7 +56769,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -57528,7 +57103,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -57862,7 +57437,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -58196,7 +57771,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -58530,7 +58105,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -58864,7 +58439,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -59198,7 +58773,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -59532,7 +59107,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -59866,7 +59441,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -60200,7 +59775,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -60534,7 +60109,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -60868,7 +60443,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -61202,7 +60777,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -61536,7 +61111,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -61870,7 +61445,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -62204,7 +61779,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -62538,7 +62113,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -62872,7 +62447,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -63206,7 +62781,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -63540,7 +63115,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -63874,7 +63449,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -64208,7 +63783,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -64542,7 +64117,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -64876,7 +64451,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -65210,7 +64785,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -65544,7 +65119,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -65878,7 +65453,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -66212,7 +65787,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -66546,7 +66121,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -66880,7 +66455,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -67214,7 +66789,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -67548,7 +67123,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -67882,7 +67457,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -68216,7 +67791,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -68550,7 +68125,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -68884,7 +68459,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -69218,7 +68793,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -69552,7 +69127,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -69886,7 +69461,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -70220,7 +69795,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -70554,7 +70129,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -70888,7 +70463,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -71222,7 +70797,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -71556,7 +71131,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -71890,7 +71465,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -72224,7 +71799,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -72558,7 +72133,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -72892,7 +72467,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -73226,7 +72801,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -73560,7 +73135,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -73611,6 +73186,8 @@ record_sets:
     geography_name: NORTHERN IRELAND
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2174
@@ -73635,6 +73212,8 @@ record_sets:
     geography_name: Antrim and Newtownabbey
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2175
@@ -73659,6 +73238,8 @@ record_sets:
     geography_name: Ards and North Down
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2176
@@ -73683,6 +73264,8 @@ record_sets:
     geography_name: Armagh City, Banbridge and Craigavon
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2177
@@ -73707,6 +73290,8 @@ record_sets:
     geography_name: Belfast
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2178
@@ -73731,6 +73316,8 @@ record_sets:
     geography_name: Causeway Coast and Glens
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2179
@@ -73755,6 +73342,8 @@ record_sets:
     geography_name: Derry City and Strabane
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2180
@@ -73779,6 +73368,8 @@ record_sets:
     geography_name: Fermanagh and Omagh
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2181
@@ -73803,6 +73394,8 @@ record_sets:
     geography_name: Lisburn and Castlereagh
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2182
@@ -73827,6 +73420,8 @@ record_sets:
     geography_name: Mid and East Antrim
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2183
@@ -73851,6 +73446,8 @@ record_sets:
     geography_name: Mid Ulster
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2184
@@ -73875,6 +73472,8 @@ record_sets:
     geography_name: Newry, Mourne and Down
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 2185
@@ -73894,7 +73493,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -73910,7 +73509,7 @@ record_sets:
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
     sex: female
-    age: 90
+    age: 90_plus
   shared_constraints:
   - variable: sex
     operator: ==
@@ -73918,8 +73517,13 @@ record_sets:
     label: sex
   - variable: age
     operator: ==
+    value: 90_plus
+    label: age band
+  - variable: age
+    operator: ">="
     value: 90
-    label: age
+    unit: years
+    label: Age lower bound
 - record_set_id: nisra.mye_2025_lgd_single_year_age.males.age_0
   provenance_class: model_output
   record_set_spec_id: nisra.mye_2025_lgd_single_year_age.males.age_0.v1
@@ -74230,7 +73834,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -74564,7 +74168,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -74898,7 +74502,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -75232,7 +74836,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -75566,7 +75170,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -75900,7 +75504,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -76234,7 +75838,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -76568,7 +76172,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -76902,7 +76506,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -77236,7 +76840,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -77570,7 +77174,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -77904,7 +77508,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -78238,7 +77842,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -78572,7 +78176,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -78906,7 +78510,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -79240,7 +78844,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -79574,7 +79178,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -79908,7 +79512,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -80242,7 +79846,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -80576,7 +80180,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -80910,7 +80514,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -81244,7 +80848,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -81578,7 +81182,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -81912,7 +81516,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -82246,7 +81850,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -82580,7 +82184,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -82914,7 +82518,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -83248,7 +82852,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -83582,7 +83186,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -83916,7 +83520,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -84250,7 +83854,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -84584,7 +84188,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -84918,7 +84522,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -85252,7 +84856,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -85586,7 +85190,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -85920,7 +85524,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -86254,7 +85858,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -86588,7 +86192,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -86922,7 +86526,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -87256,7 +86860,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -87590,7 +87194,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -87924,7 +87528,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -88258,7 +87862,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -88592,7 +88196,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -88926,7 +88530,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -89260,7 +88864,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -89594,7 +89198,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -89928,7 +89532,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -90262,7 +89866,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -90596,7 +90200,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -90930,7 +90534,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -91264,7 +90868,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -91598,7 +91202,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -91932,7 +91536,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -92266,7 +91870,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -92600,7 +92204,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -92934,7 +92538,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -93268,7 +92872,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -93602,7 +93206,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -93936,7 +93540,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -94270,7 +93874,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -94604,7 +94208,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -94938,7 +94542,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -95272,7 +94876,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -95606,7 +95210,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -95940,7 +95544,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -96274,7 +95878,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -96608,7 +96212,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -96942,7 +96546,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -97276,7 +96880,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -97610,7 +97214,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -97944,7 +97548,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -98278,7 +97882,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -98612,7 +98216,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -98946,7 +98550,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -99280,7 +98884,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -99614,7 +99218,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -99948,7 +99552,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -100282,7 +99886,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -100616,7 +100220,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -100950,7 +100554,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -101284,7 +100888,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -101618,7 +101222,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -101952,7 +101556,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -102286,7 +101890,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -102620,7 +102224,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -102954,7 +102558,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -103288,7 +102892,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -103622,7 +103226,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -103956,7 +103560,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -104007,6 +103611,8 @@ record_sets:
     geography_name: NORTHERN IRELAND
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3266
@@ -104031,6 +103637,8 @@ record_sets:
     geography_name: Antrim and Newtownabbey
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3267
@@ -104055,6 +103663,8 @@ record_sets:
     geography_name: Ards and North Down
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3268
@@ -104079,6 +103689,8 @@ record_sets:
     geography_name: Armagh City, Banbridge and Craigavon
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3269
@@ -104103,6 +103715,8 @@ record_sets:
     geography_name: Belfast
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3270
@@ -104127,6 +103741,8 @@ record_sets:
     geography_name: Causeway Coast and Glens
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3271
@@ -104151,6 +103767,8 @@ record_sets:
     geography_name: Derry City and Strabane
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3272
@@ -104175,6 +103793,8 @@ record_sets:
     geography_name: Fermanagh and Omagh
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3273
@@ -104199,6 +103819,8 @@ record_sets:
     geography_name: Lisburn and Castlereagh
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3274
@@ -104223,6 +103845,8 @@ record_sets:
     geography_name: Mid and East Antrim
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3275
@@ -104247,6 +103871,8 @@ record_sets:
     geography_name: Mid Ulster
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3276
@@ -104271,6 +103897,8 @@ record_sets:
     geography_name: Newry, Mourne and Down
     geography_vintage: lgd_2014
     table_record_kind: detail
+    source_row_dimensions:
+      age: 90_plus
     guard_cells:
     - column: D
       row: 3277
@@ -104290,7 +103918,7 @@ record_sets:
     ordinal: 0
     column: G
     source_column_id: MYE
-    concept: nisra.population_estimate
+    concept: ons.mid_year_population_estimate
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -104306,7 +103934,7 @@ record_sets:
     notes: Publisher usual-resident population estimate, including communal establishments.
   shared_filters:
     sex: male
-    age: 90
+    age: 90_plus
   shared_constraints:
   - variable: sex
     operator: ==
@@ -104314,5 +103942,10 @@ record_sets:
     label: sex
   - variable: age
     operator: ==
+    value: 90_plus
+    label: age band
+  - variable: age
+    operator: ">="
     value: 90
-    label: age
+    unit: years
+    label: Age lower bound
