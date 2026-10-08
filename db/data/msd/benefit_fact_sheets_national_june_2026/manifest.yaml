@@ -1,0 +1,18 @@
+source_id: msd
+package_id: msd-benefit-fact-sheets-national-june-2026
+dataset: msd_benefit_fact_sheets_national_june_2026
+source_page: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+table: Quarterly Benefit Fact Sheets - National Benefit Tables, June 2026
+files:
+  2026:
+    filename: quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    source_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    sha256: 90cd8e7c8ff210ca9334eb035dfef3a39abdefe10365e5f7a6ccbd4291248f74
+    size_bytes: 96100
+    fetched_at: '2026-10-07T19:22:18Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/msd/msd-benefit-fact-sheets-national-june-2026/2026/90cd8e7c8ff210ca9334eb035dfef3a39abdefe10365e5f7a6ccbd4291248f74/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+        uri: r2://ledger-raw/raw/nz/msd/msd-benefit-fact-sheets-national-june-2026/2026/90cd8e7c8ff210ca9334eb035dfef3a39abdefe10365e5f7a6ccbd4291248f74/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx

@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import sqlite3
+from contextlib import closing
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -111,7 +112,9 @@ def build_chronicle_db(
         *(row.artifact.sha256 for row in rows),
     }
 
-    with sqlite3.connect(path) as connection:
+    # sqlite3's context manager only commits or rolls back; closing() also
+    # releases the file, so a caller can delete it as soon as this returns.
+    with closing(sqlite3.connect(path)) as connection, connection:
         connection.execute("PRAGMA foreign_keys = ON")
         _create_schema(connection)
         _insert_build(

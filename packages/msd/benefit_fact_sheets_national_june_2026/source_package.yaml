@@ -1,0 +1,1269 @@
+# Direct publisher counts only. The entire workbook is preserved as source cells.
+# Older Youth Payment age cells labelled N/A are guarded and excluded.
+# National supplementary totals come from publisher cells, never regional sums.
+schema_version: ledger.source_package.v1
+package_id: msd-benefit-fact-sheets-national-june-2026
+label: MSD national benefit recipients, June 2026 quarter end
+dimension_labels:
+  msd_main_benefit_type: Main benefit type
+  msd_main_benefit_age_status: Main benefit working-age status
+  msd_main_benefit_age_group_source_label: Published main-benefit recipient age group
+  msd_main_benefit_subgroup: Published main-benefit subgroup
+  msd_supplementary_assistance_type: Supplementary assistance type
+dimension_value_labels:
+  msd_main_benefit_type:
+    jobseeker_support: Jobseeker Support
+    sole_parent_support: Sole Parent Support
+    supported_living_payment: Supported Living Payment
+    youth_payment_and_young_parent_payment: Youth Payment and Young Parent Payment
+    other_main_benefits: Other Main Benefits
+    all_main_benefits: All main benefits
+    emergency_benefit: Emergency Benefit
+    emergency_maintenance_allowance: Emergency Maintenance Allowance
+    jobseeker_support_student_hardship: Jobseeker Support Student Hardship
+    widows_benefit_overseas: Widow's Benefit Overseas
+  msd_main_benefit_age_status:
+    working_age: Working-age (18-64 years)
+    non_working_age: Non-working age
+  msd_main_benefit_subgroup:
+    jobseeker_support_work_ready: Jobseeker Support - Work Ready
+    jobseeker_support_health_condition_or_disability: Jobseeker Support - Health Condition
+      or Disability
+    supported_living_payment_caring: Supported Living Payment - Caring
+    supported_living_payment_health_condition_or_disability: Supported Living Payment
+      - Health Condition or Disability
+  msd_supplementary_assistance_type:
+    accommodation_supplement: Accommodation Supplement (AS)
+    disability_allowance: Disability Allowance (DA)
+    special_benefit_or_temporary_additional_support: Special Benefit (SPB) or Temporary
+      Additional Support (TAS)
+artifact:
+  source_name: msd
+  source_table: Quarterly Benefit Fact Sheets - National Benefit Tables, June 2026
+  resource_package: db
+  resource_directory: data/msd/benefit_fact_sheets_national_june_2026
+  manifest: manifest.yaml
+  vintage: june_2026_quarter
+  extracted_at: '2026-10-07'
+  extraction_method: xlsx used-range cell parse of every publisher worksheet; direct
+    June 2026 recipient cells
+  parser: xlsx_used_range
+  artifact_year: 2026
+record_sets:
+- record_set_id: msd_benefit_statistics.month2026_06.working_age_by_benefit_and_age
+  provenance_class: administrative
+  record_set_spec_id: msd_benefit_statistics.working_age_by_benefit_and_age.v1
+  source_record_id_prefix: msd_benefit_statistics.month2026_06.working_age_by_benefit_and_age
+  sheet_name: Summary table-current
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
+      rounded to base 3 independently of other MSD releases; published cells are preserved,
+      without reconciling totals or deriving averages.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: benefit_recipient
+  domain: benefit_recipients
+  groupby_dimension: msd_main_benefit_age_group_source_label
+  rows:
+  - value_id: 18-24 years
+    label: 18-24 years
+    ordinal: 0
+    row_number: 12
+    expected_row_header_column: C
+    expected_row_header: 18-24 years
+    filters:
+      msd_main_benefit_age_group_source_label: 18-24 years
+    constraints:
+    - variable: msd_main_benefit_age_group_source_label
+      operator: ==
+      value: 18-24 years
+      label: 18-24 years
+    guard_cells: &id001
+    - column: B
+      row: 2
+      expected_value: Characteristics of working-age recipients of main benefits -
+        latest quarter
+      label: table title
+    - column: D
+      row: 4
+      expected_value: Jun-26
+      label: publisher quarter label
+    - column: B
+      row: 12
+      expected_value: Age group
+      label: age-group axis
+    - column: D
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    - column: F
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    - column: H
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    - column: L
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    - column: N
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    table_record_kind: detail
+  - value_id: 25-39 years
+    label: 25-39 years
+    ordinal: 1
+    row_number: 13
+    expected_row_header_column: C
+    expected_row_header: 25-39 years
+    filters:
+      msd_main_benefit_age_group_source_label: 25-39 years
+    constraints:
+    - variable: msd_main_benefit_age_group_source_label
+      operator: ==
+      value: 25-39 years
+      label: 25-39 years
+    guard_cells: *id001
+    table_record_kind: detail
+  - value_id: 40-54 years
+    label: 40-54 years
+    ordinal: 2
+    row_number: 14
+    expected_row_header_column: C
+    expected_row_header: 40-54 years
+    filters:
+      msd_main_benefit_age_group_source_label: 40-54 years
+    constraints:
+    - variable: msd_main_benefit_age_group_source_label
+      operator: ==
+      value: 40-54 years
+      label: 40-54 years
+    guard_cells: *id001
+    table_record_kind: detail
+  - value_id: 55-64 years
+    label: 55-64 years
+    ordinal: 3
+    row_number: 15
+    expected_row_header_column: C
+    expected_row_header: 55-64 years
+    filters:
+      msd_main_benefit_age_group_source_label: 55-64 years
+    constraints:
+    - variable: msd_main_benefit_age_group_source_label
+      operator: ==
+      value: 55-64 years
+      label: 55-64 years
+    guard_cells: *id001
+    table_record_kind: detail
+  measures:
+  - measure_id: jobseeker_support_recipients
+    label: Jobseeker Support recipients
+    ordinal: 0
+    column: D
+    source_column_id: jobseeker_support_recipients
+    expected_column_header_row: 5
+    expected_column_header: Jobseeker Support
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: jobseeker_support
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: jobseeker_support
+      label: Jobseeker Support
+  - measure_id: sole_parent_support_recipients
+    label: Sole Parent Support recipients
+    ordinal: 1
+    column: F
+    source_column_id: sole_parent_support_recipients
+    expected_column_header_row: 5
+    expected_column_header: Sole Parent Support
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: sole_parent_support
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: sole_parent_support
+      label: Sole Parent Support
+  - measure_id: supported_living_payment_recipients
+    label: Supported Living Payment recipients
+    ordinal: 2
+    column: H
+    source_column_id: supported_living_payment_recipients
+    expected_column_header_row: 5
+    expected_column_header: Supported Living Payment
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: supported_living_payment
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: supported_living_payment
+      label: Supported Living Payment
+  - measure_id: other_main_benefits_recipients
+    label: Other Main Benefits recipients
+    ordinal: 3
+    column: L
+    source_column_id: other_main_benefits_recipients
+    expected_column_header_row: 5
+    expected_column_header: Other Main Benefits
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: other_main_benefits
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: other_main_benefits
+      label: Other Main Benefits
+  - measure_id: all_main_benefits_recipients
+    label: All main benefits recipients
+    ordinal: 4
+    column: N
+    source_column_id: all_main_benefits_recipients
+    expected_column_header_row: 5
+    expected_column_header: Total
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: all_main_benefits
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: all_main_benefits
+      label: All main benefits
+  shared_filters:
+    msd_main_benefit_age_status: working_age
+  shared_constraints:
+  - variable: msd_main_benefit_age_status
+    operator: ==
+    value: working_age
+    label: Working-age (18-64 years)
+- record_set_id: msd_benefit_statistics.month2026_06.youth_payment_working_age_by_age
+  provenance_class: administrative
+  record_set_spec_id: msd_benefit_statistics.youth_payment_working_age_by_age.v1
+  source_record_id_prefix: msd_benefit_statistics.month2026_06.youth_payment_working_age_by_age
+  sheet_name: Summary table-current
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
+      rounded to base 3 independently of other MSD releases; published cells are preserved,
+      without reconciling totals or deriving averages.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: benefit_recipient
+  domain: benefit_recipients
+  groupby_dimension: msd_main_benefit_age_group_source_label
+  rows:
+  - value_id: 18-24 years
+    label: 18-24 years
+    ordinal: 0
+    row_number: 12
+    expected_row_header_column: C
+    expected_row_header: 18-24 years
+    filters:
+      msd_main_benefit_age_group_source_label: 18-24 years
+    constraints:
+    - variable: msd_main_benefit_age_group_source_label
+      operator: ==
+      value: 18-24 years
+      label: 18-24 years
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: Characteristics of working-age recipients of main benefits -
+        latest quarter
+      label: table title
+    - column: D
+      row: 4
+      expected_value: Jun-26
+      label: publisher quarter label
+    - column: B
+      row: 12
+      expected_value: Age group
+      label: age-group axis
+    - column: J
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    - column: J
+      row: 13
+      expected_value: N/A
+      label: non-applicable Youth Payment age cell
+    - column: J
+      row: 14
+      expected_value: N/A
+      label: non-applicable Youth Payment age cell
+    - column: J
+      row: 15
+      expected_value: N/A
+      label: non-applicable Youth Payment age cell
+    table_record_kind: detail
+  measures:
+  - measure_id: youth_payment_and_young_parent_payment_recipients
+    label: Youth Payment and Young Parent Payment recipients
+    ordinal: 0
+    column: J
+    source_column_id: youth_payment_and_young_parent_payment_recipients
+    expected_column_header_row: 5
+    expected_column_header: Youth Payment and Young Parent Payment
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: youth_payment_and_young_parent_payment
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: youth_payment_and_young_parent_payment
+      label: Youth Payment and Young Parent Payment
+  shared_filters:
+    msd_main_benefit_age_status: working_age
+  shared_constraints:
+  - variable: msd_main_benefit_age_status
+    operator: ==
+    value: working_age
+    label: Working-age (18-64 years)
+- record_set_id: msd_benefit_statistics.month2026_06.working_age_benefit_totals
+  provenance_class: administrative
+  record_set_spec_id: msd_benefit_statistics.working_age_benefit_totals.v1
+  source_record_id_prefix: msd_benefit_statistics.month2026_06.working_age_benefit_totals
+  sheet_name: Summary table-current
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
+      rounded to base 3 independently of other MSD releases; published cells are preserved,
+      without reconciling totals or deriving averages.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: benefit_recipient
+  domain: benefit_recipients
+  groupby_dimension: msd_main_benefit_age_status
+  rows:
+  - value_id: working_age
+    label: Working-age (18-64 years)
+    ordinal: 0
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: Total
+    filters: {}
+    constraints: []
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: Characteristics of working-age recipients of main benefits -
+        latest quarter
+      label: table title
+    - column: D
+      row: 4
+      expected_value: Jun-26
+      label: publisher quarter label
+    - column: D
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    - column: F
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    - column: H
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    - column: J
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    - column: L
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    - column: N
+      row: 6
+      expected_value: Number
+      label: recipient count column
+    table_record_kind: total
+  measures:
+  - measure_id: jobseeker_support_recipients
+    label: Jobseeker Support recipients
+    ordinal: 0
+    column: D
+    source_column_id: jobseeker_support_recipients
+    expected_column_header_row: 5
+    expected_column_header: Jobseeker Support
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: jobseeker_support
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: jobseeker_support
+      label: Jobseeker Support
+  - measure_id: sole_parent_support_recipients
+    label: Sole Parent Support recipients
+    ordinal: 1
+    column: F
+    source_column_id: sole_parent_support_recipients
+    expected_column_header_row: 5
+    expected_column_header: Sole Parent Support
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: sole_parent_support
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: sole_parent_support
+      label: Sole Parent Support
+  - measure_id: supported_living_payment_recipients
+    label: Supported Living Payment recipients
+    ordinal: 2
+    column: H
+    source_column_id: supported_living_payment_recipients
+    expected_column_header_row: 5
+    expected_column_header: Supported Living Payment
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: supported_living_payment
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: supported_living_payment
+      label: Supported Living Payment
+  - measure_id: youth_payment_and_young_parent_payment_recipients
+    label: Youth Payment and Young Parent Payment recipients
+    ordinal: 3
+    column: J
+    source_column_id: youth_payment_and_young_parent_payment_recipients
+    expected_column_header_row: 5
+    expected_column_header: Youth Payment and Young Parent Payment
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: youth_payment_and_young_parent_payment
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: youth_payment_and_young_parent_payment
+      label: Youth Payment and Young Parent Payment
+  - measure_id: other_main_benefits_recipients
+    label: Other Main Benefits recipients
+    ordinal: 4
+    column: L
+    source_column_id: other_main_benefits_recipients
+    expected_column_header_row: 5
+    expected_column_header: Other Main Benefits
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: other_main_benefits
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: other_main_benefits
+      label: Other Main Benefits
+  - measure_id: all_main_benefits_recipients
+    label: All main benefits recipients
+    ordinal: 5
+    column: N
+    source_column_id: all_main_benefits_recipients
+    expected_column_header_row: 5
+    expected_column_header: Total
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_main_benefit_type: all_main_benefits
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: all_main_benefits
+      label: All main benefits
+  shared_filters:
+    msd_main_benefit_age_status: working_age
+  shared_constraints:
+  - variable: msd_main_benefit_age_status
+    operator: ==
+    value: working_age
+    label: Working-age (18-64 years)
+- record_set_id: msd_benefit_statistics.month2026_06.jobseeker_support_subgroups
+  provenance_class: administrative
+  record_set_spec_id: msd_benefit_statistics.jobseeker_support_subgroups.v1
+  source_record_id_prefix: msd_benefit_statistics.month2026_06.jobseeker_support_subgroups
+  sheet_name: JS - last 5 years
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
+      rounded to base 3 independently of other MSD releases; published cells are preserved,
+      without reconciling totals or deriving averages.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: benefit_recipient
+  domain: benefit_recipients
+  groupby_dimension: msd_main_benefit_subgroup
+  rows:
+  - value_id: jobseeker_support_work_ready
+    label: Jobseeker Support - Work Ready
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: C
+    expected_row_header: Jobseeker Support - Work Ready
+    filters:
+      msd_main_benefit_subgroup: jobseeker_support_work_ready
+    constraints:
+    - variable: msd_main_benefit_subgroup
+      operator: ==
+      value: jobseeker_support_work_ready
+      label: Jobseeker Support - Work Ready
+    guard_cells: &id002
+    - column: B
+      row: 2
+      expected_value: Characteristics of working-age recipients of Jobseeker Support
+        - last 5 years
+      label: table title
+    - column: B
+      row: 5
+      expected_value: Benefit subgroup
+      label: benefit-subgroup axis
+    table_record_kind: detail
+  - value_id: jobseeker_support_health_condition_or_disability
+    label: Jobseeker Support - Health Condition or Disability
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: C
+    expected_row_header: Jobseeker Support - Health Condition or Disability
+    filters:
+      msd_main_benefit_subgroup: jobseeker_support_health_condition_or_disability
+    constraints:
+    - variable: msd_main_benefit_subgroup
+      operator: ==
+      value: jobseeker_support_health_condition_or_disability
+      label: Jobseeker Support - Health Condition or Disability
+    guard_cells: *id002
+    table_record_kind: detail
+  measures:
+  - measure_id: recipients
+    label: Recipients
+    ordinal: 0
+    column: X
+    source_column_id: recipients
+    expected_column_header_row: 4
+    expected_column_header: Jun-26
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters: &id004 {}
+    constraints: []
+  shared_filters:
+    msd_main_benefit_age_status: working_age
+    msd_main_benefit_type: jobseeker_support
+  shared_constraints:
+  - variable: msd_main_benefit_age_status
+    operator: ==
+    value: working_age
+    label: Working-age (18-64 years)
+  - variable: msd_main_benefit_type
+    operator: ==
+    value: jobseeker_support
+    label: Jobseeker Support
+- record_set_id: msd_benefit_statistics.month2026_06.supported_living_payment_subgroups
+  provenance_class: administrative
+  record_set_spec_id: msd_benefit_statistics.supported_living_payment_subgroups.v1
+  source_record_id_prefix: msd_benefit_statistics.month2026_06.supported_living_payment_subgroups
+  sheet_name: SLP - last 5 years
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
+      rounded to base 3 independently of other MSD releases; published cells are preserved,
+      without reconciling totals or deriving averages.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: benefit_recipient
+  domain: benefit_recipients
+  groupby_dimension: msd_main_benefit_subgroup
+  rows:
+  - value_id: supported_living_payment_caring
+    label: Supported Living Payment - Caring
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: C
+    expected_row_header: Supported Living Payment - Caring
+    filters:
+      msd_main_benefit_subgroup: supported_living_payment_caring
+    constraints:
+    - variable: msd_main_benefit_subgroup
+      operator: ==
+      value: supported_living_payment_caring
+      label: Supported Living Payment - Caring
+    guard_cells: &id003
+    - column: B
+      row: 2
+      expected_value: Characteristics of working-age recipients of Supported Living
+        Payment - last 5 years
+      label: table title
+    - column: B
+      row: 5
+      expected_value: Benefit subgroup
+      label: benefit-subgroup axis
+    table_record_kind: detail
+  - value_id: supported_living_payment_health_condition_or_disability
+    label: Supported Living Payment - Health Condition or Disability
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: C
+    expected_row_header: Supported Living Payment - Health Condition or Disability
+    filters:
+      msd_main_benefit_subgroup: supported_living_payment_health_condition_or_disability
+    constraints:
+    - variable: msd_main_benefit_subgroup
+      operator: ==
+      value: supported_living_payment_health_condition_or_disability
+      label: Supported Living Payment - Health Condition or Disability
+    guard_cells: *id003
+    table_record_kind: detail
+  measures:
+  - measure_id: recipients
+    label: Recipients
+    ordinal: 0
+    column: X
+    source_column_id: recipients
+    expected_column_header_row: 4
+    expected_column_header: Jun-26
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters: *id004
+    constraints: []
+  shared_filters:
+    msd_main_benefit_age_status: working_age
+    msd_main_benefit_type: supported_living_payment
+  shared_constraints:
+  - variable: msd_main_benefit_age_status
+    operator: ==
+    value: working_age
+    label: Working-age (18-64 years)
+  - variable: msd_main_benefit_type
+    operator: ==
+    value: supported_living_payment
+    label: Supported Living Payment
+- record_set_id: msd_benefit_statistics.month2026_06.other_working_age_benefits
+  provenance_class: administrative
+  record_set_spec_id: msd_benefit_statistics.other_working_age_benefits.v1
+  source_record_id_prefix: msd_benefit_statistics.month2026_06.other_working_age_benefits
+  sheet_name: Other - last 5 years
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
+      rounded to base 3 independently of other MSD releases; published cells are preserved,
+      without reconciling totals or deriving averages.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: benefit_recipient
+  domain: benefit_recipients
+  groupby_dimension: msd_main_benefit_type
+  rows:
+  - value_id: emergency_benefit
+    label: Emergency Benefit
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: B
+    expected_row_header: Emergency Benefit
+    filters:
+      msd_main_benefit_type: emergency_benefit
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: emergency_benefit
+      label: Emergency Benefit
+    guard_cells: &id005
+    - column: B
+      row: 2
+      expected_value: Other working-age benefits - last 5 years
+      label: table title
+    - column: B
+      row: 4
+      expected_value: Benefit
+      label: benefit axis
+    table_record_kind: detail
+  - value_id: emergency_maintenance_allowance
+    label: Emergency Maintenance Allowance
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: B
+    expected_row_header: Emergency Maintenance Allowance
+    filters:
+      msd_main_benefit_type: emergency_maintenance_allowance
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: emergency_maintenance_allowance
+      label: Emergency Maintenance Allowance
+    guard_cells: *id005
+    table_record_kind: detail
+  - value_id: jobseeker_support_student_hardship
+    label: Jobseeker Support Student Hardship
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Jobseeker Support Student Hardship
+    filters:
+      msd_main_benefit_type: jobseeker_support_student_hardship
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: jobseeker_support_student_hardship
+      label: Jobseeker Support Student Hardship
+    guard_cells: *id005
+    table_record_kind: detail
+  measures:
+  - measure_id: recipients
+    label: Recipients
+    ordinal: 0
+    column: W
+    source_column_id: recipients
+    expected_column_header_row: 4
+    expected_column_header: Jun-26
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters: *id004
+    constraints: []
+  shared_filters:
+    msd_main_benefit_age_status: working_age
+  shared_constraints:
+  - variable: msd_main_benefit_age_status
+    operator: ==
+    value: working_age
+    label: Working-age (18-64 years)
+- record_set_id: msd_benefit_statistics.month2026_06.non_working_age_benefits
+  provenance_class: administrative
+  record_set_spec_id: msd_benefit_statistics.non_working_age_benefits.v1
+  source_record_id_prefix: msd_benefit_statistics.month2026_06.non_working_age_benefits
+  sheet_name: Other - last 5 years
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
+      rounded to base 3 independently of other MSD releases; published cells are preserved,
+      without reconciling totals or deriving averages.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: benefit_recipient
+  domain: benefit_recipients
+  groupby_dimension: msd_main_benefit_type
+  rows:
+  - value_id: jobseeker_support
+    label: Jobseeker Support
+    ordinal: 0
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: Jobseeker Support
+    filters:
+      msd_main_benefit_type: jobseeker_support
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: jobseeker_support
+      label: Jobseeker Support
+    guard_cells: &id006
+    - column: B
+      row: 13
+      expected_value: Non-working age benefits - last 5 years
+      label: table title
+    - column: B
+      row: 15
+      expected_value: Benefit
+      label: benefit axis
+    table_record_kind: detail
+  - value_id: sole_parent_support
+    label: Sole Parent Support
+    ordinal: 1
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: Sole Parent Support
+    filters:
+      msd_main_benefit_type: sole_parent_support
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: sole_parent_support
+      label: Sole Parent Support
+    guard_cells: *id006
+    table_record_kind: detail
+  - value_id: supported_living_payment
+    label: Supported Living Payment
+    ordinal: 2
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: Supported Living Payment
+    filters:
+      msd_main_benefit_type: supported_living_payment
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: supported_living_payment
+      label: Supported Living Payment
+    guard_cells: *id006
+    table_record_kind: detail
+  - value_id: emergency_benefit
+    label: Emergency Benefit
+    ordinal: 3
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: Emergency Benefit
+    filters:
+      msd_main_benefit_type: emergency_benefit
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: emergency_benefit
+      label: Emergency Benefit
+    guard_cells: *id006
+    table_record_kind: detail
+  - value_id: emergency_maintenance_allowance
+    label: Emergency Maintenance Allowance
+    ordinal: 4
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: Emergency Maintenance Allowance
+    filters:
+      msd_main_benefit_type: emergency_maintenance_allowance
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: emergency_maintenance_allowance
+      label: Emergency Maintenance Allowance
+    guard_cells: *id006
+    table_record_kind: detail
+  - value_id: jobseeker_support_student_hardship
+    label: Jobseeker Support Student Hardship
+    ordinal: 5
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: Jobseeker Support Student Hardship
+    filters:
+      msd_main_benefit_type: jobseeker_support_student_hardship
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: jobseeker_support_student_hardship
+      label: Jobseeker Support Student Hardship
+    guard_cells: *id006
+    table_record_kind: detail
+  - value_id: widows_benefit_overseas
+    label: Widow's Benefit Overseas
+    ordinal: 6
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: Widow's Benefit Overseas
+    filters:
+      msd_main_benefit_type: widows_benefit_overseas
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: widows_benefit_overseas
+      label: Widow's Benefit Overseas
+    guard_cells: *id006
+    table_record_kind: detail
+  - value_id: youth_payment_and_young_parent_payment
+    label: Youth Payment and Young Parent Payment
+    ordinal: 7
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: Youth Payment/Young Parent Payment
+    filters:
+      msd_main_benefit_type: youth_payment_and_young_parent_payment
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: youth_payment_and_young_parent_payment
+      label: Youth Payment and Young Parent Payment
+    guard_cells: *id006
+    table_record_kind: detail
+  - value_id: all_main_benefits
+    label: All main benefits
+    ordinal: 8
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: Total
+    filters:
+      msd_main_benefit_type: all_main_benefits
+    constraints:
+    - variable: msd_main_benefit_type
+      operator: ==
+      value: all_main_benefits
+      label: All main benefits
+    guard_cells: *id006
+    table_record_kind: total
+  measures:
+  - measure_id: recipients
+    label: Recipients
+    ordinal: 0
+    column: W
+    source_column_id: recipients
+    expected_column_header_row: 15
+    expected_column_header: Jun-26
+    concept: msd.main_benefit_recipients
+    source_concept: msd.main_benefit_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters: *id004
+    constraints: []
+  shared_filters:
+    msd_main_benefit_age_status: non_working_age
+  shared_constraints:
+  - variable: msd_main_benefit_age_status
+    operator: ==
+    value: non_working_age
+    label: Non-working age
+- record_set_id: msd_benefit_statistics.month2026_06.national_supplementary_assistance
+  provenance_class: administrative
+  record_set_spec_id: msd_benefit_statistics.national_supplementary_assistance.v1
+  source_record_id_prefix: msd_benefit_statistics.month2026_06.national_supplementary_assistance
+  sheet_name: Supplementary - last 5 years
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
+      rounded to base 3 independently of other MSD releases; published cells are preserved,
+      without reconciling totals or deriving averages.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: supplementary_assistance_recipient
+  domain: supplementary_assistance
+  groupby_dimension: msd_supplementary_assistance_type
+  rows:
+  - value_id: special_benefit_or_temporary_additional_support
+    label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: B
+    expected_row_header: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    filters:
+      msd_supplementary_assistance_type: special_benefit_or_temporary_additional_support
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: special_benefit_or_temporary_additional_support
+      label: Special Benefit (SPB) or Temporary Additional Support (TAS)
+    guard_cells: &id007
+    - column: B
+      row: 2
+      expected_value: Selected supplementary assistance - last five years (all ages)
+      label: table title
+    - column: B
+      row: 4
+      expected_value: Assistance
+      label: supplementary-assistance axis
+    table_record_kind: detail
+  - value_id: disability_allowance
+    label: Disability Allowance (DA)
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: B
+    expected_row_header: Disability Allowance (DA)
+    filters:
+      msd_supplementary_assistance_type: disability_allowance
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: disability_allowance
+      label: Disability Allowance (DA)
+    guard_cells: *id007
+    table_record_kind: detail
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement (AS)
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Accommodation Supplement (AS)
+    filters:
+      msd_supplementary_assistance_type: accommodation_supplement
+    constraints:
+    - variable: msd_supplementary_assistance_type
+      operator: ==
+      value: accommodation_supplement
+      label: Accommodation Supplement (AS)
+    guard_cells: *id007
+    table_record_kind: detail
+  measures:
+  - measure_id: recipients
+    label: Recipients
+    ordinal: 0
+    column: W
+    source_column_id: recipients
+    expected_column_header_row: 4
+    expected_column_header: Jun-26
+    concept: msd.supplementary_assistance_recipients
+    source_concept: msd.supplementary_assistance_recipients
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-national-benefit-tables-june-2026.xlsx
+    concept_evidence_notes: Publisher June 2026 quarter-end recipient cell. Working-age
+      means 18-64 years (Contents and notes C17). The workbook notes that counts are
+      randomly rounded to base 3 and independently rounded; recipients may receive
+      more than one supplementary assistance. SPB/TAS is published as a combined category
+      and is retained as such.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters: *id004
+    constraints: []

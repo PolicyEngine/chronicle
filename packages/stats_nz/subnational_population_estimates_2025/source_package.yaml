@@ -1,0 +1,1084 @@
+# Partial #176 source package: 85 directly published counts, not the missing
+# five-year-age x sex x region table. See README.md for scope and source access.
+# The all-age national total is Table 1!D25, never the sum of the 16 regions.
+# REGC codes/names come from the separately pinned Stats NZ REGC2025 attributes.
+schema_version: ledger.source_package.v1
+package_id: stats-nz-subnational-population-estimates-2025
+label: 'Stats NZ 30 June 2025 provisional regional population: all ages and broad age groups (partial)'
+# Chronicle-owned labels (chronicle#261, #265). The age-band values are the
+# publisher's column headers at Table 3!D6:G6. The two dimension labels are
+# Chronicle's wording, not publisher text: the bundle allows one label per
+# dimension id, and the other packages that emit these ids already use these
+# labels ('Geography' everywhere; 'Age band' in Statbel's population
+# structure). The publisher's own headings are Table 3!D5 'Population by age
+# group (years)' and Table 1!A5 'Regional council area(2)'. Each geography value
+# takes its row's label: the publisher's row text, less the footnote marker in
+# 'New Zealand(3)' and 'New Zealand(4)'.
+dimension_labels:
+  'geography': 'Geography'
+  'person.age_band': 'Age band'
+dimension_value_labels:
+  'person.age_band':
+    '0_14': '0–14'
+    '15_39': '15–39'
+    '40_64': '40–64'
+    '65_plus': '65+'
+artifact:
+  source_name: stats_nz
+  source_table: 'Subnational population estimates: At 30 June 2025 (provisional), Tables 1 and 3'
+  resource_package: db
+  resource_directory: data/stats_nz/subnational_population_estimates_2025
+  manifest: manifest.yaml
+  vintage: stats_nz_subnational_population_2025_10_29
+  extracted_at: '2026-08-30'
+  extraction_method: xlsx used-range cell parse restricted to the two source worksheets
+  parser: xlsx_used_range
+  sheets:
+  - Table 1
+  - Table 3
+  artifact_year: 2025
+record_sets:
+- &population_set
+  record_set_id: stats_nz.cy2025.subnational_population.all_ages
+  record_set_spec_id: stats_nz.subnational_population.all_ages.v1
+  source_record_id_prefix: stats_nz.cy2025.subnational_population.all_ages
+  provenance_class: census
+  assertion: observation
+  sheet_name: Table 1
+  period_type: calendar_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-06-30'
+    end_date: '2025-06-30'
+    basis: calendar
+    source_period_label: At 30 June 2025 (provisional)
+    notes: Point-in-time estimated resident population, not an annual average; published 29 October 2025 using the 2023 census base.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  measures:
+  - &population_measure
+    measure_id: population
+    label: Estimated resident population
+    ordinal: 0
+    column: D
+    source_column_id: estimated_resident_population
+    concept: stats_nz.estimated_resident_population
+    source_concept: stats_nz.estimated_resident_population
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://www.stats.govt.nz/information-releases/subnational-population-estimates-at-30-june-2025/
+    concept_evidence_notes: >-
+      Tables 1 and 3 publish provisional population counts at 30 June 2025,
+      using 1 January 2025 boundaries and the 2023 census base. ERP includes
+      adjustments for net census under/overcount, residents temporarily overseas
+      on census night, and subsequent births, deaths, and net migration.
+      These counts include all sexes; there is no sex-specific split in these
+      worksheets. Only all ages and the source bands 0–14, 15–39, 40–64, and 65+
+      are admitted, not five-year or single-year ages. The New Zealand row
+      includes areas outside regions (for example Chatham Islands territory);
+      it is read directly, never constructed from regional counts. Published
+      rounding means component counts need not sum to totals. Source-only
+      facts: no uprating, interpolation, target activation, or calibration.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: 2025 P
+  rows:
+  - value_id: regc_01
+    label: "Northland region"
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: "Northland region"
+    geography_id: "01"
+    geography_level: region
+    geography_name: "Northland Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_02
+    label: "Auckland region"
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: "Auckland region"
+    geography_id: "02"
+    geography_level: region
+    geography_name: "Auckland"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_03
+    label: "Waikato region"
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: "Waikato region"
+    geography_id: "03"
+    geography_level: region
+    geography_name: "Waikato Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_04
+    label: "Bay of Plenty region"
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: "Bay of Plenty region"
+    geography_id: "04"
+    geography_level: region
+    geography_name: "Bay of Plenty Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_05
+    label: "Gisborne region"
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: "Gisborne region"
+    geography_id: "05"
+    geography_level: region
+    geography_name: "Gisborne Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_06
+    label: "Hawke's Bay region"
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: "Hawke's Bay region"
+    geography_id: "06"
+    geography_level: region
+    geography_name: "Hawke's Bay Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_07
+    label: "Taranaki region"
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: "Taranaki region"
+    geography_id: "07"
+    geography_level: region
+    geography_name: "Taranaki Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_08
+    label: "Manawatū-Whanganui region"
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: "Manawatū-Whanganui region"
+    geography_id: "08"
+    geography_level: region
+    geography_name: "Manawatū-Whanganui Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_09
+    label: "Wellington region"
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: "Wellington region"
+    geography_id: "09"
+    geography_level: region
+    geography_name: "Wellington Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_16
+    label: "Tasman region"
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: "Tasman region"
+    geography_id: "16"
+    geography_level: region
+    geography_name: "Tasman Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_17
+    label: "Nelson region"
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: "Nelson region"
+    geography_id: "17"
+    geography_level: region
+    geography_name: "Nelson Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_18
+    label: "Marlborough region"
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: "Marlborough region"
+    geography_id: "18"
+    geography_level: region
+    geography_name: "Marlborough Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_12
+    label: "West Coast region"
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: "West Coast region"
+    geography_id: "12"
+    geography_level: region
+    geography_name: "West Coast Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_13
+    label: "Canterbury region"
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: "Canterbury region"
+    geography_id: "13"
+    geography_level: region
+    geography_name: "Canterbury Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_14
+    label: "Otago region"
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: "Otago region"
+    geography_id: "14"
+    geography_level: region
+    geography_name: "Otago Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: regc_15
+    label: "Southland region"
+    ordinal: 15
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: "Southland region"
+    geography_id: "15"
+    geography_level: region
+    geography_name: "Southland Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+  - value_id: nz
+    label: "New Zealand"
+    ordinal: 16
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: "New Zealand(3)"
+    geography_id: "NZ"
+    geography_level: country
+    geography_name: "New Zealand"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 29
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: publication status
+- <<: *population_set
+  record_set_id: stats_nz.cy2025.subnational_population.age_0_14
+  provenance_class: census
+  record_set_spec_id: stats_nz.subnational_population.age_0_14.v1
+  source_record_id_prefix: stats_nz.cy2025.subnational_population.age_0_14
+  sheet_name: Table 3
+  shared_filters:
+    person.age_band: "0_14"
+  shared_constraints:
+  - variable: person.age_band
+    operator: ==
+    value: "0_14"
+    label: Publisher broad age group
+  - variable: person.age
+    operator: '>='
+    value: 0
+    unit: years
+    label: Age lower bound
+  - variable: person.age
+    operator: <
+    value: 15
+    unit: years
+    label: Age upper bound (exclusive)
+  measures:
+  - <<: *population_measure
+    column: D
+    expected_column_header: "0–14"
+  rows: &broad_age_rows
+  - value_id: regc_01
+    label: "Northland region"
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: "Northland region"
+    geography_id: "01"
+    geography_level: region
+    geography_name: "Northland Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 10
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_02
+    label: "Auckland region"
+    ordinal: 1
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: "Auckland region"
+    geography_id: "02"
+    geography_level: region
+    geography_name: "Auckland"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 13
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_03
+    label: "Waikato region"
+    ordinal: 2
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: "Waikato region"
+    geography_id: "03"
+    geography_level: region
+    geography_name: "Waikato Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 16
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_04
+    label: "Bay of Plenty region"
+    ordinal: 3
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: "Bay of Plenty region"
+    geography_id: "04"
+    geography_level: region
+    geography_name: "Bay of Plenty Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 19
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_05
+    label: "Gisborne region"
+    ordinal: 4
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: "Gisborne region"
+    geography_id: "05"
+    geography_level: region
+    geography_name: "Gisborne Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 22
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_06
+    label: "Hawke's Bay region"
+    ordinal: 5
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: "Hawke's Bay region"
+    geography_id: "06"
+    geography_level: region
+    geography_name: "Hawke's Bay Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 25
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_07
+    label: "Taranaki region"
+    ordinal: 6
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: "Taranaki region"
+    geography_id: "07"
+    geography_level: region
+    geography_name: "Taranaki Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 28
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_08
+    label: "Manawatū-Whanganui region"
+    ordinal: 7
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: "Manawatū-Whanganui region"
+    geography_id: "08"
+    geography_level: region
+    geography_name: "Manawatū-Whanganui Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 31
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_09
+    label: "Wellington region"
+    ordinal: 8
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: "Wellington region"
+    geography_id: "09"
+    geography_level: region
+    geography_name: "Wellington Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 34
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_16
+    label: "Tasman region"
+    ordinal: 9
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: "Tasman region"
+    geography_id: "16"
+    geography_level: region
+    geography_name: "Tasman Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 37
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_17
+    label: "Nelson region"
+    ordinal: 10
+    row_number: 40
+    expected_row_header_column: A
+    expected_row_header: "Nelson region"
+    geography_id: "17"
+    geography_level: region
+    geography_name: "Nelson Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 40
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_18
+    label: "Marlborough region"
+    ordinal: 11
+    row_number: 43
+    expected_row_header_column: A
+    expected_row_header: "Marlborough region"
+    geography_id: "18"
+    geography_level: region
+    geography_name: "Marlborough Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 43
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_12
+    label: "West Coast region"
+    ordinal: 12
+    row_number: 46
+    expected_row_header_column: A
+    expected_row_header: "West Coast region"
+    geography_id: "12"
+    geography_level: region
+    geography_name: "West Coast Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 46
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_13
+    label: "Canterbury region"
+    ordinal: 13
+    row_number: 49
+    expected_row_header_column: A
+    expected_row_header: "Canterbury region"
+    geography_id: "13"
+    geography_level: region
+    geography_name: "Canterbury Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 49
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_14
+    label: "Otago region"
+    ordinal: 14
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: "Otago region"
+    geography_id: "14"
+    geography_level: region
+    geography_name: "Otago Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 52
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: regc_15
+    label: "Southland region"
+    ordinal: 15
+    row_number: 55
+    expected_row_header_column: A
+    expected_row_header: "Southland region"
+    geography_id: "15"
+    geography_level: region
+    geography_name: "Southland Region"
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 55
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+  - value_id: nz
+    label: "New Zealand"
+    ordinal: 16
+    row_number: 64
+    expected_row_header_column: A
+    expected_row_header: "New Zealand(4)"
+    geography_id: "NZ"
+    geography_level: country
+    geography_name: "New Zealand"
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: 'At 30 June 2023–2025'
+      label: point-in-time release period
+    - column: A
+      row: 68
+      expected_value: '2. Boundaries at 1 January 2025.'
+      label: regional boundary vintage
+    - column: A
+      row: 74
+      expected_value: P provisional
+      label: publication status
+    - column: C
+      row: 64
+      expected_value: 2025 P
+      label: historical 2025 reference-date row
+- <<: *population_set
+  record_set_id: stats_nz.cy2025.subnational_population.age_15_39
+  provenance_class: census
+  record_set_spec_id: stats_nz.subnational_population.age_15_39.v1
+  source_record_id_prefix: stats_nz.cy2025.subnational_population.age_15_39
+  sheet_name: Table 3
+  shared_filters:
+    person.age_band: "15_39"
+  shared_constraints:
+  - variable: person.age_band
+    operator: ==
+    value: "15_39"
+    label: Publisher broad age group
+  - variable: person.age
+    operator: '>='
+    value: 15
+    unit: years
+    label: Age lower bound
+  - variable: person.age
+    operator: <
+    value: 40
+    unit: years
+    label: Age upper bound (exclusive)
+  measures:
+  - <<: *population_measure
+    column: E
+    expected_column_header: "15–39"
+  rows: *broad_age_rows
+- <<: *population_set
+  record_set_id: stats_nz.cy2025.subnational_population.age_40_64
+  provenance_class: census
+  record_set_spec_id: stats_nz.subnational_population.age_40_64.v1
+  source_record_id_prefix: stats_nz.cy2025.subnational_population.age_40_64
+  sheet_name: Table 3
+  shared_filters:
+    person.age_band: "40_64"
+  shared_constraints:
+  - variable: person.age_band
+    operator: ==
+    value: "40_64"
+    label: Publisher broad age group
+  - variable: person.age
+    operator: '>='
+    value: 40
+    unit: years
+    label: Age lower bound
+  - variable: person.age
+    operator: <
+    value: 65
+    unit: years
+    label: Age upper bound (exclusive)
+  measures:
+  - <<: *population_measure
+    column: F
+    expected_column_header: "40–64"
+  rows: *broad_age_rows
+- <<: *population_set
+  record_set_id: stats_nz.cy2025.subnational_population.age_65_plus
+  provenance_class: census
+  record_set_spec_id: stats_nz.subnational_population.age_65_plus.v1
+  source_record_id_prefix: stats_nz.cy2025.subnational_population.age_65_plus
+  sheet_name: Table 3
+  shared_filters:
+    person.age_band: "65_plus"
+  shared_constraints:
+  - variable: person.age_band
+    operator: ==
+    value: "65_plus"
+    label: Publisher broad age group
+  - variable: person.age
+    operator: '>='
+    value: 65
+    unit: years
+    label: Age lower bound
+  measures:
+  - <<: *population_measure
+    column: G
+    expected_column_header: "65+"
+  rows: *broad_age_rows

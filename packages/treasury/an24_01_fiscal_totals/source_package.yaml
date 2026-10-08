@@ -1,0 +1,1661 @@
+# Treasury publishes these analytical fiscal totals in its TY2019 column.
+# Preserve its quantities, amounts and Notes; model_output identifies the
+# publisher analytical basis, observation identifies historical quantities.
+# Notes retain scope differences (including Accommodation Assistance under
+# Accommodation Supplement) and FY2019 inputs for PBFF and Winter Energy Payment.
+# No consumer measurement bindings or period alignment are declared here.
+# Labels use the publisher Quantity header and literal row names.
+schema_version: ledger.source_package.v1
+package_id: treasury-an24-01-fiscal-totals
+label: New Zealand Treasury AN24-01 published fiscal totals, TY2019
+dimension_labels:
+  treasury.an24_01.quantity: Quantity
+dimension_value_labels:
+  treasury.an24_01.quantity:
+    acc_earners_levy: ACC earners' levy
+    accommodation_supplement: Accommodation Supplement
+    alcohol_excise: Alcohol excise
+    best_start_tax_credit: Best Start tax credit
+    early_childhood_education: Early childhood education
+    family_tax_credit: Family tax credit
+    gst: GST
+    health: Health
+    income_related_rent_subsidy: Income-Related Rent Subsidy
+    in_work_tax_credit: In-work tax credit
+    jobseeker_support: Jobseeker Support
+    minimum_family_tax_credit: Minimum family tax credit
+    nz_super_and_vets: NZ Super and Vets
+    paid_parental_leave: Paid parental leave
+    pbff_model_budget_total: PBFF model budget total
+    personal_income_tax: Personal income tax
+    petrol_excise: Petrol excise
+    primary_education: Primary education
+    secondary_education: Secondary education
+    sole_parent_support: Sole Parent Support
+    student_allowance: Student allowance
+    student_loan: Student loan
+    supported_living_payment: Supported Living Payment
+    tertiary_education: Tertiary education
+    tobacco_excise: Tobacco excise
+    winter_energy_payment: Winter Energy Payment
+    youth_young_parent_payment: Youth/Young Parent Payment
+artifact:
+  source_name: treasury
+  source_table: AN24-01 fiscal totals, TY2019
+  resource_package: db
+  resource_directory: data/treasury/an24_01_fiscal_totals
+  manifest: manifest.yaml
+  vintage: an24_01_commit_6e840d54b67bb7f34c63b9d34897e234317445c3
+  extracted_at: '2026-10-07'
+  extraction_method: Full CSV rows and cells; published TY2019 amounts without recomputation
+  parser: delimited_text_full_rows
+  artifact_year: 2019
+  sheet_name: fiscal_totals
+record_sets:
+- record_set_id: treasury.an24_01.ty2019.acc_earners_levy
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.acc_earners_levy.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.acc_earners_levy
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: &id001
+    basis: tax
+    source_period_label: TY2019
+    start_date: '2018-04-01'
+    end_date: '2019-03-31'
+    notes: TY2019 is Treasury's published column label. Notes describe the publisher's derivation, usually
+      weighted fiscal-year 2018 and 2019 actuals. PBFF model budget total and Winter Energy Payment instead
+      use fiscal-year 2019 values directly. These input fiscal periods are preserved in each fact's verbatim
+      Notes evidence; Chronicle neither recomputes nor aligns them to the April-March tax-year span.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: acc_earners_levy
+    label: ACC earners' levy
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: A
+    expected_row_header: ACC earners' levy
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of ACC Earners'' Account levy revenue actuals for fiscal years
+        2018 (weight 1/4) and 2019 (weight 3/4). Excludes deduction of funding of Treatment Injury Account
+        and addition of Other revenue. Source: https://www.acc.co.nz/assets/corporate-documents/acc8053-annual-report-2019.pdf.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: ACC earners' levy
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.acc_earners_levy
+    source_concept: treasury.an24_01.acc_earners_levy
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of ACC Earners'' Account levy revenue actuals for fiscal
+      years 2018 (weight 1/4) and 2019 (weight 3/4). Excludes deduction of funding of Treatment Injury
+      Account and addition of Other revenue. Source: https://www.acc.co.nz/assets/corporate-documents/acc8053-annual-report-2019.pdf.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.accommodation_supplement
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.accommodation_supplement.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.accommodation_supplement
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: accommodation_supplement
+    label: Accommodation Supplement
+    ordinal: 0
+    row_number: 3
+    expected_row_header_column: A
+    expected_row_header: Accommodation Supplement
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Accommodation Assistance actuals for fiscal years 2018 (weight
+        1/4) and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+        (fiscal year 2018; file befu22-data-expensetables.xlsx) and CFISnet - the Crown''s Financial and
+        Information System (fiscal year 2019).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Accommodation Supplement
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.accommodation_supplement
+    source_concept: treasury.an24_01.accommodation_supplement
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Accommodation Assistance actuals for fiscal years 2018
+      (weight 1/4) and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+      (fiscal year 2018; file befu22-data-expensetables.xlsx) and CFISnet - the Crown''s Financial and
+      Information System (fiscal year 2019).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.alcohol_excise
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.alcohol_excise.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.alcohol_excise
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: alcohol_excise
+    label: Alcohol excise
+    ordinal: 0
+    row_number: 4
+    expected_row_header_column: A
+    expected_row_header: Alcohol excise
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Excise duty on Alcohol actual for tax year 2019, times proportion in tax year 2020
+        of Total use (less exports) due to Final Consumption Expenditure - Households of: Beer, soft drinks,
+        and fruit juices; Spirits and tobacco products; and Wines. Source: https://www.stats.govt.nz/information-releases/national-accounts-income-and-expenditure-year-ended-march-2021
+        (file na-nov2021-taxes-csv.csv) and https://www.stats.govt.nz/information-releases/national-accounts-input-output-tables-year-ended-march-2020/
+        (file national-accounts-input-output-tables-year-ended-march-2020-revised-22-december-2021.xlsx).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Alcohol excise
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.alcohol_excise
+    source_concept: treasury.an24_01.alcohol_excise
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Excise duty on Alcohol actual for tax year 2019, times proportion in tax
+      year 2020 of Total use (less exports) due to Final Consumption Expenditure - Households of: Beer,
+      soft drinks, and fruit juices; Spirits and tobacco products; and Wines. Source: https://www.stats.govt.nz/information-releases/national-accounts-income-and-expenditure-year-ended-march-2021
+      (file na-nov2021-taxes-csv.csv) and https://www.stats.govt.nz/information-releases/national-accounts-input-output-tables-year-ended-march-2020/
+      (file national-accounts-input-output-tables-year-ended-march-2020-revised-22-december-2021.xlsx).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.best_start_tax_credit
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.best_start_tax_credit.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.best_start_tax_credit
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: best_start_tax_credit
+    label: Best Start tax credit
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Best Start tax credit
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of total Best Start tax credit and Parental tax credit actuals
+        in fiscal years 2018 (weight 1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial
+        and Information System.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Best Start tax credit
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.best_start_tax_credit
+    source_concept: treasury.an24_01.best_start_tax_credit
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of total Best Start tax credit and Parental tax credit actuals
+      in fiscal years 2018 (weight 1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial
+      and Information System.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.early_childhood_education
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.early_childhood_education.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.early_childhood_education
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: early_childhood_education
+    label: Early childhood education
+    ordinal: 0
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Early childhood education
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Early childhood education actuals for fiscal years 2018 (weight
+        1/4) and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+        (file befu22-data-expensetables.xlsx).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Early childhood education
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.early_childhood_education
+    source_concept: treasury.an24_01.early_childhood_education
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Early childhood education actuals for fiscal years 2018
+      (weight 1/4) and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+      (file befu22-data-expensetables.xlsx).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.family_tax_credit
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.family_tax_credit.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.family_tax_credit
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: family_tax_credit
+    label: Family tax credit
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Family tax credit
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Family tax credit actuals for fiscal years 2018 (weight 1/4)
+        and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Family tax credit
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.family_tax_credit
+    source_concept: treasury.an24_01.family_tax_credit
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Family tax credit actuals for fiscal years 2018 (weight
+      1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.gst
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.gst.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.gst
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: gst
+    label: GST
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: GST
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Proportion corresponding to the 15% GST rate of the weighted average of Taxable
+        Final Consumption Expenditure by New Zealand resident households in fiscal years 2018 (weight
+        1/4) and 2019 (weight 3/4). Source: Customised Output commissioned from Stats NZ.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: GST
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.gst
+    source_concept: treasury.an24_01.gst
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Proportion corresponding to the 15% GST rate of the weighted average of Taxable
+      Final Consumption Expenditure by New Zealand resident households in fiscal years 2018 (weight 1/4)
+      and 2019 (weight 3/4). Source: Customised Output commissioned from Stats NZ.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.health
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.health.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.health
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: health
+    label: Health
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Health
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Health expenses actuals for fiscal years 2018 (weight 1/4)
+        and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+        (file befu22-data-expensetables.xlsx).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Health
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.health
+    source_concept: treasury.an24_01.health
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Health expenses actuals for fiscal years 2018 (weight
+      1/4) and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+      (file befu22-data-expensetables.xlsx).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.income_related_rent_subsidy
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.income_related_rent_subsidy.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.income_related_rent_subsidy
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: income_related_rent_subsidy
+    label: Income-Related Rent Subsidy
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Income-Related Rent Subsidy
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Income-Related Rents actuals for fiscal years 2018 (weight
+        1/4) and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+        (file befu22-data-expensetables.xlsx).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Income-Related Rent Subsidy
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.income_related_rent_subsidy
+    source_concept: treasury.an24_01.income_related_rent_subsidy
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Income-Related Rents actuals for fiscal years 2018 (weight
+      1/4) and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+      (file befu22-data-expensetables.xlsx).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.in_work_tax_credit
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.in_work_tax_credit.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.in_work_tax_credit
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: in_work_tax_credit
+    label: In-work tax credit
+    ordinal: 0
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: In-work tax credit
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of In-work tax credit actuals for fiscal years 2018 (weight 1/4)
+        and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: In-work tax credit
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.in_work_tax_credit
+    source_concept: treasury.an24_01.in_work_tax_credit
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of In-work tax credit actuals for fiscal years 2018 (weight
+      1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.jobseeker_support
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.jobseeker_support.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.jobseeker_support
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: jobseeker_support
+    label: Jobseeker Support
+    ordinal: 0
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Jobseeker Support
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of total Jobseeker Support and Emergency Benefit actuals in fiscal
+        years 2018 (weight 1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information
+        System.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Jobseeker Support
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.jobseeker_support
+    source_concept: treasury.an24_01.jobseeker_support
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of total Jobseeker Support and Emergency Benefit actuals
+      in fiscal years 2018 (weight 1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial
+      and Information System.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.minimum_family_tax_credit
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.minimum_family_tax_credit.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.minimum_family_tax_credit
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: minimum_family_tax_credit
+    label: Minimum family tax credit
+    ordinal: 0
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Minimum family tax credit
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Minimum family tax credit actuals for fiscal years 2018 (weight
+        1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Minimum family tax credit
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.minimum_family_tax_credit
+    source_concept: treasury.an24_01.minimum_family_tax_credit
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Minimum family tax credit actuals for fiscal years 2018
+      (weight 1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.nz_super_and_vets
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.nz_super_and_vets.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.nz_super_and_vets
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: nz_super_and_vets
+    label: NZ Super and Vets
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: NZ Super and Vets
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of total New Zealand Superannuation and Veteran''s Pension actuals
+        in fiscal years 2018 (weight 1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial
+        and Information System.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: NZ Super and Vets
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.nz_super_and_vets
+    source_concept: treasury.an24_01.nz_super_and_vets
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of total New Zealand Superannuation and Veteran''s Pension
+      actuals in fiscal years 2018 (weight 1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s
+      Financial and Information System.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.paid_parental_leave
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.paid_parental_leave.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.paid_parental_leave
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: paid_parental_leave
+    label: Paid parental leave
+    ordinal: 0
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Paid parental leave
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Paid Parental Leave actuals for fiscal years 2018 (weight 1/4)
+        and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+        (file befu22-data-expensetables.xlsx).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Paid parental leave
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.paid_parental_leave
+    source_concept: treasury.an24_01.paid_parental_leave
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Paid Parental Leave actuals for fiscal years 2018 (weight
+      1/4) and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+      (file befu22-data-expensetables.xlsx).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.pbff_model_budget_total
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.pbff_model_budget_total.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.pbff_model_budget_total
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: pbff_model_budget_total
+    label: PBFF model budget total
+    ordinal: 0
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: PBFF model budget total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Total PBFF model service budget in fiscal year 2019. Source: 2019 Population Based
+        Funding Formula model - Ministry of Health.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: PBFF model budget total
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.pbff_model_budget_total
+    source_concept: treasury.an24_01.pbff_model_budget_total
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Total PBFF model service budget in fiscal year 2019. Source: 2019 Population
+      Based Funding Formula model - Ministry of Health.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.personal_income_tax
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.personal_income_tax.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.personal_income_tax
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: personal_income_tax
+    label: Personal income tax
+    ordinal: 0
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Personal income tax
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Taxes on income, profits, and capital gains - Payable by individuals
+        actuals for fiscal years 2018 (weight 1/4) and 2019 (weight 3/4). Source: https://infoshare.stats.govt.nz/,
+        Table GFS067AA.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Personal income tax
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.personal_income_tax
+    source_concept: treasury.an24_01.personal_income_tax
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Taxes on income, profits, and capital gains - Payable
+      by individuals actuals for fiscal years 2018 (weight 1/4) and 2019 (weight 3/4). Source: https://infoshare.stats.govt.nz/,
+      Table GFS067AA.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.petrol_excise
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.petrol_excise.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.petrol_excise
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: petrol_excise
+    label: Petrol excise
+    ordinal: 0
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Petrol excise
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Excise duty on Fuel actual for tax year 2019, times proportion in tax year 2020
+        of Total use (less exports) due to Final Consumption Expenditure - Households of Petrol. Source:
+        https://www.stats.govt.nz/information-releases/national-accounts-income-and-expenditure-year-ended-march-2021
+        (file na-nov2021-taxes-csv.csv) and https://www.stats.govt.nz/information-releases/national-accounts-input-output-tables-year-ended-march-2020/
+        (file national-accounts-input-output-tables-year-ended-march-2020-revised-22-december-2021.xlsx).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Petrol excise
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.petrol_excise
+    source_concept: treasury.an24_01.petrol_excise
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Excise duty on Fuel actual for tax year 2019, times proportion in tax year
+      2020 of Total use (less exports) due to Final Consumption Expenditure - Households of Petrol. Source:
+      https://www.stats.govt.nz/information-releases/national-accounts-income-and-expenditure-year-ended-march-2021
+      (file na-nov2021-taxes-csv.csv) and https://www.stats.govt.nz/information-releases/national-accounts-input-output-tables-year-ended-march-2020/
+      (file national-accounts-input-output-tables-year-ended-march-2020-revised-22-december-2021.xlsx).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.primary_education
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.primary_education.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.primary_education
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: primary_education
+    label: Primary education
+    ordinal: 0
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Primary education
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Primary education actuals in fiscal years 2018 (weight 1/4)
+        and 2019 (weight 3/4). In each fiscal year the placement-weighted Primary-school share of School
+        transport, Special needs support, Professional development, and Schooling improvement expenses
+        is included. Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+        (file befu22-data-expensetables.xlsx).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Primary education
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.primary_education
+    source_concept: treasury.an24_01.primary_education
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Primary education actuals in fiscal years 2018 (weight
+      1/4) and 2019 (weight 3/4). In each fiscal year the placement-weighted Primary-school share of School
+      transport, Special needs support, Professional development, and Schooling improvement expenses is
+      included. Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+      (file befu22-data-expensetables.xlsx).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.secondary_education
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.secondary_education.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.secondary_education
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: secondary_education
+    label: Secondary education
+    ordinal: 0
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Secondary education
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Secondary education actuals in fiscal years 2018 (weight 1/4)
+        and 2019 (weight 3/4). In each fiscal year the placement-weighted Secondary-school share of School
+        transport, Special needs support, Professional development, and Schooling improvement expenses
+        is included. Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+        (file befu22-data-expensetables.xlsx).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Secondary education
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.secondary_education
+    source_concept: treasury.an24_01.secondary_education
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Secondary education actuals in fiscal years 2018 (weight
+      1/4) and 2019 (weight 3/4). In each fiscal year the placement-weighted Secondary-school share of
+      School transport, Special needs support, Professional development, and Schooling improvement expenses
+      is included. Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+      (file befu22-data-expensetables.xlsx).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.sole_parent_support
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.sole_parent_support.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.sole_parent_support
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: sole_parent_support
+    label: Sole Parent Support
+    ordinal: 0
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Sole Parent Support
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Sole Parent Support actuals in fiscal years 2018 (weight 1/4)
+        and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Sole Parent Support
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.sole_parent_support
+    source_concept: treasury.an24_01.sole_parent_support
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Sole Parent Support actuals in fiscal years 2018 (weight
+      1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.student_allowance
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.student_allowance.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.student_allowance
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: student_allowance
+    label: Student allowance
+    ordinal: 0
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Student allowance
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Student allowances actuals for fiscal years 2018 (weight 1/4)
+        and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Student allowance
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.student_allowance
+    source_concept: treasury.an24_01.student_allowance
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Student allowances actuals for fiscal years 2018 (weight
+      1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.student_loan
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.student_loan.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.student_loan
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: student_loan
+    label: Student loan
+    ordinal: 0
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: Student loan
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Fair value write-down on new borrowings actuals for fiscal
+        years 2018 (weight 1/4) and 2019 (weight 3/4). Source: https://www.educationcounts.govt.nz/publications/series/student_loan_scheme_annual_reports
+        (files Student-Loan-Annual-Report-2018-Full-Report.pdf and GAV-0460-Student-Loan-Scheme-Annual-Report-2019.pdf).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Student loan
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.student_loan
+    source_concept: treasury.an24_01.student_loan
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Fair value write-down on new borrowings actuals for fiscal
+      years 2018 (weight 1/4) and 2019 (weight 3/4). Source: https://www.educationcounts.govt.nz/publications/series/student_loan_scheme_annual_reports
+      (files Student-Loan-Annual-Report-2018-Full-Report.pdf and GAV-0460-Student-Loan-Scheme-Annual-Report-2019.pdf).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.supported_living_payment
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.supported_living_payment.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.supported_living_payment
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: supported_living_payment
+    label: Supported Living Payment
+    ordinal: 0
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Supported Living Payment
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Supported Living Payment actuals in fiscal years 2018 (weight
+        1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Supported Living Payment
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.supported_living_payment
+    source_concept: treasury.an24_01.supported_living_payment
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Supported Living Payment actuals in fiscal years 2018
+      (weight 1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information System.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.tertiary_education
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.tertiary_education.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.tertiary_education
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: tertiary_education
+    label: Tertiary education
+    ordinal: 0
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Tertiary education
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of Tertiary Tuition and Other tertiary funding actuals for fiscal
+        years 2018 (weight 1/4) and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+        (file befu22-data-expensetables.xlsx).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Tertiary education
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.tertiary_education
+    source_concept: treasury.an24_01.tertiary_education
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of Tertiary Tuition and Other tertiary funding actuals for
+      fiscal years 2018 (weight 1/4) and 2019 (weight 3/4). Source: https://www.treasury.govt.nz/publications/efu/budget-economic-and-fiscal-update-2022
+      (file befu22-data-expensetables.xlsx).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.tobacco_excise
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.tobacco_excise.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.tobacco_excise
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: tobacco_excise
+    label: Tobacco excise
+    ordinal: 0
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: Tobacco excise
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Excise duty on Tobacco actual for tax year 2019, times proportion in tax year 2020
+        of Total use (less exports) due to Final Consumption Expenditure - Households of: Beer, soft drinks,
+        and fruit juices; Spirits and tobacco products; and Wines. Source: https://www.stats.govt.nz/information-releases/national-accounts-income-and-expenditure-year-ended-march-2021
+        (file na-nov2021-taxes-csv.csv) and https://www.stats.govt.nz/information-releases/national-accounts-input-output-tables-year-ended-march-2020/
+        (file national-accounts-input-output-tables-year-ended-march-2020-revised-22-december-2021.xlsx).'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Tobacco excise
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.tobacco_excise
+    source_concept: treasury.an24_01.tobacco_excise
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Excise duty on Tobacco actual for tax year 2019, times proportion in tax
+      year 2020 of Total use (less exports) due to Final Consumption Expenditure - Households of: Beer,
+      soft drinks, and fruit juices; Spirits and tobacco products; and Wines. Source: https://www.stats.govt.nz/information-releases/national-accounts-income-and-expenditure-year-ended-march-2021
+      (file na-nov2021-taxes-csv.csv) and https://www.stats.govt.nz/information-releases/national-accounts-input-output-tables-year-ended-march-2020/
+      (file national-accounts-input-output-tables-year-ended-march-2020-revised-22-december-2021.xlsx).'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.winter_energy_payment
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.winter_energy_payment.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.winter_energy_payment
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: winter_energy_payment
+    label: Winter Energy Payment
+    ordinal: 0
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: Winter Energy Payment
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Winter Energy Payment actual in fiscal year 2019. Source: CFISnet - the Crown''s
+        Financial and Information System.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Winter Energy Payment
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.winter_energy_payment
+    source_concept: treasury.an24_01.winter_energy_payment
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Winter Energy Payment actual in fiscal year 2019. Source: CFISnet - the Crown''s
+      Financial and Information System.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: treasury.an24_01.ty2019.youth_young_parent_payment
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.an24_01.youth_young_parent_payment.v1
+  source_record_id_prefix: treasury.an24_01.ty2019.youth_young_parent_payment
+  sheet_name: fiscal_totals
+  period_type: tax_year
+  period: 2019
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  domain: fiscal_totals
+  groupby_dimension: treasury.an24_01.quantity
+  rows:
+  - value_id: youth_young_parent_payment
+    label: Youth/Young Parent Payment
+    ordinal: 0
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Youth/Young Parent Payment
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Quantity
+      label: publisher quantity header
+    - column: C
+      row: 1
+      expected_value: Notes
+      label: publisher derivation header
+    - column: C
+      row: start
+      expected_value: 'Weighted average of total Youth Payment and Young Parent Payment actuals in fiscal
+        years 2018 (weight 1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial and Information
+        System.'
+      label: verbatim publisher derivation
+    table_record_kind: total
+  measures:
+  - measure_id: published_amount
+    label: Youth/Young Parent Payment
+    ordinal: 0
+    column: B
+    source_column_id: TY2019
+    expected_column_header_row: 1
+    expected_column_header: TY2019
+    concept: treasury.an24_01.youth_young_parent_payment
+    source_concept: treasury.an24_01.youth_young_parent_payment
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://raw.githubusercontent.com/Treasury-Analytics-and-Insights/analytical-note-24-01-effects-of-taxes-and-benefits/6e840d54b67bb7f34c63b9d34897e234317445c3/data/fiscal_totals.csv
+    concept_evidence_notes: 'Weighted average of total Youth Payment and Young Parent Payment actuals
+      in fiscal years 2018 (weight 1/4) and 2019 (weight 3/4). Source: CFISnet - the Crown''s Financial
+      and Information System.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number

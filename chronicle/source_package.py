@@ -78,6 +78,9 @@ from chronicle.sources.specs import (
 SOURCE_PACKAGE_RESOURCE_PACKAGE = "packages"
 SOURCE_PACKAGE_SCHEMA_VERSION = schema_id("source_package")
 SOURCE_PACKAGE_ALIASES = {
+    "stats-nz-subnational-population-estimates-2025": Path(
+        "stats_nz/subnational_population_estimates_2025"
+    ),
     "bea-nipa-personal-income-components": Path("bea/nipa_personal_income_components"),
     "bea-nipa-personal-income-disposition": Path(
         "bea/nipa_personal_income_disposition"
@@ -244,10 +247,24 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-tax-free-childcare-march-2026": Path("hmrc/tax_free_childcare_march_2026"),
     "hmrc-child-benefit-august-2025": Path("hmrc/child_benefit_august_2025"),
     "ici-fact-book-table-30": Path("ici/fact_book_table_30"),
+    "ird-taxable-income-distribution-2025": Path(
+        "ird/taxable_income_distribution_2025"
+    ),
     "ird-working-for-families-statistics-sept-2025": Path(
         "ird/working_for_families_statistics_sept_2025"
     ),
     "mbie-tenancy-bond-rents-tla-2026": Path("mbie/tenancy_bond_rents_tla_2026"),
+    "msd-benefit-fact-sheets-national-june-2026": Path(
+        "msd/benefit_fact_sheets_national_june_2026"
+    ),
+    "msd-benefit-fact-sheets-supplementary-june-2026": Path(
+        "msd/benefit_fact_sheets_supplementary_june_2026"
+    ),
+    "msd-nzs-vp-fact-sheet-june-2026": Path("msd/nzs_vp_fact_sheet_june_2026"),
+    "msd-annual-report-benefit-expenses-2025": Path(
+        "msd/annual_report_benefit_expenses_2025"
+    ),
+    "treasury-an24-01-fiscal-totals": Path("treasury/an24_01_fiscal_totals"),
     "isc-annual-census-2023": Path("isc/annual_census_2023"),
     "isc-annual-census-2024": Path("isc/annual_census_2024"),
     "mhclg-council-tax-levels-england-2026-27": Path(
