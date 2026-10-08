@@ -1,13 +1,35 @@
 name: CI
 
+# Runner capacity (2026-10-08): one run of this workflow holds a shared
+# org-wide runner slot for about 2h20m (p50 137 min, Oct 7-8). Before this
+# change every branch push ran it twice, once for `push` and once for the
+# PR's `pull_request` event, and superseded runs kept going. So:
+#   - `push` runs only on the long-lived branches. Feature branches get CI
+#     through their pull request; use workflow_dispatch for a branch with no
+#     PR yet.
+#   - A new commit on a pull request cancels that PR's in-progress run.
+#     Pushes keep a unique group (the run id), so every main commit is still
+#     checked and none is cancelled.
 on:
   pull_request:
   push:
+    branches:
+      - main
+      - codex/thesis-ledger-facts
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   chronicle:
     name: Chronicle checks
     runs-on: ubuntu-latest
+    # Kill a hung run instead of letting it hold a slot for GitHub's 360-minute
+    # default. Successful runs on main-based branches took 76-147 min on Oct 7-8
+    # (p50 137); the spread is runner speed, which varied 1.6x on one commit.
+    timeout-minutes: 210
 
     steps:
       - name: Check out repository
@@ -34,8 +56,10 @@ jobs:
           tests
 
       - name: Test Chronicle surface
+        # --durations lists the slowest tests so a slowdown is visible in the
+        # log instead of only in the job's total time.
         run: >
-          uv run pytest -q
+          uv run pytest -q --durations=25
 
       # Keep this security-sensitive operational surface explicit even though
       # the broad Chronicle lint and test commands above also cover it.
