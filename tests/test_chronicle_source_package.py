@@ -35,6 +35,7 @@ from chronicle.sources.cells import build_source_cell_key, validate_source_cells
 from chronicle.sources.rows import validate_source_rows
 from chronicle.sources.specs import resolve_source_record
 from chronicle.suite import build_source_suite
+from chronicle.yaml_io import safe_load as safe_load_yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 ALLOWED_PROVENANCE_CLASSES = {
@@ -225,7 +226,7 @@ def test_hmrc_packages_preserve_provenance_and_definition_year_metadata():
 
     assert hmrc_packages
     for path in hmrc_packages:
-        payload = yaml.safe_load(path.read_text())
+        payload = safe_load_yaml(path.read_text())
         artifact = payload["artifact"]
         assert artifact["vintage"]
         assert isinstance(artifact["artifact_year"], int)
@@ -743,7 +744,7 @@ def test_every_source_package_record_set_declares_provenance_class():
             for line in text.splitlines()
             if line.lstrip().startswith("provenance_class:")
         )
-        payload = yaml.safe_load(text)
+        payload = safe_load_yaml(text)
         for index, record_set in enumerate(payload["record_sets"]):
             record_set_count += 1
             record_set_id = record_set.get("record_set_id", f"index {index}")

@@ -20,6 +20,7 @@ import httpx
 import yaml
 
 from chronicle.epoch import EMIT_EPOCH, Epoch, canonicalize_key, hash_domain
+from chronicle.yaml_io import safe_load as safe_load_yaml
 
 
 DEFAULT_R2_RAW_BUCKET = "ledger-raw"
@@ -636,7 +637,7 @@ def publish_source_artifacts(
     errors: list[str] = []
     for manifest_path in sorted(root_path.rglob(manifest_filename)):
         try:
-            manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+            manifest = safe_load_yaml(manifest_path.read_text(encoding="utf-8")) or {}
         except (OSError, yaml.YAMLError) as exc:
             errors.append(f"Could not read {manifest_path}: {exc}")
             continue
@@ -763,7 +764,7 @@ def inventory_source_artifacts(
     manifests = sorted(root_path.rglob(manifest_filename))
     for manifest_path in manifests:
         try:
-            manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+            manifest = safe_load_yaml(manifest_path.read_text(encoding="utf-8")) or {}
             files = manifest.get("files") or {}
         except (OSError, yaml.YAMLError) as exc:
             errors.append(f"Could not read {manifest_path}: {exc}")
@@ -1062,7 +1063,7 @@ def _upsert_manifest(
     r2_location: ArtifactStorageLocation | None,
 ) -> None:
     if manifest_path.exists():
-        payload = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+        payload = safe_load_yaml(manifest_path.read_text(encoding="utf-8")) or {}
     else:
         payload = {}
     payload.setdefault("source_id", source_id)

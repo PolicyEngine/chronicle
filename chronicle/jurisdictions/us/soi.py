@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from importlib.resources import files
 
-import yaml
-
 from chronicle.core import (
     Aggregation,
     AggregateConstraint,
@@ -25,6 +23,7 @@ from chronicle.sources.specs import (
     SourceRecordSetSpec,
     SourceRecordSpec,
 )
+from chronicle.yaml_io import safe_load as safe_load_yaml
 from db.etl_soi import AGI_BRACKETS, TABLE_1_1_AGI_LABEL_TO_BRACKET
 
 SOI_TABLE_1_1_SOURCE_NAME = "irs_soi"
@@ -412,6 +411,6 @@ def _source_file_spec(
         manifest_name,
     )
     with manifest_path.open("r", encoding="utf-8") as file:
-        manifest = yaml.safe_load(file)
+        manifest = safe_load_yaml(file)
     files_by_year = manifest["files"]
     return files_by_year.get(year) or files_by_year[str(year)]

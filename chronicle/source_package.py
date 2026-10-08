@@ -14,7 +14,6 @@ from urllib.parse import unquote, urlparse
 from zipfile import ZipFile
 
 import httpx
-import yaml
 
 from chronicle.core import (
     ALLOWED_AGGREGATIONS,
@@ -74,6 +73,7 @@ from chronicle.sources.specs import (
     resolve_source_record,
     source_regions_from_record_set_spec,
 )
+from chronicle.yaml_io import safe_load as safe_load_yaml
 
 SOURCE_PACKAGE_RESOURCE_PACKAGE = "packages"
 SOURCE_PACKAGE_SCHEMA_VERSION = schema_id("source_package")
@@ -1146,7 +1146,7 @@ class SourceArtifactSpec:
             self.manifest,
         )
         with manifest_path.open("r", encoding="utf-8") as file:
-            manifest = yaml.safe_load(file)
+            manifest = safe_load_yaml(file)
         spec = _year_mapping(manifest["files"], self.artifact_year or year)
         artifact_path = files(self.resource_package).joinpath(
             self.resource_directory,
@@ -1842,7 +1842,7 @@ def load_source_package(source: str | Path) -> SourcePackage:
     """Load a declarative source package from an alias, directory, or YAML file."""
     path = resolve_source_package_path(source)
     with path.open("r", encoding="utf-8") as file:
-        payload = yaml.safe_load(file)
+        payload = safe_load_yaml(file)
     schema_version = _required(payload, "schema_version", str(path))
     source_package_schema = SCHEMA_IDS["source_package"]
     if schema_version not in source_package_schema.accepted:
