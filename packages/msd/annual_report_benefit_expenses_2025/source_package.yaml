@@ -48,8 +48,9 @@ record_sets:
     end_date: '2025-06-30'
     notes: The report states the year ended 30 June 2025, labels actual expense columns 2024
       and 2025, and elsewhere names the financial year 2024/25. Chronicle stores the opening
-      year of the split fiscal year, 2024. These are publisher actual expenses; no period
-      alignment or uprating.
+      year of the split fiscal year, 2024; source_period_label '2025' is the publisher's
+      column header, the year ended 30 June 2025. These are publisher actual expenses; no
+      period alignment or uprating.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand

@@ -41,6 +41,7 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: nz-wi-auckland
   geography_level: statistical_scope
   geography_name: Auckland
@@ -183,6 +184,7 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: nz-wi-bay-of-plenty
   geography_level: statistical_scope
   geography_name: Bay of Plenty
@@ -325,6 +327,7 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: nz-wi-canterbury
   geography_level: statistical_scope
   geography_name: Canterbury
@@ -467,6 +470,8 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
+      Workbook note 'Contents and notes'!C26 says that from the March 2024 quarter, we have realigned the Kāpiti service centre to the Wellington Work and Income (W&I) region. This means clients who were previously counted as part of the Central W&I region are now being counted under Wellington.
   geography_id: nz-wi-central
   geography_level: statistical_scope
   geography_name: Central
@@ -609,6 +614,7 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: nz-wi-east-coast
   geography_level: statistical_scope
   geography_name: East Coast
@@ -751,6 +757,7 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: nz-wi-nelson
   geography_level: statistical_scope
   geography_name: Nelson
@@ -893,6 +900,7 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: nz-wi-northland
   geography_level: statistical_scope
   geography_name: Northland
@@ -1035,6 +1043,7 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: nz-wi-southern
   geography_level: statistical_scope
   geography_name: Southern
@@ -1177,6 +1186,7 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: nz-wi-taranaki
   geography_level: statistical_scope
   geography_name: Taranaki
@@ -1319,6 +1329,7 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: nz-wi-waikato
   geography_level: statistical_scope
   geography_name: Waikato
@@ -1461,6 +1472,8 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
+      Workbook note 'Contents and notes'!C26 says that from the March 2024 quarter, we have realigned the Kāpiti service centre to the Wellington Work and Income (W&I) region. This means clients who were previously counted as part of the Central W&I region are now being counted under Wellington.
   geography_id: nz-wi-wellington
   geography_level: statistical_scope
   geography_name: Wellington
@@ -1603,6 +1616,8 @@ record_sets:
       payment. Regions are administrative Work and Income regions; national counts are separate
       source facts in the national workbook package. The publisher combines Special Benefit
       and Temporary Additional Support.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
+      Workbook note 'Contents and notes'!C24 says "Other regions" refers to offices managed by national units, for example, contact centres and processing centres and unspecified regions. It is not a geographic area.
   geography_id: nz-wi-other-regions
   geography_level: statistical_scope
   geography_name: Other regions

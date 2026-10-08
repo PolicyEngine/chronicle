@@ -65,6 +65,7 @@ record_sets:
     notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
       rounded to base 3 independently of other MSD releases; published cells are preserved,
       without reconciling totals or deriving averages.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -330,6 +331,7 @@ record_sets:
     notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
       rounded to base 3 independently of other MSD releases; published cells are preserved,
       without reconciling totals or deriving averages.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -434,6 +436,7 @@ record_sets:
     notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
       rounded to base 3 independently of other MSD releases; published cells are preserved,
       without reconciling totals or deriving averages.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -677,6 +680,7 @@ record_sets:
     notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
       rounded to base 3 independently of other MSD releases; published cells are preserved,
       without reconciling totals or deriving averages.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -776,6 +780,7 @@ record_sets:
     notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
       rounded to base 3 independently of other MSD releases; published cells are preserved,
       without reconciling totals or deriving averages.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -875,6 +880,7 @@ record_sets:
     notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
       rounded to base 3 independently of other MSD releases; published cells are preserved,
       without reconciling totals or deriving averages.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -983,6 +989,7 @@ record_sets:
     notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
       rounded to base 3 independently of other MSD releases; published cells are preserved,
       without reconciling totals or deriving averages.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -1181,6 +1188,7 @@ record_sets:
     notes: Publisher quarter-end recipient count for June 2026. Source cells are randomly
       rounded to base 3 independently of other MSD releases; published cells are preserved,
       without reconciling totals or deriving averages.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand

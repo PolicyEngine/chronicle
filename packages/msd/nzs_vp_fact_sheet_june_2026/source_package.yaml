@@ -75,6 +75,7 @@ record_sets:
     end_date: '2026-06-30'
     notes: Administrative recipient counts at the end of the June 2026 quarter, not a quarterly average or flow.
       Counts are independently randomly rounded to base 3; published totals are not reconciled to the detail rows.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
