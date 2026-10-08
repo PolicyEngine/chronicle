@@ -88,7 +88,7 @@ def test_uk_mid_year_population_packages_share_the_consumer_representation(alias
         ("slc-student-support-england-2025-provisional-2025-26", 2025, 136),
         ("ons-public-sector-employment-june-2026", 2026, 24),
         ("ons-national-balance-sheet-land-preliminary-2026", 2026, 3),
-        ("dfi-ni-public-transport-statistics-2025-26", 2026, 14),
+        ("dfi-ni-public-transport-statistics-2025-26", 2026, 21),
         ("isc-annual-census-2025", 2025, 1),
         ("isc-annual-census-2026", 2026, 1),
         ("welshgov-dwelling-stock-by-tenure-2025", 2025, 150),
@@ -141,6 +141,41 @@ def test_mid2025_higher_geographies_and_sexes_keep_the_revised_vintage(facts_for
     assert uk.period.value == 2024
     assert uk.period_coverage.end_date == "2024-06-30"
     assert uk.source.vintage != "mid_2024"
+    assert {f.geography.vintage for f in facts + revised} == {"gss_2024"}
+    compatible = [
+        f
+        for f in revised
+        if f.layout.record_set_spec_id == "ons.mye2_persons.uk.all_ages.v1"
+    ]
+    assert len(compatible) == 13
+    assert all(
+        f.layout.measure_id == "population" and not f.filters for f in compatible
+    )
+    assert {f.geography.id for f in revised if f not in compatible} == {
+        "K03000001",
+        "K04000001",
+        "E92000001",
+    }
+    assert all(f.period.value == 2024 for f in revised)
+    assert all(
+        f.layout.record_set_spec_id != "ons.mye2_persons.uk.all_ages.v1" for f in facts
+    )
+
+
+def test_original_ons_keeps_only_detail_cuts_not_republished_in_mye3(facts_for):
+    facts = facts_for("ons-mye-2024-uk")
+    assert len(facts) == 13 * 92 * 3 - 13
+    assert all(f.filters for f in facts)
+    assert {f.period.value for f in facts} == {2024}
+    assert {f.source.vintage for f in facts} == {"mid_2024"}
+    assert {f.geography.vintage for f in facts} == {"gss_2024"}
+    assert {f.filters.get("sex") for f in facts} == {None, "female", "male"}
+    assert {f.geography.id for f in facts if f.filters == {"sex": "female"}} == {
+        f.geography.id
+        for f in facts_for("ons-mye-2024-uk-revised-2026")
+        if f.layout.record_set_spec_id == "ons.mye2_persons.uk.all_ages.v1"
+    }
+    assert all(f.source_cell_keys for f in facts)
 
 
 def test_lps_roll_forward_inputs_are_six_published_april_snapshots(facts_for):
@@ -236,7 +271,12 @@ def test_preliminary_land_is_a_publisher_sector_stock(facts_for):
 
 
 def test_ni_bus_receipts_keep_rounded_source_values(facts_for):
-    facts = facts_for("dfi-ni-public-transport-statistics-2025-26")
+    facts = [
+        f
+        for f in facts_for("dfi-ni-public-transport-statistics-2025-26")
+        if f.measure.concept == "dfi_ni.translink_bus.passenger_receipts"
+    ]
+    assert len(facts) == 14
     latest = {f.filters["service"]: f for f in facts if f.period.value == 2025}
     # Journeys!H119/H120 are receipts in GBP million, not passenger journeys.
     assert latest["ulsterbus"].value == 103_500_000
@@ -244,6 +284,43 @@ def test_ni_bus_receipts_keep_rounded_source_values(facts_for):
     assert all(f.period.type == "fiscal_year" for f in facts)
     assert all(f.measure.unit == "gbp" for f in facts)
     assert all(f.period_coverage.end_date == "2026-03-31" for f in latest.values())
+
+
+def test_ni_bus_journeys_replace_only_directly_republished_service_cells(facts_for):
+    facts = facts_for("dfi-ni-public-transport-statistics-2025-26")
+    journeys = [
+        f
+        for f in facts
+        if f.measure.concept == "dfi_ni.translink_bus.passenger_journeys"
+    ]
+    assert len(journeys) == 7
+    assert {f.filters["service"] for f in journeys} == {"ulsterbus"}
+    assert {f.period.value: f.value for f in journeys} == {
+        2019: 37_900_000,
+        2020: 12_200_000,
+        2021: 29_600_000,
+        2022: 34_100_000,
+        2023: 35_300_000,
+        2024: 38_000_000,
+        2025: 38_400_000,
+    }  # Direct Journeys!B105:H105, source millions scaled to counts.
+    assert all(f.source_cell_keys and f.period.type == "fiscal_year" for f in journeys)
+    for fact in journeys:
+        expected = (
+            f"dfi_ni.public_transport.figure_3.fy{fact.period.value}.v1"
+            if fact.period.value < 2025
+            else "dfi_ni.public_transport_2025_26.figure_3.fy2025.v1"
+        )
+        assert fact.layout.record_set_spec_id == expected
+    older = facts_for("dfi-ni-public-transport-statistics-2024-25")
+    assert len(older) == 6
+    assert {f.filters["service"] for f in older} == {"metro_glider"}
+    assert {f.measure.concept for f in older} == {
+        "dfi_ni.translink_bus.passenger_journeys"
+    }
+    assert {f.period.value for f in older} == set(range(2019, 2025))
+    assert {f.source.vintage for f in older} == {"2024_25"}
+    assert next(f.value for f in older if f.period.value == 2019) == 30_380_000
 
 
 @pytest.mark.parametrize("year,total", [(2025, 545_640), (2026, 526_611)])

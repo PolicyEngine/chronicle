@@ -1,6 +1,7 @@
 """Publisher coverage and period regressions for chronicle#313."""
 
 import hashlib
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -181,6 +182,48 @@ def test_uc_area_packages_preserve_all_months_and_extraction_vintage(grain, area
     assert all(f.period.type == "month" for f in facts)
     assert {f.source.vintage for f in facts} == {"stat_xplore_extracted_2026_10_07"}
     assert all(f.source_row_keys and f.source_cell_keys for f in facts)
+    legacy = "uk.local_geography.uc_households.by_" + grain.replace("-", "_") + ".v1"
+    compatible = [f for f in facts if f.layout.record_set_spec_id == legacy]
+    assert len(compatible) == areas
+    assert {f.period.value for f in compatible} == {"2025-05"}
+    assert all(
+        f.layout.record_set_spec_id.startswith("dwp.statx.")
+        for f in facts
+        if f.period.value != "2025-05"
+    )
+
+
+def test_uc_child_legacy_selectors_are_confined_to_equivalent_may_cells():
+    package = load_source_package(
+        "dwp-uc-households-by-constituency-children-january-2025-may-2026"
+    )
+    may = [r.payload for r in package.record_sets if r.payload["period"] == "2025-05"]
+    expected = {
+        "0": "0",
+        "1": "1",
+        "2": "2",
+        "3": "3plus",
+        "4": "3plus",
+        "5 or more": "3plus",
+        "Unknown or missing": "unknown",
+    }
+    assert len(may) == 7
+    for record in may:
+        child = record["shared_filters"]["number_of_children"]
+        assert record["record_set_spec_id"] == (
+            "uk.local_geography.uc_households.children_" + expected[child] + ".v1"
+        )
+        assert len(record["rows"]) == 632
+        assert record["record_set_id"].startswith("dwp.statx.")
+    assert all(
+        r.payload["record_set_spec_id"].startswith("dwp.statx.")
+        for r in package.record_sets
+        if r.payload["period"] != "2025-05"
+    )
+    assert not any(
+        "Not available prior to April 2019" in str(r.payload["shared_filters"])
+        for r in package.record_sets
+    )
 
 
 def test_scottish_rent_statistics_keep_unavailable_cells_out_of_numeric_facts():
@@ -252,7 +295,100 @@ def test_devolved_mid2025_population_keeps_single_years_and_open_age_band():
     specs = revised.build_source_record_set_specs(2024)
     assert {s.period for s in specs} == set(range(2011, 2025))
     assert revised.artifact.vintage == "nrs_revised_small_area_2026_09_01_dz2022"
-    assert all(len(s.rows) == 57 and len(s.measures) == 92 for s in specs)
+    compatible = [
+        s for s in specs if s.record_set_spec_id.startswith("uk.local_geography.")
+    ]
+    other = [
+        s for s in specs if not s.record_set_spec_id.startswith("uk.local_geography.")
+    ]
+    assert len(compatible) == 92
+    assert all(
+        s.period == 2024 and len(s.rows) == 57 and len(s.measures) == 1
+        for s in compatible
+    )
+    assert len(other) == 41
+    assert all(len(s.rows) == 57 and len(s.measures) == 92 for s in other)
+    compatible_payloads = [
+        r.payload
+        for r in revised.record_sets
+        if r.payload["record_set_spec_id"].startswith("uk.local_geography.")
+    ]
+    ages = [r["measures"][0].get("filters", {}).get("age") for r in compatible_payloads]
+    assert set(ages) == {None, "90_plus", *range(90)}
+    assert len(ages) == len(set(ages))
+    for record, age in zip(compatible_payloads, ages):
+        suffix = (
+            "all_ages"
+            if age is None
+            else "age_80_plus"
+            if age == "90_plus" or age >= 80
+            else f"age_{age // 10 * 10}_{age // 10 * 10 + 10}"
+        )
+        assert (
+            record["record_set_spec_id"] == f"uk.local_geography.population.{suffix}.v1"
+        )
+        assert record["measures"][0]["measure_id"] == "population"
+        assert "sex" not in record.get("shared_filters", {})
+        assert "sex" not in record["measures"][0].get("filters", {})
+        if age is not None and age != "90_plus":
+            assert type(age) is int
+    assert {
+        r.payload["record_set_id"]
+        for r in revised.record_sets
+        if not r.payload["record_set_spec_id"].startswith("uk.local_geography.")
+    } == {
+        f"nrs.pcon24_population_by_age_2024_revised_2026.{year}.{sex}"
+        for year in range(2011, 2025)
+        for sex in ("persons", "females", "males")
+        if (year, sex) != (2024, "persons")
+    }
+
+
+def test_revised_scottish_single_age_cells_keep_legacy_band_selectors():
+    package = load_source_package("nrs-pcon24-population-by-age-2024-revised-2026")
+    expected = {
+        9: ("0_10", 1267),
+        10: ("10_20", 1283),
+        79: ("70_80", 625),
+        80: ("80_plus", 602),
+        "90_plus": ("80_plus", 823),
+    }
+    selected = tuple(
+        r
+        for r in package.record_sets
+        if r.payload["record_set_spec_id"].startswith("uk.local_geography.")
+        and r.payload["measures"][0].get("filters", {}).get("age") in expected
+    )
+    # Read the artifact once for five independent publisher cells, not band sums.
+    focused = replace(
+        package,
+        record_sets=selected,
+        dimension_labels={"geography": "Geography", "age": "Age"},
+        dimension_value_labels={"age": {"90_plus": "90 and over"}},
+    )
+    facts = focused.build_facts(2024)
+    assert len(facts) == 57 * 5
+    assert validate_consumer_fact_contract(facts).valid
+    for fact in facts:
+        age = fact.filters["age"]
+        assert fact.layout.measure_id == "population"
+        assert fact.layout.record_set_spec_id == (
+            "uk.local_geography.population.age_" + expected[age][0] + ".v1"
+        )
+        assert fact.period.value == 2024 and "sex" not in fact.filters
+        assert fact.source.vintage == "nrs_revised_small_area_2026_09_01_dz2022"
+        assert fact.source_cell_keys and fact.source_row_keys
+        assert any(
+            c.variable == "age" and c.operator == "==" and c.value == age
+            for c in fact.constraints
+        )
+        if fact.geography.id == "S14000060":
+            assert fact.value == expected[age][1]  # UKPC!O/P/CG/CH/CR2228.
+    assert not any(
+        c.variable == "age" and c.operator == "==" and c.value == 90
+        for f in facts
+        for c in f.constraints
+    )
 
 
 @pytest.mark.parametrize(

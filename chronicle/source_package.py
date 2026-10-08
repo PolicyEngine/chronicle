@@ -477,15 +477,6 @@ SOURCE_PACKAGE_ALIASES = {
         "dwp/uc_deductions_march_2025_february_2026"
     ),
     "dwp-pip-daily-living-foi-2025": Path("dwp/pip_daily_living_foi_2025"),
-    "dwp-uc-households-by-constituency-may-2025": Path(
-        "dwp/uc_households_by_constituency_may_2025"
-    ),
-    "dwp-uc-households-by-constituency-children-may-2025": Path(
-        "dwp/uc_households_by_constituency_children_may_2025"
-    ),
-    "dwp-uc-households-by-local-authority-may-2025": Path(
-        "dwp/uc_households_by_local_authority_may_2025"
-    ),
     "dwp-uc-households-children-april-december-2025": Path(
         "dwp/uc_households_children_april_december_2025"
     ),
@@ -676,7 +667,6 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/consumer_trends_current_price_2026"
     ),
     "nrs-census2022-households-ukpc24": Path("nrs/census2022_households_ukpc24"),
-    "nrs-pcon24-population-by-age-2024": Path("nrs/pcon24_population_by_age_2024"),
     "nrs-census2022-uv113-household-composition-country": Path(
         "nrs/census2022_uv113_household_composition_country"
     ),

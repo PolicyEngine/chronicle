@@ -10,6 +10,7 @@ makes such drift loud.
 from __future__ import annotations
 
 import pytest
+from pathlib import Path
 
 from chronicle.bundle import (
     UK_BUNDLE_SOURCE_PREFIXES,
@@ -36,6 +37,34 @@ def _write_package(root, rel_path):
         encoding="utf-8",
     )
     return package_dir
+
+
+@pytest.mark.parametrize(
+    "alias,raw_directory",
+    [
+        ("nrs-pcon24-population-by-age-2024", "nrs/pcon24_population_by_age_2024"),
+        (
+            "dwp-uc-households-by-constituency-may-2025",
+            "dwp/uc_households_by_constituency_may_2025",
+        ),
+        (
+            "dwp-uc-households-by-local-authority-may-2025",
+            "dwp/uc_households_by_local_authority_may_2025",
+        ),
+        (
+            "dwp-uc-households-by-constituency-children-may-2025",
+            "dwp/uc_households_by_constituency_children_may_2025",
+        ),
+    ],
+)
+def test_superseded_editions_are_archived_without_active_fact_packages(
+    alias, raw_directory
+):
+    root = Path(__file__).resolve().parents[1]
+    assert alias not in SOURCE_PACKAGE_ALIASES
+    assert alias not in UK_BUNDLE_SOURCES
+    assert not (root / "packages" / raw_directory / "source_package.yaml").exists()
+    assert (root / "db/data" / raw_directory / "manifest.yaml").is_file()
 
 
 def test_repo_alias_map_matches_packages_on_disk():

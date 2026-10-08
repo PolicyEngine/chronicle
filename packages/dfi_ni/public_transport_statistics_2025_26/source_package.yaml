@@ -1,6 +1,6 @@
 schema_version: ledger.source_package.v1
 package_id: dfi-ni-public-transport-statistics-2025-26
-label: DfI NI Translink bus passenger receipts, 2019-20 to 2025-26, September 2026 edition
+label: DfI NI bus passenger receipts and Ulsterbus journeys, 2019-20 to 2025-26, September 2026 edition
 dimension_labels:
   dfi_ni.bus_service: Translink bus service
 dimension_value_labels:
@@ -9,7 +9,7 @@ dimension_value_labels:
     ulsterbus: Ulsterbus
 artifact:
   source_name: dfi_ni
-  source_table: Public Transport Statistics Northern Ireland 2025-26, Figure 5 passenger receipts
+  source_table: Public Transport Statistics Northern Ireland 2025-26, Figures 3 and 5 journeys and receipts
   resource_package: db
   resource_directory: data/dfi_ni/public_transport_statistics_2025_26
   manifest: manifest.yaml
@@ -594,4 +594,431 @@ record_sets:
     expected_cell_type: number
     value_scale: 1000000
     expected_column_header_row: 118
+    expected_column_header: 2025-26
+- record_set_id: dfi_ni.public_transport_2025_26.figure_3.fy2019
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_3.fy2019.v1
+  source_record_id_prefix: dfi_ni.public_transport_2025_26.figure_3.fy2019
+  sheet_name: Journeys
+  period_type: fiscal_year
+  period: 2019
+  period_coverage:
+    start_date: '2019-04-01'
+    end_date: '2020-03-31'
+    basis: fiscal
+    source_period_label: 2019-20
+    notes: Publisher Figure 3 bus passenger journeys in millions; no derived Metro/Glider total.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.bus_service
+  rows:
+  - value_id: ulsterbus
+    label: Ulsterbus
+    ordinal: 0
+    row_number: 105
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Ulsterbus
+    filters:
+      service: ulsterbus
+    constraints:
+    - variable: service
+      operator: ==
+      value: ulsterbus
+      label: Service
+    guard_cells:
+    - column: A
+      row: 103
+      expected_value: 'Figure 3: Bus Passenger Journeys 2019-20 to 2025-26 (millions)'
+      label: Figure 3 passenger journeys
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: B
+    source_column_id: passenger_journeys
+    concept: dfi_ni.translink_bus.passenger_journeys
+    source_concept: dfi_ni.translink_bus.passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2025-26
+    concept_evidence_notes: Figure 3 Ulsterbus passenger journeys, September 2026 edition; publisher values
+      in millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 104
+    expected_column_header: 2019-20
+- record_set_id: dfi_ni.public_transport_2025_26.figure_3.fy2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_3.fy2020.v1
+  source_record_id_prefix: dfi_ni.public_transport_2025_26.figure_3.fy2020
+  sheet_name: Journeys
+  period_type: fiscal_year
+  period: 2020
+  period_coverage:
+    start_date: '2020-04-01'
+    end_date: '2021-03-31'
+    basis: fiscal
+    source_period_label: 2020-21
+    notes: Publisher Figure 3 bus passenger journeys in millions; no derived Metro/Glider total.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.bus_service
+  rows:
+  - value_id: ulsterbus
+    label: Ulsterbus
+    ordinal: 0
+    row_number: 105
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Ulsterbus
+    filters:
+      service: ulsterbus
+    constraints:
+    - variable: service
+      operator: ==
+      value: ulsterbus
+      label: Service
+    guard_cells:
+    - column: A
+      row: 103
+      expected_value: 'Figure 3: Bus Passenger Journeys 2019-20 to 2025-26 (millions)'
+      label: Figure 3 passenger journeys
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: C
+    source_column_id: passenger_journeys
+    concept: dfi_ni.translink_bus.passenger_journeys
+    source_concept: dfi_ni.translink_bus.passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2025-26
+    concept_evidence_notes: Figure 3 Ulsterbus passenger journeys, September 2026 edition; publisher values
+      in millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 104
+    expected_column_header: 2020-21
+- record_set_id: dfi_ni.public_transport_2025_26.figure_3.fy2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_3.fy2021.v1
+  source_record_id_prefix: dfi_ni.public_transport_2025_26.figure_3.fy2021
+  sheet_name: Journeys
+  period_type: fiscal_year
+  period: 2021
+  period_coverage:
+    start_date: '2021-04-01'
+    end_date: '2022-03-31'
+    basis: fiscal
+    source_period_label: 2021-22
+    notes: Publisher Figure 3 bus passenger journeys in millions; no derived Metro/Glider total.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.bus_service
+  rows:
+  - value_id: ulsterbus
+    label: Ulsterbus
+    ordinal: 0
+    row_number: 105
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Ulsterbus
+    filters:
+      service: ulsterbus
+    constraints:
+    - variable: service
+      operator: ==
+      value: ulsterbus
+      label: Service
+    guard_cells:
+    - column: A
+      row: 103
+      expected_value: 'Figure 3: Bus Passenger Journeys 2019-20 to 2025-26 (millions)'
+      label: Figure 3 passenger journeys
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: D
+    source_column_id: passenger_journeys
+    concept: dfi_ni.translink_bus.passenger_journeys
+    source_concept: dfi_ni.translink_bus.passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2025-26
+    concept_evidence_notes: Figure 3 Ulsterbus passenger journeys, September 2026 edition; publisher values
+      in millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 104
+    expected_column_header: 2021-22
+- record_set_id: dfi_ni.public_transport_2025_26.figure_3.fy2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_3.fy2022.v1
+  source_record_id_prefix: dfi_ni.public_transport_2025_26.figure_3.fy2022
+  sheet_name: Journeys
+  period_type: fiscal_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-04-01'
+    end_date: '2023-03-31'
+    basis: fiscal
+    source_period_label: 2022-23
+    notes: Publisher Figure 3 bus passenger journeys in millions; no derived Metro/Glider total.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.bus_service
+  rows:
+  - value_id: ulsterbus
+    label: Ulsterbus
+    ordinal: 0
+    row_number: 105
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Ulsterbus
+    filters:
+      service: ulsterbus
+    constraints:
+    - variable: service
+      operator: ==
+      value: ulsterbus
+      label: Service
+    guard_cells:
+    - column: A
+      row: 103
+      expected_value: 'Figure 3: Bus Passenger Journeys 2019-20 to 2025-26 (millions)'
+      label: Figure 3 passenger journeys
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: E
+    source_column_id: passenger_journeys
+    concept: dfi_ni.translink_bus.passenger_journeys
+    source_concept: dfi_ni.translink_bus.passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2025-26
+    concept_evidence_notes: Figure 3 Ulsterbus passenger journeys, September 2026 edition; publisher values
+      in millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 104
+    expected_column_header: 2022-23
+- record_set_id: dfi_ni.public_transport_2025_26.figure_3.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_3.fy2023.v1
+  source_record_id_prefix: dfi_ni.public_transport_2025_26.figure_3.fy2023
+  sheet_name: Journeys
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24
+    notes: Publisher Figure 3 bus passenger journeys in millions; no derived Metro/Glider total.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.bus_service
+  rows:
+  - value_id: ulsterbus
+    label: Ulsterbus
+    ordinal: 0
+    row_number: 105
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Ulsterbus
+    filters:
+      service: ulsterbus
+    constraints:
+    - variable: service
+      operator: ==
+      value: ulsterbus
+      label: Service
+    guard_cells:
+    - column: A
+      row: 103
+      expected_value: 'Figure 3: Bus Passenger Journeys 2019-20 to 2025-26 (millions)'
+      label: Figure 3 passenger journeys
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: F
+    source_column_id: passenger_journeys
+    concept: dfi_ni.translink_bus.passenger_journeys
+    source_concept: dfi_ni.translink_bus.passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2025-26
+    concept_evidence_notes: Figure 3 Ulsterbus passenger journeys, September 2026 edition; publisher values
+      in millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 104
+    expected_column_header: 2023-24
+- record_set_id: dfi_ni.public_transport_2025_26.figure_3.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport.figure_3.fy2024.v1
+  source_record_id_prefix: dfi_ni.public_transport_2025_26.figure_3.fy2024
+  sheet_name: Journeys
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25
+    notes: Publisher Figure 3 bus passenger journeys in millions; no derived Metro/Glider total.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.bus_service
+  rows:
+  - value_id: ulsterbus
+    label: Ulsterbus
+    ordinal: 0
+    row_number: 105
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Ulsterbus
+    filters:
+      service: ulsterbus
+    constraints:
+    - variable: service
+      operator: ==
+      value: ulsterbus
+      label: Service
+    guard_cells:
+    - column: A
+      row: 103
+      expected_value: 'Figure 3: Bus Passenger Journeys 2019-20 to 2025-26 (millions)'
+      label: Figure 3 passenger journeys
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: G
+    source_column_id: passenger_journeys
+    concept: dfi_ni.translink_bus.passenger_journeys
+    source_concept: dfi_ni.translink_bus.passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2025-26
+    concept_evidence_notes: Figure 3 Ulsterbus passenger journeys, September 2026 edition; publisher values
+      in millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 104
+    expected_column_header: 2024-25
+- record_set_id: dfi_ni.public_transport_2025_26.figure_3.fy2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dfi_ni.public_transport_2025_26.figure_3.fy2025.v1
+  source_record_id_prefix: dfi_ni.public_transport_2025_26.figure_3.fy2025
+  sheet_name: Journeys
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2026-03-31'
+    basis: fiscal
+    source_period_label: 2025-26
+    notes: Publisher Figure 3 bus passenger journeys in millions; no derived Metro/Glider total.
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: person
+  entity_role: translink_bus_passenger
+  domain: public_transport
+  groupby_dimension: dfi_ni.bus_service
+  rows:
+  - value_id: ulsterbus
+    label: Ulsterbus
+    ordinal: 0
+    row_number: 105
+    table_record_kind: detail
+    expected_row_header_column: A
+    expected_row_header: Ulsterbus
+    filters:
+      service: ulsterbus
+    constraints:
+    - variable: service
+      operator: ==
+      value: ulsterbus
+      label: Service
+    guard_cells:
+    - column: A
+      row: 103
+      expected_value: 'Figure 3: Bus Passenger Journeys 2019-20 to 2025-26 (millions)'
+      label: Figure 3 passenger journeys
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: H
+    source_column_id: passenger_journeys
+    concept: dfi_ni.translink_bus.passenger_journeys
+    source_concept: dfi_ni.translink_bus.passenger_journeys
+    concept_relation: source_label
+    concept_authority: dfi_ni
+    concept_evidence_url: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2025-26
+    concept_evidence_notes: Figure 3 Ulsterbus passenger journeys, September 2026 edition; publisher values
+      in millions.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 104
     expected_column_header: 2025-26

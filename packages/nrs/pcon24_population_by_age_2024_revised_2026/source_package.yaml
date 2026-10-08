@@ -47396,10 +47396,11 @@ record_sets:
     operator: ==
     value: male
     label: Sex
-- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons
+# Only revised 2024 Persons cells retain the established single-age selector families.
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.all_ages
   provenance_class: model_output
-  record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.v1
-  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons
+  record_set_spec_id: uk.local_geography.population.all_ages.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.all_ages
   sheet_name: UKPC
   period_type: calendar_year
   period: 2024
@@ -47411,7 +47412,7 @@ record_sets:
   entity_role: resident_population
   domain: resident_population
   groupby_dimension: geography
-  rows:
+  rows: &revised2024persons_rows
   - value_id: s14000060
     label: Aberdeen North
     ordinal: 2224
@@ -48552,13 +48553,3482 @@ record_sets:
       row: 2281
       expected_value: 2024
       label: Reference year
-  measures: *id001
-  period_coverage:
+  period_coverage: &revised2024persons_coverage
     start_date: '2024-06-30'
     end_date: '2024-06-30'
     basis: calendar
     source_period_label: mid-2024
     notes: Publisher usual-resident population estimate, including communal establishments.
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: E
+    source_column_id: All ages
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: All ages
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_0
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_0_10.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_0
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: F
+    source_column_id: '0'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '0'
+    filters:
+      age: 0
+    constraints:
+    - variable: age
+      operator: ==
+      value: 0
+      label: Publisher age
+    source_column_dimensions:
+      age: 0
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_1
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_0_10.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_1
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: G
+    source_column_id: '1'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '1'
+    filters:
+      age: 1
+    constraints:
+    - variable: age
+      operator: ==
+      value: 1
+      label: Publisher age
+    source_column_dimensions:
+      age: 1
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_2
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_0_10.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_2
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: H
+    source_column_id: '2'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '2'
+    filters:
+      age: 2
+    constraints:
+    - variable: age
+      operator: ==
+      value: 2
+      label: Publisher age
+    source_column_dimensions:
+      age: 2
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_3
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_0_10.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_3
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: I
+    source_column_id: '3'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '3'
+    filters:
+      age: 3
+    constraints:
+    - variable: age
+      operator: ==
+      value: 3
+      label: Publisher age
+    source_column_dimensions:
+      age: 3
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_4
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_0_10.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_4
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: J
+    source_column_id: '4'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '4'
+    filters:
+      age: 4
+    constraints:
+    - variable: age
+      operator: ==
+      value: 4
+      label: Publisher age
+    source_column_dimensions:
+      age: 4
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_5
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_0_10.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_5
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: K
+    source_column_id: '5'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '5'
+    filters:
+      age: 5
+    constraints:
+    - variable: age
+      operator: ==
+      value: 5
+      label: Publisher age
+    source_column_dimensions:
+      age: 5
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_6
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_0_10.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_6
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: L
+    source_column_id: '6'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '6'
+    filters:
+      age: 6
+    constraints:
+    - variable: age
+      operator: ==
+      value: 6
+      label: Publisher age
+    source_column_dimensions:
+      age: 6
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_7
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_0_10.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_7
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: M
+    source_column_id: '7'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '7'
+    filters:
+      age: 7
+    constraints:
+    - variable: age
+      operator: ==
+      value: 7
+      label: Publisher age
+    source_column_dimensions:
+      age: 7
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_8
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_0_10.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_8
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: N
+    source_column_id: '8'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '8'
+    filters:
+      age: 8
+    constraints:
+    - variable: age
+      operator: ==
+      value: 8
+      label: Publisher age
+    source_column_dimensions:
+      age: 8
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_9
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_0_10.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_9
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: O
+    source_column_id: '9'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '9'
+    filters:
+      age: 9
+    constraints:
+    - variable: age
+      operator: ==
+      value: 9
+      label: Publisher age
+    source_column_dimensions:
+      age: 9
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_10
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_10_20.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_10
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: P
+    source_column_id: '10'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '10'
+    filters:
+      age: 10
+    constraints:
+    - variable: age
+      operator: ==
+      value: 10
+      label: Publisher age
+    source_column_dimensions:
+      age: 10
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_11
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_10_20.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_11
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: Q
+    source_column_id: '11'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '11'
+    filters:
+      age: 11
+    constraints:
+    - variable: age
+      operator: ==
+      value: 11
+      label: Publisher age
+    source_column_dimensions:
+      age: 11
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_12
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_10_20.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_12
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: R
+    source_column_id: '12'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '12'
+    filters:
+      age: 12
+    constraints:
+    - variable: age
+      operator: ==
+      value: 12
+      label: Publisher age
+    source_column_dimensions:
+      age: 12
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_13
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_10_20.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_13
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: S
+    source_column_id: '13'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '13'
+    filters:
+      age: 13
+    constraints:
+    - variable: age
+      operator: ==
+      value: 13
+      label: Publisher age
+    source_column_dimensions:
+      age: 13
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_14
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_10_20.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_14
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: T
+    source_column_id: '14'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '14'
+    filters:
+      age: 14
+    constraints:
+    - variable: age
+      operator: ==
+      value: 14
+      label: Publisher age
+    source_column_dimensions:
+      age: 14
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_15
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_10_20.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_15
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: U
+    source_column_id: '15'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '15'
+    filters:
+      age: 15
+    constraints:
+    - variable: age
+      operator: ==
+      value: 15
+      label: Publisher age
+    source_column_dimensions:
+      age: 15
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_16
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_10_20.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_16
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: V
+    source_column_id: '16'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '16'
+    filters:
+      age: 16
+    constraints:
+    - variable: age
+      operator: ==
+      value: 16
+      label: Publisher age
+    source_column_dimensions:
+      age: 16
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_17
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_10_20.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_17
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: W
+    source_column_id: '17'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '17'
+    filters:
+      age: 17
+    constraints:
+    - variable: age
+      operator: ==
+      value: 17
+      label: Publisher age
+    source_column_dimensions:
+      age: 17
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_18
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_10_20.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_18
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: X
+    source_column_id: '18'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '18'
+    filters:
+      age: 18
+    constraints:
+    - variable: age
+      operator: ==
+      value: 18
+      label: Publisher age
+    source_column_dimensions:
+      age: 18
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_19
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_10_20.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_19
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: Y
+    source_column_id: '19'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '19'
+    filters:
+      age: 19
+    constraints:
+    - variable: age
+      operator: ==
+      value: 19
+      label: Publisher age
+    source_column_dimensions:
+      age: 19
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_20
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_20_30.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_20
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: Z
+    source_column_id: '20'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '20'
+    filters:
+      age: 20
+    constraints:
+    - variable: age
+      operator: ==
+      value: 20
+      label: Publisher age
+    source_column_dimensions:
+      age: 20
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_21
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_20_30.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_21
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AA
+    source_column_id: '21'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '21'
+    filters:
+      age: 21
+    constraints:
+    - variable: age
+      operator: ==
+      value: 21
+      label: Publisher age
+    source_column_dimensions:
+      age: 21
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_22
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_20_30.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_22
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AB
+    source_column_id: '22'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '22'
+    filters:
+      age: 22
+    constraints:
+    - variable: age
+      operator: ==
+      value: 22
+      label: Publisher age
+    source_column_dimensions:
+      age: 22
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_23
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_20_30.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_23
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AC
+    source_column_id: '23'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '23'
+    filters:
+      age: 23
+    constraints:
+    - variable: age
+      operator: ==
+      value: 23
+      label: Publisher age
+    source_column_dimensions:
+      age: 23
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_24
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_20_30.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_24
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AD
+    source_column_id: '24'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '24'
+    filters:
+      age: 24
+    constraints:
+    - variable: age
+      operator: ==
+      value: 24
+      label: Publisher age
+    source_column_dimensions:
+      age: 24
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_25
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_20_30.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_25
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AE
+    source_column_id: '25'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '25'
+    filters:
+      age: 25
+    constraints:
+    - variable: age
+      operator: ==
+      value: 25
+      label: Publisher age
+    source_column_dimensions:
+      age: 25
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_26
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_20_30.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_26
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AF
+    source_column_id: '26'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '26'
+    filters:
+      age: 26
+    constraints:
+    - variable: age
+      operator: ==
+      value: 26
+      label: Publisher age
+    source_column_dimensions:
+      age: 26
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_27
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_20_30.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_27
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AG
+    source_column_id: '27'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '27'
+    filters:
+      age: 27
+    constraints:
+    - variable: age
+      operator: ==
+      value: 27
+      label: Publisher age
+    source_column_dimensions:
+      age: 27
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_28
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_20_30.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_28
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AH
+    source_column_id: '28'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '28'
+    filters:
+      age: 28
+    constraints:
+    - variable: age
+      operator: ==
+      value: 28
+      label: Publisher age
+    source_column_dimensions:
+      age: 28
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_29
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_20_30.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_29
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AI
+    source_column_id: '29'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '29'
+    filters:
+      age: 29
+    constraints:
+    - variable: age
+      operator: ==
+      value: 29
+      label: Publisher age
+    source_column_dimensions:
+      age: 29
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_30
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_30_40.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_30
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AJ
+    source_column_id: '30'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '30'
+    filters:
+      age: 30
+    constraints:
+    - variable: age
+      operator: ==
+      value: 30
+      label: Publisher age
+    source_column_dimensions:
+      age: 30
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_31
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_30_40.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_31
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AK
+    source_column_id: '31'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '31'
+    filters:
+      age: 31
+    constraints:
+    - variable: age
+      operator: ==
+      value: 31
+      label: Publisher age
+    source_column_dimensions:
+      age: 31
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_32
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_30_40.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_32
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AL
+    source_column_id: '32'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '32'
+    filters:
+      age: 32
+    constraints:
+    - variable: age
+      operator: ==
+      value: 32
+      label: Publisher age
+    source_column_dimensions:
+      age: 32
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_33
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_30_40.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_33
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AM
+    source_column_id: '33'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '33'
+    filters:
+      age: 33
+    constraints:
+    - variable: age
+      operator: ==
+      value: 33
+      label: Publisher age
+    source_column_dimensions:
+      age: 33
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_34
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_30_40.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_34
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AN
+    source_column_id: '34'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '34'
+    filters:
+      age: 34
+    constraints:
+    - variable: age
+      operator: ==
+      value: 34
+      label: Publisher age
+    source_column_dimensions:
+      age: 34
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_35
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_30_40.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_35
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AO
+    source_column_id: '35'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '35'
+    filters:
+      age: 35
+    constraints:
+    - variable: age
+      operator: ==
+      value: 35
+      label: Publisher age
+    source_column_dimensions:
+      age: 35
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_36
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_30_40.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_36
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AP
+    source_column_id: '36'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '36'
+    filters:
+      age: 36
+    constraints:
+    - variable: age
+      operator: ==
+      value: 36
+      label: Publisher age
+    source_column_dimensions:
+      age: 36
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_37
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_30_40.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_37
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AQ
+    source_column_id: '37'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '37'
+    filters:
+      age: 37
+    constraints:
+    - variable: age
+      operator: ==
+      value: 37
+      label: Publisher age
+    source_column_dimensions:
+      age: 37
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_38
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_30_40.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_38
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AR
+    source_column_id: '38'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '38'
+    filters:
+      age: 38
+    constraints:
+    - variable: age
+      operator: ==
+      value: 38
+      label: Publisher age
+    source_column_dimensions:
+      age: 38
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_39
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_30_40.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_39
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AS
+    source_column_id: '39'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '39'
+    filters:
+      age: 39
+    constraints:
+    - variable: age
+      operator: ==
+      value: 39
+      label: Publisher age
+    source_column_dimensions:
+      age: 39
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_40
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_40_50.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_40
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AT
+    source_column_id: '40'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '40'
+    filters:
+      age: 40
+    constraints:
+    - variable: age
+      operator: ==
+      value: 40
+      label: Publisher age
+    source_column_dimensions:
+      age: 40
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_41
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_40_50.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_41
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AU
+    source_column_id: '41'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '41'
+    filters:
+      age: 41
+    constraints:
+    - variable: age
+      operator: ==
+      value: 41
+      label: Publisher age
+    source_column_dimensions:
+      age: 41
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_42
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_40_50.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_42
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AV
+    source_column_id: '42'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '42'
+    filters:
+      age: 42
+    constraints:
+    - variable: age
+      operator: ==
+      value: 42
+      label: Publisher age
+    source_column_dimensions:
+      age: 42
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_43
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_40_50.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_43
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AW
+    source_column_id: '43'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '43'
+    filters:
+      age: 43
+    constraints:
+    - variable: age
+      operator: ==
+      value: 43
+      label: Publisher age
+    source_column_dimensions:
+      age: 43
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_44
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_40_50.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_44
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AX
+    source_column_id: '44'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '44'
+    filters:
+      age: 44
+    constraints:
+    - variable: age
+      operator: ==
+      value: 44
+      label: Publisher age
+    source_column_dimensions:
+      age: 44
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_45
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_40_50.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_45
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AY
+    source_column_id: '45'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '45'
+    filters:
+      age: 45
+    constraints:
+    - variable: age
+      operator: ==
+      value: 45
+      label: Publisher age
+    source_column_dimensions:
+      age: 45
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_46
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_40_50.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_46
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: AZ
+    source_column_id: '46'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '46'
+    filters:
+      age: 46
+    constraints:
+    - variable: age
+      operator: ==
+      value: 46
+      label: Publisher age
+    source_column_dimensions:
+      age: 46
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_47
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_40_50.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_47
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BA
+    source_column_id: '47'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '47'
+    filters:
+      age: 47
+    constraints:
+    - variable: age
+      operator: ==
+      value: 47
+      label: Publisher age
+    source_column_dimensions:
+      age: 47
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_48
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_40_50.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_48
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BB
+    source_column_id: '48'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '48'
+    filters:
+      age: 48
+    constraints:
+    - variable: age
+      operator: ==
+      value: 48
+      label: Publisher age
+    source_column_dimensions:
+      age: 48
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_49
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_40_50.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_49
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BC
+    source_column_id: '49'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '49'
+    filters:
+      age: 49
+    constraints:
+    - variable: age
+      operator: ==
+      value: 49
+      label: Publisher age
+    source_column_dimensions:
+      age: 49
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_50
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_50_60.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_50
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BD
+    source_column_id: '50'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '50'
+    filters:
+      age: 50
+    constraints:
+    - variable: age
+      operator: ==
+      value: 50
+      label: Publisher age
+    source_column_dimensions:
+      age: 50
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_51
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_50_60.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_51
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BE
+    source_column_id: '51'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '51'
+    filters:
+      age: 51
+    constraints:
+    - variable: age
+      operator: ==
+      value: 51
+      label: Publisher age
+    source_column_dimensions:
+      age: 51
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_52
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_50_60.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_52
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BF
+    source_column_id: '52'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '52'
+    filters:
+      age: 52
+    constraints:
+    - variable: age
+      operator: ==
+      value: 52
+      label: Publisher age
+    source_column_dimensions:
+      age: 52
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_53
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_50_60.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_53
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BG
+    source_column_id: '53'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '53'
+    filters:
+      age: 53
+    constraints:
+    - variable: age
+      operator: ==
+      value: 53
+      label: Publisher age
+    source_column_dimensions:
+      age: 53
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_54
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_50_60.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_54
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BH
+    source_column_id: '54'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '54'
+    filters:
+      age: 54
+    constraints:
+    - variable: age
+      operator: ==
+      value: 54
+      label: Publisher age
+    source_column_dimensions:
+      age: 54
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_55
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_50_60.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_55
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BI
+    source_column_id: '55'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '55'
+    filters:
+      age: 55
+    constraints:
+    - variable: age
+      operator: ==
+      value: 55
+      label: Publisher age
+    source_column_dimensions:
+      age: 55
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_56
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_50_60.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_56
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BJ
+    source_column_id: '56'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '56'
+    filters:
+      age: 56
+    constraints:
+    - variable: age
+      operator: ==
+      value: 56
+      label: Publisher age
+    source_column_dimensions:
+      age: 56
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_57
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_50_60.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_57
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BK
+    source_column_id: '57'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '57'
+    filters:
+      age: 57
+    constraints:
+    - variable: age
+      operator: ==
+      value: 57
+      label: Publisher age
+    source_column_dimensions:
+      age: 57
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_58
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_50_60.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_58
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BL
+    source_column_id: '58'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '58'
+    filters:
+      age: 58
+    constraints:
+    - variable: age
+      operator: ==
+      value: 58
+      label: Publisher age
+    source_column_dimensions:
+      age: 58
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_59
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_50_60.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_59
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BM
+    source_column_id: '59'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '59'
+    filters:
+      age: 59
+    constraints:
+    - variable: age
+      operator: ==
+      value: 59
+      label: Publisher age
+    source_column_dimensions:
+      age: 59
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_60
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_60_70.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_60
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BN
+    source_column_id: '60'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '60'
+    filters:
+      age: 60
+    constraints:
+    - variable: age
+      operator: ==
+      value: 60
+      label: Publisher age
+    source_column_dimensions:
+      age: 60
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_61
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_60_70.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_61
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BO
+    source_column_id: '61'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '61'
+    filters:
+      age: 61
+    constraints:
+    - variable: age
+      operator: ==
+      value: 61
+      label: Publisher age
+    source_column_dimensions:
+      age: 61
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_62
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_60_70.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_62
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BP
+    source_column_id: '62'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '62'
+    filters:
+      age: 62
+    constraints:
+    - variable: age
+      operator: ==
+      value: 62
+      label: Publisher age
+    source_column_dimensions:
+      age: 62
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_63
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_60_70.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_63
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BQ
+    source_column_id: '63'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '63'
+    filters:
+      age: 63
+    constraints:
+    - variable: age
+      operator: ==
+      value: 63
+      label: Publisher age
+    source_column_dimensions:
+      age: 63
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_64
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_60_70.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_64
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BR
+    source_column_id: '64'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '64'
+    filters:
+      age: 64
+    constraints:
+    - variable: age
+      operator: ==
+      value: 64
+      label: Publisher age
+    source_column_dimensions:
+      age: 64
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_65
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_60_70.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_65
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BS
+    source_column_id: '65'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '65'
+    filters:
+      age: 65
+    constraints:
+    - variable: age
+      operator: ==
+      value: 65
+      label: Publisher age
+    source_column_dimensions:
+      age: 65
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_66
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_60_70.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_66
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BT
+    source_column_id: '66'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '66'
+    filters:
+      age: 66
+    constraints:
+    - variable: age
+      operator: ==
+      value: 66
+      label: Publisher age
+    source_column_dimensions:
+      age: 66
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_67
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_60_70.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_67
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BU
+    source_column_id: '67'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '67'
+    filters:
+      age: 67
+    constraints:
+    - variable: age
+      operator: ==
+      value: 67
+      label: Publisher age
+    source_column_dimensions:
+      age: 67
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_68
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_60_70.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_68
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BV
+    source_column_id: '68'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '68'
+    filters:
+      age: 68
+    constraints:
+    - variable: age
+      operator: ==
+      value: 68
+      label: Publisher age
+    source_column_dimensions:
+      age: 68
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_69
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_60_70.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_69
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BW
+    source_column_id: '69'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '69'
+    filters:
+      age: 69
+    constraints:
+    - variable: age
+      operator: ==
+      value: 69
+      label: Publisher age
+    source_column_dimensions:
+      age: 69
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_70
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_70_80.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_70
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BX
+    source_column_id: '70'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '70'
+    filters:
+      age: 70
+    constraints:
+    - variable: age
+      operator: ==
+      value: 70
+      label: Publisher age
+    source_column_dimensions:
+      age: 70
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_71
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_70_80.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_71
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BY
+    source_column_id: '71'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '71'
+    filters:
+      age: 71
+    constraints:
+    - variable: age
+      operator: ==
+      value: 71
+      label: Publisher age
+    source_column_dimensions:
+      age: 71
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_72
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_70_80.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_72
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: BZ
+    source_column_id: '72'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '72'
+    filters:
+      age: 72
+    constraints:
+    - variable: age
+      operator: ==
+      value: 72
+      label: Publisher age
+    source_column_dimensions:
+      age: 72
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_73
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_70_80.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_73
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CA
+    source_column_id: '73'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '73'
+    filters:
+      age: 73
+    constraints:
+    - variable: age
+      operator: ==
+      value: 73
+      label: Publisher age
+    source_column_dimensions:
+      age: 73
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_74
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_70_80.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_74
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CB
+    source_column_id: '74'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '74'
+    filters:
+      age: 74
+    constraints:
+    - variable: age
+      operator: ==
+      value: 74
+      label: Publisher age
+    source_column_dimensions:
+      age: 74
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_75
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_70_80.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_75
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CC
+    source_column_id: '75'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '75'
+    filters:
+      age: 75
+    constraints:
+    - variable: age
+      operator: ==
+      value: 75
+      label: Publisher age
+    source_column_dimensions:
+      age: 75
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_76
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_70_80.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_76
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CD
+    source_column_id: '76'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '76'
+    filters:
+      age: 76
+    constraints:
+    - variable: age
+      operator: ==
+      value: 76
+      label: Publisher age
+    source_column_dimensions:
+      age: 76
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_77
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_70_80.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_77
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CE
+    source_column_id: '77'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '77'
+    filters:
+      age: 77
+    constraints:
+    - variable: age
+      operator: ==
+      value: 77
+      label: Publisher age
+    source_column_dimensions:
+      age: 77
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_78
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_70_80.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_78
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CF
+    source_column_id: '78'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '78'
+    filters:
+      age: 78
+    constraints:
+    - variable: age
+      operator: ==
+      value: 78
+      label: Publisher age
+    source_column_dimensions:
+      age: 78
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_79
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_70_80.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_79
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CG
+    source_column_id: '79'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '79'
+    filters:
+      age: 79
+    constraints:
+    - variable: age
+      operator: ==
+      value: 79
+      label: Publisher age
+    source_column_dimensions:
+      age: 79
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_80
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_80_plus.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_80
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CH
+    source_column_id: '80'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '80'
+    filters:
+      age: 80
+    constraints:
+    - variable: age
+      operator: ==
+      value: 80
+      label: Publisher age
+    source_column_dimensions:
+      age: 80
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_81
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_80_plus.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_81
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CI
+    source_column_id: '81'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '81'
+    filters:
+      age: 81
+    constraints:
+    - variable: age
+      operator: ==
+      value: 81
+      label: Publisher age
+    source_column_dimensions:
+      age: 81
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_82
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_80_plus.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_82
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CJ
+    source_column_id: '82'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '82'
+    filters:
+      age: 82
+    constraints:
+    - variable: age
+      operator: ==
+      value: 82
+      label: Publisher age
+    source_column_dimensions:
+      age: 82
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_83
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_80_plus.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_83
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CK
+    source_column_id: '83'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '83'
+    filters:
+      age: 83
+    constraints:
+    - variable: age
+      operator: ==
+      value: 83
+      label: Publisher age
+    source_column_dimensions:
+      age: 83
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_84
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_80_plus.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_84
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CL
+    source_column_id: '84'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '84'
+    filters:
+      age: 84
+    constraints:
+    - variable: age
+      operator: ==
+      value: 84
+      label: Publisher age
+    source_column_dimensions:
+      age: 84
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_85
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_80_plus.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_85
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CM
+    source_column_id: '85'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '85'
+    filters:
+      age: 85
+    constraints:
+    - variable: age
+      operator: ==
+      value: 85
+      label: Publisher age
+    source_column_dimensions:
+      age: 85
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_86
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_80_plus.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_86
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CN
+    source_column_id: '86'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '86'
+    filters:
+      age: 86
+    constraints:
+    - variable: age
+      operator: ==
+      value: 86
+      label: Publisher age
+    source_column_dimensions:
+      age: 86
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_87
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_80_plus.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_87
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CO
+    source_column_id: '87'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '87'
+    filters:
+      age: 87
+    constraints:
+    - variable: age
+      operator: ==
+      value: 87
+      label: Publisher age
+    source_column_dimensions:
+      age: 87
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_88
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_80_plus.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_88
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CP
+    source_column_id: '88'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '88'
+    filters:
+      age: 88
+    constraints:
+    - variable: age
+      operator: ==
+      value: 88
+      label: Publisher age
+    source_column_dimensions:
+      age: 88
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_89
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_80_plus.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_89
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CQ
+    source_column_id: '89'
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: '89'
+    filters:
+      age: 89
+    constraints:
+    - variable: age
+      operator: ==
+      value: 89
+      label: Publisher age
+    source_column_dimensions:
+      age: 89
+- record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_90_plus
+  provenance_class: model_output
+  record_set_spec_id: uk.local_geography.population.age_80_plus.v1
+  source_record_id_prefix: nrs.pcon24_population_by_age_2024_revised_2026.2024.persons.age_90_plus
+  sheet_name: UKPC
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: geography
+  rows: *revised2024persons_rows
+  period_coverage: *revised2024persons_coverage
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: CR
+    source_column_id: 90 and over
+    concept: ons.mid_year_population_estimate
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: 90 and over
+    filters:
+      age: 90_plus
+    constraints:
+    - variable: age
+      operator: ==
+      value: 90_plus
+      label: Publisher age
+    source_column_dimensions:
+      age: 90_plus
 - record_set_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.females
   provenance_class: model_output
   record_set_spec_id: nrs.pcon24_population_by_age_2024_revised_2026.2024.females.v1

@@ -40556,7 +40556,7 @@ record_sets:
   - *id001
 - record_set_id: dwp.statx.uc_households_by_constituency_january_2025_may_2026.2025-05
   provenance_class: administrative
-  record_set_spec_id: dwp.statx.uc_households_by_constituency_january_2025_may_2026.2025-05.v1
+  record_set_spec_id: uk.local_geography.uc_households.by_constituency.v1
   source_record_id_prefix: dwp.statx.uc_households_by_constituency_january_2025_may_2026.2025-05
   sheet_name: api_response
   period_type: month

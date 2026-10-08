@@ -38,7 +38,7 @@ EXPECTED_FACT_COUNTS = {
     "desnz-need-england-wales-2023": 144,
     "desnz-need-scotland-2023": 84,
     "desnz-weekly-road-fuel-prices-september-2026": 579,
-    "dfi-ni-public-transport-statistics-2024-25": 24,
+    "dfi-ni-public-transport-statistics-2024-25": 6,
     "dft-veh1103-cars-fuel-type-2025": 36,
     "hmrc-hydrocarbon-oils-quantities-june-2026": 168,
     "obr-fuel-duty-receipts-by-vehicle-april-2024": 49,
@@ -70,8 +70,8 @@ REPRESENTATIVE_PUBLISHER_FACTS = {
         150.89909733333337,
     ),
     "dfi-ni-public-transport-statistics-2024-25": (
-        "dfi_ni.public_transport.figure_3.fy2019.ulsterbus.passenger_journeys",
-        37_890_000,
+        "dfi_ni.public_transport.figure_3.fy2019.metro_glider.passenger_journeys",
+        30_380_000,
     ),
     "dft-veh1103-cars-fuel-type-2025": (
         "dft.veh1103a.cars.cy2023.cars.cars_petrol",

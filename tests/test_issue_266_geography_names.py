@@ -192,7 +192,9 @@ def test_unnamed_areas_are_reported_once_each_and_country_rows_are_not():
         consumer_fact_row(_fact(name="Bishop Auckland")),
     ]
 
-    errors = _geography_name_errors("dwp-uc-households-by-constituency-may-2025", rows)
+    errors = _geography_name_errors(
+        "dwp-uc-households-by-constituency-january-2025-may-2026", rows
+    )
 
     assert [error.key for error in errors] == [
         "msoa:E02000001",
@@ -275,7 +277,9 @@ def test_one_package_naming_an_area_twice_is_an_error():
         ),
     ]
 
-    errors = _geography_name_errors("dwp-uc-households-by-constituency-may-2025", rows)
+    errors = _geography_name_errors(
+        "dwp-uc-households-by-constituency-january-2025-may-2026", rows
+    )
 
     assert [(error.code, error.key) for error in errors] == [
         ("conflicting_geography_name", "msoa:E02000001")
