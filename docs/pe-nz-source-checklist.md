@@ -166,8 +166,9 @@ the complete immutable workbook bytes.
 The manifest pins receipt SHA-256
 `fc7bf7ecdb27a08219cac1ad0cb06cc6bc8de0aae03d605c6ef8d42a15d4b592`,
 294,932 bytes, fetched `2026-10-07T19:23:14Z`. Its `raw/nz/ird/...` location
-was constructed with Chronicle's key builder; upload and download verification
-remain for the hub. I2 is not implemented: no revised wage/salary workbook was
+was constructed with Chronicle's key builder. The hub published the workbook
+with `chronicle publish-raw` and verified the object by streaming it back
+(SHA-256 matches) on 2026-10-07. I2 is not implemented: no revised wage/salary workbook was
 staged and the hub must resolve and stage its exact publisher file URL first.
 
 ## Wave-2 fiscal comparators (#177 subset)
