@@ -1382,7 +1382,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # chronicle#211: Stats NZ's population estimates at 30 June 2025.
     expected_period_counts["calendar_year:2025"] += 85
     assert coverage["counts"]["by_period"] == expected_period_counts
-    # country:NZ: 330 WFF facts (#209) and 5 national population facts (#211).
+    # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
+    # (#321) + 3,522 IRD (#318) + 103 MSD (#319) + 84 MBIE (#320) = 4,071.
     assert coverage["counts"]["by_geography"]["country:NZ"] == 4071
     for regional_council in (*range(1, 10), *range(12, 19)):
         assert coverage["counts"]["by_geography"][f"region:{regional_council:02d}"] == 5
