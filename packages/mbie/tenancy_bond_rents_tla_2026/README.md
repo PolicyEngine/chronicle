@@ -83,6 +83,6 @@ them without imputation, suppression assumptions, reconciliation, or a
 crosswalk.
 
 The manifest records the receipt URL, hash, size and fetch timestamp and a key
-computed with Chronicle's `build_r2_key`. The hub publishes the September CSV
-to that immutable `raw/nz/mbie/...` key and verifies the object by SHA-256
-before merge. Stats NZ household net worth is outside this staged package.
+computed with Chronicle's `build_r2_key`. The hub published the September CSV
+to that immutable `raw/nz/mbie/...` key with `chronicle publish-raw` and
+verified the object by SHA-256 on 2026-10-09. Stats NZ household net worth is outside this staged package.
