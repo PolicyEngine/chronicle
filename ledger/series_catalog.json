@@ -1,9 +1,9 @@
 {
   "comment": "Canonical series catalog. One row per (concept, geography level/id/vintage, entity) identity. UUID authority is the append-only ledger/series_uuid_registry.jsonl (digest below): a uuid is minted once, inherited from the registry on every regeneration, and changes only through explicit, chained supersede/retire/revive/succeeds events recorded there (live bindings and rows stay in bijection). Consumers reference series by uuid or concept only. Regenerate with scripts/build_series_catalog.py; verify with --check. Aliases are curated identity statements (plus observed spellings of the same identity) and inherit only within one (geography, entity) slice; aliases listed in ambiguous_aliases match multiple rows and never drive inheritance. source_concepts are publisher labels — provenance, never identity. Cross-spelling and cross-vintage merges are manual curation: delete the absorbed row, alias its concept on the survivor, regenerate with --allow-remint.",
   "generator_version": 3,
-  "observations_sha256": "8e5d5f928b4001542611a3c8da35019afa40ba50d2904f402e789a5ef120009d",
-  "observation_rows": 231,
-  "current_assertion_rows": 231,
+  "observations_sha256": "10c15c16e92c71a0830b5551952f508c2908f3ce2c23615e13a050d7794bd3f2",
+  "observation_rows": 233,
+  "current_assertion_rows": 233,
   "docket_seed_sha256": "5914192517350e0166045afd9064a515ea312acbea1844d9cb594cc9f525dbb9",
   "uuid_registry_sha256": "6cf24b1eff573ac6e8d7de21c7f3e0091bb92a96e72fa2073379be59fbffd683",
   "suspect_segments": [
@@ -262,6 +262,10 @@
       "us.dol.initial_claims.sa"
     ],
     "week_2026-09-12": [
+      "dol.eta.continued_claims.sa",
+      "us.dol.initial_claims.sa"
+    ],
+    "week_2026-09-19": [
       "dol.eta.continued_claims.sa",
       "us.dol.initial_claims.sa"
     ],
@@ -3165,8 +3169,8 @@
         "dol.eta.continued_claims.sa.{P}.first_print"
       ],
       "first_observed_period": "2026-06-27",
-      "last_observed_period": "2026-09-12",
-      "observation_count": 12
+      "last_observed_period": "2026-09-19",
+      "observation_count": 13
     },
     {
       "uuid": "32b335ea-b2dd-4fba-8321-e9751df19318",
@@ -7181,8 +7185,8 @@
         "us.dol.initial_claims.sa.{P}"
       ],
       "first_observed_period": "2026-06-20",
-      "last_observed_period": "2026-09-12",
-      "observation_count": 12
+      "last_observed_period": "2026-09-19",
+      "observation_count": 13
     },
     {
       "uuid": "830e68bb-9ed6-493c-a8a4-440ba8e53f76",
