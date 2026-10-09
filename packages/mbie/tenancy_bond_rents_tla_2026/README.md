@@ -5,12 +5,13 @@ Licence: CC BY 3.0 NZ, as supplied in the hub's source brief; the CSV itself
 does not contain licence text. Attribution accompanies the package.
 
 This package pins `detailed-monthly-tla-tenancy-september.csv`, the file MBIE
-published on 9 September 2026 (server Last-Modified 9 September 2026 23:18 GMT,
-10 September in New Zealand; the landing page says the data were last updated
-10 September 2026). The hub fetched it on 8 October 2026. It covers February
+published on 10 September 2026 (server Last-Modified 9 September 2026
+23:18:33 GMT, which is 10 September in New Zealand; the landing page says the
+data were last updated 10 September 2026). The hub fetched it on 8 October 2026. It covers February
 1993 to July 2026 and replaces the 23 June 2026 file
 `detailed-monthly-tla-tenancy-v2.csv` (data to April 2026) that this package
-first pinned; MBIE's landing page now links only the September file.
+first pinned; the landing page's TLA link now points only to the September
+file.
 
 MBIE describes the rental bond data as provisional and subject to revision:
 its landing page says that, while bond data migrate to a new bond management
@@ -19,6 +20,17 @@ use the latest file. The values here are the September file's as published; a
 later MBIE file may revise them. Comparing the overlapping August 2025–April
 2026 rows, 1,511 of 4,242 measure cells differ between the June and September
 files.
+
+The same notice warns that reported figures may reflect system changes, data
+reclassification and methodology updates rather than underlying trends, that
+recent data may not be directly comparable with earlier periods, and that
+there are 17,550 more active bonds because the two systems recorded the
+information differently. MBIE does not date that change. In the file's ALL
+row, active bonds rise by 9,075 from October to November 2025 and by 7,347
+from November to December 2025; in the 14 months before, the monthly change
+is between 687 and 4,773. So the pinned window appears to span a level shift.
+Chronicle keeps the published values unadjusted and attributes no change to
+the migration.
 
 The package pins all published location rows in the latest 12 months of the
 file, August 2025–July 2026, rather than selecting a moving latest month at
@@ -51,8 +63,10 @@ standard deviation.
 The CSV supplies **no column definitions establishing whether rents describe
 newly lodged bonds or active stock**. Both bond populations have separate count
 columns; those headers do not identify the population behind the rent columns.
-The rent population remains unspecified in every rent measure's evidence
-notes. The file also supplies no bedrooms, dwelling types, or arithmetic mean.
+The landing page says the data come from a tenancy bond database that
+"records all new rental bonds that are lodged" each month, listed by tenancy
+start date, but it does not define the rent columns either. Every measure's
+evidence notes say this, and Chronicle asserts no rent population. The file also supplies no bedrooms, dwelling types, or arithmetic mean.
 Those requested dimensions and measure cannot be emitted from these bytes.
 The hub would need to stage the publisher's definitions and the relevant
 disaggregated artifact before those items can be added. The source entry point
@@ -85,4 +99,5 @@ crosswalk.
 The manifest records the receipt URL, hash, size and fetch timestamp and a key
 computed with Chronicle's `build_r2_key`. The hub published the September CSV
 to that immutable `raw/nz/mbie/...` key with `chronicle publish-raw` and
-verified the object by SHA-256 on 2026-10-09. Stats NZ household net worth is outside this staged package.
+verified the object by SHA-256 on 2026-10-09. Stats NZ household net worth
+is outside this staged package.

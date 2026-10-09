@@ -1,8 +1,10 @@
 Add the MBIE tenancy bond package for the latest 12 months of MBIE's
-September 2026 TLA file (published 9 September 2026), August 2025–July 2026:
+September 2026 TLA file (published 10 September 2026), August 2025–July 2026:
 5,663 publisher-backed monthly facts with labelled location/percentile
 dimensions and full CSV row provenance. MBIE describes the data as provisional
-and subject to revision. Preserve weekly rents, quartile cut-points,
+and subject to revision, and warns that recent data may not be directly
+comparable with earlier periods (17,550 more active bonds from the change of
+bond system); values stay as published. Preserve weekly rents, quartile cut-points,
 geometric-mean semantics and missing TA-month rows. Document that the file
 lacks bedrooms, dwelling types, arithmetic mean, and the rent population
 definition. The hub published the raw CSV to its `raw/nz/mbie/...` R2 key and

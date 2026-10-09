@@ -40,7 +40,7 @@ ALIAS = "mbie-tenancy-bond-rents-tla-2026"
 DIRECTORY = Path("mbie/tenancy_bond_rents_tla_2026")
 DATA_DIRECTORY = REPO_ROOT / "db" / "data" / DIRECTORY
 PACKAGE_PATH = REPO_ROOT / "packages" / DIRECTORY / "source_package.yaml"
-# MBIE's September 2026 TLA file (published 9 Sep 2026), as fetched by the hub.
+# MBIE's September 2026 TLA file (published 10 Sep 2026), as fetched by the hub.
 FILENAME = "detailed-monthly-tla-tenancy-september.csv"
 SHA256 = "a50937ef88e1834c9a804215115586dd6be63468173f9e23495d868c6ca3ee3f"
 SOURCE_URL = (
@@ -574,7 +574,13 @@ def test_mbie_bond_records_and_rent_population_qualifications_are_explicit():
     for fact in _facts():
         notes = " ".join(fact.measure.concept_evidence_notes.lower().split())
         assert "newly lodged bonds or active stock" in notes
-        assert "population is unspecified" in notes
+        assert "does not define the rent columns" in notes
+        assert "recording all new rental bonds lodged each month" in notes
+        assert "chronicle asserts no rent population" in notes
+        if fact.layout.measure_id == "active_bonds":
+            assert "17,550 more active bonds" in notes
+        else:
+            assert "17,550" not in notes
         assert "bedrooms, dwelling type and arithmetic mean are absent" in notes
         assert "no missing ta/month is imputed" in notes
         assert "weekly-to-annual conversion" in notes
@@ -731,11 +737,14 @@ def test_mbie_package_records_the_provisional_september_release():
     ]
     text = " ".join(" ".join(line.lstrip("# ") for line in header).split())
     assert FILENAME in text
-    assert "published on 9 Sep 2026" in text
+    assert "published on 10 Sep 2026" in text
     assert "provisional and subject to revision" in text
+    assert "17,550 more active bonds" in text
     readme = " ".join((PACKAGE_PATH.parent / "README.md").read_text().split())
     assert FILENAME in readme
-    assert "9 September 2026" in readme
+    assert "published on 10 September 2026" in readme
+    assert "17,550 more active bonds" in readme
+    assert "records all new rental bonds that are lodged" in readme
     assert "provisional" in readme
     assert "fixed random rounding to base 3" in readme
     assert "fewer than 5 bonds" in readme

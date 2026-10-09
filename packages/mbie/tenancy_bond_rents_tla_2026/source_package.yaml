@@ -1,12 +1,17 @@
 # Publisher: MBIE / Tenancy Services. Licence: CC BY 3.0 NZ (hub source brief).
 # Pins detailed-monthly-tla-tenancy-september.csv, the file MBIE published on
-# 9 Sep 2026 (data February 1993 to July 2026), fetched by the hub 2026-10-08.
+# 10 Sep 2026 (server Last-Modified 9 Sep 2026 23:18:33 GMT; data February 1993
+# to July 2026), fetched by the hub 2026-10-08.
 # Window: August 2025 to July 2026, the latest 12 months in that file.
 # MBIE describes the rental bond data as provisional and subject to revision,
 # and says to always use the latest file; later files may revise these months.
+# It warns recent data may not be comparable with earlier periods: there are
+# 17,550 more active bonds because the legacy and new systems recorded them
+# differently. Values are kept as published, unadjusted.
 # Preserve publisher cells; no reconciliation, imputation or annualisation.
 # Full rows preserve log dispersion; it has no supported standard-deviation aggregation.
-# CSV has no bedrooms, dwelling types, arithmetic mean or rent-population definitions.
+# CSV has no bedrooms, dwelling types, arithmetic mean or rent-population definitions;
+# the landing page describes the database as recording new bonds lodged each month.
 # ta_2025 is assigned per the NZ checklist; no official TA register is staged.
 # Headers TimeFrame and location_id carry the Time Frame and Location Id
 # dimensions; TimeFrame values keep the publisher's d/mm/yyyy text.
@@ -1751,7 +1756,11 @@ record_sets:
     end_date: '2025-08-31'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -3657,13 +3666,15 @@ record_sets:
     concept_relation: source_label
     concept_authority: mbie
     concept_evidence_url: https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/detailed-monthly-tla-tenancy-september.csv?m=24491d4fca0935f5cd5d4da6145efa6f3a12ab03
-    concept_evidence_notes: Publisher column LodgedBonds. Publisher CSV contains no
+    concept_evidence_notes: Publisher column LodgedBonds. The publisher CSV has no
       column definitions establishing whether the rent statistics describe newly lodged
-      bonds or active stock; that population is unspecified. Both Lodged Bonds and
-      Active Bonds are separate published columns. The file labels its dispersion
-      column LogStdDevWeeklyRent; rents are kept at their published level without
-      weekly-to-annual conversion. Bedrooms, dwelling type and arithmetic mean are
-      absent. No missing TA/month is imputed.
+      bonds or active stock, and MBIE's landing page does not define the rent columns
+      either; it describes the source database as recording all new rental bonds lodged
+      each month, listed by tenancy start date. Chronicle asserts no rent population.
+      Both Lodged Bonds and Active Bonds are separate published columns. The file
+      labels its dispersion column LogStdDevWeeklyRent; rents are kept at their published
+      level without weekly-to-annual conversion. Bedrooms, dwelling type and arithmetic
+      mean are absent. No missing TA/month is imputed.
     unit: count
     aggregation: sum
     value_scale: 1
@@ -3680,13 +3691,19 @@ record_sets:
     concept_relation: source_label
     concept_authority: mbie
     concept_evidence_url: https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/detailed-monthly-tla-tenancy-september.csv?m=24491d4fca0935f5cd5d4da6145efa6f3a12ab03
-    concept_evidence_notes: Publisher column ActiveBonds. Publisher CSV contains no
+    concept_evidence_notes: Publisher column ActiveBonds. The publisher CSV has no
       column definitions establishing whether the rent statistics describe newly lodged
-      bonds or active stock; that population is unspecified. Both Lodged Bonds and
-      Active Bonds are separate published columns. The file labels its dispersion
-      column LogStdDevWeeklyRent; rents are kept at their published level without
-      weekly-to-annual conversion. Bedrooms, dwelling type and arithmetic mean are
-      absent. No missing TA/month is imputed.
+      bonds or active stock, and MBIE's landing page does not define the rent columns
+      either; it describes the source database as recording all new rental bonds lodged
+      each month, listed by tenancy start date. Chronicle asserts no rent population.
+      Both Lodged Bonds and Active Bonds are separate published columns. The file
+      labels its dispersion column LogStdDevWeeklyRent; rents are kept at their published
+      level without weekly-to-annual conversion. Bedrooms, dwelling type and arithmetic
+      mean are absent. No missing TA/month is imputed. MBIE's landing page says there
+      are 17,550 more active bonds because the legacy and new bond systems recorded
+      the information differently, and that recent data may not be directly comparable
+      with earlier periods; it does not date the change. Values are kept as published,
+      unadjusted.
     unit: count
     aggregation: sum
     value_scale: 1
@@ -3703,13 +3720,15 @@ record_sets:
     concept_relation: source_label
     concept_authority: mbie
     concept_evidence_url: https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/detailed-monthly-tla-tenancy-september.csv?m=24491d4fca0935f5cd5d4da6145efa6f3a12ab03
-    concept_evidence_notes: Publisher column ClosedBonds. Publisher CSV contains no
+    concept_evidence_notes: Publisher column ClosedBonds. The publisher CSV has no
       column definitions establishing whether the rent statistics describe newly lodged
-      bonds or active stock; that population is unspecified. Both Lodged Bonds and
-      Active Bonds are separate published columns. The file labels its dispersion
-      column LogStdDevWeeklyRent; rents are kept at their published level without
-      weekly-to-annual conversion. Bedrooms, dwelling type and arithmetic mean are
-      absent. No missing TA/month is imputed.
+      bonds or active stock, and MBIE's landing page does not define the rent columns
+      either; it describes the source database as recording all new rental bonds lodged
+      each month, listed by tenancy start date. Chronicle asserts no rent population.
+      Both Lodged Bonds and Active Bonds are separate published columns. The file
+      labels its dispersion column LogStdDevWeeklyRent; rents are kept at their published
+      level without weekly-to-annual conversion. Bedrooms, dwelling type and arithmetic
+      mean are absent. No missing TA/month is imputed.
     unit: count
     aggregation: sum
     value_scale: 1
@@ -3726,13 +3745,15 @@ record_sets:
     concept_relation: source_label
     concept_authority: mbie
     concept_evidence_url: https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/detailed-monthly-tla-tenancy-september.csv?m=24491d4fca0935f5cd5d4da6145efa6f3a12ab03
-    concept_evidence_notes: Publisher column MedianRent. Publisher CSV contains no
+    concept_evidence_notes: Publisher column MedianRent. The publisher CSV has no
       column definitions establishing whether the rent statistics describe newly lodged
-      bonds or active stock; that population is unspecified. Both Lodged Bonds and
-      Active Bonds are separate published columns. The file labels its dispersion
-      column LogStdDevWeeklyRent; rents are kept at their published level without
-      weekly-to-annual conversion. Bedrooms, dwelling type and arithmetic mean are
-      absent. No missing TA/month is imputed.
+      bonds or active stock, and MBIE's landing page does not define the rent columns
+      either; it describes the source database as recording all new rental bonds lodged
+      each month, listed by tenancy start date. Chronicle asserts no rent population.
+      Both Lodged Bonds and Active Bonds are separate published columns. The file
+      labels its dispersion column LogStdDevWeeklyRent; rents are kept at their published
+      level without weekly-to-annual conversion. Bedrooms, dwelling type and arithmetic
+      mean are absent. No missing TA/month is imputed.
     unit: nzd_per_week
     aggregation: median
     value_scale: 1
@@ -3749,14 +3770,17 @@ record_sets:
     concept_relation: approximate
     concept_authority: mbie
     concept_evidence_url: https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/detailed-monthly-tla-tenancy-september.csv?m=24491d4fca0935f5cd5d4da6145efa6f3a12ab03
-    concept_evidence_notes: Publisher column GeometricMeanRent. Publisher CSV contains
-      no column definitions establishing whether the rent statistics describe newly
-      lodged bonds or active stock; that population is unspecified. Both Lodged Bonds
-      and Active Bonds are separate published columns. The file labels its dispersion
-      column LogStdDevWeeklyRent; rents are kept at their published level without
-      weekly-to-annual conversion. Bedrooms, dwelling type and arithmetic mean are
-      absent. No missing TA/month is imputed. Geometric mean is published directly,
-      not an arithmetic mean; mean aggregation is an approximate vocabulary mapping.
+    concept_evidence_notes: Publisher column GeometricMeanRent. The publisher CSV
+      has no column definitions establishing whether the rent statistics describe
+      newly lodged bonds or active stock, and MBIE's landing page does not define
+      the rent columns either; it describes the source database as recording all new
+      rental bonds lodged each month, listed by tenancy start date. Chronicle asserts
+      no rent population. Both Lodged Bonds and Active Bonds are separate published
+      columns. The file labels its dispersion column LogStdDevWeeklyRent; rents are
+      kept at their published level without weekly-to-annual conversion. Bedrooms,
+      dwelling type and arithmetic mean are absent. No missing TA/month is imputed.
+      Geometric mean is published directly, not an arithmetic mean; mean aggregation
+      is an approximate vocabulary mapping.
     unit: nzd_per_week
     aggregation: mean
     value_scale: 1
@@ -3773,14 +3797,16 @@ record_sets:
     concept_relation: source_label
     concept_authority: mbie
     concept_evidence_url: https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/detailed-monthly-tla-tenancy-september.csv?m=24491d4fca0935f5cd5d4da6145efa6f3a12ab03
-    concept_evidence_notes: Publisher column UpperQuartileRent. Publisher CSV contains
-      no column definitions establishing whether the rent statistics describe newly
-      lodged bonds or active stock; that population is unspecified. Both Lodged Bonds
-      and Active Bonds are separate published columns. The file labels its dispersion
-      column LogStdDevWeeklyRent; rents are kept at their published level without
-      weekly-to-annual conversion. Bedrooms, dwelling type and arithmetic mean are
-      absent. No missing TA/month is imputed. Quartile is a rent cut-point, not a
-      share of bonds or rent.
+    concept_evidence_notes: Publisher column UpperQuartileRent. The publisher CSV
+      has no column definitions establishing whether the rent statistics describe
+      newly lodged bonds or active stock, and MBIE's landing page does not define
+      the rent columns either; it describes the source database as recording all new
+      rental bonds lodged each month, listed by tenancy start date. Chronicle asserts
+      no rent population. Both Lodged Bonds and Active Bonds are separate published
+      columns. The file labels its dispersion column LogStdDevWeeklyRent; rents are
+      kept at their published level without weekly-to-annual conversion. Bedrooms,
+      dwelling type and arithmetic mean are absent. No missing TA/month is imputed.
+      Quartile is a rent cut-point, not a share of bonds or rent.
     unit: nzd_per_week
     aggregation: quantile
     value_scale: 1
@@ -3806,14 +3832,16 @@ record_sets:
     concept_relation: source_label
     concept_authority: mbie
     concept_evidence_url: https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/detailed-monthly-tla-tenancy-september.csv?m=24491d4fca0935f5cd5d4da6145efa6f3a12ab03
-    concept_evidence_notes: Publisher column LowerQuartileRent. Publisher CSV contains
-      no column definitions establishing whether the rent statistics describe newly
-      lodged bonds or active stock; that population is unspecified. Both Lodged Bonds
-      and Active Bonds are separate published columns. The file labels its dispersion
-      column LogStdDevWeeklyRent; rents are kept at their published level without
-      weekly-to-annual conversion. Bedrooms, dwelling type and arithmetic mean are
-      absent. No missing TA/month is imputed. Quartile is a rent cut-point, not a
-      share of bonds or rent.
+    concept_evidence_notes: Publisher column LowerQuartileRent. The publisher CSV
+      has no column definitions establishing whether the rent statistics describe
+      newly lodged bonds or active stock, and MBIE's landing page does not define
+      the rent columns either; it describes the source database as recording all new
+      rental bonds lodged each month, listed by tenancy start date. Chronicle asserts
+      no rent population. Both Lodged Bonds and Active Bonds are separate published
+      columns. The file labels its dispersion column LogStdDevWeeklyRent; rents are
+      kept at their published level without weekly-to-annual conversion. Bedrooms,
+      dwelling type and arithmetic mean are absent. No missing TA/month is imputed.
+      Quartile is a rent cut-point, not a share of bonds or rent.
     unit: nzd_per_week
     aggregation: quantile
     value_scale: 1
@@ -3841,7 +3869,11 @@ record_sets:
     end_date: '2025-09-30'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -5777,7 +5809,11 @@ record_sets:
     end_date: '2025-10-31'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -7685,7 +7721,11 @@ record_sets:
     end_date: '2025-11-30'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -9621,7 +9661,11 @@ record_sets:
     end_date: '2025-12-31'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -11529,7 +11573,11 @@ record_sets:
     end_date: '2026-01-31'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -13437,7 +13485,11 @@ record_sets:
     end_date: '2026-02-28'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -15373,7 +15425,11 @@ record_sets:
     end_date: '2026-03-31'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -17253,7 +17309,11 @@ record_sets:
     end_date: '2026-04-30'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -19189,7 +19249,11 @@ record_sets:
     end_date: '2026-05-31'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -21125,7 +21189,11 @@ record_sets:
     end_date: '2026-06-30'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand
@@ -23033,7 +23101,11 @@ record_sets:
     end_date: '2026-07-31'
     notes: TimeFrame is the publisher's month label (d/mm/yyyy, first day of the month).
       MBIE's rental bond data page describes the data as provisional and subject to
-      revision; no claim of revision-final status is supplied in the CSV.
+      revision; no claim of revision-final status is supplied in the CSV. MBIE also
+      warns that reported figures may reflect system changes rather than underlying
+      trends and that recent data may not be directly comparable with earlier periods
+      (17,550 more active bonds from the two systems' recording); values are kept
+      as published, unadjusted.
   geography_id: NZ
   geography_level: country
   geography_name: New Zealand

@@ -66,7 +66,7 @@ tests, and record a verified `raw/nz/...` R2 URI.
 | `msd/benefit_fact_sheets_supplementary_june_2026` | [x] | [x] | [x] | Row 11: 36 all-ages counts across 11 W&I regions plus Other regions; combined SPB/TAS preserved. No regional AS status split or national reconstruction. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
 | `msd/nzs_vp_fact_sheet_june_2026` | [x] | [x] | [x] | Row 12: 46 June 2026 NZS/VP recipient count facts, including published additional-support and demographic cuts. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
 | `msd/annual_report_benefit_expenses_2025` | [x] | [x] | [x] | Row 13: 11 actual FY2024/25 expense facts, fiscal_year 2024, published $000 × 1000. Accommodation Assistance 2,232,026; total 38,267,536 in source $000. Payment-definition evidence absent from staged PDF. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
-| `mbie/tenancy_bond_rents_tla_2026` | [x] | [x] | [x] | 5,663 administrative facts, August 2025–July 2026, the latest 12 months of MBIE's September 2026 TLA file (published 9 September 2026; MBIE calls the data provisional and subject to revision); 66 TA IDs plus ALL/NA. Raw CSV published to its `raw/nz/mbie/...` key and verified by SHA-256 on 2026-10-09. Source scope and TA-register caveats below. |
+| `mbie/tenancy_bond_rents_tla_2026` | [x] | [x] | [x] | 5,663 administrative facts, August 2025–July 2026, the latest 12 months of MBIE's September 2026 TLA file (published 10 September 2026; MBIE calls the data provisional and subject to revision); 66 TA IDs plus ALL/NA. Raw CSV published to its `raw/nz/mbie/...` key and verified by SHA-256 on 2026-10-09. Source scope and TA-register caveats below. |
 | `stats_nz/qes_average_earnings_march_2026` | [ ] | [ ] | [ ] | |
 
 ### WFF source semantics
@@ -91,13 +91,18 @@ downloaded again on 2026-08-29. Its SHA-256 remained
 ### MBIE tenancy bond source semantics
 
 The package pins `detailed-monthly-tla-tenancy-september.csv`, the file MBIE
-published on 9 September 2026 (data February 1993 to July 2026), fetched by
+published on 10 September 2026 (data February 1993 to July 2026), fetched by
 the hub on 8 October 2026. It replaces the 23 June 2026 `-v2` file (data to
 April 2026), which MBIE no longer links. The package pins the file's latest
 12 months, August 2025–July 2026, with the existing full-row parser and
 `selected_rows`. MBIE describes the data as provisional and subject to
 revision while bond data migrate to a new system, and says to use the latest
-file; no revision-final status is supplied. The file has a UTF-8 BOM, unquoted
+file; no revision-final status is supplied. MBIE also warns that recent data
+may not be directly comparable with earlier periods: there are 17,550 more
+active bonds because the two systems recorded the information differently.
+MBIE does not date the change; the ALL row's active bonds rise by 9,075 and
+7,347 in November and December 2025, so the window appears to span it. Values
+stay as published, unadjusted. The file has a UTF-8 BOM, unquoted
 headers without spaces, `d/mm/yyyy` months, newest month first and no
 thousands separators; the parser decodes it as `utf-8-sig` and keeps
 `TimeFrame` as published text. Seven source measures yield 5,663 facts:
@@ -110,7 +115,9 @@ faithful aggregation exists in the current vocabulary.
 
 The file has no bedrooms, dwelling-type or arithmetic-mean columns. It also
 has no definitions connecting the rent summaries to newly lodged bonds or
-active stock, so the rent population is explicitly unspecified. Both bond
+active stock. The landing page describes the source database as recording
+all new rental bonds lodged each month, by tenancy start date, but does not
+define the rent columns, so Chronicle asserts no rent population. Both bond
 counts are preserved without treating them as household counts.
 
 There are 66 positive location IDs, plus separately retained ALL and NA.
