@@ -11,6 +11,13 @@ microcosm#707),
 [#134](https://github.com/PolicyEngine/chronicle/issues/134) (wave 3, local
 geography).
 
+The consumption-tax extension in [#322](https://github.com/PolicyEngine/chronicle/issues/322)
+widens the preserved ONS Consumer Trends workbook to every division and class,
+national/domestic totals and annual tourism flows, and adds DESNZ road fuel by
+vehicle type and fuel at country/region grain for 2005–2024. See
+[UK consumption-tax source facts](uk-consumption-tax-facts.md) for selectors,
+units, unavailable markers and methodology.
+
 Status vocabulary:
 
 - **ported** — the publisher's facts live in the linked Chronicle PR.

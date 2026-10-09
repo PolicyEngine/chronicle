@@ -150,7 +150,8 @@ def test_country_aware_r2_keys_preserve_legacy_us_layout():
 def test_all_desnz_manifests_use_canonical_uk_r2_keys_and_pinned_bytes():
     manifests = sorted(DESNZ_DATA_ROOT.glob("*/manifest.yaml"))
 
-    assert len(manifests) == 14
+    # chronicle#322 adds the road-transport fuel-consumption workbook.
+    assert len(manifests) == 15
     for manifest_path in manifests:
         manifest = yaml.safe_load(manifest_path.read_text())
         for year, artifact in manifest["files"].items():

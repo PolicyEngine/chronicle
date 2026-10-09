@@ -60,6 +60,7 @@ UK_BUNDLE_SOURCES = (
     "desnz-qep-electricity-unit-fixed-costs-2026",
     "desnz-qep-gas-annual-bills-2026",
     "desnz-qep-gas-unit-fixed-costs-2026",
+    "desnz-road-transport-fuel-consumption-2024",
     "desnz-subnational-electricity-consumption-2024",
     "desnz-subnational-gas-consumption-2024",
     "desnz-weekly-road-fuel-prices-september-2026",

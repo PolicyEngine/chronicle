@@ -105,7 +105,7 @@ def test_need_2024_preserves_representative_publisher_values(
 
 def test_ons_consumer_trends_adds_each_energy_subclass_for_every_period():
     facts = load_source_package(ONS_PACKAGE).build_facts(2026)
-    energy = [fact for fact in facts if ".04cn" in fact.layout.record_set_id]
+    energy = [fact for fact in facts if fact.filters["coicop"] in ONS_ENERGY_COICOPS]
     expected_annual_periods = set(range(2020, 2026))
     expected_quarterly_periods = {
         *(
@@ -116,7 +116,7 @@ def test_ons_consumer_trends_adds_each_energy_subclass_for_every_period():
         "2026-Q1",
     }
 
-    assert len(facts) == 217
+    assert len(facts) == 5164
     assert {fact.filters["coicop"] for fact in energy} == ONS_ENERGY_COICOPS
     assert {fact.period.type for fact in energy} == {"calendar_year", "quarter"}
     for coicop in ONS_ENERGY_COICOPS:
@@ -155,7 +155,9 @@ def test_ons_energy_subclasses_preserve_publisher_cells_and_concepts():
         fact = annual_2024[coicop]
         assert fact.measure.concept == concept
         assert {cells_by_key[key].address for key in fact.source_cell_keys} == {
-            f"{column}36"
+            f"{column}36",
+            f"{column}7",
+            f"{column}8",
         }
         assert fact.measure.unit == "gbp"
         assert fact.aggregation.method == "sum"
