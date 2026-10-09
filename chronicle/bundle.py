@@ -35,6 +35,7 @@ UK_BUNDLE_SOURCE_PREFIXES = (
     "dwp",
     "hmrc",
     "isc",
+    "lps",
     "mhclg",
     "nisra",
     "nithc",
@@ -70,6 +71,7 @@ UK_BUNDLE_SOURCES = (
     "dfe-funded-early-education-childcare-2026",
     "dfi-ni-bus-concessionary-journeys-2024-25",
     "dfi-ni-public-transport-statistics-2024-25",
+    "dfi-ni-public-transport-statistics-2025-26",
     "dft-bus01-passenger-journeys-2025",
     "dft-bus0415-fares-index-2026",
     "dft-bus05i-revenue-support-2025",
@@ -98,9 +100,9 @@ UK_BUNDLE_SOURCES = (
     "dwp-state-pension-region-type-gender-february-2023-march-2026",
     "dwp-uc-childcare-element-march-2021-may-2026",
     "dwp-uc-deductions-march-2025-february-2026",
-    "dwp-uc-households-by-constituency-children-may-2025",
-    "dwp-uc-households-by-constituency-may-2025",
-    "dwp-uc-households-by-local-authority-may-2025",
+    "dwp-uc-households-by-constituency-children-january-2025-may-2026",
+    "dwp-uc-households-by-constituency-january-2025-may-2026",
+    "dwp-uc-households-by-local-authority-january-2025-may-2026",
     "dwp-uc-households-carer-entitlement-payment-indicator-january-2023-may-2026",
     "dwp-uc-households-children-april-december-2025",
     "dwp-uc-households-children-child-entitlement-april-december-2025",
@@ -148,6 +150,9 @@ UK_BUNDLE_SOURCES = (
     "hmrc-winter-fuel-payment-charge-2025",
     "isc-annual-census-2023",
     "isc-annual-census-2024",
+    "isc-annual-census-2025",
+    "isc-annual-census-2026",
+    "lps-housing-stock-lgd-2026",
     "mhclg-council-tax-collection-england-2025-26",
     "mhclg-council-tax-levels-england-2026-27",
     "mhclg-council-tax-levels-england-summary-2025-26",
@@ -155,17 +160,26 @@ UK_BUNDLE_SOURCES = (
     "mhclg-council-taxbase-england-2024",
     "mhclg-council-taxbase-england-2025",
     "mhclg-ehs-weekly-housing-costs-2023-24",
+    "nisra-census2021-ct0105-communal-residents-lgd",
     "nisra-census2021-household-composition-country",
     "nisra-census2021-households-lgd",
     "nisra-census2021-households-pcon24",
+    "nisra-census2021-ms-f04-communal-residents-ward",
     "nisra-census2021-tenure-lgd",
+    "nisra-mye-2025-lgd-single-year-age",
     "nisra-pcon24-population-by-age-2024",
     "nithc-annual-report-accounts-2024-25",
     "nrs-census2022-households-ukpc24",
+    "nrs-census2022-uv101a-council-area",
+    "nrs-census2022-uv101a-ukpc24",
     "nrs-census2022-uv113-household-composition-country",
     "nrs-census2022-uv404-tenure-council-area",
     "nrs-census2022-uv407-central-heating-council-area",
-    "nrs-pcon24-population-by-age-2024",
+    "nrs-dwellings-data-zone-2025",
+    "nrs-households-data-zone-2025",
+    "nrs-households-dwellings-2025",
+    "nrs-mye-2025-council-area",
+    "nrs-pcon24-population-by-age-2024-revised-2026",
     "obr-efo-aggregates-march-2026",
     "obr-efo-economy-march-2026",
     "obr-efo-expenditure-march-2026",
@@ -194,6 +208,18 @@ UK_BUNDLE_SOURCES = (
     "ons-ashe-pension-membership-by-business-size-earnings-2024",
     "ons-ashe-pension-membership-by-industry-earnings-2024",
     "ons-ashe-pension-membership-by-occupation-earnings-2024",
+    "ons-census2021-rm120-lad-residence1-sex0",
+    "ons-census2021-rm120-lad-residence1-sex1",
+    "ons-census2021-rm120-lad-residence1-sex2",
+    "ons-census2021-rm120-lad-residence2-sex0",
+    "ons-census2021-rm120-lad-residence2-sex1",
+    "ons-census2021-rm120-lad-residence2-sex2",
+    "ons-census2021-rm120-pcon24-residence1-sex0",
+    "ons-census2021-rm120-pcon24-residence1-sex1",
+    "ons-census2021-rm120-pcon24-residence1-sex2",
+    "ons-census2021-rm120-pcon24-residence2-sex0",
+    "ons-census2021-rm120-pcon24-residence2-sex1",
+    "ons-census2021-rm120-pcon24-residence2-sex2",
     "ons-census2021-ts003-household-composition-country",
     "ons-census2021-ts041-households-lad",
     "ons-census2021-ts041-households-pcon24",
@@ -202,16 +228,24 @@ UK_BUNDLE_SOURCES = (
     "ons-consumer-trends-current-price-2026",
     "ons-employee-workplace-pensions-summary-2024",
     "ons-families-households-2025",
+    "ons-household-projections-2022-based",
+    "ons-household-totals-country-region-2015-2025",
     "ons-households-by-type-country-2025",
     "ons-lad-population-by-age-2024",
+    "ons-lad-population-by-age-2025",
     "ons-mye-2023-england-regions",
     "ons-mye-2023-uk-countries",
     "ons-mye-2024-uk",
+    "ons-mye-2024-uk-revised-2026",
+    "ons-mye-2025-uk",
     "ons-national-balance-sheet-land-2025",
+    "ons-national-balance-sheet-land-preliminary-2026",
     "ons-pcon24-population-by-age-2024",
     "ons-pipr-private-rent-march-2026",
+    "ons-pipr-rents-by-area-august-2026",
     "ons-pipr-rents-by-area-june-2026",
     "ons-public-sector-employment-2026",
+    "ons-public-sector-employment-june-2026",
     "ons-savings-interest-income",
     "ons-small-area-income-msoa-fye2023",
     "ons-subnational-dwellings-by-tenure-2024",
@@ -231,14 +265,18 @@ UK_BUNDLE_SOURCES = (
     "scotgov-council-tax-bands-2025",
     "scotgov-council-tax-collection-2024-25",
     "scotgov-council-tax-collection-2025-26",
+    "scotgov-dwelling-stock-by-tenure-2024",
+    "scotgov-private-sector-rents-2025",
     "scotgov-scottish-budget-social-security-assistance-2026",
     "scotgov-slgfs-council-tax-2024-25",
     "slc-student-loan-borrower-forecasts-england-2025",
     "slc-student-loan-repayments-england-2025",
+    "slc-student-loan-repayments-england-2026",
     "slc-student-loan-repayments-northern-ireland-2025",
     "slc-student-loan-repayments-scotland-2025",
     "slc-student-loan-repayments-wales-2025",
     "slc-student-support-england-2025",
+    "slc-student-support-england-2025-provisional-2025-26",
     "voa-council-tax-bands-2025",
     "voa-council-tax-stock-by-lad-2025",
     "welshgov-bus-statistics-2024-25",
@@ -248,6 +286,9 @@ UK_BUNDLE_SOURCES = (
     "welshgov-council-tax-levels-2026-27",
     "welshgov-ctrs-annual-report-2024-25",
     "welshgov-ctrs-annual-report-2025-26",
+    "welshgov-dwelling-stock-by-tenure-2025",
+    "welshgov-household-estimates-mid2024",
+    "welshgov-household-projections-2022-based",
     "welshgov-transport-revenue-outturn-2024-25",
 )
 
@@ -415,6 +456,7 @@ def build_bundle(
     warnings: list[BuildBundleIssue] = []
     source_reports: list[BundleSourceReport] = []
     consumer_rows: list[dict[str, Any]] = []
+    shared_metadata: dict[tuple[str, str], dict[str, Any]] = {}
     dimension_labels: dict[str, dict[str, list[str]]] = {}
     geography_names: dict[tuple[str, str], dict[str, list[str]]] = {}
     value_labels: dict[tuple[str, str], dict[str, list[str]]] = {}
@@ -449,7 +491,10 @@ def build_bundle(
                     source=source,
                 )
             )
-        rows = _load_jsonl(Path(suite_report.outputs["consumer_facts"]))
+        rows = _load_jsonl(
+            Path(suite_report.outputs["consumer_facts"]),
+            shared_metadata=shared_metadata,
+        )
         consumer_rows.extend(rows)
         source_reports.append(_bundle_source_report(source, suite_report))
         label_errors, label_warnings = _dimension_label_reports(source, rows)
@@ -1030,19 +1075,43 @@ def _prepare_output_dir(output_path: Path, *, replace: bool) -> None:
     output_path.mkdir(parents=True, exist_ok=True)
 
 
-def _load_jsonl(path: Path) -> list[dict[str, Any]]:
+def _load_jsonl(
+    path: Path,
+    *,
+    shared_metadata: dict[tuple[str, str], dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    for line_number, line in enumerate(
-        path.read_text(encoding="utf-8").splitlines(), start=1
-    ):
-        if not line:
-            continue
-        row = json.loads(line)
-        # Bundle assembly historically consumes suite output without applying
-        # the stricter consumer-artifact schema. Keep that boundary intact,
-        # while still rejecting identifiers outside the two accepted epochs.
-        validate_consumer_fact_row_epochs(row, line_number, path)
-        rows.append(row)
+    with path.open(encoding="utf-8") as file:
+        for line_number, line in enumerate(file, start=1):
+            line = line.rstrip("\n")
+            if not line:
+                continue
+            row = json.loads(line)
+            # Bundle assembly historically consumes suite output without applying
+            # the stricter consumer-artifact schema. Keep that boundary intact,
+            # while still rejecting identifiers outside the two accepted epochs.
+            validate_consumer_fact_row_epochs(row, line_number, path)
+            if shared_metadata is not None:
+                # These blocks are read-only during assembly. Pool exact JSON
+                # representations, leaving values, identities and lineage per row.
+                for field in (
+                    "aggregation",
+                    "dimension_labels",
+                    "dimension_value_labels",
+                    "dimensions",
+                    "source",
+                    "observed_measure",
+                    "geography",
+                    "entity",
+                    "period",
+                    "period_coverage",
+                    "universe_constraints",
+                ):
+                    value = row.get(field)
+                    if isinstance(value, dict):
+                        key = (field, json.dumps(value, sort_keys=True))
+                        row[field] = shared_metadata.setdefault(key, value)
+            rows.append(row)
     return rows
 
 

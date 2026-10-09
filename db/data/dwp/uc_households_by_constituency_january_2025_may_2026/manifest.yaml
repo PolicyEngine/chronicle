@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-uc-households-by-constituency-january-2025-may-2026
+dataset: dwp_dwp-uc-households-by-constituency-january-2025-may-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: uc_households_by_constituency_january_2025_may_2026
+files:
+  2025:
+    filename: uc_households_by_constituency_january_2025_may_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: c3aecb2ff6f655768a059c4f8af390eaf677932637b6f7a60f814f9af9ea0fdc
+    size_bytes: 264931
+    fetched_at: '2026-10-07T13:42:28+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-uc-households-by-constituency-january-2025-may-2026/2025/c3aecb2ff6f655768a059c4f8af390eaf677932637b6f7a60f814f9af9ea0fdc/uc_households_by_constituency_january_2025_may_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-uc-households-by-constituency-january-2025-may-2026/2025/c3aecb2ff6f655768a059c4f8af390eaf677932637b6f7a60f814f9af9ea0fdc/uc_households_by_constituency_january_2025_may_2026.json
+registration_kind: source_facts

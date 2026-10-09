@@ -1,0 +1,21 @@
+source_id: scotgov
+package_id: scotgov-brma-boundaries-2009
+dataset: scotgov_scotgov-brma-boundaries-2009
+source_page: https://maps.gov.scot/ATOM/shapefiles/SG_BroadRentalMarketAreas_2009.zip
+table: brma_boundaries_2009
+files:
+  2009:
+    filename: SG_BroadRentalMarketAreas_2009.zip
+    source_url: https://maps.gov.scot/ATOM/shapefiles/SG_BroadRentalMarketAreas_2009.zip
+    sha256: 4d121236a35ce896edeb663a7c2c390053c0deebe0cc149c84696bbfd4bddec0
+    size_bytes: 1870854
+    fetched_at: '2026-10-07T13:35:05+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-brma-boundaries-2009/2009/4d121236a35ce896edeb663a7c2c390053c0deebe0cc149c84696bbfd4bddec0/SG_BroadRentalMarketAreas_2009.zip
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-brma-boundaries-2009/2009/4d121236a35ce896edeb663a7c2c390053c0deebe0cc149c84696bbfd4bddec0/SG_BroadRentalMarketAreas_2009.zip
+registration_kind: raw_only
+provenance_notes: 'Scottish Government BRMA polygons: 2009 boundaries revised 28 July
+  2015.'

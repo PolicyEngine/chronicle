@@ -1,0 +1,719 @@
+schema_version: ledger.source_package.v1
+package_id: welshgov-household-projections-2022-based
+label: Welsh Government principal 2022-based household projections, mid-2025
+dimension_labels:
+  geography: Geography
+  Household Type: Household Type
+  Data description: Data Description
+  Variant: Variant
+artifact:
+  source_name: welshgov
+  source_table: Welsh Government principal 2022-based household projections, mid-2025
+  resource_package: db
+  resource_directory: data/welshgov/household_projections_2022_based
+  manifest: manifest.yaml
+  vintage: welsh_household_projections_2022_based_extracted_2026_10_07
+  extracted_at: '2026-10-07'
+  extraction_method: Publisher artifact parsed without modifying values
+  parser: delimited_text_full_rows
+  artifact_year: 2025
+  sheet_name: wales_household_projections.csv
+record_sets:
+- record_set_id: welshgov.household_projections_2022_based.2025
+  provenance_class: model_output
+  record_set_spec_id: welshgov.household_projections_2022_based.2025.v1
+  source_record_id_prefix: welshgov.household_projections_2022_based.2025
+  sheet_name: wales_household_projections.csv
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows:
+  - value_id: w92000004
+    label: Wales
+    ordinal: 6625
+    row_number: 6626
+    expected_row_header_column: L
+    expected_row_header: W92000004
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 6626
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 6626
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 6626
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 6626
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000001
+    label: Isle of Anglesey
+    ordinal: 6721
+    row_number: 6722
+    expected_row_header_column: L
+    expected_row_header: W06000001
+    geography_id: W06000001
+    geography_level: local_authority
+    geography_name: Isle of Anglesey
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 6722
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 6722
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 6722
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 6722
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000002
+    label: Gwynedd
+    ordinal: 6817
+    row_number: 6818
+    expected_row_header_column: L
+    expected_row_header: W06000002
+    geography_id: W06000002
+    geography_level: local_authority
+    geography_name: Gwynedd
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 6818
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 6818
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 6818
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 6818
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000003
+    label: Conwy
+    ordinal: 6913
+    row_number: 6914
+    expected_row_header_column: L
+    expected_row_header: W06000003
+    geography_id: W06000003
+    geography_level: local_authority
+    geography_name: Conwy
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 6914
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 6914
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 6914
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 6914
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000004
+    label: Denbighshire
+    ordinal: 7009
+    row_number: 7010
+    expected_row_header_column: L
+    expected_row_header: W06000004
+    geography_id: W06000004
+    geography_level: local_authority
+    geography_name: Denbighshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 7010
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 7010
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 7010
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 7010
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000005
+    label: Flintshire
+    ordinal: 7105
+    row_number: 7106
+    expected_row_header_column: L
+    expected_row_header: W06000005
+    geography_id: W06000005
+    geography_level: local_authority
+    geography_name: Flintshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 7106
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 7106
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 7106
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 7106
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000006
+    label: Wrexham
+    ordinal: 7201
+    row_number: 7202
+    expected_row_header_column: L
+    expected_row_header: W06000006
+    geography_id: W06000006
+    geography_level: local_authority
+    geography_name: Wrexham
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 7202
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 7202
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 7202
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 7202
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000023
+    label: Powys
+    ordinal: 7297
+    row_number: 7298
+    expected_row_header_column: L
+    expected_row_header: W06000023
+    geography_id: W06000023
+    geography_level: local_authority
+    geography_name: Powys
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 7298
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 7298
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 7298
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 7298
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000008
+    label: Ceredigion
+    ordinal: 7393
+    row_number: 7394
+    expected_row_header_column: L
+    expected_row_header: W06000008
+    geography_id: W06000008
+    geography_level: local_authority
+    geography_name: Ceredigion
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 7394
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 7394
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 7394
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 7394
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000009
+    label: Pembrokeshire
+    ordinal: 7489
+    row_number: 7490
+    expected_row_header_column: L
+    expected_row_header: W06000009
+    geography_id: W06000009
+    geography_level: local_authority
+    geography_name: Pembrokeshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 7490
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 7490
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 7490
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 7490
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000010
+    label: Carmarthenshire
+    ordinal: 7585
+    row_number: 7586
+    expected_row_header_column: L
+    expected_row_header: W06000010
+    geography_id: W06000010
+    geography_level: local_authority
+    geography_name: Carmarthenshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 7586
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 7586
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 7586
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 7586
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000011
+    label: Swansea
+    ordinal: 7681
+    row_number: 7682
+    expected_row_header_column: L
+    expected_row_header: W06000011
+    geography_id: W06000011
+    geography_level: local_authority
+    geography_name: Swansea
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 7682
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 7682
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 7682
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 7682
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000012
+    label: Neath Port Talbot
+    ordinal: 7777
+    row_number: 7778
+    expected_row_header_column: L
+    expected_row_header: W06000012
+    geography_id: W06000012
+    geography_level: local_authority
+    geography_name: Neath Port Talbot
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 7778
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 7778
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 7778
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 7778
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000013
+    label: Bridgend
+    ordinal: 7873
+    row_number: 7874
+    expected_row_header_column: L
+    expected_row_header: W06000013
+    geography_id: W06000013
+    geography_level: local_authority
+    geography_name: Bridgend
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 7874
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 7874
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 7874
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 7874
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000014
+    label: Vale of Glamorgan
+    ordinal: 7969
+    row_number: 7970
+    expected_row_header_column: L
+    expected_row_header: W06000014
+    geography_id: W06000014
+    geography_level: local_authority
+    geography_name: Vale of Glamorgan
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 7970
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 7970
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 7970
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 7970
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000015
+    label: Cardiff
+    ordinal: 8065
+    row_number: 8066
+    expected_row_header_column: L
+    expected_row_header: W06000015
+    geography_id: W06000015
+    geography_level: local_authority
+    geography_name: Cardiff
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 8066
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 8066
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 8066
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 8066
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000016
+    label: Rhondda Cynon Taf
+    ordinal: 8161
+    row_number: 8162
+    expected_row_header_column: L
+    expected_row_header: W06000016
+    geography_id: W06000016
+    geography_level: local_authority
+    geography_name: Rhondda Cynon Taf
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 8162
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 8162
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 8162
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 8162
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000024
+    label: Merthyr Tydfil
+    ordinal: 8257
+    row_number: 8258
+    expected_row_header_column: L
+    expected_row_header: W06000024
+    geography_id: W06000024
+    geography_level: local_authority
+    geography_name: Merthyr Tydfil
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 8258
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 8258
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 8258
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 8258
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000018
+    label: Caerphilly
+    ordinal: 8353
+    row_number: 8354
+    expected_row_header_column: L
+    expected_row_header: W06000018
+    geography_id: W06000018
+    geography_level: local_authority
+    geography_name: Caerphilly
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 8354
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 8354
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 8354
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 8354
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000019
+    label: Blaenau Gwent
+    ordinal: 8449
+    row_number: 8450
+    expected_row_header_column: L
+    expected_row_header: W06000019
+    geography_id: W06000019
+    geography_level: local_authority
+    geography_name: Blaenau Gwent
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 8450
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 8450
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 8450
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 8450
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000020
+    label: Torfaen
+    ordinal: 8545
+    row_number: 8546
+    expected_row_header_column: L
+    expected_row_header: W06000020
+    geography_id: W06000020
+    geography_level: local_authority
+    geography_name: Torfaen
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 8546
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 8546
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 8546
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 8546
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000021
+    label: Monmouthshire
+    ordinal: 8641
+    row_number: 8642
+    expected_row_header_column: L
+    expected_row_header: W06000021
+    geography_id: W06000021
+    geography_level: local_authority
+    geography_name: Monmouthshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 8642
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 8642
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 8642
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 8642
+      expected_value: Principal Projection
+      label: Projection variant
+  - value_id: w06000022
+    label: Newport
+    ordinal: 8737
+    row_number: 8738
+    expected_row_header_column: L
+    expected_row_header: W06000022
+    geography_id: W06000022
+    geography_level: local_authority
+    geography_name: Newport
+    geography_vintage: lad_2022
+    table_record_kind: total
+    guard_cells:
+    - column: G
+      row: 8738
+      expected_value: Mid-year 2025
+      label: Reference year
+    - column: O
+      row: 8738
+      expected_value: Total households
+      label: Household category
+    - column: C
+      row: 8738
+      expected_value: Households
+      label: Publisher measure
+    - column: S
+      row: 8738
+      expected_value: Principal Projection
+      label: Projection variant
+  measures:
+  - measure_id: welshgov_households_projected
+    label: Households
+    ordinal: 0
+    column: A
+    source_column_id: Data values
+    concept: welshgov.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: Data values
+    concept_evidence_notes: Publisher decimals retained without rounding; private households. Principal
+      projection, not an observation.
+  assertion: source_projection
+  period_coverage:
+    start_date: '2025-06-30'
+    end_date: '2025-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2025
+    notes: Publisher private-household principal projection.
+  shared_filters:
+    Household Type: Total households
+    Data description: Households
+    Variant: Principal Projection
+  shared_constraints:
+  - variable: Household Type
+    operator: ==
+    value: Total households
+    label: Household Type
+  - variable: Data description
+    operator: ==
+    value: Households
+    label: Data description
+  - variable: Variant
+    operator: ==
+    value: Principal Projection
+    label: Variant

@@ -81,6 +81,108 @@ SOURCE_PACKAGE_ALIASES = {
     "stats-nz-subnational-population-estimates-2025": Path(
         "stats_nz/subnational_population_estimates_2025"
     ),
+    "ons-mye-2025-uk": Path("ons/mye_2025_uk"),
+    "ons-mye-2024-uk-revised-2026": Path("ons/mye_2024_uk_revised_2026"),
+    "slc-student-loan-repayments-england-2026": Path(
+        "slc/student_loan_repayments_england_2026"
+    ),
+    "slc-student-support-england-2025-provisional-2025-26": Path(
+        "slc/student_support_england_2025_provisional_2025_26"
+    ),
+    "ons-public-sector-employment-june-2026": Path(
+        "ons/public_sector_employment_june_2026"
+    ),
+    "ons-national-balance-sheet-land-preliminary-2026": Path(
+        "ons/national_balance_sheet_land_preliminary_2026"
+    ),
+    "dfi-ni-public-transport-statistics-2025-26": Path(
+        "dfi_ni/public_transport_statistics_2025_26"
+    ),
+    "isc-annual-census-2025": Path("isc/annual_census_2025"),
+    "isc-annual-census-2026": Path("isc/annual_census_2026"),
+    "welshgov-dwelling-stock-by-tenure-2025": Path(
+        "welshgov/dwelling_stock_by_tenure_2025"
+    ),
+    "scotgov-dwelling-stock-by-tenure-2024": Path(
+        "scotgov/dwelling_stock_by_tenure_2024"
+    ),
+    "ons-household-totals-country-region-2015-2025": Path(
+        "ons/household_totals_country_region_2015_2025"
+    ),
+    "nrs-mye-2025-council-area": Path("nrs/mye_2025_council_area"),
+    "nrs-pcon24-population-by-age-2024-revised-2026": Path(
+        "nrs/pcon24_population_by_age_2024_revised_2026"
+    ),
+    "nisra-mye-2025-lgd-single-year-age": Path("nisra/mye_2025_lgd_single_year_age"),
+    "nisra-census2021-ct0105-communal-residents-lgd": Path(
+        "nisra/census2021_ct0105_communal_residents_lgd"
+    ),
+    "nisra-census2021-ms-f04-communal-residents-ward": Path(
+        "nisra/census2021_ms_f04_communal_residents_ward"
+    ),
+    "nrs-census2022-uv101a-ukpc24": Path("nrs/census2022_uv101a_ukpc24"),
+    "nrs-census2022-uv101a-council-area": Path("nrs/census2022_uv101a_council_area"),
+    "ons-census2021-rm120-pcon24-residence1-sex0": Path(
+        "ons/census2021_rm120_pcon24_residence1_sex0"
+    ),
+    "ons-census2021-rm120-pcon24-residence1-sex1": Path(
+        "ons/census2021_rm120_pcon24_residence1_sex1"
+    ),
+    "ons-census2021-rm120-pcon24-residence1-sex2": Path(
+        "ons/census2021_rm120_pcon24_residence1_sex2"
+    ),
+    "ons-census2021-rm120-pcon24-residence2-sex0": Path(
+        "ons/census2021_rm120_pcon24_residence2_sex0"
+    ),
+    "ons-census2021-rm120-pcon24-residence2-sex1": Path(
+        "ons/census2021_rm120_pcon24_residence2_sex1"
+    ),
+    "ons-census2021-rm120-pcon24-residence2-sex2": Path(
+        "ons/census2021_rm120_pcon24_residence2_sex2"
+    ),
+    "ons-census2021-rm120-lad-residence1-sex0": Path(
+        "ons/census2021_rm120_lad_residence1_sex0"
+    ),
+    "ons-census2021-rm120-lad-residence1-sex1": Path(
+        "ons/census2021_rm120_lad_residence1_sex1"
+    ),
+    "ons-census2021-rm120-lad-residence1-sex2": Path(
+        "ons/census2021_rm120_lad_residence1_sex2"
+    ),
+    "ons-census2021-rm120-lad-residence2-sex0": Path(
+        "ons/census2021_rm120_lad_residence2_sex0"
+    ),
+    "ons-census2021-rm120-lad-residence2-sex1": Path(
+        "ons/census2021_rm120_lad_residence2_sex1"
+    ),
+    "ons-census2021-rm120-lad-residence2-sex2": Path(
+        "ons/census2021_rm120_lad_residence2_sex2"
+    ),
+    "dwp-uc-households-by-constituency-january-2025-may-2026": Path(
+        "dwp/uc_households_by_constituency_january_2025_may_2026"
+    ),
+    "dwp-uc-households-by-constituency-children-january-2025-may-2026": Path(
+        "dwp/uc_households_by_constituency_children_january_2025_may_2026"
+    ),
+    "dwp-uc-households-by-local-authority-january-2025-may-2026": Path(
+        "dwp/uc_households_by_local_authority_january_2025_may_2026"
+    ),
+    "welshgov-household-estimates-mid2024": Path(
+        "welshgov/household_estimates_mid2024"
+    ),
+    "welshgov-household-projections-2022-based": Path(
+        "welshgov/household_projections_2022_based"
+    ),
+    "nrs-households-dwellings-2025": Path("nrs/households_dwellings_2025"),
+    "nrs-households-data-zone-2025": Path("nrs/households_data_zone_2025"),
+    "nrs-dwellings-data-zone-2025": Path("nrs/dwellings_data_zone_2025"),
+    "ons-household-projections-2022-based": Path(
+        "ons/household_projections_2022_based"
+    ),
+    "lps-housing-stock-lgd-2026": Path("lps/housing_stock_lgd_2026"),
+    "ons-pipr-rents-by-area-august-2026": Path("ons/pipr_rents_by_area_august_2026"),
+    "scotgov-private-sector-rents-2025": Path("scotgov/private_sector_rents_2025"),
+    "ons-lad-population-by-age-2025": Path("ons/lad_population_by_age_2025"),
     "bea-nipa-personal-income-components": Path("bea/nipa_personal_income_components"),
     "bea-nipa-personal-income-disposition": Path(
         "bea/nipa_personal_income_disposition"
@@ -375,15 +477,6 @@ SOURCE_PACKAGE_ALIASES = {
         "dwp/uc_deductions_march_2025_february_2026"
     ),
     "dwp-pip-daily-living-foi-2025": Path("dwp/pip_daily_living_foi_2025"),
-    "dwp-uc-households-by-constituency-may-2025": Path(
-        "dwp/uc_households_by_constituency_may_2025"
-    ),
-    "dwp-uc-households-by-constituency-children-may-2025": Path(
-        "dwp/uc_households_by_constituency_children_may_2025"
-    ),
-    "dwp-uc-households-by-local-authority-may-2025": Path(
-        "dwp/uc_households_by_local_authority_may_2025"
-    ),
     "dwp-uc-households-children-april-december-2025": Path(
         "dwp/uc_households_children_april_december_2025"
     ),
@@ -574,7 +667,6 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/consumer_trends_current_price_2026"
     ),
     "nrs-census2022-households-ukpc24": Path("nrs/census2022_households_ukpc24"),
-    "nrs-pcon24-population-by-age-2024": Path("nrs/pcon24_population_by_age_2024"),
     "nrs-census2022-uv113-household-composition-country": Path(
         "nrs/census2022_uv113_household_composition_country"
     ),

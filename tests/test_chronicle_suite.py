@@ -7,6 +7,8 @@ import json
 import sqlite3
 import textwrap
 
+import pytest
+
 from chronicle.concepts import ConceptAlignmentReport
 from chronicle.core import (
     Aggregation,
@@ -30,8 +32,11 @@ from chronicle.sources.cells import (
 )
 from chronicle.sources.rows import SourceRow, build_source_row_key, validate_source_rows
 from chronicle.suite import (
+    NISRA_MYE_2025_ARTIFACT_SHA256,
+    NISRA_MYE_2025_OPEN_AGE_DEFINITION,
     SourceRecordSuiteReport,
     SourceRegionSuiteReport,
+    _row_semantic_evidence_issues,
     _wide_table_filter_evidenced_by_source_column,
     build_agent_acceptance_report,
     build_source_cells,
@@ -41,6 +46,108 @@ from chronicle.suite import (
     validate_source_record_specs,
     validate_source_regions,
 )
+
+
+def _sex_row_evidence(expected, publisher, *, variable="sex", operator="=="):
+    artifact = SourceArtifactMetadata(
+        source_name="nrs",
+        source_table="population",
+        source_file="population.xlsx",
+        url="https://example.test/population.xlsx",
+        vintage="mid2025",
+        sha256="abc123",
+        size_bytes=10,
+        extracted_at="2026-10-07",
+        extraction_method="test",
+    )
+    row = SourceRow(
+        artifact=artifact,
+        sheet_name="Table 1",
+        row_number=2,
+        values={"Period": 2025, variable: publisher, "Population": 100},
+    )
+    fact = AggregateFact(
+        value=100,
+        period=PeriodDimension(type="calendar_year", value=2025),
+        geography=GeographyDimension(level="country", id="S92000003"),
+        entity=EntityDimension(name="person", role="resident_population"),
+        measure=Measure(concept="nrs.population_estimate", unit="count"),
+        aggregation=Aggregation(method="sum"),
+        provenance_class="model_output",
+        source=SourceProvenance(source_name="nrs", source_table="population"),
+        domain="resident_population",
+        filters={variable: expected},
+        source_record_id="nrs.population.sex",
+        source_row_keys=(build_source_row_key(row),),
+        constraints=(
+            AggregateConstraint(variable=variable, operator=operator, value=expected),
+        ),
+    )
+    return fact, row
+
+
+@pytest.mark.parametrize(
+    "expected,publisher",
+    [
+        ("all", "Persons"),
+        ("all", "All persons"),
+        ("female", "Females"),
+        ("male", "Males"),
+        ("female", "Female"),
+        ("male", "Male"),
+    ],
+)
+def test_row_acceptance_matches_canonical_sex_to_publisher_label(expected, publisher):
+    fact, row = _sex_row_evidence(expected, publisher)
+    assert _row_semantic_evidence_issues(fact, [row], []) == []
+    assert row.values["sex"] == publisher
+
+
+@pytest.mark.parametrize(
+    "expected,publisher",
+    [
+        ("female", "Males"),
+        ("male", "Females"),
+        ("all", "Females"),
+        ("all", "Unknown"),
+        ("female", "Unknown"),
+        ("female", 2),
+    ],
+)
+def test_row_acceptance_rejects_opposite_or_unknown_sex(expected, publisher):
+    fact, row = _sex_row_evidence(expected, publisher)
+    issues = _row_semantic_evidence_issues(fact, [row], [])
+    assert "row_constraint_value_mismatch" in {issue.code for issue in issues}
+    if expected != "all":
+        assert "row_filter_value_mismatch" in {issue.code for issue in issues}
+
+
+def test_row_acceptance_rejects_mixed_sex_witnesses():
+    fact, female = _sex_row_evidence("female", "Females")
+    _, male = _sex_row_evidence("female", "Males")
+    issues = _row_semantic_evidence_issues(fact, [female, male], [])
+    assert "row_constraint_value_mismatch" in {issue.code for issue in issues}
+
+
+def test_row_acceptance_requires_a_publisher_sex_witness():
+    fact, row = _sex_row_evidence("female", "Females")
+    row = replace(row, values={"Period": 2025, "Population": 100})
+    assert {issue.code for issue in _row_semantic_evidence_issues(fact, [row], [])} == {
+        "row_filter_not_evidenced",
+        "row_constraint_not_evidenced",
+    }
+
+
+def test_sex_aliases_do_not_normalize_other_dimensions_or_constraint_operators():
+    fact, row = _sex_row_evidence("female", "Females", variable="category")
+    assert {issue.code for issue in _row_semantic_evidence_issues(fact, [row], [])} == {
+        "row_filter_value_mismatch",
+        "row_constraint_value_mismatch",
+    }
+    fact, row = _sex_row_evidence("female", "Females", operator=">=")
+    assert {issue.code for issue in _row_semantic_evidence_issues(fact, [row], [])} == {
+        "row_constraint_value_mismatch",
+    }
 
 
 def test_wide_table_evidence_requires_explicit_column_dimension():
@@ -871,3 +978,244 @@ def _write_fake_axiom_cli(tmp_path, *, valid_concepts: set[str]):
     )
     axiom_cli.chmod(0o755)
     return axiom_cli
+
+
+def _nisra_open_age_evidence():
+    artifact = SourceArtifactMetadata(
+        source_name="nisra",
+        source_table="NISRA MYE2025",
+        source_file="MYE25-SYA.xlsx",
+        url="https://example.test/MYE25-SYA.xlsx",
+        vintage="mid2025",
+        sha256=NISRA_MYE_2025_ARTIFACT_SHA256,
+        size_bytes=4_693_140,
+        extracted_at="2026-10-07",
+        extraction_method="test",
+    )
+    row = SourceRow(
+        artifact=artifact,
+        sheet_name="Flat",
+        row_number=1094,
+        values={"Period": 2025, "age": 90, "MYE": 100},
+    )
+    guard = SourceCell(
+        artifact=artifact,
+        sheet_name="Flat",
+        row_number=2,
+        column_number=6,
+        address="F2",
+        cell_type="number",
+        raw_value=90,
+        display_value="90",
+        source_row_key=build_source_row_key(row),
+    )
+    definition = SourceCell(
+        artifact=artifact,
+        sheet_name="Contents",
+        row_number=20,
+        column_number=1,
+        address="A20",
+        cell_type="text",
+        raw_value=NISRA_MYE_2025_OPEN_AGE_DEFINITION,
+        display_value=NISRA_MYE_2025_OPEN_AGE_DEFINITION,
+    )
+    fact = AggregateFact(
+        value=100,
+        period=PeriodDimension(type="calendar_year", value=2025),
+        geography=GeographyDimension(level="country", id="N92000002"),
+        entity=EntityDimension(name="person", role="resident_population"),
+        measure=Measure(concept="ons.mid_year_population_estimate", unit="count"),
+        aggregation=Aggregation(method="sum"),
+        provenance_class="model_output",
+        source=SourceProvenance(source_name="nisra", source_sha256=artifact.sha256),
+        domain="resident_population",
+        filters={"age": "90_plus"},
+        source_record_id="nisra.mye2025.age90",
+        source_row_keys=(build_source_row_key(row),),
+        source_cell_keys=(build_source_cell_key(guard),),
+        constraints=(
+            AggregateConstraint(variable="age", operator="==", value="90_plus"),
+            AggregateConstraint(variable="age", operator=">=", value=90, unit="years"),
+        ),
+    )
+    return fact, row, guard, definition
+
+
+def test_row_acceptance_preserves_nisra_publisher_code_with_guarded_open_band():
+    fact, row, guard, definition = _nisra_open_age_evidence()
+    assert (
+        _row_semantic_evidence_issues(
+            fact,
+            [row],
+            [guard],
+            source_row_dimensions={"age": "90_plus"},
+            source_definition_cells=[definition],
+        )
+        == []
+    )
+    assert row.values["age"] == guard.raw_value == 90
+    assert definition.raw_value == NISRA_MYE_2025_OPEN_AGE_DEFINITION
+
+
+@pytest.mark.parametrize(
+    ("variable", "operator", "age_bound"),
+    [("age", ">=", 89), ("person.age", ">", 89)],
+)
+def test_row_acceptance_preserves_nisra_open_band_with_redundant_lower_bound(
+    variable, operator, age_bound
+):
+    fact, row, guard, definition = _nisra_open_age_evidence()
+    fact = replace(
+        fact,
+        constraints=(
+            *fact.constraints,
+            AggregateConstraint(
+                variable=variable, operator=operator, value=age_bound, unit="years"
+            ),
+        ),
+    )
+    assert (
+        _row_semantic_evidence_issues(
+            fact,
+            [row],
+            [guard],
+            source_row_dimensions={"age": "90_plus"},
+            source_definition_cells=[definition],
+        )
+        == []
+    )
+
+
+@pytest.mark.parametrize(
+    ("variable", "operator", "age_bound", "unit"),
+    [
+        ("age", "<=", 90, "years"),
+        ("age", "<", 91, "years"),
+        ("age", "<=", 100, "years"),
+        ("person.age", "<=", 90, "years"),
+        ("person.age", "==", 90, "years"),
+        ("Age", "==", 90, "years"),
+        ("age", "in", [90], "years"),
+        ("person.age", "in", [90, 91], "years"),
+        ("age", "!=", 91, "years"),
+        ("age", "!=", "90_plus", None),
+        ("age", ">=", 89, "months"),
+        ("age", ">", 89, None),
+        ("age", ">=", 91, "years"),
+        ("age", ">", 90, "years"),
+        ("age", "==", "90_plus", "months"),
+    ],
+)
+def test_row_acceptance_rejects_unproved_extra_age_constraint_for_nisra_open_band(
+    variable, operator, age_bound, unit
+):
+    fact, row, guard, definition = _nisra_open_age_evidence()
+    fact = replace(
+        fact,
+        constraints=(
+            *fact.constraints,
+            AggregateConstraint(
+                variable=variable, operator=operator, value=age_bound, unit=unit
+            ),
+        ),
+    )
+    issues = _row_semantic_evidence_issues(
+        fact,
+        [row],
+        [guard],
+        source_row_dimensions={"age": "90_plus"},
+        source_definition_cells=[definition],
+    )
+    assert "row_filter_value_mismatch" in {issue.code for issue in issues}
+    assert row.values["age"] == guard.raw_value == 90
+    assert definition.raw_value == NISRA_MYE_2025_OPEN_AGE_DEFINITION
+
+
+@pytest.mark.parametrize(
+    "failure",
+    [
+        "missing_definition",
+        "changed_definition",
+        "wrong_definition_artifact",
+        "wrong_definition_coordinate",
+        "wrong_artifact",
+        "wrong_file",
+        "undeclared_axis",
+        "wrong_age",
+        "missing_age",
+        "missing_guard",
+        "wrong_guard",
+        "wrong_guard_lineage",
+        "missing_bound",
+        "wrong_bound_unit",
+        "wrong_bound_operator",
+        "missing_categorical",
+        "numeric_equality",
+    ],
+)
+def test_row_acceptance_rejects_unproved_nisra_open_band_mapping(failure):
+    fact, row, guard, definition = _nisra_open_age_evidence()
+    dimensions = {"age": "90_plus"}
+    guards = [guard]
+    definitions = [definition]
+    if failure == "missing_definition":
+        definitions = []
+    elif failure == "changed_definition":
+        definitions = [replace(definition, raw_value="Age 90 is a single year")]
+    elif failure == "wrong_definition_artifact":
+        definitions = [
+            replace(definition, artifact=replace(definition.artifact, sha256="other"))
+        ]
+    elif failure == "wrong_definition_coordinate":
+        definitions = [replace(definition, address="A21", row_number=21)]
+    elif failure == "wrong_artifact":
+        row = replace(row, artifact=replace(row.artifact, sha256="other"))
+    elif failure == "wrong_file":
+        row = replace(row, artifact=replace(row.artifact, source_file="other.xlsx"))
+    elif failure == "undeclared_axis":
+        dimensions = {}
+    elif failure == "wrong_age":
+        row = replace(row, values={**row.values, "age": 89})
+    elif failure == "missing_age":
+        row = replace(row, values={k: v for k, v in row.values.items() if k != "age"})
+    elif failure == "missing_guard":
+        guards = []
+    elif failure == "wrong_guard":
+        guards = [replace(guard, raw_value=89)]
+    elif failure == "wrong_guard_lineage":
+        guards = [replace(guard, source_row_key="another row")]
+    elif failure == "missing_bound":
+        fact = replace(fact, constraints=fact.constraints[:1])
+    elif failure == "wrong_bound_unit":
+        fact = replace(
+            fact,
+            constraints=(
+                fact.constraints[0],
+                replace(fact.constraints[1], unit="months"),
+            ),
+        )
+    elif failure == "wrong_bound_operator":
+        fact = replace(
+            fact,
+            constraints=(
+                fact.constraints[0],
+                replace(fact.constraints[1], operator=">"),
+            ),
+        )
+    elif failure == "missing_categorical":
+        fact = replace(fact, constraints=fact.constraints[1:])
+    elif failure == "numeric_equality":
+        fact = replace(
+            fact,
+            constraints=(
+                *fact.constraints,
+                AggregateConstraint(variable="age", operator="==", value=90),
+            ),
+        )
+    assert _row_semantic_evidence_issues(
+        fact,
+        [row],
+        guards,
+        source_row_dimensions=dimensions,
+        source_definition_cells=definitions,
+    )

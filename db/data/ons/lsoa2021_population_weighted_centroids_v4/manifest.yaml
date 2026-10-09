@@ -1,0 +1,22 @@
+source_id: ons
+package_id: ons-lsoa2021-population-weighted-centroids-v4
+dataset: ons_ons-lsoa2021-population-weighted-centroids-v4
+source_page: https://www.arcgis.com/home/item.html?id=32729e42d05e4e23bc7e43a36aa4ae8b
+table: ONS LSOA December 2021 England and Wales population-weighted centroids V4
+files:
+  2021:
+    filename: LSOA_PopCentroids_EW_2021_V4.geojson
+    source_url: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/32729e42d05e4e23bc7e43a36aa4ae8b/geojson?layers=0
+    sha256: e0872028485e92a8c3bd73d2f995c84663a455ddfddde278d83e24b00fc90a5d
+    size_bytes: 8976092
+    fetched_at: '2026-10-07T14:01:08+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-lsoa2021-population-weighted-centroids-v4/2021/e0872028485e92a8c3bd73d2f995c84663a455ddfddde278d83e24b00fc90a5d/LSOA_PopCentroids_EW_2021_V4.geojson
+        uri: r2://ledger-raw/raw/uk/ons/ons-lsoa2021-population-weighted-centroids-v4/2021/e0872028485e92a8c3bd73d2f995c84663a455ddfddde278d83e24b00fc90a5d/LSOA_PopCentroids_EW_2021_V4.geojson
+registration_kind: raw_only
+provenance_notes: ONS December 2021 England and Wales LSOA population-weighted centroids,
+  V4, all 35,672 features; source service LSOA_PopCentroids_EW_2021_V4. ONS and Ordnance
+  Survey intellectual property rights; publisher licence at https://www.ons.gov.uk/methodology/geography/licences.

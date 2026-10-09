@@ -27,7 +27,47 @@ from chronicle.harness import main as harness_main
 
 
 def _load_jsonl(path):
-    return [json.loads(line) for line in path.read_text().splitlines() if line]
+    return list(_iter_jsonl(path))
+
+
+def _iter_jsonl(path):
+    with path.open(encoding="utf-8") as file:
+        for line in file:
+            if line.rstrip("\n"):
+                yield json.loads(line)
+
+
+def _bundle_failure_diagnostics(summary):
+    """Expose actual bundle and nested source errors without dumping coverage."""
+    invalid_sources = []
+    for source in summary["source_packages"]:
+        if source["valid"]:
+            continue
+        details = {"source": source["source"], "counts": source["counts"]}
+        path = Path(source["outputs"]["reports"]) / "build_summary.json"
+        try:
+            nested = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError) as error:
+            details["report_read_error"] = str(error)
+        else:
+            details["errors"] = {
+                name: {
+                    "error_count": len(report["errors"]),
+                    "first_errors": report["errors"][:5],
+                }
+                for name, report in nested["reports"].items()
+                if report.get("errors")
+            }
+        invalid_sources.append(details)
+    return json.dumps(
+        {
+            "counts": summary["counts"],
+            "first_errors": summary["errors"][:20],
+            "invalid_source_count": len(invalid_sources),
+            "first_invalid_sources": invalid_sources[:10],
+        },
+        indent=2,
+    )
 
 
 def _fixture_consumer_rows():
@@ -155,11 +195,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
 
     report = build_bundle(output_dir, year=2023)
     summary = json.loads((output_dir / "reports" / "build_bundle.json").read_text())
-    rows = _load_jsonl(output_dir / "consumer_facts.jsonl")
+    rows_path = output_dir / "consumer_facts.jsonl"
     source_packages = json.loads((output_dir / "source_packages.json").read_text())
     coverage = json.loads((output_dir / "coverage.json").read_text())
 
-    assert report.valid
+    assert report.valid, _bundle_failure_diagnostics(summary)
     assert summary["valid"]
     # chronicle#209's NZ WFF package adds 330 TY2024 facts: 329 families and 1
     # person, in one new publisher, package, source table and country.
@@ -187,9 +227,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "error_count": 0,
         # chronicle#322 adds 4,947 ONS observations and 3,200 DESNZ ones.
         # Inner/Outer London also add two region-level geography keys.
-        "fact_count": 426058,
-        "geography_count": 12690,
-        "period_count": 495,
+        "fact_count": 1000748,
+        "geography_count": 20547,
+        "period_count": 511,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -203,10 +243,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # than one cut or release (+198). Sixteen of those differ: the Winter
         # Fuel Payment 2023-24 workbook against the Stat-Xplore cube, both kept
         # as published.
+        # chronicle#313 replaces superseded NRS/UC/DfI cells in the current
+        # export: 5,244 NRS + 5,406 UC + 12 DfI overlap groups are retired.
+        # Independent census cuts and the older-only combined Metro/Glider
+        # journey series remain publisher facts with their original provenance.
         "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
-        "source_count": 55,
-        "source_package_count": 278,
+        "source_count": 56,
+        "source_package_count": 318,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -217,27 +261,38 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Statbel's population-structure rows write '65_plus'.
         # chronicle#322 retains six division labels that differ between
         # the ONS overview and detailed worksheets.
-        "warning_count": 85,
+        # chronicle#313 adds 27 English county wording differences and one
+        # Scottish BRMA difference, preserving each publisher's name.
+        # It also retains detached/terraced casing differences between DESNZ
+        # and PIPR, plus SLC's two literal returning-support footnote spellings.
+        # Male/Males wording remains; total sex axes are omitted, matching
+        # predecessors, so there is no sex=all wording warning.
+        "warning_count": 117,
     }
-    assert len(rows) == 426058
-    assert {row["provenance_class"] for row in rows} <= {
+    row_count = 0
+    provenance_classes = set()
+    for row in _iter_jsonl(rows_path):
+        row_count += 1
+        provenance_classes.add(row["provenance_class"])
+        assert (
+            (
+                isinstance(row.get("survey_instrument"), str)
+                and row["survey_instrument"].strip()
+            )
+            if row["provenance_class"] == "survey_aggregate"
+            else ("survey_instrument" not in row)
+        )
+        if row_count == 1:
+            assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
+            assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
+    assert row_count == 1000748
+    assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert all(
-        (
-            isinstance(row.get("survey_instrument"), str)
-            and row["survey_instrument"].strip()
-        )
-        if row["provenance_class"] == "survey_aggregate"
-        else "survey_instrument" not in row
-        for row in rows
-    )
-    assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
-    assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 278
+    assert source_packages["source_package_count"] == 318
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -251,7 +306,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 426058
+    assert coverage["fact_count"] == 1000748
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -266,9 +321,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "desnz": 8897,
         "dfe": 770,
         "dfc_ni": 1700,
-        "dfi_ni": 30,
+        "dfi_ni": 33,
         "dft": 2771,
-        "dwp": 56100,
+        "dwp": 141964,
         "eurostat": 207,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
@@ -278,26 +333,27 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "ici": 12,
         "ird": 3852,
         "irs_soi": 40063,
-        "isc": 2,
+        "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
+        "lps": 72,
         "mbie": 5663,
         "mhclg": 118542,
         "msd": 139,
         "nbb_national_accounts": 1,
-        "nisra": 533,
+        "nisra": 11047,
         "nithc": 8,
-        "nrs": 6063,
+        "nrs": 271089,
         "obr": 355,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 105312,
+        "ons": 317578,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
-        "scotgov": 3687,
+        "scotgov": 4244,
         "sfpd_pensions": 4,
-        "slc": 199,
+        "slc": 343,
         "spf_finances_pit": 1,
         "ssa": 426,
         "statbel_fiscal_income": 565,
@@ -307,10 +363,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "stats_nz": 85,
         "usda_snap": 852,
         "voa": 3001,
-        "welshgov": 9325,
+        "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 273
+    assert len(table_counts) == 313
     assert table_counts["mbie:Detailed monthly TLA tenancy bond data"] == 5663
     assert (
         table_counts[
@@ -1408,6 +1464,102 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         for quarter in range(1, 5):
             expected_period_counts[f"quarter:{year}-Q{quarter}"] += 159
     expected_period_counts["quarter:2026-Q1"] += 159
+    # chronicle#313 preserves census dates, revised back-years, publisher
+    # projection years and individual UC/PIPR months as their own periods.
+    issue_313_period_increments = {
+        "calendar_year:2011": 15732,
+        "calendar_year:2012": 15732,
+        "calendar_year:2013": 15732,
+        "calendar_year:2014": 15732,
+        "calendar_year:2015": 15744,
+        "calendar_year:2016": 15744,
+        "calendar_year:2017": 15744,
+        "calendar_year:2018": 15744,
+        "calendar_year:2019": 15744,
+        "calendar_year:2020": 15744,
+        "calendar_year:2021": 151574,
+        "calendar_year:2022": 27330,
+        "calendar_year:2023": 16116,
+        "calendar_year:2024": 30966,
+        "calendar_year:2025": 35215,
+        "calendar_year:2026": 361,
+        "calendar_year:2027": 349,
+        "calendar_year:2028": 349,
+        "calendar_year:2029": 349,
+        "calendar_year:2030": 349,
+        "calendar_year:2031": 349,
+        "calendar_year:2032": 349,
+        "calendar_year:2033": 349,
+        "calendar_year:2034": 349,
+        "calendar_year:2035": 349,
+        "calendar_year:2036": 349,
+        "calendar_year:2037": 349,
+        "calendar_year:2038": 349,
+        "calendar_year:2039": 349,
+        "calendar_year:2040": 349,
+        "calendar_year:2041": 349,
+        "calendar_year:2042": 349,
+        "calendar_year:2043": 349,
+        "calendar_year:2044": 349,
+        "calendar_year:2045": 349,
+        "calendar_year:2046": 349,
+        "calendar_year:2047": 349,
+        "month:2025-01": 8547,
+        "month:2025-02": 8547,
+        "month:2025-03": 8547,
+        "month:2025-04": 8547,
+        "month:2025-05": 8547,
+        "month:2025-06": 8547,
+        "month:2025-07": 8547,
+        "month:2025-08": 8547,
+        "month:2025-09": 8547,
+        "month:2025-10": 8547,
+        "month:2025-11": 8547,
+        "month:2025-12": 8547,
+        "month:2026-01": 8547,
+        "month:2026-02": 8547,
+        "month:2026-03": 8547,
+        "month:2026-04": 8547,
+        "month:2026-05": 8547,
+        "month:2026-06": 3141,
+        "month:2026-07": 3132,
+        "month:2026-08": 3132,
+    }
+    for key, count in issue_313_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # National additions requested in issue 313's latest comment. Early-year
+    # student support keeps AY2025; employment and ISC keep source months.
+    issue_313_comment_period_increments = {
+        "academic_year:2025": 136,
+        "calendar_year:2021": 12,
+        "calendar_year:2022": 12,
+        "calendar_year:2023": 12,
+        "calendar_year:2024": 220,
+        "calendar_year:2025": 4569,
+        "fiscal_year:2019": 2,
+        "fiscal_year:2020": 2,
+        "fiscal_year:2021": 2,
+        "fiscal_year:2022": 2,
+        "fiscal_year:2023": 2,
+        "fiscal_year:2024": 2,
+        "fiscal_year:2025": 10,
+        "month:2025-01": 1,
+        "month:2025-03": 6,
+        "month:2025-06": 6,
+        "month:2025-09": 6,
+        "month:2025-12": 6,
+        "month:2026-01": 1,
+    }
+    for key, count in issue_313_comment_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # Current publisher editions replace 5,244 NRS and thirteen ONS 2024
+    # cells, plus 6,038 UC May snapshots. DfI removes twelve old receipts,
+    # replaces six Ulsterbus journeys and adds its direct FY2025 cell.
+    expected_period_counts["calendar_year:2024"] -= 5244 + 13
+    expected_period_counts["month:2025-05"] -= 6038
+    for fiscal_year in range(2019, 2025):
+        expected_period_counts[f"fiscal_year:{fiscal_year}"] -= 2
+    expected_period_counts["fiscal_year:2025"] += 1
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD (#318) + 103 MSD (#319) + 84 MBIE (#320) = 4,071.
@@ -1433,11 +1585,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
     )
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 31416
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 5461
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 20944
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 31901
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 6099
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 21401
+    assert coverage["counts"]["by_geography"]["country:K04000001"] == 1148
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
-    assert len(coverage["counts"]["by_geography"]) == 12690
+    assert len(coverage["counts"]["by_geography"]) == 20547
     for region in (
         "auckland",
         "bay-of-plenty",
@@ -1459,14 +1612,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["region:E13000002"] == 200
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33643,
-        "dwelling": 158150,
+        "dwelling": 251365,
         "family": 1628,
         "firm": 1440,
         "government": 3450,
-        "household": 58468,
-        "institutional_sector": 4463,
+        "household": 153696,
+        "institutional_sector": 4468,
         "pension_plan": 2,
-        "person": 108810,
+        "person": 495052,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 41368,
@@ -1474,9 +1627,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
-        "conflicting_geography_name_across_packages": 50,
-        "conflicting_groupby_value_label": 22,
-        "conflicting_value_label_across_packages": 12,
+        "conflicting_geography_name_across_packages": 78,
+        "conflicting_groupby_value_label": 23,
+        "conflicting_value_label_across_packages": 15,
         "duplicate_semantic_fact_key": 1,
     }
     assert [
@@ -1496,14 +1649,16 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # now answers with one name for every identifier it carries. What is left is
     # what it does not: the IRS truncating county names to twenty characters.
     # The 95 UK areas that warned here - local authorities, constituencies,
-    # regions and countries - no longer do.
+    # regions and countries - no longer do. The new household projections and
+    # Scottish rent tables add county and BRMA identifiers outside the register.
     geography_names = [
         warning
         for warning in summary["warnings"]
         if warning["code"] == "conflicting_geography_name_across_packages"
     ]
     assert Counter(warning["key"].split(":")[0] for warning in geography_names) == {
-        "county": 50,
+        "county": 77,
+        "statistical_scope": 1,
     }
     assert sorted(
         warning["key"]
@@ -1519,7 +1674,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "measure=country_total",
         "ons.household_type=couple_3_plus_children_households",
         "person.age_band=65_plus",
+        "property_type=detached",
+        "property_type=terraced",
         "sex=female",
+        "sex=male",
         "us:statutes/26/62#adjusted_gross_income=all",
         "us:statutes/26/62#adjusted_gross_income=under_1",
     ]
@@ -1531,7 +1689,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert [
         warning for warning in geography_names if warning["key"] == "region:E12000003"
     ] == []
-    assert {warning["key"].split(":")[1][0] for warning in geography_names} == {"0"}
+    assert {warning["key"].split(":")[1][0] for warning in geography_names} == {
+        "0",
+        "E",
+        "S",
+    }
     for source in (
         "dfe-funded-early-education-childcare-2026",
         "dfi-ni-bus-concessionary-journeys-2024-25",
@@ -2071,3 +2233,25 @@ def test_bundle_coverage_preserves_non_string_identity_scalars(tmp_path):
         "aggregate_fact_keys": [],
         "semantic_fact_keys": [],
     }
+
+
+def test_bundle_metadata_pool_preserves_serialized_rows_and_distinct_facts(tmp_path):
+    rows = _fixture_consumer_rows()[:2]
+    # Exact JSON representations matter even when Python compares 1 and 1.0
+    # as equal. Pooling must retain the publisher representation of each row.
+    rows[0]["source"]["scale"] = 1
+    rows[1]["source"]["scale"] = 1.0
+    path = tmp_path / "consumer_facts.jsonl"
+    encoded = "".join(json.dumps(row, sort_keys=True) + "\n" for row in rows)
+    path.write_text(encoded, encoding="utf-8")
+
+    loaded = load_bundle_jsonl(path, shared_metadata={})
+
+    assert "".join(json.dumps(row, sort_keys=True) + "\n" for row in loaded) == encoded
+    assert build_bundle_coverage(loaded) == build_bundle_coverage(rows)
+    assert len({row["aggregate_fact_key"] for row in loaded}) == 2
+    assert loaded[0] is not loaded[1]
+    assert loaded[0]["source"] is not loaded[1]["source"]
+    assert loaded[0]["geography"] is loaded[1]["geography"]
+    assert loaded[0]["entity"] is loaded[1]["entity"]
+    assert loaded[0]["period"] is loaded[1]["period"]

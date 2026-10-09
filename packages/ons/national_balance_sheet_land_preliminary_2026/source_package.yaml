@@ -1,0 +1,194 @@
+schema_version: ledger.source_package.v1
+package_id: ons-national-balance-sheet-land-preliminary-2026
+label: 'ONS preliminary national balance sheet: household, non-financial corporation and total-economy
+  land values, end-2025'
+dimension_labels:
+  ons.nbs_asset_category: Balance sheet year
+  publication_status: Publication status
+artifact:
+  source_name: ons
+  source_table: Preliminary UK national balance sheet estimates, 10 June 2026, Tables 2, 3 and 11
+  resource_package: db
+  resource_directory: data/ons/national_balance_sheet_land_preliminary_2026
+  manifest: manifest.yaml
+  vintage: preliminary_nbs_2026_06_10
+  extracted_at: '2026-10-07'
+  extraction_method: xlsx whole-workbook used-range cell parse
+  parser: xlsx_used_range
+  artifact_year: 2026
+  sheets:
+  - Table 2
+  - Table 3
+  - Table 11
+record_sets:
+- record_set_id: ons.preliminary_nbs2026.land.total_economy.cy2025
+  provenance_class: model_output
+  record_set_spec_id: ons.preliminary_nbs2026.land.total_economy.cy2025.v1
+  source_record_id_prefix: ons.preliminary_nbs2026.land.total_economy.cy2025
+  sheet_name: Table 2
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2025
+    label: '2025'
+    ordinal: 0
+    row_number: 47
+    expected_row_header_column: A
+    expected_row_header: 2025
+    table_record_kind: total
+  measures:
+  - measure_id: land_value
+    label: United Kingdom total land, end of 2025
+    ordinal: 0
+    column: V
+    source_column_id: land_value
+    expected_column_header_row: 8
+    expected_column_header: E44R
+    concept: ons.nbs_land_value_total
+    source_concept: ons.e44r
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/preliminaryuknationalbalancesheetestimates
+    concept_evidence_notes: Preliminary estimates released 10 June 2026; land AN.211, current-price GBP
+      million at end of 2025, Table 2. Publisher sector coverage retained; non-financial corporations
+      are not all corporations.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  period_coverage:
+    start_date: '2025-12-31'
+    end_date: '2025-12-31'
+    basis: calendar
+    source_period_label: End of 2025
+    notes: Preliminary current-price balance-sheet stock, not an annual flow.
+  shared_filters:
+    publication_status: preliminary
+  shared_constraints:
+  - variable: publication_status
+    operator: ==
+    value: preliminary
+    label: Publication status
+- record_set_id: ons.preliminary_nbs2026.land.households.cy2025
+  provenance_class: model_output
+  record_set_spec_id: ons.preliminary_nbs2026.land.households.cy2025.v1
+  source_record_id_prefix: ons.preliminary_nbs2026.land.households.cy2025
+  sheet_name: Table 11
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: households
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2025
+    label: '2025'
+    ordinal: 0
+    row_number: 47
+    expected_row_header_column: A
+    expected_row_header: 2025
+    table_record_kind: total
+  measures:
+  - measure_id: land_value
+    label: Households sector land, end of 2025
+    ordinal: 0
+    column: S
+    source_column_id: land_value
+    expected_column_header_row: 8
+    expected_column_header: E44N
+    concept: ons.nbs_land_value_households
+    source_concept: ons.e44n
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/preliminaryuknationalbalancesheetestimates
+    concept_evidence_notes: Preliminary estimates released 10 June 2026; land AN.211, current-price GBP
+      million at end of 2025, Table 11. Publisher sector coverage retained; non-financial corporations
+      are not all corporations.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  period_coverage:
+    start_date: '2025-12-31'
+    end_date: '2025-12-31'
+    basis: calendar
+    source_period_label: End of 2025
+    notes: Preliminary current-price balance-sheet stock, not an annual flow.
+  shared_filters:
+    publication_status: preliminary
+  shared_constraints:
+  - variable: publication_status
+    operator: ==
+    value: preliminary
+    label: Publication status
+- record_set_id: ons.preliminary_nbs2026.land.non_financial_corporations.cy2025
+  provenance_class: model_output
+  record_set_spec_id: ons.preliminary_nbs2026.land.non_financial_corporations.cy2025.v1
+  source_record_id_prefix: ons.preliminary_nbs2026.land.non_financial_corporations.cy2025
+  sheet_name: Table 3
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: non_financial_corporations
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2025
+    label: '2025'
+    ordinal: 0
+    row_number: 47
+    expected_row_header_column: A
+    expected_row_header: 2025
+    table_record_kind: total
+  measures:
+  - measure_id: land_value
+    label: Non-financial corporations land, end of 2025
+    ordinal: 0
+    column: V
+    source_column_id: land_value
+    expected_column_header_row: 8
+    expected_column_header: E43B
+    concept: ons.nbs_land_value_nfc
+    source_concept: ons.e43b
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/preliminaryuknationalbalancesheetestimates
+    concept_evidence_notes: Preliminary estimates released 10 June 2026; land AN.211, current-price GBP
+      million at end of 2025, Table 3. Publisher sector coverage retained; non-financial corporations
+      are not all corporations.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  period_coverage:
+    start_date: '2025-12-31'
+    end_date: '2025-12-31'
+    basis: calendar
+    source_period_label: End of 2025
+    notes: Preliminary current-price balance-sheet stock, not an annual flow.
+  shared_filters:
+    publication_status: preliminary
+  shared_constraints:
+  - variable: publication_status
+    operator: ==
+    value: preliminary
+    label: Publication status
+dimension_value_labels:
+  publication_status:
+    preliminary: Preliminary

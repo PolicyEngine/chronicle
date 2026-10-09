@@ -1,0 +1,19 @@
+source_id: isc
+package_id: isc-annual-census-2025
+dataset: isc_isc-annual-census-2025
+source_page: https://www.isc.co.uk/research/annual-census/isc-annual-census-2025/
+table: annual_census_2025
+files:
+  2025:
+    filename: _isc_census_2025_29may25.pdf
+    source_url: https://cms.isc.co.uk/media/0u0llqvv/_isc_census_2025_29may25.pdf
+    sha256: f5c9883ef24b47e241e25fb1ad69bdc6523ef53d092bd519433da07ae1b8f03f
+    size_bytes: 5216492
+    fetched_at: '2026-10-07T16:07:17+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/isc/isc-annual-census-2025/2025/f5c9883ef24b47e241e25fb1ad69bdc6523ef53d092bd519433da07ae1b8f03f/_isc_census_2025_29may25.pdf
+        uri: r2://ledger-raw/raw/uk/isc/isc-annual-census-2025/2025/f5c9883ef24b47e241e25fb1ad69bdc6523ef53d092bd519433da07ae1b8f03f/_isc_census_2025_29may25.pdf
+registration_kind: source_facts

@@ -7,8 +7,12 @@ import json
 import re
 import shutil
 from dataclasses import asdict, dataclass
+from datetime import date
+from io import BytesIO
 from pathlib import Path
 from typing import Any, Sequence
+
+import openpyxl
 
 from chronicle.concepts import ConceptAlignmentReport, validate_concept_alignments
 from chronicle.consumer_contract import (
@@ -25,6 +29,7 @@ from chronicle.core import (
 from chronicle.database import ChronicleDbBuildReport, build_chronicle_db
 from chronicle.epoch import canonicalize_key
 from chronicle.sources.cells import (
+    SourceArtifactMetadata,
     SourceCell,
     SourceCellReport,
     build_source_cell_key,
@@ -72,6 +77,12 @@ SOI_EITC_CHILD_COUNT_COLUMN_VALUES = {
     "N59664": 3,
     "A59664": 3,
 }
+NISRA_MYE_2025_ARTIFACT_SHA256 = (
+    "99d2f99f5278c0ca44d60bcaf5bf8047333c5bc0fa42a6f102e800ca234935b1"
+)
+NISRA_MYE_2025_OPEN_AGE_DEFINITION = (
+    "3. Within this dataset, age=90 refers to those aged 90 and over."
+)
 
 
 @dataclass(frozen=True)
@@ -304,6 +315,11 @@ def build_source_suite(
         if source_package
         else build_source_cells(source, year=year)
     )
+    if source_id == "nisra-mye-2025-lgd-single-year-age":
+        # The Flat parser stays intact. Preserve the publisher's code definition
+        # separately so accepting its open-band meaning requires actual cells.
+        content, *_ = source_package.artifact._artifact_content(year)
+        cells.extend(_nisra_open_age_definition_cells(content, cells[0].artifact))
     source_cell_report = validate_source_cells(cells)
     source_cells_path = output_path / "source_cells.jsonl"
     save_source_cells_jsonl(cells, source_cells_path)
@@ -437,6 +453,34 @@ def build_source_suite(
     _write_report(reports_path / "build_summary.json", report.to_dict())
     _write_package_sidecars(output_path, source=source_id, year=year)
     return report
+
+
+def _nisra_open_age_definition_cells(
+    content: bytes,
+    artifact: SourceArtifactMetadata,
+) -> list[SourceCell]:
+    """Read just the publisher definition without replacing the Flat parser."""
+    workbook = openpyxl.load_workbook(BytesIO(content), read_only=True, data_only=True)
+    try:
+        if "Contents" not in workbook.sheetnames:
+            return []
+        value = workbook["Contents"]["A20"].value
+    finally:
+        workbook.close()
+    if not isinstance(value, str):
+        return []
+    return [
+        SourceCell(
+            artifact=artifact,
+            sheet_name="Contents",
+            row_number=20,
+            column_number=1,
+            address="A20",
+            cell_type="text",
+            raw_value=value,
+            display_value=value,
+        )
+    ]
 
 
 def validate_source_record_specs(
@@ -604,6 +648,11 @@ def build_agent_acceptance_report(
     }
     source_column_dimensions_by_record_id = source_column_dimensions_by_record_id or {}
     source_row_dimensions_by_record_id = source_row_dimensions_by_record_id or {}
+    source_definition_cells = [
+        cell
+        for cell in cells
+        if cell.sheet_name == "Contents" and cell.address == "A20"
+    ]
     raw_r2_link_count = 0
 
     if not cells and not rows:
@@ -725,6 +774,7 @@ def build_agent_acceptance_report(
                         {},
                     )
                 ),
+                source_definition_cells=source_definition_cells,
             ):
                 row_semantic_error_count += 1
                 errors.append(issue)
@@ -983,6 +1033,7 @@ def _row_semantic_evidence_issues(
     *,
     source_column_dimensions: dict[str, Any] | None = None,
     source_row_dimensions: dict[str, Any] | None = None,
+    source_definition_cells: list[SourceCell] | None = None,
 ) -> list[AgentAcceptanceIssue]:
     issues: list[AgentAcceptanceIssue] = []
     source_column_dimensions = source_column_dimensions or {}
@@ -990,7 +1041,7 @@ def _row_semantic_evidence_issues(
     fact_key = build_fact_key(fact)
     period_values = _source_row_values(rows, "period")
     for value in period_values:
-        if not _values_equal(value, fact.period.value):
+        if not _period_matches_source_row(fact, value):
             issues.append(
                 AgentAcceptanceIssue(
                     code="fact_period_not_evidenced_by_source_row",
@@ -1039,6 +1090,16 @@ def _row_semantic_evidence_issues(
                 value,
                 matched_value,
             ):
+                if _nisra_open_age_code_evidenced(
+                    fact,
+                    rows,
+                    cells,
+                    source_definition_cells or [],
+                    source_row_dimensions,
+                    variable,
+                    value,
+                ):
+                    continue
                 issues.append(
                     AgentAcceptanceIssue(
                         code="row_filter_value_mismatch",
@@ -1097,6 +1158,92 @@ def _row_semantic_evidence_issues(
     return issues
 
 
+def _nisra_open_age_code_evidenced(
+    fact: AggregateFact,
+    rows: list[SourceRow],
+    cells: list[SourceCell],
+    definition_cells: list[SourceCell],
+    dimensions: dict[str, Any],
+    variable: str,
+    expected: Any,
+) -> bool:
+    """Interpret only the guarded age90 code in the pinned NISRA workbook."""
+    if variable != "age" or expected != "90_plus" or dimensions.get("age") != expected:
+        return False
+    if (
+        fact.source.source_name != "nisra"
+        or fact.source.source_sha256 != NISRA_MYE_2025_ARTIFACT_SHA256
+    ):
+        return False
+    constraints = build_aggregate_constraints(fact)
+    if (
+        not any(
+            constraint.variable == "age"
+            and constraint.operator == "=="
+            and constraint.value == "90_plus"
+            for constraint in constraints
+        )
+        or not any(
+            constraint.variable == "age"
+            and constraint.operator == ">="
+            and type(constraint.value) in (int, float)
+            and constraint.value == 90
+            and constraint.unit == "years"
+            for constraint in constraints
+        )
+        or any(
+            _is_age_variable(str(constraint.variable))
+            and not (
+                (
+                    constraint.operator == "=="
+                    and constraint.value == "90_plus"
+                    and constraint.unit is None
+                )
+                or (
+                    type(constraint.value) in (int, float)
+                    and constraint.unit == "years"
+                    and (
+                        (constraint.operator == ">=" and constraint.value <= 90)
+                        or (constraint.operator == ">" and constraint.value < 90)
+                    )
+                )
+            )
+            for constraint in constraints
+        )
+    ):
+        return False
+    if not rows or not all(
+        row.artifact.source_name == "nisra"
+        and row.artifact.source_file == "MYE25-SYA.xlsx"
+        and row.artifact.sha256 == NISRA_MYE_2025_ARTIFACT_SHA256
+        and row.sheet_name == "Flat"
+        and type(row.values.get("age")) in (int, float)
+        and row.values["age"] == 90
+        for row in rows
+    ):
+        return False
+    guarded_rows = {
+        cell.source_row_key
+        for cell in cells
+        if cell.artifact == rows[0].artifact
+        and cell.sheet_name == "Flat"
+        and cell.column_number == 6
+        and type(cell.raw_value) in (int, float)
+        and cell.raw_value == 90
+    }
+    if not all(build_source_row_key(row) in guarded_rows for row in rows):
+        return False
+    return any(
+        cell.artifact == rows[0].artifact
+        and cell.sheet_name == "Contents"
+        and cell.address == "A20"
+        and cell.row_number == 20
+        and cell.column_number == 1
+        and cell.raw_value == NISRA_MYE_2025_OPEN_AGE_DEFINITION
+        for cell in definition_cells
+    )
+
+
 def _wide_table_filter_evidenced_by_source_column(
     source_column_dimensions: dict[str, Any],
     variable: str,
@@ -1142,6 +1289,31 @@ def _declared_constraint_evidenced(
         dimensions,
         str(constraint.variable),
         constraint.value,
+    )
+
+
+def _period_matches_source_row(fact: AggregateFact, value: Any) -> bool:
+    """Match a publisher date only to its exact recorded snapshot coverage."""
+    if _values_equal(value, fact.period.value):
+        return True
+    if fact.period.type != "calendar_year" or not isinstance(value, str):
+        return False
+    if re.fullmatch(r"\d{2}/\d{2}/\d{4}", value):
+        day, month, year = (int(part) for part in value.split("/"))
+    elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+        year, month, day = (int(part) for part in value.split("-"))
+    else:
+        return False
+    try:
+        snapshot = date(year, month, day)
+    except ValueError:
+        return False
+    coverage = fact.period_coverage
+    return (
+        _values_equal(snapshot.year, fact.period.value)
+        and coverage is not None
+        and coverage.start_date == snapshot.isoformat()
+        and coverage.end_date == snapshot.isoformat()
     )
 
 
@@ -1232,9 +1404,29 @@ def _filter_value_matches_source_value(
 ) -> bool:
     if _values_equal(source_value, expected):
         return True
+    if _normalize_semantic_name(variable) == "sex":
+        return _canonical_sex_matches_source_value(expected, source_value)
     if _normalize_semantic_name(variable) != "incomerange":
         return False
     return _income_range_contains(expected, source_value)
+
+
+def _canonical_sex_matches_source_value(expected: Any, source_value: Any) -> bool:
+    """Match bounded publisher sex labels without altering the raw source row."""
+    if not isinstance(expected, str) or not isinstance(source_value, str):
+        return False
+    if expected not in {"all", "female", "male"}:
+        return False
+    aliases = {
+        "all": "all",
+        "persons": "all",
+        "all persons": "all",
+        "female": "female",
+        "females": "female",
+        "male": "male",
+        "males": "male",
+    }
+    return aliases.get(source_value.strip().casefold()) == expected
 
 
 def _income_range_contains(expected: Any, source_value: Any) -> bool:
@@ -1291,6 +1483,15 @@ def _constraint_evidenced_by_source_rows(
     constraint: Any,
 ) -> bool:
     """Accept source-coded bands as evidence for interpreted bounds."""
+    if (
+        _normalize_semantic_name(str(constraint.variable)) == "sex"
+        and constraint.operator == "=="
+    ):
+        values = _source_row_values(rows, constraint.variable)
+        return bool(values) and all(
+            _canonical_sex_matches_source_value(constraint.value, value)
+            for value in values
+        )
     if _is_age_variable(str(constraint.variable)):
         return _age_band_constraint_matches(
             rows,
