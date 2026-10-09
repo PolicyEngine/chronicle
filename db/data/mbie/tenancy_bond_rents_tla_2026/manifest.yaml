@@ -1,19 +1,19 @@
 source_id: mbie
 package_id: mbie-tenancy-bond-rents-tla-2026
 dataset: mbie_tenancy_bond_rents_tla_2026
-source_page: https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/detailed-monthly-tla-tenancy-v2.csv
+source_page: https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/detailed-monthly-tla-tenancy-september.csv?m=24491d4fca0935f5cd5d4da6145efa6f3a12ab03
 table: Detailed monthly TLA tenancy bond data
 license: CC BY 3.0 NZ
 files:
   2026:
-    filename: detailed-monthly-tla-tenancy-v2.csv
-    source_url: https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/detailed-monthly-tla-tenancy-v2.csv
-    sha256: 9702f7f5ac93ff65bae81dad0c9347b17f2a968a1f8ffb6c45585f3d7656d4c0
-    size_bytes: 2336335
-    fetched_at: '2026-10-07T19:24:06Z'
+    filename: detailed-monthly-tla-tenancy-september.csv
+    source_url: https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/detailed-monthly-tla-tenancy-september.csv?m=24491d4fca0935f5cd5d4da6145efa6f3a12ab03
+    sha256: a50937ef88e1834c9a804215115586dd6be63468173f9e23495d868c6ca3ee3f
+    size_bytes: 1770533
+    fetched_at: '2026-10-08T22:17:24Z'
     storage:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/nz/mbie/mbie-tenancy-bond-rents-tla-2026/2026/9702f7f5ac93ff65bae81dad0c9347b17f2a968a1f8ffb6c45585f3d7656d4c0/detailed-monthly-tla-tenancy-v2.csv
-        uri: r2://ledger-raw/raw/nz/mbie/mbie-tenancy-bond-rents-tla-2026/2026/9702f7f5ac93ff65bae81dad0c9347b17f2a968a1f8ffb6c45585f3d7656d4c0/detailed-monthly-tla-tenancy-v2.csv
+        key: raw/nz/mbie/mbie-tenancy-bond-rents-tla-2026/2026/a50937ef88e1834c9a804215115586dd6be63468173f9e23495d868c6ca3ee3f/detailed-monthly-tla-tenancy-september.csv
+        uri: r2://ledger-raw/raw/nz/mbie/mbie-tenancy-bond-rents-tla-2026/2026/a50937ef88e1834c9a804215115586dd6be63468173f9e23495d868c6ca3ee3f/detailed-monthly-tla-tenancy-september.csv

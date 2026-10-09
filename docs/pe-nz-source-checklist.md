@@ -66,7 +66,7 @@ tests, and record a verified `raw/nz/...` R2 URI.
 | `msd/benefit_fact_sheets_supplementary_june_2026` | [x] | [x] | [x] | Row 11: 36 all-ages counts across 11 W&I regions plus Other regions; combined SPB/TAS preserved. No regional AS status split or national reconstruction. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
 | `msd/nzs_vp_fact_sheet_june_2026` | [x] | [x] | [x] | Row 12: 46 June 2026 NZS/VP recipient count facts, including published additional-support and demographic cuts. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
 | `msd/annual_report_benefit_expenses_2025` | [x] | [x] | [x] | Row 13: 11 actual FY2024/25 expense facts, fiscal_year 2024, published $000 × 1000. Accommodation Assistance 2,232,026; total 38,267,536 in source $000. Payment-definition evidence absent from staged PDF. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
-| `mbie/tenancy_bond_rents_tla_2026` | [x] | [x] | [x] | 5,670 administrative facts, May 2025–April 2026; 66 TA IDs plus ALL/NA. Raw CSV published to its `raw/nz/mbie/...` key and verified by SHA-256 on 2026-10-07. Source scope and TA-register caveats below. |
+| `mbie/tenancy_bond_rents_tla_2026` | [x] | [x] | [ ] | 5,663 administrative facts, August 2025–July 2026, the latest 12 months of MBIE's September 2026 TLA file (published 9 September 2026; MBIE calls the data provisional and subject to revision); 66 TA IDs plus ALL/NA. The hub publishes the raw CSV to its `raw/nz/mbie/...` key and verifies it by SHA-256 before merge. Source scope and TA-register caveats below. |
 | `stats_nz/qes_average_earnings_march_2026` | [ ] | [ ] | [ ] | |
 
 ### WFF source semantics
@@ -90,9 +90,17 @@ downloaded again on 2026-08-29. Its SHA-256 remained
 
 ### MBIE tenancy bond source semantics
 
-The staged CSV's latest published month is April 2026; the package pins
-May 2025–April 2026 with the existing full-row parser and `selected_rows`.
-No revision-final status is supplied. Seven source measures yield 5,670 facts:
+The package pins `detailed-monthly-tla-tenancy-september.csv`, the file MBIE
+published on 9 September 2026 (data February 1993 to July 2026), fetched by
+the hub on 8 October 2026. It replaces the 23 June 2026 `-v2` file (data to
+April 2026), which MBIE no longer links. The package pins the file's latest
+12 months, August 2025–July 2026, with the existing full-row parser and
+`selected_rows`. MBIE describes the data as provisional and subject to
+revision while bond data migrate to a new system, and says to use the latest
+file; no revision-final status is supplied. The file has a UTF-8 BOM, unquoted
+headers without spaces, `d/mm/yyyy` months, newest month first and no
+thousands separators; the parser decodes it as `utf-8-sig` and keeps
+`TimeFrame` as published text. Seven source measures yield 5,663 facts:
 lodged/active/closed bond counts, median and geometric mean weekly rent, and
 upper/lower quartile rent cut-points. Geometric mean uses the approximate
 mean mapping above; quartiles carry labelled 25/75 percentile constraints and
@@ -108,11 +116,14 @@ counts are preserved without treating them as household counts.
 There are 66 positive location IDs, plus separately retained ALL and NA.
 `ta_2025` follows the checklist ruling; an authoritative register is not staged
 and the official ID/name comparison is pending. The file contains no Chatham
-Islands row. Missing Kaikoura (August/October 2025, March 2026), Westland
-(December 2025) and Waimate (January/March 2026) rows remain absent; no reason
-for their omission is supplied. The manifest's `raw/nz/mbie/...` key was built
-with Chronicle's own key builder. The hub published the CSV with `chronicle
-publish-raw` and verified the object by SHA-256 on 2026-10-07.
+Islands row. Missing Kaikoura (August/October 2025, March/June 2026),
+Westland (December 2025) and Waimate (January/March 2026) rows remain absent;
+the file gives no reason for their omission. MBIE's landing page says counts
+use fixed random rounding to base 3 and results are suppressed when there are
+fewer than 5 bonds for a selection; Chronicle keeps the published values and
+assumes no suppression reason. The manifest's `raw/nz/mbie/...` key was built
+with Chronicle's own key builder. The hub publishes the September CSV with
+`chronicle publish-raw` and verifies the object by SHA-256 before merge.
 
 ### MSD June 2026 and annual report source semantics
 

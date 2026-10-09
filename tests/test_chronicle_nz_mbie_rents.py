@@ -40,26 +40,40 @@ ALIAS = "mbie-tenancy-bond-rents-tla-2026"
 DIRECTORY = Path("mbie/tenancy_bond_rents_tla_2026")
 DATA_DIRECTORY = REPO_ROOT / "db" / "data" / DIRECTORY
 PACKAGE_PATH = REPO_ROOT / "packages" / DIRECTORY / "source_package.yaml"
-FILENAME = "detailed-monthly-tla-tenancy-v2.csv"
-SHA256 = "9702f7f5ac93ff65bae81dad0c9347b17f2a968a1f8ffb6c45585f3d7656d4c0"
+# MBIE's September 2026 TLA file (published 9 Sep 2026), as fetched by the hub.
+FILENAME = "detailed-monthly-tla-tenancy-september.csv"
+SHA256 = "a50937ef88e1834c9a804215115586dd6be63468173f9e23495d868c6ca3ee3f"
 SOURCE_URL = (
     f"https://www.tenancy.govt.nz/assets/Uploads/Tenancy/Rental-bond-data/{FILENAME}"
+    "?m=24491d4fca0935f5cd5d4da6145efa6f3a12ab03"
 )
-FETCHED_AT = "2026-10-07T19:24:06Z"
+FETCHED_AT = "2026-10-08T22:17:24Z"
 SHEET = "tenancy_bonds"
+# The file's own header text: UTF-8 BOM, unquoted, no spaces.
+HEADERS = [
+    "TimeFrame",
+    "location_id",
+    "location",
+    "LodgedBonds",
+    "ActiveBonds",
+    "ClosedBonds",
+    "MedianRent",
+    "GeometricMeanRent",
+    "UpperQuartileRent",
+    "LowerQuartileRent",
+    "LogStdDevWeeklyRent",
+]
 MEASURES = {
-    "lodged_bonds": "Lodged Bonds",
-    "active_bonds": "Active Bonds",
-    "closed_bonds": "Closed Bonds",
-    "median_rent": "Median Rent",
-    "geometric_mean_rent": "Geometric Mean Rent",
-    "upper_quartile_rent": "Upper Quartile Rent",
-    "lower_quartile_rent": "Lower Quartile Rent",
+    "lodged_bonds": "LodgedBonds",
+    "active_bonds": "ActiveBonds",
+    "closed_bonds": "ClosedBonds",
+    "median_rent": "MedianRent",
+    "geometric_mean_rent": "GeometricMeanRent",
+    "upper_quartile_rent": "UpperQuartileRent",
+    "lower_quartile_rent": "LowerQuartileRent",
 }
+# The latest 12 months the file publishes (it runs February 1993 to July 2026).
 MONTH_ROW_COUNTS = {
-    "2025-05": 68,
-    "2025-06": 68,
-    "2025-07": 68,
     "2025-08": 67,
     "2025-09": 68,
     "2025-10": 67,
@@ -69,6 +83,9 @@ MONTH_ROW_COUNTS = {
     "2026-02": 68,
     "2026-03": 66,
     "2026-04": 68,
+    "2026-05": 68,
+    "2026-06": 67,
+    "2026-07": 68,
 }
 # The publisher's selected window has 66 positive TA codes. Chatham Islands
 # (067) is absent; an official ta_2025 register was not supplied with this CSV.
@@ -147,7 +164,20 @@ MISSING_TA_MONTHS = {
     ("2026-01", 66),
     ("2026-03", 54),
     ("2026-03", 66),
+    ("2026-06", 54),
 }
+
+
+def _month_label(month):
+    """The publisher's TimeFrame text for a YYYY-MM month: d/mm/yyyy, day 1."""
+    year, month_number = month.split("-")
+    return f"1/{month_number}/{year}"
+
+
+def _label_month(label):
+    day, month_number, year = label.split("/")
+    assert day == "1", label
+    return f"{year}-{month_number}"
 
 
 @lru_cache
@@ -190,11 +220,12 @@ def _first_location_specs():
 
 @lru_cache
 def _publisher_window():
-    with (DATA_DIRECTORY / FILENAME).open(newline="") as source:
+    # An independent read with the csv module; utf-8-sig drops the BOM.
+    with (DATA_DIRECTORY / FILENAME).open(newline="", encoding="utf-8-sig") as source:
         return {
-            (row["Time Frame"][:7], int(row["Location Id"])): row
+            (_label_month(row["TimeFrame"]), int(row["location_id"])): row
             for row in csv.DictReader(source)
-            if "2025-05-01" <= row["Time Frame"] <= "2026-04-01"
+            if _label_month(row["TimeFrame"]) in MONTH_ROW_COUNTS
         }
 
 
@@ -246,9 +277,9 @@ def test_mbie_alias_and_package_validation_counts():
     assert not report.warnings
     assert report.counts == {
         "record_set_count": 12,
-        "row_count": 810,
+        "row_count": 809,
         "measure_count": 84,
-        "source_record_count": 5670,
+        "source_record_count": 5663,
         "source_region_count": 12,
     }
 
@@ -264,8 +295,25 @@ def test_mbie_artifact_preserves_receipt_bytes_and_r2_identity():
     assert artifact["filename"] == FILENAME
     assert artifact["source_url"] == SOURCE_URL
     assert artifact["sha256"] == hashlib.sha256(path.read_bytes()).hexdigest() == SHA256
-    assert artifact["size_bytes"] == path.stat().st_size == 2_336_335
+    assert artifact["size_bytes"] == path.stat().st_size == 1_770_533
     assert artifact["fetched_at"] == FETCHED_AT
+    # Publisher bytes as fetched: UTF-8 BOM, unquoted headers without spaces,
+    # CRLF on every line, d/mm/yyyy months, newest month first, no thousands
+    # separators. .gitattributes keeps git from normalising them.
+    lines = path.read_bytes().splitlines(keepends=True)
+    assert len(lines) == 26_851
+    assert all(line.endswith(b"\r\n") for line in lines)
+    assert lines[0] == b"\xef\xbb\xbf" + ",".join(HEADERS).encode() + b"\r\n"
+    assert (
+        lines[1] == b"1/07/2026,-99,ALL,15114,523449,12450,590,564,700,485,0.3833\r\n"
+    )
+    assert lines[-1] == (
+        b"1/02/1993,2,Whangarei District,117,1203,105,120,122,150,100,0.3027\r\n"
+    )
+    assert (
+        f"db/data/{DIRECTORY.as_posix()}/{FILENAME} binary"
+        in (REPO_ROOT / ".gitattributes").read_text().splitlines()
+    )
     key = build_r2_key(
         source_id="mbie",
         package_id=ALIAS,
@@ -285,15 +333,20 @@ def test_mbie_artifact_preserves_receipt_bytes_and_r2_identity():
 
 
 def test_mbie_preserves_full_rows_but_selects_only_published_window_cells():
-    # The parser preserves the trailing blank physical line as a source row.
-    assert len(_rows()) == 26_646
-    assert _rows()[-1].row_number == 26_647
-    assert all(value is None for value in _rows()[-1].values.values())
+    # Every data line is a source row; the file has no trailing blank line.
+    # The parser drops the BOM, so the first column is TimeFrame.
+    assert len(_rows()) == 26_850
+    assert [list(row.values) for row in (_rows()[0], _rows()[-1])] == [HEADERS] * 2
+    assert (_rows()[0].row_number, _rows()[0].values["TimeFrame"]) == (2, "1/07/2026")
+    assert (_rows()[-1].row_number, _rows()[-1].values["TimeFrame"]) == (
+        26_851,
+        "1/02/1993",
+    )
     assert validate_source_rows(_rows()).valid
-    assert len(_cells()) == 8921 == (810 + 1) * 11
+    assert len(_cells()) == 8910 == (809 + 1) * 11
     assert validate_source_cells(_cells()).valid
-    assert len(_publisher_window()) == 810
-    assert len(_payload()["artifact"]["selected_rows"]) == 810
+    assert len(_publisher_window()) == 809
+    assert len(_payload()["artifact"]["selected_rows"]) == 809
     assert _payload()["artifact"]["parser"] == "delimited_text_full_rows"
     assert {cell.sheet_name for cell in _cells()} == {SHEET}
     assert Counter(fact.period.value for fact in _facts()) == {
@@ -302,7 +355,7 @@ def test_mbie_preserves_full_rows_but_selects_only_published_window_cells():
 
 
 def test_mbie_every_fact_is_one_unscaled_publisher_cell_with_row_lineage():
-    assert len(_facts()) == 5670
+    assert len(_facts()) == 5663
     assert validate_facts(_facts()).valid
     assert validate_consumer_fact_contract(_facts()).valid
     assert {fact.provenance_class for fact in _facts()} == {"administrative"}
@@ -327,38 +380,52 @@ def test_mbie_every_fact_is_one_unscaled_publisher_cell_with_row_lineage():
         assert len(fact.source_row_keys) == 1
         assert fact.source_row_keys == record.source_row_keys == (cell.source_row_key,)
         source_row = rows_by_key[cell.source_row_key]
-        assert source_row.values["Time Frame"] == f"{fact.period.value}-01"
-        assert source_row.values["Location Id"] == fact.filters["Location Id"]
+        assert source_row.values["TimeFrame"] == _month_label(fact.period.value)
+        assert source_row.values["TimeFrame"] == fact.filters["Time Frame"]
+        assert source_row.values["location_id"] == fact.filters["Location Id"]
         assert source_row.values[MEASURES[fact.layout.measure_id]] == fact.value
 
 
 @pytest.mark.parametrize(
     ("month", "location", "name", "values"),
     [
-        ("2026-04", -99, "ALL", (12630, 513666, 10302, 600, 573, 700, 495)),
-        ("2026-04", -1, "NA", (1488, 86229, 1569, 595, 552, 700, 470)),
-        ("2026-04", 1, "Far North District", (84, 3078, 66, 530, 528, 645, 450)),
-        ("2026-04", 47, "Wellington City", (690, 28326, 708, 590, 532, 733, 410)),
-        ("2026-04", 54, "Kaikoura District", (9, 219, 0, 525, 476, 590, 433)),
+        ("2026-07", -99, "ALL", (15114, 523449, 12450, 590, 564, 700, 485)),
+        ("2026-07", -1, "NA", (1776, 86619, 1869, 575, 540, 700, 449)),
+        ("2026-07", 1, "Far North District", (90, 3168, 102, 545, 499, 650, 450)),
+        ("2026-07", 47, "Wellington City", (807, 28818, 651, 560, 530, 695, 440)),
+        ("2026-07", 54, "Kaikoura District", (6, 219, 3, 500, 432, 500, 330)),
         (
-            "2026-04",
+            "2026-07",
             70,
             "Queenstown-Lakes District",
-            (210, 5016, 150, 795, 726, 1000, 550),
+            (201, 5334, 147, 800, 758, 1000, 600),
         ),
-        ("2026-04", 76, "Auckland", (4281, 166194, 3363, 650, 634, 770, 540)),
-        ("2025-05", -99, "ALL", (14421, 481623, 13026, 595, 560, 700, 490)),
-        ("2025-05", 76, "Auckland", (5313, 151845, 4749, 650, 623, 770, 545)),
+        ("2026-07", 76, "Auckland", (5592, 170511, 4254, 640, 620, 750, 520)),
+        ("2025-08", -99, "ALL", (14718, 497025, 11595, 590, 560, 695, 485)),
+        ("2025-08", 76, "Auckland", (5829, 158133, 4545, 650, 623, 750, 550)),
     ],
 )
 def test_mbie_exact_publisher_cells(month, location, name, values):
     row = _publisher_window()[month, location]
-    assert row["Location"] == name
+    assert row["location"] == name
     for (measure_id, column), expected in zip(MEASURES.items(), values):
         fact = _fact(month, location, measure_id)
-        assert int(row[column].replace(",", "")) == fact.value == expected
+        assert int(row[column]) == fact.value == expected
         assert fact.layout.groupby_value_label == name
         assert fact.filters["Location Id"] == location
+        assert fact.filters["Time Frame"] == row["TimeFrame"] == _month_label(month)
+
+
+def test_mbie_window_is_the_files_latest_twelve_months():
+    published = sorted({_label_month(row.values["TimeFrame"]) for row in _rows()})
+    assert (published[0], published[-1], len(published)) == ("1993-02", "2026-07", 402)
+    assert list(MONTH_ROW_COUNTS) == published[-12:]
+    assert {
+        month: len(
+            [row for row in _rows() if row.values["TimeFrame"] == _month_label(month)]
+        )
+        for month in MONTH_ROW_COUNTS
+    } == MONTH_ROW_COUNTS
 
 
 def test_mbie_source_months_are_fixed_even_when_build_year_is_2023():
@@ -373,16 +440,14 @@ def test_mbie_source_months_are_fixed_even_when_build_year_is_2023():
         year, month = map(int, fact.period.value.split("-"))
         coverage = fact.period_coverage
         assert coverage.basis == "calendar"
-        assert (
-            coverage.start_date
-            == coverage.source_period_label
-            == f"{fact.period.value}-01"
-        )
+        assert coverage.start_date == f"{fact.period.value}-01"
+        assert coverage.source_period_label == _month_label(fact.period.value)
         assert (
             coverage.end_date
             == f"{fact.period.value}-{calendar.monthrange(year, month)[1]}"
         )
         assert "no claim of revision-final status" in coverage.notes
+        assert "provisional and subject to revision" in coverage.notes
 
 
 def test_mbie_ta_geographies_and_missing_months_remain_publisher_scoped():
@@ -426,7 +491,7 @@ def test_mbie_quartiles_remain_rent_cutpoints():
         ("upper_quartile_rent", 75),
     ):
         facts = [fact for fact in _facts() if fact.layout.measure_id == measure]
-        assert len(facts) == 810
+        assert len(facts) == 809
         for fact in facts:
             assert fact.aggregation.method == "quantile"
             assert fact.aggregation.denominator is None
@@ -451,7 +516,7 @@ def test_mbie_weekly_rent_values_are_not_annualised():
             assert fact.value == int(
                 _publisher_window()[fact.period.value, fact.filters["Location Id"]][
                     MEASURES[fact.layout.measure_id]
-                ].replace(",", "")
+                ]
             )
 
 
@@ -459,7 +524,7 @@ def test_mbie_geometric_mean_has_explicit_approximate_mapping():
     facts = [
         fact for fact in _facts() if fact.layout.measure_id == "geometric_mean_rent"
     ]
-    assert len(facts) == 810
+    assert len(facts) == 809
     for fact in facts:
         assert fact.aggregation.method == "mean"
         assert fact.measure.concept_relation == "approximate"
@@ -471,7 +536,7 @@ def test_mbie_geometric_mean_has_explicit_approximate_mapping():
 
 def test_mbie_labels_every_dimension_and_value():
     assert _dimension_label_reports(ALIAS, consumer_fact_rows(_facts())) == ([], [])
-    fact = _fact("2026-04", 76, "lower_quartile_rent")
+    fact = _fact("2026-07", 76, "lower_quartile_rent")
     assert fact.layout.groupby_dimension == "Location Id"
     assert fact.dimension_labels == {
         "Location Id": "Published location",
@@ -479,7 +544,7 @@ def test_mbie_labels_every_dimension_and_value():
         "rent_percentile": "Rent cut-point percentile",
     }
     assert fact.dimension_value_labels["Location Id"] == {"76": "Auckland"}
-    assert fact.dimension_value_labels["Time Frame"] == {"2026-04-01": "2026-04-01"}
+    assert fact.dimension_value_labels["Time Frame"] == {"1/07/2026": "July 2026"}
     assert fact.dimension_value_labels["rent_percentile"] == {
         "25": "Lower quartile (25th percentile)"
     }
@@ -493,12 +558,19 @@ def test_mbie_bond_records_and_rent_population_qualifications_are_explicit():
     count_facts = [
         fact for fact in _facts() if fact.layout.measure_id.endswith("bonds")
     ]
-    assert len(count_facts) == 2430
+    assert len(count_facts) == 2427
     assert {fact.measure.unit for fact in count_facts} == {"count"}
     assert {fact.aggregation.method for fact in count_facts} == {"sum"}
-    headers = set(_publisher_window()["2026-04", -99])
-    assert "Log Std Dev Weekly Rent" in headers
-    assert not {"Bedrooms", "Dwelling Type", "Mean Rent"} & headers
+    headers = list(_publisher_window()["2026-07", -99])
+    assert headers == HEADERS
+    assert "LogStdDevWeeklyRent" in headers
+    assert not {
+        "Bedrooms",
+        "Dwelling Type",
+        "DwellingType",
+        "Mean Rent",
+        "MeanRent",
+    } & set(headers)
     for fact in _facts():
         notes = " ".join(fact.measure.concept_evidence_notes.lower().split())
         assert "newly lodged bonds or active stock" in notes
@@ -511,14 +583,14 @@ def test_mbie_bond_records_and_rent_population_qualifications_are_explicit():
 
 def test_mbie_single_source_bundle_coverage_has_no_duplicate_keys():
     coverage = build_bundle_coverage(consumer_fact_rows(_facts()))
-    assert coverage["fact_count"] == 5670
-    assert coverage["counts"]["by_source"] == {"mbie": 5670}
+    assert coverage["fact_count"] == 5663
+    assert coverage["counts"]["by_source"] == {"mbie": 5663}
     assert coverage["counts"]["by_period"] == {
         f"month:{month}": count * 7 for month, count in MONTH_ROW_COUNTS.items()
     }
-    assert coverage["counts"]["by_entity"] == {"dwelling": 5670}
+    assert coverage["counts"]["by_entity"] == {"dwelling": 5663}
     assert coverage["counts"]["by_source_table"] == {
-        "mbie:Detailed monthly TLA tenancy bond data": 5670
+        "mbie:Detailed monthly TLA tenancy bond data": 5663
     }
     geography_counts = {
         f"local_authority:nz-ta-{location:03}": 84 for location in PUBLISHED_TA_IDS
@@ -527,7 +599,7 @@ def test_mbie_single_source_bundle_coverage_has_no_duplicate_keys():
         {
             "country:NZ": 84,
             "statistical_scope:nz-mbie-location-na": 84,
-            "local_authority:nz-ta-054": 63,
+            "local_authority:nz-ta-054": 56,
             "local_authority:nz-ta-057": 77,
             "local_authority:nz-ta-066": 70,
         }
@@ -546,11 +618,11 @@ def test_mbie_build_suite_passes_all_source_acceptance_gates(tmp_path):
     assert report.agent_acceptance.valid
     assert all(report.agent_acceptance.checks.values())
     assert not report.agent_acceptance.errors
-    assert report.source_rows.row_count == 26_646
-    assert report.source_cells.cell_count == 8921
-    assert report.source_records.resolved_count == 5670
+    assert report.source_rows.row_count == 26_850
+    assert report.source_cells.cell_count == 8910
+    assert report.source_records.resolved_count == 5663
     assert report.source_records.lineage_coverage == 1
-    assert report.facts.fact_count == report.consumer_facts.fact_count == 5670
+    assert report.facts.fact_count == report.consumer_facts.fact_count == 5663
     assert report.agent_acceptance.counts["raw_artifact_count"] == 1
     assert report.agent_acceptance.counts["raw_r2_link_count"] == 1
 
@@ -585,6 +657,89 @@ def test_mbie_numeric_cell_guard_rejects_text():
     ]
     with pytest.raises(ValueError, match="expected cell type 'number'"):
         resolve_source_record(changed_cells, _first_location_specs()[0])
+
+
+@pytest.mark.parametrize(
+    ("address", "superseded_value", "message"),
+    [
+        # The superseded v2 file wrote ISO months and spaced headers.
+        ("A2", "2025-08-01", "published month"),
+        *[
+            (f"{column}1", header, "column header")
+            for column, header in zip(
+                "DEFGHIJ",
+                (
+                    "Lodged Bonds",
+                    "Active Bonds",
+                    "Closed Bonds",
+                    "Median Rent",
+                    "Geometric Mean Rent",
+                    "Upper Quartile Rent",
+                    "Lower Quartile Rent",
+                ),
+                strict=True,
+            )
+        ],
+    ],
+)
+def test_mbie_source_guards_reject_the_superseded_v2_layout(
+    address, superseded_value, message
+):
+    changed_cells = [
+        replace(cell, raw_value=superseded_value) if cell.address == address else cell
+        for cell in _cells()
+    ]
+    with pytest.raises(ValueError, match=message):
+        for spec in _first_location_specs():
+            resolve_source_record(changed_cells, spec)
+
+
+def _rename_column(row, old, new):
+    return replace(
+        row,
+        values={
+            (new if column == old else column): v for column, v in row.values.items()
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        # A BOM left on the first header, or v2's spaced header names.
+        lambda row: _rename_column(row, "TimeFrame", "\ufeffTimeFrame"),
+        lambda row: _rename_column(row, "TimeFrame", "Time Frame"),
+        lambda row: _rename_column(row, "location_id", "Location Id"),
+        # v2's ISO month text in the newest ALL row.
+        lambda row: (
+            replace(row, values={**row.values, "TimeFrame": "2026-07-01"})
+            if row.row_number == 2
+            else row
+        ),
+    ],
+    ids=["bom-header", "v2-month-header", "v2-location-header", "iso-month-value"],
+)
+def test_mbie_row_selection_rejects_header_and_month_format_drift(mutate):
+    changed_rows = [mutate(row) for row in _rows()]
+    with pytest.raises(ValueError, match="must match exactly one source row"):
+        _package().build_source_cells(2026, source_rows=changed_rows)
+
+
+def test_mbie_package_records_the_provisional_september_release():
+    header = [
+        line for line in PACKAGE_PATH.read_text().splitlines() if line.startswith("#")
+    ]
+    text = " ".join(" ".join(line.lstrip("# ") for line in header).split())
+    assert FILENAME in text
+    assert "published on 9 Sep 2026" in text
+    assert "provisional and subject to revision" in text
+    readme = " ".join((PACKAGE_PATH.parent / "README.md").read_text().split())
+    assert FILENAME in readme
+    assert "9 September 2026" in readme
+    assert "provisional" in readme
+    assert "fixed random rounding to base 3" in readme
+    assert "fewer than 5 bonds" in readme
+    assert _payload()["artifact"]["vintage"] == "september_2026_release"
 
 
 @pytest.mark.parametrize("measure_id", ["lower_quartile_rent", "upper_quartile_rent"])
