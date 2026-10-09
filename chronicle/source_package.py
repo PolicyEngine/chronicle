@@ -253,6 +253,7 @@ SOURCE_PACKAGE_ALIASES = {
     "ird-working-for-families-statistics-sept-2025": Path(
         "ird/working_for_families_statistics_sept_2025"
     ),
+    "mbie-tenancy-bond-rents-tla-2026": Path("mbie/tenancy_bond_rents_tla_2026"),
     "msd-benefit-fact-sheets-national-june-2026": Path(
         "msd/benefit_fact_sheets_national_june_2026"
     ),
