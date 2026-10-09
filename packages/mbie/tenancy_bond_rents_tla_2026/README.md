@@ -5,10 +5,10 @@ Licence: CC BY 3.0 NZ, as supplied in the hub's source brief; the CSV itself
 does not contain licence text. Attribution accompanies the package.
 
 This package pins `detailed-monthly-tla-tenancy-september.csv`, the file MBIE
-published on 10 September 2026 (server Last-Modified 9 September 2026
-23:18:33 GMT, which is 10 September in New Zealand; the landing page says the
-data were last updated 10 September 2026). The hub fetched it on 8 October 2026. It covers February
-1993 to July 2026 and replaces the 23 June 2026 file
+published on 10 September 2026 (server Last-Modified 9 September 2026 23:18:33
+GMT, which is 10 September in New Zealand; the landing page says the data were
+last updated 10 September 2026). The hub fetched it on 8 October 2026. It
+covers February 1993 to July 2026 and replaces the 23 June 2026 file
 `detailed-monthly-tla-tenancy-v2.csv` (data to April 2026) that this package
 first pinned; the landing page's TLA link now points only to the September
 file.
@@ -63,15 +63,16 @@ standard deviation.
 The CSV supplies **no column definitions establishing whether rents describe
 newly lodged bonds or active stock**. Both bond populations have separate count
 columns; those headers do not identify the population behind the rent columns.
-The landing page says the data come from a tenancy bond database that
-"records all new rental bonds that are lodged" each month, listed by tenancy
-start date, but it does not define the rent columns either. Every measure's
-evidence notes say this, and Chronicle asserts no rent population. The file also supplies no bedrooms, dwelling types, or arithmetic mean.
-Those requested dimensions and measure cannot be emitted from these bytes.
-The hub would need to stage the publisher's definitions and the relevant
-disaggregated artifact before those items can be added. The source entry point
-for those follow-ups is
-[Tenancy Services rental bond data](https://www.tenancy.govt.nz/about-tenancy-services/data-and-statistics/rental-bond-data/).
+The landing page says the data come from a tenancy bond database that "records
+all new rental bonds that are lodged" each month, listed by tenancy start date,
+but it does not define the rent columns either. Every measure's evidence notes
+say this, and Chronicle asserts no rent population. The file also supplies no
+bedrooms, dwelling types, or arithmetic mean. Those requested dimensions and
+measure cannot be emitted from these bytes. The hub would need to stage the
+publisher's definitions and the relevant disaggregated artifact before those
+items can be added. The source entry point for those follow-ups is [Tenancy
+Services rental bond
+data](https://www.tenancy.govt.nz/about-tenancy-services/data-and-statistics/rental-bond-data/).
 
 Method notes from that landing page: MBIE applies fixed random rounding to
 base 3 and suppresses results when there are fewer than 5 bonds for any given
