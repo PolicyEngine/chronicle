@@ -247,6 +247,9 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-tax-free-childcare-march-2026": Path("hmrc/tax_free_childcare_march_2026"),
     "hmrc-child-benefit-august-2025": Path("hmrc/child_benefit_august_2025"),
     "ici-fact-book-table-30": Path("ici/fact_book_table_30"),
+    "ird-taxable-income-distribution-2025": Path(
+        "ird/taxable_income_distribution_2025"
+    ),
     "ird-working-for-families-statistics-sept-2025": Path(
         "ird/working_for_families_statistics_sept_2025"
     ),

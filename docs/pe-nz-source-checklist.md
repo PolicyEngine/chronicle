@@ -58,8 +58,8 @@ tests, and record a verified `raw/nz/...` R2 URI.
 | `stats_nz/census_2023_households_by_region` | [ ] | [ ] | [ ] | |
 | `stats_nz/census_2023_family_type` | [ ] | [ ] | [ ] | |
 | `stats_nz/census_2023_ethnicity_age_region` | [ ] | [ ] | [ ] | |
-| `ird/taxable_income_distribution_2025` | [ ] | [ ] | [ ] | |
-| `ird/wage_salary_distribution_2025` | [ ] | [ ] | [ ] | |
+| `ird/taxable_income_distribution_2025` | [x] | [x] | [x] | I1, TY2024 (September 2025 release): 3,522 administrative facts; full national income bands, age marginals, and Tab 4 age × band counts. Raw workbook published to its `raw/nz/ird/...` key and verified by SHA-256 on 2026-10-07. |
+| `ird/wage_salary_distribution_2025` | [ ] | [ ] | [ ] | I2 deferred: revised wage/salary workbook is not staged; its direct publisher file URL remains unresolved. |
 | `ird/working_for_families_statistics_sept_2025` | [x] | [x] | [x] | TY2024: 330 administrative facts; count/entitlement, children, family size, and full published income table. |
 | `ird/student_loan_statistics_march_2026` | [ ] | [ ] | [ ] | |
 | `msd/benefit_fact_sheets_national_march_2026` | [ ] | [ ] | [ ] | |
@@ -87,6 +87,59 @@ fact. Independently published family and credit totals are not reconciled here.
 The workbook was uploaded to the manifest's immutable `raw/nz/ird/...` key and
 downloaded again on 2026-08-29. Its SHA-256 remained
 `95ae66f4d44f3f47ea3daa006328b22f061a163cf7e31b487342cde649390833`.
+
+### Taxable-income source semantics (I1)
+
+The staged `taxable-income-distribution-of-individuals-2025.xlsx` is the
+September 2025 release, extracted from IRD systems on 12 September 2025. Its
+latest published income tax year is **2024**, evidenced by `Income tables
+2001-24!BU4`, `BU285`, and the title of `Age by income band distribution!A1`.
+Every emitted fact refers to 1 April 2023 to 31 March 2024. The Explanatory
+notes, stored as text in `xl/drawings/drawing1.xml` inside the unchanged source,
+describe a March-year basis and population data from 2016 onward. Historical
+cells are preserved but this package emits only TY2024 observations.
+
+The individual universe is IRD's administrative coverage, including qualifying
+children and part-year records, passive-income-only individuals (added with
+automatic assessments from 2019), and taxable welfare/NZ Super/earnings-related
+ACC income. It excludes nonresident-return filers, individuals with no taxable
+income who did not file, and
+people whose only income is correctly source-taxed PIE income (`Explanatory
+notes!A40:C49`). Taxable income is assessable income less allowable deductions
+and claimed losses, excluding exempt and PIE income (drawing 1, shape 2;
+`Explanatory notes!A58:C62`). Tax on taxable income applies the publisher's
+personal tax scale with IETC and specified IR3/PTS rebates, excluding WFF,
+overseas taxes paid that may reduce New Zealand tax payable, donation tax credits,
+and other listed rebates (drawing 1, shape 3).
+This is the publisher's defined tax calculation, rather than a cash-collection
+measure. These source qualifications accompany the facts as concept evidence.
+
+National bands retain all 237 published rows, including `nil`, the
+`$0.01    -   $100` band and the negative nil-band tax value at `BW8`.
+The national top band is `Over $1,000,000`; Tab 4's top band is
+`Over $180,000`. Band spelling and spacing remain publisher labels, including
+irregular lower endpoints. No interval endpoints, means, or aligned values are
+constructed. The notes place loss-making individuals in the nil band; the graph
+notes in `xl/drawings/drawing2.xml` say low-income groups omitted from graphs
+remain in the tables.
+
+Tab 4 preserves all 15 age columns, including `Unknown`, and each column's
+separately published `All` row. The income sheet also publishes age marginals
+and their own total. Those cells remain independent facts: for example,
+the income sheet's unknown-age count (`BU303`, 4,990) differs from Tab 4's
+unknown-age total (`B189`, 5,050). Totals read the publisher's cached formula
+values; Chronicle does not calculate sums of bands or reconcile the different
+tables. The package parses the complete used ranges of both data worksheets,
+including unselected historical, decile and percentile cells, and preserves
+the complete immutable workbook bytes.
+
+The manifest pins receipt SHA-256
+`fc7bf7ecdb27a08219cac1ad0cb06cc6bc8de0aae03d605c6ef8d42a15d4b592`,
+294,932 bytes, fetched `2026-10-07T19:23:14Z`. Its `raw/nz/ird/...` location
+was constructed with Chronicle's key builder. The hub published the workbook
+with `chronicle publish-raw` and verified the object by streaming it back
+(SHA-256 matches) on 2026-10-07. I2 is not implemented: no revised wage/salary workbook was
+staged and the hub must resolve and stage its exact publisher file URL first.
 
 ## Wave-2 fiscal comparators (#177 subset)
 
