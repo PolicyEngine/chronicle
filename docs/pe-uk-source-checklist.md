@@ -18,6 +18,13 @@ vehicle type and fuel at country/region grain for 2005–2024. See
 [UK consumption-tax source facts](uk-consumption-tax-facts.md) for selectors,
 units, unavailable markers and methodology.
 
+Issue 313's current-edition export grows the default bundle from 426,058 to
+1,000,748 facts (+574,690; +134.9%; 2.35 times the previous volume) and from 278
+to 318 packages, including the New Zealand and consumption sources already on main. The
+[UK source catalogue](../packages/uk_local_2025_sources.md) records the exact
+replacement scopes and retained historical archives; consumers should assess
+ingestion costs before updating a Microcosm pin.
+
 Status vocabulary:
 
 - **ported** — the publisher's facts live in the linked Chronicle PR.
