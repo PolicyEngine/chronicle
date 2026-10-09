@@ -62,10 +62,10 @@ tests, and record a verified `raw/nz/...` R2 URI.
 | `ird/wage_salary_distribution_2025` | [ ] | [ ] | [ ] | I2 deferred: revised wage/salary workbook is not staged; its direct publisher file URL remains unresolved. |
 | `ird/working_for_families_statistics_sept_2025` | [x] | [x] | [x] | TY2024: 330 administrative facts; count/entitlement, children, family size, and full published income table. |
 | `ird/student_loan_statistics_march_2026` | [ ] | [ ] | [ ] | |
-| `msd/benefit_fact_sheets_national_march_2026` | [ ] | [ ] | [ ] | |
-| `msd/benefit_fact_sheets_supplementary_march_2026` | [ ] | [ ] | [ ] | |
-| `msd/nzs_vp_fact_sheet_march_2026` | [ ] | [ ] | [ ] | |
-| `msd/annual_report_benefit_expenses_2025` | [ ] | [ ] | [ ] | |
+| `msd/benefit_fact_sheets_national_june_2026` | [x] | [x] | [x] | Row 10: June 2026 supersedes March; 46 administrative count facts, benefit × age, published benefit-status cuts, and separate national supplementary totals. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
+| `msd/benefit_fact_sheets_supplementary_june_2026` | [x] | [x] | [x] | Row 11: 36 all-ages counts across 11 W&I regions plus Other regions; combined SPB/TAS preserved. No regional AS status split or national reconstruction. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
+| `msd/nzs_vp_fact_sheet_june_2026` | [x] | [x] | [x] | Row 12: 46 June 2026 NZS/VP recipient count facts, including published additional-support and demographic cuts. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
+| `msd/annual_report_benefit_expenses_2025` | [x] | [x] | [x] | Row 13: 11 actual FY2024/25 expense facts, fiscal_year 2024, published $000 × 1000. Accommodation Assistance 2,232,026; total 38,267,536 in source $000. Payment-definition evidence absent from staged PDF. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
 | `mbie/tenancy_bond_rents_tla_2026` | [ ] | [ ] | [ ] | |
 | `stats_nz/qes_average_earnings_march_2026` | [ ] | [ ] | [ ] | |
 
@@ -87,6 +87,36 @@ fact. Independently published family and credit totals are not reconciled here.
 The workbook was uploaded to the manifest's immutable `raw/nz/ird/...` key and
 downloaded again on 2026-08-29. Its SHA-256 remained
 `95ae66f4d44f3f47ea3daa006328b22f061a163cf7e31b487342cde649390833`.
+
+### MSD June 2026 and annual report source semantics
+
+The quarter-end packages pin `month:2026-06`, retain the publisher's `Jun-26`
+label, and record 30 June 2026 as the reference date. They emit published
+recipient counts rather than quarter averages. All workbook worksheets remain
+source cells, including unused historic quarters, percentages and notes.
+Counts are independently randomly rounded to base 3; no totals are reconciled.
+
+The regional workbook states verbatim: “• Supplementary and hardship assistance
+data are all ages.” and “• People may be receiving more than one type of
+Supplementary Assistance.” It has no national row and no AS cut by main-benefit,
+NZS or non-beneficiary status. Its “Special Benefit (SPB) or Temporary Additional
+Support (TAS)” row is a combined category, not TAS alone. The national workbook
+separately publishes AS recipients as 363,309. The NZS/VP package's AS counts
+describe only recipients of those pensions. See the regional package's
+[cell evidence](../packages/msd/benefit_fact_sheets_supplementary_june_2026/evidence.md).
+
+The annual report's actual column `2025` describes FY2024/25, 1 July 2024 to
+30 June 2025. Chronicle stores the opening year as `fiscal_year:2024`, with the
+publisher's column label preserved. Accommodation Assistance is reported as
+2,232,026 in $000; it is never relabelled Accommodation Supplement. The staged
+210-page PDF does not define its included payments and lists this appropriation
+as exempt from reporting. The requested definition remains an open evidence
+item; the candidate missing source is the Treasury Vote Social Development
+2024/25 Estimates PDF, whose URL is recorded as unverified in the annual package's
+[evidence note](../packages/msd/annual_report_benefit_expenses_2025/evidence.md).
+All four canonical `raw/nz/msd/...` keys are derived with Chronicle's key builder
+from the hub's receipts. The hub published all four objects with `chronicle publish-raw`
+and verified each by streaming it back (SHA-256 matches the manifest) on 2026-10-07.
 
 ### Taxable-income source semantics (I1)
 

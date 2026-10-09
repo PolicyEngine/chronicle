@@ -1,0 +1,1040 @@
+# The entire six-sheet publisher workbook is preserved as source cells.
+# O4 emits only the June 2026 summary recipient counts for NZS and VP,
+# including published additional-support, gender, age and ethnicity cuts.
+# Percentages, earlier quarters, TA counts and the overseas-pension table remain
+# source cells outside this package scope. No averages or national sums are made.
+# Ethnicity is total-response and is not a partition; pension counts include
+# non-qualified partners below age 65 as the publisher explicitly describes.
+schema_version: ledger.source_package.v1
+package_id: msd-nzs-vp-fact-sheet-june-2026
+label: MSD New Zealand Superannuation and Veteran's Pension recipients, June 2026 quarter
+dimension_labels:
+  msd_nzs_vp.benefit_type: Pension type
+  msd_nzs_vp.recipient_total: Recipient total
+  msd_nzs_vp.additional_support: Receipt of additional support
+  msd_nzs_vp.gender: Gender
+  msd_nzs_vp.age_group: Published age group
+  msd_nzs_vp.ethnic_group: Total-response ethnic group
+  msd_nzs_vp.ethnicity_reporting_status: Ethnicity reporting status
+dimension_value_labels:
+  msd_nzs_vp.benefit_type:
+    nzs: New Zealand Superannuation
+    vp: Veteran's Pension
+  msd_nzs_vp.recipient_total:
+    all: Total recipients
+  msd_nzs_vp.additional_support:
+    as: Accommodation Supplement
+    da: Disability Allowance
+    tas_special_benefit: Temporary Additional Support/Special Benefit
+  msd_nzs_vp.gender:
+    male: Male
+    female: Female
+    gender_diverse: Gender Diverse
+  msd_nzs_vp.age_group:
+    under_60: Under 60 years
+    '60_64': 60-64 years
+    '65_69': 65-69 years
+    '70_74': 70-74 years
+    '75_79': 75-79 years
+    '80_84': 80-84 years
+    '85_89': 85-89 years
+    90_plus: 90 years and over
+  msd_nzs_vp.ethnic_group:
+    european: European
+    maori: Māori
+    pacific_peoples: Pacific Peoples
+    asian: Asian
+    melaa: Middle Eastern/Latin American/African
+    other_ethnicity: Other ethnicity
+  msd_nzs_vp.ethnicity_reporting_status:
+    recorded: Total recipients with recorded ethnicity
+    not_specified: Ethnicity not specified
+artifact:
+  source_name: msd
+  source_table: New Zealand Superannuation and Veteran's Pension - June 2026
+  resource_package: db
+  resource_directory: data/msd/nzs_vp_fact_sheet_june_2026
+  manifest: manifest.yaml
+  vintage: june_2026_quarter
+  extracted_at: '2026-10-07'
+  extraction_method: xlsx used-range cell parse of every publisher worksheet; June 2026 summary Number columns
+  parser: xlsx_used_range
+  artifact_year: 2026
+record_sets:
+- record_set_id: msd_nzs_vp.june2026.recipient_total
+  provenance_class: administrative
+  record_set_spec_id: msd_nzs_vp.recipient_total.v1
+  source_record_id_prefix: msd_nzs_vp.june2026.recipient_total
+  sheet_name: Summary - latest qtr
+  period_type: month
+  period: 2026-06
+  period_coverage: &id001
+    basis: calendar
+    source_period_label: Jun-26
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    notes: Administrative recipient counts at the end of the June 2026 quarter, not a quarterly average or flow.
+      Counts are independently randomly rounded to base 3; published totals are not reconciled to the detail rows.
+      The 30 June 2026 date is inferred from the quarter label Jun-26 and the workbook's latest-quarter titles; no cell states the day.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: pension_recipient
+  domain: pension_recipients
+  groupby_dimension: msd_nzs_vp.recipient_total
+  rows:
+  - value_id: all
+    label: Total recipients
+    ordinal: 0
+    row_number: 29
+    expected_row_header_column: B
+    expected_row_header: Total recipients
+    table_record_kind: total
+    guard_cells:
+    - &id002
+      column: B
+      row: 2
+      expected_value: New Zealand Superannuation and Veteran's Pension recipients by pension and recipient characteristics
+        - latest quarter
+      label: pension recipient table title
+    - &id003
+      column: D
+      row: 4
+      expected_value: Jun-26
+      label: quarter-end label
+    - &id004
+      column: D
+      row: 5
+      expected_value: New Zealand Superannuation
+      label: New Zealand Superannuation column label
+    - &id005
+      column: F
+      row: 5
+      expected_value: Veteran's Pension
+      label: Veteran's Pension column label
+    filters:
+      msd_nzs_vp.recipient_total: all
+    constraints:
+    - variable: msd_nzs_vp.recipient_total
+      operator: ==
+      value: all
+      label: Total recipients
+  measures:
+  - measure_id: nzs_recipients
+    label: New Zealand Superannuation recipients
+    ordinal: 0
+    column: D
+    source_column_id: nzs_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, New Zealand Superannuation Number column: published June 2026
+      recipient counts. All information in this data file has been randomly rounded to base 3, data found here is
+      rounded independently from other products produced by MSD.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: nzs
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: nzs
+      label: New Zealand Superannuation
+  - measure_id: vp_recipients
+    label: Veteran's Pension recipients
+    ordinal: 1
+    column: F
+    source_column_id: vp_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, Veteran''s Pension Number column: published June 2026 recipient
+      counts. All information in this data file has been randomly rounded to base 3, data found here is rounded
+      independently from other products produced by MSD.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: vp
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: vp
+      label: Veteran's Pension
+- record_set_id: msd_nzs_vp.june2026.additional_support
+  provenance_class: administrative
+  record_set_spec_id: msd_nzs_vp.additional_support.v1
+  source_record_id_prefix: msd_nzs_vp.june2026.additional_support
+  sheet_name: Summary - latest qtr
+  period_type: month
+  period: 2026-06
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: pension_recipient
+  domain: pension_recipients
+  groupby_dimension: msd_nzs_vp.additional_support
+  rows:
+  - value_id: as
+    label: Accommodation Supplement
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: C
+    expected_row_header: Accommodation Supplement
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 7
+      expected_value: Receipt of additional support
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.additional_support: as
+    constraints:
+    - variable: msd_nzs_vp.additional_support
+      operator: ==
+      value: as
+      label: Accommodation Supplement
+  - value_id: da
+    label: Disability Allowance
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: C
+    expected_row_header: Disability Allowance
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 7
+      expected_value: Receipt of additional support
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.additional_support: da
+    constraints:
+    - variable: msd_nzs_vp.additional_support
+      operator: ==
+      value: da
+      label: Disability Allowance
+  - value_id: tas_special_benefit
+    label: Temporary Additional Support/Special Benefit
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: C
+    expected_row_header: Temporary Additional Support/Special Benefit
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 7
+      expected_value: Receipt of additional support
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.additional_support: tas_special_benefit
+    constraints:
+    - variable: msd_nzs_vp.additional_support
+      operator: ==
+      value: tas_special_benefit
+      label: Temporary Additional Support/Special Benefit
+  measures:
+  - measure_id: nzs_recipients
+    label: New Zealand Superannuation recipients
+    ordinal: 0
+    column: D
+    source_column_id: nzs_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, New Zealand Superannuation Number column: published June 2026
+      recipient counts. All information in this data file has been randomly rounded to base 3, data found here is
+      rounded independently from other products produced by MSD. The Temporary Additional Support/Special Benefit
+      category is preserved as the combined publisher label. These are national counts of additional-support recipients
+      within the selected NZS or VP recipient universe; they do not describe all Accommodation Supplement recipients
+      or a regional benefit-status split.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: nzs
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: nzs
+      label: New Zealand Superannuation
+  - measure_id: vp_recipients
+    label: Veteran's Pension recipients
+    ordinal: 1
+    column: F
+    source_column_id: vp_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, Veteran''s Pension Number column: published June 2026 recipient
+      counts. All information in this data file has been randomly rounded to base 3, data found here is rounded
+      independently from other products produced by MSD. The Temporary Additional Support/Special Benefit category
+      is preserved as the combined publisher label. These are national counts of additional-support recipients within
+      the selected NZS or VP recipient universe; they do not describe all Accommodation Supplement recipients or
+      a regional benefit-status split.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: vp
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: vp
+      label: Veteran's Pension
+- record_set_id: msd_nzs_vp.june2026.gender
+  provenance_class: administrative
+  record_set_spec_id: msd_nzs_vp.gender.v1
+  source_record_id_prefix: msd_nzs_vp.june2026.gender
+  sheet_name: Summary - latest qtr
+  period_type: month
+  period: 2026-06
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: pension_recipient
+  domain: pension_recipients
+  groupby_dimension: msd_nzs_vp.gender
+  rows:
+  - value_id: male
+    label: Male
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: C
+    expected_row_header: Male
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 10
+      expected_value: Gender
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.gender: male
+    constraints:
+    - variable: msd_nzs_vp.gender
+      operator: ==
+      value: male
+      label: Male
+  - value_id: female
+    label: Female
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: C
+    expected_row_header: Female
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 10
+      expected_value: Gender
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.gender: female
+    constraints:
+    - variable: msd_nzs_vp.gender
+      operator: ==
+      value: female
+      label: Female
+  - value_id: gender_diverse
+    label: Gender Diverse
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: C
+    expected_row_header: Gender Diverse
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 10
+      expected_value: Gender
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.gender: gender_diverse
+    constraints:
+    - variable: msd_nzs_vp.gender
+      operator: ==
+      value: gender_diverse
+      label: Gender Diverse
+  measures:
+  - measure_id: nzs_recipients
+    label: New Zealand Superannuation recipients
+    ordinal: 0
+    column: D
+    source_column_id: nzs_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, New Zealand Superannuation Number column: published June 2026
+      recipient counts. All information in this data file has been randomly rounded to base 3, data found here is
+      rounded independently from other products produced by MSD.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: nzs
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: nzs
+      label: New Zealand Superannuation
+  - measure_id: vp_recipients
+    label: Veteran's Pension recipients
+    ordinal: 1
+    column: F
+    source_column_id: vp_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, Veteran''s Pension Number column: published June 2026 recipient
+      counts. All information in this data file has been randomly rounded to base 3, data found here is rounded
+      independently from other products produced by MSD.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: vp
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: vp
+      label: Veteran's Pension
+- record_set_id: msd_nzs_vp.june2026.age_group
+  provenance_class: administrative
+  record_set_spec_id: msd_nzs_vp.age_group.v1
+  source_record_id_prefix: msd_nzs_vp.june2026.age_group
+  sheet_name: Summary - latest qtr
+  period_type: month
+  period: 2026-06
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: pension_recipient
+  domain: pension_recipients
+  groupby_dimension: msd_nzs_vp.age_group
+  rows:
+  - value_id: under_60
+    label: Under 60 years
+    ordinal: 0
+    row_number: 13
+    expected_row_header_column: C
+    expected_row_header: Under 60 years
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 13
+      expected_value: Age group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.age_group: under_60
+    constraints:
+    - variable: msd_nzs_vp.age_group
+      operator: ==
+      value: under_60
+      label: Under 60 years
+  - value_id: '60_64'
+    label: 60-64 years
+    ordinal: 1
+    row_number: 14
+    expected_row_header_column: C
+    expected_row_header: 60-64 years
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 13
+      expected_value: Age group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.age_group: '60_64'
+    constraints:
+    - variable: msd_nzs_vp.age_group
+      operator: ==
+      value: '60_64'
+      label: 60-64 years
+  - value_id: '65_69'
+    label: 65-69 years
+    ordinal: 2
+    row_number: 15
+    expected_row_header_column: C
+    expected_row_header: 65-69 years
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 13
+      expected_value: Age group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.age_group: '65_69'
+    constraints:
+    - variable: msd_nzs_vp.age_group
+      operator: ==
+      value: '65_69'
+      label: 65-69 years
+  - value_id: '70_74'
+    label: 70-74 years
+    ordinal: 3
+    row_number: 16
+    expected_row_header_column: C
+    expected_row_header: 70-74 years
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 13
+      expected_value: Age group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.age_group: '70_74'
+    constraints:
+    - variable: msd_nzs_vp.age_group
+      operator: ==
+      value: '70_74'
+      label: 70-74 years
+  - value_id: '75_79'
+    label: 75-79 years
+    ordinal: 4
+    row_number: 17
+    expected_row_header_column: C
+    expected_row_header: 75-79 years
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 13
+      expected_value: Age group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.age_group: '75_79'
+    constraints:
+    - variable: msd_nzs_vp.age_group
+      operator: ==
+      value: '75_79'
+      label: 75-79 years
+  - value_id: '80_84'
+    label: 80-84 years
+    ordinal: 5
+    row_number: 18
+    expected_row_header_column: C
+    expected_row_header: 80-84 years
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 13
+      expected_value: Age group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.age_group: '80_84'
+    constraints:
+    - variable: msd_nzs_vp.age_group
+      operator: ==
+      value: '80_84'
+      label: 80-84 years
+  - value_id: '85_89'
+    label: 85-89 years
+    ordinal: 6
+    row_number: 19
+    expected_row_header_column: C
+    expected_row_header: 85-89 years
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 13
+      expected_value: Age group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.age_group: '85_89'
+    constraints:
+    - variable: msd_nzs_vp.age_group
+      operator: ==
+      value: '85_89'
+      label: 85-89 years
+  - value_id: 90_plus
+    label: 90 years and over
+    ordinal: 7
+    row_number: 20
+    expected_row_header_column: C
+    expected_row_header: 90 years and over
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 13
+      expected_value: Age group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.age_group: 90_plus
+    constraints:
+    - variable: msd_nzs_vp.age_group
+      operator: ==
+      value: 90_plus
+      label: 90 years and over
+  measures:
+  - measure_id: nzs_recipients
+    label: New Zealand Superannuation recipients
+    ordinal: 0
+    column: D
+    source_column_id: nzs_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, New Zealand Superannuation Number column: published June 2026
+      recipient counts. All information in this data file has been randomly rounded to base 3, data found here is
+      rounded independently from other products produced by MSD.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: nzs
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: nzs
+      label: New Zealand Superannuation
+  - measure_id: vp_recipients
+    label: Veteran's Pension recipients
+    ordinal: 1
+    column: F
+    source_column_id: vp_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, Veteran''s Pension Number column: published June 2026 recipient
+      counts. All information in this data file has been randomly rounded to base 3, data found here is rounded
+      independently from other products produced by MSD.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: vp
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: vp
+      label: Veteran's Pension
+- record_set_id: msd_nzs_vp.june2026.ethnic_group
+  provenance_class: administrative
+  record_set_spec_id: msd_nzs_vp.ethnic_group.v1
+  source_record_id_prefix: msd_nzs_vp.june2026.ethnic_group
+  sheet_name: Summary - latest qtr
+  period_type: month
+  period: 2026-06
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: pension_recipient
+  domain: pension_recipients
+  groupby_dimension: msd_nzs_vp.ethnic_group
+  rows:
+  - value_id: european
+    label: European
+    ordinal: 0
+    row_number: 21
+    expected_row_header_column: C
+    expected_row_header: European
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 21
+      expected_value: Ethnic group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.ethnic_group: european
+    constraints:
+    - variable: msd_nzs_vp.ethnic_group
+      operator: ==
+      value: european
+      label: European
+  - value_id: maori
+    label: Māori
+    ordinal: 1
+    row_number: 22
+    expected_row_header_column: C
+    expected_row_header: Māori
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 21
+      expected_value: Ethnic group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.ethnic_group: maori
+    constraints:
+    - variable: msd_nzs_vp.ethnic_group
+      operator: ==
+      value: maori
+      label: Māori
+  - value_id: pacific_peoples
+    label: Pacific Peoples
+    ordinal: 2
+    row_number: 23
+    expected_row_header_column: C
+    expected_row_header: Pacific Peoples
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 21
+      expected_value: Ethnic group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.ethnic_group: pacific_peoples
+    constraints:
+    - variable: msd_nzs_vp.ethnic_group
+      operator: ==
+      value: pacific_peoples
+      label: Pacific Peoples
+  - value_id: asian
+    label: Asian
+    ordinal: 3
+    row_number: 24
+    expected_row_header_column: C
+    expected_row_header: Asian
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 21
+      expected_value: Ethnic group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.ethnic_group: asian
+    constraints:
+    - variable: msd_nzs_vp.ethnic_group
+      operator: ==
+      value: asian
+      label: Asian
+  - value_id: melaa
+    label: Middle Eastern/Latin American/African
+    ordinal: 4
+    row_number: 25
+    expected_row_header_column: C
+    expected_row_header: Middle Eastern/Latin American/African
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 21
+      expected_value: Ethnic group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.ethnic_group: melaa
+    constraints:
+    - variable: msd_nzs_vp.ethnic_group
+      operator: ==
+      value: melaa
+      label: Middle Eastern/Latin American/African
+  - value_id: other_ethnicity
+    label: Other ethnicity
+    ordinal: 5
+    row_number: 26
+    expected_row_header_column: C
+    expected_row_header: Other ethnicity
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    - column: B
+      row: 21
+      expected_value: Ethnic group
+      label: recipient characteristic category
+    filters:
+      msd_nzs_vp.ethnic_group: other_ethnicity
+    constraints:
+    - variable: msd_nzs_vp.ethnic_group
+      operator: ==
+      value: other_ethnicity
+      label: Other ethnicity
+  measures:
+  - measure_id: nzs_recipients
+    label: New Zealand Superannuation recipients
+    ordinal: 0
+    column: D
+    source_column_id: nzs_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, New Zealand Superannuation Number column: published June 2026
+      recipient counts. All information in this data file has been randomly rounded to base 3, data found here is
+      rounded independently from other products produced by MSD. The total response ethnicity percentages are calculated
+      by dividing the number of people who identify with each ethnic group by the total unique number of people
+      with a reported ethnicity (this excludes people who have not specified an ethnicity). Total response ethnicity
+      means people can appear more than once in our reporting, so ethnic group totals will add to more than 100
+      percent. The number of people receiving a benefit each quarter has not changed, but the way we represent them
+      has.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: nzs
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: nzs
+      label: New Zealand Superannuation
+  - measure_id: vp_recipients
+    label: Veteran's Pension recipients
+    ordinal: 1
+    column: F
+    source_column_id: vp_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, Veteran''s Pension Number column: published June 2026 recipient
+      counts. All information in this data file has been randomly rounded to base 3, data found here is rounded
+      independently from other products produced by MSD. The total response ethnicity percentages are calculated
+      by dividing the number of people who identify with each ethnic group by the total unique number of people
+      with a reported ethnicity (this excludes people who have not specified an ethnicity). Total response ethnicity
+      means people can appear more than once in our reporting, so ethnic group totals will add to more than 100
+      percent. The number of people receiving a benefit each quarter has not changed, but the way we represent them
+      has.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: vp
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: vp
+      label: Veteran's Pension
+- record_set_id: msd_nzs_vp.june2026.ethnicity_reporting_status
+  provenance_class: administrative
+  record_set_spec_id: msd_nzs_vp.ethnicity_reporting_status.v1
+  source_record_id_prefix: msd_nzs_vp.june2026.ethnicity_reporting_status
+  sheet_name: Summary - latest qtr
+  period_type: month
+  period: 2026-06
+  period_coverage: *id001
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: pension_recipient
+  domain: pension_recipients
+  groupby_dimension: msd_nzs_vp.ethnicity_reporting_status
+  rows:
+  - value_id: recorded
+    label: Total recipients with recorded ethnicity
+    ordinal: 0
+    row_number: 27
+    expected_row_header_column: B
+    expected_row_header: Total recipients with recorded ethnicity
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    filters:
+      msd_nzs_vp.ethnicity_reporting_status: recorded
+    constraints:
+    - variable: msd_nzs_vp.ethnicity_reporting_status
+      operator: ==
+      value: recorded
+      label: Total recipients with recorded ethnicity
+  - value_id: not_specified
+    label: Ethnicity not specified
+    ordinal: 1
+    row_number: 28
+    expected_row_header_column: B
+    expected_row_header: Ethnicity not specified
+    table_record_kind: detail
+    guard_cells:
+    - *id002
+    - *id003
+    - *id004
+    - *id005
+    filters:
+      msd_nzs_vp.ethnicity_reporting_status: not_specified
+    constraints:
+    - variable: msd_nzs_vp.ethnicity_reporting_status
+      operator: ==
+      value: not_specified
+      label: Ethnicity not specified
+  measures:
+  - measure_id: nzs_recipients
+    label: New Zealand Superannuation recipients
+    ordinal: 0
+    column: D
+    source_column_id: nzs_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, New Zealand Superannuation Number column: published June 2026
+      recipient counts. All information in this data file has been randomly rounded to base 3, data found here is
+      rounded independently from other products produced by MSD.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: nzs
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: nzs
+      label: New Zealand Superannuation
+  - measure_id: vp_recipients
+    label: Veteran's Pension recipients
+    ordinal: 1
+    column: F
+    source_column_id: vp_number
+    expected_column_header_row: 6
+    expected_column_header: Number
+    concept: msd_nzs_vp.recipient_count
+    source_concept: msd_nzs_vp.recipient_count
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    concept_evidence_notes: 'Summary - latest qtr, Veteran''s Pension Number column: published June 2026 recipient
+      counts. All information in this data file has been randomly rounded to base 3, data found here is rounded
+      independently from other products produced by MSD.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      msd_nzs_vp.benefit_type: vp
+    constraints:
+    - variable: msd_nzs_vp.benefit_type
+      operator: ==
+      value: vp
+      label: Veteran's Pension

@@ -253,6 +253,16 @@ SOURCE_PACKAGE_ALIASES = {
     "ird-working-for-families-statistics-sept-2025": Path(
         "ird/working_for_families_statistics_sept_2025"
     ),
+    "msd-benefit-fact-sheets-national-june-2026": Path(
+        "msd/benefit_fact_sheets_national_june_2026"
+    ),
+    "msd-benefit-fact-sheets-supplementary-june-2026": Path(
+        "msd/benefit_fact_sheets_supplementary_june_2026"
+    ),
+    "msd-nzs-vp-fact-sheet-june-2026": Path("msd/nzs_vp_fact_sheet_june_2026"),
+    "msd-annual-report-benefit-expenses-2025": Path(
+        "msd/annual_report_benefit_expenses_2025"
+    ),
     "treasury-an24-01-fiscal-totals": Path("treasury/an24_01_fiscal_totals"),
     "isc-annual-census-2023": Path("isc/annual_census_2023"),
     "isc-annual-census-2024": Path("isc/annual_census_2024"),
