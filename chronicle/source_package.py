@@ -353,6 +353,9 @@ SOURCE_PACKAGE_ALIASES = {
     "ird-taxable-income-distribution-2025": Path(
         "ird/taxable_income_distribution_2025"
     ),
+    "ird-wage-salary-distribution-2026": Path(
+        "ird/wage_salary_distribution_2026"
+    ),
     "ird-working-for-families-statistics-sept-2025": Path(
         "ird/working_for_families_statistics_sept_2025"
     ),
@@ -368,6 +371,9 @@ SOURCE_PACKAGE_ALIASES = {
         "msd/annual_report_benefit_expenses_2025"
     ),
     "treasury-an24-01-fiscal-totals": Path("treasury/an24_01_fiscal_totals"),
+    "treasury-estimates-of-appropriations-2026-27": Path(
+        "treasury/estimates_of_appropriations_2026_27"
+    ),
     "isc-annual-census-2023": Path("isc/annual_census_2023"),
     "isc-annual-census-2024": Path("isc/annual_census_2024"),
     "mhclg-council-tax-levels-england-2026-27": Path(

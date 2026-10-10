@@ -225,13 +225,20 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # 940 households and 473 people, one package/table, all at country:NZ and
     # fiscal_year:2023. Publisher, geography, period and entity keys already
     # exist; the measured single-source bundle adds no warnings or duplicates.
+    # chronicle#210 I2 adds 510 TY2026 person facts, one package/table,
+    # to existing IRD/country:NZ/period/entity keys. Measured by a single-source
+    # build at bundle year 2023: no new geographies or warnings/duplicate keys.
+    # B7 part 2 adds 112 Treasury Social Development expense facts, measured
+    # with only treasury-estimates-of-appropriations-2026-27 at bundle year
+    # 2023: one package/table, existing Treasury/NZ/government keys and six
+    # existing fiscal-year keys, with no bundle warnings or duplicate keys.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
         # chronicle#322 adds 4,947 ONS observations and 3,200 DESNZ ones.
         # Inner/Outer London also add two region-level geography keys.
-        "fact_count": 1002161,
+        "fact_count": 1002783,
         "geography_count": 20547,
         "period_count": 511,
         # 467 before chronicle#292 moved the congressional-district and
@@ -254,7 +261,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
         "source_count": 56,
-        "source_package_count": 319,
+        "source_package_count": 321,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -289,14 +296,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1002161
+    assert row_count == 1002783
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 319
+    assert source_packages["source_package_count"] == 321
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -310,7 +317,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1002161
+    assert coverage["fact_count"] == 1002783
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -335,7 +342,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hhs_acf_tanf": 110,
         "hmrc": 31515,
         "ici": 12,
-        "ird": 3852,
+        "ird": 4362,
         "irs_soi": 40063,
         "isc": 4,
         "jrc_euromod_be": 90,
@@ -363,14 +370,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "statbel_fiscal_income": 565,
         "statbel_fiscal_income_distribution": 14600,
         "statbel_population_structure": 36,
-        "treasury": 27,
+        "treasury": 139,
         "stats_nz": 1498,
         "usda_snap": 852,
         "voa": 3001,
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 314
+    assert len(table_counts) == 316
     assert (
         table_counts[
             "stats_nz:Household net worth statistics: Year ended June 2024, "
@@ -396,12 +403,20 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert table_counts["treasury:AN24-01 fiscal totals, TY2019"] == 27
     assert (
         table_counts[
+            "treasury:Expenditure - Budget 2026 Data from the Estimates of "
+            "Appropriations 2026/27, Vote Social Development"
+        ]
+        == 112
+    )
+    assert (
+        table_counts[
             "stats_nz:Subnational population estimates: At 30 June 2025 "
             "(provisional), Tables 1 and 3"
         ]
         == 85
     )
     assert table_counts["ird:Taxable income distribution of individuals 2025"] == 3522
+    assert table_counts["ird:Wage and salary distributions for individuals 2026"] == 510
     assert (
         table_counts[
             "msd:Quarterly Benefit Fact Sheets - National Benefit Tables, June 2026"
@@ -1462,7 +1477,19 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     expected_period_counts["fiscal_year:2024"] += 11
     # chronicle#210 I1: ending TY2024, from the September 2025 release.
     expected_period_counts["tax_year:2024"] += 3522
+    # chronicle#210 I2: ending TY2026, from the August 2026 extraction.
+    expected_period_counts["tax_year:2026"] += 510
     expected_period_counts["tax_year:2019"] += 27
+    # B7 part 2: publisher ending-year labels 2022–2027, opening-year periods.
+    for fiscal_year, count in {
+        2021: 19,
+        2022: 18,
+        2023: 18,
+        2024: 19,
+        2025: 19,
+        2026: 19,
+    }.items():
+        expected_period_counts[f"fiscal_year:{fiscal_year}"] += count
     # chronicle#211: Stats NZ's population estimates at 30 June 2025.
     expected_period_counts["calendar_year:2025"] += 85
     # chronicle#322: 16 areas x 10 vehicle/fuel columns annually, and the
@@ -1574,9 +1601,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     expected_period_counts["fiscal_year:2023"] += 1413
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
-    # (#321) + 3,522 IRD (#318) + 103 MSD (#319) + 84 MBIE (#320)
-    # + 1,413 Stats NZ household net worth = 5,484.
-    assert coverage["counts"]["by_geography"]["country:NZ"] == 5484
+    # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
+    # + 84 MBIE (#320) + 112 Treasury Budget 2026 expenses (B7 part 2)
+    # + 1,413 Stats NZ household net worth = 6,106.
+    assert coverage["counts"]["by_geography"]["country:NZ"] == 6106
     for regional_council in (*range(1, 10), *range(12, 19)):
         assert coverage["counts"]["by_geography"][f"region:{regional_council:02d}"] == 5
     assert coverage["counts"]["by_geography"]["local_authority:nz-ta-054"] == 56
@@ -1628,11 +1656,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dwelling": 251365,
         "family": 1628,
         "firm": 1440,
-        "government": 3450,
+        "government": 3562,
         "household": 154636,
         "institutional_sector": 4468,
         "pension_plan": 2,
-        "person": 495525,
+        "person": 496035,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 41368,
