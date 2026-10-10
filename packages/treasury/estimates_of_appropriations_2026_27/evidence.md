@@ -14,9 +14,10 @@ Appropriations 2026/27 – B.5 Vol.9*, staged from
 The receipt records 2,212,387 bytes, fetched `2026-10-10T08:31:09Z`, SHA-256
 `85ff85e5b93a8b3e3ef7442a034eb8d3abdd0f1675f76646afad8311d8e30c23`.
 It has 132 PDF pages and contributes scope and conditions evidence only.
-None of its figures is emitted as another fact. The hub will upload both
+None of its figures is emitted as another fact. The hub published both
 manifest-declared objects to their content-addressed `raw/nz/treasury/...`
-R2 keys before merge; this lane has not remotely verified those objects.
+R2 keys with `chronicle publish-raw --r2-prefix raw/nz` and verified each by
+streaming it back (SHA-256 matches) on 2026-10-10.
 
 The licence is `CC BY 4.0`. In addition to the hub's copyright-page check,
 the workbook itself states the licence at `Intro!A13`. `Intro!A14` requires
