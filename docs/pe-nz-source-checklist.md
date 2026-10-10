@@ -59,7 +59,7 @@ tests, and record a verified `raw/nz/...` R2 URI.
 | `stats_nz/census_2023_family_type` | [ ] | [ ] | [ ] | |
 | `stats_nz/census_2023_ethnicity_age_region` | [ ] | [ ] | [ ] | |
 | `ird/taxable_income_distribution_2025` | [x] | [x] | [x] | I1, TY2024 (September 2025 release): 3,522 administrative facts; full national income bands, age marginals, and Tab 4 age × band counts. Raw workbook published to its `raw/nz/ird/...` key and verified by SHA-256 on 2026-10-07. |
-| `ird/wage_salary_distribution_2025` | [ ] | [ ] | [ ] | I2 deferred: revised wage/salary workbook is not staged; its direct publisher file URL remains unresolved. |
+| `ird/wage_salary_distribution_2026` | [x] | [x] | [ ] | I2, TY2026 (2026 release): 510 administrative facts; national wage/salary bands and decile/percentile income and upper-boundary cut-points. Unchanged staged workbook pinned; hub R2 upload and verification pending. [Cell evidence](../packages/ird/wage_salary_distribution_2026/evidence.md). |
 | `ird/working_for_families_statistics_sept_2025` | [x] | [x] | [x] | TY2024: 330 administrative facts; count/entitlement, children, family size, and full published income table. |
 | `ird/student_loan_statistics_march_2026` | [ ] | [ ] | [ ] | |
 | `msd/benefit_fact_sheets_national_june_2026` | [x] | [x] | [x] | Row 10: June 2026 supersedes March; 46 administrative count facts, benefit × age, published benefit-status cuts, and separate national supplementary totals. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
@@ -212,8 +212,55 @@ The manifest pins receipt SHA-256
 294,932 bytes, fetched `2026-10-07T19:23:14Z`. Its `raw/nz/ird/...` location
 was constructed with Chronicle's key builder. The hub published the workbook
 with `chronicle publish-raw` and verified the object by streaming it back
-(SHA-256 matches) on 2026-10-07. I2 is not implemented: no revised wage/salary workbook was
-staged and the hub must resolve and stage its exact publisher file URL first.
+(SHA-256 matches) on 2026-10-07. The separate I2 wage/salary package is described
+below; its income universe and bands remain distinct from I1.
+
+### Wage and salary source semantics (I2)
+
+The staged `wage-and-salary-distributions-for-individuals.xlsx` is the 2026
+release, extracted from IRD systems on 17 August 2026. Its latest published
+March year is **2026**, labelled `New` in `Tables - wage and salary!BC2`.
+Every emitted fact refers to 1 April 2025 to 31 March 2026, using the tax year's
+ending-year label. The title identifies the March-year basis but does not give
+a release month. The complete workbook bytes and 20,631 source cells are
+preserved, including historical 2001–2025 columns; those columns emit no facts.
+
+The explanatory notes in `xl/drawings/drawing1.xml` define wage and salary
+income as gross employer earnings reported through PAYE, including shares,
+share options and Paid Parental Leave. They exclude New Zealand Superannuation,
+taxable welfare benefits, student allowances, earnings-related ACC payments
+and shareholder-employee salaries. Children with PAYE earnings and individuals
+with part-time or part-year PAYE incomes are included. Individuals with no
+wage or salary income and entities other than natural persons are excluded.
+The data use the full population from the 2016 March year onward.
+
+The package reads all 236 band rows (`AM7:AM242`) into 472 facts: counts from
+`BB` and wage/salary income from `BC`. The publisher's total at row 242 is read
+separately, never calculated from bands. A further 19 decile and 19 percentile
+facts retain all ten income values and nine published upper boundaries in each
+table. The top decile (`BB264`) and percentile 100 (`BB279`) have no upper
+boundary; both remain absent. Upper boundaries use `aggregation: quantile` and
+NZD amounts, not income shares. The footnotes at `AM280:AM281` state that each
+decile contains one tenth of the wage and salary earning population and each
+top-ten-percent percentile contains one hundredth. Income values retain the
+exact cached publisher precision in $M with `value_scale: 1000000`, without
+rounding. Publisher band labels remain intact, including `Over $1 million`;
+no closed endpoints, means, shares, uprated values or merged I1 bands are built.
+
+The drawing notes say verbatim, "Data for the 2022 to 2025 tax years has been
+revised". Row 2 instead flags `R` in `AW`, `AY` and `BA`, the 2023–2025 columns.
+Both assertions are preserved without reconciliation; no revised-year facts
+are emitted. The [cell evidence](../packages/ird/wage_salary_distribution_2026/evidence.md)
+records the selected rows, blank cut-points and source footnotes.
+
+The manifest pins the stable publisher URL without its `?modified=` query,
+receipt SHA-256
+`d0526b2092f9fa2bec44e11984c0ef17fda788a742c1c7054d416f6a0cd9e750`,
+198,542 bytes, fetched `2026-10-10T08:31:07Z`. It records `license: CC BY 4.0`,
+which the hub verified on 2026-10-10 from IRD's
+[copyright conditions](https://www.ird.govt.nz/about-this-site/conditions-of-use/copyright).
+Its `raw/nz/ird/...` key uses Chronicle's key builder. Hub upload and remote
+checksum verification remain pending, so the checklist's R2 box is unchecked.
 
 ## Wave-2 fiscal comparators (#177 subset)
 

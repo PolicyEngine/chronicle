@@ -1,0 +1,4741 @@
+# 2026 release; only the latest publisher tax year (ending 2026, marked New).
+# All workbook sheets and cached numeric precision are preserved. Historical
+# and revised columns remain source cells only. Totals read their own cells.
+# Decile/percentile cut-points use quantile; missing top boundaries stay absent.
+# Every dimension and value is labelled (chronicle#265).
+schema_version: ledger.source_package.v1
+package_id: ird-wage-salary-distribution-2026
+label: Inland Revenue wage and salary distribution of individuals, tax year 2026 (2026 release)
+dimension_labels:
+  ird_wage_salary_distribution.income_band_row: Published wage and salary income band
+  ird_wage_salary_distribution.decile_row: Published wage and salary decile
+  ird_wage_salary_distribution.percentile_row: Published wage and salary percentile
+  wage_salary_band_source_label: Published wage and salary income band
+  wage_salary_decile: Published wage and salary decile
+  wage_salary_percentile: Published wage and salary percentile
+dimension_value_labels:
+  wage_salary_band_source_label:
+    $1      -   $1,000: $1      -   $1,000
+    $1,001  -   $2,000: $1,001  -   $2,000
+    $2,001  -   $3,000: $2,001  -   $3,000
+    $3,001   -  $4,000: $3,001   -  $4,000
+    $4,001   -  $5,000: $4,001   -  $5,000
+    $5,001   -  $6,000: $5,001   -  $6,000
+    $6,001   -  $7,000: $6,001   -  $7,000
+    $7,001   -  $8,000: $7,001   -  $8,000
+    $8,001   -  $9,000: $8,001   -  $9,000
+    $9,001   - $10,000: $9,001   - $10,000
+    $10,001  - $11,000: $10,001  - $11,000
+    $11,001  - $12,000: $11,001  - $12,000
+    $12,001  - $13,000: $12,001  - $13,000
+    $13,001  - $14,000: $13,001  - $14,000
+    $14,001  - $15,000: $14,001  - $15,000
+    $15,001  - $16,000: $15,001  - $16,000
+    $16,001  - $17,000: $16,001  - $17,000
+    $17,001  - $18,000: $17,001  - $18,000
+    $18,001  - $19,000: $18,001  - $19,000
+    $19,001 -  $20,000: $19,001 -  $20,000
+    $20,000 -  $21,000: $20,000 -  $21,000
+    $21,001 -  $22,000: $21,001 -  $22,000
+    $22,001  - $23,000: $22,001  - $23,000
+    $23,001  - $24,000: $23,001  - $24,000
+    $24,001  - $25,000: $24,001  - $25,000
+    $25,001  - $26,000: $25,001  - $26,000
+    $26,001  - $27,000: $26,001  - $27,000
+    $27,001  - $28,000: $27,001  - $28,000
+    $28,001  - $29,000: $28,001  - $29,000
+    $29,001  - $30,000: $29,001  - $30,000
+    $30,001  - $31,000: $30,001  - $31,000
+    $31,001  - $32,000: $31,001  - $32,000
+    $32,001  - $33,000: $32,001  - $33,000
+    $33,001  - $34,000: $33,001  - $34,000
+    $34,001  - $35,000: $34,001  - $35,000
+    $35,001  - $36,000: $35,001  - $36,000
+    $36,001  - $37,000: $36,001  - $37,000
+    $37,001  - $38,000: $37,001  - $38,000
+    $38,001  - $39,000: $38,001  - $39,000
+    $39,001 -  $40,000: $39,001 -  $40,000
+    $40,001  - $41,000: $40,001  - $41,000
+    $41,001  - $42,000: $41,001  - $42,000
+    $42,001  - $43,000: $42,001  - $43,000
+    $43,001  - $44,000: $43,001  - $44,000
+    $44,001  - $45,000: $44,001  - $45,000
+    $45,001  - $46,000: $45,001  - $46,000
+    $46,001  - $47,000: $46,001  - $47,000
+    $47,001  - $48,000: $47,001  - $48,000
+    $48,001  - $49,000: $48,001  - $49,000
+    $49,001  - $50,000: $49,001  - $50,000
+    $50,000  - $51,000: $50,000  - $51,000
+    $51,001  - $52,000: $51,001  - $52,000
+    $52,001  - $53,000: $52,001  - $53,000
+    $53,001  - $54,000: $53,001  - $54,000
+    $54,001  - $55,000: $54,001  - $55,000
+    $55,001  - $56,000: $55,001  - $56,000
+    $56,001  - $57,000: $56,001  - $57,000
+    $57,001  - $58,000: $57,001  - $58,000
+    $58,001  - $59,000: $58,001  - $59,000
+    $59,001  - $60,000: $59,001  - $60,000
+    $60,001  - $61,000: $60,001  - $61,000
+    $61,001  - $62,000: $61,001  - $62,000
+    $62,001  - $63,000: $62,001  - $63,000
+    $63,001  - $64,000: $63,001  - $64,000
+    $64,001  - $65,000: $64,001  - $65,000
+    $65,001  - $66,000: $65,001  - $66,000
+    $66,001  - $67,000: $66,001  - $67,000
+    $67,001  - $68,000: $67,001  - $68,000
+    $68,001  - $69,000: $68,001  - $69,000
+    $69,001 -  $70,000: $69,001 -  $70,000
+    $70,001  - $71,000: $70,001  - $71,000
+    $71,001  - $72,000: $71,001  - $72,000
+    $72,001  - $73,000: $72,001  - $73,000
+    $73,001  - $74,000: $73,001  - $74,000
+    $74,001  - $75,000: $74,001  - $75,000
+    $75,001  - $76,000: $75,001  - $76,000
+    $76,001  - $77,000: $76,001  - $77,000
+    $77,001  - $78,000: $77,001  - $78,000
+    $78,001  - $79,000: $78,001  - $79,000
+    $79,001  - $80,000: $79,001  - $80,000
+    $80,000  - $81,000: $80,000  - $81,000
+    $81,001  - $82,000: $81,001  - $82,000
+    $82,001  - $83,000: $82,001  - $83,000
+    $83,001  - $84,000: $83,001  - $84,000
+    $84,001  - $85,000: $84,001  - $85,000
+    $85,001  - $86,000: $85,001  - $86,000
+    $86,001  - $87,000: $86,001  - $87,000
+    $87,001  - $88,000: $87,001  - $88,000
+    $88,001  - $89,000: $88,001  - $89,000
+    $89,001  - $90,000: $89,001  - $90,000
+    $90,001  - $91,000: $90,001  - $91,000
+    $91,001  - $92,000: $91,001  - $92,000
+    $92,001  - $93,000: $92,001  - $93,000
+    $93,001  - $94,000: $93,001  - $94,000
+    $94,001  - $95,000: $94,001  - $95,000
+    $95,001  - $96,000: $95,001  - $96,000
+    $96,001  - $97,000: $96,001  - $97,000
+    $97,001  - $98,000: $97,001  - $98,000
+    $98,001  - $99,000: $98,001  - $99,000
+    $99,001 - $100,000: $99,001 - $100,000
+    $100,001 - $101,000: $100,001 - $101,000
+    $101,001 - $102,000: $101,001 - $102,000
+    $102,001 - $103,000: $102,001 - $103,000
+    $103,001 - $104,000: $103,001 - $104,000
+    $104,001 - $105,000: $104,001 - $105,000
+    $105,001 - $106,000: $105,001 - $106,000
+    $106,001 - $107,000: $106,001 - $107,000
+    $107,001 - $108,000: $107,001 - $108,000
+    $108,001 - $109,000: $108,001 - $109,000
+    $109,001 - $110,000: $109,001 - $110,000
+    $110,001 - $111,000: $110,001 - $111,000
+    $111,001 - $112,000: $111,001 - $112,000
+    $112,001 - $113,000: $112,001 - $113,000
+    $113,001 - $114,000: $113,001 - $114,000
+    $114,001 - $115,000: $114,001 - $115,000
+    $115,001 - $116,000: $115,001 - $116,000
+    $116,001 - $117,000: $116,001 - $117,000
+    $117,001 - $118,000: $117,001 - $118,000
+    $118,001 - $119,000: $118,001 - $119,000
+    $119,001 - $120,000: $119,001 - $120,000
+    $120,001 - $121,000: $120,001 - $121,000
+    $121,001 - $122,000: $121,001 - $122,000
+    $122,001 - $123,000: $122,001 - $123,000
+    $123,001 - $124,000: $123,001 - $124,000
+    $124,001 - $125,000: $124,001 - $125,000
+    $125,001 - $126,000: $125,001 - $126,000
+    $126,001 - $127,000: $126,001 - $127,000
+    $127,001 - $128,000: $127,001 - $128,000
+    $128,001 - $129,000: $128,001 - $129,000
+    $129,001 - $130,000: $129,001 - $130,000
+    $130,001 - $131,000: $130,001 - $131,000
+    $131,001 - $132,000: $131,001 - $132,000
+    $132,001 - $133,000: $132,001 - $133,000
+    $133,001 - $134,000: $133,001 - $134,000
+    $134,001 - $135,000: $134,001 - $135,000
+    $135,001 - $136,000: $135,001 - $136,000
+    $136,001 - $137,000: $136,001 - $137,000
+    $137,001 - $138,000: $137,001 - $138,000
+    $138,001 - $139,000: $138,001 - $139,000
+    $139,001 - $140,000: $139,001 - $140,000
+    $140,001 - $141,000: $140,001 - $141,000
+    $141,001 - $142,000: $141,001 - $142,000
+    $142,001 - $143,000: $142,001 - $143,000
+    $143,001 - $144,000: $143,001 - $144,000
+    $144,001 - $145,000: $144,001 - $145,000
+    $145,001 - $146,000: $145,001 - $146,000
+    $146,001 - $147,000: $146,001 - $147,000
+    $147,001 - $148,000: $147,001 - $148,000
+    $148,001 - $149,000: $148,001 - $149,000
+    $149,001 - $150,000: $149,001 - $150,000
+    $150,001 - $151,000: $150,001 - $151,000
+    $151,001 - $152,000: $151,001 - $152,000
+    $152,001 - $153,000: $152,001 - $153,000
+    $153,001 - $154,000: $153,001 - $154,000
+    $154,001 - $155,000: $154,001 - $155,000
+    $155,001 - $156,000: $155,001 - $156,000
+    $156,001 - $157,000: $156,001 - $157,000
+    $157,001 - $158,000: $157,001 - $158,000
+    $158,001 - $159,000: $158,001 - $159,000
+    $159,001 - $160,000: $159,001 - $160,000
+    $160,001 - $161,000: $160,001 - $161,000
+    $161,001 - $162,000: $161,001 - $162,000
+    $162,001 - $163,000: $162,001 - $163,000
+    $163,001 - $164,000: $163,001 - $164,000
+    $164,001 - $165,000: $164,001 - $165,000
+    $165,001 - $166,000: $165,001 - $166,000
+    $166,001 - $167,000: $166,001 - $167,000
+    $167,001 - $168,000: $167,001 - $168,000
+    $168,001 - $169,000: $168,001 - $169,000
+    $169,001 - $170,000: $169,001 - $170,000
+    $170,001 - $171,000: $170,001 - $171,000
+    $171,001 - $172,000: $171,001 - $172,000
+    $172,001 - $173,000: $172,001 - $173,000
+    $173,001 - $174,000: $173,001 - $174,000
+    $174,001 - $175,000: $174,001 - $175,000
+    $175,001 - $176,000: $175,001 - $176,000
+    $176,001 - $177,000: $176,001 - $177,000
+    $177,001 - $178,000: $177,001 - $178,000
+    $178,001 - $179,000: $178,001 - $179,000
+    $179,001 - $180,000: $179,001 - $180,000
+    $180,001 - $181,000: $180,001 - $181,000
+    $181,001 - $182,000: $181,001 - $182,000
+    $182,001 - $183,000: $182,001 - $183,000
+    $183,001 - $184,000: $183,001 - $184,000
+    $184,001 - $185,000: $184,001 - $185,000
+    $185,001 - $186,000: $185,001 - $186,000
+    $186,001 - $187,000: $186,001 - $187,000
+    $187,001 - $188,000: $187,001 - $188,000
+    $188,001 - $189,000: $188,001 - $189,000
+    $189,001 - $190,000: $189,001 - $190,000
+    $190,001 - $191,000: $190,001 - $191,000
+    $191,001 - $192,000: $191,001 - $192,000
+    $192,001 - $193,000: $192,001 - $193,000
+    $193,001 - $194,000: $193,001 - $194,000
+    $194,001 - $195,000: $194,001 - $195,000
+    $195,001 - $196,000: $195,001 - $196,000
+    $196,001 - $197,000: $196,001 - $197,000
+    $197,001 - $198,000: $197,001 - $198,000
+    $198,001 - $199,000: $198,001 - $199,000
+    $199,001 - $200,000: $199,001 - $200,000
+    $200,001 - $205,000: $200,001 - $205,000
+    $205,001 - $210,000: $205,001 - $210,000
+    $210,001 - $215,000: $210,001 - $215,000
+    $215,001 - $220,000: $215,001 - $220,000
+    $220,001 - $225,000: $220,001 - $225,000
+    $225,001 - $230,000: $225,001 - $230,000
+    $230,001 - $235,000: $230,001 - $235,000
+    $235,001 - $240,000: $235,001 - $240,000
+    $240,001 - $245,000: $240,001 - $245,000
+    $245,001 - $250,000: $245,001 - $250,000
+    $250,001 - $255,000: $250,001 - $255,000
+    $255,001 - $260,000: $255,001 - $260,000
+    $260,001 - $265,000: $260,001 - $265,000
+    $265,001 - $270,000: $265,001 - $270,000
+    $270,001 - $275,000: $270,001 - $275,000
+    $275,001 - $280,000: $275,001 - $280,000
+    $280,001 - $285,000: $280,001 - $285,000
+    $285,001 - $290,000: $285,001 - $290,000
+    $290,001 - $295,000: $290,001 - $295,000
+    $295,001 - $300,000: $295,001 - $300,000
+    $300,001 - $350,000: $300,001 - $350,000
+    $350,001 - $400,000: $350,001 - $400,000
+    $400,001 - $450,000: $400,001 - $450,000
+    $450,001 - $500,000: $450,001 - $500,000
+    $500,001 - $550,000: $500,001 - $550,000
+    $550,001 - $600,000: $550,001 - $600,000
+    $600,001 - $650,000: $600,001 - $650,000
+    $650,001 - $700,000: $650,001 - $700,000
+    $700,001 - $750,000: $700,001 - $750,000
+    $750,001 - $800,000: $750,001 - $800,000
+    $800,001 - $850,000: $800,001 - $850,000
+    $850,001 - $900,000: $850,001 - $900,000
+    $900,001 - $950,000: $900,001 - $950,000
+    $950,001 - $1 million: $950,001 - $1 million
+    Over $1 million: Over $1 million
+    Total: Total
+  wage_salary_decile:
+    '1': '1'
+    '2': '2'
+    '3': '3'
+    '4': '4'
+    '5': '5'
+    '6': '6'
+    '7': '7'
+    '8': '8'
+    '9': '9'
+    '10': '10'
+  wage_salary_percentile:
+    '91': '91'
+    '92': '92'
+    '93': '93'
+    '94': '94'
+    '95': '95'
+    '96': '96'
+    '97': '97'
+    '98': '98'
+    '99': '99'
+    '100': '100'
+artifact:
+  source_name: ird
+  source_table: Wage and salary distributions for individuals 2026
+  resource_package: db
+  resource_directory: data/ird/wage_salary_distribution_2026
+  manifest: manifest.yaml
+  vintage: august_2026_release
+  extracted_at: '2026-10-10'
+  extraction_method: xlsx used-range cell parse of all four publisher worksheets; explanatory drawing
+    XML preserved in workbook bytes
+  parser: xlsx_used_range
+  artifact_year: 2026
+  sheets:
+  - Explanatory Notes
+  - Graphs - wage and salary
+  - Tables - wage and salary
+  - Graph data
+record_sets:
+- record_set_id: ird_wage_salary_distribution.ty2026.income_bands
+  provenance_class: administrative
+  record_set_spec_id: ird_wage_salary_distribution.income_bands.v1
+  source_record_id_prefix: ird_wage_salary_distribution.ty2026.income_bands
+  sheet_name: Tables - wage and salary
+  period_type: tax_year
+  period: 2026
+  period_coverage: &id002
+    basis: tax
+    source_period_label: 2026 tax year
+    start_date: '2025-04-01'
+    end_date: '2026-03-31'
+    notes: IRD labels its March tax year by the ending year. Tables - wage and salary!BB3, BB251 and BB266
+      identify 2026; BC2 marks it New. Explanatory Notes drawing XML states all data is published on a
+      March year basis and extraction from IRD systems on 17 August 2026. This is the publisher reference
+      period, distinct from extraction and retrieval dates.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: individual_with_wage_or_salary_income
+  domain: wage_salary_income
+  groupby_dimension: ird_wage_salary_distribution.income_band_row
+  rows:
+  - value_id: row_7
+    label: $1      -   $1,000
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: AM
+    expected_row_header: $1      -   $1,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $1      -   $1,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $1      -   $1,000
+      label: Published wage and salary income band
+    guard_cells: &id001
+    - &id003
+      column: A
+      row: 1
+      expected_value: 'individuals with wage or salary income:  Year ended 31 March'
+      label: publisher March-year table title
+    - &id004
+      column: BB
+      row: 3
+      expected_value: 2026
+      label: ending tax year
+    - &id005
+      column: BC
+      row: 2
+      expected_value: New
+      label: new tax year status
+    - column: AM
+      row: 3
+      expected_value: wage income
+      label: wage income band header
+    - column: AM
+      row: 4
+      expected_value: bands to $300,000
+      label: wage income band panel
+  - value_id: row_8
+    label: $1,001  -   $2,000
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: AM
+    expected_row_header: $1,001  -   $2,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $1,001  -   $2,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $1,001  -   $2,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_9
+    label: $2,001  -   $3,000
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: AM
+    expected_row_header: $2,001  -   $3,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $2,001  -   $3,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $2,001  -   $3,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_10
+    label: $3,001   -  $4,000
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: AM
+    expected_row_header: $3,001   -  $4,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $3,001   -  $4,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $3,001   -  $4,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_11
+    label: $4,001   -  $5,000
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: AM
+    expected_row_header: $4,001   -  $5,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $4,001   -  $5,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $4,001   -  $5,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_12
+    label: $5,001   -  $6,000
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: AM
+    expected_row_header: $5,001   -  $6,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $5,001   -  $6,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $5,001   -  $6,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_13
+    label: $6,001   -  $7,000
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: AM
+    expected_row_header: $6,001   -  $7,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $6,001   -  $7,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $6,001   -  $7,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_14
+    label: $7,001   -  $8,000
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: AM
+    expected_row_header: $7,001   -  $8,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $7,001   -  $8,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $7,001   -  $8,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_15
+    label: $8,001   -  $9,000
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: AM
+    expected_row_header: $8,001   -  $9,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $8,001   -  $9,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $8,001   -  $9,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_16
+    label: $9,001   - $10,000
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: AM
+    expected_row_header: $9,001   - $10,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $9,001   - $10,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $9,001   - $10,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_17
+    label: $10,001  - $11,000
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: AM
+    expected_row_header: $10,001  - $11,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $10,001  - $11,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $10,001  - $11,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_18
+    label: $11,001  - $12,000
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: AM
+    expected_row_header: $11,001  - $12,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $11,001  - $12,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $11,001  - $12,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_19
+    label: $12,001  - $13,000
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: AM
+    expected_row_header: $12,001  - $13,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $12,001  - $13,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $12,001  - $13,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_20
+    label: $13,001  - $14,000
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: AM
+    expected_row_header: $13,001  - $14,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $13,001  - $14,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $13,001  - $14,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_21
+    label: $14,001  - $15,000
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: AM
+    expected_row_header: $14,001  - $15,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $14,001  - $15,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $14,001  - $15,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_22
+    label: $15,001  - $16,000
+    ordinal: 15
+    row_number: 22
+    expected_row_header_column: AM
+    expected_row_header: $15,001  - $16,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $15,001  - $16,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $15,001  - $16,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_23
+    label: $16,001  - $17,000
+    ordinal: 16
+    row_number: 23
+    expected_row_header_column: AM
+    expected_row_header: $16,001  - $17,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $16,001  - $17,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $16,001  - $17,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_24
+    label: $17,001  - $18,000
+    ordinal: 17
+    row_number: 24
+    expected_row_header_column: AM
+    expected_row_header: $17,001  - $18,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $17,001  - $18,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $17,001  - $18,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_25
+    label: $18,001  - $19,000
+    ordinal: 18
+    row_number: 25
+    expected_row_header_column: AM
+    expected_row_header: $18,001  - $19,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $18,001  - $19,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $18,001  - $19,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_26
+    label: $19,001 -  $20,000
+    ordinal: 19
+    row_number: 26
+    expected_row_header_column: AM
+    expected_row_header: $19,001 -  $20,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $19,001 -  $20,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $19,001 -  $20,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_27
+    label: $20,000 -  $21,000
+    ordinal: 20
+    row_number: 27
+    expected_row_header_column: AM
+    expected_row_header: $20,000 -  $21,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $20,000 -  $21,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $20,000 -  $21,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_28
+    label: $21,001 -  $22,000
+    ordinal: 21
+    row_number: 28
+    expected_row_header_column: AM
+    expected_row_header: $21,001 -  $22,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $21,001 -  $22,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $21,001 -  $22,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_29
+    label: $22,001  - $23,000
+    ordinal: 22
+    row_number: 29
+    expected_row_header_column: AM
+    expected_row_header: $22,001  - $23,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $22,001  - $23,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $22,001  - $23,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_30
+    label: $23,001  - $24,000
+    ordinal: 23
+    row_number: 30
+    expected_row_header_column: AM
+    expected_row_header: $23,001  - $24,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $23,001  - $24,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $23,001  - $24,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_31
+    label: $24,001  - $25,000
+    ordinal: 24
+    row_number: 31
+    expected_row_header_column: AM
+    expected_row_header: $24,001  - $25,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $24,001  - $25,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $24,001  - $25,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_32
+    label: $25,001  - $26,000
+    ordinal: 25
+    row_number: 32
+    expected_row_header_column: AM
+    expected_row_header: $25,001  - $26,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $25,001  - $26,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $25,001  - $26,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_33
+    label: $26,001  - $27,000
+    ordinal: 26
+    row_number: 33
+    expected_row_header_column: AM
+    expected_row_header: $26,001  - $27,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $26,001  - $27,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $26,001  - $27,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_34
+    label: $27,001  - $28,000
+    ordinal: 27
+    row_number: 34
+    expected_row_header_column: AM
+    expected_row_header: $27,001  - $28,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $27,001  - $28,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $27,001  - $28,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_35
+    label: $28,001  - $29,000
+    ordinal: 28
+    row_number: 35
+    expected_row_header_column: AM
+    expected_row_header: $28,001  - $29,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $28,001  - $29,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $28,001  - $29,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_36
+    label: $29,001  - $30,000
+    ordinal: 29
+    row_number: 36
+    expected_row_header_column: AM
+    expected_row_header: $29,001  - $30,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $29,001  - $30,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $29,001  - $30,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_37
+    label: $30,001  - $31,000
+    ordinal: 30
+    row_number: 37
+    expected_row_header_column: AM
+    expected_row_header: $30,001  - $31,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $30,001  - $31,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $30,001  - $31,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_38
+    label: $31,001  - $32,000
+    ordinal: 31
+    row_number: 38
+    expected_row_header_column: AM
+    expected_row_header: $31,001  - $32,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $31,001  - $32,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $31,001  - $32,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_39
+    label: $32,001  - $33,000
+    ordinal: 32
+    row_number: 39
+    expected_row_header_column: AM
+    expected_row_header: $32,001  - $33,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $32,001  - $33,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $32,001  - $33,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_40
+    label: $33,001  - $34,000
+    ordinal: 33
+    row_number: 40
+    expected_row_header_column: AM
+    expected_row_header: $33,001  - $34,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $33,001  - $34,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $33,001  - $34,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_41
+    label: $34,001  - $35,000
+    ordinal: 34
+    row_number: 41
+    expected_row_header_column: AM
+    expected_row_header: $34,001  - $35,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $34,001  - $35,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $34,001  - $35,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_42
+    label: $35,001  - $36,000
+    ordinal: 35
+    row_number: 42
+    expected_row_header_column: AM
+    expected_row_header: $35,001  - $36,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $35,001  - $36,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $35,001  - $36,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_43
+    label: $36,001  - $37,000
+    ordinal: 36
+    row_number: 43
+    expected_row_header_column: AM
+    expected_row_header: $36,001  - $37,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $36,001  - $37,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $36,001  - $37,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_44
+    label: $37,001  - $38,000
+    ordinal: 37
+    row_number: 44
+    expected_row_header_column: AM
+    expected_row_header: $37,001  - $38,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $37,001  - $38,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $37,001  - $38,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_45
+    label: $38,001  - $39,000
+    ordinal: 38
+    row_number: 45
+    expected_row_header_column: AM
+    expected_row_header: $38,001  - $39,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $38,001  - $39,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $38,001  - $39,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_46
+    label: $39,001 -  $40,000
+    ordinal: 39
+    row_number: 46
+    expected_row_header_column: AM
+    expected_row_header: $39,001 -  $40,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $39,001 -  $40,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $39,001 -  $40,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_47
+    label: $40,001  - $41,000
+    ordinal: 40
+    row_number: 47
+    expected_row_header_column: AM
+    expected_row_header: $40,001  - $41,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $40,001  - $41,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $40,001  - $41,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_48
+    label: $41,001  - $42,000
+    ordinal: 41
+    row_number: 48
+    expected_row_header_column: AM
+    expected_row_header: $41,001  - $42,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $41,001  - $42,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $41,001  - $42,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_49
+    label: $42,001  - $43,000
+    ordinal: 42
+    row_number: 49
+    expected_row_header_column: AM
+    expected_row_header: $42,001  - $43,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $42,001  - $43,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $42,001  - $43,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_50
+    label: $43,001  - $44,000
+    ordinal: 43
+    row_number: 50
+    expected_row_header_column: AM
+    expected_row_header: $43,001  - $44,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $43,001  - $44,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $43,001  - $44,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_51
+    label: $44,001  - $45,000
+    ordinal: 44
+    row_number: 51
+    expected_row_header_column: AM
+    expected_row_header: $44,001  - $45,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $44,001  - $45,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $44,001  - $45,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_52
+    label: $45,001  - $46,000
+    ordinal: 45
+    row_number: 52
+    expected_row_header_column: AM
+    expected_row_header: $45,001  - $46,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $45,001  - $46,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $45,001  - $46,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_53
+    label: $46,001  - $47,000
+    ordinal: 46
+    row_number: 53
+    expected_row_header_column: AM
+    expected_row_header: $46,001  - $47,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $46,001  - $47,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $46,001  - $47,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_54
+    label: $47,001  - $48,000
+    ordinal: 47
+    row_number: 54
+    expected_row_header_column: AM
+    expected_row_header: $47,001  - $48,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $47,001  - $48,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $47,001  - $48,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_55
+    label: $48,001  - $49,000
+    ordinal: 48
+    row_number: 55
+    expected_row_header_column: AM
+    expected_row_header: $48,001  - $49,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $48,001  - $49,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $48,001  - $49,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_56
+    label: $49,001  - $50,000
+    ordinal: 49
+    row_number: 56
+    expected_row_header_column: AM
+    expected_row_header: $49,001  - $50,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $49,001  - $50,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $49,001  - $50,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_57
+    label: $50,000  - $51,000
+    ordinal: 50
+    row_number: 57
+    expected_row_header_column: AM
+    expected_row_header: $50,000  - $51,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $50,000  - $51,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $50,000  - $51,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_58
+    label: $51,001  - $52,000
+    ordinal: 51
+    row_number: 58
+    expected_row_header_column: AM
+    expected_row_header: $51,001  - $52,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $51,001  - $52,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $51,001  - $52,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_59
+    label: $52,001  - $53,000
+    ordinal: 52
+    row_number: 59
+    expected_row_header_column: AM
+    expected_row_header: $52,001  - $53,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $52,001  - $53,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $52,001  - $53,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_60
+    label: $53,001  - $54,000
+    ordinal: 53
+    row_number: 60
+    expected_row_header_column: AM
+    expected_row_header: $53,001  - $54,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $53,001  - $54,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $53,001  - $54,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_61
+    label: $54,001  - $55,000
+    ordinal: 54
+    row_number: 61
+    expected_row_header_column: AM
+    expected_row_header: $54,001  - $55,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $54,001  - $55,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $54,001  - $55,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_62
+    label: $55,001  - $56,000
+    ordinal: 55
+    row_number: 62
+    expected_row_header_column: AM
+    expected_row_header: $55,001  - $56,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $55,001  - $56,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $55,001  - $56,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_63
+    label: $56,001  - $57,000
+    ordinal: 56
+    row_number: 63
+    expected_row_header_column: AM
+    expected_row_header: $56,001  - $57,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $56,001  - $57,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $56,001  - $57,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_64
+    label: $57,001  - $58,000
+    ordinal: 57
+    row_number: 64
+    expected_row_header_column: AM
+    expected_row_header: $57,001  - $58,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $57,001  - $58,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $57,001  - $58,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_65
+    label: $58,001  - $59,000
+    ordinal: 58
+    row_number: 65
+    expected_row_header_column: AM
+    expected_row_header: $58,001  - $59,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $58,001  - $59,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $58,001  - $59,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_66
+    label: $59,001  - $60,000
+    ordinal: 59
+    row_number: 66
+    expected_row_header_column: AM
+    expected_row_header: $59,001  - $60,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $59,001  - $60,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $59,001  - $60,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_67
+    label: $60,001  - $61,000
+    ordinal: 60
+    row_number: 67
+    expected_row_header_column: AM
+    expected_row_header: $60,001  - $61,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $60,001  - $61,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $60,001  - $61,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_68
+    label: $61,001  - $62,000
+    ordinal: 61
+    row_number: 68
+    expected_row_header_column: AM
+    expected_row_header: $61,001  - $62,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $61,001  - $62,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $61,001  - $62,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_69
+    label: $62,001  - $63,000
+    ordinal: 62
+    row_number: 69
+    expected_row_header_column: AM
+    expected_row_header: $62,001  - $63,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $62,001  - $63,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $62,001  - $63,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_70
+    label: $63,001  - $64,000
+    ordinal: 63
+    row_number: 70
+    expected_row_header_column: AM
+    expected_row_header: $63,001  - $64,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $63,001  - $64,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $63,001  - $64,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_71
+    label: $64,001  - $65,000
+    ordinal: 64
+    row_number: 71
+    expected_row_header_column: AM
+    expected_row_header: $64,001  - $65,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $64,001  - $65,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $64,001  - $65,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_72
+    label: $65,001  - $66,000
+    ordinal: 65
+    row_number: 72
+    expected_row_header_column: AM
+    expected_row_header: $65,001  - $66,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $65,001  - $66,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $65,001  - $66,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_73
+    label: $66,001  - $67,000
+    ordinal: 66
+    row_number: 73
+    expected_row_header_column: AM
+    expected_row_header: $66,001  - $67,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $66,001  - $67,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $66,001  - $67,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_74
+    label: $67,001  - $68,000
+    ordinal: 67
+    row_number: 74
+    expected_row_header_column: AM
+    expected_row_header: $67,001  - $68,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $67,001  - $68,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $67,001  - $68,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_75
+    label: $68,001  - $69,000
+    ordinal: 68
+    row_number: 75
+    expected_row_header_column: AM
+    expected_row_header: $68,001  - $69,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $68,001  - $69,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $68,001  - $69,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_76
+    label: $69,001 -  $70,000
+    ordinal: 69
+    row_number: 76
+    expected_row_header_column: AM
+    expected_row_header: $69,001 -  $70,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $69,001 -  $70,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $69,001 -  $70,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_77
+    label: $70,001  - $71,000
+    ordinal: 70
+    row_number: 77
+    expected_row_header_column: AM
+    expected_row_header: $70,001  - $71,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $70,001  - $71,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $70,001  - $71,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_78
+    label: $71,001  - $72,000
+    ordinal: 71
+    row_number: 78
+    expected_row_header_column: AM
+    expected_row_header: $71,001  - $72,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $71,001  - $72,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $71,001  - $72,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_79
+    label: $72,001  - $73,000
+    ordinal: 72
+    row_number: 79
+    expected_row_header_column: AM
+    expected_row_header: $72,001  - $73,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $72,001  - $73,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $72,001  - $73,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_80
+    label: $73,001  - $74,000
+    ordinal: 73
+    row_number: 80
+    expected_row_header_column: AM
+    expected_row_header: $73,001  - $74,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $73,001  - $74,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $73,001  - $74,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_81
+    label: $74,001  - $75,000
+    ordinal: 74
+    row_number: 81
+    expected_row_header_column: AM
+    expected_row_header: $74,001  - $75,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $74,001  - $75,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $74,001  - $75,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_82
+    label: $75,001  - $76,000
+    ordinal: 75
+    row_number: 82
+    expected_row_header_column: AM
+    expected_row_header: $75,001  - $76,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $75,001  - $76,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $75,001  - $76,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_83
+    label: $76,001  - $77,000
+    ordinal: 76
+    row_number: 83
+    expected_row_header_column: AM
+    expected_row_header: $76,001  - $77,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $76,001  - $77,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $76,001  - $77,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_84
+    label: $77,001  - $78,000
+    ordinal: 77
+    row_number: 84
+    expected_row_header_column: AM
+    expected_row_header: $77,001  - $78,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $77,001  - $78,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $77,001  - $78,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_85
+    label: $78,001  - $79,000
+    ordinal: 78
+    row_number: 85
+    expected_row_header_column: AM
+    expected_row_header: $78,001  - $79,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $78,001  - $79,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $78,001  - $79,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_86
+    label: $79,001  - $80,000
+    ordinal: 79
+    row_number: 86
+    expected_row_header_column: AM
+    expected_row_header: $79,001  - $80,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $79,001  - $80,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $79,001  - $80,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_87
+    label: $80,000  - $81,000
+    ordinal: 80
+    row_number: 87
+    expected_row_header_column: AM
+    expected_row_header: $80,000  - $81,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $80,000  - $81,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $80,000  - $81,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_88
+    label: $81,001  - $82,000
+    ordinal: 81
+    row_number: 88
+    expected_row_header_column: AM
+    expected_row_header: $81,001  - $82,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $81,001  - $82,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $81,001  - $82,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_89
+    label: $82,001  - $83,000
+    ordinal: 82
+    row_number: 89
+    expected_row_header_column: AM
+    expected_row_header: $82,001  - $83,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $82,001  - $83,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $82,001  - $83,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_90
+    label: $83,001  - $84,000
+    ordinal: 83
+    row_number: 90
+    expected_row_header_column: AM
+    expected_row_header: $83,001  - $84,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $83,001  - $84,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $83,001  - $84,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_91
+    label: $84,001  - $85,000
+    ordinal: 84
+    row_number: 91
+    expected_row_header_column: AM
+    expected_row_header: $84,001  - $85,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $84,001  - $85,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $84,001  - $85,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_92
+    label: $85,001  - $86,000
+    ordinal: 85
+    row_number: 92
+    expected_row_header_column: AM
+    expected_row_header: $85,001  - $86,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $85,001  - $86,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $85,001  - $86,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_93
+    label: $86,001  - $87,000
+    ordinal: 86
+    row_number: 93
+    expected_row_header_column: AM
+    expected_row_header: $86,001  - $87,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $86,001  - $87,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $86,001  - $87,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_94
+    label: $87,001  - $88,000
+    ordinal: 87
+    row_number: 94
+    expected_row_header_column: AM
+    expected_row_header: $87,001  - $88,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $87,001  - $88,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $87,001  - $88,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_95
+    label: $88,001  - $89,000
+    ordinal: 88
+    row_number: 95
+    expected_row_header_column: AM
+    expected_row_header: $88,001  - $89,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $88,001  - $89,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $88,001  - $89,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_96
+    label: $89,001  - $90,000
+    ordinal: 89
+    row_number: 96
+    expected_row_header_column: AM
+    expected_row_header: $89,001  - $90,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $89,001  - $90,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $89,001  - $90,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_97
+    label: $90,001  - $91,000
+    ordinal: 90
+    row_number: 97
+    expected_row_header_column: AM
+    expected_row_header: $90,001  - $91,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $90,001  - $91,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $90,001  - $91,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_98
+    label: $91,001  - $92,000
+    ordinal: 91
+    row_number: 98
+    expected_row_header_column: AM
+    expected_row_header: $91,001  - $92,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $91,001  - $92,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $91,001  - $92,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_99
+    label: $92,001  - $93,000
+    ordinal: 92
+    row_number: 99
+    expected_row_header_column: AM
+    expected_row_header: $92,001  - $93,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $92,001  - $93,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $92,001  - $93,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_100
+    label: $93,001  - $94,000
+    ordinal: 93
+    row_number: 100
+    expected_row_header_column: AM
+    expected_row_header: $93,001  - $94,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $93,001  - $94,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $93,001  - $94,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_101
+    label: $94,001  - $95,000
+    ordinal: 94
+    row_number: 101
+    expected_row_header_column: AM
+    expected_row_header: $94,001  - $95,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $94,001  - $95,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $94,001  - $95,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_102
+    label: $95,001  - $96,000
+    ordinal: 95
+    row_number: 102
+    expected_row_header_column: AM
+    expected_row_header: $95,001  - $96,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $95,001  - $96,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $95,001  - $96,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_103
+    label: $96,001  - $97,000
+    ordinal: 96
+    row_number: 103
+    expected_row_header_column: AM
+    expected_row_header: $96,001  - $97,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $96,001  - $97,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $96,001  - $97,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_104
+    label: $97,001  - $98,000
+    ordinal: 97
+    row_number: 104
+    expected_row_header_column: AM
+    expected_row_header: $97,001  - $98,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $97,001  - $98,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $97,001  - $98,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_105
+    label: $98,001  - $99,000
+    ordinal: 98
+    row_number: 105
+    expected_row_header_column: AM
+    expected_row_header: $98,001  - $99,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $98,001  - $99,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $98,001  - $99,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_106
+    label: $99,001 - $100,000
+    ordinal: 99
+    row_number: 106
+    expected_row_header_column: AM
+    expected_row_header: $99,001 - $100,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $99,001 - $100,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $99,001 - $100,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_107
+    label: $100,001 - $101,000
+    ordinal: 100
+    row_number: 107
+    expected_row_header_column: AM
+    expected_row_header: $100,001 - $101,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $100,001 - $101,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $100,001 - $101,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_108
+    label: $101,001 - $102,000
+    ordinal: 101
+    row_number: 108
+    expected_row_header_column: AM
+    expected_row_header: $101,001 - $102,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $101,001 - $102,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $101,001 - $102,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_109
+    label: $102,001 - $103,000
+    ordinal: 102
+    row_number: 109
+    expected_row_header_column: AM
+    expected_row_header: $102,001 - $103,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $102,001 - $103,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $102,001 - $103,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_110
+    label: $103,001 - $104,000
+    ordinal: 103
+    row_number: 110
+    expected_row_header_column: AM
+    expected_row_header: $103,001 - $104,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $103,001 - $104,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $103,001 - $104,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_111
+    label: $104,001 - $105,000
+    ordinal: 104
+    row_number: 111
+    expected_row_header_column: AM
+    expected_row_header: $104,001 - $105,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $104,001 - $105,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $104,001 - $105,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_112
+    label: $105,001 - $106,000
+    ordinal: 105
+    row_number: 112
+    expected_row_header_column: AM
+    expected_row_header: $105,001 - $106,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $105,001 - $106,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $105,001 - $106,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_113
+    label: $106,001 - $107,000
+    ordinal: 106
+    row_number: 113
+    expected_row_header_column: AM
+    expected_row_header: $106,001 - $107,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $106,001 - $107,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $106,001 - $107,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_114
+    label: $107,001 - $108,000
+    ordinal: 107
+    row_number: 114
+    expected_row_header_column: AM
+    expected_row_header: $107,001 - $108,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $107,001 - $108,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $107,001 - $108,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_115
+    label: $108,001 - $109,000
+    ordinal: 108
+    row_number: 115
+    expected_row_header_column: AM
+    expected_row_header: $108,001 - $109,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $108,001 - $109,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $108,001 - $109,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_116
+    label: $109,001 - $110,000
+    ordinal: 109
+    row_number: 116
+    expected_row_header_column: AM
+    expected_row_header: $109,001 - $110,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $109,001 - $110,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $109,001 - $110,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_117
+    label: $110,001 - $111,000
+    ordinal: 110
+    row_number: 117
+    expected_row_header_column: AM
+    expected_row_header: $110,001 - $111,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $110,001 - $111,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $110,001 - $111,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_118
+    label: $111,001 - $112,000
+    ordinal: 111
+    row_number: 118
+    expected_row_header_column: AM
+    expected_row_header: $111,001 - $112,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $111,001 - $112,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $111,001 - $112,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_119
+    label: $112,001 - $113,000
+    ordinal: 112
+    row_number: 119
+    expected_row_header_column: AM
+    expected_row_header: $112,001 - $113,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $112,001 - $113,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $112,001 - $113,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_120
+    label: $113,001 - $114,000
+    ordinal: 113
+    row_number: 120
+    expected_row_header_column: AM
+    expected_row_header: $113,001 - $114,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $113,001 - $114,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $113,001 - $114,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_121
+    label: $114,001 - $115,000
+    ordinal: 114
+    row_number: 121
+    expected_row_header_column: AM
+    expected_row_header: $114,001 - $115,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $114,001 - $115,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $114,001 - $115,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_122
+    label: $115,001 - $116,000
+    ordinal: 115
+    row_number: 122
+    expected_row_header_column: AM
+    expected_row_header: $115,001 - $116,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $115,001 - $116,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $115,001 - $116,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_123
+    label: $116,001 - $117,000
+    ordinal: 116
+    row_number: 123
+    expected_row_header_column: AM
+    expected_row_header: $116,001 - $117,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $116,001 - $117,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $116,001 - $117,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_124
+    label: $117,001 - $118,000
+    ordinal: 117
+    row_number: 124
+    expected_row_header_column: AM
+    expected_row_header: $117,001 - $118,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $117,001 - $118,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $117,001 - $118,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_125
+    label: $118,001 - $119,000
+    ordinal: 118
+    row_number: 125
+    expected_row_header_column: AM
+    expected_row_header: $118,001 - $119,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $118,001 - $119,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $118,001 - $119,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_126
+    label: $119,001 - $120,000
+    ordinal: 119
+    row_number: 126
+    expected_row_header_column: AM
+    expected_row_header: $119,001 - $120,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $119,001 - $120,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $119,001 - $120,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_127
+    label: $120,001 - $121,000
+    ordinal: 120
+    row_number: 127
+    expected_row_header_column: AM
+    expected_row_header: $120,001 - $121,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $120,001 - $121,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $120,001 - $121,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_128
+    label: $121,001 - $122,000
+    ordinal: 121
+    row_number: 128
+    expected_row_header_column: AM
+    expected_row_header: $121,001 - $122,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $121,001 - $122,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $121,001 - $122,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_129
+    label: $122,001 - $123,000
+    ordinal: 122
+    row_number: 129
+    expected_row_header_column: AM
+    expected_row_header: $122,001 - $123,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $122,001 - $123,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $122,001 - $123,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_130
+    label: $123,001 - $124,000
+    ordinal: 123
+    row_number: 130
+    expected_row_header_column: AM
+    expected_row_header: $123,001 - $124,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $123,001 - $124,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $123,001 - $124,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_131
+    label: $124,001 - $125,000
+    ordinal: 124
+    row_number: 131
+    expected_row_header_column: AM
+    expected_row_header: $124,001 - $125,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $124,001 - $125,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $124,001 - $125,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_132
+    label: $125,001 - $126,000
+    ordinal: 125
+    row_number: 132
+    expected_row_header_column: AM
+    expected_row_header: $125,001 - $126,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $125,001 - $126,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $125,001 - $126,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_133
+    label: $126,001 - $127,000
+    ordinal: 126
+    row_number: 133
+    expected_row_header_column: AM
+    expected_row_header: $126,001 - $127,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $126,001 - $127,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $126,001 - $127,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_134
+    label: $127,001 - $128,000
+    ordinal: 127
+    row_number: 134
+    expected_row_header_column: AM
+    expected_row_header: $127,001 - $128,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $127,001 - $128,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $127,001 - $128,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_135
+    label: $128,001 - $129,000
+    ordinal: 128
+    row_number: 135
+    expected_row_header_column: AM
+    expected_row_header: $128,001 - $129,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $128,001 - $129,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $128,001 - $129,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_136
+    label: $129,001 - $130,000
+    ordinal: 129
+    row_number: 136
+    expected_row_header_column: AM
+    expected_row_header: $129,001 - $130,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $129,001 - $130,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $129,001 - $130,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_137
+    label: $130,001 - $131,000
+    ordinal: 130
+    row_number: 137
+    expected_row_header_column: AM
+    expected_row_header: $130,001 - $131,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $130,001 - $131,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $130,001 - $131,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_138
+    label: $131,001 - $132,000
+    ordinal: 131
+    row_number: 138
+    expected_row_header_column: AM
+    expected_row_header: $131,001 - $132,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $131,001 - $132,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $131,001 - $132,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_139
+    label: $132,001 - $133,000
+    ordinal: 132
+    row_number: 139
+    expected_row_header_column: AM
+    expected_row_header: $132,001 - $133,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $132,001 - $133,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $132,001 - $133,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_140
+    label: $133,001 - $134,000
+    ordinal: 133
+    row_number: 140
+    expected_row_header_column: AM
+    expected_row_header: $133,001 - $134,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $133,001 - $134,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $133,001 - $134,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_141
+    label: $134,001 - $135,000
+    ordinal: 134
+    row_number: 141
+    expected_row_header_column: AM
+    expected_row_header: $134,001 - $135,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $134,001 - $135,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $134,001 - $135,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_142
+    label: $135,001 - $136,000
+    ordinal: 135
+    row_number: 142
+    expected_row_header_column: AM
+    expected_row_header: $135,001 - $136,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $135,001 - $136,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $135,001 - $136,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_143
+    label: $136,001 - $137,000
+    ordinal: 136
+    row_number: 143
+    expected_row_header_column: AM
+    expected_row_header: $136,001 - $137,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $136,001 - $137,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $136,001 - $137,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_144
+    label: $137,001 - $138,000
+    ordinal: 137
+    row_number: 144
+    expected_row_header_column: AM
+    expected_row_header: $137,001 - $138,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $137,001 - $138,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $137,001 - $138,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_145
+    label: $138,001 - $139,000
+    ordinal: 138
+    row_number: 145
+    expected_row_header_column: AM
+    expected_row_header: $138,001 - $139,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $138,001 - $139,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $138,001 - $139,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_146
+    label: $139,001 - $140,000
+    ordinal: 139
+    row_number: 146
+    expected_row_header_column: AM
+    expected_row_header: $139,001 - $140,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $139,001 - $140,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $139,001 - $140,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_147
+    label: $140,001 - $141,000
+    ordinal: 140
+    row_number: 147
+    expected_row_header_column: AM
+    expected_row_header: $140,001 - $141,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $140,001 - $141,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $140,001 - $141,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_148
+    label: $141,001 - $142,000
+    ordinal: 141
+    row_number: 148
+    expected_row_header_column: AM
+    expected_row_header: $141,001 - $142,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $141,001 - $142,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $141,001 - $142,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_149
+    label: $142,001 - $143,000
+    ordinal: 142
+    row_number: 149
+    expected_row_header_column: AM
+    expected_row_header: $142,001 - $143,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $142,001 - $143,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $142,001 - $143,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_150
+    label: $143,001 - $144,000
+    ordinal: 143
+    row_number: 150
+    expected_row_header_column: AM
+    expected_row_header: $143,001 - $144,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $143,001 - $144,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $143,001 - $144,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_151
+    label: $144,001 - $145,000
+    ordinal: 144
+    row_number: 151
+    expected_row_header_column: AM
+    expected_row_header: $144,001 - $145,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $144,001 - $145,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $144,001 - $145,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_152
+    label: $145,001 - $146,000
+    ordinal: 145
+    row_number: 152
+    expected_row_header_column: AM
+    expected_row_header: $145,001 - $146,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $145,001 - $146,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $145,001 - $146,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_153
+    label: $146,001 - $147,000
+    ordinal: 146
+    row_number: 153
+    expected_row_header_column: AM
+    expected_row_header: $146,001 - $147,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $146,001 - $147,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $146,001 - $147,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_154
+    label: $147,001 - $148,000
+    ordinal: 147
+    row_number: 154
+    expected_row_header_column: AM
+    expected_row_header: $147,001 - $148,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $147,001 - $148,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $147,001 - $148,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_155
+    label: $148,001 - $149,000
+    ordinal: 148
+    row_number: 155
+    expected_row_header_column: AM
+    expected_row_header: $148,001 - $149,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $148,001 - $149,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $148,001 - $149,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_156
+    label: $149,001 - $150,000
+    ordinal: 149
+    row_number: 156
+    expected_row_header_column: AM
+    expected_row_header: $149,001 - $150,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $149,001 - $150,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $149,001 - $150,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_157
+    label: $150,001 - $151,000
+    ordinal: 150
+    row_number: 157
+    expected_row_header_column: AM
+    expected_row_header: $150,001 - $151,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $150,001 - $151,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $150,001 - $151,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_158
+    label: $151,001 - $152,000
+    ordinal: 151
+    row_number: 158
+    expected_row_header_column: AM
+    expected_row_header: $151,001 - $152,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $151,001 - $152,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $151,001 - $152,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_159
+    label: $152,001 - $153,000
+    ordinal: 152
+    row_number: 159
+    expected_row_header_column: AM
+    expected_row_header: $152,001 - $153,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $152,001 - $153,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $152,001 - $153,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_160
+    label: $153,001 - $154,000
+    ordinal: 153
+    row_number: 160
+    expected_row_header_column: AM
+    expected_row_header: $153,001 - $154,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $153,001 - $154,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $153,001 - $154,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_161
+    label: $154,001 - $155,000
+    ordinal: 154
+    row_number: 161
+    expected_row_header_column: AM
+    expected_row_header: $154,001 - $155,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $154,001 - $155,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $154,001 - $155,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_162
+    label: $155,001 - $156,000
+    ordinal: 155
+    row_number: 162
+    expected_row_header_column: AM
+    expected_row_header: $155,001 - $156,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $155,001 - $156,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $155,001 - $156,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_163
+    label: $156,001 - $157,000
+    ordinal: 156
+    row_number: 163
+    expected_row_header_column: AM
+    expected_row_header: $156,001 - $157,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $156,001 - $157,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $156,001 - $157,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_164
+    label: $157,001 - $158,000
+    ordinal: 157
+    row_number: 164
+    expected_row_header_column: AM
+    expected_row_header: $157,001 - $158,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $157,001 - $158,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $157,001 - $158,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_165
+    label: $158,001 - $159,000
+    ordinal: 158
+    row_number: 165
+    expected_row_header_column: AM
+    expected_row_header: $158,001 - $159,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $158,001 - $159,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $158,001 - $159,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_166
+    label: $159,001 - $160,000
+    ordinal: 159
+    row_number: 166
+    expected_row_header_column: AM
+    expected_row_header: $159,001 - $160,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $159,001 - $160,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $159,001 - $160,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_167
+    label: $160,001 - $161,000
+    ordinal: 160
+    row_number: 167
+    expected_row_header_column: AM
+    expected_row_header: $160,001 - $161,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $160,001 - $161,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $160,001 - $161,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_168
+    label: $161,001 - $162,000
+    ordinal: 161
+    row_number: 168
+    expected_row_header_column: AM
+    expected_row_header: $161,001 - $162,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $161,001 - $162,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $161,001 - $162,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_169
+    label: $162,001 - $163,000
+    ordinal: 162
+    row_number: 169
+    expected_row_header_column: AM
+    expected_row_header: $162,001 - $163,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $162,001 - $163,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $162,001 - $163,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_170
+    label: $163,001 - $164,000
+    ordinal: 163
+    row_number: 170
+    expected_row_header_column: AM
+    expected_row_header: $163,001 - $164,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $163,001 - $164,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $163,001 - $164,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_171
+    label: $164,001 - $165,000
+    ordinal: 164
+    row_number: 171
+    expected_row_header_column: AM
+    expected_row_header: $164,001 - $165,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $164,001 - $165,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $164,001 - $165,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_172
+    label: $165,001 - $166,000
+    ordinal: 165
+    row_number: 172
+    expected_row_header_column: AM
+    expected_row_header: $165,001 - $166,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $165,001 - $166,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $165,001 - $166,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_173
+    label: $166,001 - $167,000
+    ordinal: 166
+    row_number: 173
+    expected_row_header_column: AM
+    expected_row_header: $166,001 - $167,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $166,001 - $167,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $166,001 - $167,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_174
+    label: $167,001 - $168,000
+    ordinal: 167
+    row_number: 174
+    expected_row_header_column: AM
+    expected_row_header: $167,001 - $168,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $167,001 - $168,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $167,001 - $168,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_175
+    label: $168,001 - $169,000
+    ordinal: 168
+    row_number: 175
+    expected_row_header_column: AM
+    expected_row_header: $168,001 - $169,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $168,001 - $169,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $168,001 - $169,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_176
+    label: $169,001 - $170,000
+    ordinal: 169
+    row_number: 176
+    expected_row_header_column: AM
+    expected_row_header: $169,001 - $170,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $169,001 - $170,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $169,001 - $170,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_177
+    label: $170,001 - $171,000
+    ordinal: 170
+    row_number: 177
+    expected_row_header_column: AM
+    expected_row_header: $170,001 - $171,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $170,001 - $171,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $170,001 - $171,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_178
+    label: $171,001 - $172,000
+    ordinal: 171
+    row_number: 178
+    expected_row_header_column: AM
+    expected_row_header: $171,001 - $172,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $171,001 - $172,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $171,001 - $172,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_179
+    label: $172,001 - $173,000
+    ordinal: 172
+    row_number: 179
+    expected_row_header_column: AM
+    expected_row_header: $172,001 - $173,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $172,001 - $173,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $172,001 - $173,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_180
+    label: $173,001 - $174,000
+    ordinal: 173
+    row_number: 180
+    expected_row_header_column: AM
+    expected_row_header: $173,001 - $174,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $173,001 - $174,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $173,001 - $174,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_181
+    label: $174,001 - $175,000
+    ordinal: 174
+    row_number: 181
+    expected_row_header_column: AM
+    expected_row_header: $174,001 - $175,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $174,001 - $175,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $174,001 - $175,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_182
+    label: $175,001 - $176,000
+    ordinal: 175
+    row_number: 182
+    expected_row_header_column: AM
+    expected_row_header: $175,001 - $176,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $175,001 - $176,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $175,001 - $176,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_183
+    label: $176,001 - $177,000
+    ordinal: 176
+    row_number: 183
+    expected_row_header_column: AM
+    expected_row_header: $176,001 - $177,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $176,001 - $177,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $176,001 - $177,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_184
+    label: $177,001 - $178,000
+    ordinal: 177
+    row_number: 184
+    expected_row_header_column: AM
+    expected_row_header: $177,001 - $178,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $177,001 - $178,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $177,001 - $178,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_185
+    label: $178,001 - $179,000
+    ordinal: 178
+    row_number: 185
+    expected_row_header_column: AM
+    expected_row_header: $178,001 - $179,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $178,001 - $179,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $178,001 - $179,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_186
+    label: $179,001 - $180,000
+    ordinal: 179
+    row_number: 186
+    expected_row_header_column: AM
+    expected_row_header: $179,001 - $180,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $179,001 - $180,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $179,001 - $180,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_187
+    label: $180,001 - $181,000
+    ordinal: 180
+    row_number: 187
+    expected_row_header_column: AM
+    expected_row_header: $180,001 - $181,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $180,001 - $181,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $180,001 - $181,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_188
+    label: $181,001 - $182,000
+    ordinal: 181
+    row_number: 188
+    expected_row_header_column: AM
+    expected_row_header: $181,001 - $182,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $181,001 - $182,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $181,001 - $182,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_189
+    label: $182,001 - $183,000
+    ordinal: 182
+    row_number: 189
+    expected_row_header_column: AM
+    expected_row_header: $182,001 - $183,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $182,001 - $183,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $182,001 - $183,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_190
+    label: $183,001 - $184,000
+    ordinal: 183
+    row_number: 190
+    expected_row_header_column: AM
+    expected_row_header: $183,001 - $184,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $183,001 - $184,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $183,001 - $184,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_191
+    label: $184,001 - $185,000
+    ordinal: 184
+    row_number: 191
+    expected_row_header_column: AM
+    expected_row_header: $184,001 - $185,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $184,001 - $185,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $184,001 - $185,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_192
+    label: $185,001 - $186,000
+    ordinal: 185
+    row_number: 192
+    expected_row_header_column: AM
+    expected_row_header: $185,001 - $186,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $185,001 - $186,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $185,001 - $186,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_193
+    label: $186,001 - $187,000
+    ordinal: 186
+    row_number: 193
+    expected_row_header_column: AM
+    expected_row_header: $186,001 - $187,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $186,001 - $187,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $186,001 - $187,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_194
+    label: $187,001 - $188,000
+    ordinal: 187
+    row_number: 194
+    expected_row_header_column: AM
+    expected_row_header: $187,001 - $188,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $187,001 - $188,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $187,001 - $188,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_195
+    label: $188,001 - $189,000
+    ordinal: 188
+    row_number: 195
+    expected_row_header_column: AM
+    expected_row_header: $188,001 - $189,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $188,001 - $189,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $188,001 - $189,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_196
+    label: $189,001 - $190,000
+    ordinal: 189
+    row_number: 196
+    expected_row_header_column: AM
+    expected_row_header: $189,001 - $190,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $189,001 - $190,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $189,001 - $190,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_197
+    label: $190,001 - $191,000
+    ordinal: 190
+    row_number: 197
+    expected_row_header_column: AM
+    expected_row_header: $190,001 - $191,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $190,001 - $191,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $190,001 - $191,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_198
+    label: $191,001 - $192,000
+    ordinal: 191
+    row_number: 198
+    expected_row_header_column: AM
+    expected_row_header: $191,001 - $192,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $191,001 - $192,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $191,001 - $192,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_199
+    label: $192,001 - $193,000
+    ordinal: 192
+    row_number: 199
+    expected_row_header_column: AM
+    expected_row_header: $192,001 - $193,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $192,001 - $193,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $192,001 - $193,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_200
+    label: $193,001 - $194,000
+    ordinal: 193
+    row_number: 200
+    expected_row_header_column: AM
+    expected_row_header: $193,001 - $194,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $193,001 - $194,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $193,001 - $194,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_201
+    label: $194,001 - $195,000
+    ordinal: 194
+    row_number: 201
+    expected_row_header_column: AM
+    expected_row_header: $194,001 - $195,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $194,001 - $195,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $194,001 - $195,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_202
+    label: $195,001 - $196,000
+    ordinal: 195
+    row_number: 202
+    expected_row_header_column: AM
+    expected_row_header: $195,001 - $196,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $195,001 - $196,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $195,001 - $196,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_203
+    label: $196,001 - $197,000
+    ordinal: 196
+    row_number: 203
+    expected_row_header_column: AM
+    expected_row_header: $196,001 - $197,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $196,001 - $197,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $196,001 - $197,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_204
+    label: $197,001 - $198,000
+    ordinal: 197
+    row_number: 204
+    expected_row_header_column: AM
+    expected_row_header: $197,001 - $198,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $197,001 - $198,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $197,001 - $198,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_205
+    label: $198,001 - $199,000
+    ordinal: 198
+    row_number: 205
+    expected_row_header_column: AM
+    expected_row_header: $198,001 - $199,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $198,001 - $199,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $198,001 - $199,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_206
+    label: $199,001 - $200,000
+    ordinal: 199
+    row_number: 206
+    expected_row_header_column: AM
+    expected_row_header: $199,001 - $200,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $199,001 - $200,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $199,001 - $200,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_207
+    label: $200,001 - $205,000
+    ordinal: 200
+    row_number: 207
+    expected_row_header_column: AM
+    expected_row_header: $200,001 - $205,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $200,001 - $205,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $200,001 - $205,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_208
+    label: $205,001 - $210,000
+    ordinal: 201
+    row_number: 208
+    expected_row_header_column: AM
+    expected_row_header: $205,001 - $210,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $205,001 - $210,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $205,001 - $210,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_209
+    label: $210,001 - $215,000
+    ordinal: 202
+    row_number: 209
+    expected_row_header_column: AM
+    expected_row_header: $210,001 - $215,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $210,001 - $215,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $210,001 - $215,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_210
+    label: $215,001 - $220,000
+    ordinal: 203
+    row_number: 210
+    expected_row_header_column: AM
+    expected_row_header: $215,001 - $220,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $215,001 - $220,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $215,001 - $220,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_211
+    label: $220,001 - $225,000
+    ordinal: 204
+    row_number: 211
+    expected_row_header_column: AM
+    expected_row_header: $220,001 - $225,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $220,001 - $225,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $220,001 - $225,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_212
+    label: $225,001 - $230,000
+    ordinal: 205
+    row_number: 212
+    expected_row_header_column: AM
+    expected_row_header: $225,001 - $230,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $225,001 - $230,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $225,001 - $230,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_213
+    label: $230,001 - $235,000
+    ordinal: 206
+    row_number: 213
+    expected_row_header_column: AM
+    expected_row_header: $230,001 - $235,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $230,001 - $235,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $230,001 - $235,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_214
+    label: $235,001 - $240,000
+    ordinal: 207
+    row_number: 214
+    expected_row_header_column: AM
+    expected_row_header: $235,001 - $240,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $235,001 - $240,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $235,001 - $240,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_215
+    label: $240,001 - $245,000
+    ordinal: 208
+    row_number: 215
+    expected_row_header_column: AM
+    expected_row_header: $240,001 - $245,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $240,001 - $245,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $240,001 - $245,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_216
+    label: $245,001 - $250,000
+    ordinal: 209
+    row_number: 216
+    expected_row_header_column: AM
+    expected_row_header: $245,001 - $250,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $245,001 - $250,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $245,001 - $250,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_217
+    label: $250,001 - $255,000
+    ordinal: 210
+    row_number: 217
+    expected_row_header_column: AM
+    expected_row_header: $250,001 - $255,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $250,001 - $255,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $250,001 - $255,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_218
+    label: $255,001 - $260,000
+    ordinal: 211
+    row_number: 218
+    expected_row_header_column: AM
+    expected_row_header: $255,001 - $260,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $255,001 - $260,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $255,001 - $260,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_219
+    label: $260,001 - $265,000
+    ordinal: 212
+    row_number: 219
+    expected_row_header_column: AM
+    expected_row_header: $260,001 - $265,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $260,001 - $265,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $260,001 - $265,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_220
+    label: $265,001 - $270,000
+    ordinal: 213
+    row_number: 220
+    expected_row_header_column: AM
+    expected_row_header: $265,001 - $270,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $265,001 - $270,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $265,001 - $270,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_221
+    label: $270,001 - $275,000
+    ordinal: 214
+    row_number: 221
+    expected_row_header_column: AM
+    expected_row_header: $270,001 - $275,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $270,001 - $275,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $270,001 - $275,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_222
+    label: $275,001 - $280,000
+    ordinal: 215
+    row_number: 222
+    expected_row_header_column: AM
+    expected_row_header: $275,001 - $280,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $275,001 - $280,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $275,001 - $280,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_223
+    label: $280,001 - $285,000
+    ordinal: 216
+    row_number: 223
+    expected_row_header_column: AM
+    expected_row_header: $280,001 - $285,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $280,001 - $285,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $280,001 - $285,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_224
+    label: $285,001 - $290,000
+    ordinal: 217
+    row_number: 224
+    expected_row_header_column: AM
+    expected_row_header: $285,001 - $290,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $285,001 - $290,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $285,001 - $290,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_225
+    label: $290,001 - $295,000
+    ordinal: 218
+    row_number: 225
+    expected_row_header_column: AM
+    expected_row_header: $290,001 - $295,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $290,001 - $295,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $290,001 - $295,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_226
+    label: $295,001 - $300,000
+    ordinal: 219
+    row_number: 226
+    expected_row_header_column: AM
+    expected_row_header: $295,001 - $300,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $295,001 - $300,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $295,001 - $300,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_227
+    label: $300,001 - $350,000
+    ordinal: 220
+    row_number: 227
+    expected_row_header_column: AM
+    expected_row_header: $300,001 - $350,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $300,001 - $350,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $300,001 - $350,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_228
+    label: $350,001 - $400,000
+    ordinal: 221
+    row_number: 228
+    expected_row_header_column: AM
+    expected_row_header: $350,001 - $400,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $350,001 - $400,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $350,001 - $400,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_229
+    label: $400,001 - $450,000
+    ordinal: 222
+    row_number: 229
+    expected_row_header_column: AM
+    expected_row_header: $400,001 - $450,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $400,001 - $450,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $400,001 - $450,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_230
+    label: $450,001 - $500,000
+    ordinal: 223
+    row_number: 230
+    expected_row_header_column: AM
+    expected_row_header: $450,001 - $500,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $450,001 - $500,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $450,001 - $500,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_231
+    label: $500,001 - $550,000
+    ordinal: 224
+    row_number: 231
+    expected_row_header_column: AM
+    expected_row_header: $500,001 - $550,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $500,001 - $550,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $500,001 - $550,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_232
+    label: $550,001 - $600,000
+    ordinal: 225
+    row_number: 232
+    expected_row_header_column: AM
+    expected_row_header: $550,001 - $600,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $550,001 - $600,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $550,001 - $600,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_233
+    label: $600,001 - $650,000
+    ordinal: 226
+    row_number: 233
+    expected_row_header_column: AM
+    expected_row_header: $600,001 - $650,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $600,001 - $650,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $600,001 - $650,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_234
+    label: $650,001 - $700,000
+    ordinal: 227
+    row_number: 234
+    expected_row_header_column: AM
+    expected_row_header: $650,001 - $700,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $650,001 - $700,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $650,001 - $700,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_235
+    label: $700,001 - $750,000
+    ordinal: 228
+    row_number: 235
+    expected_row_header_column: AM
+    expected_row_header: $700,001 - $750,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $700,001 - $750,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $700,001 - $750,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_236
+    label: $750,001 - $800,000
+    ordinal: 229
+    row_number: 236
+    expected_row_header_column: AM
+    expected_row_header: $750,001 - $800,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $750,001 - $800,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $750,001 - $800,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_237
+    label: $800,001 - $850,000
+    ordinal: 230
+    row_number: 237
+    expected_row_header_column: AM
+    expected_row_header: $800,001 - $850,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $800,001 - $850,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $800,001 - $850,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_238
+    label: $850,001 - $900,000
+    ordinal: 231
+    row_number: 238
+    expected_row_header_column: AM
+    expected_row_header: $850,001 - $900,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $850,001 - $900,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $850,001 - $900,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_239
+    label: $900,001 - $950,000
+    ordinal: 232
+    row_number: 239
+    expected_row_header_column: AM
+    expected_row_header: $900,001 - $950,000
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $900,001 - $950,000
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $900,001 - $950,000
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_240
+    label: $950,001 - $1 million
+    ordinal: 233
+    row_number: 240
+    expected_row_header_column: AM
+    expected_row_header: $950,001 - $1 million
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: $950,001 - $1 million
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: $950,001 - $1 million
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_241
+    label: Over $1 million
+    ordinal: 234
+    row_number: 241
+    expected_row_header_column: AM
+    expected_row_header: Over $1 million
+    table_record_kind: detail
+    filters:
+      wage_salary_band_source_label: Over $1 million
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: Over $1 million
+      label: Published wage and salary income band
+    guard_cells: *id001
+  - value_id: row_242
+    label: Total
+    ordinal: 235
+    row_number: 242
+    expected_row_header_column: AM
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      wage_salary_band_source_label: Total
+    constraints:
+    - variable: wage_salary_band_source_label
+      operator: ==
+      value: Total
+      label: Published wage and salary income band
+    guard_cells: *id001
+  measures:
+  - measure_id: individuals
+    label: Number of individuals
+    ordinal: 0
+    column: BB
+    source_column_id: individuals
+    expected_column_header_row: 4
+    expected_column_header: Number of individuals
+    concept: ird_wage_salary_distribution.individuals
+    source_concept: ird_wage_salary_distribution.individuals
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/-/media/project/ir/home/documents/about-us/tax-statistics---current/revenue-and-refunds/wage-and-salary/wage-and-salary-statistics/wage-and-salary-distributions-for-individuals.xlsx
+    concept_evidence_notes: 'One cached publisher cell without recalculation or rounding. Wage/salary
+      income ($M) retains its cached precision and is scaled by 1000000 to NZD; boundaries are published
+      NZD cut-points, not shares. Separately published totals remain their own cells. Original band spelling
+      and spacing remain categorical source labels, without inferred interval bounds, means or shares.
+      Explanatory Notes in xl/drawings/drawing1.xml defines gross earnings reported through PAYE, including
+      shares/share options and Paid Parental Leave; excludes New Zealand Superannuation, taxable welfare
+      benefits, student allowances, earnings-related ACC payments and shareholder-employee salaries (no
+      PAYE deducted). Children and part-time/part-year PAYE earners are included; persons with no wage/salary
+      income and non-natural-person entities are excluded. Full population data is used from the 2016
+      March year. Data was extracted on 17 August 2026. The notes state verbatim: Data for the 2022 to
+      2025 tax years has been revised, and there may be some differences to numbers previously published.
+      The worksheet row-2 R flags are AW, AY and BA, corresponding to 2023, 2024 and 2025; both statements
+      are retained without reconciliation. Only the New 2026 tax year is emitted. See package evidence.md
+      for complete verbatim notes and decile/percentile footnotes. Decile 10 (BB264) and percentile 100
+      (BB279) have no upper boundary, and no boundary fact is constructed.'
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+  - measure_id: wage_salary_income_nzd
+    label: Wage/salary income ($M)
+    ordinal: 1
+    column: BC
+    source_column_id: wage_salary_income_nzd
+    expected_column_header_row: 4
+    expected_column_header: Wage/salary income ($M)
+    concept: ird_wage_salary_distribution.wage_salary_income
+    source_concept: ird_wage_salary_distribution.wage_salary_income
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/-/media/project/ir/home/documents/about-us/tax-statistics---current/revenue-and-refunds/wage-and-salary/wage-and-salary-statistics/wage-and-salary-distributions-for-individuals.xlsx
+    concept_evidence_notes: 'One cached publisher cell without recalculation or rounding. Wage/salary
+      income ($M) retains its cached precision and is scaled by 1000000 to NZD; boundaries are published
+      NZD cut-points, not shares. Separately published totals remain their own cells. Original band spelling
+      and spacing remain categorical source labels, without inferred interval bounds, means or shares.
+      Explanatory Notes in xl/drawings/drawing1.xml defines gross earnings reported through PAYE, including
+      shares/share options and Paid Parental Leave; excludes New Zealand Superannuation, taxable welfare
+      benefits, student allowances, earnings-related ACC payments and shareholder-employee salaries (no
+      PAYE deducted). Children and part-time/part-year PAYE earners are included; persons with no wage/salary
+      income and non-natural-person entities are excluded. Full population data is used from the 2016
+      March year. Data was extracted on 17 August 2026. The notes state verbatim: Data for the 2022 to
+      2025 tax years has been revised, and there may be some differences to numbers previously published.
+      The worksheet row-2 R flags are AW, AY and BA, corresponding to 2023, 2024 and 2025; both statements
+      are retained without reconciliation. Only the New 2026 tax year is emitted. See package evidence.md
+      for complete verbatim notes and decile/percentile footnotes. Decile 10 (BB264) and percentile 100
+      (BB279) have no upper boundary, and no boundary fact is constructed.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ird_wage_salary_distribution.ty2026.decile_boundaries
+  provenance_class: administrative
+  record_set_spec_id: ird_wage_salary_distribution.decile_boundaries.v1
+  source_record_id_prefix: ird_wage_salary_distribution.ty2026.decile_boundaries
+  sheet_name: Tables - wage and salary
+  period_type: tax_year
+  period: 2026
+  period_coverage: *id002
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: individual_with_wage_or_salary_income
+  domain: wage_salary_income
+  groupby_dimension: ird_wage_salary_distribution.decile_row
+  rows:
+  - value_id: row_255
+    label: '1'
+    ordinal: 0
+    row_number: 255
+    expected_row_header_column: AM
+    expected_row_header: 1
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 1
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 1
+      label: Published wage and salary decile
+    guard_cells: &id006
+    - *id003
+    - *id004
+    - *id005
+    - column: AM
+      row: 252
+      expected_value: Decile
+      label: decile table header
+    - column: BB
+      row: 251
+      expected_value: 2026
+      label: decile ending tax year
+    - column: AM
+      row: 280
+      expected_value: '* Each decile contains the wage and salary earning population divided by 10'
+      label: decile population footnote
+  - value_id: row_256
+    label: '2'
+    ordinal: 1
+    row_number: 256
+    expected_row_header_column: AM
+    expected_row_header: 2
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 2
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 2
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_257
+    label: '3'
+    ordinal: 2
+    row_number: 257
+    expected_row_header_column: AM
+    expected_row_header: 3
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 3
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 3
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_258
+    label: '4'
+    ordinal: 3
+    row_number: 258
+    expected_row_header_column: AM
+    expected_row_header: 4
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 4
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 4
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_259
+    label: '5'
+    ordinal: 4
+    row_number: 259
+    expected_row_header_column: AM
+    expected_row_header: 5
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 5
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 5
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_260
+    label: '6'
+    ordinal: 5
+    row_number: 260
+    expected_row_header_column: AM
+    expected_row_header: 6
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 6
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 6
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_261
+    label: '7'
+    ordinal: 6
+    row_number: 261
+    expected_row_header_column: AM
+    expected_row_header: 7
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 7
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 7
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_262
+    label: '8'
+    ordinal: 7
+    row_number: 262
+    expected_row_header_column: AM
+    expected_row_header: 8
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 8
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 8
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_263
+    label: '9'
+    ordinal: 8
+    row_number: 263
+    expected_row_header_column: AM
+    expected_row_header: 9
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 9
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 9
+      label: Published wage and salary decile
+    guard_cells: *id006
+  measures:
+  - measure_id: upper_boundary_nzd
+    label: Wage/salary at upper boundary ($)
+    ordinal: 0
+    column: BB
+    source_column_id: upper_boundary_nzd
+    expected_column_header_row: 252
+    expected_column_header: Wage/salary at upper boundary ($)
+    concept: ird_wage_salary_distribution.wage_salary_upper_boundary
+    source_concept: ird_wage_salary_distribution.wage_salary_upper_boundary
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/-/media/project/ir/home/documents/about-us/tax-statistics---current/revenue-and-refunds/wage-and-salary/wage-and-salary-statistics/wage-and-salary-distributions-for-individuals.xlsx
+    concept_evidence_notes: 'One cached publisher cell without recalculation or rounding. Wage/salary
+      income ($M) retains its cached precision and is scaled by 1000000 to NZD; boundaries are published
+      NZD cut-points, not shares. Separately published totals remain their own cells. Original band spelling
+      and spacing remain categorical source labels, without inferred interval bounds, means or shares.
+      Explanatory Notes in xl/drawings/drawing1.xml defines gross earnings reported through PAYE, including
+      shares/share options and Paid Parental Leave; excludes New Zealand Superannuation, taxable welfare
+      benefits, student allowances, earnings-related ACC payments and shareholder-employee salaries (no
+      PAYE deducted). Children and part-time/part-year PAYE earners are included; persons with no wage/salary
+      income and non-natural-person entities are excluded. Full population data is used from the 2016
+      March year. Data was extracted on 17 August 2026. The notes state verbatim: Data for the 2022 to
+      2025 tax years has been revised, and there may be some differences to numbers previously published.
+      The worksheet row-2 R flags are AW, AY and BA, corresponding to 2023, 2024 and 2025; both statements
+      are retained without reconciliation. Only the New 2026 tax year is emitted. See package evidence.md
+      for complete verbatim notes and decile/percentile footnotes. Decile 10 (BB264) and percentile 100
+      (BB279) have no upper boundary, and no boundary fact is constructed.'
+    unit: nzd
+    aggregation: quantile
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: ird_wage_salary_distribution.ty2026.decile_income
+  provenance_class: administrative
+  record_set_spec_id: ird_wage_salary_distribution.decile_income.v1
+  source_record_id_prefix: ird_wage_salary_distribution.ty2026.decile_income
+  sheet_name: Tables - wage and salary
+  period_type: tax_year
+  period: 2026
+  period_coverage: *id002
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: individual_with_wage_or_salary_income
+  domain: wage_salary_income
+  groupby_dimension: ird_wage_salary_distribution.decile_row
+  rows:
+  - value_id: row_255
+    label: '1'
+    ordinal: 0
+    row_number: 255
+    expected_row_header_column: AM
+    expected_row_header: 1
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 1
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 1
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_256
+    label: '2'
+    ordinal: 1
+    row_number: 256
+    expected_row_header_column: AM
+    expected_row_header: 2
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 2
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 2
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_257
+    label: '3'
+    ordinal: 2
+    row_number: 257
+    expected_row_header_column: AM
+    expected_row_header: 3
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 3
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 3
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_258
+    label: '4'
+    ordinal: 3
+    row_number: 258
+    expected_row_header_column: AM
+    expected_row_header: 4
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 4
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 4
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_259
+    label: '5'
+    ordinal: 4
+    row_number: 259
+    expected_row_header_column: AM
+    expected_row_header: 5
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 5
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 5
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_260
+    label: '6'
+    ordinal: 5
+    row_number: 260
+    expected_row_header_column: AM
+    expected_row_header: 6
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 6
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 6
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_261
+    label: '7'
+    ordinal: 6
+    row_number: 261
+    expected_row_header_column: AM
+    expected_row_header: 7
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 7
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 7
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_262
+    label: '8'
+    ordinal: 7
+    row_number: 262
+    expected_row_header_column: AM
+    expected_row_header: 8
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 8
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 8
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_263
+    label: '9'
+    ordinal: 8
+    row_number: 263
+    expected_row_header_column: AM
+    expected_row_header: 9
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 9
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 9
+      label: Published wage and salary decile
+    guard_cells: *id006
+  - value_id: row_264
+    label: '10'
+    ordinal: 9
+    row_number: 264
+    expected_row_header_column: AM
+    expected_row_header: 10
+    table_record_kind: detail
+    filters:
+      wage_salary_decile: 10
+    constraints:
+    - variable: wage_salary_decile
+      operator: ==
+      value: 10
+      label: Published wage and salary decile
+    guard_cells: *id006
+  measures:
+  - measure_id: wage_salary_income_nzd
+    label: Wage/salary income ($M)
+    ordinal: 0
+    column: BC
+    source_column_id: wage_salary_income_nzd
+    expected_column_header_row: 252
+    expected_column_header: Wage/salary income ($M)
+    concept: ird_wage_salary_distribution.wage_salary_income
+    source_concept: ird_wage_salary_distribution.wage_salary_income
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/-/media/project/ir/home/documents/about-us/tax-statistics---current/revenue-and-refunds/wage-and-salary/wage-and-salary-statistics/wage-and-salary-distributions-for-individuals.xlsx
+    concept_evidence_notes: 'One cached publisher cell without recalculation or rounding. Wage/salary
+      income ($M) retains its cached precision and is scaled by 1000000 to NZD; boundaries are published
+      NZD cut-points, not shares. Separately published totals remain their own cells. Original band spelling
+      and spacing remain categorical source labels, without inferred interval bounds, means or shares.
+      Explanatory Notes in xl/drawings/drawing1.xml defines gross earnings reported through PAYE, including
+      shares/share options and Paid Parental Leave; excludes New Zealand Superannuation, taxable welfare
+      benefits, student allowances, earnings-related ACC payments and shareholder-employee salaries (no
+      PAYE deducted). Children and part-time/part-year PAYE earners are included; persons with no wage/salary
+      income and non-natural-person entities are excluded. Full population data is used from the 2016
+      March year. Data was extracted on 17 August 2026. The notes state verbatim: Data for the 2022 to
+      2025 tax years has been revised, and there may be some differences to numbers previously published.
+      The worksheet row-2 R flags are AW, AY and BA, corresponding to 2023, 2024 and 2025; both statements
+      are retained without reconciliation. Only the New 2026 tax year is emitted. See package evidence.md
+      for complete verbatim notes and decile/percentile footnotes. Decile 10 (BB264) and percentile 100
+      (BB279) have no upper boundary, and no boundary fact is constructed.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ird_wage_salary_distribution.ty2026.percentile_boundaries
+  provenance_class: administrative
+  record_set_spec_id: ird_wage_salary_distribution.percentile_boundaries.v1
+  source_record_id_prefix: ird_wage_salary_distribution.ty2026.percentile_boundaries
+  sheet_name: Tables - wage and salary
+  period_type: tax_year
+  period: 2026
+  period_coverage: *id002
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: individual_with_wage_or_salary_income
+  domain: wage_salary_income
+  groupby_dimension: ird_wage_salary_distribution.percentile_row
+  rows:
+  - value_id: row_270
+    label: '91'
+    ordinal: 0
+    row_number: 270
+    expected_row_header_column: AM
+    expected_row_header: 91
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 91
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 91
+      label: Published wage and salary percentile
+    guard_cells: &id007
+    - *id003
+    - *id004
+    - *id005
+    - column: AM
+      row: 267
+      expected_value: Top 10%
+      label: top percentile table header
+    - column: BB
+      row: 266
+      expected_value: 2026
+      label: percentile ending tax year
+    - column: AM
+      row: 281
+      expected_value: '** Each percentile for the top 10% of wage and salary earners contains the wage
+        and salary earning population divided by 100'
+      label: percentile population footnote
+  - value_id: row_271
+    label: '92'
+    ordinal: 1
+    row_number: 271
+    expected_row_header_column: AM
+    expected_row_header: 92
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 92
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 92
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_272
+    label: '93'
+    ordinal: 2
+    row_number: 272
+    expected_row_header_column: AM
+    expected_row_header: 93
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 93
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 93
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_273
+    label: '94'
+    ordinal: 3
+    row_number: 273
+    expected_row_header_column: AM
+    expected_row_header: 94
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 94
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 94
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_274
+    label: '95'
+    ordinal: 4
+    row_number: 274
+    expected_row_header_column: AM
+    expected_row_header: 95
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 95
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 95
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_275
+    label: '96'
+    ordinal: 5
+    row_number: 275
+    expected_row_header_column: AM
+    expected_row_header: 96
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 96
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 96
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_276
+    label: '97'
+    ordinal: 6
+    row_number: 276
+    expected_row_header_column: AM
+    expected_row_header: 97
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 97
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 97
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_277
+    label: '98'
+    ordinal: 7
+    row_number: 277
+    expected_row_header_column: AM
+    expected_row_header: 98
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 98
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 98
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_278
+    label: '99'
+    ordinal: 8
+    row_number: 278
+    expected_row_header_column: AM
+    expected_row_header: 99
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 99
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 99
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  measures:
+  - measure_id: upper_boundary_nzd
+    label: Wage/salary at upper boundary ($)
+    ordinal: 0
+    column: BB
+    source_column_id: upper_boundary_nzd
+    expected_column_header_row: 267
+    expected_column_header: Wage/salary at upper boundary ($)
+    concept: ird_wage_salary_distribution.wage_salary_upper_boundary
+    source_concept: ird_wage_salary_distribution.wage_salary_upper_boundary
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/-/media/project/ir/home/documents/about-us/tax-statistics---current/revenue-and-refunds/wage-and-salary/wage-and-salary-statistics/wage-and-salary-distributions-for-individuals.xlsx
+    concept_evidence_notes: 'One cached publisher cell without recalculation or rounding. Wage/salary
+      income ($M) retains its cached precision and is scaled by 1000000 to NZD; boundaries are published
+      NZD cut-points, not shares. Separately published totals remain their own cells. Original band spelling
+      and spacing remain categorical source labels, without inferred interval bounds, means or shares.
+      Explanatory Notes in xl/drawings/drawing1.xml defines gross earnings reported through PAYE, including
+      shares/share options and Paid Parental Leave; excludes New Zealand Superannuation, taxable welfare
+      benefits, student allowances, earnings-related ACC payments and shareholder-employee salaries (no
+      PAYE deducted). Children and part-time/part-year PAYE earners are included; persons with no wage/salary
+      income and non-natural-person entities are excluded. Full population data is used from the 2016
+      March year. Data was extracted on 17 August 2026. The notes state verbatim: Data for the 2022 to
+      2025 tax years has been revised, and there may be some differences to numbers previously published.
+      The worksheet row-2 R flags are AW, AY and BA, corresponding to 2023, 2024 and 2025; both statements
+      are retained without reconciliation. Only the New 2026 tax year is emitted. See package evidence.md
+      for complete verbatim notes and decile/percentile footnotes. Decile 10 (BB264) and percentile 100
+      (BB279) have no upper boundary, and no boundary fact is constructed.'
+    unit: nzd
+    aggregation: quantile
+    value_scale: 1
+    expected_cell_type: number
+- record_set_id: ird_wage_salary_distribution.ty2026.percentile_income
+  provenance_class: administrative
+  record_set_spec_id: ird_wage_salary_distribution.percentile_income.v1
+  source_record_id_prefix: ird_wage_salary_distribution.ty2026.percentile_income
+  sheet_name: Tables - wage and salary
+  period_type: tax_year
+  period: 2026
+  period_coverage: *id002
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: individual_with_wage_or_salary_income
+  domain: wage_salary_income
+  groupby_dimension: ird_wage_salary_distribution.percentile_row
+  rows:
+  - value_id: row_270
+    label: '91'
+    ordinal: 0
+    row_number: 270
+    expected_row_header_column: AM
+    expected_row_header: 91
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 91
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 91
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_271
+    label: '92'
+    ordinal: 1
+    row_number: 271
+    expected_row_header_column: AM
+    expected_row_header: 92
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 92
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 92
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_272
+    label: '93'
+    ordinal: 2
+    row_number: 272
+    expected_row_header_column: AM
+    expected_row_header: 93
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 93
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 93
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_273
+    label: '94'
+    ordinal: 3
+    row_number: 273
+    expected_row_header_column: AM
+    expected_row_header: 94
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 94
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 94
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_274
+    label: '95'
+    ordinal: 4
+    row_number: 274
+    expected_row_header_column: AM
+    expected_row_header: 95
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 95
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 95
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_275
+    label: '96'
+    ordinal: 5
+    row_number: 275
+    expected_row_header_column: AM
+    expected_row_header: 96
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 96
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 96
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_276
+    label: '97'
+    ordinal: 6
+    row_number: 276
+    expected_row_header_column: AM
+    expected_row_header: 97
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 97
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 97
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_277
+    label: '98'
+    ordinal: 7
+    row_number: 277
+    expected_row_header_column: AM
+    expected_row_header: 98
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 98
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 98
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_278
+    label: '99'
+    ordinal: 8
+    row_number: 278
+    expected_row_header_column: AM
+    expected_row_header: 99
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 99
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 99
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  - value_id: row_279
+    label: '100'
+    ordinal: 9
+    row_number: 279
+    expected_row_header_column: AM
+    expected_row_header: 100
+    table_record_kind: detail
+    filters:
+      wage_salary_percentile: 100
+    constraints:
+    - variable: wage_salary_percentile
+      operator: ==
+      value: 100
+      label: Published wage and salary percentile
+    guard_cells: *id007
+  measures:
+  - measure_id: wage_salary_income_nzd
+    label: Wage/salary income ($M)
+    ordinal: 0
+    column: BC
+    source_column_id: wage_salary_income_nzd
+    expected_column_header_row: 267
+    expected_column_header: Wage/salary income ($M)
+    concept: ird_wage_salary_distribution.wage_salary_income
+    source_concept: ird_wage_salary_distribution.wage_salary_income
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/-/media/project/ir/home/documents/about-us/tax-statistics---current/revenue-and-refunds/wage-and-salary/wage-and-salary-statistics/wage-and-salary-distributions-for-individuals.xlsx
+    concept_evidence_notes: 'One cached publisher cell without recalculation or rounding. Wage/salary
+      income ($M) retains its cached precision and is scaled by 1000000 to NZD; boundaries are published
+      NZD cut-points, not shares. Separately published totals remain their own cells. Original band spelling
+      and spacing remain categorical source labels, without inferred interval bounds, means or shares.
+      Explanatory Notes in xl/drawings/drawing1.xml defines gross earnings reported through PAYE, including
+      shares/share options and Paid Parental Leave; excludes New Zealand Superannuation, taxable welfare
+      benefits, student allowances, earnings-related ACC payments and shareholder-employee salaries (no
+      PAYE deducted). Children and part-time/part-year PAYE earners are included; persons with no wage/salary
+      income and non-natural-person entities are excluded. Full population data is used from the 2016
+      March year. Data was extracted on 17 August 2026. The notes state verbatim: Data for the 2022 to
+      2025 tax years has been revised, and there may be some differences to numbers previously published.
+      The worksheet row-2 R flags are AW, AY and BA, corresponding to 2023, 2024 and 2025; both statements
+      are retained without reconciliation. Only the New 2026 tax year is emitted. See package evidence.md
+      for complete verbatim notes and decile/percentile footnotes. Decile 10 (BB264) and percentile 100
+      (BB279) have no upper boundary, and no boundary fact is constructed.'
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number

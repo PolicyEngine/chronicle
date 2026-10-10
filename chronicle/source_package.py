@@ -352,6 +352,9 @@ SOURCE_PACKAGE_ALIASES = {
     "ird-taxable-income-distribution-2025": Path(
         "ird/taxable_income_distribution_2025"
     ),
+    "ird-wage-salary-distribution-2026": Path(
+        "ird/wage_salary_distribution_2026"
+    ),
     "ird-working-for-families-statistics-sept-2025": Path(
         "ird/working_for_families_statistics_sept_2025"
     ),
