@@ -1,0 +1,38 @@
+source_id: treasury
+package_id: treasury-estimates-of-appropriations-2026-27
+dataset: estimates_of_appropriations_2026_27
+source_page: https://www.budget.govt.nz/budget/2026/estimates/data.htm
+table: Expenditure - Budget 2026 Data from the Estimates of Appropriations 2026/27, Vote Social Development
+published_at: '2026-05-28'
+license: CC BY 4.0
+license_url: https://www.budget.govt.nz/about/copyright.htm
+attribution: The Crown (New Zealand Treasury); written attribution, no reproduction of emblems, logos
+  or Coat of Arms.
+license_evidence: Workbook Intro!A13:A14; hub also verified the copyright page on 2026-10-10.
+notes: The XLSX alone supplies facts. The PDF is scope/conditions evidence only. R2 keys are declared
+  for hub upload before merge; remote presence has not been verified in this lane.
+files:
+  scope_evidence:
+    filename: est26-v9-socdev.pdf
+    source_url: https://budget.govt.nz/budget/pdfs/estimates/v9/est26-v9-socdev.pdf
+    sha256: 85ff85e5b93a8b3e3ef7442a034eb8d3abdd0f1675f76646afad8311d8e30c23
+    size_bytes: 2212387
+    fetched_at: '2026-10-10T08:31:09Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/treasury/treasury-estimates-of-appropriations-2026-27/scope_evidence/85ff85e5b93a8b3e3ef7442a034eb8d3abdd0f1675f76646afad8311d8e30c23/est26-v9-socdev.pdf
+        uri: r2://ledger-raw/raw/nz/treasury/treasury-estimates-of-appropriations-2026-27/scope_evidence/85ff85e5b93a8b3e3ef7442a034eb8d3abdd0f1675f76646afad8311d8e30c23/est26-v9-socdev.pdf
+  2026:
+    filename: b26-expenditure-data.xlsx
+    source_url: https://www.budget.govt.nz/budget/excel/data/b26-expenditure-data.xlsx
+    sha256: 3fc6bba178c78c4a4b259c920a6f55307ec95a547353f340086c86fc2a26f5a0
+    size_bytes: 918842
+    fetched_at: '2026-10-10T08:33:39Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/treasury/treasury-estimates-of-appropriations-2026-27/2026/3fc6bba178c78c4a4b259c920a6f55307ec95a547353f340086c86fc2a26f5a0/b26-expenditure-data.xlsx
+        uri: r2://ledger-raw/raw/nz/treasury/treasury-estimates-of-appropriations-2026-27/2026/3fc6bba178c78c4a4b259c920a6f55307ec95a547353f340086c86fc2a26f5a0/b26-expenditure-data.xlsx
