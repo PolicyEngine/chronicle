@@ -225,13 +225,18 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # with only treasury-estimates-of-appropriations-2026-27 at bundle year
     # 2023: one package/table, existing Treasury/NZ/government keys and six
     # existing fiscal-year keys, with no bundle warnings or duplicate keys.
+    # BEA NIPA Table 7.8 line 17 (B4923C, private group health insurance) adds
+    # one CY2023 person fact at US country geography from one new package and
+    # source table; the publisher, period, geography and entity keys already
+    # exist. Measured with only bea-nipa-private-group-health-insurance at
+    # bundle year 2023: no warnings and no duplicate keys.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
         # chronicle#322 adds 4,947 ONS observations and 3,200 DESNZ ones.
         # Inner/Outer London also add two region-level geography keys.
-        "fact_count": 1000860,
+        "fact_count": 1000861,
         "geography_count": 20547,
         "period_count": 511,
         # 467 before chronicle#292 moved the congressional-district and
@@ -254,7 +259,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
         "source_count": 56,
-        "source_package_count": 319,
+        "source_package_count": 320,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -289,14 +294,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1000860
+    assert row_count == 1000861
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 319
+    assert source_packages["source_package_count"] == 320
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -310,9 +315,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1000860
+    assert coverage["fact_count"] == 1000861
     assert coverage["counts"]["by_source"] == {
-        "bea": 445,
+        "bea": 446,
         "bfp_economic_outlook": 5,
         "cbo": 7,
         "census_acs": 468,
@@ -370,7 +375,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 314
+    assert len(table_counts) == 315
+    assert (
+        table_counts["bea:NIPA Table 7.8. Supplements to Wages and Salaries by Type"]
+        == 1
+    )
     assert table_counts["mbie:Detailed monthly TLA tenancy bond data"] == 5663
     assert (
         table_counts[
@@ -1581,6 +1590,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     for fiscal_year in range(2019, 2025):
         expected_period_counts[f"fiscal_year:{fiscal_year}"] -= 2
     expected_period_counts["fiscal_year:2025"] += 1
+    # BEA NIPA Table 7.8 line 17 (B4923C): the bundle year's own column.
+    expected_period_counts["calendar_year:2023"] += 1
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD (#318) + 103 MSD (#319) + 84 MBIE (#320)
@@ -1602,7 +1613,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["nuts1:BE2"] == 3673
     assert coverage["counts"]["by_geography"]["nuts1:BE3"] == 3662
     assert coverage["counts"]["by_geography"]["commune:11002"] == 1
-    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2109
+    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2110
     assert coverage["counts"]["by_geography"]["state:0400000US06"] == 229
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
@@ -1641,7 +1652,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 153696,
         "institutional_sector": 4468,
         "pension_plan": 2,
-        "person": 495052,
+        "person": 495053,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 41368,
@@ -1793,6 +1804,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     ).exists()
     assert (
         output_dir / "sources" / "cms-nhe-table-24" / "consumer_facts.jsonl"
+    ).exists()
+    assert (
+        output_dir
+        / "sources"
+        / "bea-nipa-private-group-health-insurance"
+        / "consumer_facts.jsonl"
     ).exists()
     assert (
         output_dir
