@@ -864,6 +864,14 @@ year's column, sheet or rows. A year the file does not cover fails with its
 own error, such as `No source artifact for year 2027` or a selected-row
 mismatch.
 
+That check compares one build with another, so it cannot see a literal label
+that is simply the wrong year. `tests/test_chronicle_source_table_year.py`
+covers that case for every pinned package whose `artifact.source_table` names
+exactly one tax year ("…, Tax Year 2020"): each tax-year fact built at the
+artifact year must carry that year as its period, in its `tax_year_<year>`
+vintage and in its record ids. State the table title as the publisher printed
+it, with its year, so the test has something to check.
+
 Agents may add new package directories and YAML specs. They should not modify
 `chronicle.core`, `chronicle.database`, or `chronicle.suite` unless the package cannot be
 expressed in the current contract and the failure is documented in the build
