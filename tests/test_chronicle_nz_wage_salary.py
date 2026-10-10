@@ -6,6 +6,7 @@ import hashlib
 import os
 import re
 from collections import Counter
+from copy import deepcopy
 from dataclasses import replace
 from decimal import Decimal
 from functools import lru_cache
@@ -54,6 +55,36 @@ RECORD_PREFIX = "ird_wage_salary_distribution.ty2026"
 BAND_ROWS = tuple(range(7, 243))
 DECILE_ROWS = tuple(range(255, 265))
 PERCENTILE_ROWS = tuple(range(270, 280))
+
+# Independently audited publisher layout, never derived from package selectors:
+# BB4 is "Number of individuals", BC4 is "Wage/salary income ($M)";
+# BB252/BB267 are "Wage/salary at upper boundary ($)". Row 242 is the
+# separately published total. BB264 and BB279 have no top boundary.
+PUBLISHER_COLUMNS = {
+    "individuals": ("BB", "count", 1, "sum"),
+    "wage_salary_income_nzd": ("BC", "nzd", 1_000_000, "sum"),
+    "upper_boundary_nzd": ("BB", "nzd", 1, "quantile"),
+}
+EXPECTED_OBSERVATIONS = {
+    f"{RECORD_PREFIX}.{record_set}.row_{row}.{measure}": (
+        SHEET,
+        f"{column}{row}",
+        unit,
+        scale,
+        aggregation,
+    )
+    for record_set, rows, measures in (
+        ("income_bands", range(7, 242), ("individuals", "wage_salary_income_nzd")),
+        ("income_bands", (242,), ("individuals", "wage_salary_income_nzd")),
+        ("decile_boundaries", range(255, 264), ("upper_boundary_nzd",)),
+        ("decile_income", range(255, 265), ("wage_salary_income_nzd",)),
+        ("percentile_boundaries", range(270, 279), ("upper_boundary_nzd",)),
+        ("percentile_income", range(270, 280), ("wage_salary_income_nzd",)),
+    )
+    for row in rows
+    for measure in measures
+    for column, unit, scale, aggregation in (PUBLISHER_COLUMNS[measure],)
+}
 
 # Coordinates are independent of YAML: removing a guard cannot remove its
 # regression case. All 236 bands and every selected quantile row are guarded.
@@ -124,6 +155,49 @@ def _facts_by_id():
 
 def _fact(record_set, row, measure):
     return _facts_by_id()[f"{RECORD_PREFIX}.{record_set}.row_{row}.{measure}"]
+
+
+def _assert_publisher_observation_map(specs):
+    actual = {
+        spec.source_record_id: (
+            spec.selector.sheet_name,
+            spec.selector.address,
+            spec.unit,
+            spec.value_scale,
+            spec.aggregation,
+        )
+        for spec in specs
+    }
+    assert len(specs) == len(actual) == len(EXPECTED_OBSERVATIONS) == 510
+    assert set(actual) == set(EXPECTED_OBSERVATIONS)
+    for record_id, expected in EXPECTED_OBSERVATIONS.items():
+        assert actual[record_id] == expected, (
+            f"{record_id}: selected {actual[record_id]!r}; expected {expected!r}"
+        )
+
+
+@pytest.fixture
+def mutated_wage_salary_specs():
+    def mutate(record_set, row, overrides):
+        # Copy the loaded YAML payload and compile the same row override the
+        # publisher-selection regression must reject. Tracked YAML is untouched.
+        package = _package()
+        record_set_id = f"{RECORD_PREFIX}.{record_set}"
+        changed_sets = []
+        for declared in package.record_sets:
+            if declared.payload["record_set_id"] == record_set_id:
+                payload = deepcopy(declared.payload)
+                changed_row = next(
+                    item for item in payload["rows"] if item["value_id"] == f"row_{row}"
+                )
+                changed_row.update(overrides)
+                declared = replace(declared, payload=payload)
+            changed_sets.append(declared)
+        return replace(
+            package, record_sets=tuple(changed_sets)
+        ).build_source_record_specs(2026)
+
+    return mutate
 
 
 @lru_cache
@@ -231,6 +305,63 @@ def test_wage_salary_preserves_all_four_complete_worksheet_ranges():
     assert {fact.source.url for fact in facts} == {SOURCE_URL}
 
 
+def test_wage_salary_all_observations_match_publisher_layout():
+    _assert_publisher_observation_map(_specs())
+    assert len(_facts()) == len(_facts_by_id()) == 510
+    assert set(_facts_by_id()) == set(EXPECTED_OBSERVATIONS)
+    for record_id, (_, _, unit, _, aggregation) in EXPECTED_OBSERVATIONS.items():
+        fact = _facts_by_id()[record_id]
+        assert (fact.measure.unit, fact.aggregation.method) == (unit, aggregation)
+
+
+@pytest.mark.parametrize(
+    ("record_set", "row", "measure", "overrides", "mutant_address"),
+    [
+        pytest.param(
+            "income_bands",
+            8,
+            "individuals",
+            {"column": "BC", "expected_column_header": "Wage/salary income ($M)"},
+            "BC8",
+            id="count_to_income",
+        ),
+        pytest.param(
+            "decile_boundaries",
+            256,
+            "upper_boundary_nzd",
+            {"column": "BC", "expected_column_header": "Wage/salary income ($M)"},
+            "BC256",
+            id="boundary_to_income",
+        ),
+        pytest.param(
+            "income_bands",
+            242,
+            "individuals",
+            {"row_number": 7, "expected_row_header": "$1      -   $1,000"},
+            "BB7",
+            id="total_to_band",
+        ),
+        pytest.param(
+            "percentile_income",
+            271,
+            "wage_salary_income_nzd",
+            {"column": "BA", "expected_column_header": "Wage/salary income ($M)"},
+            "BA271",
+            id="percentile_wrong_column",
+        ),
+    ],
+)
+def test_wage_salary_publisher_layout_rejects_selector_mutants(
+    mutated_wage_salary_specs, record_set, row, measure, overrides, mutant_address
+):
+    specs = mutated_wage_salary_specs(record_set, row, overrides)
+    record_id = f"{RECORD_PREFIX}.{record_set}.row_{row}.{measure}"
+    target = next(spec for spec in specs if spec.source_record_id == record_id)
+    assert target.selector.address == mutant_address
+    with pytest.raises(AssertionError, match=re.escape(f"{record_id}: selected")):
+        _assert_publisher_observation_map(specs)
+
+
 def test_wage_salary_every_value_has_single_cell_lineage_and_exact_unit_scaling():
     cell_keys = {build_source_cell_key(cell) for cell in _cells()}
     records = {record.source_record_id: record for record in _records()}
@@ -252,21 +383,20 @@ def test_wage_salary_every_value_has_single_cell_lineage_and_exact_unit_scaling(
         assert fact.measure.unit == ("count" if spec.unit == "count" else "nzd")
         assert fact.measure.concept_relation == "source_label"
         assert fact.aggregation.denominator is None
-        raw = _cell_index()[(selector.sheet_name, selector.address)].raw_value
-        decimal_product = Decimal(str(raw)) * Decimal(str(spec.value_scale))
+        sheet, address, _, scale, _ = EXPECTED_OBSERVATIONS[fact.source_record_id]
+        raw = _cell_index()[(sheet, address)].raw_value
+        decimal_product = Decimal(str(raw)) * Decimal(str(scale))
         # Chronicle converts decimal-integral products to integers; every
         # non-integral cached numeric value keeps the native scaled float.
         expected = (
             int(decimal_product)
             if decimal_product == decimal_product.to_integral_value()
-            else raw * spec.value_scale
+            else raw * scale
         )
         assert fact.value == expected
         assert set(fact.source_cell_keys) <= cell_keys
         assert (
-            build_source_cell_key(
-                _cell_index()[(selector.sheet_name, selector.address)]
-            )
+            build_source_cell_key(_cell_index()[(sheet, address)])
             in fact.source_cell_keys
         )
         for address in (selector.expected_column_header_address,):
