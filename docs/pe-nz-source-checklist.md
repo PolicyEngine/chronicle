@@ -59,7 +59,7 @@ tests, and record a verified `raw/nz/...` R2 URI.
 | `stats_nz/census_2023_family_type` | [ ] | [ ] | [ ] | |
 | `stats_nz/census_2023_ethnicity_age_region` | [ ] | [ ] | [ ] | |
 | `ird/taxable_income_distribution_2025` | [x] | [x] | [x] | I1, TY2024 (September 2025 release): 3,522 administrative facts; full national income bands, age marginals, and Tab 4 age × band counts. Raw workbook published to its `raw/nz/ird/...` key and verified by SHA-256 on 2026-10-07. |
-| `ird/wage_salary_distribution_2026` | [x] | [x] | [ ] | I2, TY2026 (2026 release): 510 administrative facts; national wage/salary bands and decile/percentile income and upper-boundary cut-points. Unchanged staged workbook pinned; hub R2 upload and verification pending. [Cell evidence](../packages/ird/wage_salary_distribution_2026/evidence.md). |
+| `ird/wage_salary_distribution_2026` | [x] | [x] | [x] | I2, TY2026 (2026 release): 510 administrative facts; national wage/salary bands and decile/percentile income and upper-boundary cut-points. Raw workbook published to its `raw/nz/ird/...` key and verified by SHA-256 on 2026-10-10. [Cell evidence](../packages/ird/wage_salary_distribution_2026/evidence.md). |
 | `ird/working_for_families_statistics_sept_2025` | [x] | [x] | [x] | TY2024: 330 administrative facts; count/entitlement, children, family size, and full published income table. |
 | `ird/student_loan_statistics_march_2026` | [ ] | [ ] | [ ] | |
 | `msd/benefit_fact_sheets_national_june_2026` | [x] | [x] | [x] | Row 10: June 2026 supersedes March; 46 administrative count facts, benefit × age, published benefit-status cuts, and separate national supplementary totals. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
@@ -259,8 +259,9 @@ receipt SHA-256
 198,542 bytes, fetched `2026-10-10T08:31:07Z`. It records `license: CC BY 4.0`,
 which the hub verified on 2026-10-10 from IRD's
 [copyright conditions](https://www.ird.govt.nz/about-this-site/conditions-of-use/copyright).
-Its `raw/nz/ird/...` key uses Chronicle's key builder. Hub upload and remote
-checksum verification remain pending, so the checklist's R2 box is unchecked.
+Its `raw/nz/ird/...` key uses Chronicle's key builder. The hub published the
+workbook with `chronicle publish-raw` and verified the object by streaming it
+back (SHA-256 matches) on 2026-10-10.
 
 ## Wave-2 fiscal comparators (#177 subset)
 

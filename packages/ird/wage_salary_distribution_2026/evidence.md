@@ -19,9 +19,9 @@ historical and revised columns remain source bytes and preserved source cells.
   by this offline lane.
 - Licence: `CC BY 4.0`, based on the hub's 2026-10-10 verification of
   [IRD's Crown copyright conditions](https://www.ird.govt.nz/about-this-site/conditions-of-use/copyright).
-- The manifest's R2 storage key is built with Chronicle's `build_r2_key`;
-  the hub must upload the immutable object before merge. A declared R2 URI
-  does not establish that the upload has occurred.
+- The manifest's R2 storage key is built with Chronicle's `build_r2_key`.
+  The hub published the object with `chronicle publish-raw` and verified it
+  by streaming it back (SHA-256 matches) on 2026-10-10.
 
 The heading in `xl/drawings/drawing1.xml` is “Wage and salary distributions for
 individuals ”, with a trailing space. The workbook's extraction note states
