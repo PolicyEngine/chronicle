@@ -1,0 +1,1 @@
+Add BEA NIPA Table 7.8 line 17 (series B4923C), employer contributions for private group health insurance, for calendar years 2023 to 2025 from the Section 7 workbook of BEA's 30 September 2026 annual update.
