@@ -367,6 +367,9 @@ SOURCE_PACKAGE_ALIASES = {
         "msd/annual_report_benefit_expenses_2025"
     ),
     "treasury-an24-01-fiscal-totals": Path("treasury/an24_01_fiscal_totals"),
+    "treasury-estimates-of-appropriations-2026-27": Path(
+        "treasury/estimates_of_appropriations_2026_27"
+    ),
     "isc-annual-census-2023": Path("isc/annual_census_2023"),
     "isc-annual-census-2024": Path("isc/annual_census_2024"),
     "mhclg-council-tax-levels-england-2026-27": Path(

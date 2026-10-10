@@ -65,7 +65,7 @@ tests, and record a verified `raw/nz/...` R2 URI.
 | `msd/benefit_fact_sheets_national_june_2026` | [x] | [x] | [x] | Row 10: June 2026 supersedes March; 46 administrative count facts, benefit × age, published benefit-status cuts, and separate national supplementary totals. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
 | `msd/benefit_fact_sheets_supplementary_june_2026` | [x] | [x] | [x] | Row 11: 36 all-ages counts across 11 W&I regions plus Other regions; combined SPB/TAS preserved. No regional AS status split or national reconstruction. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
 | `msd/nzs_vp_fact_sheet_june_2026` | [x] | [x] | [x] | Row 12: 46 June 2026 NZS/VP recipient count facts, including published additional-support and demographic cuts. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
-| `msd/annual_report_benefit_expenses_2025` | [x] | [x] | [x] | Row 13: 11 actual FY2024/25 expense facts, fiscal_year 2024, published $000 × 1000. Accommodation Assistance 2,232,026; total 38,267,536 in source $000. Payment-definition evidence absent from staged PDF. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
+| `msd/annual_report_benefit_expenses_2025` | [x] | [x] | [x] | Row 13: 11 actual FY2024/25 expense facts, fiscal_year 2024, published $000 × 1000. Accommodation Assistance 2,232,026; total 38,267,536 in source $000. Payment-definition evidence absent from staged annual-report PDF; the [Budget 2026 Estimates package](../packages/treasury/estimates_of_appropriations_2026_27/evidence.md) identifies Accommodation Supplement and Away from Home Allowance in the 2026/27 appropriation, without asserting unchanged FY2024/25 conditions. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
 | `mbie/tenancy_bond_rents_tla_2026` | [x] | [x] | [x] | 5,663 administrative facts, August 2025–July 2026, the latest 12 months of MBIE's September 2026 TLA file (published 10 September 2026; MBIE calls the data provisional and subject to revision); 66 TA IDs plus ALL/NA. Raw CSV published to its `raw/nz/mbie/...` key and verified by SHA-256 on 2026-10-09. Source scope and TA-register caveats below. |
 | `stats_nz/qes_average_earnings_march_2026` | [ ] | [ ] | [ ] | |
 
@@ -154,7 +154,9 @@ The annual report's actual column `2025` describes FY2024/25, 1 July 2024 to
 publisher's column label preserved. Accommodation Assistance is reported as
 2,232,026 in $000; it is never relabelled Accommodation Supplement. The staged
 210-page PDF does not define its included payments and lists this appropriation
-as exempt from reporting. The requested definition remains an open evidence
+as exempt from reporting. The [Budget 2026 Estimates package](../packages/treasury/estimates_of_appropriations_2026_27/evidence.md)
+now records the 2026/27 conditions naming Accommodation Supplement and Away
+from Home Allowance. The FY2024/25 definition remains an open evidence
 item; the candidate missing source is the Treasury Vote Social Development
 2024/25 Estimates PDF, whose URL is recorded as unverified in the annual package's
 [evidence note](../packages/msd/annual_report_benefit_expenses_2025/evidence.md).
@@ -220,6 +222,7 @@ staged and the hub must resolve and stage its exact publisher file URL first.
 | Package | Artifact pinned | Package valid | `raw/nz` verified | Notes |
 |---|---:|---:|---:|---|
 | `treasury/an24_01_fiscal_totals` | [x] | [x] | [x] | 27 Treasury-published analytical observations in the TY2019 column; unchanged NZD amounts and verbatim Notes. CC0-1.0. Raw CSV and licence published under `raw/nz/treasury/...` and verified by SHA-256 on 2026-10-07. |
+| `treasury/estimates_of_appropriations_2026_27` | [x] | [x] | [x] | B7 part 2: 112 Vote Social Development Benefits or Related Expenses rows, years ending June 2022–2027, separate opening-year fiscal periods and publisher Amount Type. Audited Actuals are observations; Estimated Actual and Main Estimates are source projections. $000 × 1000; CC BY 4.0. Workbook yields facts; PDF is scope/conditions evidence only, including both Accommodation Supplement and Away from Home Allowance within Accommodation Assistance. The hub published both manifest `raw/nz/treasury/...` objects and verified them by SHA-256 on 2026-10-10. [Evidence](../packages/treasury/estimates_of_appropriations_2026_27/evidence.md). |
 
 The fiscal totals CSV and its CC0 licence are preserved unchanged at Treasury
 repository commit `6e840d54b67bb7f34c63b9d34897e234317445c3`. The package
@@ -244,8 +247,9 @@ remain in each fact's source evidence.
 Receipt hashes and sizes pin the CSV and licence. Manifest R2 locations use
 Chronicle's `build_r2_key` with explicit `prefix="raw/nz"`; the current publisher
 country map does not include Treasury, so the hub must likewise pass
-`--r2-prefix raw/nz` when publishing. The locations are declared for the hub's
-pre-merge upload and have not been remotely verified by this lane.
+`--r2-prefix raw/nz` when publishing. The hub published both objects and
+verified them by SHA-256 on 2026-10-07.
 
-The Budget 2026 Estimates and MSD Benefit System Report are outside this
-package. Their artifacts were not staged, so no facts from them are emitted.
+The Budget 2026 Estimates are a separate package in this table. The MSD
+Benefit System Report remains outside these packages: its artifact was not
+staged, so it contributes no facts.
