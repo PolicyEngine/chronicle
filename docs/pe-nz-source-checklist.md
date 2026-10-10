@@ -219,7 +219,7 @@ staged and the hub must resolve and stage its exact publisher file URL first.
 
 | Package | Artifact pinned | Package valid | `raw/nz` verified | Notes |
 |---|---:|---:|---:|---|
-| `stats_nz/household_net_worth_2024` | [x] | [x] | [ ] | added for microcosm#592; outside #176's 15. September 2025 HES release: 1,413 published estimates for July 2023–June 2024 (opening-year `fiscal_year:2023`), retained in $000s or household/people 000s. Complete XLSX bytes; Contents and all 14 scoped worksheet ranges preserved. Non-zero-holder and all-household populations remain distinct; seven suppressed estimates stay source cells. Relative sampling errors and percentage changes are omitted from facts and preserved as source cells. CC BY 4.0, Stats NZ attribution; receipt-pinned R2 key awaiting hub upload. [Package scope and evidence](../packages/stats_nz/household_net_worth_2024/README.md). |
+| `stats_nz/household_net_worth_2024` | [x] | [x] | [x] | added for microcosm#592; outside #176's 15. September 2025 HES release: 1,413 published estimates for July 2023–June 2024 (opening-year `fiscal_year:2023`), retained in $000s or household/people 000s. Complete XLSX bytes; Contents and all 14 scoped worksheet ranges preserved. Non-zero-holder and all-household populations remain distinct; seven suppressed estimates stay source cells. Relative sampling errors and percentage changes are omitted from facts and preserved as source cells. CC BY 4.0, Stats NZ attribution; receipt-pinned R2 key awaiting hub upload. [Package scope and evidence](../packages/stats_nz/household_net_worth_2024/README.md). |
 
 ## Wave-2 fiscal comparators (#177 subset)
 

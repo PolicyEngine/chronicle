@@ -88,8 +88,9 @@ The manifest is copied from the hub receipt: SHA-256
 `2fb942322e5131824a15007e7b0742c4f8220822c7e8f9adee83bae154913f9e`,
 386,546 bytes, fetched `2026-10-10T08:31:08Z`. Its immutable
 `raw/nz/stats_nz/household_net_worth_2024/2024/...` key is built with
-`chronicle.artifacts.build_r2_key`. The R2 location is declared for the hub's
-pre-merge upload; this lane has not uploaded or remotely verified it.
+`chronicle.artifacts.build_r2_key`. The hub published the object with
+`chronicle publish-raw` and verified it by streaming it back (SHA-256
+matches) on 2026-10-10.
 
 Licence: **CC BY 4.0**, attribution **Stats NZ**, per the hub's 10 October 2026
 verification of <https://www.stats.govt.nz/about-us/copyright/>.
