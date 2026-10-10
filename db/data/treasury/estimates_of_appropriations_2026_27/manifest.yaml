@@ -9,8 +9,8 @@ license_url: https://www.budget.govt.nz/about/copyright.htm
 attribution: The Crown (New Zealand Treasury); written attribution, no reproduction of emblems, logos
   or Coat of Arms.
 license_evidence: Workbook Intro!A13:A14; hub also verified the copyright page on 2026-10-10.
-notes: The XLSX alone supplies facts. The PDF is scope/conditions evidence only. R2 keys are declared
-  for hub upload before merge; remote presence has not been verified in this lane.
+notes: The XLSX alone supplies facts. The PDF is scope/conditions evidence only. The hub published
+  both objects to their declared R2 keys and verified each by SHA-256 on 2026-10-10.
 files:
   scope_evidence:
     filename: est26-v9-socdev.pdf

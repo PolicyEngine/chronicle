@@ -222,7 +222,7 @@ staged and the hub must resolve and stage its exact publisher file URL first.
 | Package | Artifact pinned | Package valid | `raw/nz` verified | Notes |
 |---|---:|---:|---:|---|
 | `treasury/an24_01_fiscal_totals` | [x] | [x] | [x] | 27 Treasury-published analytical observations in the TY2019 column; unchanged NZD amounts and verbatim Notes. CC0-1.0. Raw CSV and licence published under `raw/nz/treasury/...` and verified by SHA-256 on 2026-10-07. |
-| `treasury/estimates_of_appropriations_2026_27` | [x] | [x] | [x] | B7 part 2: 112 Vote Social Development Benefits or Related Expenses rows, years ending June 2022–2027, separate opening-year fiscal periods and publisher Amount Type. Audited Actuals are observations; Estimated Actual and Main Estimates are source projections. $000 × 1000; CC BY 4.0. Workbook yields facts; PDF is scope/conditions evidence only, including both Accommodation Supplement and Away from Home Allowance within Accommodation Assistance. Manifest `raw/nz/treasury/...` objects await hub upload and verification. [Evidence](../packages/treasury/estimates_of_appropriations_2026_27/evidence.md). |
+| `treasury/estimates_of_appropriations_2026_27` | [x] | [x] | [x] | B7 part 2: 112 Vote Social Development Benefits or Related Expenses rows, years ending June 2022–2027, separate opening-year fiscal periods and publisher Amount Type. Audited Actuals are observations; Estimated Actual and Main Estimates are source projections. $000 × 1000; CC BY 4.0. Workbook yields facts; PDF is scope/conditions evidence only, including both Accommodation Supplement and Away from Home Allowance within Accommodation Assistance. The hub published both manifest `raw/nz/treasury/...` objects and verified them by SHA-256 on 2026-10-10. [Evidence](../packages/treasury/estimates_of_appropriations_2026_27/evidence.md). |
 
 The fiscal totals CSV and its CC0 licence are preserved unchanged at Treasury
 repository commit `6e840d54b67bb7f34c63b9d34897e234317445c3`. The package
@@ -247,8 +247,8 @@ remain in each fact's source evidence.
 Receipt hashes and sizes pin the CSV and licence. Manifest R2 locations use
 Chronicle's `build_r2_key` with explicit `prefix="raw/nz"`; the current publisher
 country map does not include Treasury, so the hub must likewise pass
-`--r2-prefix raw/nz` when publishing. The locations are declared for the hub's
-pre-merge upload and have not been remotely verified by this lane.
+`--r2-prefix raw/nz` when publishing. The hub published both objects and
+verified them by SHA-256 on 2026-10-07.
 
 The Budget 2026 Estimates are a separate package in this table. The MSD
 Benefit System Report remains outside these packages: its artifact was not
