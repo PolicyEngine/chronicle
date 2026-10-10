@@ -221,13 +221,17 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # 2025: 16 regional council areas and New Zealand, each for all ages and
     # four age bands, from one new publisher, package and source table over 16 new
     # geographies (its country:NZ geography is #209's).
+    # Stats NZ household net worth adds 1,413 July 2023–June 2024 HES facts:
+    # 940 households and 473 people, one package/table, all at country:NZ and
+    # fiscal_year:2023. Publisher, geography, period and entity keys already
+    # exist; the measured single-source bundle adds no warnings or duplicates.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
         # chronicle#322 adds 4,947 ONS observations and 3,200 DESNZ ones.
         # Inner/Outer London also add two region-level geography keys.
-        "fact_count": 1000748,
+        "fact_count": 1002161,
         "geography_count": 20547,
         "period_count": 511,
         # 467 before chronicle#292 moved the congressional-district and
@@ -250,7 +254,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
         "source_count": 56,
-        "source_package_count": 318,
+        "source_package_count": 319,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -285,14 +289,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1000748
+    assert row_count == 1002161
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 318
+    assert source_packages["source_package_count"] == 319
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -306,7 +310,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1000748
+    assert coverage["fact_count"] == 1002161
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
@@ -360,13 +364,20 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "statbel_fiscal_income_distribution": 14600,
         "statbel_population_structure": 36,
         "treasury": 27,
-        "stats_nz": 85,
+        "stats_nz": 1498,
         "usda_snap": 852,
         "voa": 3001,
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 313
+    assert len(table_counts) == 314
+    assert (
+        table_counts[
+            "stats_nz:Household net worth statistics: Year ended June 2024, "
+            "Tables 1.01, 2.01–2.04, 3.01–3.04, 5.01 and 7.01–7.04"
+        ]
+        == 1413
+    )
     assert table_counts["mbie:Detailed monthly TLA tenancy bond data"] == 5663
     assert (
         table_counts[
@@ -1560,10 +1571,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     for fiscal_year in range(2019, 2025):
         expected_period_counts[f"fiscal_year:{fiscal_year}"] -= 2
     expected_period_counts["fiscal_year:2025"] += 1
+    expected_period_counts["fiscal_year:2023"] += 1413
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
-    # (#321) + 3,522 IRD (#318) + 103 MSD (#319) + 84 MBIE (#320) = 4,071.
-    assert coverage["counts"]["by_geography"]["country:NZ"] == 4071
+    # (#321) + 3,522 IRD (#318) + 103 MSD (#319) + 84 MBIE (#320)
+    # + 1,413 Stats NZ household net worth = 5,484.
+    assert coverage["counts"]["by_geography"]["country:NZ"] == 5484
     for regional_council in (*range(1, 10), *range(12, 19)):
         assert coverage["counts"]["by_geography"][f"region:{regional_council:02d}"] == 5
     assert coverage["counts"]["by_geography"]["local_authority:nz-ta-054"] == 56
@@ -1616,10 +1629,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "family": 1628,
         "firm": 1440,
         "government": 3450,
-        "household": 153696,
+        "household": 154636,
         "institutional_sector": 4468,
         "pension_plan": 2,
-        "person": 495052,
+        "person": 495525,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 41368,

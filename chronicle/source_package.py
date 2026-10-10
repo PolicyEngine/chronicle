@@ -78,6 +78,7 @@ from chronicle.yaml_io import safe_load as safe_load_yaml
 SOURCE_PACKAGE_RESOURCE_PACKAGE = "packages"
 SOURCE_PACKAGE_SCHEMA_VERSION = schema_id("source_package")
 SOURCE_PACKAGE_ALIASES = {
+    "stats-nz-household-net-worth-2024": Path("stats_nz/household_net_worth_2024"),
     "stats-nz-subnational-population-estimates-2025": Path(
         "stats_nz/subnational_population_estimates_2025"
     ),
