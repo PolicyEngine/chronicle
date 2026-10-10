@@ -78,6 +78,7 @@ from chronicle.yaml_io import safe_load as safe_load_yaml
 SOURCE_PACKAGE_RESOURCE_PACKAGE = "packages"
 SOURCE_PACKAGE_SCHEMA_VERSION = schema_id("source_package")
 SOURCE_PACKAGE_ALIASES = {
+    "stats-nz-household-net-worth-2024": Path("stats_nz/household_net_worth_2024"),
     "stats-nz-subnational-population-estimates-2025": Path(
         "stats_nz/subnational_population_estimates_2025"
     ),
@@ -354,6 +355,9 @@ SOURCE_PACKAGE_ALIASES = {
     "ici-fact-book-table-30": Path("ici/fact_book_table_30"),
     "ird-taxable-income-distribution-2025": Path(
         "ird/taxable_income_distribution_2025"
+    ),
+    "ird-wage-salary-distribution-2026": Path(
+        "ird/wage_salary_distribution_2026"
     ),
     "ird-working-for-families-statistics-sept-2025": Path(
         "ird/working_for_families_statistics_sept_2025"
