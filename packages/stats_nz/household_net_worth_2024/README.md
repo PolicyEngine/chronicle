@@ -44,6 +44,36 @@ the outer whitespace of display dimension labels.
 Region entries in Table5.01 remain labelled household-characteristic cuts of
 the national HES table, without a constructed regional geography mapping.
 
+`published_section` follows the workbook's bounded groups, including their
+published subgroup totals. In Table1.01, bold A9 “Assets” is the parent header;
+bold A18 “Shares and other equity” starts the subgroup, which ends at bold B23
+“Total shares and other equity”. B24 “Mutual funds and other investment funds”,
+B25 “Pension funds”, B26 “Other household financial assets” and bold B27
+“Household financial assets” return to the Assets parent, ending before bold
+A28 “Total household assets”. They carry the Assets section and A9 lineage
+guard, rather than the shares-and-equity section. No numeric value changes.
+
+The independent grouping regression checks every section's exact member rows
+in facts and exported consumer `universe_constraints`. The audited boundaries
+below exclude header rows and separately published A-column overall totals:
+
+| Worksheets | Section headers and selected member rows (2024 block) |
+|---|---|
+| Table1.01 | Assets A9: 10–17, 24–27; Shares and other equity A18: 19–23; Liabilities A29: 30–34; Trust memorandum items A37: 38–41; Crypto memorandum items A42: 43 |
+| Table2.01, Table2.02, Table2.04; Table3.01, Table3.02, Table3.04 | Assets A9: 10–17; Liabilities A19: 20–24 |
+| Table2.03, Table3.03 | Assets A8: 9–16; Liabilities A18: 19–23 |
+| Table5.01 | Household size(4)(5) A9: 10–14; Household composition A15: 16–24; Tenure of household(10) A25: 26–30; Region A31: 32–36 |
+| Table7.01, Table7.02, Table7.04 | Assets A10/A28: 11–18, 29–36; Liabilities A20/A38: 21–24, 39–42 |
+| Table7.03 | Assets A9/A27: 10–17, 28–35; Liabilities A19/A37: 20–23, 38–41 |
+
+Tables2/3 apply the six literal quintile column headers to all selected asset,
+liability and overall-total rows. Tables7 apply the eight literal age group
+headers across two blocks of four columns, each with its own asset and
+liability sections. Suppressed `S` cells remain excluded from all section
+memberships. Independent workbook-coordinate
+checks enumerate every numeric estimate in the Median, Mean, Total and count
+columns of all 14 current blocks, requiring exactly one selection per cell.
+
 ## Population and evidence
 
 Population notes are verbatim fact dimensions, concept evidence and guarded

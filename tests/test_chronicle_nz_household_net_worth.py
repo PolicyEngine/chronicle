@@ -2,16 +2,16 @@
 
 from __future__ import annotations
 
-from collections import Counter
-from dataclasses import asdict, replace
-from functools import lru_cache
 import hashlib
 import json
 import os
-from pathlib import Path
 import re
 import subprocess
 import sys
+from collections import Counter
+from dataclasses import asdict, replace
+from functools import lru_cache
+from pathlib import Path
 
 import openpyxl
 import pytest
@@ -71,6 +71,87 @@ SUPPRESSED = {
     ("Table7.03", "C21"),
     ("Table7.04", "C22"),
 }
+# Workbook structure, independent of record_sets: bold A-column headings begin
+# sections; B-column subtotals close nested groups; A-column totals are separate.
+# In Table1.01 B23 closes A18's shares group, so B24:B27 return to A9's Assets.
+PUBLISHED_SECTION_ROWS = {
+    "Table1.01": {
+        "Assets": (*range(10, 18), *range(24, 28)),
+        "Shares and other equity": tuple(range(19, 24)),
+        "Liabilities": tuple(range(30, 35)),
+        "Trust memorandum items": tuple(range(38, 42)),
+        "Crypto memorandum items": (43,),
+    },
+    "Table2.01": {"Assets": tuple(range(10, 18)), "Liabilities": tuple(range(20, 25))},
+    "Table2.02": {"Assets": tuple(range(10, 18)), "Liabilities": tuple(range(20, 25))},
+    "Table2.03": {"Assets": tuple(range(9, 17)), "Liabilities": tuple(range(19, 24))},
+    "Table2.04": {"Assets": tuple(range(10, 18)), "Liabilities": tuple(range(20, 25))},
+    "Table3.01": {"Assets": tuple(range(10, 18)), "Liabilities": tuple(range(20, 25))},
+    "Table3.02": {"Assets": tuple(range(10, 18)), "Liabilities": tuple(range(20, 25))},
+    "Table3.03": {"Assets": tuple(range(9, 17)), "Liabilities": tuple(range(19, 24))},
+    "Table3.04": {"Assets": tuple(range(10, 18)), "Liabilities": tuple(range(20, 25))},
+    "Table5.01": {
+        "Household size(4)(5)": tuple(range(10, 15)),
+        "Household composition": tuple(range(16, 25)),
+        "Tenure of household(10)": tuple(range(26, 31)),
+        "Region": tuple(range(32, 37)),
+    },
+    "Table7.01": {
+        "Assets": (*range(11, 19), *range(29, 37)),
+        "Liabilities": (*range(21, 25), *range(39, 43)),
+    },
+    "Table7.02": {
+        "Assets": (*range(11, 19), *range(29, 37)),
+        "Liabilities": (*range(21, 25), *range(39, 43)),
+    },
+    "Table7.03": {
+        "Assets": (*range(10, 18), *range(28, 36)),
+        "Liabilities": (*range(20, 24), *range(38, 42)),
+    },
+    "Table7.04": {
+        "Assets": (*range(11, 19), *range(29, 37)),
+        "Liabilities": (*range(21, 25), *range(39, 43)),
+    },
+}
+# Every numeric estimate within these column/block boundaries inherits its
+# published column header. Suppressed cells are absent from the numeric oracle.
+QUINTILE_COLUMN_GROUPS = {
+    "Table2": (
+        "net_worth_quintile",
+        {
+            "C": "Quintile 1 (under $52,577)",
+            "E": "Quintile 2 ($52,577 to $307,007)",
+            "G": "Quintile 3 ($307,008 to $780,499)",
+            "I": "Quintile 4 ($780,500 to $1,450,999)",
+            "K": "Quintile 5 ($1,451,000 and over)",
+            "M": "All quintiles",
+        },
+    ),
+    "Table3": (
+        "income_quintile",
+        {
+            "C": "Quintile 1 (under $46,962)",
+            "E": "Quintile 2 ($46,962 to $83,295)",
+            "G": "Quintile 3 ($83,296 to $132,579)",
+            "I": "Quintile 4 ($132,580 to $197,538)",
+            "K": "Quintile 5 ($197,539 and over)",
+            "M": "All quintiles",
+        },
+    ),
+}
+INDIVIDUAL_AGE_COLUMN_BLOCKS = (
+    {"C": "15-24", "G": "25-34", "K": "35-44", "O": "45-54"},
+    {"C": "55-64", "G": "65-74", "K": "75+", "O": "Total"},
+)
+GROUPING_DIMENSIONS = {
+    PREFIX + name
+    for name in (
+        "published_section",
+        "net_worth_quintile",
+        "income_quintile",
+        "individual_age_group",
+    )
+}
 
 
 @lru_cache
@@ -123,6 +204,31 @@ def _published_estimates():
                 if type(cell.value) in (int, float):
                     estimates[(sheet, cell.coordinate)] = cell.value
     return estimates
+
+
+def _expected_grouping_memberships():
+    """Enumerate publisher memberships without consulting package selectors."""
+    assert set(PUBLISHED_SECTION_ROWS) == set(SHEET_PLANS)
+    memberships = Counter()
+    for sheet, address in _published_estimates():
+        column, row_number = re.fullmatch(r"([A-Z]+)([0-9]+)", address).groups()
+        row = int(row_number)
+        for section, member_rows in PUBLISHED_SECTION_ROWS[sheet].items():
+            if row in member_rows:
+                memberships[
+                    (sheet, address, PREFIX + "published_section", section)
+                ] += 1
+        for table, (dimension, column_groups) in QUINTILE_COLUMN_GROUPS.items():
+            if sheet.startswith(table):
+                memberships[
+                    (sheet, address, PREFIX + dimension, column_groups[column])
+                ] += 1
+        if sheet.startswith("Table7"):
+            # Table7.03 starts one row earlier; its second age header is row26.
+            second_header = 26 if sheet == "Table7.03" else 27
+            age = INDIVIDUAL_AGE_COLUMN_BLOCKS[row > second_header][column]
+            memberships[(sheet, address, PREFIX + "individual_age_group", age)] += 1
+    return memberships
 
 
 def _expected_guards():
@@ -436,6 +542,41 @@ def test_household_net_worth_quintiles_and_age_groups_remain_publisher_groupings
                 "Published medians are cut-points"
                 in fact.measure.concept_evidence_notes
             )
+
+
+def test_household_net_worth_grouping_dimensions_follow_publisher_boundaries():
+    expected = _expected_grouping_memberships()
+    dimensions = Counter()
+    constraints = Counter()
+    for spec, fact in zip(_specs(), _facts(), strict=True):
+        coordinate = (spec.selector.sheet_name, spec.selector.address)
+        dimensions.update(
+            (*coordinate, dimension, value)
+            for dimension, value in fact.filters.items()
+            if dimension in GROUPING_DIMENSIONS
+        )
+        for constraint in fact.constraints:
+            if constraint.variable in GROUPING_DIMENSIONS:
+                assert constraint.operator == "=="
+                constraints[(*coordinate, constraint.variable, constraint.value)] += 1
+    assert dimensions == expected
+    assert constraints == expected
+
+
+def test_household_net_worth_consumer_grouping_constraints_follow_publisher_boundaries():
+    expected = _expected_grouping_memberships()
+    coordinates = {
+        spec.source_record_id: (spec.selector.sheet_name, spec.selector.address)
+        for spec in _specs()
+    }
+    actual = Counter()
+    for row in consumer_fact_rows(_facts()):
+        coordinate = coordinates[row["lineage"]["source_record_id"]]
+        for constraint in row["universe_constraints"]["constraints"]:
+            if constraint["variable"] in GROUPING_DIMENSIONS:
+                assert constraint["operator"] == "=="
+                actual[(*coordinate, constraint["variable"], constraint["value"])] += 1
+    assert actual == expected
 
 
 def test_household_net_worth_suppression_is_raw_evidence_and_never_an_estimate():
