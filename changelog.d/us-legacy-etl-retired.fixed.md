@@ -7,4 +7,4 @@ ACA, BLS, CBO, Census, CPS, Medicaid, SSA and SSI loaders mixed transcribed,
 rounded, computed and invented numbers with no artifact behind them.
 `docs/us-legacy-etl-cleanup.md` records the evidence and where each series is
 now published, and a boundary test requires every row `chronicle load all`
-writes to cite a checksummed publisher file.
+writes to equal a fact built from a checksummed publisher file.

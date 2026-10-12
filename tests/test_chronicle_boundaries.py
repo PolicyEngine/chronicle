@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ast
+import hashlib
 import importlib.util
 import re
 import sys
@@ -169,40 +170,87 @@ def test_us_loader_reexports_only_package_backed_loaders():
         assert all(callable(getattr(module, name)) for name in module.__all__)
 
 
-def test_every_legacy_target_row_traces_to_a_checksummed_publisher_file(tmp_path):
-    """`chronicle load all` writes only rows whose value file has a checksum."""
+def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
+    """Return target rows that do not equal a fact from a checksummed artifact.
+
+    IRS rows must cite a Table 1.1 or 1.4 workbook whose committed bytes hash to
+    its manifest sha256, and their value and tax year must equal a fact the
+    matching source package builds from that workbook. SNAP rows must name a
+    source record whose package fact has the same value, period and sha256.
+    """
+    from sqlmodel import Session, select
+
+    from chronicle.source_package import load_source_package
+    from db.schema import DataSource, Target, get_engine
+
+    repo_root = Path(__file__).resolve().parents[1]
+    irs_files = {}
+    for table, package_id in (
+        ("table_1_1", "soi-table-1-1"),
+        ("table_1_4", "soi-table-1-4"),
+    ):
+        table_dir = repo_root / "db" / "data" / "irs_soi" / table
+        manifest = yaml.safe_load((table_dir / "manifest.yaml").read_text())
+        for year, spec in manifest["files"].items():
+            content = (table_dir / spec["filename"]).read_bytes()
+            if hashlib.sha256(content).hexdigest() == spec["sha256"]:
+                irs_files[spec["source_url"]] = (package_id, int(year), spec)
+    irs_facts = {}
+    snap_package = load_source_package("usda-snap-fy69-to-current")
+    snap_facts = {
+        fact.source_record_id: fact
+        for fact in snap_package.build_facts(snap_package.artifact.artifact_year)
+    }
+
+    with Session(get_engine(db_path)) as session:
+        rows = session.exec(select(Target)).all()
+
+    untraced = []
+    for row in rows:
+        if row.source == DataSource.IRS_SOI and row.source_url in irs_files:
+            package_id, year, spec = irs_files[row.source_url]
+            if (package_id, year) not in irs_facts:
+                irs_facts[package_id, year] = load_source_package(
+                    package_id
+                ).build_facts(year)
+            if row.period == year and any(
+                fact.value == row.value
+                and fact.period.value == row.period
+                and fact.source.source_file == spec["filename"]
+                and fact.source.source_sha256 == spec["sha256"]
+                for fact in irs_facts[package_id, year]
+            ):
+                continue
+        elif row.source == DataSource.USDA_SNAP:
+            record = re.search(r"record=([^;\s]+)", row.notes or "")
+            sha = re.search(r"sha256=([0-9a-f]{64})", row.notes or "")
+            fact = snap_facts.get(record.group(1)) if record else None
+            if (
+                fact is not None
+                and sha is not None
+                and fact.source.source_sha256 == sha.group(1)
+                and fact.value == row.value
+                and fact.period.value == row.period
+            ):
+                continue
+        untraced.append((row.source, row.variable, row.period, row.value))
+    return untraced
+
+
+def test_every_legacy_target_row_equals_a_checksummed_publisher_fact(tmp_path):
+    """Every row `chronicle load all` writes equals a fact from publisher bytes."""
     from sqlmodel import Session, select
 
     from db.cli import cmd_load
     from db.schema import DataSource, Target, get_engine
 
-    repo_root = Path(__file__).resolve().parents[1]
-    soi_files = set()
-    for table in ("table_1_1", "table_1_4"):
-        manifest_path = repo_root / "db" / "data" / "irs_soi" / table / "manifest.yaml"
-        for spec in yaml.safe_load(manifest_path.read_text())["files"].values():
-            if re.fullmatch(r"[0-9a-f]{64}", spec.get("sha256", "")):
-                soi_files.add(spec["source_url"])
     db_path = tmp_path / "targets.db"
     cmd_load(type("Args", (), {"db": str(db_path), "source": "all", "years": None}))
-
     with Session(get_engine(db_path)) as session:
-        rows = session.exec(select(Target)).all()
+        sources = {row.source for row in session.exec(select(Target)).all()}
 
-    by_source = {source: 0 for source in (DataSource.IRS_SOI, DataSource.USDA_SNAP)}
-    untraced = []
-    for row in rows:
-        if row.source == DataSource.IRS_SOI and row.source_url in soi_files:
-            by_source[row.source] += 1
-        elif row.source == DataSource.USDA_SNAP and re.search(
-            r"sha256=[0-9a-f]{64}", row.notes or ""
-        ):
-            by_source[row.source] += 1
-        else:
-            untraced.append((row.source, row.variable, row.period, row.source_url))
-
-    assert untraced == []
-    assert all(count > 0 for count in by_source.values())
+    assert _legacy_rows_without_publisher_fact(db_path) == []
+    assert sources == {DataSource.IRS_SOI, DataSource.USDA_SNAP}
 
 
 def test_us_legacy_etl_cleanup_doc_accounts_for_retired_series():
@@ -244,23 +292,3 @@ def test_us_legacy_etl_cleanup_doc_accounts_for_retired_series():
     ) - set(RETIRED_US_LEGACY_ETLS.values())
     assert named
     assert named <= package_ids
-
-
-# Words the retired loaders used to label values they made up. A legacy loader
-# that needs one of them is writing a number no publisher printed.
-INVENTED_VALUE_MARKERS = re.compile(
-    r"\b(representative|synthetic|scaled|placeholder|illustrative|approximately)\b",
-    re.IGNORECASE,
-)
-
-
-def test_remaining_legacy_etl_modules_carry_no_invented_value_markers():
-    db_root = Path(__file__).resolve().parents[1] / "db"
-    violations = [
-        f"{path.name}:{lineno}: {line.strip()}"
-        for path in sorted(db_root.glob("etl_*.py"))
-        for lineno, line in enumerate(path.read_text().splitlines(), start=1)
-        if INVENTED_VALUE_MARKERS.search(line)
-    ]
-
-    assert violations == []
