@@ -190,9 +190,12 @@ IRS_ROW_MEASURES = {
     ("employment_income", "AMOUNT"): ("soi-table-1-4", "us:statutes/26/62#input.wages"),
 }
 SNAP_ROW_MEASURES = {
-    ("snap_household_count", "COUNT"): "usda_snap.average_monthly_households",
-    ("snap_participant_count", "COUNT"): "usda_snap.average_monthly_persons",
-    ("snap_benefits", "AMOUNT"): "usda_snap.total_benefits",
+    ("snap_household_count", "COUNT"): (
+        "usda_snap.average_monthly_households",
+        "count",
+    ),
+    ("snap_participant_count", "COUNT"): ("usda_snap.average_monthly_persons", "count"),
+    ("snap_benefits", "AMOUNT"): ("usda_snap.total_benefits", "dollars"),
 }
 IRS_AGI_CONCEPT = "us:statutes/26/62#adjusted_gross_income"
 IRS_SOURCE_TABLES = {"soi-table-1-1": "Table 1.1", "soi-table-1-4": "Table 1.4"}
@@ -228,6 +231,37 @@ def _snap_stratum(fact) -> frozenset:
     return frozenset(stratum)
 
 
+# The top stratum of each surviving loader. Every other stratum it writes must
+# hang directly under it.
+NATIONAL_STRATA = {
+    "irs-soi": frozenset({("is_tax_filer", "==", 1.0)}),
+    "usda-snap": frozenset({("snap", "==", 1.0)}),
+}
+
+
+def _snap_provenance_note(fact, output_unit: str) -> str:
+    """The lineage a SNAP row must record for this fact, field by field.
+
+    The trailing derivation records the loader's identity unit conversion
+    (factor 1), so the stored value is the published one.
+    """
+    source = fact.source
+    parts = [f"USDA FNS {source.source_table}" if source.source_table else "USDA FNS"]
+    for key, value in (
+        ("source_file", source.source_file),
+        ("vintage", source.vintage),
+        ("sha256", source.source_sha256),
+        ("raw", source.raw_r2_uri),
+        ("record", fact.source_record_id),
+    ):
+        if value:
+            parts.append(f"{key}={value}")
+    return (
+        "; ".join(parts) + " Derived via: convert_units(factor=1, "
+        f"input_unit={fact.measure.unit}, output_unit={output_unit})."
+    )
+
+
 def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
     """Return target rows that do not reproduce their own publisher cell.
 
@@ -237,13 +271,23 @@ def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
     the fact was built from, by URL and table name, and the workbook's committed
     bytes must hash to its manifest sha256. SNAP rows must cite the package's
     source page and summary table, name the fact's source record and carry its
-    sha256. No row may add a margin of error, a preliminary flag or a geographic
+    sha256, and record every other lineage field (file, vintage, raw URI) as the
+    fact does; IRS rows carry no notes. Each stratum must have the jurisdiction
+    the loader assigns that geography and sit directly under the loader's top
+    stratum. No row may add a margin of error, a preliminary flag or a geographic
     level the fact does not support, or repeat a cell another row carries.
     """
     from sqlmodel import Session, select
 
     from chronicle.source_package import load_source_package
-    from db.schema import DataSource, StratumConstraint, Target, get_engine
+    from db.schema import (
+        DataSource,
+        Jurisdiction,
+        Stratum,
+        StratumConstraint,
+        Target,
+        get_engine,
+    )
 
     repo_root = Path(__file__).resolve().parents[1]
     irs_files = {}
@@ -274,6 +318,9 @@ def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
 
     with Session(get_engine(db_path)) as session:
         rows = session.exec(select(Target)).all()
+        stratum_rows = {
+            stratum.id: stratum for stratum in session.exec(select(Stratum)).all()
+        }
         strata: dict[int, set] = {}
         for constraint in session.exec(select(StratumConstraint)).all():
             strata.setdefault(constraint.stratum_id, set()).add(
@@ -324,7 +371,7 @@ def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
             matched = [
                 fact
                 for fact in snap_facts
-                if fact.measure.concept == SNAP_ROW_MEASURES[measure_key]
+                if fact.measure.concept == SNAP_ROW_MEASURES[measure_key][0]
                 and fact.period.value == row.period
                 and _snap_stratum(fact) == stratum
                 and row.source_table
@@ -339,14 +386,39 @@ def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
                 and fact.source.source_sha256 == sha.group(1)
             ]
         fact = matched[0] if len(matched) == 1 else None
-        level = "national" if fact and fact.geography.id == "0100000US" else "state"
+        if fact is None:
+            untraced.append((row.source, row.variable, row.period, row.value))
+            continue
+        national = fact.geography.id == "0100000US"
+        top = NATIONAL_STRATA[row.source]
+        row_stratum = stratum_rows[row.stratum_id]
+        parent = stratum_rows.get(row_stratum.parent_id)
+        if row.source == DataSource.IRS_SOI:
+            jurisdiction = Jurisdiction.US_FEDERAL
+            notes_ok = not row.notes
+        else:
+            jurisdiction = Jurisdiction.US_FEDERAL if national else Jurisdiction.US
+            notes_ok = (row.notes or "") == _snap_provenance_note(
+                fact, SNAP_ROW_MEASURES[measure_key][1]
+            )
+        if stratum == top:
+            parent_ok = parent is None
+        else:
+            parent_ok = (
+                parent is not None
+                and frozenset(strata.get(parent.id, set())) == top
+                and parent.parent_id is None
+                and parent.jurisdiction == Jurisdiction.US_FEDERAL
+            )
         if (
-            fact is None
-            or fact.value != row.value
+            fact.value != row.value
             or (fact.source_record_id, fact.measure.concept) in reproduced
             or row.margin_of_error is not None
             or row.is_preliminary
-            or row.geographic_level not in (None, level)
+            or row.geographic_level not in (None, "national" if national else "state")
+            or row_stratum.jurisdiction != jurisdiction
+            or not parent_ok
+            or not notes_ok
         ):
             untraced.append((row.source, row.variable, row.period, row.value))
         else:
@@ -453,6 +525,27 @@ PROVENANCE_MUTATIONS = {
     "a national row labelled state": (
         f"update targets set geographic_level = 'STATE' where {_NATIONAL_2021} "
         "and variable = 'tax_unit_count'",
+        1,
+    ),
+    # The 20 national rows, plus the 380 AGI-band rows whose parent it is.
+    "national IRS stratum moved to the UK": (
+        "update strata set jurisdiction = 'UK' where name = 'US All Filers'",
+        400,
+    ),
+    "SNAP rows naming an IRS workbook as their file": (
+        "update targets set notes = replace(notes, "
+        "'source_file=snap-zip-fy69tocurrent-6.zip!FY24.xlsx', "
+        "'source_file=23in11si.xls') where source = 'USDA_SNAP'",
+        162,
+    ),
+    "an AGI band re-parented under the SNAP stratum": (
+        "update strata set parent_id = (select id from strata "
+        "where name = 'US SNAP Recipients') where name = 'US Filers AGI 50k_to_75k'",
+        20,
+    ),
+    "an IRS row given a note": (
+        "update targets set notes = 'sha256=' || hex(randomblob(32)) "
+        "where id = (select min(id) from targets where source = 'IRS_SOI')",
         1,
     ),
     "row from a retired source": (

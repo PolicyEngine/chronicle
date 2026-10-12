@@ -20,9 +20,9 @@ A boundary test (`tests/test_chronicle_boundaries.py`) now runs `chronicle load
 all` and requires every row it writes to reproduce its own publisher cell: the
 one source-package fact with the same measure, period and complete stratum
 definition, built from a publisher file whose bytes hash to its manifest sha256,
-with matching source fields. Fifteen mutation cases, including a row given
-another real cell's value and a stratum whose constraint is negated, show it
-flags each change.
+with matching source, lineage, jurisdiction and parent fields. Nineteen mutation
+cases, including a row given another real cell's value and a stratum whose
+constraint is negated, show it flags each change.
 
 ## Consumers
 
