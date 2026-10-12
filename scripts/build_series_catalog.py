@@ -49,12 +49,17 @@ is invisible either way: every distinct stripped spelling is published in
 ``stripped_segments``, because a statute, cohort, or edition label that
 happens to spell the row's own period is mechanically indistinguishable
 from a period label — the audit list is where a curator catches that. The
-test suite checks the list against a curated map of reviewed strips
-(``stripped_segment_review_problems``): a strip that only continues a
-reviewed decision (same concept, same ``period_spelling_template``, a
-direct spelling of its own row's period) passes, so the next weekly or
-monthly print does not re-open a question already answered; every other
-strip still needs a curator. A malformed period (month 13, an impossible
+test suite checks every strip against a curated map of reviewed decisions
+(``stripped_segment_review_problems``). A decision covers one identifier
+field of one concept in one ``strip_shape``: the field's family pattern
+with each ``{P}`` written ``{P:<template>}``, so it fixes every kept
+segment, where each stripped segment sits, and how it is spelled
+(``period_spelling_template``). A strip that only continues a reviewed
+decision (same concept, same field, same shape, a direct spelling of its
+own row's period) passes, so the next weekly or monthly print does not
+re-open a question already answered. Every other strip still needs a
+curator, including an already-approved spelling template that turns up in
+a new field or position. A malformed period (month 13, an impossible
 week date) is a hard error, so corrupt metadata can never manufacture
 strippable tokens.
 
@@ -339,6 +344,59 @@ def period_spelling_template(segment: str) -> str:
     ['fy9999', '9999_q9', '9999']
     """
     return re.sub(r"\d", "9", _MONTH_WORD_RE.sub("<month>", segment))
+
+
+# The identifier fields whose period segments are stripped, named by their
+# path in an observation row.
+IDENTIFIER_FIELDS = ("measure.concept", "source_record_id")
+
+
+def strip_shape(identifier: str, period: dict | None = None) -> str:
+    """``family_pattern`` with each ``{P}`` written ``{P:<template>}``, the
+    ``period_spelling_template`` of the segment it replaced.
+
+    The shape fixes every kept segment, where each stripped segment sits,
+    and how each is spelled, so two identifiers share a shape exactly when
+    they differ only in the calendar values of their stripped segments.
+    One concept's shape in one identifier field is the unit a curator
+    reviews in ``stripped_segment_review_problems``. Literal ``{P}`` and
+    ``{P:...}`` segments are reserved (``_reserved_segment_problem``), so a
+    shape never confuses a kept segment with a stripped one.
+
+    >>> strip_shape("abs.cpi.all_groups.yoy.2026_08.first_print",
+    ...             {"type": "month", "value": "2026-08"})
+    'abs.cpi.all_groups.yoy.{P:9999_99}.first_print'
+    >>> strip_shape("abs.cpi.2026_09.all_groups.yoy",
+    ...             {"type": "month", "value": "2026-09"})
+    'abs.cpi.{P:9999_99}.all_groups.yoy'
+    >>> strip_shape("boe.bank_rate.after_mpc_june_2026",
+    ...             {"type": "month", "value": "2026-06"})
+    'boe.bank_rate.{P:after_mpc_<month>_9999}'
+    >>> strip_shape("agency.rate.2025_12", {"type": "month", "value": "2026-06"})
+    'agency.rate.2025_12'
+    """
+    return _strip_shape(classify_segments(identifier, period))
+
+
+def _strip_shape(classified: list[tuple[str, str]]) -> str:
+    return ".".join(
+        segment if kind == "kept"
+        else "{P:%s}" % period_spelling_template(segment)
+        for segment, kind in classified
+    )
+
+
+def shape_slot_templates(shape: str) -> list[str]:
+    """The spelling templates of a ``strip_shape``'s stripped slots, in order.
+
+    >>> shape_slot_templates("x.{P:9999_99}.y.{P:<month>_9999}.first_print")
+    ['9999_99', '<month>_9999']
+    """
+    return [
+        segment[len("{P:"):-1]
+        for segment in shape.split(".")
+        if segment.startswith("{P:") and segment.endswith("}")
+    ]
 
 
 def period_token_variants(period: dict) -> set[str]:
@@ -711,7 +769,7 @@ def build_identities(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
                 "rid_patterns": set(),
                 "suspects": set(),
                 "stripped": set(),
-                "strip_kinds": {},
+                "strips": {},
                 "geo_names": set(),
                 "units": Counter(),
                 "period_types": Counter(),
@@ -740,11 +798,15 @@ def build_identities(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
                 f"identity {key}: {sorted(ident['geo_names'])} — one "
                 "level/id/vintage cannot display as two places"
             )
-        for identifier in (concept_raw, rid):
-            for segment, kind in classify_segments(identifier, period):
+        for field, identifier in zip(IDENTIFIER_FIELDS, (concept_raw, rid)):
+            classified = classify_segments(identifier, period)
+            shape = _strip_shape(classified)
+            for segment, kind in classified:
                 if kind in ("derived", "overlap"):
                     ident["stripped"].add(segment)
-                    ident["strip_kinds"].setdefault(segment, set()).add(kind)
+                    ident["strips"].setdefault(
+                        (field, shape, segment), set()
+                    ).add(kind)
         ident["units"][measure.get("unit")] += 1
         ident["period_types"][period.get("type")] += 1
         source = row.get("source") or {}
@@ -891,6 +953,12 @@ def _cosmetic_problem(value: str) -> str | None:
     return None
 
 
+# ``{P}`` marks a stripped segment in a family pattern and ``{P:<template>}``
+# one in a strip shape; a literal segment of either form would make those
+# derived strings ambiguous.
+_RESERVED_SEGMENT_RE = re.compile(r"\{P(?::.*)?\}")
+
+
 def _reserved_segment_problem(identifier: object) -> str | None:
     """Why an identifier is unusable as a concept/series name, else None."""
     if not isinstance(identifier, str) or not identifier:
@@ -903,10 +971,15 @@ def _reserved_segment_problem(identifier: object) -> str | None:
     cosmetic = _cosmetic_problem(identifier)
     if cosmetic:
         return f"identifier {identifier!r} {cosmetic}"
-    if "{P}" in identifier.split("."):
+    reserved = [
+        segment for segment in identifier.split(".")
+        if _RESERVED_SEGMENT_RE.fullmatch(segment)
+    ]
+    if reserved:
         return (
             f"identifier {identifier!r} contains the reserved placeholder "
-            "segment '{P}' — family patterns are derived, never supplied"
+            f"segment {reserved[0]!r} — family patterns and strip shapes "
+            "are derived, never supplied"
         )
     return None
 
@@ -1484,12 +1557,12 @@ def build_catalog(
     identity bindings to append), ``supersedes`` (identities whose UUID
     changes — these require ``--allow-remint``), and ``dropped`` (existing
     rows whose UUID would vanish from the catalog — also gated). It also
-    carries ``stripped_kinds``, keyed like the catalog's
-    ``stripped_segments`` (spelling -> canonical concept), giving the
-    ``classify_segments`` kinds (``derived``, ``overlap``) under which the
-    current observations stripped each spelling — the input
-    ``stripped_segment_review_problems`` audits. It never affects the
-    catalog bytes.
+    carries ``strips``, the input ``stripped_segment_review_problems``
+    audits: every strip behind the catalog's ``stripped_segments``, keyed
+    canonical concept -> identifier field (``IDENTIFIER_FIELDS``) ->
+    ``strip_shape`` -> spelling, giving the ``classify_segments`` kinds
+    (``derived``, ``overlap``) under which the current observations
+    stripped it. It never affects the catalog bytes.
     """
     raw = observations_path.read_bytes()
     observation_lines = raw.decode().split("\n")
@@ -1594,7 +1667,7 @@ def build_catalog(
                 "rid_patterns": set(),
                 "suspects": set(),
                 "stripped": set(),
-                "strip_kinds": {},
+                "strips": {},
                 "geo_names": set(),
                 "units": Counter(),
                 "period_types": Counter(),
@@ -1619,8 +1692,8 @@ def build_catalog(
         bucket["rid_patterns"] |= ident["rid_patterns"]
         bucket["suspects"] |= ident["suspects"]
         bucket["stripped"] |= ident["stripped"]
-        for segment, kinds in ident["strip_kinds"].items():
-            bucket["strip_kinds"].setdefault(segment, set()).update(kinds)
+        for strip, kinds in ident["strips"].items():
+            bucket["strips"].setdefault(strip, set()).update(kinds)
         bucket["geo_names"] |= ident["geo_names"]
         if len(bucket["geo_names"]) > 1:
             raise SystemExit(
@@ -1833,7 +1906,8 @@ def build_catalog(
 
     all_suspects: set[str] = set()
     stripped_map: dict[str, set[str]] = {}
-    stripped_kinds: dict[str, dict[str, set[str]]] = {}
+    # concept -> identifier field -> strip shape -> spelling -> kinds
+    strips: dict[str, dict[str, dict[str, dict[str, set[str]]]]] = {}
     for canon_key in sorted(canonical):
         bucket = canonical[canon_key]
         concept, _, _ = canon_key
@@ -1847,9 +1921,10 @@ def build_catalog(
         all_suspects.update(bucket["suspects"])
         for segment in bucket["stripped"]:
             stripped_map.setdefault(segment, set()).add(concept)
-            stripped_kinds.setdefault(segment, {}).setdefault(
-                concept, set()
-            ).update(bucket["strip_kinds"][segment])
+        for (field, shape, segment), kinds in bucket["strips"].items():
+            strips.setdefault(concept, {}).setdefault(field, {}).setdefault(
+                shape, {}
+            ).setdefault(segment, set()).update(kinds)
         series.append({
             "uuid": row_uuid,
             "concept": concept,
@@ -2102,12 +2177,18 @@ def build_catalog(
         "ambiguous_aliases": ambiguous_aliases,
         "series": series,
     }
-    plan["stripped_kinds"] = {
-        segment: {
-            concept: sorted(stripped_kinds[segment][concept])
-            for concept in sorted(stripped_kinds[segment])
+    plan["strips"] = {
+        concept: {
+            field: {
+                shape: {
+                    segment: sorted(by_segment[segment])
+                    for segment in sorted(by_segment)
+                }
+                for shape, by_segment in sorted(by_shape.items())
+            }
+            for field, by_shape in sorted(by_field.items())
         }
-        for segment in sorted(stripped_kinds)
+        for concept, by_field in sorted(strips.items())
     }
     return catalog, plan
 
@@ -2197,117 +2278,141 @@ def _is_strippable_spelling(segment: str) -> bool:
     )
 
 
+def strip_records(
+    strips: dict[str, dict[str, dict[str, dict[str, list[str]]]]],
+) -> dict[tuple[str, str, str, str], set[str]]:
+    """Flatten a ``strips`` map (concept -> field -> shape -> spelling ->
+    kinds) to ``{(concept, field, shape, spelling): kinds}``."""
+    return {
+        (concept, field, shape, spelling): set(kinds)
+        for concept, by_field in strips.items()
+        for field, by_shape in by_field.items()
+        for shape, by_spelling in by_shape.items()
+        for spelling, kinds in by_spelling.items()
+    }
+
+
 def stripped_segment_review_problems(
     stripped_segments: dict[str, list[str]],
-    stripped_kinds: dict[str, dict[str, list[str]]],
-    reviewed: dict[str, dict[str, list[str]]],
+    strips: dict[str, dict[str, dict[str, dict[str, list[str]]]]],
+    reviewed: dict[str, dict[str, dict[str, dict[str, list[str]]]]],
 ) -> list[str]:
     """Period strips in a catalog that no curator has reviewed.
 
     ``stripped_segments`` is the catalog's audit map (spelling -> canonical
-    concepts) and ``stripped_kinds`` the build plan's classification of
-    each of those strips (spelling -> concept -> ``classify_segments``
-    kinds). ``reviewed`` has the shape of ``stripped_kinds``: the strips a
-    curator has looked at, with the kinds they had when reviewed.
+    concepts) and ``strips`` the build plan's account of the same strips:
+    canonical concept -> identifier field -> ``strip_shape`` -> spelling ->
+    ``classify_segments`` kinds. ``reviewed`` has the shape of ``strips``:
+    the decisions a curator has made, with the kinds each strip had when
+    reviewed.
 
-    A strip outside ``reviewed`` needs no new review only when it continues
-    a decision already made: its concept already has a reviewed strip of
-    the SAME ``period_spelling_template`` (the next week or month written
-    the same way), and every current observation behind it spells its own
-    declared period directly (kind ``derived`` only). Everything else is
-    reported, one line per problem, sorted:
+    A decision covers one field of one concept in one shape. A strip
+    outside ``reviewed`` needs no new review only when it continues one:
+    the same concept already has a reviewed strip in the SAME field and
+    the SAME shape (so the identifier differs from a reviewed one only in
+    the calendar values of its stripped segments: the next week or month,
+    written the same way, in the same place), and every current
+    observation behind it spells its own declared period directly (kind
+    ``derived`` only). Everything else is reported, one line per problem,
+    sorted:
 
     * a reviewed strip that is gone (superseded observations, curation, or
       a builder change);
     * a reviewed strip that gained a kind it was not reviewed under;
-    * a strip whose concept has no reviewed strip of that template — a new
-      series, a new identifier shape, or a statute, cohort, or edition
-      label that happens to spell the row's own period, which only a
-      curator can tell apart;
+    * a strip in a shape its concept has no reviewed strip of, in that
+      field — a new series, a new identifier shape (a period spelled in a
+      new field or position, a new spelling template, a new kept segment),
+      or a statute, cohort, or edition label that happens to spell the
+      row's own period, which only a curator can tell apart;
     * an unreviewed ``overlap`` strip, where identifier and declared period
       disagree in granularity (the case ``classify_segments`` flags as
       mechanically ambiguous);
-    * a stripped spelling that is not a period token, or a strip the plan
-      and the catalog disagree about.
+    * a stripped spelling that is not a period token or does not fill a
+      slot of its shape, or a strip the plan and the catalog disagree
+      about.
 
-    >>> reviewed = {"week_2026-08-22": {"us.dol.initial_claims.sa": ["derived"]}}
+    >>> shape = "us.dol.initial_claims.sa.{P:week_9999-99-99}"
+    >>> reviewed = {"us.dol.initial_claims.sa": {"source_record_id": {
+    ...     shape: {"week_2026-08-22": ["derived"]}}}}
     >>> segments = {
     ...     "week_2026-08-22": ["us.dol.initial_claims.sa"],
     ...     "week_2026-08-29": ["us.dol.initial_claims.sa"],
     ... }
-    >>> kinds = {s: {"us.dol.initial_claims.sa": ["derived"]} for s in segments}
-    >>> stripped_segment_review_problems(segments, kinds, reviewed)
+    >>> strips = {"us.dol.initial_claims.sa": {"source_record_id": {shape: {
+    ...     "week_2026-08-22": ["derived"], "week_2026-08-29": ["derived"]}}}}
+    >>> stripped_segment_review_problems(segments, strips, reviewed)
     []
-    >>> kinds["week_2026-08-29"]["us.dol.initial_claims.sa"] = ["overlap"]
-    >>> stripped_segment_review_problems(segments, kinds, reviewed)
+    >>> by_spelling = strips["us.dol.initial_claims.sa"]["source_record_id"]
+    >>> by_spelling[shape]["week_2026-08-29"] = ["overlap"]
+    >>> stripped_segment_review_problems(segments, strips, reviewed)
     ... # doctest: +ELLIPSIS
     ["'week_2026-08-29' on 'us.dol.initial_claims.sa': unreviewed overlap..."]
     """
     problems: list[str] = []
-    live = {
-        (segment, concept)
-        for segment, concepts in stripped_segments.items()
+    catalog_pairs = {
+        (spelling, concept)
+        for spelling, concepts in stripped_segments.items()
         for concept in concepts
     }
-    planned = {
-        (segment, concept): set(kinds)
-        for segment, by_concept in stripped_kinds.items()
-        for concept, kinds in by_concept.items()
-    }
-    reviewed_kinds = {
-        (segment, concept): set(kinds)
-        for segment, by_concept in reviewed.items()
-        for concept, kinds in by_concept.items()
-    }
-    reviewed_templates: dict[str, set[str]] = {}
-    for segment, concept in reviewed_kinds:
-        reviewed_templates.setdefault(concept, set()).add(
-            period_spelling_template(segment)
+    live = strip_records(strips)
+    decided = strip_records(reviewed)
+    reviewed_shapes = {key[:3] for key in decided}
+    plan_pairs = {(spelling, concept) for concept, _, _, spelling in live}
+
+    def report(spelling: str, concept: str, message: str) -> None:
+        problems.append(f"{spelling!r} on {concept!r}: {message}")
+
+    for spelling, concept in catalog_pairs ^ plan_pairs:
+        where = "catalog" if (spelling, concept) in catalog_pairs else (
+            "build plan"
         )
-
-    def report(segment: str, concept: str, message: str) -> None:
-        problems.append(f"{segment!r} on {concept!r}: {message}")
-
-    for segment, concept in reviewed_kinds.keys() - live:
+        report(spelling, concept, f"strip appears only in the {where}")
+    for concept, field, shape, spelling in decided.keys() - live.keys():
         report(
-            segment, concept,
-            "reviewed strip is gone from the catalog — a superseded "
-            "observation, curation, or a builder change; re-review and "
-            "update the reviewed map",
+            spelling, concept,
+            f"reviewed strip in {field} shape {shape!r} is gone from the "
+            "catalog — a superseded observation, curation, or a builder "
+            "change; re-review and update the reviewed map",
         )
-    for segment, concept in live ^ planned.keys():
-        where = "catalog" if (segment, concept) in live else "build plan"
-        report(segment, concept, f"strip appears only in the {where}")
-    for segment, concept in live & planned.keys():
-        kinds = planned[(segment, concept)]
-        if not _is_strippable_spelling(segment):
-            report(segment, concept, "stripped spelling is not a period token")
-        if (segment, concept) in reviewed_kinds:
-            gained = kinds - reviewed_kinds[(segment, concept)]
+    for key, kinds in live.items():
+        concept, field, shape, spelling = key
+        if (spelling, concept) not in catalog_pairs:
+            continue
+        where = f"{field} shape {shape!r}"
+        if not _is_strippable_spelling(spelling):
+            report(spelling, concept, "stripped spelling is not a period token")
+        if period_spelling_template(spelling) not in shape_slot_templates(
+            shape
+        ):
+            report(
+                spelling, concept,
+                f"stripped spelling fills no slot of its {where}",
+            )
+        if key in decided:
+            gained = kinds - decided[key]
             if gained:
                 report(
-                    segment, concept,
-                    f"reviewed strip gained kinds {sorted(gained)} — an "
-                    "observation now spells this period through a "
-                    "different declared period; review it",
+                    spelling, concept,
+                    f"reviewed strip in {where} gained kinds "
+                    f"{sorted(gained)} — an observation now spells this "
+                    "period through a different declared period; review it",
                 )
             continue
         if kinds - {"derived"}:
             report(
-                segment, concept,
-                f"unreviewed overlap strip (kinds {sorted(kinds)}) — the "
-                "identifier names a window that only overlaps its row's "
-                "declared period; review it",
+                spelling, concept,
+                f"unreviewed overlap strip (kinds {sorted(kinds)}) in "
+                f"{where} — the identifier names a window that only "
+                "overlaps its row's declared period; review it",
             )
-        template = period_spelling_template(segment)
-        if template not in reviewed_templates.get(concept, set()):
+        if key[:3] not in reviewed_shapes:
             report(
-                segment, concept,
-                f"first {template!r} strip for this concept — confirm it "
-                "is a period label, not a statute, cohort, or edition "
-                "label, and add it to the reviewed map",
+                spelling, concept,
+                f"first strip in {where} for this concept — confirm it is "
+                "a period label, not a statute, cohort, or edition label, "
+                "and add it to the reviewed map",
             )
-    return sorted(problems)
+    return sorted(set(problems))
 
 
 def git_head_bytes(path: pathlib.Path) -> bytes | None:

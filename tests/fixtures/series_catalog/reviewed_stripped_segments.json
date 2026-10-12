@@ -1,259 +1,1651 @@
 {
-  "comment": "Period strips a curator has reviewed: the stripped_segments of ledger/series_catalog.json as of 55bbf3d (2026-09-03), whose spellings were pinned after review on 2026-09-04 (PolicyEngine/chronicle#244), with the classify_segments kinds each strip had then (spelling -> concept -> kinds; the current builder's plan over 55bbf3d's inputs). tests/test_build_series_catalog.py audits the committed catalog against this map with build_series_catalog.stripped_segment_review_problems: a strip outside it passes only when its concept already has a reviewed strip of the same spelling template and every observation behind it spells its own declared period directly (kind derived). When the audit reports a strip, review it (is the segment the row's period, or a statute, cohort, or edition label that happens to spell it?) and record the pair here with its kinds, adding a note when the reason is not obvious. Keys stay sorted.",
+  "comment": "Period strips a curator has reviewed: every strip behind the stripped_segments of ledger/series_catalog.json as of 55bbf3d (2026-09-03), whose spellings were pinned after review on 2026-09-04 (PolicyEngine/chronicle#244), plus the later reviews recorded in notes. strips is keyed canonical concept -> identifier field (measure.concept or source_record_id) -> strip_shape -> spelling -> classify_segments kinds (the current builder's plan over 55bbf3d's inputs). A strip_shape is the field's family pattern with each {P} written {P:<period_spelling_template>}, so it fixes every kept segment, where each stripped segment sits, and how it is spelled; one decision covers one concept's field in one shape. tests/test_build_series_catalog.py audits the committed catalog against this map with build_series_catalog.stripped_segment_review_problems: a strip outside it passes only when its concept already has a reviewed strip in the same field and shape (the identifier differs from a reviewed one only in the calendar values of its stripped segments) and every observation behind it spells its own declared period directly (kind derived). When the audit reports a strip, review it (is the segment the row's period, or a statute, cohort, or edition label that happens to spell it?) and record it here under the concept, field and shape the report names, with its kinds, adding a note when the reason is not obvious. Keys stay sorted.",
   "reviewed_catalog_commit": "55bbf3d",
   "notes": {
-    "2026_08": "Reviewed 2026-10-12. abs.cpi.all_groups.yoy took its 2026-08 first print at 2ed9bae9 (ledger line 231, source_record_id abs.cpi.all_groups.yoy.2026_08.first_print, period month 2026-08). 2026_08 is that row's own period written with an underscore; the concept's earlier print (line 161) wrote 2026-06 with a hyphen, which is why this is the concept's first strip of the 9999_99 template. A period label, so the strip stands.",
+    "2026_08": "Reviewed 2026-10-12. abs.cpi.all_groups.yoy took its 2026-08 first print at 2ed9bae9 (ledger line 231, source_record_id abs.cpi.all_groups.yoy.2026_08.first_print, period month 2026-08). 2026_08 is that row's own period written with an underscore; the concept's earlier print (line 161) wrote 2026-06 with a hyphen, which is why this is the concept's first strip in the source_record_id shape abs.cpi.all_groups.yoy.{P:9999_99}.first_print. A period label, so the strip stands.",
     "week_2026-06-13": "One observation, the 2026-06-13 initial-claims first print (ledger line 44), spells its week twice: source_record_id us.dol.initial_claims.sa.week_2026-06-13 with ISO hyphens and measure.concept us.dol.initial_claims.sa.week_2026_06_13 with underscores. The builder strips period tokens from both identifier fields and records each distinct spelling, so this pair is one week spelled two ways, not a naming bug in the builder or the catalog. Both strip as overlap because the row declares period month 2026-06; see docs/catalog-curation-backlog.md, 'Initial claims cadence metadata'.",
-    "week_2026_06_13": "The underscore spelling of week_2026-06-13; see that note.",
     "week_2026-07-13": "va.vba.mmwr.claims_inventory, first seen at c2aa68d: the VA MMWR publication date for the week ending 2026-07-11, the row's own period, so a period spelling of this row and not a colliding label; the strip stands. It strips as overlap (the report date falls after the week it reports), so each further MMWR print in this spelling is reported for review until the rows spell their own week.",
+    "week_2026_06_13": "The underscore spelling of week_2026-06-13; see that note.",
     "week_ending_2026_06_06": "The 2026-06-06 initial-claims first print, also declared as month 2026-06: the same cadence-metadata defect as week_2026-06-13."
   },
-  "stripped_kinds": {
-    "2026-05": {
-      "abs.cpi_indicator.allgroups.yoy": ["derived"],
-      "census.housing_starts.saar": ["derived"],
-      "estat.jp.cpi.core_exfreshfood.yoy": ["derived"],
-      "fed.g17.industrial_production.total_index_mom": ["derived"],
-      "ons.cpih.annual_rate": ["derived"],
-      "statcan.36-10-0434-01.all_industries.month_to_month_percent_change": ["derived"],
-      "statcan.cpi.allitems.yoy": ["derived"],
-      "us.bea.core_pce.mom_sa": ["derived"]
+  "strips": {
+    "abs.building_approvals.total_dwellings_mom.australia": {
+      "measure.concept": {
+        "abs.building_approvals.total_dwellings_mom.australia.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "abs.building_approvals.total_dwellings_mom.australia.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "2026-06": {
-      "abs.cpi.all_groups.yoy": ["derived"],
-      "bls.import_price_index.all_imports_mom": ["derived"],
-      "census.housing_starts.saar": ["derived"],
-      "eurostat.ea.hicp.flash.yoy": ["derived"],
-      "fed.g17.capacity_utilization.total_industry": ["derived"],
-      "fed.g17.industrial_production.total_index_mom": ["derived"],
-      "ssa.oasdi.disabled_worker_beneficiaries": ["derived"],
-      "us.bea.core_pce.mom_sa": ["derived"],
-      "us.fed.fomc.target_range_upper": ["derived"]
+    "abs.cpi.all_groups.yoy": {
+      "source_record_id": {
+        "abs.cpi.all_groups.yoy.{P:9999-99}.first_print": {
+          "2026-06": ["derived"]
+        },
+        "abs.cpi.all_groups.yoy.{P:9999_99}.first_print": {
+          "2026_08": ["derived"]
+        }
+      }
     },
-    "2026-06-18": {
-      "boe.bank_rate": ["overlap"]
+    "abs.cpi.all_groups_annual_rate.australia": {
+      "measure.concept": {
+        "abs.cpi.all_groups_annual_rate.australia.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "abs.cpi.all_groups_annual_rate.australia.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "2026-07": {
-      "bls.ces.home_health_care_services.employment": ["derived"],
-      "bls.cps.LNU02374597": ["derived"],
-      "bls.cps.lfpr_55_plus": ["derived"],
-      "bls.import_price_index.all_imports_mom": ["derived"],
-      "bls.laus.colorado.labor_force": ["derived"],
-      "census.housing_starts.saar": ["derived"],
-      "cms.care_compare.nursing_home_occupancy_pct": ["derived"],
-      "cms.nursing_home_compare.reported_total_nurse_staffing_hprd_us": ["derived"],
-      "eurostat.ea.hicp.flash.yoy": ["derived"],
-      "fed.g17.capacity_utilization.total_industry": ["derived"],
-      "fed.g17.industrial_production.total_index_mom": ["derived"],
-      "ssa.ssi.recipients.colorado": ["derived"],
-      "ssa.ssi.recipients.colorado.aged_65_plus": ["derived"],
-      "ssa.ssi.total_recipients": ["derived"]
+    "abs.cpi_indicator.allgroups.yoy": {
+      "measure.concept": {
+        "abs.cpi_indicator.allgroups.yoy.{P:9999-99}": {
+          "2026-05": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "abs.cpi_indicator.allgroups.yoy.{P:9999-99}": {
+          "2026-05": ["derived"]
+        }
+      }
     },
-    "2026_05": {
-      "census.housing_starts.saar": ["derived"],
-      "estat.jp.cpi.core_exfreshfood.yoy": ["derived"],
-      "fed.g17.industrial_production.total_index_mom": ["derived"],
-      "ons.cpih.annual_rate": ["derived"]
+    "abs.labour.employment_change.australia": {
+      "measure.concept": {
+        "abs.labour.employment_change.australia.{P:<month>_9999}": {
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "abs.labour.employment_change.australia.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "2026_06": {
-      "bls.jolts.hires_rate": ["derived"],
-      "census.construction_spending.total_mom": ["derived"],
-      "census.m3.durable_goods_new_orders_mom": ["derived"],
-      "census.m3.durable_goods_shipments_mom": ["derived"],
-      "fed.g19.consumer_credit_nonrevolving_annual_rate": ["derived"],
-      "fed.g19.consumer_credit_revolving_annual_rate": ["derived"],
-      "fed.g19.consumer_credit_total_annual_rate": ["derived"],
-      "ssa.ssi.recipients_aged_65_plus": ["derived"],
-      "us.fed.fomc.target_range_upper": ["derived"]
+    "abs.labour.unemployment_rate.australia": {
+      "measure.concept": {
+        "abs.labour.unemployment_rate.australia.{P:<month>_9999}": {
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "abs.labour.unemployment_rate.australia.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "2026_06_18": {
-      "boe.bank_rate": ["overlap"]
+    "bank_of_canada.overnight_rate": {
+      "measure.concept": {
+        "bank_of_canada.overnight_rate.{P:after_<month>_9999}": {
+          "after_june_2026": ["overlap"]
+        }
+      },
+      "source_record_id": {
+        "bank_of_canada.overnight_rate.{P:after_<month>_9999}": {
+          "after_june_2026": ["overlap"]
+        }
+      }
     },
-    "2026_07": {
-      "bea.trade.goods_services_deficit": ["derived"],
-      "bls.cpi.owners_equivalent_rent_mom": ["derived"],
-      "bls.cpi.rent_primary_residence_mom": ["derived"],
-      "bls.cpi.services_less_energy_mom": ["derived"],
-      "bls.cpi.services_less_rent_shelter_mom": ["derived"],
-      "bls.cpi.shelter_mom": ["derived"],
-      "bls.cps.u6_underemployment_rate": ["derived"],
-      "bls.export_prices.all_commodities_mom": ["derived"],
-      "bls.jolts.hires_rate": ["derived"],
-      "census.construction_spending.total_mom": ["derived"],
-      "census.housing.completions_saar": ["derived"],
-      "census.housing.permits_saar": ["derived"],
-      "census.m3.durable_goods_new_orders_mom": ["derived"],
-      "census.m3.durable_goods_shipments_mom": ["derived"],
-      "census.new_residential_sales.new_single_family_houses_sold_saar": ["derived"],
-      "fed.g17.capacity_utilization.manufacturing": ["derived"],
-      "fed.g17.manufacturing_production_mom": ["derived"]
+    "bea.disposable_personal_income.level": {
+      "measure.concept": {
+        "bea.disposable_personal_income.level.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bea.disposable_personal_income.level.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "2026_08": {
-      "abs.cpi.all_groups.yoy": ["derived"]
+    "bea.government_social_benefits.level": {
+      "measure.concept": {
+        "bea.government_social_benefits.level.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bea.government_social_benefits.level.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "2026_q2": {
-      "bls.eci.private_wages_salaries_qoq": ["derived"],
-      "bls.eci.total_compensation_private_industry_qoq": ["derived"],
-      "bls.productivity.nonfarm_unit_labor_costs_qoq_prelim": ["derived"]
+    "bea.government_social_benefits.medicaid": {
+      "measure.concept": {
+        "bea.government_social_benefits.medicaid.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bea.government_social_benefits.medicaid.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "after_june_2026": {
-      "bank_of_canada.overnight_rate": ["overlap"],
-      "boj.policy_rate_guideline": ["overlap"],
-      "ecb.deposit_facility_rate": ["overlap"],
-      "rba.cash_rate_target": ["overlap"]
+    "bea.government_social_benefits.medicare": {
+      "measure.concept": {
+        "bea.government_social_benefits.medicare.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bea.government_social_benefits.medicare.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "after_mpc_june_2026": {
-      "boe.bank_rate": ["overlap"]
+    "bea.government_social_benefits.social_security": {
+      "measure.concept": {
+        "bea.government_social_benefits.social_security.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bea.government_social_benefits.social_security.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "april_2026": {
-      "census.mtis.total_business_inventories_level": ["derived"],
-      "eurostat.industrial_production.euro_area": ["derived"],
-      "ons.gdp.monthly_growth": ["derived"],
-      "statcan.building_permits.total_value_mom.canada": ["derived"],
-      "statcan.employment_insurance.regular_beneficiaries.canada": ["derived"],
-      "statcan.gdp_by_industry.monthly_growth": ["derived"],
-      "statcan.retail_trade.sales_mom.canada": ["derived"],
-      "statcan.wholesale_trade.sales_mom_exclusions.canada": ["derived"]
+    "bea.pce.core_mom": {
+      "measure.concept": {
+        "bea.pce.core_mom.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bea.pce.core_mom.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "feb_2026": {
-      "cms.medicaid_pi.beneficiaries_disenrolled_procedural": ["derived"],
-      "cms.medicaid_pi.beneficiaries_disenrolled_total": ["derived"],
-      "cms.medicaid_pi.beneficiaries_renewed_ex_parte": ["derived"],
-      "cms.medicaid_pi.beneficiaries_renewed_total": ["derived"]
+    "bea.pce_price_index.monthly_change": {
+      "measure.concept": {
+        "bea.pce_price_index.monthly_change.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bea.pce_price_index.monthly_change.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "february_to_april_2026": {
-      "ons.labour.unemployment_rate": ["overlap"]
+    "bea.personal_current_taxes.level": {
+      "measure.concept": {
+        "bea.personal_current_taxes.level.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bea.personal_current_taxes.level.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "fy2024": {
-      "fns.snap.application_processing_timeliness_rate": ["derived"],
-      "fns.snap.overpayment_error_rate": ["derived"],
-      "fns.snap.total_payment_error_rate": ["derived"],
-      "fns.snap.underpayment_error_rate": ["derived"]
+    "bea.real_gdp.saar.third_estimate": {
+      "measure.concept": {
+        "bea.real_gdp.saar.{P:q9_9999}.third_estimate": {
+          "q1_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bea.real_gdp.saar.{P:q9_9999}.third_estimate": {
+          "q1_2026": ["derived"]
+        }
+      }
     },
-    "fy2025": {
-      "fns.snap.share_jurisdictions_at_or_above_6pct": ["derived"],
-      "fns.snap.total_payment_error_rate": ["derived"]
+    "bea.trade.goods_services_deficit": {
+      "measure.concept": {
+        "bea.trade.goods_services_deficit.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bea.trade.goods_services_deficit.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
     },
-    "july_2026": {
-      "bls.cpi.u.core_mom": ["derived"],
-      "bls.cpi.u.headline_mom": ["derived"],
-      "bls.cps.unemployment_rate": ["derived"]
+    "bea.wages_and_salaries.level": {
+      "measure.concept": {
+        "bea.wages_and_salaries.level.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bea.wages_and_salaries.level.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "june_2026": {
-      "abs.labour.employment_change.australia": ["derived"],
-      "abs.labour.unemployment_rate.australia": ["derived"],
-      "bls.ces.aerospace_product_and_parts_employment": ["derived"],
-      "bls.ces.federal_department_of_defense_employment": ["derived"],
-      "bls.ces.ship_and_boat_building_employment": ["derived"],
-      "bls.ces.total_nonfarm_payroll_change": ["derived"],
-      "bls.cpi.u.core_mom": ["derived"],
-      "bls.cpi.u.headline_mom": ["derived"],
-      "bls.cps.employed_people_by_occupation.business_financial_operations": ["derived"],
-      "bls.cps.employed_people_by_occupation.computer_mathematical": ["derived"],
-      "bls.cps.employed_people_by_occupation.healthcare_support": ["derived"],
-      "bls.cps.employed_people_by_occupation.office_administrative_support": ["derived"],
-      "bls.cps.employed_people_by_occupation.production": ["derived"],
-      "bls.cps.employed_people_by_occupation.transportation_material_moving": ["derived"],
-      "bls.cps.unemployment_rate": ["derived"],
-      "bls.jolts.job_openings": ["derived"],
-      "eurostat.hicp.all_items_annual_rate.euro_area": ["derived"],
-      "statjp.cpi.tokyo_all_items_annual_rate": ["derived"]
+    "bls.ces.aerospace_product_and_parts_employment": {
+      "measure.concept": {
+        "bls.ces.aerospace_product_and_parts_employment.{P:<month>_9999}": {
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.ces.aerospace_product_and_parts_employment.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"]
+        }
+      }
     },
-    "may_2026": {
-      "abs.building_approvals.total_dwellings_mom.australia": ["derived"],
-      "abs.cpi.all_groups_annual_rate.australia": ["derived"],
-      "abs.labour.employment_change.australia": ["derived"],
-      "abs.labour.unemployment_rate.australia": ["derived"],
-      "bea.disposable_personal_income.level": ["derived"],
-      "bea.government_social_benefits.level": ["derived"],
-      "bea.government_social_benefits.medicaid": ["derived"],
-      "bea.government_social_benefits.medicare": ["derived"],
-      "bea.government_social_benefits.social_security": ["derived"],
-      "bea.pce.core_mom": ["derived"],
-      "bea.pce_price_index.monthly_change": ["derived"],
-      "bea.personal_current_taxes.level": ["derived"],
-      "bea.wages_and_salaries.level": ["derived"],
-      "bls.ces.average_hourly_earnings_private_monthly_change": ["derived"],
-      "bls.ces.total_nonfarm_payroll_change": ["derived"],
-      "bls.cpi.u.core_mom": ["derived"],
-      "bls.cpi.u.headline_mom": ["derived"],
-      "bls.cps.unemployment_rate": ["derived"],
-      "bls.import_price_index.all_imports_mom": ["derived"],
-      "bls.jolts.job_openings": ["derived"],
-      "bls.jolts.job_openings_total": ["derived"],
-      "bls.ppi.final_demand_monthly_change": ["derived"],
-      "census.housing_starts.saar": ["derived"],
-      "census.marts.adv44x72.monthly_change": ["derived"],
-      "eurostat.hicp.all_items_annual_rate.euro_area": ["derived"],
-      "eurostat.retail_trade.volume_mom.euro_area": ["derived"],
-      "eurostat.unemployment_rate.euro_area": ["derived"],
-      "fed.g17.capacity_utilization.total_industry": ["derived"],
-      "fed.g17.industrial_production.total_index_mom": ["derived"],
-      "ons.cpi.annual_rate": ["derived"],
-      "ons.hmrc.paye_payrolled_employees": ["derived"],
-      "ons.pusf.j5ii.public_sector_net_borrowing_ex_banks": ["derived"],
-      "ons.retail_sales.volume_mom": ["derived"],
-      "statcan.cpi.all_items_annual_rate.canada": ["derived"],
-      "statcan.employment_insurance.regular_beneficiaries.canada": ["derived"],
-      "statcan.lfs.employment_change": ["derived"],
-      "statcan.lfs.unemployment_rate": ["derived"],
-      "statjp.cpi.all_items_annual_rate.japan": ["derived"],
-      "statjp.household_spending.real_yoy.two_or_more_person_households": ["derived"],
-      "statjp.lfs.unemployment_rate.japan": ["derived"],
-      "treasury.mts.monthly_deficit": ["derived"]
+    "bls.ces.average_hourly_earnings_private_monthly_change": {
+      "source_record_id": {
+        "bls.ces.average_hourly_earnings_private.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "q1_2026": {
-      "bea.real_gdp.saar.third_estimate": ["derived"]
+    "bls.ces.federal_department_of_defense_employment": {
+      "measure.concept": {
+        "bls.ces.federal_department_of_defense_employment.{P:<month>_9999}": {
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.ces.federal_department_of_defense_employment.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"]
+        }
+      }
     },
-    "week_2026-06-13": {
-      "us.dol.initial_claims.sa": ["overlap"]
+    "bls.ces.home_health_care_services.employment": {
+      "measure.concept": {
+        "bls.ces.home_health_care_services.employment.{P:9999-99}": {
+          "2026-07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.ces.home_health_care_services.employment.{P:9999-99}.first_print": {
+          "2026-07": ["derived"]
+        }
+      }
     },
-    "week_2026-06-20": {
-      "us.dol.initial_claims.sa": ["derived"]
+    "bls.ces.ship_and_boat_building_employment": {
+      "measure.concept": {
+        "bls.ces.ship_and_boat_building_employment.{P:<month>_9999}": {
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.ces.ship_and_boat_building_employment.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"]
+        }
+      }
     },
-    "week_2026-06-27": {
-      "dol.eta.continued_claims.sa": ["derived"]
+    "bls.ces.total_nonfarm_payroll_change": {
+      "measure.concept": {
+        "bls.ces.total_nonfarm_payroll_change.{P:<month>_9999}": {
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.ces.total_nonfarm_payroll_change.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "week_2026-07-04": {
-      "dol.eta.continued_claims.sa": ["derived"],
-      "us.dol.initial_claims.sa": ["derived"]
+    "bls.cpi.owners_equivalent_rent_mom": {
+      "measure.concept": {
+        "bls.cpi.owners_equivalent_rent_mom.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cpi.owners_equivalent_rent_mom.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
     },
-    "week_2026-07-11": {
-      "dol.eta.continued_claims.sa": ["derived"],
-      "us.dol.initial_claims.sa": ["derived"]
+    "bls.cpi.rent_primary_residence_mom": {
+      "measure.concept": {
+        "bls.cpi.rent_primary_residence_mom.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cpi.rent_primary_residence_mom.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
     },
-    "week_2026-07-13": {
-      "va.vba.mmwr.claims_inventory": ["overlap"]
+    "bls.cpi.services_less_energy_mom": {
+      "measure.concept": {
+        "bls.cpi.services_less_energy_mom.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cpi.services_less_energy_mom.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
     },
-    "week_2026-07-18": {
-      "dol.eta.continued_claims.sa": ["derived"],
-      "us.dol.initial_claims.sa": ["derived"]
+    "bls.cpi.services_less_rent_shelter_mom": {
+      "measure.concept": {
+        "bls.cpi.services_less_rent_shelter_mom.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cpi.services_less_rent_shelter_mom.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
     },
-    "week_2026-07-25": {
-      "dol.eta.continued_claims.sa": ["derived"],
-      "us.dol.initial_claims.sa": ["derived"]
+    "bls.cpi.shelter_mom": {
+      "measure.concept": {
+        "bls.cpi.shelter_mom.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cpi.shelter_mom.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
     },
-    "week_2026-08-01": {
-      "dol.eta.continued_claims.sa": ["derived"],
-      "us.dol.initial_claims.sa": ["derived"]
+    "bls.cpi.u.core_mom": {
+      "measure.concept": {
+        "bls.cpi.u.core_mom.{P:<month>_9999}": {
+          "july_2026": ["derived"],
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cpi.u.core_mom.{P:<month>_9999}.first_print": {
+          "july_2026": ["derived"],
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "week_2026-08-08": {
-      "dol.eta.continued_claims.sa": ["derived"],
-      "us.dol.initial_claims.sa": ["derived"]
+    "bls.cpi.u.headline_mom": {
+      "measure.concept": {
+        "bls.cpi.u.headline_mom.{P:<month>_9999}": {
+          "july_2026": ["derived"],
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cpi.u.headline_mom.{P:<month>_9999}.first_print": {
+          "july_2026": ["derived"],
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      }
     },
-    "week_2026-08-15": {
-      "dol.eta.continued_claims.sa": ["derived"],
-      "us.dol.initial_claims.sa": ["derived"]
+    "bls.cps.LNU02374597": {
+      "measure.concept": {
+        "bls.cps.LNU02374597.{P:9999-99}": {
+          "2026-07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cps.LNU02374597.{P:9999-99}.first_print": {
+          "2026-07": ["derived"]
+        }
+      }
     },
-    "week_2026-08-22": {
-      "dol.eta.continued_claims.sa": ["derived"],
-      "us.dol.initial_claims.sa": ["derived"]
+    "bls.cps.employed_people_by_occupation.business_financial_operations": {
+      "measure.concept": {
+        "bls.cps.employed_people_by_occupation.business_financial_operations.{P:<month>_9999}": {
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cps.employed_people_by_occupation.business_financial_operations.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"]
+        }
+      }
     },
-    "week_2026_06_13": {
-      "us.dol.initial_claims.sa": ["overlap"]
+    "bls.cps.employed_people_by_occupation.computer_mathematical": {
+      "measure.concept": {
+        "bls.cps.employed_people_by_occupation.computer_mathematical.{P:<month>_9999}": {
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cps.employed_people_by_occupation.computer_mathematical.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"]
+        }
+      }
     },
-    "week_ending_2026_06_06": {
-      "us.dol.initial_claims.sa": ["overlap"]
+    "bls.cps.employed_people_by_occupation.healthcare_support": {
+      "measure.concept": {
+        "bls.cps.employed_people_by_occupation.healthcare_support.{P:<month>_9999}": {
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cps.employed_people_by_occupation.healthcare_support.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"]
+        }
+      }
+    },
+    "bls.cps.employed_people_by_occupation.office_administrative_support": {
+      "measure.concept": {
+        "bls.cps.employed_people_by_occupation.office_administrative_support.{P:<month>_9999}": {
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cps.employed_people_by_occupation.office_administrative_support.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"]
+        }
+      }
+    },
+    "bls.cps.employed_people_by_occupation.production": {
+      "measure.concept": {
+        "bls.cps.employed_people_by_occupation.production.{P:<month>_9999}": {
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cps.employed_people_by_occupation.production.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"]
+        }
+      }
+    },
+    "bls.cps.employed_people_by_occupation.transportation_material_moving": {
+      "measure.concept": {
+        "bls.cps.employed_people_by_occupation.transportation_material_moving.{P:<month>_9999}": {
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cps.employed_people_by_occupation.transportation_material_moving.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"]
+        }
+      }
+    },
+    "bls.cps.lfpr_55_plus": {
+      "measure.concept": {
+        "bls.cps.lfpr_55_plus.{P:9999-99}": {
+          "2026-07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cps.lfpr_55_plus.{P:9999-99}.first_print": {
+          "2026-07": ["derived"]
+        }
+      }
+    },
+    "bls.cps.u6_underemployment_rate": {
+      "measure.concept": {
+        "bls.cps.u6_underemployment_rate.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cps.u6_underemployment_rate.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
+    },
+    "bls.cps.unemployment_rate": {
+      "measure.concept": {
+        "bls.cps.unemployment_rate.{P:<month>_9999}": {
+          "july_2026": ["derived"],
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.cps.unemployment_rate.{P:<month>_9999}.first_print": {
+          "july_2026": ["derived"],
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "bls.eci.private_wages_salaries_qoq": {
+      "measure.concept": {
+        "bls.eci.private_wages_salaries_qoq.{P:9999_q9}": {
+          "2026_q2": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.eci.private_wages_salaries_qoq.{P:9999_q9}.first_print": {
+          "2026_q2": ["derived"]
+        }
+      }
+    },
+    "bls.eci.total_compensation_private_industry_qoq": {
+      "measure.concept": {
+        "bls.eci.total_compensation_private_industry_qoq.{P:9999_q9}": {
+          "2026_q2": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.eci.total_compensation_private_industry_qoq.{P:9999_q9}.first_print": {
+          "2026_q2": ["derived"]
+        }
+      }
+    },
+    "bls.export_prices.all_commodities_mom": {
+      "measure.concept": {
+        "bls.export_prices.all_commodities_mom.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.export_prices.all_commodities_mom.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
+    },
+    "bls.import_price_index.all_imports_mom": {
+      "measure.concept": {
+        "bls.import_price_index.all_imports_mom.{P:9999-99}": {
+          "2026-06": ["derived"],
+          "2026-07": ["derived"]
+        },
+        "bls.import_price_index.all_imports_mom.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.import_price_index.all_imports_mom.{P:9999-99}.first_print": {
+          "2026-06": ["derived"],
+          "2026-07": ["derived"]
+        },
+        "bls.import_price_index.all_imports_mom.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "bls.jolts.hires_rate": {
+      "measure.concept": {
+        "bls.jolts.hires_rate.{P:9999_99}": {
+          "2026_06": ["derived"],
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.jolts.hires_rate.{P:9999_99}.first_print": {
+          "2026_06": ["derived"],
+          "2026_07": ["derived"]
+        }
+      }
+    },
+    "bls.jolts.job_openings": {
+      "measure.concept": {
+        "bls.jolts.job_openings.{P:<month>_9999}": {
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.jolts.job_openings.{P:<month>_9999}.first_print": {
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "bls.jolts.job_openings_total": {
+      "measure.concept": {
+        "bls.jolts.job_openings_total.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.jolts.job_openings_total.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "bls.laus.colorado.labor_force": {
+      "measure.concept": {
+        "bls.laus.colorado.labor_force.{P:9999-99}": {
+          "2026-07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.laus.colorado.labor_force.{P:9999-99}.first_print": {
+          "2026-07": ["derived"]
+        }
+      }
+    },
+    "bls.ppi.final_demand_monthly_change": {
+      "measure.concept": {
+        "bls.ppi.final_demand_monthly_change.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.ppi.final_demand_monthly_change.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "bls.productivity.nonfarm_unit_labor_costs_qoq_prelim": {
+      "measure.concept": {
+        "bls.productivity.nonfarm_unit_labor_costs_qoq_prelim.{P:9999_q9}": {
+          "2026_q2": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "bls.productivity.nonfarm_unit_labor_costs_qoq_prelim.{P:9999_q9}.first_print": {
+          "2026_q2": ["derived"]
+        }
+      }
+    },
+    "boe.bank_rate": {
+      "measure.concept": {
+        "boe.bank_rate.{P:9999_99_99}": {
+          "2026_06_18": ["overlap"]
+        },
+        "boe.bank_rate.{P:after_mpc_<month>_9999}": {
+          "after_mpc_june_2026": ["overlap"]
+        }
+      },
+      "source_record_id": {
+        "boe.bank_rate.{P:9999-99-99}": {
+          "2026-06-18": ["overlap"]
+        },
+        "boe.bank_rate.{P:after_mpc_<month>_9999}.first_print": {
+          "after_mpc_june_2026": ["overlap"]
+        }
+      }
+    },
+    "boj.policy_rate_guideline": {
+      "measure.concept": {
+        "boj.policy_rate_guideline.{P:after_<month>_9999}": {
+          "after_june_2026": ["overlap"]
+        }
+      },
+      "source_record_id": {
+        "boj.policy_rate_guideline.{P:after_<month>_9999}": {
+          "after_june_2026": ["overlap"]
+        }
+      }
+    },
+    "census.construction_spending.total_mom": {
+      "measure.concept": {
+        "census.construction_spending.total_mom.{P:9999_99}": {
+          "2026_06": ["derived"],
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "census.construction_spending.total_mom.{P:9999_99}.first_print": {
+          "2026_06": ["derived"],
+          "2026_07": ["derived"]
+        }
+      }
+    },
+    "census.housing.completions_saar": {
+      "measure.concept": {
+        "census.housing.completions_saar.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "census.housing.completions_saar.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
+    },
+    "census.housing.permits_saar": {
+      "measure.concept": {
+        "census.housing.permits_saar.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "census.housing.permits_saar.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
+    },
+    "census.housing_starts.saar": {
+      "measure.concept": {
+        "census.housing_starts.saar.{P:9999-99}": {
+          "2026-06": ["derived"],
+          "2026-07": ["derived"]
+        },
+        "census.housing_starts.saar.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        },
+        "us.census.housing_starts.total_saar.{P:9999_99}": {
+          "2026_05": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "census.housing_starts.saar.{P:9999-99}.first_print": {
+          "2026-06": ["derived"],
+          "2026-07": ["derived"]
+        },
+        "census.housing_starts.saar.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        },
+        "us.census.housing_starts.total_saar.{P:9999-99}": {
+          "2026-05": ["derived"]
+        }
+      }
+    },
+    "census.m3.durable_goods_new_orders_mom": {
+      "measure.concept": {
+        "census.m3.durable_goods_new_orders_mom.{P:9999_99}": {
+          "2026_06": ["derived"],
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "census.m3.durable_goods_new_orders_mom.{P:9999_99}.first_print": {
+          "2026_06": ["derived"],
+          "2026_07": ["derived"]
+        }
+      }
+    },
+    "census.m3.durable_goods_shipments_mom": {
+      "measure.concept": {
+        "census.m3.durable_goods_shipments_mom.{P:9999_99}": {
+          "2026_06": ["derived"],
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "census.m3.durable_goods_shipments_mom.{P:9999_99}.first_print": {
+          "2026_06": ["derived"],
+          "2026_07": ["derived"]
+        }
+      }
+    },
+    "census.marts.adv44x72.monthly_change": {
+      "measure.concept": {
+        "census.marts.adv44x72.{P:<month>_9999}.monthly_change": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "census.marts.adv44x72.{P:<month>_9999}.monthly_change.advance": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "census.mtis.total_business_inventories_level": {
+      "measure.concept": {
+        "census.mtis.total_business_inventories_level.{P:<month>_9999}": {
+          "april_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "census.mtis.total_business_inventories_level.{P:<month>_9999}.first_print": {
+          "april_2026": ["derived"]
+        }
+      }
+    },
+    "census.new_residential_sales.new_single_family_houses_sold_saar": {
+      "measure.concept": {
+        "census.new_residential_sales.new_single_family_houses_sold_saar.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "census.new_residential_sales.new_single_family_houses_sold_saar.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
+    },
+    "cms.care_compare.nursing_home_occupancy_pct": {
+      "measure.concept": {
+        "cms.care_compare.nursing_home_occupancy_pct.{P:9999-99}": {
+          "2026-07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "cms.care_compare.nursing_home_occupancy_pct.{P:9999-99}.first_print": {
+          "2026-07": ["derived"]
+        }
+      }
+    },
+    "cms.medicaid_pi.beneficiaries_disenrolled_procedural": {
+      "source_record_id": {
+        "cms.medicaid_pi.beneficiaries_disenrolled_procedural.california.{P:<month>_9999}.original_submission": {
+          "feb_2026": ["derived"]
+        }
+      }
+    },
+    "cms.medicaid_pi.beneficiaries_disenrolled_total": {
+      "source_record_id": {
+        "cms.medicaid_pi.beneficiaries_disenrolled_total.california.{P:<month>_9999}.original_submission": {
+          "feb_2026": ["derived"]
+        }
+      }
+    },
+    "cms.medicaid_pi.beneficiaries_renewed_ex_parte": {
+      "source_record_id": {
+        "cms.medicaid_pi.beneficiaries_renewed_ex_parte.california.{P:<month>_9999}.original_submission": {
+          "feb_2026": ["derived"]
+        }
+      }
+    },
+    "cms.medicaid_pi.beneficiaries_renewed_total": {
+      "source_record_id": {
+        "cms.medicaid_pi.beneficiaries_renewed_total.california.{P:<month>_9999}.original_submission": {
+          "feb_2026": ["derived"]
+        }
+      }
+    },
+    "cms.nursing_home_compare.reported_total_nurse_staffing_hprd_us": {
+      "measure.concept": {
+        "cms.nursing_home_compare.reported_total_nurse_staffing_hprd_us.{P:9999-99}": {
+          "2026-07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "cms.nursing_home_compare.reported_total_nurse_staffing_hprd_us.{P:9999-99}.first_print": {
+          "2026-07": ["derived"]
+        }
+      }
+    },
+    "dol.eta.continued_claims.sa": {
+      "source_record_id": {
+        "dol.eta.continued_claims.sa.{P:week_9999-99-99}.first_print": {
+          "week_2026-06-27": ["derived"],
+          "week_2026-07-04": ["derived"],
+          "week_2026-07-11": ["derived"],
+          "week_2026-07-18": ["derived"],
+          "week_2026-07-25": ["derived"],
+          "week_2026-08-01": ["derived"],
+          "week_2026-08-08": ["derived"],
+          "week_2026-08-15": ["derived"],
+          "week_2026-08-22": ["derived"]
+        }
+      }
+    },
+    "ecb.deposit_facility_rate": {
+      "measure.concept": {
+        "ecb.deposit_facility_rate.{P:after_<month>_9999}": {
+          "after_june_2026": ["overlap"]
+        }
+      },
+      "source_record_id": {
+        "ecb.deposit_facility_rate.{P:after_<month>_9999}": {
+          "after_june_2026": ["overlap"]
+        }
+      }
+    },
+    "estat.jp.cpi.core_exfreshfood.yoy": {
+      "measure.concept": {
+        "estat.jp.cpi.core_exfreshfood.yoy.{P:9999_99}": {
+          "2026_05": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "estat.jp.cpi.core_exfreshfood.yoy.{P:9999-99}": {
+          "2026-05": ["derived"]
+        }
+      }
+    },
+    "eurostat.ea.hicp.flash.yoy": {
+      "measure.concept": {
+        "eurostat.ea.hicp.flash.yoy.{P:9999-99}": {
+          "2026-06": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "eurostat.ea.hicp.flash.yoy.{P:9999-99}": {
+          "2026-06": ["derived"],
+          "2026-07": ["derived"]
+        }
+      }
+    },
+    "eurostat.hicp.all_items_annual_rate.euro_area": {
+      "measure.concept": {
+        "eurostat.hicp.all_items_annual_rate.euro_area.{P:<month>_9999}": {
+          "june_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "eurostat.hicp.all_items_annual_rate.euro_area.{P:<month>_9999}.final_first_print": {
+          "may_2026": ["derived"]
+        },
+        "eurostat.hicp.all_items_annual_rate.euro_area.{P:<month>_9999}.flash": {
+          "june_2026": ["derived"]
+        }
+      }
+    },
+    "eurostat.industrial_production.euro_area": {
+      "measure.concept": {
+        "eurostat.industrial_production.euro_area.{P:<month>_9999}": {
+          "april_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "eurostat.industrial_production.euro_area.{P:<month>_9999}.first_print": {
+          "april_2026": ["derived"]
+        }
+      }
+    },
+    "eurostat.retail_trade.volume_mom.euro_area": {
+      "measure.concept": {
+        "eurostat.retail_trade.volume_mom.euro_area.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "eurostat.retail_trade.volume_mom.euro_area.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "eurostat.unemployment_rate.euro_area": {
+      "measure.concept": {
+        "eurostat.unemployment_rate.euro_area.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "eurostat.unemployment_rate.euro_area.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "fed.g17.capacity_utilization.manufacturing": {
+      "measure.concept": {
+        "fed.g17.capacity_utilization.manufacturing.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "fed.g17.capacity_utilization.manufacturing.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
+    },
+    "fed.g17.capacity_utilization.total_industry": {
+      "measure.concept": {
+        "fed.g17.capacity_utilization.total_industry.{P:9999-99}": {
+          "2026-06": ["derived"],
+          "2026-07": ["derived"]
+        },
+        "fed.g17.capacity_utilization.total_industry.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "fed.g17.capacity_utilization.total_industry.{P:9999-99}.first_print": {
+          "2026-06": ["derived"],
+          "2026-07": ["derived"]
+        },
+        "fed.g17.capacity_utilization.total_industry.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "fed.g17.industrial_production.total_index_mom": {
+      "measure.concept": {
+        "fed.g17.industrial_production.total_index_mom.{P:9999-99}": {
+          "2026-06": ["derived"],
+          "2026-07": ["derived"]
+        },
+        "fed.g17.industrial_production.total_index_mom.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        },
+        "us.frb.industrial_production.total.mom_sa.{P:9999_99}": {
+          "2026_05": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "fed.g17.industrial_production.total_index_mom.{P:9999-99}.first_print": {
+          "2026-06": ["derived"],
+          "2026-07": ["derived"]
+        },
+        "fed.g17.industrial_production.total_index_mom.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        },
+        "us.frb.industrial_production.total.mom_sa.{P:9999-99}": {
+          "2026-05": ["derived"]
+        }
+      }
+    },
+    "fed.g17.manufacturing_production_mom": {
+      "measure.concept": {
+        "fed.g17.manufacturing_production_mom.{P:9999_99}": {
+          "2026_07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "fed.g17.manufacturing_production_mom.{P:9999_99}.first_print": {
+          "2026_07": ["derived"]
+        }
+      }
+    },
+    "fed.g19.consumer_credit_nonrevolving_annual_rate": {
+      "measure.concept": {
+        "fed.g19.consumer_credit_nonrevolving_annual_rate.{P:9999_99}": {
+          "2026_06": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "fed.g19.consumer_credit_nonrevolving_annual_rate.{P:9999_99}.first_print": {
+          "2026_06": ["derived"]
+        }
+      }
+    },
+    "fed.g19.consumer_credit_revolving_annual_rate": {
+      "measure.concept": {
+        "fed.g19.consumer_credit_revolving_annual_rate.{P:9999_99}": {
+          "2026_06": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "fed.g19.consumer_credit_revolving_annual_rate.{P:9999_99}.first_print": {
+          "2026_06": ["derived"]
+        }
+      }
+    },
+    "fed.g19.consumer_credit_total_annual_rate": {
+      "measure.concept": {
+        "fed.g19.consumer_credit_total_annual_rate.{P:9999_99}": {
+          "2026_06": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "fed.g19.consumer_credit_total_annual_rate.{P:9999_99}.first_print": {
+          "2026_06": ["derived"]
+        }
+      }
+    },
+    "fns.snap.application_processing_timeliness_rate": {
+      "source_record_id": {
+        "fns.snap.application_processing_timeliness.california.{P:fy9999}.official_release": {
+          "fy2024": ["derived"]
+        }
+      }
+    },
+    "fns.snap.overpayment_error_rate": {
+      "source_record_id": {
+        "fns.snap.overpayment_payment_error_rate.us.{P:fy9999}.official_release": {
+          "fy2024": ["derived"]
+        }
+      }
+    },
+    "fns.snap.share_jurisdictions_at_or_above_6pct": {
+      "source_record_id": {
+        "fns.snap.share_jurisdictions_at_or_above_6pct.{P:fy9999}": {
+          "fy2025": ["derived"]
+        }
+      }
+    },
+    "fns.snap.total_payment_error_rate": {
+      "source_record_id": {
+        "fns.snap.total_payment_error_rate.ak.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.al.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ar.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.az.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ca.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.co.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ct.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.dc.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.de.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.fl.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ga.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.gu.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.hi.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ia.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.id.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.il.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.in.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ks.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ky.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.la.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ma.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.md.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.me.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.mi.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.mn.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.mo.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ms.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.mt.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.nc.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.nd.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ne.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.nh.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.nj.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.nm.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.nv.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ny.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.oh.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ok.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.or.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.pa.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ri.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.sc.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.sd.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.tn.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.tx.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.us.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.us.{P:fy9999}.official_release": {
+          "fy2024": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.ut.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.va.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.vi.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.vt.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.wa.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.wi.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.wv.{P:fy9999}": {
+          "fy2025": ["derived"]
+        },
+        "fns.snap.total_payment_error_rate.wy.{P:fy9999}": {
+          "fy2025": ["derived"]
+        }
+      }
+    },
+    "fns.snap.underpayment_error_rate": {
+      "source_record_id": {
+        "fns.snap.underpayment_payment_error_rate.us.{P:fy9999}.official_release": {
+          "fy2024": ["derived"]
+        }
+      }
+    },
+    "ons.cpi.annual_rate": {
+      "measure.concept": {
+        "ons.cpi.annual_rate.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "ons.cpi.annual_rate.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "ons.cpih.annual_rate": {
+      "measure.concept": {
+        "ons.cpih.annual_rate.{P:9999_99}": {
+          "2026_05": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "ons.cpih.annual_rate.{P:9999-99}": {
+          "2026-05": ["derived"]
+        }
+      }
+    },
+    "ons.gdp.monthly_growth": {
+      "measure.concept": {
+        "ons.gdp.monthly_growth.{P:<month>_9999}": {
+          "april_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "ons.gdp.monthly_growth.{P:<month>_9999}.first_print": {
+          "april_2026": ["derived"]
+        }
+      }
+    },
+    "ons.hmrc.paye_payrolled_employees": {
+      "measure.concept": {
+        "ons.hmrc.paye_payrolled_employees.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "ons.hmrc.paye_payrolled_employees.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "ons.labour.unemployment_rate": {
+      "measure.concept": {
+        "ons.labour.unemployment_rate.{P:<month>_to_<month>_9999}": {
+          "february_to_april_2026": ["overlap"]
+        }
+      },
+      "source_record_id": {
+        "ons.labour.unemployment_rate.{P:<month>_to_<month>_9999}.first_print": {
+          "february_to_april_2026": ["overlap"]
+        }
+      }
+    },
+    "ons.pusf.j5ii.public_sector_net_borrowing_ex_banks": {
+      "measure.concept": {
+        "ons.pusf.j5ii.public_sector_net_borrowing_ex_banks.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "ons.pusf.j5ii.public_sector_net_borrowing_ex_banks.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "ons.retail_sales.volume_mom": {
+      "measure.concept": {
+        "ons.retail_sales.volume_mom.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "ons.retail_sales.volume_mom.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "rba.cash_rate_target": {
+      "measure.concept": {
+        "rba.cash_rate_target.{P:after_<month>_9999}": {
+          "after_june_2026": ["overlap"]
+        }
+      },
+      "source_record_id": {
+        "rba.cash_rate_target.{P:after_<month>_9999}": {
+          "after_june_2026": ["overlap"]
+        }
+      }
+    },
+    "ssa.oasdi.disabled_worker_beneficiaries": {
+      "measure.concept": {
+        "ssa.oasdi.disabled_worker_beneficiaries.{P:9999-99}": {
+          "2026-06": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "ssa.oasdi.disabled_worker_beneficiaries.{P:9999-99}.first_print": {
+          "2026-06": ["derived"]
+        }
+      }
+    },
+    "ssa.ssi.recipients.colorado": {
+      "measure.concept": {
+        "ssa.ssi.recipients.colorado.{P:9999-99}": {
+          "2026-07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "ssa.ssi.recipients.colorado.{P:9999-99}.first_print": {
+          "2026-07": ["derived"]
+        }
+      }
+    },
+    "ssa.ssi.recipients.colorado.aged_65_plus": {
+      "measure.concept": {
+        "ssa.ssi.recipients.colorado.aged_65_plus.{P:9999-99}": {
+          "2026-07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "ssa.ssi.recipients.colorado.aged_65_plus.{P:9999-99}.first_print": {
+          "2026-07": ["derived"]
+        }
+      }
+    },
+    "ssa.ssi.recipients_aged_65_plus": {
+      "measure.concept": {
+        "ssa.ssi.recipients_aged_65_plus.{P:9999_99}": {
+          "2026_06": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "ssa.ssi.recipients_aged_65_plus.{P:9999_99}.first_print": {
+          "2026_06": ["derived"]
+        }
+      }
+    },
+    "ssa.ssi.total_recipients": {
+      "measure.concept": {
+        "ssa.ssi.total_recipients.{P:9999-99}": {
+          "2026-07": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "ssa.ssi.total_recipients.{P:9999-99}.first_print": {
+          "2026-07": ["derived"]
+        }
+      }
+    },
+    "statcan.36-10-0434-01.all_industries.month_to_month_percent_change": {
+      "source_record_id": {
+        "statcan.36-10-0434-01.all_industries.month_to_month_percent_change.{P:9999-99}.first_print": {
+          "2026-05": ["derived"]
+        }
+      }
+    },
+    "statcan.building_permits.total_value_mom.canada": {
+      "measure.concept": {
+        "statcan.building_permits.total_value_mom.canada.{P:<month>_9999}": {
+          "april_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "statcan.building_permits.total_value_mom.canada.{P:<month>_9999}.first_print": {
+          "april_2026": ["derived"]
+        }
+      }
+    },
+    "statcan.cpi.all_items_annual_rate.canada": {
+      "measure.concept": {
+        "statcan.cpi.all_items_annual_rate.canada.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "statcan.cpi.all_items_annual_rate.canada.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "statcan.cpi.allitems.yoy": {
+      "measure.concept": {
+        "statcan.cpi.allitems.yoy.{P:9999-99}": {
+          "2026-05": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "statcan.cpi.allitems.yoy.{P:9999-99}": {
+          "2026-05": ["derived"]
+        }
+      }
+    },
+    "statcan.employment_insurance.regular_beneficiaries.canada": {
+      "measure.concept": {
+        "statcan.employment_insurance.regular_beneficiaries.canada.{P:<month>_9999}": {
+          "april_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "statcan.employment_insurance.regular_beneficiaries.canada.{P:<month>_9999}.first_print": {
+          "april_2026": ["derived"],
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "statcan.gdp_by_industry.monthly_growth": {
+      "measure.concept": {
+        "statcan.gdp_by_industry.monthly_growth.{P:<month>_9999}": {
+          "april_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "statcan.gdp_by_industry.monthly_growth.{P:<month>_9999}.first_print": {
+          "april_2026": ["derived"]
+        }
+      }
+    },
+    "statcan.lfs.employment_change": {
+      "source_record_id": {
+        "statcan.lfs.employment_change.canada.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "statcan.lfs.unemployment_rate": {
+      "source_record_id": {
+        "statcan.lfs.unemployment_rate.canada.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "statcan.retail_trade.sales_mom.canada": {
+      "measure.concept": {
+        "statcan.retail_trade.sales_mom.canada.{P:<month>_9999}": {
+          "april_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "statcan.retail_trade.sales_mom.canada.{P:<month>_9999}.first_print": {
+          "april_2026": ["derived"]
+        }
+      }
+    },
+    "statcan.wholesale_trade.sales_mom_exclusions.canada": {
+      "measure.concept": {
+        "statcan.wholesale_trade.sales_mom_exclusions.canada.{P:<month>_9999}": {
+          "april_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "statcan.wholesale_trade.sales_mom_exclusions.canada.{P:<month>_9999}.first_print": {
+          "april_2026": ["derived"]
+        }
+      }
+    },
+    "statjp.cpi.all_items_annual_rate.japan": {
+      "measure.concept": {
+        "statjp.cpi.all_items_annual_rate.japan.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "statjp.cpi.all_items_annual_rate.japan.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "statjp.cpi.tokyo_all_items_annual_rate": {
+      "measure.concept": {
+        "statjp.cpi.tokyo_all_items_annual_rate.{P:<month>_9999}": {
+          "june_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "statjp.cpi.tokyo_all_items_annual_rate.{P:<month>_9999}.preliminary": {
+          "june_2026": ["derived"]
+        }
+      }
+    },
+    "statjp.household_spending.real_yoy.two_or_more_person_households": {
+      "measure.concept": {
+        "statjp.household_spending.real_yoy.two_or_more_person_households.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "statjp.household_spending.real_yoy.two_or_more_person_households.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "statjp.lfs.unemployment_rate.japan": {
+      "measure.concept": {
+        "statjp.lfs.unemployment_rate.japan.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "statjp.lfs.unemployment_rate.japan.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "treasury.mts.monthly_deficit": {
+      "measure.concept": {
+        "treasury.mts.monthly_deficit.{P:<month>_9999}": {
+          "may_2026": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "treasury.mts.monthly_deficit.{P:<month>_9999}.first_print": {
+          "may_2026": ["derived"]
+        }
+      }
+    },
+    "us.bea.core_pce.mom_sa": {
+      "measure.concept": {
+        "us.bea.core_pce.mom_sa.{P:9999-99}": {
+          "2026-05": ["derived"],
+          "2026-06": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "us.bea.core_pce.mom_sa.{P:9999-99}": {
+          "2026-05": ["derived"],
+          "2026-06": ["derived"]
+        }
+      }
+    },
+    "us.dol.initial_claims.sa": {
+      "measure.concept": {
+        "dol.eta.initial_claims.sa.{P:week_ending_9999_99_99}": {
+          "week_ending_2026_06_06": ["overlap"]
+        },
+        "us.dol.initial_claims.sa.{P:week_9999_99_99}": {
+          "week_2026_06_13": ["overlap"]
+        }
+      },
+      "source_record_id": {
+        "dol.eta.initial_claims.sa.{P:week_ending_9999_99_99}": {
+          "week_ending_2026_06_06": ["overlap"]
+        },
+        "us.dol.initial_claims.sa.{P:week_9999-99-99}": {
+          "week_2026-06-13": ["overlap"],
+          "week_2026-06-20": ["derived"],
+          "week_2026-07-04": ["derived"],
+          "week_2026-07-11": ["derived"],
+          "week_2026-07-18": ["derived"],
+          "week_2026-07-25": ["derived"],
+          "week_2026-08-01": ["derived"],
+          "week_2026-08-08": ["derived"],
+          "week_2026-08-15": ["derived"],
+          "week_2026-08-22": ["derived"]
+        }
+      }
+    },
+    "us.fed.fomc.target_range_upper": {
+      "measure.concept": {
+        "us.fed.fomc.target_range_upper.{P:9999_99}": {
+          "2026_06": ["derived"]
+        }
+      },
+      "source_record_id": {
+        "us.fed.fomc.target_range_upper.{P:9999-99}": {
+          "2026-06": ["derived"]
+        }
+      }
+    },
+    "va.vba.mmwr.claims_inventory": {
+      "measure.concept": {
+        "va.vba.mmwr.claims_inventory.{P:week_9999-99-99}": {
+          "week_2026-07-13": ["overlap"]
+        }
+      },
+      "source_record_id": {
+        "va.vba.mmwr.claims_inventory.{P:week_9999-99-99}.first_print": {
+          "week_2026-07-13": ["overlap"]
+        }
+      }
     }
   }
 }
