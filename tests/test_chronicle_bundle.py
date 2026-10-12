@@ -383,13 +383,20 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # year 2023: no new geography, period or entity keys, duplicate keys or
     # warnings. Its SALT and PTC column fixes, its line 8a relabel and the
     # Historic Table 2 QBI column fix change no count.
+    # Historic Table 2's state package adds Schedule 1 line 1 and Schedule A
+    # lines 7, 8a and 14: 408 TY2022 tax-unit facts (eight measures at 51
+    # states), eight at each state geography. The district file's state-total
+    # rows publish lines 8a and 14 under the same concepts, so 51 states x four
+    # measures add 204 semantic duplicate keys. Measured with the 20 IRS SOI
+    # packages at bundle year 2023 against the parent commit: no new geography,
+    # period or entity keys and no new warnings.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
         # chronicle#322 adds 4,947 ONS observations and 3,200 DESNZ ones.
         # Inner/Outer London also add two region-level geography keys.
-        "fact_count": 1007134,
+        "fact_count": 1007542,
         "geography_count": 20548,
         "period_count": 511,
         # 467 before chronicle#292 moved the congressional-district and
@@ -409,7 +416,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # export: 5,244 NRS + 5,406 UC + 12 DfI overlap groups are retired.
         # Independent census cuts and the older-only combined Metro/Glider
         # journey series remain publisher facts with their original provenance.
-        "semantic_duplicate_key_count": 2324,
+        # Historic Table 2's state lines 8a and 14 add 204 (see above).
+        "semantic_duplicate_key_count": 2528,
         "skipped_source_count": 10,
         "source_count": 56,
         "source_package_count": 377,
@@ -447,7 +455,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1007134
+    assert row_count == 1007542
     assert provenance_classes <= {
         "administrative",
         "census",
@@ -468,7 +476,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1007134
+    assert coverage["fact_count"] == 1007542
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -494,7 +502,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc": 31515,
         "ici": 12,
         "ird": 4362,
-        "irs_soi": 43963,
+        "irs_soi": 44371,
         "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
@@ -1771,6 +1779,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # The congressional-district file's Schedule A line 8b, 8c and 9 columns:
     # six measures at its 480 rows.
     expected_period_counts["tax_year:2022"] += 2880
+    # Historic Table 2's state Schedule 1 line 1 and Schedule A lines 7, 8a
+    # and 14: eight measures at 51 states.
+    expected_period_counts["tax_year:2022"] += 408
     # BEA NIPA Table 7.8 line 17 (B4923C): the bundle year's own column.
     expected_period_counts["calendar_year:2023"] += 1
     assert coverage["counts"]["by_period"] == expected_period_counts
@@ -1800,7 +1811,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["nuts1:BE3"] == 3662
     assert coverage["counts"]["by_geography"]["commune:11002"] == 1
     assert coverage["counts"]["by_geography"]["country:0100000US"] == 2116
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 255
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 263
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 62
     )
@@ -1841,10 +1852,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "person": 496036,
         "return": 14600,
         "social_protection_scheme": 36,
-        "tax_unit": 45268,
+        "tax_unit": 45676,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2528
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 78,
         "conflicting_groupby_value_label": 23,
