@@ -18,10 +18,11 @@ series, in the same form as the UK "Legacy ETL cleanup" table in
 
 A boundary test (`tests/test_chronicle_boundaries.py`) now runs `chronicle load
 all` and requires every row it writes to reproduce its own publisher cell: the
-one source-package fact with the same measure, geography, AGI band and period,
-built from a publisher file whose bytes hash to its manifest sha256. Its mutation
-cases, including a row given another real cell's value, show it flags each
-change.
+one source-package fact with the same measure, period and complete stratum
+definition, built from a publisher file whose bytes hash to its manifest sha256,
+with matching source fields. Fifteen mutation cases, including a row given
+another real cell's value and a stratum whose constraint is negated, show it
+flags each change.
 
 ## Consumers
 
@@ -39,8 +40,9 @@ wider audit of the whole legacy `targets` path, which also shallow-cloned every
 repository in those organizations, found three historical readers, all now in
 archived repositories: microplex-us's Arch SQLite target provider, which read
 the whole table until it was deleted on 2026-06-08; microplex's calibration
-script, which read the older `microplex` Supabase schema; and cosilico-microdata's `targets_db.py`, which imported
-`db.schema`, `load_soi_targets` and `load_snap_targets`. Which of the retired
+script, which read the older `microplex` Supabase schema; and cosilico-microdata, whose `targets_db.py` imported
+`db.schema` and whose integration tests called `load_soi_targets` and
+`load_snap_targets`. Which of the retired
 rows they consumed is not verified.
 
 ## Retired: invented IRS SOI state values

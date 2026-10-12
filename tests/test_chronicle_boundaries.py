@@ -195,16 +195,50 @@ SNAP_ROW_MEASURES = {
     ("snap_benefits", "AMOUNT"): "usda_snap.total_benefits",
 }
 IRS_AGI_CONCEPT = "us:statutes/26/62#adjusted_gross_income"
+IRS_SOURCE_TABLES = {"soi-table-1-1": "Table 1.1", "soi-table-1-4": "Table 1.4"}
+
+
+def _constraint_value(value: object) -> object:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return value
+
+
+def _irs_stratum(fact) -> frozenset:
+    """The stratum definition a legacy row needs to carry this IRS fact."""
+    bounds = {
+        ("adjusted_gross_income", c.operator, _constraint_value(c.value))
+        for c in fact.constraints
+        if c.variable == IRS_AGI_CONCEPT
+    }
+    if len(bounds) != len(fact.constraints):
+        return frozenset({("unsupported fact constraint", "", "")})
+    return frozenset(bounds or {("is_tax_filer", "==", 1.0)})
+
+
+def _snap_stratum(fact) -> frozenset:
+    """The stratum definition a legacy row needs to carry this SNAP fact."""
+    stratum = {("snap", "==", 1.0)}
+    if fact.geography.id.startswith("0400000US"):
+        fips = fact.geography.id.removeprefix("0400000US")
+        stratum.add(("state_fips", "==", _constraint_value(fips)))
+    elif fact.geography.id != "0100000US" or fact.constraints:
+        return frozenset({("unsupported fact geography", "", "")})
+    return frozenset(stratum)
 
 
 def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
     """Return target rows that do not reproduce their own publisher cell.
 
-    Each row is matched to exactly one source-package fact by measure, geography,
-    AGI band and period, and must equal that fact's value. IRS rows must cite
-    the Table 1.1 or 1.4 workbook the fact was built from, and that workbook's
-    committed bytes must hash to its manifest sha256. SNAP rows must name the
-    matched fact's source record and carry its sha256.
+    Each row must match exactly one source-package fact on measure, period and
+    the complete stratum definition (every constraint, with its operator), and
+    equal that fact's value. IRS rows must cite the Table 1.1 or 1.4 workbook
+    the fact was built from, by URL and table name, and the workbook's committed
+    bytes must hash to its manifest sha256. SNAP rows must cite the package's
+    source page and summary table, name the fact's source record and carry its
+    sha256. No row may add a margin of error, a preliminary flag or a geographic
+    level the fact does not support, or repeat a cell another row carries.
     """
     from sqlmodel import Session, select
 
@@ -223,33 +257,37 @@ def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
             content = (table_dir / spec["filename"]).read_bytes()
             if hashlib.sha256(content).hexdigest() == spec["sha256"]:
                 irs_files[spec["source_url"]] = (package_id, int(year), spec)
+    snap_manifest = yaml.safe_load(
+        (
+            repo_root
+            / "db"
+            / "data"
+            / "usda_snap"
+            / "fy69_to_current"
+            / "manifest.yaml"
+        ).read_text()
+    )
 
-    def irs_key(fact):
-        bounds = frozenset(
-            (c.operator, float(c.value))
-            for c in fact.constraints
-            if c.variable == IRS_AGI_CONCEPT
-        )
-        return fact.measure.concept, fact.geography.id, bounds, fact.period.value
-
-    irs_facts: dict[tuple[str, int], dict] = {}
+    irs_facts: dict[tuple[str, int], list] = {}
     snap_package = load_source_package("usda-snap-fy69-to-current")
-    snap_facts: dict[tuple, list] = {}
-    for fact in snap_package.build_facts(snap_package.artifact.artifact_year):
-        key = (fact.measure.concept, fact.geography.id, fact.period.value)
-        snap_facts.setdefault(key, []).append(fact)
+    snap_facts = snap_package.build_facts(snap_package.artifact.artifact_year)
 
     with Session(get_engine(db_path)) as session:
         rows = session.exec(select(Target)).all()
-        constraints: dict[int, list] = {}
+        strata: dict[int, set] = {}
         for constraint in session.exec(select(StratumConstraint)).all():
-            constraints.setdefault(constraint.stratum_id, []).append(constraint)
+            strata.setdefault(constraint.stratum_id, set()).add(
+                (
+                    constraint.variable,
+                    constraint.operator,
+                    _constraint_value(constraint.value),
+                )
+            )
 
     untraced = []
+    reproduced: set[tuple] = set()
     for row in rows:
-        row_constraints = constraints.get(row.stratum_id, [])
-        state_fips = [c.value for c in row_constraints if c.variable == "state_fips"]
-        geography = f"0400000US{state_fips[0]}" if state_fips else "0100000US"
+        stratum = frozenset(strata.get(row.stratum_id, set()))
         measure_key = (row.variable, row.target_type.name)
         matched = []
         if (
@@ -260,39 +298,59 @@ def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
             package_id, year, spec = irs_files[row.source_url]
             row_package, concept = IRS_ROW_MEASURES[measure_key]
             if (package_id, year) not in irs_facts:
-                by_key: dict[tuple, list] = {}
-                for fact in load_source_package(package_id).build_facts(year):
-                    by_key.setdefault(irs_key(fact), []).append(fact)
-                irs_facts[package_id, year] = by_key
-            bounds = frozenset(
-                (c.operator, float(c.value))
-                for c in row_constraints
-                if c.variable == "adjusted_gross_income"
-            )
-            if row_package == package_id:
+                irs_facts[package_id, year] = load_source_package(
+                    package_id
+                ).build_facts(year)
+            if (
+                row_package == package_id
+                and row.source_table == IRS_SOURCE_TABLES[package_id]
+            ):
                 matched = [
                     fact
-                    for fact in irs_facts[package_id, year].get(
-                        (concept, geography, bounds, row.period), []
-                    )
-                    if fact.source.source_file == spec["filename"]
+                    for fact in irs_facts[package_id, year]
+                    if fact.measure.concept == concept
+                    and fact.period.value == row.period
+                    and _irs_stratum(fact) == stratum
+                    and fact.source.source_file == spec["filename"]
                     and fact.source.source_sha256 == spec["sha256"]
                 ]
-        elif row.source == DataSource.USDA_SNAP and measure_key in SNAP_ROW_MEASURES:
+        elif (
+            row.source == DataSource.USDA_SNAP
+            and measure_key in SNAP_ROW_MEASURES
+            and row.source_url == snap_manifest["source_page"]
+        ):
             record = re.search(r"record=([^;\s]+)", row.notes or "")
             sha = re.search(r"sha256=([0-9a-f]{64})", row.notes or "")
             matched = [
                 fact
-                for fact in snap_facts.get(
-                    (SNAP_ROW_MEASURES[measure_key], geography, row.period), []
+                for fact in snap_facts
+                if fact.measure.concept == SNAP_ROW_MEASURES[measure_key]
+                and fact.period.value == row.period
+                and _snap_stratum(fact) == stratum
+                and row.source_table
+                == (
+                    "SNAP National Summary"
+                    if fact.geography.id == "0100000US"
+                    else "SNAP State Summary"
                 )
-                if record is not None
+                and record is not None
                 and sha is not None
                 and fact.source_record_id == record.group(1)
                 and fact.source.source_sha256 == sha.group(1)
             ]
-        if len(matched) != 1 or matched[0].value != row.value:
+        fact = matched[0] if len(matched) == 1 else None
+        level = "national" if fact and fact.geography.id == "0100000US" else "state"
+        if (
+            fact is None
+            or fact.value != row.value
+            or (fact.source_record_id, fact.measure.concept) in reproduced
+            or row.margin_of_error is not None
+            or row.is_preliminary
+            or row.geographic_level not in (None, level)
+        ):
             untraced.append((row.source, row.variable, row.period, row.value))
+        else:
+            reproduced.add((fact.source_record_id, fact.measure.concept))
     return untraced
 
 
@@ -357,6 +415,44 @@ PROVENANCE_MUTATIONS = {
         + _SNAP_STATE_ROW.format(column="notes", fips="09")
         + " where id = "
         + _SNAP_STATE_ROW.format(column="id", fips="23"),
+        1,
+    ),
+    "Maine's state_fips constraint negated": (
+        "update stratum_constraints set operator = '!=' "
+        "where variable = 'state_fips' and value = '23'",
+        3,
+    ),
+    "national SNAP households moved into an AGI band": (
+        "update targets set stratum_id = "
+        "(select id from strata where name = 'US Filers AGI 50k_to_75k') "
+        "where variable = 'snap_household_count' and stratum_id = "
+        "(select id from strata where name = 'US SNAP Recipients')",
+        1,
+    ),
+    "SNAP rows citing an IRS workbook": (
+        "update targets set source_url = 'https://www.irs.gov/pub/irs-soi/23in11si.xls' "
+        "where source = 'USDA_SNAP'",
+        162,
+    ),
+    "every source table renamed": (
+        "update targets set source_table = 'Table 9.9'",
+        562,
+    ),
+    "a valid row duplicated": (
+        "insert into targets (stratum_id, variable, period, value, target_type, "
+        "source, source_table, source_url, notes, is_preliminary, created_at, "
+        "updated_at) select stratum_id, variable, period, value, target_type, source, "
+        "source_table, source_url, notes, is_preliminary, created_at, updated_at "
+        "from targets where source = 'USDA_SNAP' limit 1",
+        1,
+    ),
+    "a margin of error added": (
+        "update targets set margin_of_error = 1000 where id = (select min(id) from targets)",
+        1,
+    ),
+    "a national row labelled state": (
+        f"update targets set geographic_level = 'STATE' where {_NATIONAL_2021} "
+        "and variable = 'tax_unit_count'",
         1,
     ),
     "row from a retired source": (
