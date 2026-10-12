@@ -5,7 +5,8 @@
   "observation_rows": 233,
   "current_assertion_rows": 233,
   "docket_seed_sha256": "5914192517350e0166045afd9064a515ea312acbea1844d9cb594cc9f525dbb9",
-  "uuid_registry_sha256": "6cf24b1eff573ac6e8d7de21c7f3e0091bb92a96e72fa2073379be59fbffd683",
+  "entity_folds_sha256": "442739aba771eadf57984ed968391f702f5b826c8b98ba4cae1e04cc1587e572",
+  "uuid_registry_sha256": "272d8fd6b2e82151d781d8a9bc69f0f7abaf934a837279c47d2f534683443f31",
   "suspect_segments": [
     "LNU02374597"
   ],
@@ -1472,56 +1473,24 @@
         "role": "aggregate"
       },
       "sources": [
+        "bls",
         "bls_cpi"
       ],
       "aliases": [
         "bls.cpi.u.core_mom.july_2026",
-        "bls.cpi.u.core_mom.june_2026"
-      ],
-      "source_concepts": [
-        "CPILFESL"
-      ],
-      "rid_patterns": [
-        "bls.cpi.u.core_mom.{P}.first_print"
-      ],
-      "first_observed_period": "2026-06",
-      "last_observed_period": "2026-07",
-      "observation_count": 2
-    },
-    {
-      "uuid": "d85c3c7f-874b-4caa-bfad-1ec7a473c293",
-      "concept": "bls.cpi.u.core_mom",
-      "family_patterns": [
-        "bls.cpi.u.core_mom.{P}"
-      ],
-      "status": "observed",
-      "unit": "percent_growth",
-      "cadence": "month",
-      "geography": {
-        "level": "country",
-        "id": "0100000US",
-        "vintage": "current",
-        "name": "United States"
-      },
-      "entity": {
-        "name": "household",
-        "role": "cpi_u_less_food_energy"
-      },
-      "sources": [
-        "bls"
-      ],
-      "aliases": [
+        "bls.cpi.u.core_mom.june_2026",
         "bls.cpi.u.core_mom.may_2026"
       ],
       "source_concepts": [
+        "CPILFESL",
         "bls.cpi.u.core_mom.may_2026"
       ],
       "rid_patterns": [
         "bls.cpi.u.core_mom.{P}.first_print"
       ],
       "first_observed_period": "2026-05",
-      "last_observed_period": "2026-05",
-      "observation_count": 1
+      "last_observed_period": "2026-07",
+      "observation_count": 3
     },
     {
       "uuid": "70ca2ecf-4323-4453-b42f-23350cb95f22",
@@ -1543,56 +1512,24 @@
         "role": "aggregate"
       },
       "sources": [
+        "bls",
         "bls_cpi"
       ],
       "aliases": [
         "bls.cpi.u.headline_mom.july_2026",
-        "bls.cpi.u.headline_mom.june_2026"
-      ],
-      "source_concepts": [
-        "CPIAUCSL"
-      ],
-      "rid_patterns": [
-        "bls.cpi.u.headline_mom.{P}.first_print"
-      ],
-      "first_observed_period": "2026-06",
-      "last_observed_period": "2026-07",
-      "observation_count": 2
-    },
-    {
-      "uuid": "3e796803-a194-4c83-9dc9-27cc870ff08e",
-      "concept": "bls.cpi.u.headline_mom",
-      "family_patterns": [
-        "bls.cpi.u.headline_mom.{P}"
-      ],
-      "status": "observed",
-      "unit": "percent_growth",
-      "cadence": "month",
-      "geography": {
-        "level": "country",
-        "id": "0100000US",
-        "vintage": "current",
-        "name": "United States"
-      },
-      "entity": {
-        "name": "household",
-        "role": "cpi_u_all_items"
-      },
-      "sources": [
-        "bls"
-      ],
-      "aliases": [
+        "bls.cpi.u.headline_mom.june_2026",
         "bls.cpi.u.headline_mom.may_2026"
       ],
       "source_concepts": [
+        "CPIAUCSL",
         "bls.cpi.u.headline_mom.may_2026"
       ],
       "rid_patterns": [
         "bls.cpi.u.headline_mom.{P}.first_print"
       ],
       "first_observed_period": "2026-05",
-      "last_observed_period": "2026-05",
-      "observation_count": 1
+      "last_observed_period": "2026-07",
+      "observation_count": 3
     },
     {
       "uuid": "34af6867-ce27-468a-a49b-e9a1dc9dfef2",
@@ -1932,6 +1869,7 @@
       "uuid": "db2f3857-e0fa-48f8-9ab1-6c8989307fd2",
       "concept": "bls.cps.unemployment_rate",
       "family_patterns": [
+        "bls.cps.unemployment_rate",
         "bls.cps.unemployment_rate.{P}"
       ],
       "status": "observed",
@@ -1948,6 +1886,7 @@
         "role": "aggregate"
       },
       "sources": [
+        "bls",
         "bls_cps"
       ],
       "aliases": [
@@ -1955,47 +1894,15 @@
         "bls.cps.unemployment_rate.june_2026"
       ],
       "source_concepts": [
-        "UNRATE"
-      ],
-      "rid_patterns": [
-        "bls.cps.unemployment_rate.{P}.first_print"
-      ],
-      "first_observed_period": "2026-06",
-      "last_observed_period": "2026-07",
-      "observation_count": 2
-    },
-    {
-      "uuid": "8dbbd54f-4bfd-4735-ad0d-5b55b8bb4ec5",
-      "concept": "bls.cps.unemployment_rate",
-      "family_patterns": [
-        "bls.cps.unemployment_rate"
-      ],
-      "status": "observed",
-      "unit": "percent",
-      "cadence": "month",
-      "geography": {
-        "level": "country",
-        "id": "0100000US",
-        "vintage": "current",
-        "name": "United States"
-      },
-      "entity": {
-        "name": "person",
-        "role": "civilian_labor_force"
-      },
-      "sources": [
-        "bls"
-      ],
-      "aliases": [],
-      "source_concepts": [
+        "UNRATE",
         "bls.cps.unemployment_rate"
       ],
       "rid_patterns": [
         "bls.cps.unemployment_rate.{P}.first_print"
       ],
       "first_observed_period": "2026-05",
-      "last_observed_period": "2026-05",
-      "observation_count": 1
+      "last_observed_period": "2026-07",
+      "observation_count": 3
     },
     {
       "uuid": "6d2e1191-9e14-4719-a2bb-c3561fca49e6",
@@ -2122,56 +2029,24 @@
         "role": "aggregate"
       },
       "sources": [
+        "bls",
         "bls_import_export_prices"
       ],
       "aliases": [
         "bls.import_price_index.all_imports_mom.2026-06",
-        "bls.import_price_index.all_imports_mom.2026-07"
-      ],
-      "source_concepts": [
-        "IR"
-      ],
-      "rid_patterns": [
-        "bls.import_price_index.all_imports_mom.{P}.first_print"
-      ],
-      "first_observed_period": "2026-06",
-      "last_observed_period": "2026-07",
-      "observation_count": 2
-    },
-    {
-      "uuid": "e8e6e43e-2c46-4620-a070-91d2da004b1c",
-      "concept": "bls.import_price_index.all_imports_mom",
-      "family_patterns": [
-        "bls.import_price_index.all_imports_mom.{P}"
-      ],
-      "status": "observed",
-      "unit": "percent_growth",
-      "cadence": "month",
-      "geography": {
-        "level": "country",
-        "id": "0100000US",
-        "vintage": "current",
-        "name": "United States"
-      },
-      "entity": {
-        "name": "household",
-        "role": "all_imports"
-      },
-      "sources": [
-        "bls"
-      ],
-      "aliases": [
+        "bls.import_price_index.all_imports_mom.2026-07",
         "bls.import_price_index.all_imports_mom.may_2026"
       ],
       "source_concepts": [
+        "IR",
         "bls.import_price_index.all_imports"
       ],
       "rid_patterns": [
         "bls.import_price_index.all_imports_mom.{P}.first_print"
       ],
       "first_observed_period": "2026-05",
-      "last_observed_period": "2026-05",
-      "observation_count": 1
+      "last_observed_period": "2026-07",
+      "observation_count": 3
     },
     {
       "uuid": "3bddc6d0-e581-42dc-9c13-b731a9ede21f",
@@ -2663,7 +2538,7 @@
       "observation_count": 1
     },
     {
-      "uuid": "d0212a1e-b360-460a-80a8-1cf4ad5ce427",
+      "uuid": "8c999902-84e2-4e90-b49c-325cd535062a",
       "concept": "census.housing_starts.saar",
       "family_patterns": [
         "census.housing_starts.saar.{P}",
@@ -2679,18 +2554,22 @@
         "name": "United States"
       },
       "entity": {
-        "name": "dwelling",
-        "role": "housing_start"
+        "name": "economy",
+        "role": "aggregate"
       },
       "sources": [
-        "census"
+        "census",
+        "census_housing"
       ],
       "aliases": [
+        "census.housing_starts.saar.2026-06",
+        "census.housing_starts.saar.2026-07",
         "census.housing_starts.saar.may_2026",
         "us.census.housing_starts.total_saar",
         "us.census.housing_starts.total_saar.2026_05"
       ],
       "source_concepts": [
+        "HOUST",
         "census.housing_starts.saar"
       ],
       "rid_patterns": [
@@ -2698,44 +2577,8 @@
         "us.census.housing_starts.total_saar.{P}"
       ],
       "first_observed_period": "2026-05",
-      "last_observed_period": "2026-05",
-      "observation_count": 2
-    },
-    {
-      "uuid": "8c999902-84e2-4e90-b49c-325cd535062a",
-      "concept": "census.housing_starts.saar",
-      "family_patterns": [
-        "census.housing_starts.saar.{P}"
-      ],
-      "status": "observed",
-      "unit": "millions",
-      "cadence": "month",
-      "geography": {
-        "level": "country",
-        "id": "0100000US",
-        "vintage": "current",
-        "name": "United States"
-      },
-      "entity": {
-        "name": "economy",
-        "role": "aggregate"
-      },
-      "sources": [
-        "census_housing"
-      ],
-      "aliases": [
-        "census.housing_starts.saar.2026-06",
-        "census.housing_starts.saar.2026-07"
-      ],
-      "source_concepts": [
-        "HOUST"
-      ],
-      "rid_patterns": [
-        "census.housing_starts.saar.{P}.first_print"
-      ],
-      "first_observed_period": "2026-06",
       "last_observed_period": "2026-07",
-      "observation_count": 2
+      "observation_count": 4
     },
     {
       "uuid": "294d82e8-3711-4d0d-89f6-a5a7a087f1be",
@@ -3592,95 +3435,27 @@
         "role": "aggregate"
       },
       "sources": [
+        "fed",
         "federal_reserve_g17"
       ],
       "aliases": [
         "fed.g17.capacity_utilization.total_industry.2026-06",
-        "fed.g17.capacity_utilization.total_industry.2026-07"
-      ],
-      "source_concepts": [
-        "TCU"
-      ],
-      "rid_patterns": [
-        "fed.g17.capacity_utilization.total_industry.{P}.first_print"
-      ],
-      "first_observed_period": "2026-06",
-      "last_observed_period": "2026-07",
-      "observation_count": 2
-    },
-    {
-      "uuid": "978252a9-c452-41eb-aece-323340e796fc",
-      "concept": "fed.g17.capacity_utilization.total_industry",
-      "family_patterns": [
-        "fed.g17.capacity_utilization.total_industry.{P}"
-      ],
-      "status": "observed",
-      "unit": "percent",
-      "cadence": "month",
-      "geography": {
-        "level": "country",
-        "id": "0100000US",
-        "vintage": "current",
-        "name": "United States"
-      },
-      "entity": {
-        "name": "institutional_sector",
-        "role": "total_industry_capacity"
-      },
-      "sources": [
-        "fed"
-      ],
-      "aliases": [
+        "fed.g17.capacity_utilization.total_industry.2026-07",
         "fed.g17.capacity_utilization.total_industry.may_2026"
       ],
       "source_concepts": [
+        "TCU",
         "fed.g17.capacity_utilization.total_industry"
       ],
       "rid_patterns": [
         "fed.g17.capacity_utilization.total_industry.{P}.first_print"
       ],
       "first_observed_period": "2026-05",
-      "last_observed_period": "2026-05",
-      "observation_count": 1
+      "last_observed_period": "2026-07",
+      "observation_count": 3
     },
     {
       "uuid": "dbfd5050-e5df-40af-8922-dc8927d6363a",
-      "concept": "fed.g17.industrial_production.total_index_mom",
-      "family_patterns": [
-        "fed.g17.industrial_production.total_index_mom.{P}"
-      ],
-      "status": "observed",
-      "unit": "percent_growth",
-      "cadence": "month",
-      "geography": {
-        "level": "country",
-        "id": "0100000US",
-        "vintage": "current",
-        "name": "United States"
-      },
-      "entity": {
-        "name": "economy",
-        "role": "aggregate"
-      },
-      "sources": [
-        "federal_reserve_g17"
-      ],
-      "aliases": [
-        "fed.g17.industrial_production.total_index_mom.2026-06",
-        "fed.g17.industrial_production.total_index_mom.2026-07"
-      ],
-      "source_concepts": [
-        "INDPRO"
-      ],
-      "rid_patterns": [
-        "fed.g17.industrial_production.total_index_mom.{P}.first_print"
-      ],
-      "first_observed_period": "2026-06",
-      "last_observed_period": "2026-07",
-      "observation_count": 2
-    },
-    {
-      "uuid": "d5634fc4-dbe0-4203-a5b7-728708b85a14",
       "concept": "fed.g17.industrial_production.total_index_mom",
       "family_patterns": [
         "fed.g17.industrial_production.total_index_mom.{P}",
@@ -3696,18 +3471,22 @@
         "name": "United States"
       },
       "entity": {
-        "name": "institutional_sector",
-        "role": "total_industrial_production"
+        "name": "economy",
+        "role": "aggregate"
       },
       "sources": [
-        "fed"
+        "fed",
+        "federal_reserve_g17"
       ],
       "aliases": [
+        "fed.g17.industrial_production.total_index_mom.2026-06",
+        "fed.g17.industrial_production.total_index_mom.2026-07",
         "fed.g17.industrial_production.total_index_mom.may_2026",
         "us.frb.industrial_production.total.mom_sa",
         "us.frb.industrial_production.total.mom_sa.2026_05"
       ],
       "source_concepts": [
+        "INDPRO",
         "fed.g17.industrial_production.total_index_mom"
       ],
       "rid_patterns": [
@@ -3715,8 +3494,8 @@
         "us.frb.industrial_production.total.mom_sa.{P}"
       ],
       "first_observed_period": "2026-05",
-      "last_observed_period": "2026-05",
-      "observation_count": 2
+      "last_observed_period": "2026-07",
+      "observation_count": 4
     },
     {
       "uuid": "41d26958-709c-44ab-a5ab-b385157db0ac",

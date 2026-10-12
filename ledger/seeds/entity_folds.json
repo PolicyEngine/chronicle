@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "chronicle_entity_folds_v1",
+  "comment": "Curated cross-entity folds for scripts/build_series_catalog.py. Each fold reads every current observation of the concept and geography that carries absorbed_entity as carrying survivor_entity when the catalog groups identities; the observation file is never changed. Undo a fold by removing it from this list, never by deleting the file. The seven folds below are the entity-drift families in docs/catalog-curation-backlog.md, folded into their economy/aggregate lineages by Max's ruling d353 (2026-09-27).",
+  "folds": [
+    {
+      "concept": "bls.cpi.u.core_mom",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current"
+      },
+      "absorbed_entity": {
+        "name": "household",
+        "role": "cpi_u_less_food_energy"
+      },
+      "survivor_entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "note": "Hand-recorded ledger line 15 carries household/cpi_u_less_food_energy; every resolver print of the series carries economy/aggregate, the default entity resolve_pending.generic_fact writes. One series, so the hand-recorded lineage joins the resolver lineage (d353)."
+    },
+    {
+      "concept": "bls.cpi.u.headline_mom",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current"
+      },
+      "absorbed_entity": {
+        "name": "household",
+        "role": "cpi_u_all_items"
+      },
+      "survivor_entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "note": "Hand-recorded ledger line 14 carries household/cpi_u_all_items; every resolver print of the series carries economy/aggregate, the default entity resolve_pending.generic_fact writes. One series, so the hand-recorded lineage joins the resolver lineage (d353)."
+    },
+    {
+      "concept": "bls.cps.unemployment_rate",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current"
+      },
+      "absorbed_entity": {
+        "name": "person",
+        "role": "civilian_labor_force"
+      },
+      "survivor_entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "note": "Hand-recorded ledger line 2 carries person/civilian_labor_force; every resolver print of the series carries economy/aggregate, the default entity resolve_pending.generic_fact writes. One series, so the hand-recorded lineage joins the resolver lineage (d353)."
+    },
+    {
+      "concept": "bls.import_price_index.all_imports_mom",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current"
+      },
+      "absorbed_entity": {
+        "name": "household",
+        "role": "all_imports"
+      },
+      "survivor_entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "note": "Hand-recorded its May 2026 print carries household/all_imports; every resolver print of the series carries economy/aggregate, the default entity resolve_pending.generic_fact writes. One series, so the hand-recorded lineage joins the resolver lineage (d353)."
+    },
+    {
+      "concept": "census.housing_starts.saar",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current"
+      },
+      "absorbed_entity": {
+        "name": "dwelling",
+        "role": "housing_start"
+      },
+      "survivor_entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "note": "Hand-recorded its May 2026 prints carries dwelling/housing_start; every resolver print of the series carries economy/aggregate, the default entity resolve_pending.generic_fact writes. One series, so the hand-recorded lineage joins the resolver lineage (d353)."
+    },
+    {
+      "concept": "fed.g17.capacity_utilization.total_industry",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current"
+      },
+      "absorbed_entity": {
+        "name": "institutional_sector",
+        "role": "total_industry_capacity"
+      },
+      "survivor_entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "note": "Hand-recorded its May 2026 print carries institutional_sector/total_industry_capacity; every resolver print of the series carries economy/aggregate, the default entity resolve_pending.generic_fact writes. One series, so the hand-recorded lineage joins the resolver lineage (d353)."
+    },
+    {
+      "concept": "fed.g17.industrial_production.total_index_mom",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current"
+      },
+      "absorbed_entity": {
+        "name": "institutional_sector",
+        "role": "total_industrial_production"
+      },
+      "survivor_entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "note": "Hand-recorded its May 2026 prints carries institutional_sector/total_industrial_production; every resolver print of the series carries economy/aggregate, the default entity resolve_pending.generic_fact writes. One series, so the hand-recorded lineage joins the resolver lineage (d353)."
+    }
+  ]
+}

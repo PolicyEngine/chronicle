@@ -762,6 +762,7 @@ def test_committed_catalog_is_current_and_valid() -> None:
         bsc.DOCKET_SEED,
         bsc.ExistingCatalog(bsc.CATALOG),
         registry,
+        bsc.ENTITY_FOLDS,
     )
     assert not plan["mints"] and not plan["supersedes"] and not plan["dropped"]
     catalog["uuid_registry_sha256"] = registry.sha256()
@@ -785,16 +786,22 @@ def test_committed_catalog_is_current_and_valid() -> None:
     # EVERY stripped spelling is auditable, mapped to the canonical
     # concepts it touched — a statute or edition label colliding with a
     # period spelling can only be caught here.
+    # Re-pinned 2026-10-12 to the catalog at d7e45bc5 for the d353 entity
+    # fold (the fold changes no strip). New since 55bbf3d: the 2026_08
+    # ABS CPI print (abs.cpi.all_groups.yoy.2026_08, line 231, its own
+    # period with an underscore) and weekly claims prints through
+    # week_2026-09-19. #309 replaces this list with a reviewed audit.
     assert sorted(committed["stripped_segments"]) == [
-        "2026-05", "2026-06", "2026-06-18", "2026-07", "2026_05",
-        "2026_06", "2026_06_18", "2026_07", "2026_q2", "after_june_2026",
+        "2026-05", "2026-06", "2026-06-18", "2026-07", "2026_05", "2026_06",
+        "2026_06_18", "2026_07", "2026_08", "2026_q2", "after_june_2026",
         "after_mpc_june_2026", "april_2026", "feb_2026",
-        "february_to_april_2026", "fy2024", "fy2025", "july_2026",
-        "june_2026", "may_2026", "q1_2026", "week_2026-06-13",
-        "week_2026-06-20", "week_2026-06-27", "week_2026-07-04",
-        "week_2026-07-11", "week_2026-07-13", "week_2026-07-18",
-        "week_2026-07-25", "week_2026-08-01", "week_2026-08-08",
-        "week_2026-08-15", "week_2026-08-22", "week_2026_06_13",
+        "february_to_april_2026", "fy2024", "fy2025", "july_2026", "june_2026",
+        "may_2026", "q1_2026", "week_2026-06-13", "week_2026-06-20",
+        "week_2026-06-27", "week_2026-07-04", "week_2026-07-11",
+        "week_2026-07-13", "week_2026-07-18", "week_2026-07-25",
+        "week_2026-08-01", "week_2026-08-08", "week_2026-08-15",
+        "week_2026-08-22", "week_2026-08-29", "week_2026-09-05",
+        "week_2026-09-12", "week_2026-09-19", "week_2026_06_13",
         "week_ending_2026_06_06",
     ]
     assert committed["stripped_segments"]["after_mpc_june_2026"] == [
@@ -807,7 +814,12 @@ def test_committed_catalog_is_current_and_valid() -> None:
     assert committed["docket_seed_sha256"] is not None
     assert committed["uuid_registry_sha256"] == registry.sha256()
     assert bsc.DOCKET_SEED.exists()
-    assert len(committed["series"]) == 228
+    # 228 -> 221 at the d353 entity fold (2026-10-12): seven hand-recorded
+    # May 2026 lineages folded into their economy/aggregate siblings.
+    assert committed["entity_folds_sha256"] == bsc.hashlib.sha256(
+        bsc.ENTITY_FOLDS.read_bytes()
+    ).hexdigest()
+    assert len(committed["series"]) == 221
 
 
 def test_rebuild_without_prior_catalog_is_gated(
@@ -1262,8 +1274,21 @@ def test_identity_uuid_map_matches_reviewed_anchor() -> None:
     # is not involved), which is why the three Colorado-named concepts carry
     # country-level geography: the observations were recorded that way. The
     # other 211 live bindings are byte-unchanged (219 -> 228).
+    # Updated 2026-10-12 alongside seven registry retire events (Max's
+    # ruling d353, ledger/seeds/entity_folds.json): the entity-drift families
+    # of docs/catalog-curation-backlog.md fold into their economy/aggregate
+    # lineages. Retired, with their rows' observations joining the survivor:
+    # 8dbbd54f (bls.cps.unemployment_rate person/civilian_labor_force),
+    # 3e796803 (bls.cpi.u.headline_mom household/cpi_u_all_items), d85c3c7f
+    # (bls.cpi.u.core_mom household/cpi_u_less_food_energy), e8e6e43e
+    # (bls.import_price_index.all_imports_mom household/all_imports),
+    # d0212a1e (census.housing_starts.saar dwelling/housing_start), 978252a9
+    # (fed.g17.capacity_utilization.total_industry institutional_sector) and
+    # d5634fc4 (fed.g17.industrial_production.total_index_mom
+    # institutional_sector). No mint, no supersede; the other 221 live
+    # bindings keep their UUIDs (228 -> 221).
     assert digest == (
-        "da63b697ad0e4444d4f834671fc15e979c67b47545aba836fb6f043d75e8404d"
+        "56bb47bc6928206b1aad67e25a1ebe8a92ff4d02e53ec3923f540fefe7c57cad"
     )
 
 
