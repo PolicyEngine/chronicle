@@ -43,19 +43,26 @@ third concept, `bls.ces.nonfarm_payrolls.change`) and
 hand-chosen person roles, April and May). Fold them with a seed entry and
 a reviewed regeneration if a consumer ever needs one lineage.
 
-Any edit to the seed is curation: adding, retargeting or removing a fold
+Any edit to the seed is curation: adding, retargeting or undoing a fold
 moves observations between lineages, so the builder refuses it without
-`--allow-remint --remint-note`, even when no registry event is planned.
-Never delete the seed file while the committed catalog declares
-`entity_folds_sha256`; the builder refuses that too.
+`--allow-remint --remint-note`, even when no registry event is planned. The
+comparison is with the committed catalog's `entity_folds_sha256`, which,
+like every generated artifact, is trusted not to be hand-edited. Never
+delete the seed file while the committed catalog declares that digest; the
+builder refuses that too.
 
-To undo a fold, remove its entry from the seed's `folds` list and
-regenerate with the ceremony. The absorbed identity revives with its
-original UUID, rows it had absorbed by earlier same-dimension merges (the
-`us.frb` and `us.census` spellings above) rejoin it, and the names the fold
-moved onto the survivor move back. Undoing all seven folds on the committed
-artifacts reproduces the pre-fold catalog exactly, apart from the seed and
-registry digests (seven `revived` lines, no other event).
+To undo a fold, mark its entry `"undone": true` and regenerate with the
+ceremony; deleting the entry is refused while git HEAD still holds it. The
+absorbed identity revives with its original UUID, rows it had absorbed by
+earlier same-dimension merges (the `us.frb` and `us.census` spellings above)
+rejoin it, and the names the fold moved onto the survivor move back. Only
+an undone fold's absorbed identity can be rejoined this way, so an ordinary
+append never revives a retired identity through a name held in another
+slice. Marking all seven folds undone on the committed artifacts reproduces
+the pre-fold catalog exactly, apart from the seed and registry digests
+(seven `revived` lines, no other event). A curated alias that no current
+row spells stays on the survivor after an undo; move it back by hand if it
+matters.
 
 One limitation is older than the folds: the builder refuses a correction
 that supersedes a row written before assertion versioning (every row of the

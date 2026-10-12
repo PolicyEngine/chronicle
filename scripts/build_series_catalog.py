@@ -94,14 +94,18 @@ with the ``--remint-note``, and the survivor keeps its UUID. The catalog
 commits to the seed as ``entity_folds_sha256`` (absent when there is no
 seed). Once a committed catalog declares it, regenerating without the seed
 is a hard error, because it would silently split the folded lineages again.
-Any change to the seed (a new fold, a retargeted survivor, a removed fold)
+Any change to the seed (a new fold, a retargeted survivor, an undone fold)
 is an identity change: it needs ``--allow-remint --remint-note`` even when
 it plans no registry event, because it moves observations between
-lineages. Removing a fold undoes it: the absorbed identity revives with its
-original UUID, and rows spelled by the names it had absorbed by earlier
-same-dimension merges rejoin it (a row that matches nothing in its own
-slice rejoins a retired identity of its own entity whose names now live on
-another slice's row; no UUID crosses entities). A fold that matches no
+lineages. (The comparison is with the committed catalog's
+``entity_folds_sha256``; like every generated artifact, that header is
+trusted not to be hand-edited.) Undo a fold by marking it ``undone: true``;
+deleting the entry is refused while git HEAD still holds it. An undone fold
+stops folding, its absorbed identity revives with its original UUID, rows
+spelled by the names it had absorbed by earlier same-dimension merges rejoin
+it, and those names move back off the survivor. Only an undone fold's
+absorbed identity can be rejoined this way, and no UUID crosses entities.
+Curated aliases that no current row spells stay on the survivor. A fold that
 current row is inert rather than an error, so a correction that supersedes
 absorbed rows never makes the fold itself fail. A fold must name an
 absorbed identity the registry has bound and a survivor the committed
@@ -642,10 +646,15 @@ def load_entity_folds(path: pathlib.Path | None) -> tuple[list[dict], bytes | No
         where = f"entity folds {path}: fold {index}"
         if not isinstance(fold, dict):
             raise SystemExit(f"{where} must be an object")
-        if set(fold) != set(ENTITY_FOLD_FIELDS):
+        if not set(ENTITY_FOLD_FIELDS) <= set(fold) or (
+            set(fold) - set(ENTITY_FOLD_FIELDS) - {"undone"}
+        ):
             raise SystemExit(
                 f"{where} must have exactly the fields {list(ENTITY_FOLD_FIELDS)}"
+                " (plus an optional undone: true)"
             )
+        if "undone" in fold and fold["undone"] is not True:
+            raise SystemExit(f"{where}: undone must be true when present")
         concept = fold["concept"]
         if not isinstance(concept, str) or not concept:
             raise SystemExit(f"{where}: concept must be a nonempty string")
@@ -677,8 +686,9 @@ def load_entity_folds(path: pathlib.Path | None) -> tuple[list[dict], bytes | No
         if absorbed_key in seen:
             raise SystemExit(f"{where} repeats the fold of {absorbed_key}")
         seen.add(absorbed_key)
-        absorbed_keys.add(absorbed_key)
-        survivor_keys.add(survivor_key)
+        if not fold.get("undone"):
+            absorbed_keys.add(absorbed_key)
+            survivor_keys.add(survivor_key)
     chained = absorbed_keys & survivor_keys
     if chained:
         raise SystemExit(
@@ -688,21 +698,39 @@ def load_entity_folds(path: pathlib.Path | None) -> tuple[list[dict], bytes | No
     return folds, raw
 
 
+def entity_fold_key(fold: dict) -> tuple[str, str, str]:
+    """The absorbed identity a fold names: its key in a seed."""
+    return (
+        fold["concept"],
+        _geo_key(fold["geography"]),
+        _entity_key(fold["absorbed_entity"]),
+    )
+
+
 def prepare_entity_folds(
     folds: list[dict], existing: "ExistingCatalog", registry: "UuidRegistry"
-) -> dict[tuple[str, str], dict[str, dict]]:
+) -> tuple[
+    dict[tuple[str, str], dict[str, dict]],
+    dict[tuple[str, str], list[tuple[str, tuple[str, str, str]]]],
+]:
     """Validate folds against committed state and move naming memory.
 
-    Returns the row matcher: (geo_key, absorbed entity_key) -> concept
-    spelling -> fold. The spellings are the fold concept plus every curated
-    name of the survivor, which after the first fold include the absorbed
-    row's names, so alias-spelled absorbed rows fold too.
+    Returns the row matcher for active folds: (geo_key, absorbed entity_key)
+    -> concept spelling -> fold. The spellings are the fold concept plus every
+    curated name of the survivor, which after the first fold include the
+    absorbed row's names, so alias-spelled absorbed rows fold too.
+
+    Also returns the return index for folds marked ``undone``: (geo_key,
+    absorbed entity_key) -> [(fold concept, survivor key)]. Only those
+    entries let a row rejoin a retired identity through names held in
+    another entity slice; nothing else does.
     """
     matcher: dict[tuple[str, str], dict[str, dict]] = {}
+    returns: dict[tuple[str, str], list[tuple[str, tuple[str, str, str]]]] = {}
     for fold in folds:
         concept = fold["concept"]
         geo_key = _geo_key(fold["geography"])
-        absorbed_key = (concept, geo_key, _entity_key(fold["absorbed_entity"]))
+        absorbed_key = entity_fold_key(fold)
         survivor_key = (concept, geo_key, _entity_key(fold["survivor_entity"]))
         survivor = existing.by_identity.get(survivor_key)
         if survivor is None or survivor.get("status") != "observed":
@@ -716,13 +744,18 @@ def prepare_entity_folds(
                 "the absorbed identity — check the concept, geography and "
                 "entity spelling"
             )
+        if fold.get("undone"):
+            returns.setdefault((geo_key, absorbed_key[2]), []).append(
+                (concept, survivor_key)
+            )
+            continue
         if absorbed_key in existing.by_identity:
             existing.absorb(absorbed_key, survivor)
         names = {concept, survivor["concept"], *survivor.get("aliases", [])}
         slot = matcher.setdefault((geo_key, absorbed_key[2]), {})
         for name in names:
             slot[name] = fold
-    return matcher
+    return matcher, returns
 
 
 def apply_entity_folds(
@@ -983,34 +1016,33 @@ class ExistingCatalog:
         key: tuple[str, str, str],
         names: set[str],
         registry: "UuidRegistry",
+        returns: dict[tuple[str, str], list[tuple[str, tuple[str, str, str]]]],
     ) -> tuple[str, set[str], str] | None:
-        """The retired identity of ``key``'s own entity that its names rejoin.
+        """The identity an undone fold hands back to a row of its own entity.
 
-        Used only when ``match`` found nothing in the row's own slice. If the
-        row's names are curated names of a committed row in ANOTHER entity
-        slice of the same geography, and the registry holds a retired
-        binding for that row's concept under the row's OWN entity, the row is
-        the spelling-merged part of that retired identity (an undone entity
-        fold) and rejoins it. The UUID stays in the row's own slice.
-
-        Returns (concept, the linking names, the other row's uuid): the
-        builder moves the linking names back from that row onto the revived
-        identity, restoring the naming the fold had moved.
+        Used only when ``match`` found nothing in the row's own slice, and
+        only for folds marked ``undone`` (``returns``). If the row's names are
+        curated names of that fold's survivor, and the registry holds the
+        fold's absorbed identity retired, the row is part of that identity
+        (directly, or through a spelling it had absorbed by an earlier
+        same-dimension merge) and rejoins it. The UUID stays in the row's own
+        slice. Returns (concept, the linking names, the survivor's uuid): the
+        builder moves the linking names back from the survivor.
         """
         _, geo_key, entity_key = key
         hits: dict[str, tuple[set[str], str]] = {}
-        for row in self.rows:
-            if _geo_key(row.get("geography")) != geo_key:
+        for concept, survivor_key in returns.get((geo_key, entity_key), []):
+            survivor = self.by_identity.get(survivor_key)
+            if survivor is None:
                 continue
-            if _entity_key(row.get("entity")) == entity_key:
-                continue
-            linking = names & self._row_names(row)
+            linking = names & self._row_names(survivor)
             if not linking:
                 continue
-            candidate = (row["concept"], geo_key, entity_key)
-            entry = registry.latest.get(candidate)
-            if entry is not None and not registry.is_live(candidate):
-                hits[row["concept"]] = (linking, row["uuid"])
+            candidate = (concept, geo_key, entity_key)
+            if registry.latest.get(candidate) is not None and not registry.is_live(
+                candidate
+            ):
+                hits[concept] = (linking, survivor["uuid"])
         if len(hits) != 1:
             return None
         ((concept, (linking, source_uuid)),) = hits.items()
@@ -1797,7 +1829,7 @@ def build_catalog(
             "the seed would split the folded lineages again. To undo a fold, "
             "remove it from the seed's folds list; never delete the file."
         )
-    fold_matcher = prepare_entity_folds(folds, existing, registry)
+    fold_matcher, fold_returns = prepare_entity_folds(folds, existing, registry)
     identity_rows, folds_applied = apply_entity_folds(current_rows, fold_matcher)
     identities = build_identities(identity_rows)
 
@@ -1818,7 +1850,7 @@ def build_catalog(
         prior = existing.match(key, names, ident["geography"], ident["entity"])
         canon_concept = prior["concept"] if prior else concept
         returning = (
-            existing.returning_concept(key, names, registry)
+            existing.returning_concept(key, names, registry, fold_returns)
             if prior is None
             else None
         )
@@ -2460,6 +2492,32 @@ def append_only_problem(base: bytes, current: bytes) -> str | None:
     )
 
 
+def _check_entity_folds_vs_head(path: pathlib.Path) -> None:
+    """Refuse a seed that drops a fold its committed HEAD version holds.
+
+    Undo a fold by marking it ``undone: true``; deleting the entry would drop
+    the record the builder needs to hand absorbed spellings back.
+    """
+    head = git_head_bytes(path)
+    if head is None:
+        return
+    try:
+        head_folds = json.loads(head.decode("utf-8")).get("folds") or []
+        head_keys = {entity_fold_key(f) for f in head_folds}
+    except (UnicodeDecodeError, ValueError, AttributeError, KeyError, TypeError):
+        return  # the committed seed is malformed; the loader reports that
+    current_keys: set[tuple[str, str, str]] = set()
+    if path.exists():
+        current = json.loads(path.read_text(encoding="utf-8"))
+        current_keys = {entity_fold_key(f) for f in current.get("folds") or []}
+    dropped = sorted(head_keys - current_keys)
+    if dropped:
+        raise SystemExit(
+            f"entity folds {path}: {dropped} are folds at HEAD but missing "
+            "now — undo a fold by marking it undone: true, never by deleting it"
+        )
+
+
 def _check_registry_vs_head(registry: UuidRegistry) -> None:
     head = git_head_bytes(registry.path)
     if head is None:
@@ -2560,6 +2618,7 @@ def main(argv: list[str] | None = None) -> int:
     entity_folds = args.entity_folds or (
         args.catalog.parent / "seeds" / "entity_folds.json"
     )
+    _check_entity_folds_vs_head(entity_folds)
     catalog, plan = build_catalog(
         args.observations, args.docket, existing, registry, entity_folds
     )
