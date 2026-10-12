@@ -672,6 +672,12 @@ uv run chronicle build-consumer-artifact --facts /tmp/chronicle-uk --out /tmp/ch
 `--year` is inert for `--suite uk` because the UK packages are year-pinned.
 The US off-year bundle behavior is unchanged and out of scope here.
 
+`--suite nz` builds the curated New Zealand suite (every package under
+`packages/ird`, `packages/mbie`, `packages/msd`, `packages/stats_nz` and
+`packages/treasury`) the same way, and
+`--year` is inert for it as well: each NZ package pins its `artifact_year` and
+uses year-independent declarations.
+
 The first agent-facing gate is now
 `/tmp/chronicle-suite/reports/agent_acceptance.json`; it summarizes whether raw
 artifacts have R2 pointers, the full source document was parsed, facts have

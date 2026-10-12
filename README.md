@@ -309,6 +309,24 @@ adopt the facts-only surface explicitly.
 `--year` is inert for `--suite uk` because the UK packages are year-pinned.
 The US off-year bundle behavior is unchanged and out of scope here.
 
+The New Zealand feed builds the same way from the curated NZ suite:
+
+```bash
+uv run chronicle build-bundle --suite nz --out /tmp/chronicle-nz --replace
+uv run chronicle build-consumer-artifact --facts /tmp/chronicle-nz --out /tmp/chronicle-nz-artifact --replace
+```
+
+`NZ_BUNDLE_SOURCES` in `chronicle/bundle.py` lists every package under
+`packages/ird`, `packages/mbie`, `packages/msd`, `packages/stats_nz` and
+`packages/treasury`, including the national, regional-council and
+area-outside-region (`rc_99`) Census 2023 place-summary packages; a test
+fails if an alias under those directories is added or dropped without
+updating it. `--year` is inert for
+`--suite nz` too: every NZ package pins its `artifact_year` and uses
+year-independent declarations, so one build at any `--year` emits its facts with
+the publisher's own calendar, tax, fiscal-year or monthly period. `--suite`
+cannot be combined with `--source`.
+
 Builds without an Axiom CLI still pass when the source package is otherwise
 valid, but `agent_acceptance.json` warns with
 `concept_alignment_validation_skipped`. For strict agent review, require every

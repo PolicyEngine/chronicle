@@ -12,6 +12,7 @@ import yaml
 
 from chronicle.cli import main as cli_main
 from chronicle.artifacts import (
+    R2_COUNTRY_PUBLISHERS,
     build_artifact_key,
     build_artifact_rows,
     build_derived_r2_key,
@@ -24,8 +25,10 @@ from chronicle.artifacts import (
     publish_derived_artifacts,
     publish_source_artifacts,
 )
+from chronicle.bundle import NZ_BUNDLE_SOURCE_PREFIXES, NZ_BUNDLE_SOURCES
 from chronicle.epoch import Epoch
 from chronicle.harness import main as harness_main
+from chronicle.source_package import load_source_package
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -97,6 +100,12 @@ def test_build_artifact_key_rejects_unknown_build_epoch():
     ("source_id", "package_path", "expected_country"),
     [
         ("ird", "db/data/ird/wff", "nz"),
+        ("treasury", "db/data/treasury/an24_01_fiscal_totals", "nz"),
+        (
+            "treasury",
+            "/repo/packages/treasury/estimates_of_appropriations_2026_27",
+            "nz",
+        ),
         ("desnz", "db/data/desnz/qep", "uk"),
         ("ons", "db/data/ons/mye", "uk"),
         ("irs_soi", "db/data/irs_soi/table_1_1", None),
@@ -145,6 +154,43 @@ def test_country_aware_r2_keys_preserve_legacy_us_layout():
     assert nz_key.startswith("raw/nz/ird/")
     assert uk_key.startswith("derived/uk/ons/")
     assert desnz_key == "raw/uk/desnz/desnz-qep/2026/def456/qep.xlsx"
+
+
+def test_every_nz_suite_manifest_declares_its_default_canonical_raw_key():
+    """Every NZ suite artifact sits under raw/nz, Treasury's included.
+
+    verify-raw and publish-raw route a package to raw/nz by its publisher
+    directory, so every NZ suite publisher must be an NZ R2 publisher.
+    """
+    assert R2_COUNTRY_PUBLISHERS["nz"] == frozenset(NZ_BUNDLE_SOURCE_PREFIXES)
+    manifests = set()
+    for alias in NZ_BUNDLE_SOURCES:
+        artifact = load_source_package(alias).artifact
+        manifests.add(
+            REPOSITORY_ROOT
+            / artifact.resource_package
+            / artifact.resource_directory
+            / artifact.manifest
+        )
+
+    checked = []
+    for manifest_path in sorted(manifests):
+        manifest = yaml.safe_load(manifest_path.read_text())
+        for year, artifact in manifest["files"].items():
+            expected_key = build_r2_key(
+                source_id=manifest["source_id"],
+                package_id=manifest["package_id"],
+                year=year,
+                sha256=artifact["sha256"],
+                filename=artifact["filename"],
+                package_path=manifest_path,
+            )
+            assert expected_key.startswith("raw/nz/")
+            assert artifact["storage"]["r2"]["key"] == expected_key, manifest_path
+            checked.append(manifest["source_id"])
+
+    assert set(checked) == set(NZ_BUNDLE_SOURCE_PREFIXES)
+    assert checked.count("treasury") == 4
 
 
 def test_all_desnz_manifests_use_canonical_uk_r2_keys_and_pinned_bytes():

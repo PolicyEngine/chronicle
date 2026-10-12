@@ -22,10 +22,10 @@ from chronicle.artifacts import (
     verify_raw_artifacts,
 )
 from chronicle.bundle import (
-    UK_BUNDLE_SOURCES,
+    BUNDLE_SUITES,
     BuildBundleReport,
-    assert_uk_bundle_sources_match_aliases,
     build_bundle,
+    bundle_suite_sources,
 )
 from chronicle.concepts import ConceptAlignmentReport, validate_concept_alignments
 from chronicle.consumer_contract import (
@@ -276,11 +276,12 @@ def build_bundle_dir(
     replace: bool = False,
 ) -> BuildBundleReport:
     """Build a merged Chronicle consumer bundle from source-package suites."""
-    if suite == "uk":
+    if suite is not None:
+        if suite not in BUNDLE_SUITES:
+            raise ValueError(f"Unknown bundle suite: {suite!r}")
         if sources:
-            raise ValueError("--suite uk cannot be combined with --source.")
-        assert_uk_bundle_sources_match_aliases()
-        sources = list(UK_BUNDLE_SOURCES)
+            raise ValueError(f"--suite {suite} cannot be combined with --source.")
+        sources = list(bundle_suite_sources(suite))
     return build_bundle(
         output_dir,
         year=year,
@@ -744,7 +745,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     bundle_parser.add_argument(
         "--suite",
-        choices=["uk"],
+        choices=list(BUNDLE_SUITES),
         help="Curated source-package suite to build.",
     )
     bundle_parser.add_argument(

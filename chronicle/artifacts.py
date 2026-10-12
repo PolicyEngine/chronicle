@@ -35,7 +35,7 @@ DEFAULT_R2_DERIVED_PREFIX = "derived"
 # and ``derived/{source_id}`` shapes. Publisher directories are the stable
 # routing input because they are shared by packages/ and db/data/.
 R2_COUNTRY_PUBLISHERS = {
-    "nz": frozenset({"ird", "mbie", "msd", "stats_nz"}),
+    "nz": frozenset({"ird", "mbie", "msd", "stats_nz", "treasury"}),
     "uk": frozenset(
         {
             "desnz",

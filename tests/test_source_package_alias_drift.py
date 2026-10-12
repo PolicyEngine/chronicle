@@ -12,18 +12,57 @@ from __future__ import annotations
 import pytest
 from pathlib import Path
 
+import chronicle.bundle
 from chronicle.bundle import (
+    NZ_BUNDLE_SOURCE_PREFIXES,
+    NZ_BUNDLE_SOURCES,
     UK_BUNDLE_SOURCE_PREFIXES,
     UK_BUNDLE_SOURCES,
+    assert_nz_bundle_sources_match_aliases,
     assert_uk_bundle_sources_match_aliases,
     build_bundle,
+    nz_bundle_sources_from_aliases,
 )
 from chronicle.source_package import (
     SOURCE_PACKAGE_ALIASES,
     SourcePackageAliasDriftError,
+    _declarations_depend_on_year,
     assert_alias_map_covers_packages,
     discover_source_package_dirs,
     find_alias_map_drift,
+    load_source_package,
+    source_package_root,
+)
+
+# Stats NZ regional council codes (there is no 10 or 11) and 99, Area Outside
+# Region: one child package per code under each Census 2023 place-summary root.
+NZ_CENSUS_REGION_CODES = (
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "99",
+)
+NZ_CENSUS_ROOTS = (
+    "stats-nz-census-2023-family-type",
+    "stats-nz-census-2023-households-by-region",
+)
+NZ_CENSUS_MEMBERS = tuple(
+    alias
+    for root in NZ_CENSUS_ROOTS
+    for alias in (root, *(f"{root}-rc-{code}" for code in NZ_CENSUS_REGION_CODES))
 )
 
 
@@ -92,6 +131,156 @@ def test_uk_bundle_sources_match_uk_prefixed_aliases():
 
     assert UK_BUNDLE_SOURCES == expected
     assert_uk_bundle_sources_match_aliases()
+
+
+def test_uk_bundle_drift_message_is_unchanged(monkeypatch):
+    """Factoring the suites through one check keeps the UK error text."""
+    monkeypatch.setattr(
+        chronicle.bundle,
+        "UK_BUNDLE_SOURCES",
+        (*UK_BUNDLE_SOURCES[1:], "zz-planted-uk-package"),
+    )
+
+    with pytest.raises(ValueError) as excinfo:
+        assert_uk_bundle_sources_match_aliases()
+
+    assert str(excinfo.value) == (
+        "UK_BUNDLE_SOURCES drifted from UK-prefixed SOURCE_PACKAGE_ALIASES: "
+        "missing=['desnz-energy-trends-domestic-electricity-2026'], "
+        "extra=['zz-planted-uk-package']"
+    )
+
+
+def test_nz_bundle_sources_match_nz_prefixed_aliases():
+    """The NZ bundle suite must include every alias under an NZ source prefix."""
+    expected = tuple(
+        sorted(
+            alias
+            for alias, path in SOURCE_PACKAGE_ALIASES.items()
+            if path.parts and path.parts[0] in NZ_BUNDLE_SOURCE_PREFIXES
+        )
+    )
+
+    assert NZ_BUNDLE_SOURCE_PREFIXES == ("ird", "mbie", "msd", "stats_nz", "treasury")
+    assert len(NZ_BUNDLE_SOURCES) == 48
+    assert NZ_BUNDLE_SOURCES == expected == nz_bundle_sources_from_aliases()
+    assert_nz_bundle_sources_match_aliases()
+
+
+def test_nz_bundle_sources_include_every_census_place_summary_package():
+    """All 36 Census 2023 place-summary packages, roots and rc_XX children."""
+    assert len(NZ_CENSUS_MEMBERS) == len(set(NZ_CENSUS_MEMBERS)) == 36
+    assert set(NZ_CENSUS_MEMBERS) <= set(NZ_BUNDLE_SOURCES)
+    census_in_suite = {
+        alias for alias in NZ_BUNDLE_SOURCES if alias.startswith("stats-nz-census-")
+    }
+    assert census_in_suite == set(NZ_CENSUS_MEMBERS)
+    for alias in NZ_CENSUS_MEMBERS:
+        root = next(root for root in NZ_CENSUS_ROOTS if alias.startswith(root))
+        directory = Path("stats_nz") / root.removeprefix("stats-nz-").replace("-", "_")
+        suffix = alias.removeprefix(root)
+        expected = directory / f"rc_{suffix[-2:]}" if suffix else directory
+        assert SOURCE_PACKAGE_ALIASES[alias] == expected
+
+
+def test_nz_bundle_sources_cover_every_nz_package_on_disk():
+    """Every NZ source_package.yaml, at any depth, is a suite member."""
+    root = source_package_root()
+    on_disk = {
+        manifest.parent.relative_to(root)
+        for prefix in NZ_BUNDLE_SOURCE_PREFIXES
+        for manifest in (root / prefix).rglob("source_package.yaml")
+    }
+
+    assert len(on_disk) == 48
+    assert on_disk == {SOURCE_PACKAGE_ALIASES[alias] for alias in NZ_BUNDLE_SOURCES}
+
+
+def test_nz_and_uk_bundle_suites_are_disjoint():
+    assert not set(NZ_BUNDLE_SOURCE_PREFIXES) & set(UK_BUNDLE_SOURCE_PREFIXES)
+    assert not set(NZ_BUNDLE_SOURCES) & set(UK_BUNDLE_SOURCES)
+    assert all(
+        SOURCE_PACKAGE_ALIASES[alias].parts[0] in NZ_BUNDLE_SOURCE_PREFIXES
+        for alias in NZ_BUNDLE_SOURCES
+    )
+
+
+@pytest.mark.parametrize(
+    "roster,missing,extra",
+    [
+        pytest.param(
+            tuple(
+                alias
+                for alias in NZ_BUNDLE_SOURCES
+                if alias != "stats-nz-census-2023-households-by-region-rc-07"
+            ),
+            ["stats-nz-census-2023-households-by-region-rc-07"],
+            [],
+            id="drop-census-rc-member",
+        ),
+        pytest.param(
+            tuple(
+                alias
+                for alias in NZ_BUNDLE_SOURCES
+                if alias != "treasury-an24-01-fiscal-totals"
+            ),
+            ["treasury-an24-01-fiscal-totals"],
+            [],
+            id="drop-treasury-package",
+        ),
+        pytest.param(
+            tuple(sorted((*NZ_BUNDLE_SOURCES, "ons-mye-2025-uk"))),
+            [],
+            ["ons-mye-2025-uk"],
+            id="add-uk-package",
+        ),
+    ],
+)
+def test_nz_bundle_drift_guard_rejects_a_changed_roster(
+    monkeypatch, roster, missing, extra
+):
+    monkeypatch.setattr(chronicle.bundle, "NZ_BUNDLE_SOURCES", roster)
+
+    with pytest.raises(ValueError) as excinfo:
+        assert_nz_bundle_sources_match_aliases()
+
+    assert str(excinfo.value) == (
+        "NZ_BUNDLE_SOURCES drifted from NZ-prefixed SOURCE_PACKAGE_ALIASES: "
+        f"missing={missing}, extra={extra}"
+    )
+
+
+def test_nz_bundle_drift_guard_rejects_a_new_nz_alias(monkeypatch):
+    monkeypatch.setitem(
+        SOURCE_PACKAGE_ALIASES, "treasury-planted-package", Path("treasury/planted")
+    )
+
+    with pytest.raises(ValueError, match=r"missing=\['treasury-planted-package'\]"):
+        assert_nz_bundle_sources_match_aliases()
+
+
+def test_nz_bundle_drift_guard_rejects_a_dropped_nz_alias(monkeypatch):
+    monkeypatch.delitem(
+        SOURCE_PACKAGE_ALIASES, "stats-nz-census-2023-family-type-rc-99"
+    )
+
+    with pytest.raises(
+        ValueError, match=r"extra=\['stats-nz-census-2023-family-type-rc-99'\]"
+    ):
+        assert_nz_bundle_sources_match_aliases()
+
+
+def test_nz_bundle_members_use_year_independent_declarations():
+    """``--year`` is inert for the NZ suite.
+
+    A package that pins ``artifact_year`` reads that year's manifest file at
+    every build year, and one whose declarations render no ``{year}`` and use
+    no ``*_by_year`` mapping selects and labels the same cells at every year.
+    """
+    for alias in NZ_BUNDLE_SOURCES:
+        package = load_source_package(alias)
+        assert package.artifact.artifact_year is not None, alias
+        assert not _declarations_depend_on_year(package), alias
 
 
 def test_discover_source_package_dirs_finds_real_packages():

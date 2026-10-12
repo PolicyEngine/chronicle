@@ -14,6 +14,7 @@ from chronicle.bundle import (
     BUNDLE_COVERAGE_SCHEMA_VERSION,
     BUNDLE_SCHEMA_VERSION,
     BUNDLE_SOURCES_SCHEMA_VERSION,
+    NZ_BUNDLE_SOURCES,
     UK_BUNDLE_SOURCES,
     build_bundle,
     build_bundle_coverage,
@@ -162,6 +163,135 @@ def test_build_bundle_cli_accepts_uk_suite(tmp_path, monkeypatch):
 
     assert status == 0
     assert captured["suite"] == "uk"
+
+
+class _FakeBundleReport:
+    valid = True
+
+    def to_dict(self):
+        return {"valid": True}
+
+
+@pytest.fixture
+def fake_build_bundle(monkeypatch):
+    """Record what build_bundle_dir asks build_bundle to build, without building."""
+    calls = []
+
+    def record(output_dir, **kwargs):
+        calls.append({"output_dir": output_dir, **kwargs})
+        return _FakeBundleReport()
+
+    monkeypatch.setattr("chronicle.harness.build_bundle", record)
+    return calls
+
+
+def test_build_bundle_dir_nz_suite_uses_curated_sources(tmp_path, fake_build_bundle):
+    report = build_bundle_dir(tmp_path / "bundle", year=2023, suite="nz")
+
+    assert report.valid
+    [call] = fake_build_bundle
+    assert tuple(call["sources"]) == NZ_BUNDLE_SOURCES
+    assert call["output_dir"] == tmp_path / "bundle"
+    assert call["year"] == 2023
+    assert "treasury-an24-01-fiscal-totals" in call["sources"]
+    assert "treasury-estimates-of-appropriations-2026-27" in call["sources"]
+    assert "stats-nz-census-2023-households-by-region-rc-99" in call["sources"]
+    assert not set(call["sources"]) & set(UK_BUNDLE_SOURCES)
+
+
+@pytest.mark.parametrize(
+    "suite,roster",
+    [
+        pytest.param("nz", NZ_BUNDLE_SOURCES, id="nz"),
+        pytest.param("uk", UK_BUNDLE_SOURCES, id="uk"),
+    ],
+)
+def test_build_bundle_cli_builds_each_curated_suite(
+    tmp_path, fake_build_bundle, suite, roster
+):
+    status = harness_main(
+        ["build-bundle", "--suite", suite, "--out", str(tmp_path / "bundle")]
+    )
+
+    assert status == 0
+    [call] = fake_build_bundle
+    assert tuple(call["sources"]) == roster
+    assert call["year"] == 2023
+
+
+@pytest.mark.parametrize("suite", ["nz", "uk"])
+def test_build_bundle_dir_refuses_a_suite_with_explicit_sources(
+    tmp_path, fake_build_bundle, suite
+):
+    with pytest.raises(ValueError) as excinfo:
+        build_bundle_dir(
+            tmp_path / "bundle",
+            year=2023,
+            suite=suite,
+            sources=["ird-working-for-families-statistics-sept-2025"],
+        )
+
+    assert str(excinfo.value) == f"--suite {suite} cannot be combined with --source."
+    assert fake_build_bundle == []
+
+
+@pytest.mark.parametrize("suite", ["nz", "uk"])
+def test_build_bundle_cli_refuses_a_suite_with_explicit_sources(
+    tmp_path, fake_build_bundle, suite
+):
+    argv = [
+        "build-bundle",
+        "--suite",
+        suite,
+        "--source",
+        "treasury-an24-01-fiscal-totals",
+        "--out",
+        str(tmp_path / "bundle"),
+    ]
+
+    with pytest.raises(ValueError, match=f"^--suite {suite} cannot be combined"):
+        harness_main(argv)
+
+    assert fake_build_bundle == []
+
+
+def test_build_bundle_dir_nz_suite_refuses_a_drifted_roster(
+    tmp_path, fake_build_bundle, monkeypatch
+):
+    monkeypatch.setattr(
+        chronicle.bundle,
+        "NZ_BUNDLE_SOURCES",
+        tuple(
+            alias
+            for alias in NZ_BUNDLE_SOURCES
+            if alias != "stats-nz-census-2023-family-type-rc-12"
+        ),
+    )
+
+    with pytest.raises(
+        ValueError,
+        match=r"^NZ_BUNDLE_SOURCES drifted .*"
+        r"missing=\['stats-nz-census-2023-family-type-rc-12'\], extra=\[\]$",
+    ):
+        build_bundle_dir(tmp_path / "bundle", year=2023, suite="nz")
+
+    assert fake_build_bundle == []
+
+
+def test_build_bundle_dir_rejects_an_unknown_suite(tmp_path, fake_build_bundle):
+    with pytest.raises(ValueError, match="Unknown bundle suite: 'au'"):
+        build_bundle_dir(tmp_path / "bundle", year=2023, suite="au")
+
+    assert fake_build_bundle == []
+
+
+def test_build_bundle_cli_rejects_an_unknown_suite(tmp_path, fake_build_bundle, capsys):
+    with pytest.raises(SystemExit) as excinfo:
+        harness_main(["build-bundle", "--suite", "au", "--out", str(tmp_path)])
+
+    assert excinfo.value.code == 2
+    assert "invalid choice: 'au'" in capsys.readouterr().err
+    assert fake_build_bundle == []
 
 
 @pytest.fixture

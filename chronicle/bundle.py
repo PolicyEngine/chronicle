@@ -291,6 +291,72 @@ UK_BUNDLE_SOURCES = (
     "welshgov-household-projections-2022-based",
     "welshgov-transport-revenue-outturn-2024-25",
 )
+# Every package under these publisher directories is a New Zealand package:
+# Inland Revenue, MBIE, MSD, Stats NZ and the New Zealand Treasury. "treasury"
+# names no country, so a non-NZ treasury package must not be added under
+# packages/treasury/; the drift guard would then pull it into the NZ suite.
+NZ_BUNDLE_SOURCE_PREFIXES = (
+    "ird",
+    "mbie",
+    "msd",
+    "stats_nz",
+    "treasury",
+)
+# The curated NZ suite (`build-bundle --suite nz`). Each member pins one
+# artifact_year and declares nothing by year, so it reads the same file and
+# emits the same facts at any --year; the suite's periods (calendar, tax,
+# fiscal and monthly) are the publishers' own, whatever --year is passed.
+NZ_BUNDLE_SOURCES = (
+    "ird-taxable-income-distribution-2025",
+    "ird-wage-salary-distribution-2026",
+    "ird-working-for-families-statistics-sept-2025",
+    "mbie-tenancy-bond-rents-tla-2026",
+    "msd-annual-report-benefit-expenses-2025",
+    "msd-benefit-fact-sheets-national-june-2026",
+    "msd-benefit-fact-sheets-supplementary-june-2026",
+    "msd-nzs-vp-fact-sheet-june-2026",
+    "stats-nz-census-2023-family-type",
+    "stats-nz-census-2023-family-type-rc-01",
+    "stats-nz-census-2023-family-type-rc-02",
+    "stats-nz-census-2023-family-type-rc-03",
+    "stats-nz-census-2023-family-type-rc-04",
+    "stats-nz-census-2023-family-type-rc-05",
+    "stats-nz-census-2023-family-type-rc-06",
+    "stats-nz-census-2023-family-type-rc-07",
+    "stats-nz-census-2023-family-type-rc-08",
+    "stats-nz-census-2023-family-type-rc-09",
+    "stats-nz-census-2023-family-type-rc-12",
+    "stats-nz-census-2023-family-type-rc-13",
+    "stats-nz-census-2023-family-type-rc-14",
+    "stats-nz-census-2023-family-type-rc-15",
+    "stats-nz-census-2023-family-type-rc-16",
+    "stats-nz-census-2023-family-type-rc-17",
+    "stats-nz-census-2023-family-type-rc-18",
+    "stats-nz-census-2023-family-type-rc-99",
+    "stats-nz-census-2023-households-by-region",
+    "stats-nz-census-2023-households-by-region-rc-01",
+    "stats-nz-census-2023-households-by-region-rc-02",
+    "stats-nz-census-2023-households-by-region-rc-03",
+    "stats-nz-census-2023-households-by-region-rc-04",
+    "stats-nz-census-2023-households-by-region-rc-05",
+    "stats-nz-census-2023-households-by-region-rc-06",
+    "stats-nz-census-2023-households-by-region-rc-07",
+    "stats-nz-census-2023-households-by-region-rc-08",
+    "stats-nz-census-2023-households-by-region-rc-09",
+    "stats-nz-census-2023-households-by-region-rc-12",
+    "stats-nz-census-2023-households-by-region-rc-13",
+    "stats-nz-census-2023-households-by-region-rc-14",
+    "stats-nz-census-2023-households-by-region-rc-15",
+    "stats-nz-census-2023-households-by-region-rc-16",
+    "stats-nz-census-2023-households-by-region-rc-17",
+    "stats-nz-census-2023-households-by-region-rc-18",
+    "stats-nz-census-2023-households-by-region-rc-99",
+    "stats-nz-household-net-worth-2024",
+    "stats-nz-subnational-population-estimates-2025",
+    "treasury-an24-01-fiscal-totals",
+    "treasury-estimates-of-appropriations-2026-27",
+)
+BUNDLE_SUITES = ("nz", "uk")
 
 _KEY_DOMAINS = {
     "aggregate_fact_key": "aggregate_fact",
@@ -304,27 +370,74 @@ _KEY_DOMAINS = {
 }
 
 
-def uk_bundle_sources_from_aliases() -> tuple[str, ...]:
-    """Return UK-package aliases implied by the source-package directory prefixes."""
+def _prefixed_aliases(prefixes: Sequence[str]) -> tuple[str, ...]:
+    """Return the sorted aliases whose package directory sits under ``prefixes``."""
     return tuple(
         sorted(
             alias
             for alias, path in SOURCE_PACKAGE_ALIASES.items()
-            if path.parts and path.parts[0] in UK_BUNDLE_SOURCE_PREFIXES
+            if path.parts and path.parts[0] in prefixes
         )
     )
 
 
+def _assert_suite_matches_aliases(
+    country: str,
+    sources: tuple[str, ...],
+    expected: tuple[str, ...],
+) -> None:
+    if sources != expected:
+        missing = sorted(set(expected) - set(sources))
+        extra = sorted(set(sources) - set(expected))
+        raise ValueError(
+            f"{country}_BUNDLE_SOURCES drifted from {country}-prefixed "
+            f"SOURCE_PACKAGE_ALIASES: missing={missing}, extra={extra}"
+        )
+
+
+def uk_bundle_sources_from_aliases() -> tuple[str, ...]:
+    """Return UK-package aliases implied by the source-package directory prefixes."""
+    return _prefixed_aliases(UK_BUNDLE_SOURCE_PREFIXES)
+
+
 def assert_uk_bundle_sources_match_aliases() -> None:
     """Fail loudly if the curated UK suite omits a UK-prefixed alias."""
-    expected = uk_bundle_sources_from_aliases()
-    if UK_BUNDLE_SOURCES != expected:
-        missing = sorted(set(expected) - set(UK_BUNDLE_SOURCES))
-        extra = sorted(set(UK_BUNDLE_SOURCES) - set(expected))
-        raise ValueError(
-            "UK_BUNDLE_SOURCES drifted from UK-prefixed SOURCE_PACKAGE_ALIASES: "
-            f"missing={missing}, extra={extra}"
-        )
+    _assert_suite_matches_aliases(
+        "UK", UK_BUNDLE_SOURCES, uk_bundle_sources_from_aliases()
+    )
+
+
+def nz_bundle_sources_from_aliases() -> tuple[str, ...]:
+    """Return NZ-package aliases implied by the source-package directory prefixes.
+
+    Nested packages count: each Census 2023 place-summary family has a national
+    root, 16 regional-council ``rc_XX`` children and an area-outside-region
+    ``rc_99`` child.
+
+    ``--year`` does not select or relabel NZ facts: every member pins its
+    ``artifact_year`` and uses year-independent declarations. A single build
+    at any year preserves all members' published calendar, tax, fiscal and
+    monthly reference periods.
+    """
+    return _prefixed_aliases(NZ_BUNDLE_SOURCE_PREFIXES)
+
+
+def assert_nz_bundle_sources_match_aliases() -> None:
+    """Fail loudly if the curated NZ suite omits or adds an NZ-prefixed alias."""
+    _assert_suite_matches_aliases(
+        "NZ", NZ_BUNDLE_SOURCES, nz_bundle_sources_from_aliases()
+    )
+
+
+def bundle_suite_sources(suite: str) -> tuple[str, ...]:
+    """Return a curated suite's sources once they match its prefixed aliases."""
+    if suite == "uk":
+        assert_uk_bundle_sources_match_aliases()
+        return UK_BUNDLE_SOURCES
+    if suite == "nz":
+        assert_nz_bundle_sources_match_aliases()
+        return NZ_BUNDLE_SOURCES
+    raise ValueError(f"Unknown bundle suite: {suite!r}")
 
 
 @dataclass(frozen=True)
