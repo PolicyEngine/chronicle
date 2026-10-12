@@ -91,22 +91,20 @@ arch/
 │   ├── sources/             # Source lineage helpers
 │   ├── facts/               # Source-backed facts
 │   ├── normalization/       # Low-assumption representation helpers
-│   ├── targets/             # Target input schema, client, loaders
 │   ├── microdata/           # Microdata registry, ingestion, queries
 │   ├── jurisdictions/       # Temporary in-repo jurisdiction source prototypes
-├── db/                      # SQLModel persistence and source loaders
-│   ├── schema.py            # SQLModel: Target, Stratum, StratumConstraint
+├── db/                      # Source-artifact store and packaged source files
+│   ├── schema.py            # SQLModel: SourceArtifact, SourceTable, SourceRow
 │   ├── supabase_client.py   # Supabase client helpers
-│   └── etl_*.py             # Source-specific ETL pipelines
-├── micro/                   # Microplex consumers of Arch records
-├── calibration/             # Calibration target adapters and constraints
+│   └── data/                # Publisher files that source packages read
+├── micro/                   # Microplex microdata utilities
 ├── data/                    # Cached data files
 └── docs/                    # Architecture and source documentation
 ```
 
 New code should prefer `arch.sources`, `arch.facts`, `arch.normalization`,
-`arch.targets`, and `arch.microdata`. Microplex-specific target composition
-and calibration code belongs under `micro/`.
+and `arch.microdata`. Target composition and calibration belong in Microplex,
+not in this repository.
 
 ## Quick Start
 
@@ -120,15 +118,7 @@ cd arch
 pip install -e ".[dev]"
 ```
 
-### 2. Initialize and Load Legacy Target Inputs
-
-```bash
-arch init
-arch load soi --years 2021
-arch stats
-```
-
-### 3. Validate Fixture Facts
+### 2. Validate Fixture Facts
 
 The standalone Arch fact harness validates JSONL aggregate facts and emits a
 JSON report with fact counts, QA counts, warnings, and validation errors:
@@ -429,7 +419,7 @@ same `--axiom-cli` and `--axiom-root` flags, plus
 `--require-axiom-validation` when skipped concept checks should fail agent
 acceptance.
 
-### 4. Run Arch Explorer
+### 3. Run Arch Explorer
 
 Arch Explorer is a Next/Tailwind app that reads the fixture fact JSONL and
 source-cell JSONL, then shows aggregate facts, source-cell lineage, and
@@ -451,20 +441,7 @@ By default, the workbench reads the current local suite outputs at
 ARCH_EXPLORER_DATA_DIRS=/tmp/arch-build-a,/tmp/arch-build-b npm run dev -- --port 3090
 ```
 
-### 5. Query Target Inputs in Python
-
-```python
-from arch.targets import DataSource, Target, TargetType
-from calibration.targets import get_targets
-
-target_inputs = get_targets(
-    jurisdiction="us",
-    year=2021,
-    sources=["irs-soi"],
-)
-```
-
-### 6. Query Microdata
+### 4. Query Microdata
 
 ```python
 from arch.microdata import query_cps_asec
@@ -472,16 +449,19 @@ from arch.microdata import query_cps_asec
 persons = query_cps_asec(year=2024, table_type="person", limit=10_000)
 ```
 
-## Target Input Schema
+## Retired legacy target tables
 
-Target inputs use a three-table schema:
-
-- **strata**: Population subgroups, such as California filers with AGI between
-  $50k and $75k.
-- **stratum_constraints**: Rules defining each stratum.
-- **targets**: Source-published aggregate values linked to strata.
-
-These are inputs to Microplex target composition. Microplex owns the active,
+This branch used to load hand-written ETLs (`db/etl_*.py`) into a local SQLite
+`targets` / `strata` / `stratum_constraints` schema (`arch load`, `arch stats`,
+`arch query`), read a Supabase copy through `arch.targets.query_targets`, and
+calibrate microdata to those rows in `calibration/` and `micro/us/pipeline.py`.
+Nothing outside that stack read the tables, and the audit in
+PolicyEngine/chronicle#348 (`docs/us-legacy-etl-cleanup.md` there) found that
+several of the US loaders wrote invented or untraceable values, so the whole
+stack was removed. Main dropped `calibration/` and `micro/` in #68 and the UK
+loaders in #181 and #186, and is retiring the US loaders and target tables in
+#348 and its follow-on. Source-backed facts reach consumers through source
+packages and the bundle (`arch build-bundle`). Microplex owns the active,
 reconciled, aged target sets used for calibration.
 
 ## Arch Facts And Microplex Targets
@@ -498,8 +478,8 @@ adjusted or projected series.
 
 ```python
 from arch.facts import SourceFact
-from arch.targets import DataSource, Jurisdiction, TargetType
-from arch.normalization import as_target, convert_units
+from arch.normalization import convert_units
+from db.schema import DataSource, Jurisdiction
 
 fact = SourceFact(
     name="snap_households",
@@ -510,11 +490,7 @@ fact = SourceFact(
     jurisdiction=Jurisdiction.US,
 )
 
-target_input = as_target(
-    convert_units(fact, 1000, "count"),
-    target_type=TargetType.COUNT,
-    stratum_name="US SNAP Households",
-)
+normalized_fact = convert_units(fact, 1000, "count")
 ```
 
 ## Current Coverage

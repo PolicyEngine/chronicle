@@ -2,7 +2,7 @@
 
 from arch.facts import DerivationStep, SourceFact
 from arch.sources import SourceFile, SourceReference
-from arch.targets import DataSource, Jurisdiction
+from db.schema import DataSource, Jurisdiction
 from arch.normalization import convert_units
 
 

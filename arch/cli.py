@@ -8,7 +8,7 @@ from db.cli import main as db_main
 
 
 def main() -> None:
-    """Dispatch Arch-owned harness commands or the legacy DB CLI."""
+    """Dispatch Arch-owned harness commands or the source-artifact DB CLI."""
     if sys.argv[1:2] in (
         ["bootstrap-r2"],
         ["build-bundle"],

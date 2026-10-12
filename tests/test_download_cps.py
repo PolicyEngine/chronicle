@@ -6,7 +6,7 @@ import zipfile
 import pandas as pd
 import pytest
 
-# Direct imports from download_cps to avoid calibration package import chain
+# Direct imports from the downloader module.
 from micro.us.census.download_cps import (
     CPS_URL_BY_YEAR,
     PERSON_COLUMNS,
@@ -132,55 +132,3 @@ class TestCPSDownloader:
         # Should have at least the columns we provided
         assert len(df) == 1
         assert "age" in df.columns or "A_AGE" in df.columns
-
-
-class TestLoaderIntegration:
-    """Tests for loader integration with CPS downloader.
-
-    These tests require the calibration package which may have optional
-    dependencies. They are skipped if the imports fail.
-    """
-
-    @pytest.fixture(autouse=True)
-    def skip_if_calibration_unavailable(self):
-        """Skip these tests if calibration module can't be imported."""
-        pytest.importorskip("calibration")
-
-    def test_load_microdata_loads_cps_with_correct_weights(self):
-        """CPS data should have reasonable total weight (~330M for US pop)."""
-        from calibration import load_microdata
-        from pathlib import Path
-
-        # Only run if CPS 2023 exists (it should after download)
-        data_path = Path(__file__).parent.parent / "micro" / "us" / "cps_2023.parquet"
-        if not data_path.exists():
-            pytest.skip("CPS 2023 not downloaded")
-
-        df = load_microdata(source="cps", year=2023)
-
-        # Should have data
-        assert len(df) > 100_000  # CPS has 100k+ person records
-        assert "weight" in df.columns
-
-        # Weight should sum to ~330M (US population), not 33B
-        total_weight = df["weight"].sum()
-        assert 300_000_000 < total_weight < 400_000_000, (
-            f"Total weight {total_weight:,.0f} should be ~330M, not {total_weight/1e9:.1f}B"
-        )
-
-    def test_load_microdata_falls_back_to_synthetic(self):
-        """Should fall back to synthetic when CPS unavailable."""
-        from calibration import load_microdata
-        import warnings
-
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            df = load_microdata(source="cps", year=2015)  # Old year, won't download
-
-            # Should have data (synthetic fallback)
-            assert len(df) > 0
-            assert "weight" in df.columns
-
-            # Should have warned about fallback
-            assert any("falling back to synthetic" in str(warning.message).lower()
-                      for warning in w)
