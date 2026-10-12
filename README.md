@@ -503,18 +503,30 @@ normalized_fact = convert_units(fact, 1000, "count")
 | US IRS PUF | 33 | Tax return sample |
 | UK FRS | 29 | DWP household survey |
 
-### Aggregate Facts And Target Inputs
+### Aggregate facts
 
-| Source | Coverage | Description |
-|--------|----------|-------------|
-| IRS SOI | National, state, AGI brackets | Tax return aggregates |
-| Census | Demographics, poverty, districts | Population statistics |
-| BLS | Labor market and price data | Employment and index series |
-| CBO | Federal projections | Budget and economic projections |
-| SSA/SSI | National and state programs | Social Security data |
-| SNAP | State-level | Food assistance |
-| CMS | Medicaid and ACA enrollment | Health coverage |
-| HMRC/ONS/OBR | UK tax, population, projections | UK official statistics |
+Facts in the default 2023 bundle (`arch build-bundle --year 2023`), by source,
+as `coverage.json` reports them and `tests/test_arch_bundle.py` pins them:
+
+| Source | Facts |
+|--------|------:|
+| `irs_soi` | 6,911 |
+| `census_pep` | 988 |
+| `cms_medicaid` | 515 |
+| `census_acs` | 468 |
+| `bea` | 443 |
+| `ssa` | 422 |
+| `usda_snap` | 216 |
+| `hhs_acf_tanf` | 110 |
+| `census_population_projections` | 86 |
+| `kff` | 52 |
+| `census_stc` | 46 |
+| `cbo` | 6 |
+| `hhs_acf_liheap` | 2 |
+| `cms_medicare` | 1 |
+| `cms_nhe` | 1 |
+| `federal_reserve` | 1 |
+| **Total** | **10,268** |
 
 ## Boundaries
 

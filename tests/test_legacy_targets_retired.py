@@ -192,6 +192,13 @@ def test_nothing_left_imports_the_retired_stack():
     assert offenders == []
 
 
+def test_every_arch_export_is_an_importable_submodule():
+    import arch
+
+    for name in arch.__all__:
+        assert importlib.util.find_spec(f"arch.{name}") is not None, name
+
+
 def test_surviving_modules_do_not_define_retired_names():
     import arch.normalization as normalization
     import db.schema as schema
