@@ -3040,6 +3040,61 @@ def test_a_fold_never_captures_a_spelling_only_the_survivor_holds(
     assert [(e["concept"], e["entity"]) for e in events] == [("b.one", HAND_ENTITY)]
 
 
+def test_a_fold_refuses_names_already_held_in_the_survivor_slice(
+    tmp_path: pathlib.Path,
+) -> None:
+    # A name on both lineages makes undo inexact; resolve it before folding.
+    argv = _repo(tmp_path, _drift_rows())
+    assert bsc.main(argv) == 0
+    catalog = json.loads((tmp_path / "catalog.json").read_text())
+    for row in catalog["series"]:
+        if row["concept"] == "bls.cps.unemployment_rate":
+            row["aliases"] = sorted({*row["aliases"], "labor.market.unemployment_rate"})
+    (tmp_path / "catalog.json").write_text(
+        json.dumps(catalog, indent=2) + "\n", encoding="utf-8"
+    )
+    names = ["bls.cps.unemployment_rate", "labor.market.unemployment_rate"]
+    _write_folds(tmp_path, [_fold(absorbed_names=names)])
+    with pytest.raises(SystemExit, match="already belong to a row in the survivor"):
+        bsc.main(argv + ["--allow-remint", "--remint-note", FOLD_NOTE])
+
+
+@pytest.mark.parametrize("edit", ["drop", "move"])
+def test_a_standing_fold_refuses_inconsistent_spelling_ownership(
+    tmp_path: pathlib.Path, edit: str
+) -> None:
+    # The round-6 review's replay: after the fold, a hand edit takes an
+    # absorbed name off the survivor (and, for "move", gives it to another
+    # economy series). Folded rows must not follow it.
+    argv = _repo(tmp_path, _drift_rows() + [
+        _row("other.series", rid="other.series.2026-06", period=_fold_month("2026-06")),
+    ])
+    assert bsc.main(argv) == 0
+    catalog = json.loads((tmp_path / "catalog.json").read_text())
+    hand = next(
+        r for r in catalog["series"]
+        if r["concept"] == "bls.cps.unemployment_rate" and r["entity"] == HAND_ENTITY
+    )
+    hand["aliases"] = sorted({*hand["aliases"], "labor.market.unemployment_rate"})
+    (tmp_path / "catalog.json").write_text(
+        json.dumps(catalog, indent=2) + "\n", encoding="utf-8"
+    )
+    names = ["bls.cps.unemployment_rate", "labor.market.unemployment_rate"]
+    _write_folds(tmp_path, [_fold(absorbed_names=names)])
+    assert bsc.main(argv + ["--allow-remint", "--remint-note", FOLD_NOTE]) == 0
+    catalog = json.loads((tmp_path / "catalog.json").read_text())
+    for row in catalog["series"]:
+        if row["concept"] == "bls.cps.unemployment_rate":
+            row["aliases"] = [a for a in row["aliases"] if a != names[1]]
+        if edit == "move" and row["concept"] == "other.series":
+            row["aliases"] = sorted({*row["aliases"], names[1]})
+    (tmp_path / "catalog.json").write_text(
+        json.dumps(catalog, indent=2) + "\n", encoding="utf-8"
+    )
+    with pytest.raises(SystemExit, match="must hold every absorbed name alone"):
+        bsc.main(argv)
+
+
 def test_a_fold_must_declare_exactly_the_absorbed_names(
     tmp_path: pathlib.Path,
 ) -> None:
@@ -3175,7 +3230,7 @@ def test_entity_fold_invariants_hold_for_any_split(
     """For every split of one series across two entities (months may
     overlap): the fold conserves observations, mints nothing, keeps the
     survivor's UUID, retires exactly the absorbed one, is byte-idempotent,
-    and an emptied fold revives exactly the absorbed UUID."""
+    and marking the fold undone revives exactly the absorbed UUID."""
     tmp_path = tmp_path_factory.mktemp("fold")
     rows = _drift_rows(hand_months=sorted(hand), economy_months=sorted(economy))
     argv = _repo(tmp_path, rows)

@@ -85,10 +85,11 @@ hand-recorded early row and a resolver row written with the default
 ``economy/aggregate``). Alias inheritance never crosses an entity slice, so
 regeneration would restore the split. The seed at
 ``ledger/seeds/entity_folds.json`` (``chronicle_entity_folds_v1``) lists
-folds as (concept, geography, absorbed_entity, survivor_entity, note).
-Before identities are grouped, every current row of that concept and
-geography carrying the absorbed entity is read as carrying the survivor
-entity; the observation file itself is never changed. The absorbed row's
+folds as (concept, geography, absorbed_entity, survivor_entity,
+absorbed_names, note), optionally marked ``undone``. Before identities are
+grouped, every current row of that concept and geography carrying the
+absorbed entity and spelled by one of the absorbed names is read as carrying
+the survivor entity; the observation file itself is never changed. The absorbed row's
 curated names join the survivor's ``aliases``, its live binding is retired
 with the ``--remint-note``, and the survivor keeps its UUID. The catalog
 commits to the seed as ``entity_folds_sha256`` (absent when there is no
@@ -775,6 +776,8 @@ def prepare_entity_folds(
             )
             continue
         absorbed = existing.by_identity.get(absorbed_key)
+        survivor_slice = existing.by_dim.get((geo_key, survivor_key[2]), [])
+        moved = declared - {concept}
         if absorbed is not None:
             held = {absorbed["concept"], *absorbed.get("aliases", [])}
             if declared != held:
@@ -783,7 +786,37 @@ def prepare_entity_folds(
                     f"exactly the absorbed row's names {sorted(held)}, got "
                     f"{sorted(declared)}"
                 )
+            # Shared ownership would make the undo inexact: the builder could
+            # not tell which of the survivor's names were its own.
+            shared = sorted(
+                name
+                for row in survivor_slice
+                for name in moved & {row["concept"], *row.get("aliases", [])}
+            )
+            if shared:
+                raise SystemExit(
+                    f"entity fold {absorbed_key}: {shared} already belong to "
+                    "a row in the survivor's slice; resolve that ownership "
+                    "before folding"
+                )
             existing.absorb(absorbed_key, survivor)
+        else:
+            # While a fold stands, the survivor alone holds the moved names;
+            # a hand edit that gives one to another series would route folded
+            # rows to that series.
+            missing = sorted(moved - set(survivor.get("aliases", [])))
+            elsewhere = sorted(
+                name
+                for row in survivor_slice
+                if row is not survivor
+                for name in moved & {row["concept"], *row.get("aliases", [])}
+            )
+            if missing or elsewhere:
+                raise SystemExit(
+                    f"entity fold {absorbed_key}: the survivor must hold every "
+                    f"absorbed name alone; missing {missing}, held elsewhere "
+                    f"{elsewhere}"
+                )
         slot = matcher.setdefault((geo_key, absorbed_key[2]), {})
         for name in declared:
             slot[name] = fold
