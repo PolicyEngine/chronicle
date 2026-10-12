@@ -1,9 +1,10 @@
 """
-Supabase client for Chronicle.
+Supabase client for Chronicle's legacy target-input helpers.
 
-Provides connection to PolicyEngine Supabase database for:
-- Source metadata and dataset registries
-- Target inputs
+Chronicle has no hosted relational mirror. The hosted mirror loader and the
+hosted source-registry query were retired because the schema they addressed never
+existed in the configured project and nothing read them; see
+docs/supabase-mirror-retirement.md.
 """
 
 from __future__ import annotations
@@ -26,7 +27,6 @@ def _env(*names: str) -> str | None:
     return None
 
 
-LEDGER_SCHEMA = _env("POLICYENGINE_LEDGER_SCHEMA") or "ledger"
 TARGETS_SCHEMA = _env("POLICYENGINE_TARGETS_SCHEMA") or "targets"
 
 
@@ -92,37 +92,6 @@ def _table(client: Client, schema: str, table_name: str):
     if isinstance(client, Mock):
         return client.table(table_name)
     return client.schema(schema).table(table_name)
-
-
-# =============================================================================
-# Sources and datasets
-# =============================================================================
-
-
-def query_sources(
-    jurisdiction: Optional[str] = None,
-    institution: Optional[str] = None,
-) -> List[Dict[str, Any]]:
-    """
-    Query data sources from the Chronicle source registry.
-
-    Args:
-        jurisdiction: Filter by jurisdiction (e.g., "us", "uk")
-        institution: Filter by institution (e.g., "irs", "census")
-
-    Returns:
-        List of source records
-    """
-    client = get_supabase_client()
-    query = _table(client, LEDGER_SCHEMA, "sources").select("*")
-
-    if jurisdiction:
-        query = query.eq("jurisdiction", jurisdiction)
-    if institution:
-        query = query.eq("institution", institution)
-
-    result = query.execute()
-    return result.data
 
 
 # =============================================================================

@@ -699,9 +699,9 @@ uv run chronicle build-suite packages/irs_soi/table_1_1 \
   --require-axiom-validation
 ```
 
-The SQLite `ledger.db` is the source of hosted mirrors. To prepare tables for
-Supabase/Postgres bulk loading, export the DB artifact rather than inserting
-cells through the Supabase client:
+The SQLite `ledger.db` is the build's relational artifact. To load its tables
+into another store, export the DB artifact to per-table JSONL rather than
+inserting cells row by row:
 
 ```bash
 uv run chronicle export-db-tables --db /tmp/chronicle-suite/ledger.db --out /tmp/chronicle-mirror --replace
@@ -719,28 +719,13 @@ uv run chronicle publish-derived \
   --build-artifacts-out /tmp/chronicle-build-artifacts.jsonl
 ```
 
-The SQL schema is checked in at
-`supabase/migrations/20260504_chronicle_bronze.sql`. Spreadsheet publications are
-stored as immutable artifact metadata and one parsed-cell row per workbook cell.
-Agents should not try to normalize irregular government worksheets into tidy
-sheet tables before selector specs interpret them.
+The relational schema is defined in `chronicle/database.py`. Spreadsheet
+publications are stored as immutable artifact metadata and one parsed-cell row
+per workbook cell. Agents should not try to normalize irregular government
+worksheets into tidy sheet tables before selector specs interpret them.
 
-After the DB export and derived publish, agents can validate and load the
-hosted mirror:
-
-```bash
-uv run chronicle load-supabase-mirror \
-  --dir /tmp/chronicle-mirror \
-  --build-artifacts /tmp/chronicle-build-artifacts.jsonl \
-  --dry-run
-uv run chronicle load-supabase-mirror \
-  --dir /tmp/chronicle-mirror \
-  --build-artifacts /tmp/chronicle-build-artifacts.jsonl
-```
-
-The live load requires `POLICYENGINE_SUPABASE_URL` and
-`POLICYENGINE_SUPABASE_SERVICE_KEY`, the Chronicle mirror migration applied, and the
-`chronicle` schema exposed by the Supabase Data API.
+There is no hosted mirror to load. The Supabase mirror was retired; see
+`docs/supabase-mirror-retirement.md`.
 
 ## Declarative Authoring Contract
 

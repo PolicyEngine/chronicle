@@ -7,7 +7,7 @@ class of Chronicle data belongs.
 
 ## Decision Summary
 
-Chronicle uses three storage layers with different jobs.
+Chronicle stores data in two R2 buckets and one relational build artifact.
 
 `ledger-raw` is the immutable source-byte archive. It stores exact publisher
 artifacts as fetched: workbooks, CSVs, PDFs, ZIPs, HTML snapshots, and similar
@@ -17,32 +17,37 @@ content-addressed by checksum and should never be overwritten in place.
 `ledger-derived` is the reproducible artifact archive. It stores build outputs
 that Chronicle can regenerate from raw bytes, package specs, parser code, and build
 configuration. Examples include parsed-cell or parsed-row Parquet/JSONL files,
-source record outputs, `ledger.db`, mirror JSONL exports, QA reports, Data
+source record outputs, `ledger.db`, per-table JSONL exports, QA reports, Data
 Package metadata, and RO-Crate metadata.
 
-Supabase/Postgres is the queryable relational registry for accepted Chronicle
-builds. It stores rows that applications, agents, and downstream systems need
-to search and join: source artifacts, source rows/cells, source records,
-aggregate facts, aggregate constraints, concept alignments, lineage edges, build
-metadata, validation status, and object-location pointers. Supabase is not the
-source of raw bytes and should not be hand-edited as the ingestion authority.
+`ledger.db` is the queryable relational artifact for a build. It holds the rows
+that applications, agents, and downstream systems search and join: source
+artifacts, source rows/cells, source records, aggregate facts, aggregate
+constraints, concept alignments, lineage edges, build metadata, and R2 location
+columns. `build-suite` writes it, `publish-derived` stores it in
+`ledger-derived`, and `export-db-tables` writes its tables to JSONL for loading
+into other stores.
 
 The deterministic local build remains the authority for source-backed facts.
-Hosted tables mirror accepted build outputs and provide a shared query surface.
+There is no hosted relational mirror. The Supabase mirror was retired on
+2026-10-12 because its schema never existed in the configured project and
+nothing read it; see `docs/supabase-mirror-retirement.md`.
 
 ## Ownership Matrix
 
-| Data class | Git/local package | `ledger-raw` R2 | `ledger-derived` R2 | SQLite `ledger.db` | Supabase/Postgres |
-|------------|-------------------|---------------|-------------------|------------------|-------------------|
-| Source package specs | Authoritative YAML and parser code | No | Optional packaged snapshot | No | Metadata only |
-| Raw publisher files | Tiny fixtures only | Authoritative bytes | No | Metadata only | Metadata plus R2 pointer |
-| Source manifests | Authoritative checked metadata | No | Optional snapshot | Metadata loaded into tables | Queryable artifact registry |
-| Parsed source rows/cells | Generated local output | No | Snapshot artifact | Queryable table | Queryable mirror |
-| Source records/facts | Generated local output | No | Snapshot artifact | Queryable table | Queryable mirror |
-| Aggregate constraints | Generated local output | No | Snapshot artifact | Queryable table | Queryable mirror |
-| Build reports and QA | Generated local output | No | Snapshot artifact | Build summary rows | Queryable validation status |
-| Mirror JSONL exports | Generated local output | No | Snapshot artifact | Export source | Bulk-load input |
-| Microcosm active targets | No | No | No | No | Future adapter output outside Chronicle core |
+| Data class | Git/local package | `ledger-raw` R2 | `ledger-derived` R2 | SQLite `ledger.db` |
+|------------|-------------------|---------------|-------------------|------------------|
+| Source package specs | Authoritative YAML and parser code | No | Optional packaged snapshot | No |
+| Raw publisher files | Tiny fixtures only | Authoritative bytes | No | Metadata plus R2 pointer |
+| Source manifests | Authoritative checked metadata | No | Optional snapshot | Metadata loaded into tables |
+| Parsed source rows/cells | Generated local output | No | Snapshot artifact | Queryable table |
+| Source records/facts | Generated local output | No | Snapshot artifact | Queryable table |
+| Aggregate constraints | Generated local output | No | Snapshot artifact | Queryable table |
+| Build reports and QA | Generated local output | No | Snapshot artifact | Build summary rows |
+| Per-table JSONL exports | Generated local output | No | Snapshot artifact | Export source |
+| Microcosm active targets | No | No | No | No |
+
+Microcosm active targets are adapter output outside Chronicle core.
 
 ## Object Key Conventions
 
@@ -90,13 +95,13 @@ artifacts at or above that ceiling belong in `ledger-raw`; their checked
 manifests retain the source URL, SHA-256, byte size, and R2 location so builds
 can fetch and verify them without committing the bytes.
 
-## Relational Registry Contract
+## Relational Artifact Contract
 
-The hosted `chronicle` schema should be the lookup surface for Chronicle, not the place
-where agents invent source facts. Rows should be bulk-loaded from deterministic
-build outputs.
+`ledger.db` is the lookup surface for Chronicle, not a place where agents invent
+source facts. Every row comes from a deterministic build of checked source
+packages.
 
-The registry should expose:
+The artifact exposes:
 
 - source artifact identity: source name, table/file, URL, vintage, extraction
   date, extraction method, checksum, size, and raw R2 bucket/key/URI;
@@ -110,9 +115,9 @@ The registry should expose:
   authority, legal vintage, and evidence;
 - build metadata, validation status, and derived artifact R2 bucket/key/URI.
 
-The current Supabase migration mirrors the core relational tables and includes
-R2 location fields for raw source artifacts and derived build artifacts, so the
-registry can serve as the shared index over both R2 buckets.
+`source_artifacts` and `build_artifacts` carry R2 bucket, key, and URI columns
+for raw and derived objects. A derived object's R2 location is known only after
+`publish-derived` uploads it; `--build-artifacts-out` writes those rows.
 
 ## Build And Publish Flow
 
@@ -132,7 +137,8 @@ The intended flow is:
 3. Produce local deterministic outputs: parsed rows/cells, source records,
    aggregate facts, `ledger.db`, QA reports, Data Package metadata, and RO-Crate
    metadata.
-4. Export relational mirror files with `uv run chronicle export-db-tables`.
+4. Optionally export `ledger.db` tables to JSONL with
+   `uv run chronicle export-db-tables`.
 5. Publish derived build outputs to `ledger-derived`:
 
    ```bash
@@ -144,21 +150,14 @@ The intended flow is:
      --build-artifacts-out /tmp/chronicle-build-artifacts.jsonl
    ```
 
-6. Bulk-load or upsert accepted relational rows into Supabase/Postgres:
-
-   ```bash
-   uv run chronicle load-supabase-mirror \
-     --dir /tmp/chronicle-mirror \
-     --build-artifacts /tmp/chronicle-build-artifacts.jsonl
-   ```
-
-The Supabase project must have the checked migration applied and the `chronicle`
-schema exposed in PostgREST/Data API settings before the REST loader can write
-to it. Use `--dry-run` to verify local JSONL files without writing.
+There is no hosted load step. Readers fetch `ledger.db` from `ledger-derived`
+or build the consumer-fact export (`uv run chronicle build-consumer-artifact`).
 
 ## Non-Goals
 
-Supabase should not store large raw binary artifacts. It should point to R2.
+A hosted relational mirror, if one is ever reintroduced, should not store raw
+binary artifacts. It should point to R2. The conditions for reintroducing one
+are in `docs/supabase-mirror-retirement.md`.
 
 Chronicle should not store raw survey or administrative microdata. It reflects
 government statistics releases and the provenance needed to audit those

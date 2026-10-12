@@ -72,10 +72,9 @@ def test__given_chronicle_target_import_path__then_it_reexports_target_contracts
 
 def test__given_public_chronicle_namespaces__then_core_helpers_are_importable() -> None:
     from policyengine_chronicle.normalization import convert_units
-    from policyengine_chronicle.sources import SourceFile, query_sources
+    from policyengine_chronicle.sources import SourceFile
 
     assert SourceFile is not None
-    assert query_sources is not None
     assert convert_units is not None
 
 
