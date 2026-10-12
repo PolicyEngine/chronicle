@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 import pytest
+import yaml
 
 
 FORBIDDEN_PACKAGE_ROOTS = {"calibration", "micro"}
@@ -118,33 +119,37 @@ def test_load_cli_no_longer_accepts_retired_uk_legacy_etl_sources():
     assert '"hmrc",' not in cli_source
 
 
-# Legacy US loaders that wrote invented values under IRS source URLs, keyed by
-# module name, with the `chronicle load` source each one answered to.
-RETIRED_US_SOI_LEGACY_ETLS = {
+# Legacy US loaders retired because their hand-typed values do not trace to
+# publisher bytes, keyed by module name, with the `chronicle load` source each
+# one answered to.
+RETIRED_US_LEGACY_ETLS = {
     "etl_soi_state": "soi-state",
     "etl_soi_credits": "soi-credits",
     "etl_soi_deductions": "soi-deductions",
     "etl_soi_income_sources": "soi-income-sources",
+    "etl_aca_enrollment": "aca",
+    "etl_bls": "bls",
+    "etl_cbo": "cbo",
+    "etl_census": "census",
+    "etl_cps": "cps",
+    "etl_medicaid": "medicaid",
+    "etl_ssa": "ssa",
+    "etl_ssi": "ssi",
 }
-RETIRED_US_SOI_LOADERS = (
-    "load_soi_state_targets",
-    "load_soi_credits_targets",
-    "load_soi_deductions_targets",
-    "load_soi_income_sources_targets",
-)
+PACKAGE_BACKED_US_LOADERS = ["load_snap_targets", "load_soi_targets"]
 
 
-def test_retired_us_soi_legacy_etl_modules_are_not_shipped():
+def test_retired_us_legacy_etl_modules_are_not_shipped():
     repo_root = Path(__file__).resolve().parents[1]
 
-    for module in RETIRED_US_SOI_LEGACY_ETLS:
+    for module in RETIRED_US_LEGACY_ETLS:
         assert not (repo_root / "db" / f"{module}.py").exists()
         assert not (repo_root / "tests" / f"test_{module}.py").exists()
         assert importlib.util.find_spec(f"db.{module}") is None
 
 
-@pytest.mark.parametrize("source", sorted(RETIRED_US_SOI_LEGACY_ETLS.values()))
-def test_load_cli_rejects_retired_us_soi_legacy_sources(monkeypatch, capsys, source):
+@pytest.mark.parametrize("source", sorted(RETIRED_US_LEGACY_ETLS.values()))
+def test_load_cli_rejects_retired_us_legacy_sources(monkeypatch, capsys, source):
     from db import cli
 
     monkeypatch.setattr(sys, "argv", ["chronicle", "load", source])
@@ -155,19 +160,57 @@ def test_load_cli_rejects_retired_us_soi_legacy_sources(monkeypatch, capsys, sou
     assert "invalid choice" in capsys.readouterr().err
 
 
-def test_us_loader_reexports_drop_retired_soi_loaders():
+def test_us_loader_reexports_only_package_backed_loaders():
     import chronicle.jurisdictions.us as us_loaders
     import chronicle.targets.loaders as target_loaders
 
     for module in (target_loaders, us_loaders):
-        for name in RETIRED_US_SOI_LOADERS:
-            assert name not in module.__all__
-            assert not hasattr(module, name)
+        assert sorted(module.__all__) == PACKAGE_BACKED_US_LOADERS
+        assert all(callable(getattr(module, name)) for name in module.__all__)
+
+
+def test_every_legacy_target_row_traces_to_a_checksummed_publisher_file(tmp_path):
+    """`chronicle load all` writes only rows whose value file has a checksum."""
+    from sqlmodel import Session, select
+
+    from db.cli import cmd_load
+    from db.schema import DataSource, Target, get_engine
+
+    repo_root = Path(__file__).resolve().parents[1]
+    soi_files = set()
+    for table in ("table_1_1", "table_1_4"):
+        manifest_path = repo_root / "db" / "data" / "irs_soi" / table / "manifest.yaml"
+        for spec in yaml.safe_load(manifest_path.read_text())["files"].values():
+            if re.fullmatch(r"[0-9a-f]{64}", spec.get("sha256", "")):
+                soi_files.add(spec["source_url"])
+    db_path = tmp_path / "targets.db"
+    cmd_load(type("Args", (), {"db": str(db_path), "source": "all", "years": None}))
+
+    with Session(get_engine(db_path)) as session:
+        rows = session.exec(select(Target)).all()
+
+    by_source = {source: 0 for source in (DataSource.IRS_SOI, DataSource.USDA_SNAP)}
+    untraced = []
+    for row in rows:
+        if row.source == DataSource.IRS_SOI and row.source_url in soi_files:
+            by_source[row.source] += 1
+        elif row.source == DataSource.USDA_SNAP and re.search(
+            r"sha256=[0-9a-f]{64}", row.notes or ""
+        ):
+            by_source[row.source] += 1
+        else:
+            untraced.append((row.source, row.variable, row.period, row.source_url))
+
+    assert untraced == []
+    assert all(count > 0 for count in by_source.values())
 
 
 def test_us_legacy_etl_cleanup_doc_accounts_for_retired_series():
     repo_root = Path(__file__).resolve().parents[1]
     doc = (repo_root / "docs" / "us-legacy-etl-cleanup.md").read_text()
+
+    for module in RETIRED_US_LEGACY_ETLS:
+        assert f"`db/{module}.py`" in doc
 
     required_entries = [
         "`db/etl_soi_state.py` `tax_unit_count`, `adjusted_gross_income` (state)",
@@ -189,14 +232,16 @@ def test_us_legacy_etl_cleanup_doc_accounts_for_retired_series():
     for entry in required_entries:
         assert entry in doc
 
-    # Every replacement the table names is a package Chronicle ships.
+    # Every replacement the tables name is a package Chronicle ships.
     package_ids = {
         line.split(":", 1)[1].strip()
         for path in (repo_root / "packages").rglob("source_package.yaml")
         for line in path.read_text().splitlines()
         if line.startswith("package_id:")
     }
-    named = set(re.findall(r"`(soi-[a-z0-9-]+)`", doc))
+    named = set(
+        re.findall(r"`((?:soi|cms|census|ssa|cbo|usda|kff)-[a-z0-9-]+)`", doc)
+    ) - set(RETIRED_US_LEGACY_ETLS.values())
     assert named
     assert named <= package_ids
 
@@ -204,7 +249,7 @@ def test_us_legacy_etl_cleanup_doc_accounts_for_retired_series():
 # Words the retired loaders used to label values they made up. A legacy loader
 # that needs one of them is writing a number no publisher printed.
 INVENTED_VALUE_MARKERS = re.compile(
-    r"\b(representative|synthetic|scaled|placeholder|illustrative)\b",
+    r"\b(representative|synthetic|scaled|placeholder|illustrative|approximately)\b",
     re.IGNORECASE,
 )
 

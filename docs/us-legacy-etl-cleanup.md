@@ -2,23 +2,51 @@
 
 Chronicle's rule is that every fact value traces to a publisher
 (`AGENTS.md`). The legacy loaders in `db/etl_*.py` predate the source-package
-architecture: they write hand-typed numbers into the SQLite `targets` table
-through `chronicle load <source>`. `docs/adr-chronicle-fact-identity-v2.md`
-("Legacy Migration") treats those rows as compatibility inputs, not production
-facts. This page records the audit of the US loaders and what happened to each
+architecture and write rows into the SQLite `targets` table through
+`chronicle load <source>`. `docs/adr-chronicle-fact-identity-v2.md` ("Legacy
+Migration") treats those rows as compatibility inputs, not production facts.
+This page records the audit of the 14 US loaders and what happened to each
 series, in the same form as the UK "Legacy ETL cleanup" table in
 `docs/pe-uk-source-checklist.md` (chronicle#135).
+
+| Loader | Outcome | Why |
+|---|---|---|
+| `db/etl_soi.py` | kept | Parses the IRS Table 1.1 and 1.4 workbooks committed under `db/data/irs_soi/`, checks each against its manifest sha256, and cites the exact `.xls` file on every row. |
+| `db/etl_snap.py` | kept | Reads the `usda-snap-fy69-to-current` source package (chronicle#81); every row carries the file, vintage and sha256. |
+| `db/etl_soi_state.py`, `db/etl_soi_credits.py`, `db/etl_soi_deductions.py`, `db/etl_soi_income_sources.py` | retired | Invented values presented as IRS figures (below). |
+| `db/etl_aca_enrollment.py`, `db/etl_bls.py`, `db/etl_cbo.py`, `db/etl_census.py`, `db/etl_cps.py`, `db/etl_medicaid.py`, `db/etl_ssa.py`, `db/etl_ssi.py` | retired | Hand-typed values with landing-page URLs and no artifact; each module mixes transcribed, rounded, computed and invented numbers (below). |
+
+A boundary test (`tests/test_chronicle_boundaries.py`) now runs `chronicle load
+all` and requires every row it writes to cite a checksummed IRS file or carry a
+source sha256, and rejects the words the retired loaders used to label invented
+values.
+
+## Consumers
+
+Nothing outside Chronicle read these rows. Inside Chronicle the loaders were
+reached only through `db/cli.py` (`chronicle load <source>`, and `load all`,
+which CI's surface job runs), the re-exports in `chronicle/targets/loaders.py`
+and `chronicle/jurisdictions/us/__init__.py`, and their own tests. The legacy
+`targets` table is not part of the source-package bundle, the consumer-fact
+export or the hosted mirror (`chronicle/mirror.py` exports only the
+source-package tables), so no Microcosm pin carried these values. A search of
+the main branch of every local PolicyEngine, Axiom and CosilicoAI clone, and a
+GitHub code search of those organizations, found no other reader of the
+loaders, `chronicle.targets.loaders` or `chronicle.jurisdictions.us`.
 
 ## Retired: invented IRS SOI state values
 
 Four loaders presented invented numbers as IRS Statistics of Income figures,
 with IRS source URLs on every row. Their own comments said so, and the values
-do not match the IRS files for the years they claim.
+do not match the IRS files for the years they claim. On main,
+`chronicle load all` wrote 5,326 rows from them: 3,366 from `soi-state`, 306
+from `soi-credits`, 1,144 from `soi-income-sources` and 510 from
+`soi-deductions`.
 
 | Module | What its comments said | Rows it wrote |
 |---|---|---|
 | `db/etl_soi_state.py` | "Representative data for all 50 states + DC (2021 tax year)"; the AGI-band rows came from `_generate_agi_bracket_data`, "Generate synthetic AGI bracket distribution based on state totals ... approximate distribution patterns" | state returns, AGI and tax liability for 2020 and 2021, and the same three split into 10 AGI bands with one fixed share vector for every state |
-| `db/etl_soi_credits.py` | "Values scaled by state population and poverty rates"; the national by-children blocks: "Representative 2021 data (national distribution)" | state EITC, CTC and ACTC claims and amounts for 2021; national EITC, CTC and ACTC by number of children for 2021 |
+| `db/etl_soi_credits.py` | "Values scaled by state population and poverty rates"; the national by-children blocks: "Representative 2021 data (national distribution)" | state EITC, CTC and ACTC claims and amounts for 2021. Its national EITC, CTC and ACTC by-children loaders (`load_*_by_children_targets`) were called only from its own tests. |
 | `db/etl_soi_deductions.py` | "Representative data by state, scaled by population and income levels" | state SALT, mortgage interest, charitable, medical and QBI claims and amounts for 2021 |
 | `db/etl_soi_income_sources.py` | state block: "representative 2021 data scaled by state population and income levels"; national block: "Values are from 2021 tax year" | national and state returns and amounts for 11 income sources, 2021 |
 
@@ -66,17 +94,6 @@ counted 32,067,810. The retired tests pinned the invented levels: for example
 `tests/test_etl_soi_credits.py` asserted `20_000_000 < all_eitc_claims <
 30_000_000`, a range that excludes the published value.
 
-### Consumers
-
-Nothing outside Chronicle read these rows. Inside Chronicle the loaders were
-reached only through `db/cli.py` (`chronicle load soi-state | soi-credits |
-soi-income-sources | soi-deductions`, and `load all`, which CI's surface job
-runs), the re-exports in `chronicle/targets/loaders.py` and
-`chronicle/jurisdictions/us/__init__.py`, and their own tests. The legacy
-`targets` table is not part of the source-package bundle, the consumer-fact
-export or the hosted mirror (`chronicle/mirror.py` exports only the
-source-package tables), so no Microcosm pin carried these values.
-
 ### Where the publisher's values live
 
 | ETL series | Chronicle package and measures | Gap |
@@ -98,6 +115,43 @@ source-package tables), so no Microcosm pin carried these values.
 | `db/etl_soi_income_sources.py` `state_local_refunds_*` | — | Gap: HT2 publishes `N00700`/`A00700`, but no package selects it. |
 | `db/etl_soi_income_sources.py` `alimony_received_*` | national: `soi-table-1-4` `alimony_received_*` | Gap at state grain: no package carries state alimony. |
 
-The modules, their tests, the four `chronicle load` sources and the loader
-re-exports are deleted. `DataSource.IRS_SOI` stays: `db/etl_soi.py` still
-writes it and existing databases carry the string.
+## Retired: hand-typed values from other publishers
+
+These eight loaders cite a publisher landing page on every row but read no
+artifact. Checked against the publishers' own tables, each mixes transcribed
+numbers with rounded, computed and invented ones.
+
+| Module | Rows on main | Evidence |
+|---|---|---|
+| `db/etl_aca_enrollment.py` | 223 (OEP 2023-2025) | State plan selections match the CMS state-level OEP files Chronicle packages for 10 of 51 states in 2024 and in 2025, and the misses include digit runs (2024: WY 24,567 vs 42,293, AL 235,678 vs 386,195; 2025: AL 268,857 vs 477,838, TN 398,765 vs 642,867). Metal-level enrollment is computed by Chronicle as a two-digit share times total enrollment (`apply_share`), and national APTC recipients are written as "~92% of enrollees". |
+| `db/etl_census.py` | 120 (2021-2023) | The 18 national age groups are rounded to thousands except 85+, which carries the last three digits of the total population in every year (4,938,895 against 334,914,895) and in 2023 makes the groups sum exactly to it. State household counts are digit runs (CA 14,234,000, FL 8,765,000, NY 7,654,000). |
+| `db/etl_medicaid.py` | 93 (2021-2025) | In 2025, after the five largest states, the state totals descend in digit runs ( IL 2,987,000, OH 2,654,000, MI 2,456,000, NJ 1,987,000, AZ 1,876,000, WA 1,765,000, MA 1,654,000, VA 1,543,000). National child and adult enrollment are written as "48% of total" and "52% of total". |
+| `db/etl_ssa.py` | 30 (2021-2023) | The 2023 SSI rows disagree with SSA's Annual Statistical Supplement 2024 Table 7.A1 for December 2023 (aged 1,100,000 vs 1,160,789; blind 67,000 vs 63,886) and with `db/etl_ssi.py` for the same month (7,400,000 vs 7,425,331 recipients). The 2022 total benefits are $1,234,000,000,000. In each year the four beneficiary categories sum exactly to the total beneficiaries, while their benefits fall $78B to $130B short of total benefits. |
+| `db/etl_ssi.py` | 133 (2021-2023) | The December 2023 total of 7,425,331 recipients matches Table 7.A1, but the category counts do not (aged 1,160,608 vs 1,160,789; disabled 6,199,817 vs 6,200,656). Federal payments are labelled "# Approximately"; state payments are rounded to $50 million. |
+| `db/etl_bls.py` | 18 (2021-2023) | Levels are BLS annual averages rounded to 100,000, and some rates differ from the published averages: 2023 unemployment rate 3.7 against 3.6, and 2023 unemployed 6,200,000 against 6,079,917 (BLS API, series LNU03000000 and LNU04000000, mean of 12 months). Median weekly earnings were not checked. |
+| `db/etl_cps.py` | 63 (9 months, 2023-2025) | 8 of 27 monthly rates match BLS's seasonally adjusted series as published today. January 2023 unemployment is 3.9 against 3.5 (LNS14000000); September 2025 labor force is 168,600,000 against 171,261,000 (LNS11000000). |
+| `db/etl_cbo.py` | 110 (2024-2034) | Labelled CBO's February 2024 Budget and Economic Outlook, whose summary puts the fiscal 2024 deficit at $1.6 trillion, outlays at 23.1% of GDP and 2024 real growth at 1.5%. The module has $1,882B, 23.9% and 2.0%. |
+
+### Where the publisher's values live
+
+| ETL series | Chronicle package and measures | Gap |
+|---|---|---|
+| `db/etl_aca_enrollment.py` state and national plan selections, APTC recipients, average APTC | `cms-aca-oep-state-level` (2024 OEP), `cms-aca-oep-state-level-2022`, `cms-aca-oep-state-level-2025`: `marketplace_enrollment`, `aptc_recipients`, `average_monthly_aptc` by state; effectuated enrollment in `cms-aca-effectuated-enrollment-2022` and `kff-marketplace-effectuated-enrollment` | The 2023 OEP file is not packaged. |
+| `db/etl_aca_enrollment.py` average gross and net premium, CSR recipients | full-year effectuated enrollment, not open enrollment: `cms-aca-effectuated-enrollment-2022` `average_total_premium`, `average_premium_after_aptc`, `csr_enrollment` | Gap for the 2023-2025 open-enrollment periods. |
+| `db/etl_aca_enrollment.py` new enrollees, metal-level shares and enrollment | — | Gap: no package carries these. Metal-level enrollment computed from a share would not be a Chronicle fact in any case. |
+| `db/etl_census.py` national and state population, age groups | `census-pep-2024-national-age-sex`, `census-pep-2024-state-age-sex`, `census-pep-county-population-2024`, `census-population-projections-2023`; ACS age bands in `census-acs-s0101-national-age-2024`, `census-acs-s0101-state-age-2024`, `census-acs-s0101-congressional-district-age-2024` | The PEP packages carry 2024; estimates for 2021-2023 are not packaged. Broad age groups are consumer rollups of the single-year rows. |
+| `db/etl_census.py` household counts | `census-acs-s2201-congressional-district-snap-2024` (district households) | Gap: no national or state household-count package. |
+| `db/etl_medicaid.py` total, Medicaid and CHIP enrollment by state | `cms-medicaid-chip-monthly-enrollment-december-2024`, `cms-medicaid-chip-monthly-enrollment-dataset` (December 2025) | Earlier months and the August reference month are not packaged. |
+| `db/etl_medicaid.py` child and adult enrollment | `cms-medicaid-chip-monthly-enrollment-december-2024`, `cms-medicaid-chip-monthly-enrollment-dataset`: `medicaid_chip_child_enrollment`, `total_adult_medicaid_enrollment` by state | Earlier months are not packaged. |
+| `db/etl_medicaid.py` aged, disabled and expansion enrollment | — | Gap: no package carries these eligibility groups. |
+| `db/etl_ssa.py` OASDI beneficiaries, benefits and average benefits by type | `ssa-annual-statistical-supplement-2025` (calendar 2024 payments by program) | Gap: beneficiary counts and average benefits, and years before 2024. |
+| `db/etl_ssa.py` and `db/etl_ssi.py` SSI recipients and payments, national and by state | `ssa-ssi-table-7b1-2024` (recipients and payments by state and category), `ssa-ssi-monthly-statistics-2024-12`, `ssa-annual-statistical-supplement-2025` `ssi_payments` | Years before 2024 are not packaged. |
+| `db/etl_ssi.py` federal payment and state supplementation amounts | — | Gap: `ssa-ssi-monthly-statistics-2024-12` carries federal-payment recipients by age, not amounts. |
+| `db/etl_bls.py` and `db/etl_cps.py` labor force, employment, unemployment and their rates; median weekly earnings | — | Gap: no BLS package. |
+| `db/etl_cbo.py` GDP, revenue, outlays, deficit, debt, unemployment, CPI, 10-year rate, real growth, labor force | `cbo-individual-income-tax-receipts-2026-02`, `cbo-revenue-projections-income-by-source-2026-02` (February 2026 revenue projections) | Gap: the February 2024 vintage and every non-revenue series. |
+
+The 12 modules, their tests, their `chronicle load` sources and their
+re-exports are deleted. `db/etl_census.py`'s `load_congressional_district_targets`
+took caller-supplied values and was called only from
+`tests/test_congressional_districts.py`, which keeps its schema check.
+`DataSource` members stay: existing databases carry the strings.
