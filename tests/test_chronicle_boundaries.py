@@ -262,6 +262,31 @@ def _snap_provenance_note(fact, output_unit: str) -> str:
     )
 
 
+def _stratum_labels(fact, source: str) -> tuple[str, str, str]:
+    """The name, description and group a loader gives the stratum of this fact."""
+    if source == "irs-soi":
+        band = fact.source_record_id.split(".")[3]
+        if band == "all":
+            return (
+                "US All Filers",
+                "All individual income tax returns filed in the US",
+                "national",
+            )
+        return (
+            f"US Filers AGI {band}",
+            f"Tax filers with AGI in {band} bracket",
+            "agi_brackets",
+        )
+    if fact.geography.id == "0100000US":
+        return (
+            "US SNAP Recipients",
+            "All SNAP recipient households/individuals in the US",
+            "snap_national",
+        )
+    name = fact.geography.name
+    return f"{name} SNAP Recipients", f"SNAP recipients in {name}", "snap_states"
+
+
 def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
     """Return target rows that do not reproduce their own publisher cell.
 
@@ -273,8 +298,9 @@ def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
     source page and summary table, name the fact's source record and carry its
     sha256, and record every other lineage field (file, vintage, raw URI) as the
     fact does; IRS rows carry no notes. Each stratum must have the jurisdiction
-    the loader assigns that geography and sit directly under the loader's top
-    stratum. No row may add a margin of error, a preliminary flag or a geographic
+    the loader assigns that geography, the name, description and group the loader
+    gives it, and a definition hash that matches its constraints, and must sit
+    directly under the loader's top stratum, whose own parent is null. No row may add a margin of error, a preliminary flag or a geographic
     level the fact does not support, or repeat a cell another row carries.
     """
     from sqlmodel import Session, select
@@ -322,7 +348,11 @@ def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
             stratum.id: stratum for stratum in session.exec(select(Stratum)).all()
         }
         strata: dict[int, set] = {}
+        raw_constraints: dict[int, list] = {}
         for constraint in session.exec(select(StratumConstraint)).all():
+            raw_constraints.setdefault(constraint.stratum_id, []).append(
+                (constraint.variable, constraint.operator, constraint.value)
+            )
             strata.setdefault(constraint.stratum_id, set()).add(
                 (
                     constraint.variable,
@@ -402,7 +432,7 @@ def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
                 fact, SNAP_ROW_MEASURES[measure_key][1]
             )
         if stratum == top:
-            parent_ok = parent is None
+            parent_ok = row_stratum.parent_id is None
         else:
             parent_ok = (
                 parent is not None
@@ -417,6 +447,12 @@ def _legacy_rows_without_publisher_fact(db_path: Path) -> list[tuple]:
             or row.is_preliminary
             or row.geographic_level not in (None, "national" if national else "state")
             or row_stratum.jurisdiction != jurisdiction
+            or (row_stratum.name, row_stratum.description, row_stratum.stratum_group_id)
+            != _stratum_labels(fact, row.source)
+            or row_stratum.definition_hash
+            != Stratum.compute_hash(
+                raw_constraints.get(row.stratum_id, []), row_stratum.jurisdiction
+            )
             or not parent_ok
             or not notes_ok
         ):
@@ -548,6 +584,53 @@ PROVENANCE_MUTATIONS = {
         "where id = (select min(id) from targets where source = 'IRS_SOI')",
         1,
     ),
+    "national IRS stratum renamed": (
+        "update strata set name = 'Canada All Filers' where name = 'US All Filers'",
+        20,
+    ),
+    "national IRS stratum described as the UK": (
+        "update strata set description = "
+        "'All individual income tax returns filed in the UK' "
+        "where name = 'US All Filers'",
+        20,
+    ),
+    "national IRS stratum filed under the AGI-band group": (
+        "update strata set stratum_group_id = 'agi_brackets' "
+        "where name = 'US All Filers'",
+        20,
+    ),
+    "SNAP state strata filed under the national group": (
+        "update strata set stratum_group_id = 'snap_national' "
+        "where stratum_group_id = 'snap_states'",
+        159,
+    ),
+    # A dangling parent on a top stratum flags its rows and every row under it.
+    "national IRS stratum given a dangling parent": (
+        "update strata set parent_id = 999999 where name = 'US All Filers'",
+        400,
+    ),
+    "national SNAP stratum given a dangling parent": (
+        "update strata set parent_id = 999999 where name = 'US SNAP Recipients'",
+        162,
+    ),
+    "national IRS definition hash zeroed": (
+        "update strata set definition_hash = '0000000000000000' "
+        "where name = 'US All Filers'",
+        20,
+    ),
+    # Several statements, because the hash column is unique.
+    "national and one AGI-band definition hashes swapped": (
+        (
+            "create temp table saved as select name, definition_hash from strata "
+            "where name in ('US All Filers', 'US Filers AGI 50k_to_75k')",
+            "update strata set definition_hash = 'swapping' where name = 'US All Filers'",
+            "update strata set definition_hash = (select definition_hash from saved "
+            "where name = 'US All Filers') where name = 'US Filers AGI 50k_to_75k'",
+            "update strata set definition_hash = (select definition_hash from saved "
+            "where name = 'US Filers AGI 50k_to_75k') where name = 'US All Filers'",
+        ),
+        40,
+    ),
     "row from a retired source": (
         "insert into targets (stratum_id, variable, period, value, target_type, "
         "source, is_preliminary, created_at, updated_at) select stratum_id, "
@@ -566,10 +649,14 @@ def test_provenance_check_flags_rows_that_do_not_reproduce_their_cell(
     import sqlite3
 
     sql, expected = PROVENANCE_MUTATIONS[mutation]
+    statements = (sql,) if isinstance(sql, str) else sql
     mutated = tmp_path / "mutated.db"
     shutil.copy(loaded_legacy_db, mutated)
     with sqlite3.connect(mutated) as connection:
-        assert connection.execute(sql).rowcount >= 1
+        for statement in statements:
+            changed = connection.execute(statement).rowcount
+            if statement.startswith(("update", "insert")):
+                assert changed >= 1
 
     assert len(_legacy_rows_without_publisher_fact(mutated)) == expected
 
