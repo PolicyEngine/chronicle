@@ -9,10 +9,6 @@ from chronicle.targets.loaders import (
     load_medicaid_targets,
     load_snap_targets,
     load_soi_targets,
-    load_soi_credits_targets,
-    load_soi_deductions_targets,
-    load_soi_income_sources_targets,
-    load_soi_state_targets,
     load_ssa_targets,
     load_ssi_targets,
 )
@@ -26,10 +22,6 @@ __all__ = [
     "load_medicaid_targets",
     "load_snap_targets",
     "load_soi_targets",
-    "load_soi_credits_targets",
-    "load_soi_deductions_targets",
-    "load_soi_income_sources_targets",
-    "load_soi_state_targets",
     "load_ssa_targets",
     "load_ssi_targets",
 ]

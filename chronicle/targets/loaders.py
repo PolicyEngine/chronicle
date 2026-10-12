@@ -8,10 +8,6 @@ from db.etl_cps import load_cps_targets
 from db.etl_medicaid import load_medicaid_targets
 from db.etl_snap import load_snap_targets
 from db.etl_soi import load_soi_targets
-from db.etl_soi_credits import load_soi_credits_targets
-from db.etl_soi_deductions import load_soi_deductions_targets
-from db.etl_soi_income_sources import load_soi_income_sources_targets
-from db.etl_soi_state import load_soi_state_targets
 from db.etl_ssa import load_ssa_targets
 from db.etl_ssi import load_ssi_targets
 
@@ -24,10 +20,6 @@ __all__ = [
     "load_medicaid_targets",
     "load_snap_targets",
     "load_soi_targets",
-    "load_soi_credits_targets",
-    "load_soi_deductions_targets",
-    "load_soi_income_sources_targets",
-    "load_soi_state_targets",
     "load_ssa_targets",
     "load_ssi_targets",
 ]

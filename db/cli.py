@@ -37,40 +37,6 @@ def cmd_load(args):
             load_soi_targets(session, years=years)
             print(f"Loaded SOI targets for years: {years or 'all available'}")
 
-        if args.source == "soi-state" or args.source == "all":
-            from .etl_soi_state import load_soi_state_targets
-
-            years = [int(y) for y in args.years.split(",")] if args.years else None
-            load_soi_state_targets(session, years=years)
-            print(
-                f"Loaded state-level SOI targets for years: {years or 'all available'}"
-            )
-
-        if args.source == "soi-credits" or args.source == "all":
-            from .etl_soi_credits import load_soi_credits_targets
-
-            years = [int(y) for y in args.years.split(",")] if args.years else None
-            load_soi_credits_targets(session, years=years)
-            print(f"Loaded SOI credits targets for years: {years or 'all available'}")
-
-        if args.source == "soi-income-sources" or args.source == "all":
-            from .etl_soi_income_sources import load_soi_income_sources_targets
-
-            years = [int(y) for y in args.years.split(",")] if args.years else None
-            load_soi_income_sources_targets(session, years=years)
-            print(
-                f"Loaded SOI income sources targets for years: {years or 'all available'}"
-            )
-
-        if args.source == "soi-deductions" or args.source == "all":
-            from .etl_soi_deductions import load_soi_deductions_targets
-
-            years = [int(y) for y in args.years.split(",")] if args.years else None
-            load_soi_deductions_targets(session, years=years)
-            print(
-                f"Loaded SOI deductions targets for years: {years or 'all available'}"
-            )
-
         if args.source == "snap" or args.source == "all":
             from .etl_snap import load_snap_targets
 
@@ -302,10 +268,6 @@ def main():
         "source",
         choices=[
             "soi",
-            "soi-state",
-            "soi-credits",
-            "soi-income-sources",
-            "soi-deductions",
             "snap",
             "medicaid",
             "aca",

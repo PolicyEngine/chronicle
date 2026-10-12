@@ -3,7 +3,12 @@
 from __future__ import annotations
 
 import ast
+import importlib.util
+import re
+import sys
 from pathlib import Path
+
+import pytest
 
 
 FORBIDDEN_PACKAGE_ROOTS = {"calibration", "micro"}
@@ -111,3 +116,106 @@ def test_load_cli_no_longer_accepts_retired_uk_legacy_etl_sources():
     assert '"obr",' not in cli_source
     assert '"ons",' not in cli_source
     assert '"hmrc",' not in cli_source
+
+
+# Legacy US loaders that wrote invented values under IRS source URLs, keyed by
+# module name, with the `chronicle load` source each one answered to.
+RETIRED_US_SOI_LEGACY_ETLS = {
+    "etl_soi_state": "soi-state",
+    "etl_soi_credits": "soi-credits",
+    "etl_soi_deductions": "soi-deductions",
+    "etl_soi_income_sources": "soi-income-sources",
+}
+RETIRED_US_SOI_LOADERS = (
+    "load_soi_state_targets",
+    "load_soi_credits_targets",
+    "load_soi_deductions_targets",
+    "load_soi_income_sources_targets",
+)
+
+
+def test_retired_us_soi_legacy_etl_modules_are_not_shipped():
+    repo_root = Path(__file__).resolve().parents[1]
+
+    for module in RETIRED_US_SOI_LEGACY_ETLS:
+        assert not (repo_root / "db" / f"{module}.py").exists()
+        assert not (repo_root / "tests" / f"test_{module}.py").exists()
+        assert importlib.util.find_spec(f"db.{module}") is None
+
+
+@pytest.mark.parametrize("source", sorted(RETIRED_US_SOI_LEGACY_ETLS.values()))
+def test_load_cli_rejects_retired_us_soi_legacy_sources(monkeypatch, capsys, source):
+    from db import cli
+
+    monkeypatch.setattr(sys, "argv", ["chronicle", "load", source])
+    with pytest.raises(SystemExit) as excinfo:
+        cli.main()
+
+    assert excinfo.value.code == 2
+    assert "invalid choice" in capsys.readouterr().err
+
+
+def test_us_loader_reexports_drop_retired_soi_loaders():
+    import chronicle.jurisdictions.us as us_loaders
+    import chronicle.targets.loaders as target_loaders
+
+    for module in (target_loaders, us_loaders):
+        for name in RETIRED_US_SOI_LOADERS:
+            assert name not in module.__all__
+            assert not hasattr(module, name)
+
+
+def test_us_legacy_etl_cleanup_doc_accounts_for_retired_series():
+    repo_root = Path(__file__).resolve().parents[1]
+    doc = (repo_root / "docs" / "us-legacy-etl-cleanup.md").read_text()
+
+    required_entries = [
+        "`db/etl_soi_state.py` `tax_unit_count`, `adjusted_gross_income` (state)",
+        "`db/etl_soi_state.py` `income_tax_liability` (state)",
+        "`db/etl_soi_state.py` AGI-band rows",
+        "`db/etl_soi_credits.py` `eitc_claims`, `eitc_amount` (state)",
+        "`db/etl_soi_credits.py` `ctc_claims`, `ctc_amount`, `actc_claims`, `actc_amount` (state)",
+        "`db/etl_soi_credits.py` EITC by number of children (national)",
+        "`db/etl_soi_credits.py` CTC and ACTC by number of children (national)",
+        "`db/etl_soi_deductions.py` `salt_claims`, `salt_amount` (state)",
+        "`db/etl_soi_deductions.py` `mortgage_interest_claims`, `mortgage_interest_amount` (state)",
+        "`db/etl_soi_deductions.py` `charitable_claims`, `charitable_amount` (state)",
+        "`db/etl_soi_deductions.py` `medical_claims`, `medical_amount` (state)",
+        "`db/etl_soi_deductions.py` `qbi_claims`, `qbi_amount` (state)",
+        "`db/etl_soi_income_sources.py` `short_term_capital_gains_*`, `long_term_capital_gains_*`",
+        "`db/etl_soi_income_sources.py` `state_local_refunds_*`",
+        "`db/etl_soi_income_sources.py` `alimony_received_*`",
+    ]
+    for entry in required_entries:
+        assert entry in doc
+
+    # Every replacement the table names is a package Chronicle ships.
+    package_ids = {
+        line.split(":", 1)[1].strip()
+        for path in (repo_root / "packages").rglob("source_package.yaml")
+        for line in path.read_text().splitlines()
+        if line.startswith("package_id:")
+    }
+    named = set(re.findall(r"`(soi-[a-z0-9-]+)`", doc))
+    assert named
+    assert named <= package_ids
+
+
+# Words the retired loaders used to label values they made up. A legacy loader
+# that needs one of them is writing a number no publisher printed.
+INVENTED_VALUE_MARKERS = re.compile(
+    r"\b(representative|synthetic|scaled|placeholder|illustrative)\b",
+    re.IGNORECASE,
+)
+
+
+def test_remaining_legacy_etl_modules_carry_no_invented_value_markers():
+    db_root = Path(__file__).resolve().parents[1] / "db"
+    violations = [
+        f"{path.name}:{lineno}: {line.strip()}"
+        for path in sorted(db_root.glob("etl_*.py"))
+        for lineno, line in enumerate(path.read_text().splitlines(), start=1)
+        if INVENTED_VALUE_MARKERS.search(line)
+    ]
+
+    assert violations == []
