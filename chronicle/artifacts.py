@@ -1019,8 +1019,9 @@ def _is_missing_object_diagnostic(stderr: str) -> bool:
     Colour codes are removed first, because Wrangler wraps words in them. A
     marker counts only as a whole phrase, and only on a line that holds nothing
     but markers (such as ``NoSuchKey: specified key does not exist``) or is an
-    error line, so unrelated text that merely mentions a marker stays a fetch
-    error.
+    error line. A marker on a line that reports no error stays a fetch error,
+    but an error line that merely mentions a marker still counts as missing:
+    both are failures, so neither can produce ``verified``.
     """
     for raw_line in _ANSI_ESCAPE.sub("", stderr).lower().splitlines():
         line = " ".join(raw_line.split())

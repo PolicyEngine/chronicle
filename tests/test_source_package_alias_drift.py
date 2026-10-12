@@ -113,6 +113,71 @@ def test_discover_source_package_dirs_scans_given_root(tmp_path):
     assert discovered == {"alpha/one", "beta/two"}
 
 
+def test_discover_source_package_dirs_finds_nested_members(tmp_path):
+    """A package family's nested members are discovered alongside its root."""
+    _write_package(tmp_path, "alpha/family")
+    _write_package(tmp_path, "alpha/family/rc_01")
+    _write_package(tmp_path, "alpha/family/rc_02")
+
+    discovered = {str(path) for path in discover_source_package_dirs(root=tmp_path)}
+    assert discovered == {"alpha/family", "alpha/family/rc_01", "alpha/family/rc_02"}
+
+
+def test_find_alias_map_drift_flags_an_unmapped_nested_member(tmp_path):
+    """Dropping a nested member's alias is reported, not silently skipped."""
+    _write_package(tmp_path, "alpha/family")
+    _write_package(tmp_path, "alpha/family/rc_01")
+    aliases = {"alpha-family": type(tmp_path)("alpha/family")}
+
+    missing_dirs, unmapped_dirs = find_alias_map_drift(root=tmp_path, aliases=aliases)
+
+    assert missing_dirs == []
+    assert [str(path) for path in unmapped_dirs] == ["alpha/family/rc_01"]
+
+
+def test_discover_source_package_dirs_follows_symlinked_packages(tmp_path):
+    """A symlinked package or family is found under its link path, nested members included."""
+    root = tmp_path / "packages"
+    outside = tmp_path / "outside"
+    _write_package(outside, "linked_package")
+    _write_package(outside, "linked_family/rc_01")
+    (root / "alpha").mkdir(parents=True)
+    (root / "alpha" / "linked").symlink_to(
+        outside / "linked_package", target_is_directory=True
+    )
+    (root / "beta").symlink_to(outside / "linked_family", target_is_directory=True)
+
+    discovered = {str(path) for path in discover_source_package_dirs(root=root)}
+    assert discovered == {"alpha/linked", "beta/rc_01"}
+
+    missing_dirs, unmapped_dirs = find_alias_map_drift(root=root, aliases={})
+    assert missing_dirs == []
+    assert [str(path) for path in unmapped_dirs] == ["alpha/linked", "beta/rc_01"]
+
+
+def test_discover_source_package_dirs_reports_each_link_to_one_package(tmp_path):
+    """A directory and a link to it are separate discoveries, as under the old glob."""
+    _write_package(tmp_path, "alpha/real")
+    (tmp_path / "beta").mkdir()
+    (tmp_path / "beta" / "alias").symlink_to(
+        tmp_path / "alpha" / "real", target_is_directory=True
+    )
+
+    discovered = {str(path) for path in discover_source_package_dirs(root=tmp_path)}
+    assert discovered == {"alpha/real", "beta/alias"}
+
+
+def test_discover_source_package_dirs_stops_at_a_symlink_cycle(tmp_path):
+    """A link back into its own ancestry ends the walk instead of recursing forever."""
+    _write_package(tmp_path, "alpha/family")
+    (tmp_path / "alpha" / "family" / "loop").symlink_to(
+        tmp_path / "alpha", target_is_directory=True
+    )
+
+    discovered = {str(path) for path in discover_source_package_dirs(root=tmp_path)}
+    assert discovered == {"alpha/family"}
+
+
 def test_find_alias_map_drift_flags_unmapped_directory(tmp_path):
     """An on-disk package with no alias entry is reported as unmapped."""
     _write_package(tmp_path, "alpha/mapped")

@@ -2419,19 +2419,34 @@ def source_package_root() -> Path:
 
 
 def discover_source_package_dirs(root: Path | None = None) -> list[Path]:
-    """Discover ``<source>/<package>`` directories under a packages root.
+    """Discover every directory holding a source package under a packages root.
 
     Returns repo-relative package paths (e.g. ``usda_snap/fy69_to_current``),
-    matching the shape of the alias-map values, sorted for determinism. This
-    is the authoring surface a complete bundle must cover.
+    matching the shape of the alias-map values, sorted for determinism. Nested
+    members (e.g. ``stats_nz/census_2023_family_type/rc_01``) are found too, so
+    the alias-drift guard sees every package a bundle could build. This is the
+    authoring surface a complete bundle must cover.
+
+    Symlinked directories are followed at every depth and reported under their
+    link path, as the earlier two-level glob did at its two levels;
+    ``Path.rglob`` does not follow them by default. Only a link back into its
+    own ancestry is not entered, so a cycle ends the walk instead of recursing
+    forever.
     """
     packages_root = root if root is not None else source_package_root()
     if not packages_root.exists():
         return []
-    discovered = {
-        manifest.parent.relative_to(packages_root)
-        for manifest in packages_root.glob(f"*/*/{SOURCE_PACKAGE_FILENAME}")
-    }
+    discovered: set[Path] = set()
+    ancestry: dict[str, frozenset[str]] = {}
+    for dirpath, dirnames, filenames in os.walk(packages_root, followlinks=True):
+        real = os.path.realpath(dirpath)
+        above = ancestry.get(os.path.dirname(dirpath), frozenset())
+        if real in above:
+            dirnames[:] = []
+            continue
+        ancestry[dirpath] = above | {real}
+        if SOURCE_PACKAGE_FILENAME in filenames:
+            discovered.add(Path(dirpath).relative_to(packages_root))
     return sorted(discovered, key=str)
 
 
