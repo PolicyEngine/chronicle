@@ -51,14 +51,26 @@ def _shipped_roots() -> list[Path]:
     return [REPO_ROOT / name for name in (*packages, "scripts")]
 
 
-def _imported_modules(tree: ast.AST) -> set[str]:
+def _package_of(path: Path) -> str:
+    """Dotted package a module at `path` belongs to, for resolving `from .x`."""
+    relative = path.relative_to(REPO_ROOT).with_suffix("")
+    return ".".join(relative.parts[:-1])
+
+
+def _imported_modules(tree: ast.AST, package: str) -> set[str]:
     modules = set()
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             modules.update(alias.name for alias in node.names)
-        elif isinstance(node, ast.ImportFrom) and node.module and not node.level:
-            modules.add(node.module)
-            modules.update(f"{node.module}.{alias.name}" for alias in node.names)
+        elif isinstance(node, ast.ImportFrom):
+            name = node.module or ""
+            if node.level:
+                try:
+                    name = importlib.util.resolve_name("." * node.level + name, package)
+                except ImportError:
+                    continue
+            modules.add(name)
+            modules.update(f"{name}.{alias.name}" for alias in node.names)
     return modules
 
 
@@ -125,29 +137,35 @@ def test_supabase_client_is_reached_only_from_legacy_target_helpers():
     for root in _shipped_roots():
         for path in sorted(root.rglob("*.py")):
             tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
-            if _imports_supabase(_imported_modules(tree)):
+            if _imports_supabase(_imported_modules(tree, _package_of(path))):
                 importers.add(path.relative_to(REPO_ROOT).as_posix())
 
     assert importers <= SUPABASE_CLIENT_IMPORTERS
 
 
 @pytest.mark.parametrize(
-    ("source", "expected"),
+    ("source", "package", "expected"),
     [
-        ("from supabase import create_client", True),
-        ("import supabase", True),
-        ("import supabase.client as sc", True),
-        ("from db.supabase_client import get_supabase_client", True),
-        ("from db import supabase_client", True),
-        ("from chronicle.client import get_supabase_client", True),
-        ("def load():\n    from supabase import Client\n", True),
-        ("from chronicle.sources import SourceFile", False),
-        ("from .client import helper", False),
-        ("supabase = 'a string, not an import'", False),
+        ("from supabase import create_client", "chronicle", True),
+        ("import supabase", "chronicle", True),
+        ("import supabase.client as sc", "chronicle", True),
+        ("from db.supabase_client import get_supabase_client", "chronicle", True),
+        ("from db import supabase_client", "chronicle", True),
+        ("from chronicle.client import get_supabase_client", "packages", True),
+        ("def load():\n    from supabase import Client\n", "db", True),
+        ("from .supabase_client import get_supabase_client", "db", True),
+        ("from . import supabase_client", "db", True),
+        ("from ..client import get_supabase_client", "chronicle.targets", True),
+        ("from .client import get_supabase_client", "chronicle", True),
+        ("from .client import helper", "chronicle.sources", False),
+        ("from chronicle.sources import SourceFile", "chronicle", False),
+        ("supabase = 'a string, not an import'", "chronicle", False),
     ],
 )
-def test_supabase_import_detection(source, expected):
-    assert _imports_supabase(_imported_modules(ast.parse(source))) is expected
+def test_supabase_import_detection(source, package, expected):
+    modules = _imported_modules(ast.parse(source), package)
+
+    assert _imports_supabase(modules) is expected
 
 
 def _surface_files():

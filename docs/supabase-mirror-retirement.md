@@ -76,8 +76,8 @@ repository's `POLICYENGINE_SUPABASE_URL` variable names.
    of read: the owner role's verification queries on the load day and one audit
    count on 2026-10-12. No application role (`anon`, `authenticated`,
    `service_role`) has ever read them, and no view or function depends on them.
-   The API edge log keeps 90 days (2026-07-15 to 2026-10-12). In that window the
-   Data API received 22 requests in all: 8 for `rules`, 11 for
+   Retained API edge logs start on 2026-07-15. From then to 2026-10-12 the Data
+   API received 22 requests in all: 8 for `rules`, 11 for
    `credit_packages`, and 3 from the audit itself, one of them to `sources`.
    None asked for a mirror table.
 4. **No code consumer.** The search covered:
@@ -85,13 +85,16 @@ repository's `POLICYENGINE_SUPABASE_URL` variable names.
      top level and in the worktree folders of the PolicyEngine,
      TheAxiomFoundation, CosilicoAI and ThesisInstitute directories;
    - 246 organization repositories with no local clone, archived ones included;
-   - non-default branches updated since December 2025 in 394 repositories;
+   - non-default branches updated since December 2025 in 392 repositories,
+     plus all 424 branch tips of `axiom-corpus`, which failed to fetch and was
+     scanned from its local clone instead;
    - GitHub code search of those organizations and the MaxGhenis account.
 
    The retired names appear only in Chronicle itself: its branches and its
-   clones, including one under its previous name, `arch-data`. The other hits
-   are archived Cosilico-era repositories that read the `microplex` tables
-   directly or a local SQLite file. No workflow runs the loader, and no workflow
+   clones, including one under an earlier name, `arch-data`. The other matches
+   use the same project for unrelated schemas (`rules` and the law archive,
+   `microplex`, app tables) or read a local SQLite file; none reads the mirror
+   or calls `query_sources`. No workflow runs the loader, and no workflow
    reads the repository's Supabase variable or secret.
 
 Fixing the path would have meant creating a schema and thirteen tables in a
