@@ -1,7 +1,6 @@
 """
 Database layer for Chronicle source facts and target inputs.
 
-Supports two backends:
-- SQLite (local development via SQLModel)
-- Supabase (production via supabase-py)
+Tables live in local SQLite via SQLModel. There is no hosted production backend;
+see docs/storage-architecture.md.
 """

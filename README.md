@@ -67,8 +67,9 @@ contract that aligns it to another period (see
 The storage split is documented in
 [`docs/storage-architecture.md`](docs/storage-architecture.md): `ledger-raw`
 stores immutable source bytes, `ledger-derived` stores reproducible build
-artifacts, and Supabase/Postgres hosts the queryable relational Chronicle registry
-mirrored from accepted builds.
+artifacts, and each build's SQLite `ledger.db` is the queryable relational
+artifact. There is no hosted relational mirror
+([`docs/supabase-mirror-retirement.md`](docs/supabase-mirror-retirement.md)).
 
 ## Repository Model
 
@@ -441,7 +442,7 @@ include `--upload-r2`; semantic target work still requires a package to pass
 publisher-source lookup clues; they should not become canonical Chronicle source
 artifacts or target provenance.
 
-R2 owns the immutable bytes. Chronicle manifests and Supabase/Postgres mirrors own
+R2 owns the immutable bytes. Chronicle manifests and the `ledger.db` artifact own
 metadata such as source URL, checksum, size, vintage, extraction date, and R2
 key. Source-package parsers still read deterministic local/package resources,
 so builds remain reproducible without making hosted storage the source of
@@ -454,8 +455,8 @@ uv run chronicle build-suite soi-table-1-4 --year 2023 --out /tmp/chronicle-suit
 uv run chronicle build-suite packages/irs_soi/table_1_4 --year 2023 --out /tmp/chronicle-suite-1-4 --replace
 ```
 
-To prepare the deterministic SQLite artifact for a hosted Supabase/Postgres
-mirror, export each relational table to JSONL plus a manifest:
+To load the deterministic SQLite artifact into another store, export each
+relational table to JSONL plus a checksummed manifest:
 
 ```bash
 uv run chronicle export-db-tables --db /tmp/chronicle-suite/ledger.db --out /tmp/chronicle-mirror --replace
@@ -472,22 +473,10 @@ uv run chronicle publish-derived \
   --build-artifacts-out /tmp/chronicle-build-artifacts.jsonl
 ```
 
-The Supabase schema for this mirror lives at
-`supabase/migrations/20260504_chronicle_bronze.sql`. Raw government spreadsheets are
-mirrored as artifact metadata plus one row per parsed cell, not one tidy table
-per sheet. Chronicle does not host raw survey microdata tables.
-
-After the migration is applied and the `chronicle` schema is exposed through the
-Supabase Data API, accepted mirror exports can be upserted with:
-
-```bash
-uv run chronicle load-supabase-mirror \
-  --dir /tmp/chronicle-mirror \
-  --build-artifacts /tmp/chronicle-build-artifacts.jsonl
-```
-
-Use `--dry-run` first to validate JSONL row counts and file coverage without
-writing to Supabase.
+Raw government spreadsheets are stored as artifact metadata plus one row per
+parsed cell, not one tidy table per sheet. Chronicle does not host raw survey
+microdata tables. There is no hosted load step: the Supabase mirror loader was
+retired (see `docs/supabase-mirror-retirement.md`).
 
 Chronicle facts keep source concepts and canonical concepts separately. For example,
 the SOI Table 1.1 adjusted gross income column is preserved as

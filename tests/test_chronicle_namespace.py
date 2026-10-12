@@ -9,7 +9,6 @@ from chronicle.targets import (
 )
 from db.schema import Target as DbTarget
 from db.supabase_client import (
-    LEDGER_SCHEMA,
     TARGETS_SCHEMA,
     query_targets as db_query_targets,
 )
@@ -29,7 +28,6 @@ def test_chronicle_client_reexports_supabase_client():
 
 
 def test_chronicle_supabase_schema_boundaries_are_defaulted():
-    assert LEDGER_SCHEMA == "ledger"
     assert TARGETS_SCHEMA == "targets"
 
 
