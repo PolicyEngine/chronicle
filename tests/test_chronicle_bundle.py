@@ -388,8 +388,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # states), eight at each state geography. The district file's state-total
     # rows publish lines 8a and 14 under the same concepts, so 51 states x four
     # measures add 204 semantic duplicate keys. Measured with the 20 IRS SOI
-    # packages at bundle year 2023 against the parent commit: no new geography,
-    # period or entity keys and no new warnings.
+    # packages at bundle year 2023, with and without these measures: no new
+    # geography, period or entity keys and no new warnings.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,

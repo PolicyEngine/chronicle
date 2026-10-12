@@ -816,23 +816,30 @@ def test_schedule_a_lines_shared_across_grains_carry_table_2_1_ids():
             } <= readers[variable], variable
 
 
-# Columns no geographic package selected until the state packages read them.
-# One IRS variable carries one measure id, concept and label in every package,
-# so a later vintage or a district selection cannot fork the identity.
+# Columns that only Historic Table 2's state packages read. One IRS variable
+# carries one measure id, concept and label in every package that reads it, so
+# a later vintage or a district selection cannot fork the identity.
 STATE_ONLY_COLUMNS = {
     "N00700": (
         "taxable_state_local_income_tax_refunds_returns",
         "irs_soi.returns_with_taxable_state_local_income_tax_refunds",
+        "Returns with taxable refunds of state and local income taxes",
     ),
     "A00700": (
         "taxable_state_local_income_tax_refunds_amount",
         "irs_soi.taxable_state_local_income_tax_refunds",
+        "Taxable refunds of state and local income taxes",
     ),
     "N18300": (
         "taxes_paid_deduction_returns",
         "irs_soi.returns_with_taxes_paid_deduction",
+        "Returns with taxes paid deduction",
     ),
-    "A18300": ("taxes_paid_deduction_amount", "irs_soi.taxes_paid_deduction"),
+    "A18300": (
+        "taxes_paid_deduction_amount",
+        "irs_soi.taxes_paid_deduction",
+        "Taxes paid deduction amount",
+    ),
 }
 
 
@@ -842,12 +849,15 @@ def test_state_only_columns_keep_one_identity():
         if read.header not in STATE_ONLY_COLUMNS:
             continue
         where = f"{read.package_dir}:{read.measure_id} ({read.header})"
-        assert (read.measure_id, read.concept) == STATE_ONLY_COLUMNS[read.header], where
+        assert (read.measure_id, read.concept, read.label) == STATE_ONLY_COLUMNS[
+            read.header
+        ], where
         seen[read.header].add(read.package_dir)
 
-    assert {header: sorted(dirs) for header, dirs in seen.items()} == {
-        header: ["historic_table_2_state_broad_2022"] for header in STATE_ONLY_COLUMNS
-    }
+    # Further readers (a TY2023 twin, a district selection) are welcome once
+    # they pass the identity check above.
+    for header in STATE_ONLY_COLUMNS:
+        assert "historic_table_2_state_broad_2022" in seen[header], header
 
 
 @cache
