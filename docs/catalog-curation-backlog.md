@@ -1,26 +1,54 @@
 # Catalog curation backlog
 
-These series lineages remain split because the catalog builder scopes
-concept and alias inheritance to an exact geography and entity slice.
-Curating an alias cannot move an observation across entity keys, and the
-catalog must not lose observations merely to present one lineage.
+## Entity-drift families: folded 2026-10-12
 
-On 2026-08-07, a disposable-copy experiment attempted each entity-drift
-fold by deleting the unpinned row and adding its canonical concept to the
-docket-pinned row. Regeneration restored both rows and produced a catalog
-and UUID registry byte-identical to the originals: all seven pairs still
-held one observation on each entity. They must remain split until the
-upstream observation metadata is corrected.
+Seven series each held two observed lineages because their hand-recorded
+May 2026 rows carry a bespoke entity while every resolver print carries
+`economy/aggregate`, the default entity the Thesis resolver writes. The
+catalog builder scopes concept and alias inheritance to one geography and
+entity slice, so curating an alias could not join them: on 2026-08-07 a
+disposable-copy experiment deleted the unpinned row and aliased its concept
+on the docket-pinned row, and regeneration restored both rows byte for
+byte. The same experiment was repeated on 2026-09-22 with the same result.
 
-| Concept | Docket-pinned entity and UUID | Other entity and UUID | Blocker |
-| --- | --- | --- | --- |
-| `bls.cpi.u.headline_mom` | `household/cpi_u_all_items`, `3e796803-a194-4c83-9dc9-27cc870ff08e` | `economy/aggregate`, `70ca2ecf-4323-4453-b42f-23350cb95f22` | May and June observations disagree on entity. |
-| `bls.cpi.u.core_mom` | `household/cpi_u_less_food_energy`, `d85c3c7f-874b-4caa-bfad-1ec7a473c293` | `economy/aggregate`, `e5e402d5-1a65-4c5d-a67a-07e3cf03cbf8` | May and June observations disagree on entity. |
-| `bls.cps.unemployment_rate` | `person/civilian_labor_force`, `8dbbd54f-4bfd-4735-ad0d-5b55b8bb4ec5` | `economy/aggregate`, `db2f3857-e0fa-48f8-9ab1-6c8989307fd2` | May and June observations disagree on entity. |
-| `fed.g17.industrial_production.total_index_mom` | `economy/aggregate`, `dbfd5050-e5df-40af-8922-dc8927d6363a` | `institutional_sector/total_industrial_production`, `d5634fc4-dbe0-4203-a5b7-728708b85a14` | May and June observations disagree on entity. The same-dimension `us.frb` spelling is folded into the latter row separately. |
-| `fed.g17.capacity_utilization.total_industry` | `economy/aggregate`, `9668ecdb-5f61-422d-a653-8e8956257ade` | `institutional_sector/total_industry_capacity`, `978252a9-c452-41eb-aece-323340e796fc` | May and June observations disagree on entity. |
-| `census.housing_starts.saar` | `economy/aggregate`, `8c999902-84e2-4e90-b49c-325cd535062a` | `dwelling/housing_start`, `d0212a1e-b360-460a-80a8-1cf4ad5ce427` | May and June observations disagree on entity. The same-dimension `us.census` spelling is folded into the latter row separately. |
-| `bls.import_price_index.all_imports_mom` | `economy/aggregate`, `1d271205-0e71-4a74-9d5f-47e77577e2b2` | `household/all_imports`, `e8e6e43e-2c46-4620-a070-91d2da004b1c` | May and June observations disagree on entity. |
+Max ruled on 2026-09-27 (d353) that the `economy/aggregate` lineage
+survives for all seven. The builder gained curated entity folds
+(`ledger/seeds/entity_folds.json`, described in the
+`build_series_catalog.py` module docstring): before identities are grouped,
+a fold reads the absorbed entity's current rows as carrying the survivor
+entity, without changing the observation file. Regenerating with the seven
+folds retired seven bindings and kept every survivor's UUID; the catalog
+went from 228 to 221 series and the observed `observation_count` still sums
+to the 233 current rows.
+
+| Concept | Survivor (`economy/aggregate`) | Retired |
+| --- | --- | --- |
+| `bls.cpi.u.headline_mom` | `70ca2ecf-4323-4453-b42f-23350cb95f22` | `household/cpi_u_all_items`, `3e796803-a194-4c83-9dc9-27cc870ff08e` |
+| `bls.cpi.u.core_mom` | `e5e402d5-1a65-4c5d-a67a-07e3cf03cbf8` | `household/cpi_u_less_food_energy`, `d85c3c7f-874b-4caa-bfad-1ec7a473c293` |
+| `bls.cps.unemployment_rate` | `db2f3857-e0fa-48f8-9ab1-6c8989307fd2` | `person/civilian_labor_force`, `8dbbd54f-4bfd-4735-ad0d-5b55b8bb4ec5` |
+| `fed.g17.industrial_production.total_index_mom` | `dbfd5050-e5df-40af-8922-dc8927d6363a` | `institutional_sector/total_industrial_production`, `d5634fc4-dbe0-4203-a5b7-728708b85a14` (its folded `us.frb` spelling joins too) |
+| `fed.g17.capacity_utilization.total_industry` | `9668ecdb-5f61-422d-a653-8e8956257ade` | `institutional_sector/total_industry_capacity`, `978252a9-c452-41eb-aece-323340e796fc` |
+| `census.housing_starts.saar` | `8c999902-84e2-4e90-b49c-325cd535062a` | `dwelling/housing_start`, `d0212a1e-b360-460a-80a8-1cf4ad5ce427` (its folded `us.census` spelling joins too) |
+| `bls.import_price_index.all_imports_mom` | `1d271205-0e71-4a74-9d5f-47e77577e2b2` | `household/all_imports`, `e8e6e43e-2c46-4620-a070-91d2da004b1c` |
+
+Three of these were docket-pinned to the retired lineage
+(`bls.cps.unemployment_rate`, `bls.cpi.u.headline_mom`,
+`bls.cpi.u.core_mom`); Thesis re-stamps those pins in the same rollout.
+
+Two more concepts still hold sibling lineages and were not folded:
+`bls.ces.total_nonfarm_payroll_change` (`person/nonfarm_payroll_employee`
+from May beside `economy/aggregate` from June; the Thesis docket observes a
+third concept, `bls.ces.nonfarm_payrolls.change`) and
+`statcan.employment_insurance.regular_beneficiaries.canada` (two
+hand-chosen person roles, April and May). Fold them with a seed entry and
+a reviewed regeneration if a consumer ever needs one lineage.
+
+To undo a fold, remove its entry from the seed's `folds` list and
+regenerate: the absorbed identity revives with its original UUID. The
+names the fold moved onto the survivor's `aliases` stay there as curated
+memory; remove them by hand if they should go. Never delete the seed file
+while the committed catalog declares `entity_folds_sha256`; the builder
+refuses that, because it would split the lineages silently.
 
 ## Initial claims cadence metadata
 
