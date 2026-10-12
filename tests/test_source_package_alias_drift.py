@@ -58,6 +58,7 @@ NZ_CENSUS_REGION_CODES = (
 NZ_CENSUS_ROOTS = (
     "stats-nz-census-2023-family-type",
     "stats-nz-census-2023-households-by-region",
+    "stats-nz-census-2023-weekly-rent",
 )
 NZ_CENSUS_MEMBERS = tuple(
     alias
@@ -162,14 +163,14 @@ def test_nz_bundle_sources_match_nz_prefixed_aliases():
     )
 
     assert NZ_BUNDLE_SOURCE_PREFIXES == ("ird", "mbie", "msd", "stats_nz", "treasury")
-    assert len(NZ_BUNDLE_SOURCES) == 48
+    assert len(NZ_BUNDLE_SOURCES) == 66
     assert NZ_BUNDLE_SOURCES == expected == nz_bundle_sources_from_aliases()
     assert_nz_bundle_sources_match_aliases()
 
 
 def test_nz_bundle_sources_include_every_census_place_summary_package():
-    """All 36 Census 2023 place-summary packages, roots and rc_XX children."""
-    assert len(NZ_CENSUS_MEMBERS) == len(set(NZ_CENSUS_MEMBERS)) == 36
+    """All 54 Census 2023 place-summary packages, roots and rc_XX children."""
+    assert len(NZ_CENSUS_MEMBERS) == len(set(NZ_CENSUS_MEMBERS)) == 54
     assert set(NZ_CENSUS_MEMBERS) <= set(NZ_BUNDLE_SOURCES)
     census_in_suite = {
         alias for alias in NZ_BUNDLE_SOURCES if alias.startswith("stats-nz-census-")
@@ -192,7 +193,7 @@ def test_nz_bundle_sources_cover_every_nz_package_on_disk():
         for manifest in (root / prefix).rglob("source_package.yaml")
     }
 
-    assert len(on_disk) == 48
+    assert len(on_disk) == 66
     assert on_disk == {SOURCE_PACKAGE_ALIASES[alias] for alias in NZ_BUNDLE_SOURCES}
 
 

@@ -5,4 +5,4 @@ unchanged, already published Place summaries artifacts and manifests; label
 every dimension and value, retain confidentiality/status lineage, and pin
 the table median rather than its duplicate quick statistic. Preserve other
 years, percentages and Māori-ethnic-group sections without emitting them;
-record unstated rent-population and regional-boundary definitions.
+record unstated rent-population and regional-boundary definitions. The 18 members join the curated NZ bundle suite (`--suite nz`), which now has 66 packages.
