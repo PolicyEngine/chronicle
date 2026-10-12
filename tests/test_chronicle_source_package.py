@@ -1633,8 +1633,8 @@ def test_national_soi_source_package_aliases_validate_fixture_counts():
         "soi-historic-table-2-state-broad-2022": {
             "record_set_count": 51,
             "row_count": 51,
-            "measure_count": 2703,
-            "source_record_count": 2703,
+            "measure_count": 3111,
+            "source_record_count": 3111,
             "source_region_count": 51,
         },
         "soi-historic-table-2-state-eitc-2022": {
@@ -3917,7 +3917,7 @@ def test_soi_historic_table_2_state_broad_package_builds_2022_state_facts():
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
     assert len(cells) == 8_476
-    assert len(facts) == 2_703
+    assert len(facts) == 3_111
 
     ca_returns = values_by_record[
         "irs_soi.ty2022.historic_table_2.state_broad.ca.all.return_count"
@@ -3959,6 +3959,23 @@ def test_soi_historic_table_2_state_broad_package_builds_2022_state_facts():
     assert ca_actc.value == 3_605_628_000
     assert ca_returns.geography.id == "0400000US06"
     assert ca_partnership.layout.source_column_id == "A26270"
+
+    # Schedule 1 line 1 and Schedule A lines 7, 8a and 14: the CA cells of
+    # 22in55cmcsv.csv, amounts in thousands of dollars.
+    ca_prefix = "irs_soi.ty2022.historic_table_2.state_broad.ca.all."
+    for measure_id, column, value in (
+        ("taxable_state_local_income_tax_refunds_returns", "N00700", 638_320),
+        ("taxable_state_local_income_tax_refunds_amount", "A00700", 1_061_330_000),
+        ("taxes_paid_deduction_returns", "N18300", 2_836_990),
+        ("taxes_paid_deduction_amount", "A18300", 25_884_637_000),
+        ("mortgage_interest_paid_returns", "N19300", 2_327_780),
+        ("mortgage_interest_paid_amount", "A19300", 35_409_552_000),
+        ("charitable_returns", "N19700", 2_287_850),
+        ("charitable_amount", "A19700", 34_813_548_000),
+    ):
+        fact = values_by_record[ca_prefix + measure_id]
+        assert fact.value == value, measure_id
+        assert fact.layout.source_column_id == column, measure_id
 
 
 def test_soi_historic_table_2_state_agi_package_builds_taxable_interest_facts(
