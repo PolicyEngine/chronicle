@@ -92,9 +92,8 @@ repository's `POLICYENGINE_SUPABASE_URL` variable names.
 
    The retired names appear only in Chronicle itself: its branches and its
    clones, including one under an earlier name, `arch-data`. The other matches
-   use the same project for unrelated schemas (`rules` and the law archive,
-   `microplex`, app tables) or read a local SQLite file; none reads the mirror
-   or calls `query_sources`. No workflow runs the loader, and no workflow
+   are unrelated uses of the same search terms, or read a local SQLite file;
+   none reads the mirror or calls `query_sources`. No workflow runs the loader, and no workflow
    reads the repository's Supabase variable or secret.
 
 Fixing the path would have meant creating a schema and thirteen tables in a
