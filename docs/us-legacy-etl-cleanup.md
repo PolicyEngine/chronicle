@@ -17,22 +17,31 @@ series, in the same form as the UK "Legacy ETL cleanup" table in
 | `db/etl_aca_enrollment.py`, `db/etl_bls.py`, `db/etl_cbo.py`, `db/etl_census.py`, `db/etl_cps.py`, `db/etl_medicaid.py`, `db/etl_ssa.py`, `db/etl_ssi.py` | retired | Hand-typed values with landing-page URLs and no artifact; each module mixes transcribed, rounded, computed and invented numbers (below). |
 
 A boundary test (`tests/test_chronicle_boundaries.py`) now runs `chronicle load
-all` and requires every row it writes to equal, in value and period, a fact that
-the matching source package builds from a publisher file whose bytes hash to
-its manifest sha256.
+all` and requires every row it writes to reproduce its own publisher cell: the
+one source-package fact with the same measure, geography, AGI band and period,
+built from a publisher file whose bytes hash to its manifest sha256. Its mutation
+cases, including a row given another real cell's value, show it flags each
+change.
 
 ## Consumers
 
-Nothing outside Chronicle read these rows. Inside Chronicle the loaders were
-reached only through `db/cli.py` (`chronicle load <source>`, and `load all`,
+No current reader outside Chronicle was found in the default branches
+searched. Inside Chronicle the loaders were reached only through `db/cli.py` (`chronicle load <source>`, and `load all`,
 which CI's surface job runs), the re-exports in `chronicle/targets/loaders.py`
 and `chronicle/jurisdictions/us/__init__.py`, and their own tests. The legacy
 `targets` table is not part of the source-package bundle, the consumer-fact
 export or the hosted mirror (`chronicle/mirror.py` exports only the
 source-package tables), so no Microcosm pin carried these values. A search of
 the main branch of every local PolicyEngine, Axiom and CosilicoAI clone, and a
-GitHub code search of those organizations, found no other reader of the
-loaders, `chronicle.targets.loaders` or `chronicle.jurisdictions.us`.
+GitHub code search of those organizations, found no other current reader of
+the loaders, `chronicle.targets.loaders` or `chronicle.jurisdictions.us`. A
+wider audit of the whole legacy `targets` path, which also shallow-cloned every
+repository in those organizations, found three historical readers, all now in
+archived repositories: microplex-us's Arch SQLite target provider, which read
+the whole table until it was deleted on 2026-06-08; microplex's calibration
+script, which read the older `microplex` Supabase schema; and cosilico-microdata's `targets_db.py`, which imported
+`db.schema`, `load_soi_targets` and `load_snap_targets`. Which of the retired
+rows they consumed is not verified.
 
 ## Retired: invented IRS SOI state values
 
