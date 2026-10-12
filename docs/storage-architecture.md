@@ -24,14 +24,15 @@ Package metadata, and RO-Crate metadata.
 that applications, agents, and downstream systems search and join: source
 artifacts, source rows/cells, source records, aggregate facts, aggregate
 constraints, concept alignments, lineage edges, build metadata, and R2 location
-columns. `build-suite` writes it, `publish-derived` stores it in
+columns. `build-suite` writes it, `publish-derived` can store it in
 `ledger-derived`, and `export-db-tables` writes its tables to JSONL for loading
 into other stores.
 
 The deterministic local build remains the authority for source-backed facts.
 There is no hosted relational mirror. The Supabase mirror was retired on
-2026-10-12 because its schema never existed in the configured project and
-nothing read it; see `docs/supabase-mirror-retirement.md`.
+2026-10-12 because its default schema does not exist in the configured project
+and nothing read the copy it once loaded; see
+`docs/supabase-mirror-retirement.md`.
 
 ## Ownership Matrix
 
@@ -150,8 +151,9 @@ The intended flow is:
      --build-artifacts-out /tmp/chronicle-build-artifacts.jsonl
    ```
 
-There is no hosted load step. Readers fetch `ledger.db` from `ledger-derived`
-or build the consumer-fact export (`uv run chronicle build-consumer-artifact`).
+There is no hosted load step. Readers can fetch a published `ledger.db` from
+`ledger-derived` or build the consumer-fact export
+(`uv run chronicle build-consumer-artifact`).
 
 ## Non-Goals
 

@@ -2,8 +2,8 @@
 Supabase client for Chronicle's legacy target-input helpers.
 
 Chronicle has no hosted relational mirror. The hosted mirror loader and the
-hosted source-registry query were retired because the schema they addressed never
-existed in the configured project and nothing read them; see
+hosted source-registry query were retired because the schema they defaulted to
+does not exist in the configured project and nothing read a hosted copy; see
 docs/supabase-mirror-retirement.md.
 """
 

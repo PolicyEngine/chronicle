@@ -39,8 +39,9 @@ sources/
 
 ### Relational Artifact
 
-Each build writes a deterministic SQLite `ledger.db` (schema in
-`chronicle/database.py`) and publishes it to the `ledger-derived` R2 bucket.
+`build-suite` writes a deterministic SQLite `ledger.db` (schema in
+`chronicle/database.py`), and `publish-derived` can upload it to the
+`ledger-derived` R2 bucket.
 Chronicle has no hosted relational mirror; the Supabase mirror was retired (see
 `docs/supabase-mirror-retirement.md`).
 
