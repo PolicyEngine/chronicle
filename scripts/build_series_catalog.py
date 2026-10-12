@@ -93,11 +93,17 @@ curated names join the survivor's ``aliases``, its live binding is retired
 with the ``--remint-note``, and the survivor keeps its UUID. The catalog
 commits to the seed as ``entity_folds_sha256`` (absent when there is no
 seed). Once a committed catalog declares it, regenerating without the seed
-is a hard error, because it would silently split the folded lineages again;
-an emptied ``folds`` list is the reviewed way to undo a fold, and the
-absorbed identities then revive with their original UUIDs. A fold that
-matches no current row (its rows superseded, say) is inert, so a later
-correction can never block regeneration; a fold must still name an
+is a hard error, because it would silently split the folded lineages again.
+Any change to the seed (a new fold, a retargeted survivor, a removed fold)
+is an identity change: it needs ``--allow-remint --remint-note`` even when
+it plans no registry event, because it moves observations between
+lineages. Removing a fold undoes it: the absorbed identity revives with its
+original UUID, and rows spelled by the names it had absorbed by earlier
+same-dimension merges rejoin it (a row that matches nothing in its own
+slice rejoins a retired identity of its own entity whose names now live on
+another slice's row; no UUID crosses entities). A fold that matches no
+current row is inert rather than an error, so a correction that supersedes
+absorbed rows never makes the fold itself fail. A fold must name an
 absorbed identity the registry has bound and a survivor the committed
 catalog holds, so a mistyped fold is refused instead of ignored.
 
@@ -732,7 +738,7 @@ def apply_entity_folds(
         return rows, Counter()
     applied: Counter = Counter()
     out: list[dict] = []
-    for row in rows:
+    for index, row in enumerate(rows):
         slot = matcher.get(
             (_geo_key(row.get("geography")), _entity_key(row.get("entity")))
         )
@@ -746,6 +752,13 @@ def apply_entity_folds(
         if fold is None:
             out.append(row)
             continue
+        # The fold replaces this entity, so validate it first: build_identities
+        # only ever sees the survivor's entity for this row.
+        problem = _dimension_problem(
+            row.get("entity"), ("name", "role"), "entity", ("name", "role")
+        )
+        if problem:
+            raise SystemExit(f"observation row {index}: {problem}")
         folded = dict(row)
         folded["entity"] = dict(fold["survivor_entity"])
         out.append(folded)
@@ -964,6 +977,44 @@ class ExistingCatalog:
             for alias, count in alias_holders.items()
             if count > 1 or alias in canonical
         }
+
+    def returning_concept(
+        self,
+        key: tuple[str, str, str],
+        names: set[str],
+        registry: "UuidRegistry",
+    ) -> tuple[str, set[str], str] | None:
+        """The retired identity of ``key``'s own entity that its names rejoin.
+
+        Used only when ``match`` found nothing in the row's own slice. If the
+        row's names are curated names of a committed row in ANOTHER entity
+        slice of the same geography, and the registry holds a retired
+        binding for that row's concept under the row's OWN entity, the row is
+        the spelling-merged part of that retired identity (an undone entity
+        fold) and rejoins it. The UUID stays in the row's own slice.
+
+        Returns (concept, the linking names, the other row's uuid): the
+        builder moves the linking names back from that row onto the revived
+        identity, restoring the naming the fold had moved.
+        """
+        _, geo_key, entity_key = key
+        hits: dict[str, tuple[set[str], str]] = {}
+        for row in self.rows:
+            if _geo_key(row.get("geography")) != geo_key:
+                continue
+            if _entity_key(row.get("entity")) == entity_key:
+                continue
+            linking = names & self._row_names(row)
+            if not linking:
+                continue
+            candidate = (row["concept"], geo_key, entity_key)
+            entry = registry.latest.get(candidate)
+            if entry is not None and not registry.is_live(candidate):
+                hits[row["concept"]] = (linking, row["uuid"])
+        if len(hits) != 1:
+            return None
+        ((concept, (linking, source_uuid)),) = hits.items()
+        return concept, linking, source_uuid
 
     def absorb(self, absorbed_key: tuple[str, str, str], survivor: dict) -> None:
         """Fold a committed row into ``survivor``'s naming memory.
@@ -1756,12 +1807,27 @@ def build_catalog(
     # canonical concept (curation owns naming; observed spellings become
     # aliases). Buckets landing on the same canonical identity merge.
     canonical: dict[tuple[str, str, str], dict] = {}
+    # Names an undone fold moves back: onto the returning identity, and off
+    # the row (by uuid) that held them while the fold stood.
+    returned_names: dict[tuple[str, str, str], set[str]] = {}
+    released_names: dict[str, set[str]] = {}
     for key in sorted(identities):
         ident = identities[key]
         concept, geo_key, entity_key = key
         names = ident["concepts"] | {concept}
         prior = existing.match(key, names, ident["geography"], ident["entity"])
         canon_concept = prior["concept"] if prior else concept
+        returning = (
+            existing.returning_concept(key, names, registry)
+            if prior is None
+            else None
+        )
+        if returning is not None:
+            canon_concept, linking, source_uuid = returning
+            returned_names.setdefault(
+                (canon_concept, geo_key, entity_key), set()
+            ).update(linking)
+            released_names.setdefault(source_uuid, set()).update(linking)
         canon_key = (canon_concept, geo_key, entity_key)
         bucket = canonical.setdefault(
             canon_key,
@@ -2017,7 +2083,12 @@ def build_catalog(
             resolve_uuid(canon_key, prior, bucket["geography"], bucket["entity"]),
             canon_key,
         )
-        curated_aliases = set(prior.get("aliases", [])) if prior else set()
+        curated_aliases = (
+            set(prior.get("aliases", [])) - released_names.get(prior["uuid"], set())
+            if prior
+            else set()
+        )
+        curated_aliases |= returned_names.get(canon_key, set())
         aliases = sorted((bucket["concepts"] | curated_aliases) - {concept})
         all_suspects.update(bucket["suspects"])
         for segment in bucket["stripped"]:
@@ -2504,6 +2575,13 @@ def main(argv: list[str] | None = None) -> int:
         f"dropped {key}: uuid {row_uuid} would vanish from the catalog"
         for key, row_uuid in plan["dropped"]
     ]
+    if existing.entity_folds_sha256 != catalog.get("entity_folds_sha256"):
+        identity_changes.append(
+            "entity-fold seed changed: "
+            f"{existing.entity_folds_sha256 or 'none'} -> "
+            f"{catalog.get('entity_folds_sha256') or 'none'} (folds move "
+            "observations between lineages)"
+        )
     if not existing.rows and registry.latest:
         # Without the prior catalog, curated naming and aliases are gone: a
         # renamed identity re-keys away from its registry binding and would

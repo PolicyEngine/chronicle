@@ -2577,6 +2577,14 @@ def _uuid_for(rows: list[dict], entity: dict) -> str:
     return row["uuid"]
 
 
+def _without_digests(catalog: dict) -> dict:
+    """A catalog minus the commitments an undo legitimately changes."""
+    return {
+        k: v for k, v in catalog.items()
+        if k not in ("entity_folds_sha256", "uuid_registry_sha256")
+    }
+
+
 def _folded_repo(tmp_path: pathlib.Path, rows=None) -> tuple[list[str], str, str]:
     """A repo whose two drift lineages were folded; returns argv and the
     survivor and absorbed uuids."""
@@ -2657,8 +2665,11 @@ def test_emptied_entity_fold_revives_the_absorbed_uuid(
 ) -> None:
     argv, survivor, absorbed = _folded_repo(tmp_path)
     empty = _write_folds(tmp_path, [])
-    # Reviving is the generator's automatic, ungated event.
-    assert bsc.main(argv) == 0
+    # Removing a fold moves observations between lineages: a ceremony.
+    registry_bytes = (tmp_path / "registry.jsonl").read_bytes()
+    assert bsc.main(argv) == 1
+    assert (tmp_path / "registry.jsonl").read_bytes() == registry_bytes
+    assert bsc.main(argv + ["--allow-remint", "--remint-note", "undo"]) == 0
     rows = _observed(tmp_path, "bls.cps.unemployment_rate")
     assert _uuid_for(rows, ECONOMY) == survivor
     assert _uuid_for(rows, HAND_ENTITY) == absorbed
@@ -2730,6 +2741,145 @@ def test_entity_fold_reaches_rows_spelled_by_a_curated_alias(
     assert bsc.main(argv + ["--check"]) == 0
 
 
+def test_appends_after_a_fold_never_touch_the_registry(
+    tmp_path: pathlib.Path,
+) -> None:
+    # The Thesis resolver regenerates the catalog on every append and refuses
+    # any registry change other than a first observation's mint. A later
+    # print of a folded series, carrying either entity, must regenerate with
+    # the registry byte-unchanged.
+    argv, survivor, absorbed = _folded_repo(tmp_path)
+    registry_bytes = (tmp_path / "registry.jsonl").read_bytes()
+    later = _drift_rows(hand_months=("2026-09",), economy_months=("2026-08",))
+    with (tmp_path / "obs.jsonl").open("a", encoding="utf-8") as journal:
+        for row in later:
+            journal.write(json.dumps(row) + "\n")
+    assert bsc.main(argv) == 0
+    assert (tmp_path / "registry.jsonl").read_bytes() == registry_bytes
+    (row,) = _observed(tmp_path, "bls.cps.unemployment_rate")
+    assert row["uuid"] == survivor and row["observation_count"] == 5
+    assert row["last_observed_period"] == "2026-09"
+    catalog = json.loads((tmp_path / "catalog.json").read_text())
+    assert absorbed not in {r["uuid"] for r in catalog["series"]}
+    assert bsc.main(argv + ["--check"]) == 0
+
+
+def test_undoing_a_fold_restores_earlier_spelling_merges(
+    tmp_path: pathlib.Path,
+) -> None:
+    # The absorbed lineage had already absorbed a second spelling by a
+    # same-dimension curated merge. Removing the fold must revive exactly the
+    # absorbed identity, with that spelling back inside it, and must not
+    # revive the spelling's own long-retired identity.
+    sector = {"name": "institutional_sector", "role": "total_industrial_production"}
+    rows = [
+        _row("fed.g17.ip.mom.may_2026", rid="fed.g17.ip.mom.may_2026.hand",
+             period=_fold_month("2026-05"), entity=dict(sector)),
+        _row("us.frb.ip.mom.2026_04", rid="us.frb.ip.mom.2026_04.hand",
+             period=_fold_month("2026-04"), entity=dict(sector)),
+        _row("fed.g17.ip.mom.2026-06", rid="fed.g17.ip.mom.2026-06.first_print",
+             period=_fold_month("2026-06"), source_concept="INDPRO"),
+    ]
+    argv = _repo(tmp_path, rows)
+    assert bsc.main(argv) == 0
+    catalog = json.loads((tmp_path / "catalog.json").read_text())
+    spelled = next(r for r in catalog["series"] if r["concept"] == "us.frb.ip.mom")
+    hand = next(
+        r for r in catalog["series"]
+        if r["concept"] == "fed.g17.ip.mom" and r["entity"] == sector
+    )
+    catalog["series"].remove(spelled)
+    hand["aliases"] = sorted({*hand["aliases"], "us.frb.ip.mom"})
+    (tmp_path / "catalog.json").write_text(
+        json.dumps(catalog, indent=2) + "\n", encoding="utf-8"
+    )
+    assert bsc.main(argv + ["--allow-remint", "--remint-note", "spelling"]) == 0
+    prefold = json.loads((tmp_path / "catalog.json").read_text())
+    _write_folds(tmp_path, [_fold(concept="fed.g17.ip.mom", absorbed_entity=sector)])
+    assert bsc.main(argv + ["--allow-remint", "--remint-note", FOLD_NOTE]) == 0
+    lines_before_undo = (tmp_path / "registry.jsonl").read_text().splitlines()
+
+    _write_folds(tmp_path, [])
+    assert bsc.main(argv + ["--allow-remint", "--remint-note", "undo"]) == 0
+    lines = (tmp_path / "registry.jsonl").read_text().splitlines()
+    events = [json.loads(line) for line in lines[len(lines_before_undo):]]
+    assert [(e.get("revived"), e["uuid"]) for e in events] == [(True, hand["uuid"])]
+    restored = _observed(tmp_path, "fed.g17.ip.mom")
+    (back,) = [r for r in restored if r["entity"] == sector]
+    assert back["uuid"] == hand["uuid"] and back["observation_count"] == 2
+    assert "us.frb.ip.mom.{P}" in back["family_patterns"]
+    assert not _observed(tmp_path, "us.frb.ip.mom")
+    undone = json.loads((tmp_path / "catalog.json").read_text())
+    assert undone["ambiguous_aliases"] == []
+    assert _without_digests(undone) == _without_digests(prefold)
+    assert bsc.main(argv + ["--check"]) == 0
+
+
+def test_retargeting_a_fold_needs_the_ceremony(tmp_path: pathlib.Path) -> None:
+    # Moving a fold's survivor from one existing lineage to another plans no
+    # registry event, yet moves observations between UUIDs.
+    household = {"name": "household", "role": "aggregate"}
+    rows = _drift_rows() + [
+        _row("bls.cps.unemployment_rate", rid="bls.cps.unemployment_rate.2026-08.hh",
+             period=_fold_month("2026-08"), entity=dict(household)),
+    ]
+    argv, survivor, _ = _folded_repo(tmp_path, rows)
+    household_uuid = _uuid_for(_observed(tmp_path, "bls.cps.unemployment_rate"), household)
+    catalog_bytes = (tmp_path / "catalog.json").read_bytes()
+    registry_bytes = (tmp_path / "registry.jsonl").read_bytes()
+    _write_folds(tmp_path, [_fold(survivor_entity=dict(household))])
+    assert bsc.main(argv) == 1
+    assert (tmp_path / "catalog.json").read_bytes() == catalog_bytes
+    assert (tmp_path / "registry.jsonl").read_bytes() == registry_bytes
+    assert bsc.main(argv + ["--check"]) == 1
+    assert bsc.main(argv + ["--allow-remint", "--remint-note", "retarget"]) == 0
+    rows_after = _observed(tmp_path, "bls.cps.unemployment_rate")
+    counts = {r["uuid"]: r["observation_count"] for r in rows_after}
+    assert counts == {survivor: 2, household_uuid: 2}
+    assert (tmp_path / "registry.jsonl").read_bytes() == registry_bytes
+
+
+def test_a_folded_rows_own_entity_is_still_validated(
+    tmp_path: pathlib.Path,
+) -> None:
+    rows = _drift_rows()
+    argv, _, _ = _folded_repo(tmp_path, rows)
+    rows[0]["entity"] = {**HAND_ENTITY, "bogus": "x"}
+    (tmp_path / "obs.jsonl").write_text(
+        "".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8"
+    )
+    with pytest.raises(SystemExit, match="entity.bogus is not an identity field"):
+        bsc.main(argv)
+
+
+def test_a_correction_superseding_an_absorbed_row_regenerates(
+    tmp_path: pathlib.Path,
+) -> None:
+    # A versioned absorbed row corrected by an appended superseding row, with
+    # its own entity or the survivor's, keeps one lineage and no registry
+    # event. (Superseding a pre-versioning row is refused by the builder
+    # whatever the folds say; that is a separate, pre-existing limitation.)
+    rows = _drift_rows()
+    rows[0]["assertionVersion"] = {"id": "av-test:hand-may", "supersedes": None}
+    argv, survivor, absorbed = _folded_repo(tmp_path, rows)
+    registry_bytes = (tmp_path / "registry.jsonl").read_bytes()
+    for entity, version in ((HAND_ENTITY, "av-test:fix-1"), (ECONOMY, "av-test:fix-2")):
+        correction = json.loads(json.dumps(rows[0]))
+        correction["value"] = 4.4
+        correction["entity"] = dict(entity)
+        previous = "av-test:hand-may" if version.endswith("1") else "av-test:fix-1"
+        correction["assertionVersion"] = {"id": version, "supersedes": previous}
+        with (tmp_path / "obs.jsonl").open("a", encoding="utf-8") as journal:
+            journal.write(json.dumps(correction) + "\n")
+        assert bsc.main(argv) == 0
+        (row,) = _observed(tmp_path, "bls.cps.unemployment_rate")
+        assert row["uuid"] == survivor and row["observation_count"] == 3
+        assert (tmp_path / "registry.jsonl").read_bytes() == registry_bytes
+        assert bsc.main(argv + ["--check"]) == 0
+    catalog = json.loads((tmp_path / "catalog.json").read_text())
+    assert absorbed not in {r["uuid"] for r in catalog["series"]}
+
+
 def test_entity_fold_naming_an_unbound_identity_is_refused(
     tmp_path: pathlib.Path,
 ) -> None:
@@ -2791,14 +2941,22 @@ def test_entity_fold_seed_schema_is_closed(
         bsc.main(argv + ["--allow-remint", "--remint-note", FOLD_NOTE])
 
 
-def test_entity_fold_seed_must_be_strict_json(tmp_path: pathlib.Path) -> None:
+@pytest.mark.parametrize(
+    "text",
+    [
+        '{"schemaVersion": "chronicle_entity_folds_v1", "folds": [], "folds": []}',
+        '{"schemaVersion": "chronicle_entity_folds_v1", "folds": [NaN]}',
+        '{"schemaVersion": "chronicle_entity_folds_v1", "folds": [Infinity]}',
+    ],
+    ids=["duplicate-key", "nan", "infinity"],
+)
+def test_entity_fold_seed_must_be_strict_json(
+    tmp_path: pathlib.Path, text: str
+) -> None:
     argv = _repo(tmp_path, _drift_rows())
     assert bsc.main(argv) == 0
     (tmp_path / "seeds").mkdir()
-    (tmp_path / "seeds" / "entity_folds.json").write_text(
-        '{"schemaVersion": "chronicle_entity_folds_v1", "folds": [], '
-        '"folds": [NaN]}', encoding="utf-8",
-    )
+    (tmp_path / "seeds" / "entity_folds.json").write_text(text, encoding="utf-8")
     with pytest.raises(SystemExit, match="not strict JSON"):
         bsc.main(argv)
 
@@ -2874,7 +3032,10 @@ def test_entity_fold_invariants_hold_for_any_split(
     assert (tmp_path / "catalog.json").read_bytes() == snapshot
 
     _write_folds(tmp_path, [])
-    assert bsc.main(argv) == 0
+    assert bsc.main(argv + ["--allow-remint", "--remint-note", "undo"]) == 0
     restored = _observed(tmp_path, "bls.cps.unemployment_rate")
     assert {r["uuid"] for r in restored} == {survivor, absorbed}
+    # Undo is exact: the catalog is the pre-fold catalog again.
+    undone = json.loads((tmp_path / "catalog.json").read_text())
+    assert _without_digests(undone) == _without_digests(before)
     assert bsc.main(argv + ["--check"]) == 0

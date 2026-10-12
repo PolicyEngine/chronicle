@@ -43,12 +43,25 @@ third concept, `bls.ces.nonfarm_payrolls.change`) and
 hand-chosen person roles, April and May). Fold them with a seed entry and
 a reviewed regeneration if a consumer ever needs one lineage.
 
+Any edit to the seed is curation: adding, retargeting or removing a fold
+moves observations between lineages, so the builder refuses it without
+`--allow-remint --remint-note`, even when no registry event is planned.
+Never delete the seed file while the committed catalog declares
+`entity_folds_sha256`; the builder refuses that too.
+
 To undo a fold, remove its entry from the seed's `folds` list and
-regenerate: the absorbed identity revives with its original UUID. The
-names the fold moved onto the survivor's `aliases` stay there as curated
-memory; remove them by hand if they should go. Never delete the seed file
-while the committed catalog declares `entity_folds_sha256`; the builder
-refuses that, because it would split the lineages silently.
+regenerate with the ceremony. The absorbed identity revives with its
+original UUID, rows it had absorbed by earlier same-dimension merges (the
+`us.frb` and `us.census` spellings above) rejoin it, and the names the fold
+moved onto the survivor move back. Undoing all seven folds on the committed
+artifacts reproduces the pre-fold catalog exactly, apart from the seed and
+registry digests (seven `revived` lines, no other event).
+
+One limitation is older than the folds: the builder refuses a correction
+that supersedes a row written before assertion versioning (every row of the
+immutable prefix, including the seven hand-recorded May 2026 rows), while
+the append gate accepts it. PolicyEngine/chronicle#306 addresses that. A
+correction that supersedes a versioned absorbed row regenerates cleanly.
 
 ## Initial claims cadence metadata
 
