@@ -1,0 +1,21 @@
+source_id: census_acs
+package_id: census-acs-s1501-state-attainment-2024
+dataset: census_acs_s1501_state_attainment_2024
+source_page: https://data.census.gov/table/ACSST1Y2024.S1501
+vintage: 2024 ACS 1-year subject tables
+table: S1501 Educational Attainment
+files:
+  2024:
+    filename: acs_S1501_state_2024.json
+    source_url: https://data.census.gov/api/access/data/table?id=ACSST1Y2024.S1501&g=010XX00US$0400000
+    sha256: 84fff08c9d2793a90f2326eb68ae8ba4d5e18957899fc8cdda015d26520f73a4
+    size_bytes: 575536
+    fetched_at: '2026-10-12T14:09:26Z'
+    source_table: ACS 2024 1-year subject table S1501 state educational attainment
+    year: 2024
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_acs/census-acs-s1501-state-attainment-2024/2024/84fff08c9d2793a90f2326eb68ae8ba4d5e18957899fc8cdda015d26520f73a4/acs_S1501_state_2024.json
+        uri: r2://ledger-raw/raw/census_acs/census-acs-s1501-state-attainment-2024/2024/84fff08c9d2793a90f2326eb68ae8ba4d5e18957899fc8cdda015d26520f73a4/acs_S1501_state_2024.json
