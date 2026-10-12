@@ -1210,10 +1210,23 @@ def _successor(period: dict) -> dict | None:
     return None
 
 
+def _month_styles(spelling: str) -> tuple[str, ...]:
+    """How each month word of ``spelling`` is written: ``full``, ``abbrev``,
+    or ``either`` for ``may``, which is both."""
+    return tuple(
+        "either" if word == "may"
+        else "full" if word in bsc.MONTHS_FULL
+        else "abbrev"
+        for word in bsc._MONTH_WORD_RE.findall(spelling)
+    )
+
+
 def _respell(identifier: str, period: dict, successor: dict) -> str | None:
     """``identifier`` with each strip of ``period`` rewritten as the same
-    template's spelling of ``successor``; None if any strip has no such
-    spelling (an overlap strip)."""
+    template's spelling of ``successor``, month words kept full or
+    abbreviated as they were; None if any strip has no such spelling (an
+    overlap strip). ``may`` is both styles, so its successor is written in
+    full (``june``, not ``jun``); either is a continuation of the shape."""
     variants = bsc.period_token_variants(successor)
     parts = []
     for segment, kind in bsc.classify_segments(identifier, period):
@@ -1221,9 +1234,17 @@ def _respell(identifier: str, period: dict, successor: dict) -> str | None:
             parts.append(segment)
             continue
         template = bsc.period_spelling_template(segment)
+        styles = _month_styles(segment)
         same = [
-            v for v in variants if bsc.period_spelling_template(v) == template
+            v for v in variants
+            if bsc.period_spelling_template(v) == template
+            and all(
+                "either" in (a, b) or a == b
+                for a, b in zip(styles, _month_styles(v))
+            )
         ]
+        if len(same) > 1:
+            same = [v for v in same if "abbrev" not in _month_styles(v)]
         if kind != "derived" or len(same) != 1:
             return None
         parts.append(same[0])
@@ -1233,13 +1254,14 @@ def _respell(identifier: str, period: dict, successor: dict) -> str | None:
 def test_next_period_of_every_committed_series_passes_the_audit(
     tmp_path: pathlib.Path,
 ) -> None:
-    """The append the exact list rejected, on real data: for every current
-    observation whose strips are direct spellings of its period, append the
-    NEXT period written the same way. The rebuilt catalog grows new
-    spellings and lands them on the existing identities, and with the
-    committed strips taken as reviewed, none of the new ones needs review.
-    (Whether the committed strips ARE reviewed is the committed test's
-    question; on a clean branch the two maps agree.)"""
+    """The append the exact list rejected, on real data: for EVERY current
+    observation whose source_record_id strips a period and whose strips are
+    all direct spellings of its period, append the NEXT period written the
+    same way. The rebuilt catalog grows new spellings and lands them on the
+    existing identities, and with the committed strips taken as reviewed,
+    none of the new ones needs review. (Whether the committed strips ARE
+    reviewed is the committed test's question; on a clean branch the two
+    maps agree.)"""
     from check_thesis_facts_append import effective_current_rows
 
     rows = [
@@ -1248,14 +1270,25 @@ def test_next_period_of_every_committed_series_passes_the_audit(
         if line.strip()
     ]
     appended = []
+    eligible = 0
     for obs in effective_current_rows(rows):
         period = obs.get("period") or {}
         successor = _successor(period)
-        if successor is None:
+        kinds = [
+            kind
+            for identifier in (obs["source_record_id"], obs["measure"]["concept"])
+            for _, kind in bsc.classify_segments(identifier, period)
+            if kind != "kept"
+        ]
+        if successor is None or not any(
+            kind != "kept"
+            for _, kind in bsc.classify_segments(obs["source_record_id"], period)
+        ) or set(kinds) != {"derived"}:
             continue
+        eligible += 1
         rid = _respell(obs["source_record_id"], period, successor)
         concept = _respell(obs["measure"]["concept"], period, successor)
-        if rid is None or concept is None or rid == obs["source_record_id"]:
+        if rid is None or concept is None:
             continue
         nxt = json.loads(json.dumps(obs))
         nxt.pop("assertionVersion", None)
@@ -1263,7 +1296,8 @@ def test_next_period_of_every_committed_series_passes_the_audit(
         nxt["source_record_id"] = rid
         nxt["measure"]["concept"] = concept
         appended.append(nxt)
-    assert len(appended) >= 100  # most of the ledger, not a vacuous pass
+    # Every eligible observation, month names included; most of the ledger.
+    assert len(appended) == eligible >= 200
     observations = tmp_path / "obs.jsonl"
     observations.write_text(
         bsc.OBSERVATIONS.read_text(encoding="utf-8")

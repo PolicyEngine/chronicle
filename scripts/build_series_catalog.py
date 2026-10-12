@@ -53,15 +53,16 @@ test suite checks every strip against a curated map of reviewed decisions
 (``stripped_segment_review_problems``). A decision covers one identifier
 field of one concept in one ``strip_shape``: the field's family pattern
 with each ``{P}`` written ``{P:<template>}``, so it fixes every kept
-segment, where each stripped segment sits, and how it is spelled
-(``period_spelling_template``). A strip that only continues a reviewed
-decision (same concept, same field, same shape, a direct spelling of its
-own row's period) passes, so the next weekly or monthly print does not
-re-open a question already answered. Every other strip still needs a
-curator, including an already-approved spelling template that turns up in
-a new field or position. A malformed period (month 13, an impossible
-week date) is a hard error, so corrupt metadata can never manufacture
-strippable tokens.
+segment, where each stripped segment sits, and how it is spelled up to
+the digits and month words ``period_spelling_template`` normalizes. A
+strip that only continues a reviewed decision (same concept, same field,
+same shape, a direct spelling of its own row's period) passes, so the
+next weekly or monthly print does not re-open a question already
+answered. Every other strip still needs a curator, including an
+already-approved spelling template that turns up in a new field or
+position. A malformed period (month 13, an impossible week date) is a
+hard error, so corrupt metadata can never manufacture strippable
+tokens.
 
 Aliases are curated identity statements, not derived data. Observed concept
 spellings of one identity become aliases automatically; everything else in
@@ -365,11 +366,14 @@ def period_spelling_template(segment: str) -> str:
     """The way a period spelling is written, with its calendar values
     abstracted: every digit becomes ``9`` and every month word, full or
     abbreviated, ``<month>`` ("may" is both, so the two styles cannot be
-    told apart for every month). Separators and literal words (``week_``,
-    ``ending_``, ``after_<qualifier>_``, ``fy``, ``q``, ``_to_``) are kept,
-    so two spellings share a template exactly when they write a period
-    the same way, whatever period they name. A template is the unit a
-    curator reviews in ``stripped_segment_review_problems``.
+    told apart for every month), wherever they occur, qualifiers included
+    (``after_2024_mpc_june_2026`` and ``after_2025_mpc_may_2026`` share a
+    template). Separators and other literal words (``week_``, ``ending_``,
+    ``after_``, ``mpc_``, ``fy``, ``q``, ``_to_``) are kept. So two
+    spellings share a template exactly when they agree after that
+    normalization, whatever period they name. Templates fill the slots of
+    a ``strip_shape``; a concept's identifier field in one shape is the
+    unit a curator reviews in ``stripped_segment_review_problems``.
 
     >>> period_spelling_template("week_2026-08-29")
     'week_9999-99-99'
@@ -397,11 +401,12 @@ def strip_shape(identifier: str, period: dict | None = None) -> str:
     """``family_pattern`` with each ``{P}`` written ``{P:<template>}``, the
     ``period_spelling_template`` of the segment it replaced.
 
-    The shape fixes every kept segment, where each stripped segment sits,
-    and how each is spelled, so two identifiers share a shape exactly when
-    they differ only in the calendar values of their stripped segments.
-    One concept's shape in one identifier field is the unit a curator
-    reviews in ``stripped_segment_review_problems``. Literal ``{P}`` and
+    Two identifiers share a shape exactly when they have the same kept
+    segments, stripped slots in the same positions, and the same
+    normalized template in each slot: they differ only in what the
+    template abstracts (digits, and month words, full or abbreviated, also
+    inside a slot's qualifier). One concept's shape in one identifier field
+    is the unit a curator reviews in ``stripped_segment_review_problems``. Literal ``{P}`` and
     ``{P:...}`` segments are reserved (``_reserved_segment_problem``), so a
     shape never confuses a kept segment with a stripped one.
 
@@ -2708,11 +2713,11 @@ def stripped_segment_review_problems(
     outside ``reviewed`` needs no new review only when it continues one:
     the same concept already has a reviewed strip in the SAME field and
     the SAME shape (so the identifier differs from a reviewed one only in
-    the calendar values of its stripped segments: the next week or month,
-    written the same way, in the same place), and every current
-    observation behind it spells its own declared period directly (kind
-    ``derived`` only). Everything else is reported, one line per problem,
-    sorted:
+    the digits and month words of its stripped segments: in practice the
+    next week or month, written the same way, in the same place), and
+    every current observation behind it spells its own declared period
+    directly (kind ``derived`` only). Everything else is reported, one
+    line per problem, sorted:
 
     * a reviewed strip that is gone (superseded observations, curation, or
       a builder change);

@@ -98,8 +98,11 @@ and records each distinct spelling, so the audit is right to list both. They
 strip as `overlap`, not `derived`, because the row declares a month. Both
 are recorded as reviewed overlap strips, each in its own field and shape, in
 `tests/fixtures/series_catalog/reviewed_stripped_segments.json`. A
-supersede correction that re-spells or re-periods that row will make the
-audit report both as gone; the same change then updates the fixture.
+supersede correction that re-spells that row's identifiers (or retracts it)
+makes the audit report the old strips as gone. One that only re-periods it
+to its week, keeping the identifiers, leaves both strips in place but turns
+them `derived`, which the audit reports as gained kinds. Either way the
+same change updates the fixture.
 
 ## Reviewing period strips (2026-09-30, scoped by shape 2026-10-12)
 
@@ -116,13 +119,14 @@ A reviewed decision covers one canonical concept, one identifier field
 (`build_series_catalog.strip_shape`). The shape is the field's family
 pattern with each `{P}` written `{P:<template>}`, for example
 `abs.cpi.all_groups.yoy.{P:9999_99}.first_print`. It fixes every kept
-segment, where each stripped segment sits, and how it is spelled
-(`period_spelling_template`). A strip passes without review only when its
+segment, where each stripped segment sits, and how it is spelled up to the
+digits and month words `period_spelling_template` normalizes (full and
+abbreviated month names count as one spelling, and so do digits inside an
+`after_<qualifier>_` slot). A strip passes without review only when its
 concept already has a reviewed strip in the same field and the same shape
-(the identifier differs from a reviewed one only in calendar values: the
-next week or month, written the same way, in the same place) and every
-current observation behind it spells its own declared period directly (kind
-`derived`). The audit reports:
+(in practice the next week or month, written the same way, in the same
+place) and every current observation behind it spells its own declared
+period directly (kind `derived`). The audit reports:
 
 - a strip in a shape its concept has never stripped in, in that field: a new
   series, a new spelling template, a period spelled in a new field or
