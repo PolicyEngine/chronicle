@@ -237,6 +237,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # 216 households and 72 families, with 16 facts at each NZ/REGC key.
     # Only region:99 is new; publisher, period and entity keys already exist.
     # No duplicate keys or bundle warnings are added. The full bundle is CI-only.
+    # G8-d1 adds 162 Census weekly-rent facts in 18 per-place members:
+    # eight household counts and one published median at each existing place.
+    # Separate single-source builds measure +18 packages and one source table,
+    # with no new geography, publisher, period or entity keys, warnings or
+    # duplicates. Each country:NZ/region key gains nine CY2023 household facts.
     # BEA NIPA Table 7.8 line 17 (B4923C, private group health insurance) adds
     # one CY2023 person fact at US country geography from one new package and
     # source table; the publisher, period, geography and entity keys already
@@ -248,7 +253,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "error_count": 0,
         # chronicle#322 adds 4,947 ONS observations and 3,200 DESNZ ones.
         # Inner/Outer London also add two region-level geography keys.
-        "fact_count": 1004092,
+        "fact_count": 1004254,
         "geography_count": 20548,
         "period_count": 511,
         # 467 before chronicle#292 moved the congressional-district and
@@ -271,7 +276,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
         "source_count": 56,
-        "source_package_count": 359,
+        "source_package_count": 377,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -306,14 +311,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1004092
+    assert row_count == 1004254
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 359
+    assert source_packages["source_package_count"] == 377
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -327,7 +332,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1004092
+    assert coverage["fact_count"] == 1004254
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -381,13 +386,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "statbel_fiscal_income_distribution": 14600,
         "statbel_population_structure": 36,
         "treasury": 139,
-        "stats_nz": 1786,
+        "stats_nz": 1948,
         "usda_snap": 852,
         "voa": 3001,
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 318
+    assert len(table_counts) == 319
     assert (
         table_counts["bea:NIPA Table 7.8. Supplements to Wages and Salaries by Type"]
         == 1
@@ -395,6 +400,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         table_counts["stats_nz:2023 Census Place summaries: families and households"]
         == 288
+    )
+    assert (
+        table_counts[
+            "stats_nz:2023 Census Place summaries: weekly rent paid by households"
+        ]
+        == 162
     )
     assert (
         table_counts[
@@ -1618,6 +1629,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     expected_period_counts["fiscal_year:2025"] += 1
     expected_period_counts["fiscal_year:2023"] += 1413
     expected_period_counts["calendar_year:2023"] += 288
+    expected_period_counts["calendar_year:2023"] += 162
     # chronicle#291: IRS SOI Historic Table 2 TY2023 state AGI-band facts.
     expected_period_counts["tax_year:2023"] += 1020
     # BEA NIPA Table 7.8 line 17 (B4923C): the bundle year's own column.
@@ -1626,13 +1638,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
     # + 84 MBIE (#320) + 112 Treasury Budget 2026 expenses (B7 part 2)
-    # + 1,413 Stats NZ household net worth + 16 B5 national census = 6,122.
-    assert coverage["counts"]["by_geography"]["country:NZ"] == 6122
+    # + 1,413 Stats NZ household net worth + 16 B5 national census
+    # + nine G8-d1 national weekly-rent facts = 6,131.
+    assert coverage["counts"]["by_geography"]["country:NZ"] == 6131
     for regional_council in (*range(1, 10), *range(12, 19)):
         assert (
-            coverage["counts"]["by_geography"][f"region:{regional_council:02d}"] == 21
+            coverage["counts"]["by_geography"][f"region:{regional_council:02d}"] == 30
         )
-    assert coverage["counts"]["by_geography"]["region:99"] == 16
+    assert coverage["counts"]["by_geography"]["region:99"] == 25
     assert coverage["counts"]["by_geography"]["local_authority:nz-ta-054"] == 56
     assert coverage["counts"]["by_geography"]["local_authority:nz-ta-057"] == 77
     assert coverage["counts"]["by_geography"]["local_authority:nz-ta-066"] == 70
@@ -1683,7 +1696,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "family": 1700,
         "firm": 1440,
         "government": 3562,
-        "household": 154852,
+        "household": 155014,
         "institutional_sector": 4468,
         "pension_plan": 2,
         "person": 496036,

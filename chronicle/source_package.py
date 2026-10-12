@@ -78,6 +78,60 @@ from chronicle.yaml_io import safe_load as safe_load_yaml
 SOURCE_PACKAGE_RESOURCE_PACKAGE = "packages"
 SOURCE_PACKAGE_SCHEMA_VERSION = schema_id("source_package")
 SOURCE_PACKAGE_ALIASES = {
+    "stats-nz-census-2023-weekly-rent": Path(
+        "stats_nz/census_2023_weekly_rent"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-01": Path(
+        "stats_nz/census_2023_weekly_rent/rc_01"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-02": Path(
+        "stats_nz/census_2023_weekly_rent/rc_02"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-03": Path(
+        "stats_nz/census_2023_weekly_rent/rc_03"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-04": Path(
+        "stats_nz/census_2023_weekly_rent/rc_04"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-05": Path(
+        "stats_nz/census_2023_weekly_rent/rc_05"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-06": Path(
+        "stats_nz/census_2023_weekly_rent/rc_06"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-07": Path(
+        "stats_nz/census_2023_weekly_rent/rc_07"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-08": Path(
+        "stats_nz/census_2023_weekly_rent/rc_08"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-09": Path(
+        "stats_nz/census_2023_weekly_rent/rc_09"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-12": Path(
+        "stats_nz/census_2023_weekly_rent/rc_12"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-13": Path(
+        "stats_nz/census_2023_weekly_rent/rc_13"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-14": Path(
+        "stats_nz/census_2023_weekly_rent/rc_14"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-15": Path(
+        "stats_nz/census_2023_weekly_rent/rc_15"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-16": Path(
+        "stats_nz/census_2023_weekly_rent/rc_16"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-17": Path(
+        "stats_nz/census_2023_weekly_rent/rc_17"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-18": Path(
+        "stats_nz/census_2023_weekly_rent/rc_18"
+    ),
+    "stats-nz-census-2023-weekly-rent-rc-99": Path(
+        "stats_nz/census_2023_weekly_rent/rc_99"
+    ),
     "stats-nz-household-net-worth-2024": Path("stats_nz/household_net_worth_2024"),
     "stats-nz-census-2023-family-type": Path("stats_nz/census_2023_family_type"),
     "stats-nz-census-2023-family-type-rc-01": Path(
