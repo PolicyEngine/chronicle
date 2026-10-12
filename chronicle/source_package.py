@@ -47,6 +47,7 @@ from chronicle.sources.rows import (
     SourceRow,
     source_cells_from_source_rows,
     source_rows_from_census_acs_s0101_age_json,
+    source_rows_from_census_acs_s1501_attainment_json,
     source_rows_from_census_acs_s2201_snap_json,
     source_rows_from_census_b01001_female_age_json,
     source_rows_from_cdc_vsrr_live_births_json,
@@ -704,6 +705,7 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "census-acs-s0101-national-age-2024": Path("census/acs_s0101_national_2024"),
     "census-acs-s0101-state-age-2024": Path("census/acs_s0101_state_2024"),
+    "census-acs-s1501-state-attainment-2024": Path("census/acs_s1501_state_2024"),
     "census-acs-s2201-congressional-district-snap-2024": Path(
         "census/acs_s2201_district_2024"
     ),
@@ -804,6 +806,20 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "hmrc-hydrocarbon-oils-quantities-june-2026": Path(
         "hmrc/hydrocarbon_oils_quantities_june_2026"
+    ),
+    "ed-fsa-portfolio-summary-fy2026-q3": Path("ed_fsa/portfolio_summary_fy2026_q3"),
+    "ed-fsa-portfolio-by-location-fy2026-q2": Path(
+        "ed_fsa/portfolio_by_location_fy2026_q2"
+    ),
+    "ed-fsa-portfolio-by-age-fy2026-q2": Path("ed_fsa/portfolio_by_age_fy2026_q2"),
+    "ed-fsa-portfolio-by-debt-size-fy2026-q2": Path(
+        "ed_fsa/portfolio_by_debt_size_fy2026_q2"
+    ),
+    "ed-fsa-portfolio-by-loan-type-fy2026-q3": Path(
+        "ed_fsa/portfolio_by_loan_type_fy2026_q3"
+    ),
+    "ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3": Path(
+        "ed_fsa/dl_portfolio_by_repayment_plan_fy2026_q3"
     ),
     "eurostat-gov-10a-taxag": Path("eurostat/gov_10a_taxag"),
     "eurostat-gov-10a-taxag-2025": Path("eurostat/gov_10a_taxag_2025"),
@@ -1020,6 +1036,12 @@ class SourceArtifactSpec:
             )
         if self.parser == "census_acs_s2201_snap_json_rows":
             return source_rows_from_census_acs_s2201_snap_json(
+                content,
+                artifact,
+                sheet_name=self._sheet_name(filename, year=year),
+            )
+        if self.parser == "census_acs_s1501_attainment_json_rows":
+            return source_rows_from_census_acs_s1501_attainment_json(
                 content,
                 artifact,
                 sheet_name=self._sheet_name(filename, year=year),
@@ -1279,6 +1301,26 @@ class SourceArtifactSpec:
                 source_rows
                 if source_rows is not None
                 else source_rows_from_census_acs_s2201_snap_json(
+                    content,
+                    artifact,
+                    sheet_name=self._sheet_name(filename, year=year),
+                )
+            )
+            return source_cells_from_source_rows(
+                rows,
+                selected_rows=tuple(
+                    {
+                        key: str(_render_value(value, year=year))
+                        for key, value in row.items()
+                    }
+                    for row in self.selected_rows
+                ),
+            )
+        if self.parser == "census_acs_s1501_attainment_json_rows":
+            rows = (
+                source_rows
+                if source_rows is not None
+                else source_rows_from_census_acs_s1501_attainment_json(
                     content,
                     artifact,
                     sheet_name=self._sheet_name(filename, year=year),

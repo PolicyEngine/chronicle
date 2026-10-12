@@ -404,7 +404,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Independent census cuts and the older-only combined Metro/Glider
         # journey series remain publisher facts with their original provenance.
         "semantic_duplicate_key_count": 2324,
-        "skipped_source_count": 10,
+        # chronicle#310's six FSA portfolio packages (FY2026 files) and the
+        # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
+        # bundle skips them (10 -> 17); no fact or key count moves.
+        "skipped_source_count": 17,
         "source_count": 56,
         "source_package_count": 377,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
@@ -449,16 +452,23 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "survey_aggregate",
     }
     assert source_packages["source_package_count"] == 377
-    assert source_packages["skipped_source_count"] == 10
+    assert source_packages["skipped_source_count"] == 17
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
         "census-acs-s0101-national-age-2024",
         "census-acs-s0101-state-age-2024",
+        "census-acs-s1501-state-attainment-2024",
         "census-acs-s2201-congressional-district-snap-2024",
         "cms-aca-effectuated-enrollment-2022",
         "cms-aca-oep-state-level",
         "cms-aca-oep-state-level-2022",
         "cms-aca-oep-state-level-2025",
+        "ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3",
+        "ed-fsa-portfolio-by-age-fy2026-q2",
+        "ed-fsa-portfolio-by-debt-size-fy2026-q2",
+        "ed-fsa-portfolio-by-loan-type-fy2026-q3",
+        "ed-fsa-portfolio-by-location-fy2026-q2",
+        "ed-fsa-portfolio-summary-fy2026-q3",
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
