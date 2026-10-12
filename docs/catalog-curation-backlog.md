@@ -51,18 +51,23 @@ like every generated artifact, is trusted not to be hand-edited. Never
 delete the seed file while the committed catalog declares that digest; the
 builder refuses that too.
 
+Each fold declares `absorbed_names`: the absorbed row's concept and
+aliases, which the builder checks for equality against that row while it is
+still committed. Folding matches only those spellings, so a spelling that
+only the survivor holds never pulls a row of the absorbed entity across.
+
 To undo a fold, mark its entry `"undone": true` and regenerate with the
-ceremony; deleting the entry is refused while git HEAD still holds it. The
-absorbed identity revives with its original UUID, rows it had absorbed by
-earlier same-dimension merges (the `us.frb` and `us.census` spellings above)
-rejoin it, and the names the fold moved onto the survivor move back. Only
-an undone fold's absorbed identity can be rejoined this way, so an ordinary
-append never revives a retired identity through a name held in another
-slice. Marking all seven folds undone on the committed artifacts reproduces
-the pre-fold catalog exactly, apart from the seed and registry digests
-(seven `revived` lines, no other event). A curated alias that no current
-row spells stays on the survivor after an undo; move it back by hand if it
-matters.
+ceremony; deleting the entry is refused while git HEAD still holds it, and
+in a tree without git history it must not be done at all, because the entry
+is the record the builder uses to hand names back. The absorbed identity
+revives with its original UUID, rows it had absorbed by earlier
+same-dimension merges (the `us.frb` and `us.census` spellings above) rejoin
+it, and its `absorbed_names` move back off the survivor, curated aliases no
+row spells included. Only an undone fold's absorbed identity can be
+rejoined this way, so an ordinary append never revives a retired identity
+through a name held in another slice. Marking all seven folds undone on the
+committed artifacts reproduces the pre-fold catalog exactly, apart from the
+seed and registry digests (seven `revived` lines, no other event).
 
 One limitation is older than the folds: the builder refuses a correction
 that supersedes a row written before assertion versioning (every row of the
