@@ -86,13 +86,27 @@ APPEND_GATE_SPEC = AppendGateSpec(
             (f"releases/anchors/{LEDGER_SPEC.producer_public_key_filename}"),
         }
     ),
+    # Every file in the judging (base) checkout that can decide a verdict. A
+    # proposal that changes one of them together with the ledger is refused as
+    # mixed, and a proposal that changes only these is reported by name.
     gate_surface=frozenset(
         {
-            "scripts/check_thesis_facts_append.py",
-            "scripts/verify_release_chain.py",
-            "scripts/canonical_json.py",
-            "scripts/cut_release_manifest.py",
+            # The judge runs scripts/check_thesis_facts_append.py, so scripts/
+            # is sys.path[0], and both pull request jobs also put it on
+            # PYTHONPATH. Any file there can decide the verdict: these pins,
+            # a module that shadows an import (the standard library's
+            # included), or a sitecustomize.py, which runs at startup.
+            "scripts/**",
             ".github/workflows/thesis-facts-append.yml",
+            # `uv sync --locked --no-dev --project <base>` builds the judge's
+            # environment from these, including the receipt version that
+            # implements the gate. uv also reads the project's uv.toml and
+            # .python-version, and reuses a .venv it finds there.
+            "pyproject.toml",
+            "uv.lock",
+            "uv.toml",
+            ".python-version",
+            ".venv/**",
             "releases/anchors/**",
         }
     ),
