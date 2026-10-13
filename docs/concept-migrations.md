@@ -182,5 +182,5 @@ semantic fact keys, as the other columns of the two files already do.
 **Pinned by** `tests/test_chronicle_soi_doc_guide_columns.py`:
 `test_schedule_a_lines_shared_across_grains_carry_table_2_1_ids` holds every
 package that reads `N19300`, `A19300`, `N19700` or `A19700` to Table 2.1's
-measure id, concept and label, and `test_state_only_columns_keep_one_identity`
+measure id, concept and label, and `test_line_7_and_refund_columns_keep_one_identity`
 gives `N00700`, `A00700`, `N18300` and `A18300` one identity in every package.
