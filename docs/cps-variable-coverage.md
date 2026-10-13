@@ -89,41 +89,6 @@ Capital gains represent the largest data quality issue for tax microsimulation:
 
 **Validation Target**: IRS SOI shows ~$120B CTC/ACTC claimed (2021)
 
-## Calibration Targets
-
-The ETL pipeline (`db/etl_soi.py`) loads IRS SOI targets for calibration:
-
-### National Targets (All Filers)
-
-| Target | SOI 2021 Value | Notes |
-|--------|----------------|-------|
-| Total returns | 153.9M | Calibration constraint |
-| Total AGI | $14.7T | Weighted sum validation |
-| EITC claims | ~27M | Eligibility validation |
-| EITC amount | ~$64B | Amount validation |
-
-### Income by Bracket (from `etl_soi_credits.py`)
-
-| AGI Bracket | Returns | AGI Amount |
-|-------------|---------|------------|
-| $0-$25k | 32.6M | $484B |
-| $25k-$50k | 31.3M | $1.2T |
-| $50k-$100k | 34.6M | $2.5T |
-| $100k-$200k | 22.8M | $3.2T |
-| $200k-$500k | 7.2M | $2.2T |
-| $500k+ | 1.8M | $5.2T |
-
-### Income by Source (from `etl_soi_income_sources.py`)
-
-| Income Type | Returns | Amount |
-|-------------|---------|--------|
-| Wages | 132M | $8.9T |
-| Interest | 55M | $277B |
-| Dividends | 32M | $432B |
-| Capital gains | 21M | $1.1T |
-| Schedule C | 29M | $399B |
-| SS taxable | 28M | $317B |
-
 ## Recommended Workflow
 
 ### 1. Download and Cache CPS
@@ -133,21 +98,10 @@ python micro/us/census/download_cps.py --year 2024
 
 ### 2. Convert to PolicyEngine Format
 ```bash
-python scripts/cps_to_policyengine.py --year 2024 --calibrate --summary
+python scripts/cps_to_policyengine.py --year 2024 --summary
 ```
 
-### 3. Validate Against Targets
-```python
-from arch.targets import get_engine, Target
-from sqlmodel import Session, select
-
-with Session(get_engine()) as session:
-    targets = session.exec(
-        select(Target).where(Target.variable.contains("eitc"))
-    ).all()
-```
-
-### 4. Run Microsimulation
+### 3. Run Microsimulation
 ```bash
 # In policyengine-us repository
 python -m policyengine_us.microsim --input policyengine_input_2024.parquet
@@ -230,24 +184,12 @@ micro/us/census/cps-asec/
 └── ... (60+ more)
 ```
 
-### Calibration Data
-
-```
-db/
-├── etl_soi.py              # Core SOI data loader
-├── etl_soi_credits.py      # Credit-specific targets
-├── etl_soi_income_sources.py  # Income by source targets
-└── schema.py               # Database schema
-```
-
 ### Conversion Scripts
 
 ```
 scripts/
-├── cps_to_policyengine.py      # Main conversion script
-└── export_to_json.py       # JSON export utility
+└── cps_to_policyengine.py      # Main conversion script
 
 micro/us/
-├── census/download_cps.py  # CPS downloader
-└── calibrate.py            # Entropy calibration
+└── census/download_cps.py  # CPS downloader
 ```

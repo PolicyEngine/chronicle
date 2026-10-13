@@ -1,9 +1,7 @@
-"""United Kingdom Arch target loaders."""
+"""United Kingdom Arch source builders.
 
-from arch.targets.loaders import (
-    load_hmrc_targets,
-    load_obr_targets,
-    load_ons_targets,
-)
+The legacy HMRC, OBR and ONS DB target loaders were retired, so this module
+exports no loaders.
+"""
 
-__all__ = ["load_hmrc_targets", "load_obr_targets", "load_ons_targets"]
+__all__: list[str] = []
