@@ -106,35 +106,3 @@ class TestSupabaseQueries:
             assert isinstance(sources, list)
             assert len(sources) == 1
             assert sources[0]["jurisdiction"] == "us"
-
-    def test_query_targets_filters_by_jurisdiction(self, mock_client):
-        """Querying targets filters by jurisdiction."""
-        from db.supabase_client import query_targets
-
-        mock_client.table.return_value.select.return_value.eq.return_value.execute.return_value.data = [
-            {"id": "456", "variable": "tax_unit_count", "value": 1000000}
-        ]
-
-        with patch("db.supabase_client.get_supabase_client", return_value=mock_client):
-            targets = query_targets(jurisdiction="us")
-            mock_client.table.assert_called()
-            assert isinstance(targets, list)
-
-    def test_query_strata_with_constraints(self, mock_client):
-        """Querying strata includes constraints."""
-        from db.supabase_client import query_strata
-
-        mock_client.table.return_value.select.return_value.execute.return_value.data = [
-            {
-                "id": "789",
-                "name": "California filers",
-                "jurisdiction": "us",
-                "constraints": [
-                    {"variable": "state_fips", "operator": "==", "value": "06"}
-                ],
-            }
-        ]
-
-        with patch("db.supabase_client.get_supabase_client", return_value=mock_client):
-            strata = query_strata()
-            assert isinstance(strata, list)

@@ -1,29 +1,15 @@
-"""Chronicle target-input helpers.
+"""Chronicle target source coverage helpers.
 
-Chronicle owns source-backed facts, target-eligible source inputs, and target
-source coverage. Consumers such as Microcosm own selection contracts, decide
-which rows their support universe can activate, and calibrate outside Chronicle.
+Chronicle owns source-backed facts and target source coverage. Consumers such
+as Microcosm own selection contracts, decide which rows their support universe
+can activate, and calibrate outside Chronicle.
 """
 
 __all__ = [
-    "DEFAULT_DB_PATH",
-    "DataSource",
-    "GeographicLevel",
-    "Jurisdiction",
-    "Stratum",
-    "StratumConstraint",
-    "Target",
     "TargetSourceCoverage",
-    "TargetType",
     "US_POVERTY_NONFILER_TARGET_COVERAGE",
     "coverage_entries",
-    "get_engine",
-    "get_session",
     "hard_target_package_aliases",
-    "init_db",
-    "insert_targets_batch",
-    "query_strata",
-    "query_targets",
     "source_gap_family_ids",
     "validate_us_poverty_nonfiler_source_coverage",
     "validation_only_family_ids",
@@ -31,7 +17,7 @@ __all__ = [
 
 
 def __getattr__(name: str):
-    """Load legacy target helpers only when explicitly requested."""
+    """Load target source coverage helpers only when explicitly requested."""
     if name not in __all__:
         raise AttributeError(name)
     from chronicle import targets
