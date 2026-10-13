@@ -163,7 +163,7 @@ def test_nz_bundle_sources_match_nz_prefixed_aliases():
     )
 
     assert NZ_BUNDLE_SOURCE_PREFIXES == ("ird", "mbie", "msd", "stats_nz", "treasury")
-    assert len(NZ_BUNDLE_SOURCES) == 66
+    assert len(NZ_BUNDLE_SOURCES) == 67
     assert NZ_BUNDLE_SOURCES == expected == nz_bundle_sources_from_aliases()
     assert_nz_bundle_sources_match_aliases()
 
@@ -193,7 +193,7 @@ def test_nz_bundle_sources_cover_every_nz_package_on_disk():
         for manifest in (root / prefix).rglob("source_package.yaml")
     }
 
-    assert len(on_disk) == 66
+    assert len(on_disk) == 67
     assert on_disk == {SOURCE_PACKAGE_ALIASES[alias] for alias in NZ_BUNDLE_SOURCES}
 
 

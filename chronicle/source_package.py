@@ -242,6 +242,9 @@ SOURCE_PACKAGE_ALIASES = {
     "stats-nz-subnational-population-estimates-2025": Path(
         "stats_nz/subnational_population_estimates_2025"
     ),
+    "stats-nz-subnational-population-ta-2025": Path(
+        "stats_nz/subnational_population_ta_2025"
+    ),
     "ons-mye-2025-uk": Path("ons/mye_2025_uk"),
     "ons-mye-2024-uk-revised-2026": Path("ons/mye_2024_uk_revised_2026"),
     "slc-student-loan-repayments-england-2026": Path(

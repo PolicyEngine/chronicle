@@ -16,9 +16,11 @@ and its unchanged XLSX provide these cells:
 Table 3's columns are 0–14, 15–39, 40–64, and 65+. All selected counts include
 all sexes; no sex-specific counts appear in these worksheets. Both source
 worksheets are parsed over their complete used ranges (2,265 cells), including
-unselected years and explanatory footnotes. The package does not ingest
-territorial authority/local board tables, island subtotals, percentages, median
-ages, or population-change components.
+unselected years and explanatory footnotes. Territorial-authority all-age
+counts from Table 2 are ingested separately by
+[subnational_population_ta_2025](../subnational_population_ta_2025/README.md).
+Local-board tables, island subtotals, percentages, median ages, and
+population-change components are not ingested by this package.
 
 ## Reference period and population definition
 
@@ -66,7 +68,7 @@ warns that the two packages word that value differently.
 ## Artifacts and remaining access gaps
 
 See [NZ population source notes](../../../docs/pe-nz-population-source-notes.md)
-for the three pinned checksums, raw storage, the detailed S7 API access failure,
+for the pinned checksums, raw storage, the detailed S7 API access failure,
 and S8's missing single-year-age artifact. The wave-1 checklist deliberately
 keeps the package-completion checkbox unchecked.
 

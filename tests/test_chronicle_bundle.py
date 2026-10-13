@@ -383,6 +383,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # year 2023: no new geography, period or entity keys, duplicate keys or
     # warnings. Its SALT and PTC column fixes, its line 8a relabel and the
     # Historic Table 2 QBI column fix change no count.
+    # G8-d2: one-source build at year 2023 measured 67 CY2025 person facts,
+    # one package/table and 67 TA geography keys; only nz-ta-067 is new to
+    # the default bundle. Publisher, period and entity keys already exist.
+    # Standalone warnings/duplicates are zero. Comparing the declared names
+    # with MBIE through the bundle warning function adds two geography-name
+    # warnings (nz-ta-018 and nz-ta-027); both publisher spellings are kept.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
@@ -391,8 +397,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Inner/Outer London also add two region-level geography keys.
         # chronicle#343 adds 63 OBR surcharge-costing projections and 22,940 ONS
         # constituency sales and median prices, at existing geographies.
-        "fact_count": 1030137,
-        "geography_count": 20548,
+        "fact_count": 1030204,
+        "geography_count": 20549,
         "period_count": 511,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
@@ -414,7 +420,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "semantic_duplicate_key_count": 2324,
         "skipped_source_count": 10,
         "source_count": 56,
-        "source_package_count": 379,
+        "source_package_count": 380,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -433,7 +439,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # predecessors, so there is no sex=all wording warning.
         # chronicle#343 adds one: ONS's 'Semi-detached houses' against DESNZ's
         # 'Semi detached' for property_type=semi_detached, each as published.
-        "warning_count": 118,
+        "warning_count": 120,
     }
     row_count = 0
     provenance_classes = set()
@@ -451,14 +457,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1030137
+    assert row_count == 1030204
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 379
+    assert source_packages["source_package_count"] == 380
     assert source_packages["skipped_source_count"] == 10
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -472,7 +478,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1030137
+    assert coverage["fact_count"] == 1030204
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -526,13 +532,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "statbel_fiscal_income_distribution": 14600,
         "statbel_population_structure": 36,
         "treasury": 139,
-        "stats_nz": 1948,
+        "stats_nz": 2015,
         "usda_snap": 852,
         "voa": 3001,
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 321
+    assert len(table_counts) == 322
     assert (
         table_counts["bea:NIPA Table 7.8. Supplements to Wages and Salaries by Type"]
         == 1
@@ -583,6 +589,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             "(provisional), Tables 1 and 3"
         ]
         == 85
+    )
+    assert (
+        table_counts[
+            "stats_nz:Subnational population estimates: At 30 June 2025 "
+            "(provisional), Table 2"
+        ]
+        == 67
     )
     assert table_counts["ird:Taxable income distribution of individuals 2025"] == 3522
     assert table_counts["ird:Wage and salary distributions for individuals 2026"] == 510
@@ -1661,6 +1674,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         expected_period_counts[f"fiscal_year:{fiscal_year}"] += count
     # chronicle#211: Stats NZ's population estimates at 30 June 2025.
     expected_period_counts["calendar_year:2025"] += 85
+    # G8-d2 reads Table 2 at the same point-in-time publisher period.
+    expected_period_counts["calendar_year:2025"] += 67
     # chronicle#322: 16 areas x 10 vehicle/fuel columns annually, and the
     # ONS extension (166 columns minus seven existing series, plus three
     # annual tourism columns).
@@ -1805,9 +1820,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             coverage["counts"]["by_geography"][f"region:{regional_council:02d}"] == 30
         )
     assert coverage["counts"]["by_geography"]["region:99"] == 25
-    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-054"] == 56
-    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-057"] == 77
-    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-066"] == 70
+    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-054"] == 57
+    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-057"] == 78
+    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-066"] == 71
+    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-067"] == 1
     assert (
         coverage["counts"]["by_geography"]["statistical_scope:nz-mbie-location-na"]
         == 84
@@ -1830,7 +1846,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["country:K03000001"] == 21401
     assert coverage["counts"]["by_geography"]["country:K04000001"] == 1148
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
-    assert len(coverage["counts"]["by_geography"]) == 20548
+    assert len(coverage["counts"]["by_geography"]) == 20549
     for region in (
         "auckland",
         "bay-of-plenty",
@@ -1859,7 +1875,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 155015,
         "institutional_sector": 4468,
         "pension_plan": 2,
-        "person": 496036,
+        "person": 496103,
         "return": 14600,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
@@ -1867,7 +1883,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
-        "conflicting_geography_name_across_packages": 78,
+        "conflicting_geography_name_across_packages": 80,
         "conflicting_groupby_value_label": 23,
         "conflicting_value_label_across_packages": 16,
         "duplicate_semantic_fact_key": 1,
@@ -1898,8 +1914,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     ]
     assert Counter(warning["key"].split(":")[0] for warning in geography_names) == {
         "county": 77,
+        "local_authority": 2,
         "statistical_scope": 1,
     }
+    assert sorted(
+        warning["key"]
+        for warning in geography_names
+        if warning["key"].startswith("local_authority:")
+    ) == ["local_authority:nz-ta-018", "local_authority:nz-ta-027"]
     assert sorted(
         warning["key"]
         for warning in summary["warnings"]
@@ -1934,6 +1956,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "0",
         "E",
         "S",
+        "n",
     }
     for source in (
         "dfe-funded-early-education-childcare-2026",
