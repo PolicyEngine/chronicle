@@ -12,6 +12,7 @@ from pathlib import Path
 
 import pytest
 import yaml
+from markdown_it import MarkdownIt
 
 
 FORBIDDEN_PACKAGE_ROOTS = {"calibration", "micro"}
@@ -682,49 +683,42 @@ DOC_COLUMN_CODE = re.compile(r"[AN][0-9]+")
 Declarations = tuple[dict[str, set[str]], set[str]]
 
 
-def _table_cells(line: str) -> list[str]:
-    """Split a Markdown table row at its unescaped pipes; `\\|` is a cell's pipe."""
-    row = line.strip().removeprefix("|")
-    if row.endswith("|") and not row.endswith("\\|"):
-        row = row[:-1]
-    return [cell.strip().replace("\\|", "|") for cell in re.split(r"(?<!\\)\|", row)]
+def _markdown_tables(doc: str) -> list[tuple[str, list[str], list[list[str]]]]:
+    """Return each table as (the heading above it, header cells, body rows).
 
-
-def _is_delimiter_row(cells: list[str]) -> bool:
-    return all(re.fullmatch(r":?-+:?", cell) for cell in cells)
-
-
-def _markdown_tables(doc: str) -> list[tuple[list[str], list[list[str]]]]:
-    """Return each table's header cells and body rows.
-
-    As in GitHub Markdown, a table is a row followed by a delimiter row with as
-    many cells, and runs to the next blank line; a row may be indented or drop
-    its outer pipes. Every body row must have the header's number of cells, so
-    no row is skipped or misread.
+    The doc is read by a CommonMark parser with GitHub's table extension, so a
+    table counts wherever GitHub renders one: indented, without outer pipes, in
+    a blockquote, list item or HTML block, under a heading of any form. A cell
+    is its Markdown source, with `\\|` read as a pipe; a short row is padded.
     """
-    tables: list[tuple[list[str], list[list[str]]]] = []
-    lines = doc.splitlines()
-    rows: list[list[str]] | None = None
-    for index, line in enumerate(lines):
-        if not line.strip():
-            rows = None
-        elif rows is not None:
-            cells = _table_cells(line)
-            assert len(cells) == len(tables[-1][0]), f"{len(cells)} cells: {line}"
-            if not _is_delimiter_row(cells):
-                rows.append(cells)
-        elif "|" in line and index + 1 < len(lines):
-            header = _table_cells(line)
-            delimiter = _table_cells(lines[index + 1])
-            if len(delimiter) == len(header) and _is_delimiter_row(delimiter):
-                rows = []
-                tables.append((header, rows))
+    tables: list[tuple[str, list[str], list[list[str]]]] = []
+    heading = ""
+    in_heading = in_header = in_cell = False
+    row: list[str] = []
+    for token in MarkdownIt("commonmark", {"html": True}).enable("table").parse(doc):
+        kind = token.type
+        if kind in ("heading_open", "heading_close"):
+            in_heading = kind == "heading_open"
+        elif kind in ("thead_open", "thead_close"):
+            in_header = kind == "thead_open"
+            if in_header:
+                tables.append((heading, [], []))
+        elif kind == "tr_open":
+            row = tables[-1][1] if in_header else []
+            if not in_header:
+                tables[-1][2].append(row)
+        elif kind in ("th_open", "td_open", "th_close", "td_close"):
+            in_cell = kind.endswith("_open")
+        elif kind == "inline" and in_heading:
+            heading = token.content
+        elif kind == "inline" and in_cell:
+            row.append(token.content)
     return tables
 
 
 def _is_replacement_column(header_cell: str) -> bool:
-    """Whether a header cell, read without emphasis or code marks, is the column."""
-    return re.sub(r"[*_`]", "", header_cell).strip().casefold() == (
+    """Whether a header cell, read without emphasis, code or escape marks, is it."""
+    return re.sub(r"[\\*_`]", "", header_cell).strip().casefold() == (
         REPLACEMENT_COLUMN.casefold()
     )
 
@@ -733,7 +727,7 @@ def _replacement_cells(doc: str) -> list[str]:
     """Return every cell of every "Chronicle package and measures" column."""
     return [
         row[column]
-        for header, rows in _markdown_tables(doc)
+        for _, header, rows in _markdown_tables(doc)
         for row in rows
         for column, cell in enumerate(header)
         if _is_replacement_column(cell)
@@ -851,29 +845,45 @@ def _shipped_package_paths() -> dict[str, Path]:
 
 REPLACEMENT_SECTION = "Where the publisher's values live"
 REPLACEMENT_HEADER = ["ETL series", REPLACEMENT_COLUMN, "Gap"]
-LAYOUT_ERROR = (
-    f"each {REPLACEMENT_SECTION!r} section must hold one table, headed "
-    + " | ".join(REPLACEMENT_HEADER)
-)
+# Every table in the cleanup doc, as (heading above it, header). A table added,
+# moved or reheaded fails the doc test until it is listed here, so no table can
+# make replacement claims the check does not read.
+DOC_TABLES = [
+    ("US legacy ETL cleanup", ["Loader", "Outcome", "Why"]),
+    (
+        "Retired: invented IRS SOI state values",
+        ["Module", "What its comments said", "Rows it wrote"],
+    ),
+    (
+        "Evidence",
+        [
+            "Legacy series (2021, 51 geographies)",
+            "IRS column",
+            "Within 0.5%",
+            "Median error",
+            "Example, legacy vs IRS",
+        ],
+    ),
+    (REPLACEMENT_SECTION, REPLACEMENT_HEADER),
+    (
+        "Retired: hand-typed values from other publishers",
+        ["Module", "Rows on main", "Evidence"],
+    ),
+    (REPLACEMENT_SECTION, REPLACEMENT_HEADER),
+]
+LAYOUT_ERROR = "the cleanup doc's tables differ from DOC_TABLES"
 
 
 def _us_legacy_etl_cleanup_doc_claim_errors(
     doc: str,
 ) -> tuple[list[tuple[str, ...]], list[str]]:
-    """Check the doc's replacement tables and the claims their cells make.
+    """Check the doc's table layout and the claims its replacement cells make.
 
-    Each of the two "Where the publisher's values live" sections must hold one
-    table, with the standard header. The claims of every replacement column in
-    the doc are checked, wherever its table is.
+    The doc's tables must be DOC_TABLES. The claims of every replacement column
+    are checked, wherever its table is.
     """
-    headings = re.findall(r"^#+ (.*)$", doc, flags=re.MULTILINE)
-    sections = re.split(r"^#+ .*$", doc, flags=re.MULTILINE)[1:]
-    layout = [
-        [header for header, _ in _markdown_tables(section)]
-        for heading, section in zip(headings, sections)
-        if heading == REPLACEMENT_SECTION
-    ]
-    layout_errors = [] if layout == [[REPLACEMENT_HEADER]] * 2 else [LAYOUT_ERROR]
+    layout = [(heading, header) for heading, header, _ in _markdown_tables(doc)]
+    layout_errors = [] if layout == DOC_TABLES else [LAYOUT_ERROR]
 
     cells = _replacement_cells(doc)
     paths = _shipped_package_paths()
@@ -1031,46 +1041,51 @@ def test_replacement_claim_check_flags_undeclared_ids(cell, error):
     assert _fake_row_claim_errors(cell)[1] == [error]
 
 
-@pytest.mark.parametrize(
-    "row",
-    [
-        "| x | `pkg-a` `return_count` | y | z |",
-        "| x | `pkg-a` `return_count`|`pkg-b` | y |",
-        "| x | `pkg-a` `return_count` |",
-    ],
-)
-def test_markdown_tables_reject_rows_off_the_header_width(row):
-    header = f"| Series | {REPLACEMENT_COLUMN} | Gap |\n|---|---|---|\n"
-    assert _replacement_cells(header + "| x | `pkg-a` `N1`\\|`A1` | y |\n") == [
-        "`pkg-a` `N1`|`A1`"
-    ]
+def test_markdown_tables_read_cells_as_github_renders_them():
+    doc = (
+        "## Heading ##\n\nProse | with a pipe\n\n"
+        f"| Series | {REPLACEMENT_COLUMN} | Gap |\n|---|---|---|\n"
+        "| x | `pkg-a` `N1`\\|`A1` | y | not rendered |\n"
+        "  w | `pkg-b`\n"
+    )
 
-    with pytest.raises(AssertionError, match="cells: "):
-        _markdown_tables(header + row + "\n")
+    assert _markdown_tables(doc) == [
+        (
+            "Heading",
+            ["Series", REPLACEMENT_COLUMN, "Gap"],
+            [["x", "`pkg-a` `N1`|`A1`", "y"], ["w", "`pkg-b`", ""]],
+        )
+    ]
 
 
 def test_replacement_cells_read_every_replacement_column():
     doc = (
-        "Prose | with a pipe\n\n"
         f"| Series | **{REPLACEMENT_COLUMN}** | `{REPLACEMENT_COLUMN.lower()}` |\n"
         "| :--- | --- | ---: |\n"
         "| x | `pkg-a` | `pkg-b` |\n\n"
-        "| Series | Chronicle packages |\n|---|---|\n| x | `pkg-c` |\n"
+        f"> | Series | {REPLACEMENT_COLUMN}\\* |\n> |---|---|\n> | x | `pkg-c` |\n\n"
+        "| Series | Chronicle packages |\n|---|---|\n| x | `pkg-d` |\n"
     )
 
-    assert _replacement_cells(doc) == ["`pkg-a`", "`pkg-b`"]
+    assert _replacement_cells(doc) == ["`pkg-a`", "`pkg-b`", "`pkg-c`"]
 
 
 # Edits to the real doc, as ((text, replacement) pairs, the errors they must
-# raise). The indented row, the row without outer pipes, the escaped pipe, the
-# second table with a bold header and the repeated column are valid GitHub
-# Markdown that a line-prefix, bare-pipe or exact-header table reader skips or
-# splits.
+# raise). Each is valid GitHub Markdown that shows the edited claim in a
+# rendered replacement column; the indented row, row without outer pipes,
+# escaped pipe, bold or escaped header, repeated column and tables in a
+# blockquote, list item or HTML block each got past an earlier table reader.
 BROAD = "soi-historic-table-2-state-broad-2022"
 MEDICAL_ROW = (
     "| `db/etl_soi_deductions.py` `medical_claims`, `medical_amount` (state) "
     f"| `{BROAD}` `medical_dental_expense_*` | None for 2022. |"
 )
+BAD_MEDICAL_ROW = MEDICAL_ROW.replace("expense_*", "expense_amt")
+BAD_MEDICAL_ERROR = f"{BROAD}: declares no `medical_dental_expense_amt`"
+BAD_MEDICAL_TABLE = (
+    f"| {' | '.join(REPLACEMENT_HEADER)} |\n|---|---|---|\n{BAD_MEDICAL_ROW}"
+)
+OTHER_PUBLISHERS = "## Retired: hand-typed values from other publishers"
 ACA_HEADER = (
     f"| {' | '.join(REPLACEMENT_HEADER)} |\n|---|---|---|\n"
     "| `db/etl_aca_enrollment.py` state and national plan selections"
@@ -1079,6 +1094,16 @@ ACA_GAP = (
     "| The OEP packages publish state rows only, so national totals are a gap, "
     "and the 2023 OEP file is not packaged. |"
 )
+
+
+def _move_bad_medical_row(table: str) -> list[tuple[str, str]]:
+    """Edits that move the medical row, mistyped, into `table` further down."""
+    return [
+        (MEDICAL_ROW + "\n", ""),
+        (OTHER_PUBLISHERS, f"{table}\n\n{OTHER_PUBLISHERS}"),
+    ]
+
+
 DOC_MUTATIONS = {
     "renamed measure": (
         [
@@ -1089,13 +1114,13 @@ DOC_MUTATIONS = {
         ],
         [f"{BROAD}: declares no `return_counts`"],
     ),
-    "indented row with a mistyped wildcard": (
-        [(MEDICAL_ROW, "  " + MEDICAL_ROW.replace("expense_*", "expens_*"))],
-        [f"{BROAD}: declares no `medical_dental_expens_*`"],
+    "indented row": (
+        [(MEDICAL_ROW, "  " + BAD_MEDICAL_ROW)],
+        [BAD_MEDICAL_ERROR],
     ),
     "row without outer pipes": (
-        [(MEDICAL_ROW, MEDICAL_ROW.strip("|").replace("expense_*", "expense_amt"))],
-        [f"{BROAD}: declares no `medical_dental_expense_amt`"],
+        [(MEDICAL_ROW, BAD_MEDICAL_ROW.strip("|"))],
+        [BAD_MEDICAL_ERROR],
     ),
     "escaped pipe between column codes": (
         [("`N19300`/`A19300`", "`N19300`\\|`A19301`")],
@@ -1109,17 +1134,38 @@ DOC_MUTATIONS = {
             (
                 MEDICAL_ROW,
                 f"\n| ETL series | **{REPLACEMENT_COLUMN}** | Gap |\n|---|---|---|\n"
-                + MEDICAL_ROW.replace("expense_*", "expens_*"),
+                + BAD_MEDICAL_ROW,
             )
         ],
-        [LAYOUT_ERROR, f"{BROAD}: declares no `medical_dental_expens_*`"],
+        [LAYOUT_ERROR, BAD_MEDICAL_ERROR],
     ),
     "repeated replacement column": (
         [
             (ACA_HEADER, ACA_HEADER.replace("| Gap |", f"| {REPLACEMENT_COLUMN} |")),
             (ACA_GAP, f"| `{BROAD}` `medical_dental_expense_amt` |"),
         ],
-        [LAYOUT_ERROR, f"{BROAD}: declares no `medical_dental_expense_amt`"],
+        [LAYOUT_ERROR, BAD_MEDICAL_ERROR],
+    ),
+    "row moved into a blockquote": (
+        _move_bad_medical_row(
+            "\n".join(f"> {line}" for line in BAD_MEDICAL_TABLE.splitlines())
+        ),
+        [LAYOUT_ERROR, BAD_MEDICAL_ERROR],
+    ),
+    "row moved into a list item": (
+        _move_bad_medical_row("- " + BAD_MEDICAL_TABLE.replace("\n", "\n  ")),
+        [LAYOUT_ERROR, BAD_MEDICAL_ERROR],
+    ),
+    "row moved into an HTML block": (
+        _move_bad_medical_row(f"<details>\n\n{BAD_MEDICAL_TABLE}\n\n</details>"),
+        [LAYOUT_ERROR, BAD_MEDICAL_ERROR],
+    ),
+    "row moved to a new table with an escaped header": (
+        _move_bad_medical_row(
+            "### More replacements\n\n"
+            + BAD_MEDICAL_TABLE.replace(REPLACEMENT_COLUMN, REPLACEMENT_COLUMN + "\\*")
+        ),
+        [LAYOUT_ERROR, BAD_MEDICAL_ERROR],
     ),
 }
 
@@ -1136,3 +1182,26 @@ def test_us_legacy_etl_cleanup_doc_check_flags_edited_claims(mutation):
         doc = doc.replace(text, replacement)
 
     assert _us_legacy_etl_cleanup_doc_claim_errors(doc)[1] == expected
+
+
+@pytest.mark.parametrize(
+    "heading",
+    [
+        " ### Where the publisher's values live ###  ",
+        "Where the publisher's values live\n---",
+        "Where the publisher's values live\n===",
+    ],
+)
+def test_us_legacy_etl_cleanup_doc_check_reads_any_heading_form(heading):
+    doc = (
+        Path(__file__).resolve().parents[1] / "docs" / "us-legacy-etl-cleanup.md"
+    ).read_text()
+    original = "### Where the publisher's values live"
+    assert doc.count(original) == 2
+
+    claims, errors = _us_legacy_etl_cleanup_doc_claim_errors(
+        doc.replace(original, heading)
+    )
+
+    assert errors == []
+    assert claims
