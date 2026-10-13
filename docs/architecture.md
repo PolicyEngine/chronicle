@@ -52,12 +52,14 @@ New code should use the `policyengine_chronicle` namespace:
 ```python
 from policyengine_chronicle.sources import SourceFile, SourceReference
 from policyengine_chronicle.facts import SourceFact
-from policyengine_chronicle.targets import Target, query_targets
+from policyengine_chronicle.targets import hard_target_package_aliases
 from policyengine_chronicle.normalization import convert_units
 ```
 
-The `db` package contains the current SQLModel persistence and loader
-implementation behind the public `policyengine_chronicle` namespace.
+The `db` package holds the local source-artifact store and the packaged
+publisher files behind the public `policyengine_chronicle` namespace. The
+legacy `targets` / `strata` / `stratum_constraints` tables, their loaders and
+the Supabase client were retired (see `docs/us-legacy-etl-cleanup.md`).
 
 Jurisdiction source packages should use short import namespaces and published
 distribution names with a PolicyEngine prefix:
@@ -184,19 +186,12 @@ fact and its provenance are identified.
 
 ## Downstream Target Composition
 
-### 1. Target Inputs (from `targets.*` schema)
+### 1. Source facts (from the consumer-fact export)
 
-Target inputs define source-backed aggregates that Microcosm may use:
-
-```sql
--- targets.strata: Population subgroups
-INSERT INTO targets.strata (name, jurisdiction, constraints)
-VALUES ('CA adults 18-64', 'us', '[{"variable": "age", "operator": ">=", "value": "18"}, ...]');
-
--- targets.targets: Source-backed aggregate values
-INSERT INTO targets.targets (stratum_id, variable, value, period)
-VALUES (1, 'eitc_recipients', 2500000, 2023);
-```
+Microcosm reads source-backed facts from a pinned Chronicle build: it runs
+`chronicle build-bundle` and `chronicle build-consumer-artifact` and consumes
+the digest-pinned consumer facts. Chronicle has no separate target table;
+target selection starts from those facts.
 
 ### 2. Variable Mapping
 
@@ -211,7 +206,7 @@ sets:
 
 ```python
 target_set = microcosm.targets.compose(
-    inputs=chronicle_targets,
+    inputs=chronicle_facts,
     target_year=2024,
     reconciliation="scale_states_to_national",
     aging="apply_published_growth_factor",
@@ -317,17 +312,6 @@ indexing_rule eitc_inflation:
   base_year: 2015
   rounding: 10
 ```
-
-### targets.* (Target Inputs)
-
-```sql
-targets.strata           -- population subgroups with constraints
-targets.constraints      -- variable, operator, value per stratum
-targets.targets          -- stratum_id, variable, value, period, source
-```
-
-Targets in Chronicle are source-backed inputs. Active, aged, reconciled calibration
-target sets belong to Microcosm Targets.
 
 ### microcosm.* (Final Output)
 

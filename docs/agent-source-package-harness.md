@@ -4,12 +4,11 @@ Chronicle source-population agents should fill constrained source packages and l
 the build suite decide whether the package is admissible. Agents should not
 hand-edit Chronicle DB artifacts, generated JSONL outputs, or core schema modules.
 
-The older Python ETL loaders that write directly into the legacy `targets`
-tables are compatibility and migration inputs, not the preferred agent
-population path. They are useful for proving source coverage against Microcosm
-today, but a source family should become agent-ready only after it is expressed
-as a source package with full-document parsing, source-row or source-cell
-lineage, provenance, constraints, and a passing `build-suite` report.
+The older Python ETL loaders that wrote directly into the legacy `targets`
+tables were retired (see `docs/us-legacy-etl-cleanup.md`). A source family
+becomes agent-ready only after it is expressed as a source package with
+full-document parsing, source-row or source-cell lineage, provenance,
+constraints, and a passing `build-suite` report.
 
 The first gate for a new package is source-artifact acquisition. Agents should
 register raw source files with `uv run chronicle fetch-artifact` before authoring

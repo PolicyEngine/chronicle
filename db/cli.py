@@ -1,4 +1,4 @@
-"""CLI for managing Chronicle target input data."""
+"""CLI for Chronicle's local source-artifact database."""
 
 import argparse
 from pathlib import Path
@@ -6,14 +6,11 @@ from pathlib import Path
 from sqlalchemy import func
 from sqlmodel import Session, select
 
-from .etl_soi import load_soi_targets
 from .schema import (
     DEFAULT_DB_PATH,
     SourceArtifact,
     SourceRow,
     SourceTable,
-    Stratum,
-    Target,
     init_db,
     get_engine,
 )
@@ -24,51 +21,6 @@ def cmd_init(args):
     db_path = Path(args.db) if args.db else DEFAULT_DB_PATH
     init_db(db_path)
     print(f"Initialized database at {db_path}")
-
-
-def cmd_load(args):
-    """Load targets from a source."""
-    db_path = Path(args.db) if args.db else DEFAULT_DB_PATH
-    engine = init_db(db_path)
-
-    with Session(engine) as session:
-        if args.source == "soi" or args.source == "all":
-            years = [int(y) for y in args.years.split(",")] if args.years else None
-            load_soi_targets(session, years=years)
-            print(f"Loaded SOI targets for years: {years or 'all available'}")
-
-        if args.source == "snap" or args.source == "all":
-            from .etl_snap import load_snap_targets
-
-            years = [int(y) for y in args.years.split(",")] if args.years else None
-            load_snap_targets(session, years=years)
-            print(f"Loaded SNAP targets for years: {years or 'all available'}")
-
-
-def cmd_stats(args):
-    """Show database statistics."""
-    db_path = Path(args.db) if args.db else DEFAULT_DB_PATH
-
-    if not db_path.exists():
-        print(f"Database not found at {db_path}")
-        return
-
-    engine = get_engine(db_path)
-    with Session(engine) as session:
-        strata_count = len(session.exec(select(Stratum)).all())
-        targets_count = len(session.exec(select(Target)).all())
-
-        # Get unique sources
-        sources = session.exec(select(Target.source).distinct()).all()
-
-        # Get unique years
-        years = session.exec(select(Target.period).distinct()).all()
-
-        print(f"Database: {db_path}")
-        print(f"Strata: {strata_count}")
-        print(f"Targets: {targets_count}")
-        print(f"Sources: {', '.join(str(s) for s in sources)}")
-        print(f"Years: {', '.join(str(y) for y in sorted(years))}")
 
 
 def cmd_load_source_files(args):
@@ -148,41 +100,6 @@ def cmd_source_stats(args):
         print(f"  {source_id}: {count:,}")
 
 
-def cmd_query(args):
-    """Query targets."""
-    db_path = Path(args.db) if args.db else DEFAULT_DB_PATH
-
-    if not db_path.exists():
-        print(f"Database not found at {db_path}")
-        return
-
-    engine = get_engine(db_path)
-    with Session(engine) as session:
-        query = select(Target, Stratum).join(Stratum)
-
-        if args.variable:
-            query = query.where(Target.variable == args.variable)
-        if args.year:
-            query = query.where(Target.period == int(args.year))
-        if args.source:
-            query = query.where(Target.source == args.source)
-
-        results = session.exec(query).all()
-
-        if not results:
-            print("No targets found matching criteria")
-            return
-
-        print(
-            f"{'Stratum':<30} {'Variable':<25} {'Year':<6} {'Value':>15} {'Source':<10}"
-        )
-        print("-" * 90)
-        for target, stratum in results[: args.limit]:
-            print(
-                f"{stratum.name:<30} {target.variable:<25} {target.period:<6} {target.value:>15,.0f} {target.source.value:<10}"
-            )
-
-
 def _pe_source_root_env_default(jurisdiction: str) -> str | None:
     from .pe_source_inventory import (
         PE_UK_DATA_ROOT_ENV,
@@ -195,7 +112,9 @@ def _pe_source_root_env_default(jurisdiction: str) -> str | None:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Manage Chronicle target input data")
+    parser = argparse.ArgumentParser(
+        description="Manage Chronicle's local source-artifact database"
+    )
     parser.add_argument("--db", help=f"Database path (default: {DEFAULT_DB_PATH})")
 
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -203,26 +122,6 @@ def main():
     # init
     init_parser = subparsers.add_parser("init", help="Initialize database")
     init_parser.set_defaults(func=cmd_init)
-
-    # load
-    load_parser = subparsers.add_parser("load", help="Load targets from source")
-    load_parser.add_argument(
-        "source",
-        choices=[
-            "soi",
-            "snap",
-            "all",
-        ],
-        help="Data source to load",
-    )
-    load_parser.add_argument(
-        "--years", help="Comma-separated years to load (default: all)"
-    )
-    load_parser.set_defaults(func=cmd_load)
-
-    # stats
-    stats_parser = subparsers.add_parser("stats", help="Show database statistics")
-    stats_parser.set_defaults(func=cmd_stats)
 
     # load-source-files
     source_parser = subparsers.add_parser(
@@ -262,14 +161,6 @@ def main():
         "source-stats", help="Show source artifact statistics"
     )
     source_stats_parser.set_defaults(func=cmd_source_stats)
-
-    # query
-    query_parser = subparsers.add_parser("query", help="Query targets")
-    query_parser.add_argument("--variable", help="Filter by variable name")
-    query_parser.add_argument("--year", help="Filter by year")
-    query_parser.add_argument("--source", help="Filter by source")
-    query_parser.add_argument("--limit", type=int, default=20, help="Max results")
-    query_parser.set_defaults(func=cmd_query)
 
     args = parser.parse_args()
     args.func(args)

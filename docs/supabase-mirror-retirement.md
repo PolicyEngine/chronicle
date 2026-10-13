@@ -29,9 +29,9 @@ both were retired on 2026-10-12.
   for the objects it published.
 - When this retirement landed, `SupabaseConfig` and `get_supabase_client` stayed
   in `db/supabase_client.py` only for the legacy target-input helpers
-  (`query_targets`, `query_strata`, `insert_targets_batch`). Those helpers are
-  being retired separately, and the client and the `supabase` dependency go with
-  them.
+  (`query_targets`, `query_strata`, `insert_targets_batch`). The legacy targets
+  retirement (chronicle#353) then deleted those helpers, `db/supabase_client.py`,
+  `chronicle/client.py` and the `supabase` dependency.
 
 ## History
 

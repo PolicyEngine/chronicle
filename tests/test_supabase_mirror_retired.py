@@ -33,14 +33,9 @@ RETIRED_SURFACE_STRINGS = (
     "POLICYENGINE_LEDGER_SCHEMA",
     "20260504_chronicle_bronze",
 )
-# Modules allowed to import a Supabase client while the legacy target-input
-# helpers remain. The set only shrinks.
-SUPABASE_CLIENT_IMPORTERS = {
-    "chronicle/client.py",
-    "chronicle/targets/__init__.py",
-    "chronicle/targets/client.py",
-    "db/supabase_client.py",
-}
+# Modules allowed to import a Supabase client. The legacy target-input helpers
+# were its last callers; with them retired, nothing may.
+SUPABASE_CLIENT_IMPORTERS: set[str] = set()
 SUPABASE_MODULES = ("supabase", "db.supabase_client", "chronicle.client")
 
 
