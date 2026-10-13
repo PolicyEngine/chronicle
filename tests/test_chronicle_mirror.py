@@ -1,15 +1,11 @@
-"""Tests for hosted-mirror exports from Chronicle DB artifacts."""
+"""Tests for per-table JSONL exports of Chronicle DB artifacts."""
 
 from __future__ import annotations
 
 import json
 
 from chronicle.harness import main as harness_main
-from chronicle.mirror import (
-    LEDGER_MIRROR_TABLES,
-    export_chronicle_db_tables,
-    load_supabase_mirror,
-)
+from chronicle.mirror import LEDGER_MIRROR_TABLES, export_chronicle_db_tables
 from chronicle.database import build_chronicle_db
 from chronicle.jurisdictions.us.soi import (
     build_soi_table_1_1_source_cells,
@@ -98,130 +94,24 @@ def test_export_db_tables_cli_emits_manifest_summary(tmp_path, capsys):
     assert (output_dir / "manifest.json").exists()
 
 
-def test_load_supabase_mirror_dry_run_counts_exported_rows(tmp_path):
+def test_export_covers_every_table_the_db_build_writes(tmp_path):
+    """The JSONL export is the only bulk relational path out of a DB artifact."""
+    import sqlite3
+    from contextlib import closing
+
     db_path = tmp_path / "ledger.db"
-    output_dir = tmp_path / "mirror"
     build_chronicle_db(
         build_soi_table_1_1_facts(2023),
         db_path,
         source_cells=build_soi_table_1_1_source_cells(2023),
     )
-    export_report = export_chronicle_db_tables(db_path, output_dir)
-
-    load_report = load_supabase_mirror(output_dir, dry_run=True, batch_size=25)
-
-    assert load_report.valid
-    assert load_report.dry_run
-    assert load_report.table_count == len(LEDGER_MIRROR_TABLES)
-    assert load_report.row_count == export_report.row_count
-    assert all(table.row_count_matches_manifest for table in load_report.tables)
-
-
-def test_load_supabase_mirror_uses_schema_upserts_and_build_artifact_override(
-    tmp_path,
-):
-    mirror_dir = tmp_path / "mirror"
-    mirror_dir.mkdir()
-    for table in LEDGER_MIRROR_TABLES:
-        (mirror_dir / f"{table}.jsonl").write_text("")
-    build_artifacts_path = tmp_path / "build_artifacts.jsonl"
-    build_artifacts_path.write_text(
-        json.dumps(
-            {
-                "build_artifact_key": "ledger.build_artifact.v1:test",
-                "build_id": "ledger.build.v1:test",
-                "artifact_kind": "json",
-                "artifact_name": "reports/build_summary.json",
-                "sha256": "abc",
-                "size_bytes": 3,
-                "r2_bucket": "ledger-derived",
-                "r2_key": "derived/test",
-                "r2_uri": "r2://ledger-derived/derived/test",
-            },
-            sort_keys=True,
-        )
-        + "\n"
-    )
-    client = _FakeSupabaseClient()
-
-    report = load_supabase_mirror(
-        mirror_dir,
-        table_paths={"build_artifacts": build_artifacts_path},
-        client=client,
-    )
-
-    assert report.valid
-    assert report.row_count == 1
-    build_artifact_load = next(
-        table for table in report.tables if table.table == "build_artifacts"
-    )
-    assert build_artifact_load.manifest_row_count is None
-    assert build_artifact_load.row_count_matches_manifest is None
-    assert client.upserts == [
-        (
-            "ledger",
-            "build_artifacts",
-            "build_artifact_key",
-            ["ledger.build_artifact.v1:test"],
-        )
-    ]
-
-
-def test_load_supabase_mirror_cli_dry_run(tmp_path, capsys):
-    mirror_dir = tmp_path / "mirror"
-    mirror_dir.mkdir()
-    for table in LEDGER_MIRROR_TABLES:
-        (mirror_dir / f"{table}.jsonl").write_text("")
-
-    exit_code = harness_main(
-        [
-            "load-supabase-mirror",
-            "--dir",
-            str(mirror_dir),
-            "--dry-run",
-        ]
-    )
-    payload = json.loads(capsys.readouterr().out)
-
-    assert exit_code == 0
-    assert payload["valid"]
-    assert payload["dry_run"]
-    assert payload["table_count"] == len(LEDGER_MIRROR_TABLES)
-
-
-class _FakeSupabaseClient:
-    def __init__(self):
-        self.upserts = []
-
-    def schema(self, schema):
-        return _FakeSupabaseSchema(self, schema)
-
-
-class _FakeSupabaseSchema:
-    def __init__(self, client, schema):
-        self.client = client
-        self.schema = schema
-
-    def table(self, table):
-        return _FakeSupabaseTable(self.client, self.schema, table)
-
-
-class _FakeSupabaseTable:
-    def __init__(self, client, schema, table):
-        self.client = client
-        self.schema = schema
-        self.table = table
-
-    def upsert(self, rows, *, on_conflict):
-        self.client.upserts.append(
-            (
-                self.schema,
-                self.table,
-                on_conflict,
-                [row.get("build_artifact_key") for row in rows],
+    with closing(sqlite3.connect(db_path)) as connection:
+        tables = {
+            name
+            for (name,) in connection.execute(
+                "SELECT name FROM sqlite_master "
+                "WHERE type = 'table' AND name NOT LIKE 'sqlite_%'"
             )
-        )
-        return self
+        }
 
-    def execute(self):
-        return None
+    assert tables == set(LEDGER_MIRROR_TABLES)
