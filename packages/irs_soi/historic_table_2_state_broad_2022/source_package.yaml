@@ -781,6 +781,98 @@ record_sets:
     expected_column_header_row: 1
     expected_column_header: A11070
     value_scale: 1000
+  - measure_id: taxable_state_local_income_tax_refunds_returns
+    label: Returns with taxable refunds of state and local income taxes
+    ordinal: 53
+    column: AG
+    source_column_id: N00700
+    concept: irs_soi.returns_with_taxable_state_local_income_tax_refunds
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N00700
+  - measure_id: taxable_state_local_income_tax_refunds_amount
+    label: Taxable refunds of state and local income taxes
+    ordinal: 54
+    column: AH
+    source_column_id: A00700
+    concept: irs_soi.taxable_state_local_income_tax_refunds
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A00700
+    value_scale: 1000
+  - measure_id: taxes_paid_deduction_returns
+    label: Returns with taxes paid deduction
+    ordinal: 55
+    column: CD
+    source_column_id: N18300
+    concept: irs_soi.returns_with_taxes_paid_deduction
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N18300
+  - measure_id: taxes_paid_deduction_amount
+    label: Taxes paid deduction amount
+    ordinal: 56
+    column: CE
+    source_column_id: A18300
+    concept: irs_soi.taxes_paid_deduction
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A18300
+    value_scale: 1000
+  - measure_id: mortgage_interest_paid_returns
+    label: Returns with home mortgage interest paid to financial institutions
+    ordinal: 57
+    column: CH
+    source_column_id: N19300
+    concept: irs_soi.returns_with_home_mortgage_interest_paid_to_financial_institutions
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N19300
+  - measure_id: mortgage_interest_paid_amount
+    label: Home mortgage interest paid to financial institutions amount
+    ordinal: 58
+    column: CI
+    source_column_id: A19300
+    concept: irs_soi.home_mortgage_interest_paid_to_financial_institutions
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A19300
+    value_scale: 1000
+  - measure_id: charitable_returns
+    label: Returns with contributions deduction
+    ordinal: 59
+    column: CP
+    source_column_id: N19700
+    concept: irs_soi.returns_with_contributions_deduction
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: N19700
+  - measure_id: charitable_amount
+    label: Contributions deduction amount
+    ordinal: 60
+    column: CQ
+    source_column_id: A19700
+    concept: irs_soi.contributions_deduction
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: A19700
+    value_scale: 1000
 - record_set_id: irs_soi.ty2022.historic_table_2.state_broad.ak
   provenance_class: administrative
   record_set_spec_id: irs_soi.historic_table_2.state_broad_totals.v1
