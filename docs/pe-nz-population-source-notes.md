@@ -28,10 +28,10 @@ The objects use
 After upload, the original three remote objects were downloaded through the authorized
 Chronicle/Wrangler path and their byte counts and SHA-256 hashes matched the
 local publisher artifacts.
-The TA 2025 classification's local bytes match its staged manifest; its R2 key
-is declared, but publication and remote verification are owned by the NZ hub
-and have not been performed by G8-d2. The workbook and its existing manifest
-are unchanged.
+The NZ hub published the TA 2025 classification to its declared R2 key on
+13 October 2026 and verified it by streaming the remote object back: its
+SHA-256 matched the manifest. The workbook and its existing manifest are
+unchanged.
 The two population references share a 30 June 2025 reference date, not a
 publication date. The national landing page is evidence of the missing download
 surface, **not** a single-year-age data artifact or a national source package.
