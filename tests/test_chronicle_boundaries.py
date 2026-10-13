@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ast
+import functools
 import hashlib
 import importlib.util
 import re
@@ -711,11 +712,14 @@ def _clauses(cell: str) -> list[str]:
     return clauses
 
 
-def _declarations(package) -> Declarations:
+@functools.cache
+def _declarations(package_path: Path) -> Declarations:
     """Return a package's measure ids with their source columns, and its row ids."""
+    from chronicle.source_package import load_source_package
+
     measures: dict[str, set[str]] = {}
     rows: set[str] = set()
-    for record_set in package.record_sets:
+    for record_set in load_source_package(package_path).record_sets:
         for measure in record_set.payload["measures"]:
             columns = measures.setdefault(measure["measure_id"], set())
             if measure.get("source_column_id") is not None:
@@ -725,6 +729,7 @@ def _declarations(package) -> Declarations:
 
 
 def _matching_measures(declared_id: str, measures: dict[str, set[str]]) -> list[str]:
+    """Return the measure ids an exact id or a `prefix_*` wildcard names."""
     if declared_id.endswith("_*"):
         return [measure for measure in measures if measure.startswith(declared_id[:-1])]
     return [declared_id] if declared_id in measures else []
@@ -806,8 +811,6 @@ def _us_legacy_etl_cleanup_doc_claim_errors(
     doc: str,
 ) -> tuple[list[tuple[str, ...]], list[str]]:
     """Check the doc's replacement claims against the packages they name."""
-    from chronicle.source_package import load_source_package
-
     cells = _replacement_cells(doc)
     paths = _shipped_package_paths()
     named = {
@@ -817,7 +820,7 @@ def _us_legacy_etl_cleanup_doc_claim_errors(
         if DOC_PACKAGE_ID.fullmatch(token)
     }
     declarations = {
-        package_id: _declarations(load_source_package(paths[package_id]))
+        package_id: _declarations(paths[package_id])
         for package_id in sorted(named & set(paths))
     }
     return _replacement_claim_errors(cells, declarations)
@@ -862,7 +865,9 @@ def test_us_legacy_etl_cleanup_doc_accounts_for_retired_series():
     # declares, and every IRS column code is one its measure reads.
     cells = _replacement_cells(doc)
     assert cells
-    assert all(cell == "—" or DOC_PACKAGE_ID.search(cell) for cell in cells)
+    for cell in cells:
+        tokens = re.findall(r"`([^`]+)`", cell)
+        assert cell == "—" or any(DOC_PACKAGE_ID.fullmatch(t) for t in tokens), cell
     claims, errors = _us_legacy_etl_cleanup_doc_claim_errors(doc)
     assert errors == []
     assert {package for package, *_ in claims} >= {
