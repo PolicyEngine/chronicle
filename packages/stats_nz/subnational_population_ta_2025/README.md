@@ -41,7 +41,7 @@ and are unchanged.
 The separately pinned [Stats NZ TA 2025 classification](../../../db/data/stats_nz/territorial_authority_2025_codes/manifest.yaml)
 contains 68 code/name/ASCII-name entries. Workbook headers match its
 `TA2025_V1_00_NAME_ASCII` values after removing macrons and case-folding;
-matching does not depend on row order alone. Every admitted code is used once.
+row order never assigns a code. Every admitted code is used once.
 Code `999`, Area Outside Territorial Authority, has no workbook row and is
 excluded. Each `geography_name` is the publisher's `TA2025_V1_00_NAME`, while
 the value `label` is the exact workbook row text. For example, `nz-ta-002`
@@ -78,8 +78,9 @@ or computed population enters Chronicle.
 
 [NZ population source notes](../../../docs/pe-nz-population-source-notes.md)
 record the workbook and classification checksums and sizes. The workbook is
-already published and verified. The TA classification's local bytes match the
-staged manifest; the NZ hub owns its R2 publication and remote verification.
+already published and verified. The NZ hub published the TA classification to
+its declared `raw/nz/stats_nz/...` key on 13 October 2026 and verified the
+remote object by SHA-256 against the manifest.
 
 The package-specific tests build an independent expected map from the workbook
 and classification, compare every admitted cell, check ten exact sample cells,

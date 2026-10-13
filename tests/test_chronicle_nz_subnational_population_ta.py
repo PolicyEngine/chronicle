@@ -87,9 +87,7 @@ def _publisher_evidence():
     attributes = [feature["attributes"] for feature in classification["features"]]
     assert len(attributes) == 68
     by_code = {item["TA2025_V1_00"]: item for item in attributes}
-    by_name = {
-        item["TA2025_V1_00_NAME_ASCII"].casefold(): item for item in attributes
-    }
+    by_name = {item["TA2025_V1_00_NAME_ASCII"].casefold(): item for item in attributes}
     assert len(by_code) == len(by_name) == 68
     assert "999" in by_code
 
@@ -127,10 +125,7 @@ def _publisher_evidence():
 # silently delete their regression cases.
 EXPECTED_GUARDS = {
     **SHARED_GUARDS,
-    **{
-        f"A{item['row']}": item["label"]
-        for item in _publisher_evidence()[0].values()
-    },
+    **{f"A{item['row']}": item["label"] for item in _publisher_evidence()[0].values()},
 }
 
 
@@ -280,9 +275,9 @@ def test_excludes_local_boards_outside_area_and_national_row(population):
     assert values["A96"] == "New Zealand(3)"
     assert values["E96"] == 5_324_700
     assert {fact.geography.id for fact in facts}.isdisjoint({"NZ", "999", "nz-ta-999"})
-    assert not {
-        fact.layout.groupby_value_label for fact in facts
-    } & set(boards.values())
+    assert not {fact.layout.groupby_value_label for fact in facts} & set(
+        boards.values()
+    )
     # All excluded rows, years and change columns remain in parsed source cells.
     addresses = {cell.address for cell in cells}
     assert {f"E{row}" for row in boards} | {"E96", "C8", "D8", "F8", "G8"} <= addresses
@@ -294,9 +289,9 @@ def test_auckland_reads_published_total_cell_without_local_board_arithmetic(popu
     auckland = _facts_by_id(facts)["nz-ta-076"]
     assert auckland.value == 1_816_000
     assert cells_by_key[auckland.source_cell_keys[0]].address == "E11"
-    assert not {
-        cells_by_key[key].address for key in auckland.source_cell_keys
-    } & {f"E{row}" for row in range(12, 33)}
+    assert not {cells_by_key[key].address for key in auckland.source_cell_keys} & {
+        f"E{row}" for row in range(12, 33)
+    }
 
 
 def test_period_population_and_provisional_status_are_source_backed(population):
@@ -322,17 +317,16 @@ def test_period_population_and_provisional_status_are_source_backed(population):
         assert fact.measure.concept == "stats_nz.estimated_resident_population"
         assert fact.source.vintage == "stats_nz_subnational_population_2025_10_29"
         assert "Table 2" in fact.source.source_table
-        assert row["geography"]["name"] == _publisher_evidence()[0][
-            fact.geography.id
-        ]["name"]
+        assert (
+            row["geography"]["name"]
+            == _publisher_evidence()[0][fact.geography.id]["name"]
+        )
         assert row["concept_alignment"]["relation"] == "source_label"
         notes = row["concept_alignment"]["evidence_notes"]
         assert "provisional" in notes.lower()
         assert "1 January 2025" in notes
         assert "2023 census" in notes
-        lineage_addresses = {
-            cell_index[key].address for key in fact.source_cell_keys
-        }
+        lineage_addresses = {cell_index[key].address for key in fact.source_cell_keys}
         assert SHARED_GUARDS.keys() <= lineage_addresses
 
 
