@@ -690,28 +690,54 @@ def _table_cells(line: str) -> list[str]:
     return [cell.strip().replace("\\|", "|") for cell in re.split(r"(?<!\\)\|", row)]
 
 
-def _replacement_tables(doc: str) -> list[list[str]]:
-    """Return the "Chronicle package and measures" cells of each table with one.
+def _is_delimiter_row(cells: list[str]) -> bool:
+    return all(re.fullmatch(r":?-+:?", cell) for cell in cells)
 
-    As in GitHub Markdown, a table runs from its header row to the next blank
-    line, and a row may be indented or drop its outer pipes. Every row must have
-    the header's number of cells, so no row's claims are skipped or misread.
+
+def _markdown_tables(doc: str) -> list[tuple[list[str], list[list[str]]]]:
+    """Return each table's header cells and body rows.
+
+    As in GitHub Markdown, a table is a row followed by a delimiter row with as
+    many cells, and runs to the next blank line; a row may be indented or drop
+    its outer pipes. Every body row must have the header's number of cells, so
+    no row is skipped or misread.
     """
-    tables: list[list[str]] = []
-    header: list[str] | None = None
-    for line in doc.splitlines():
+    tables: list[tuple[list[str], list[list[str]]]] = []
+    lines = doc.splitlines()
+    rows: list[list[str]] | None = None
+    for index, line in enumerate(lines):
         if not line.strip():
-            header = None
-        elif header is None:
-            if "|" in line and REPLACEMENT_COLUMN in _table_cells(line):
-                header = _table_cells(line)
-                tables.append([])
-        else:
+            rows = None
+        elif rows is not None:
             cells = _table_cells(line)
-            assert len(cells) == len(header), f"{len(cells)} cells: {line}"
-            if not all(re.fullmatch(r":?-+:?", cell) for cell in cells):
-                tables[-1].append(cells[header.index(REPLACEMENT_COLUMN)])
+            assert len(cells) == len(tables[-1][0]), f"{len(cells)} cells: {line}"
+            if not _is_delimiter_row(cells):
+                rows.append(cells)
+        elif "|" in line and index + 1 < len(lines):
+            header = _table_cells(line)
+            delimiter = _table_cells(lines[index + 1])
+            if len(delimiter) == len(header) and _is_delimiter_row(delimiter):
+                rows = []
+                tables.append((header, rows))
     return tables
+
+
+def _is_replacement_column(header_cell: str) -> bool:
+    """Whether a header cell, read without emphasis or code marks, is the column."""
+    return re.sub(r"[*_`]", "", header_cell).strip().casefold() == (
+        REPLACEMENT_COLUMN.casefold()
+    )
+
+
+def _replacement_cells(doc: str) -> list[str]:
+    """Return every cell of every "Chronicle package and measures" column."""
+    return [
+        row[column]
+        for header, rows in _markdown_tables(doc)
+        for row in rows
+        for column, cell in enumerate(header)
+        if _is_replacement_column(cell)
+    ]
 
 
 def _clauses(cell: str) -> list[str]:
@@ -823,11 +849,33 @@ def _shipped_package_paths() -> dict[str, Path]:
     }
 
 
+REPLACEMENT_SECTION = "Where the publisher's values live"
+REPLACEMENT_HEADER = ["ETL series", REPLACEMENT_COLUMN, "Gap"]
+LAYOUT_ERROR = (
+    f"each {REPLACEMENT_SECTION!r} section must hold one table, headed "
+    + " | ".join(REPLACEMENT_HEADER)
+)
+
+
 def _us_legacy_etl_cleanup_doc_claim_errors(
     doc: str,
 ) -> tuple[list[tuple[str, ...]], list[str]]:
-    """Check the doc's replacement claims against the packages they name."""
-    cells = [cell for table in _replacement_tables(doc) for cell in table]
+    """Check the doc's replacement tables and the claims their cells make.
+
+    Each of the two "Where the publisher's values live" sections must hold one
+    table, with the standard header. The claims of every replacement column in
+    the doc are checked, wherever its table is.
+    """
+    headings = re.findall(r"^#+ (.*)$", doc, flags=re.MULTILINE)
+    sections = re.split(r"^#+ .*$", doc, flags=re.MULTILINE)[1:]
+    layout = [
+        [header for header, _ in _markdown_tables(section)]
+        for heading, section in zip(headings, sections)
+        if heading == REPLACEMENT_SECTION
+    ]
+    layout_errors = [] if layout == [[REPLACEMENT_HEADER]] * 2 else [LAYOUT_ERROR]
+
+    cells = _replacement_cells(doc)
     paths = _shipped_package_paths()
     named = {
         token
@@ -839,7 +887,8 @@ def _us_legacy_etl_cleanup_doc_claim_errors(
         package_id: _declarations(paths[package_id])
         for package_id in sorted(named & set(paths))
     }
-    return _replacement_claim_errors(cells, declarations)
+    claims, errors = _replacement_claim_errors(cells, declarations)
+    return claims, layout_errors + errors
 
 
 def test_us_legacy_etl_cleanup_doc_accounts_for_retired_series():
@@ -877,13 +926,12 @@ def test_us_legacy_etl_cleanup_doc_accounts_for_retired_series():
     assert named
     assert named <= package_ids
 
-    # Every id a replacement cell names next to a package is one that package
-    # declares, and every IRS column code is one its measure reads. Each
-    # "Where the publisher's values live" section has one replacement table.
-    tables = _replacement_tables(doc)
-    assert len(tables) == doc.count("### Where the publisher's values live") == 2
-    assert all(tables)
-    for cell in (cell for table in tables for cell in table):
+    # Each "Where the publisher's values live" section holds one replacement
+    # table. Every id a replacement cell names next to a package is one that
+    # package declares, and every IRS column code is one its measure reads.
+    cells = _replacement_cells(doc)
+    assert cells
+    for cell in cells:
         tokens = re.findall(r"`([^`]+)`", cell)
         assert cell == "—" or any(DOC_PACKAGE_ID.fullmatch(t) for t in tokens), cell
     claims, errors = _us_legacy_etl_cleanup_doc_claim_errors(doc)
@@ -917,8 +965,7 @@ def _fake_row_claim_errors(cell: str) -> tuple[list[tuple[str, ...]], list[str]]
     doc = (
         f"| Series | {REPLACEMENT_COLUMN} | Gap |\n|---|---|---|\n| x | {cell} | y |\n"
     )
-    (cells,) = _replacement_tables(doc)
-    return _replacement_claim_errors(cells, FAKE_DECLARATIONS)
+    return _replacement_claim_errors(_replacement_cells(doc), FAKE_DECLARATIONS)
 
 
 @pytest.mark.parametrize(
@@ -992,45 +1039,87 @@ def test_replacement_claim_check_flags_undeclared_ids(cell, error):
         "| x | `pkg-a` `return_count` |",
     ],
 )
-def test_replacement_tables_reject_rows_off_the_header_width(row):
+def test_markdown_tables_reject_rows_off_the_header_width(row):
     header = f"| Series | {REPLACEMENT_COLUMN} | Gap |\n|---|---|---|\n"
-    assert _replacement_tables(header + "| x | `pkg-a` `N1`\\|`A1` | y |\n") == [
-        ["`pkg-a` `N1`|`A1`"]
+    assert _replacement_cells(header + "| x | `pkg-a` `N1`\\|`A1` | y |\n") == [
+        "`pkg-a` `N1`|`A1`"
     ]
 
     with pytest.raises(AssertionError, match="cells: "):
-        _replacement_tables(header + row + "\n")
+        _markdown_tables(header + row + "\n")
 
 
-# Edits to the real doc, as (text, replacement, the one error they must raise).
-# The indented row, the row without outer pipes and the escaped pipe are valid
-# GitHub Markdown that a line-prefix or bare-pipe table reader skips or splits.
+def test_replacement_cells_read_every_replacement_column():
+    doc = (
+        "Prose | with a pipe\n\n"
+        f"| Series | **{REPLACEMENT_COLUMN}** | `{REPLACEMENT_COLUMN.lower()}` |\n"
+        "| :--- | --- | ---: |\n"
+        "| x | `pkg-a` | `pkg-b` |\n\n"
+        "| Series | Chronicle packages |\n|---|---|\n| x | `pkg-c` |\n"
+    )
+
+    assert _replacement_cells(doc) == ["`pkg-a`", "`pkg-b`"]
+
+
+# Edits to the real doc, as ((text, replacement) pairs, the errors they must
+# raise). The indented row, the row without outer pipes, the escaped pipe, the
+# second table with a bold header and the repeated column are valid GitHub
+# Markdown that a line-prefix, bare-pipe or exact-header table reader skips or
+# splits.
 BROAD = "soi-historic-table-2-state-broad-2022"
+MEDICAL_ROW = (
+    "| `db/etl_soi_deductions.py` `medical_claims`, `medical_amount` (state) "
+    f"| `{BROAD}` `medical_dental_expense_*` | None for 2022. |"
+)
+ACA_HEADER = (
+    f"| {' | '.join(REPLACEMENT_HEADER)} |\n|---|---|---|\n"
+    "| `db/etl_aca_enrollment.py` state and national plan selections"
+)
+ACA_GAP = (
+    "| The OEP packages publish state rows only, so national totals are a gap, "
+    "and the 2023 OEP file is not packaged. |"
+)
 DOC_MUTATIONS = {
     "renamed measure": (
-        f"`{BROAD}` `return_count`, `adjusted_gross_income`",
-        f"`{BROAD}` `return_counts`, `adjusted_gross_income`",
-        f"{BROAD}: declares no `return_counts`",
+        [
+            (
+                f"`{BROAD}` `return_count`, `adjusted_gross_income`",
+                f"`{BROAD}` `return_counts`, `adjusted_gross_income`",
+            )
+        ],
+        [f"{BROAD}: declares no `return_counts`"],
     ),
     "indented row with a mistyped wildcard": (
-        f"| `db/etl_soi_deductions.py` `medical_claims`, `medical_amount` (state) "
-        f"| `{BROAD}` `medical_dental_expense_*`",
-        f"  | `db/etl_soi_deductions.py` `medical_claims`, `medical_amount` (state) "
-        f"| `{BROAD}` `medical_dental_expens_*`",
-        f"{BROAD}: declares no `medical_dental_expens_*`",
+        [(MEDICAL_ROW, "  " + MEDICAL_ROW.replace("expense_*", "expens_*"))],
+        [f"{BROAD}: declares no `medical_dental_expens_*`"],
     ),
     "row without outer pipes": (
-        "| `db/etl_soi_deductions.py` `medical_claims`, `medical_amount` (state) "
-        f"| `{BROAD}` `medical_dental_expense_*` | None for 2022. |",
-        "`db/etl_soi_deductions.py` `medical_claims`, `medical_amount` (state) "
-        f"| `{BROAD}` `medical_dental_expense_amt` | None for 2022.",
-        f"{BROAD}: declares no `medical_dental_expense_amt`",
+        [(MEDICAL_ROW, MEDICAL_ROW.strip("|").replace("expense_*", "expense_amt"))],
+        [f"{BROAD}: declares no `medical_dental_expense_amt`"],
     ),
     "escaped pipe between column codes": (
-        "`N19300`/`A19300`",
-        "`N19300`\\|`A19301`",
-        "soi-congressional-district-2022: no `mortgage_interest_paid_*` measure "
-        "reads `A19301`",
+        [("`N19300`/`A19300`", "`N19300`\\|`A19301`")],
+        [
+            "soi-congressional-district-2022: no `mortgage_interest_paid_*` "
+            "measure reads `A19301`"
+        ],
+    ),
+    "second table with a bold header": (
+        [
+            (
+                MEDICAL_ROW,
+                f"\n| ETL series | **{REPLACEMENT_COLUMN}** | Gap |\n|---|---|---|\n"
+                + MEDICAL_ROW.replace("expense_*", "expens_*"),
+            )
+        ],
+        [LAYOUT_ERROR, f"{BROAD}: declares no `medical_dental_expens_*`"],
+    ),
+    "repeated replacement column": (
+        [
+            (ACA_HEADER, ACA_HEADER.replace("| Gap |", f"| {REPLACEMENT_COLUMN} |")),
+            (ACA_GAP, f"| `{BROAD}` `medical_dental_expense_amt` |"),
+        ],
+        [LAYOUT_ERROR, f"{BROAD}: declares no `medical_dental_expense_amt`"],
     ),
 }
 
@@ -1041,9 +1130,9 @@ def test_us_legacy_etl_cleanup_doc_check_flags_edited_claims(mutation):
     doc = (
         Path(__file__).resolve().parents[1] / "docs" / "us-legacy-etl-cleanup.md"
     ).read_text()
-    text, replacement, error = DOC_MUTATIONS[mutation]
-    assert doc.count(text) == 1
+    edits, expected = DOC_MUTATIONS[mutation]
+    for text, replacement in edits:
+        assert doc.count(text) == 1
+        doc = doc.replace(text, replacement)
 
-    _, errors = _us_legacy_etl_cleanup_doc_claim_errors(doc.replace(text, replacement))
-
-    assert errors == [error]
+    assert _us_legacy_etl_cleanup_doc_claim_errors(doc)[1] == expected
