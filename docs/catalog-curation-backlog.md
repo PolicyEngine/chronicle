@@ -171,6 +171,17 @@ were closed on 2026-08-09 by chronicle#153:
   replay rejects the hand-forged plan before any write reaches disk, and
   the builder end-to-end refuses the stale catalog, leaving both
   artifacts untouched.
+- 2026-10-16: #153 added the live-binding check but kept the first-owner
+  conjunct (`uuid_owner[row_uuid] == prior_own_key`) alongside it. Because
+  the first owner never moves, that conjunct refused every second
+  enrichment hop. A placeholder that had already been enriched once (a
+  geography-free placeholder enriched to geography-only when its docket
+  entry learned a country) could not take its first print. The conjunct is
+  gone, and the live binding alone is the contract.
+  `usaspending.dod.prime_award_obligations` (a2649fd9) hit this in Thesis
+  run 38962977031. Tests now pin the chain and the stale-row refusals. A
+  property test also checks that the builder plans an enrichment exactly
+  when the registry grammar admits the retire + succeeds pair.
 
 ## Country geography on Colorado-scoped concepts, and one raw series id (2026-09-04)
 
