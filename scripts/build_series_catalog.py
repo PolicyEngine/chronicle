@@ -2133,7 +2133,6 @@ def build_catalog(
         placeholder whose live binding owns ``row_uuid``; True if planned.
         """
         prior_own_key = UuidRegistry.entry_key(prior)
-        owner_key = registry.uuid_owner.get(uuid_module.UUID(row_uuid).int)
         prior_geo = prior.get("geography") or None
         geo = geography or {}
         enrichment_shaped = (
@@ -2149,14 +2148,17 @@ def build_catalog(
                 )
             )
         )
-        # uuid_owner records FIRST ownership and never moves, so alone it
-        # would accept a stale catalog row still carrying a UUID its key
-        # has since superseded away from. The contract is about the LIVE
-        # binding: demand it be row_uuid itself. Staging replay would
-        # reject such a plan anyway; this fails at plan time instead.
+        # The contract is the LIVE binding: the row's own key must be live
+        # and bound to row_uuid right now. That alone refuses a stale row
+        # still carrying a UUID its key has since superseded away from, or
+        # a key that was retired, handed over or reclaimed. Staging replay
+        # would reject such a plan anyway; this fails at plan time instead.
+        # Historical ownership (uuid_owner) is not part of the contract: it
+        # records FIRST ownership and never moves, so a placeholder that
+        # was itself the successor of an earlier enrichment never owns its
+        # UUID and could never be enriched again.
         if not (
             enrichment_shaped
-            and owner_key == prior_own_key
             and registry.is_live(prior_own_key)
             and registry.binding(prior_own_key) == row_uuid
         ):
@@ -2164,8 +2166,11 @@ def build_catalog(
         # Docket-placeholder enrichment: the binding MOVES to the observed
         # identity via an explicit retire + succeeds pair. UUID continuity
         # is preserved, so no ceremony flag is needed — this holds for the
-        # first enrichment and for a re-enrichment after a withdraw/reclaim
-        # cycle (the grammar accepts succeeds on a retired successor key).
+        # first enrichment, for a chain of them (a geography-free
+        # placeholder enriched to a geography-only one, then to the
+        # observed identity), and for a re-enrichment after a
+        # withdraw/reclaim cycle (the grammar accepts succeeds on a retired
+        # successor key).
         plan["enrich_retires"].append(
             dict(
                 _registry_event(
@@ -2285,7 +2290,8 @@ def build_catalog(
                 return row_uuid
             raise SystemExit(
                 f"identity {canon_key} would mint uuid {row_uuid}, which "
-                f"the registry already binds to {owner_key} — UUID reuse "
+                f"the registry already knows (first bound to {owner_key}) "
+                "— UUID reuse "
                 "requires an explicit ceremony (merge via curated alias + "
                 "--allow-remint, or placeholder enrichment)"
             )
