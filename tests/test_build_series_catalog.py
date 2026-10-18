@@ -4463,8 +4463,9 @@ def _plan_events(plan: dict) -> list[dict]:
 
 
 def _event_kind(event: dict) -> str:
+    # Planned events carry absent markers as None; rendered lines omit them.
     for marker in ("succeeds", "supersedes", "retired", "revived", "reclaimed"):
-        if marker in event:
+        if event.get(marker) is not None:
             return marker
     return "mint"
 
@@ -4840,10 +4841,11 @@ def test_a_returned_placeholder_never_hands_over_twice(
     # then the country returns and B takes U2 from A. B is live and bound
     # to U2, but it is still consumed: it already handed over once, and the
     # grammar never lets a predecessor hand over twice. When C's
-    # observation returns, the builder must refuse at plan time. Without the
-    # consumed check it planned retire(B/U2) + C succeeds B, which staging
-    # rejected. Base refused too (B never first-owned U2), so this pins the
-    # status quo for this lineage, not a regression.
+    # observation returns, the builder must refuse at plan time, naming the
+    # cause. Without the consumed check it planned retire(B/U2) + C
+    # succeeds B, which staging rejected. Base refused too (B never
+    # first-owned U2), but with a remint message that blamed a supersede
+    # nobody made. The curation the diagnostic suggests must then work.
     concept = "agency.lineage"
     bystander = _row("bls.cps.unemployment_rate")
     observed = _row(concept)
@@ -4896,10 +4898,36 @@ def test_a_returned_placeholder_never_hands_over_twice(
     catalog_before = (tmp_path / "catalog.json").read_bytes()
     registry_before = (tmp_path / "registry.jsonl").read_bytes()
     for flags in ([], remint):
-        with pytest.raises(SystemExit, match="superseding UUIDs must be new"):
+        with pytest.raises(SystemExit, match="hands over at most once"):
             bsc.main(argv + flags)
         assert (tmp_path / "catalog.json").read_bytes() == catalog_before
         assert (tmp_path / "registry.jsonl").read_bytes() == registry_before
+
+    # The suggested curation: delete the placeholder's catalog row and
+    # rerun with --allow-remint. C revives its own U1; B's U2 retires.
+    catalog = json.loads(catalog_before)
+    catalog["series"] = [
+        r for r in catalog["series"] if r["concept"] != concept
+    ]
+    (tmp_path / "catalog.json").write_text(
+        json.dumps(catalog, indent=2) + "\n", encoding="utf-8"
+    )
+    assert bsc.main(argv) == 1  # retiring B's live binding is gated
+    assert bsc.main(argv + remint) == 0
+    assert bsc.main(argv + ["--check"]) == 0
+    registry = bsc.UuidRegistry.load(tmp_path / "registry.jsonl")
+    u1 = registry.binding(c_key)
+    assert registry.is_live(c_key) and u1 != u2
+    assert not registry.is_live(b_key) and registry.binding(b_key) == u2
+    assert [
+        (_key(e), _event_kind(e))
+        for e in _registry_lines(tmp_path)[len(registry_before.splitlines()):]
+    ] == [(c_key, "revived"), (b_key, "retired")]
+    (row,) = [
+        r for r in json.loads((tmp_path / "catalog.json").read_text())["series"]
+        if r["concept"] == concept
+    ]
+    assert (row["uuid"], row["status"], _key(row)) == (u1, "observed", c_key)
 
 
 def test_a_docket_alias_never_plans_a_cross_concept_hop(
@@ -4908,18 +4936,37 @@ def test_a_docket_alias_never_plans_a_cross_concept_hop(
     # Independent-review finding (chronicle#360, LOW, pre-existing): a
     # docket entry naming a placeholder by its curated alias keys the
     # docket row under the alias, so the planned succeeds crossed concepts
-    # and died only in staging replay. The builder now refuses at plan time.
+    # and died only in staging replay. The builder now refuses at plan time
+    # naming the cause, and the remedy it names (call the docket entry by
+    # the placeholder's own concept) enriches cleanly.
     existing = {"series": [
         dict(_docket_row("agency.a", U1, None), aliases=["agency.b"]),
     ]}
-    docket = {"series": [{"series": "agency.b", "cadence": "monthly",
-                          "extras": {"country": "US",
-                                     "targetUnit": "percent"}}]}
-    with pytest.raises(SystemExit, match="explicit ceremony"):
+    entry = {"series": "agency.b", "cadence": "monthly",
+             "extras": {"country": "US", "targetUnit": "percent"}}
+    with pytest.raises(SystemExit, match="never crosses concepts") as refused:
         _build(
             tmp_path, [], existing=existing,
-            registry_entries=[_mint("agency.a", U1)], docket=docket,
+            registry_entries=[_mint("agency.a", U1)],
+            docket={"series": [entry]},
         )
+    assert "name the docket entry 'agency.a'" in str(refused.value)
+    catalog, plan = _build(
+        tmp_path, [], existing=existing,
+        registry_entries=[_mint("agency.a", U1)],
+        docket={"series": [dict(entry, series="agency.a")]},
+    )
+    (row,) = catalog["series"]
+    assert (row["concept"], row["uuid"], row["status"]) == (
+        "agency.a", U1, "docket-only"
+    )
+    assert [_event_kind(e) for e in _plan_events(plan)] == [
+        "retired", "succeeds"
+    ]
+    staged = _registry(tmp_path, [_mint("agency.a", U1)]).stage(
+        _plan_events(plan)
+    )
+    assert bsc.registry_agreement_problems(catalog, staged) == []
 
 
 # A small identity universe for generated registry histories: two concepts
@@ -5185,8 +5232,13 @@ def test_enrichment_is_planned_exactly_when_the_grammar_admits_it(
         )
     except SystemExit as exc:
         assert not admitted, exc
-        assert "explicit ceremony" in str(exc) or (
-            "superseding UUIDs must be new" in str(exc)
+        assert any(
+            diagnostic in str(exc)
+            for diagnostic in (
+                "explicit ceremony",
+                "superseding UUIDs must be new",
+                "hands over at most once",
+            )
         ), exc
         return
     hop = [e for e in plan["mints"] if "succeeds" in e]

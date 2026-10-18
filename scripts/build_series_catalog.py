@@ -2129,19 +2129,23 @@ def build_catalog(
         entity: dict | None,
         row_uuid: str,
     ) -> bool:
-        """Plan a retire + succeeds pair when ``prior`` is a genuine
-        placeholder whose live binding owns ``row_uuid``; True if planned.
+        """Plan a retire + succeeds pair when ``prior`` is a docket
+        placeholder that holds ``row_uuid`` live and may hand it over to
+        ``canon_key``; True if planned.
+
+        A placeholder that holds ``row_uuid`` live but may not hand it over
+        (``canon_key`` is another concept, or the placeholder already
+        handed over once) raises a diagnostic naming that cause. Every
+        caller would refuse such a row anyway, since the UUID is
+        registered, but with a UUID-reuse or remint message that misstates
+        why.
         """
         prior_own_key = UuidRegistry.entry_key(prior)
         prior_geo = prior.get("geography") or None
         geo = geography or {}
-        # Lineage never crosses concepts. Observed buckets always take the
-        # prior's concept; a docket entry matched through a curated alias
-        # can name another one, and the grammar would refuse that succeeds.
-        enrichment_shaped = (
+        placeholder_shaped = (
             prior.get("status") == "docket-only"
             and prior.get("entity") is None
-            and prior.get("concept") == canon_key[0]
             and (
                 prior_geo is None
                 or (
@@ -2152,26 +2156,49 @@ def build_catalog(
                 )
             )
         )
-        # The contract is the LIVE binding: the row's own key must be live,
-        # bound to row_uuid right now, and still able to hand its lineage
-        # over. Liveness and binding refuse a stale row still carrying a
-        # UUID its key has since superseded away from, and a key that was
-        # retired, handed over or reclaimed. A key hands over at most once:
-        # one that handed over and later returned as the successor of
-        # another hop is live again but stays consumed, and the grammar
-        # refuses it as a predecessor. Staging replay would reject each of
-        # these plans anyway; this fails at plan time instead.
-        # Historical ownership (uuid_owner) is not part of the contract: it
-        # records FIRST ownership and never moves, so a placeholder that
-        # was itself the successor of an earlier enrichment never owns its
-        # UUID and could never be enriched again.
+        # The contract is the LIVE binding plus the grammar's hand-over
+        # rules. The row's own key must be live and bound to row_uuid right
+        # now: that refuses a stale row still carrying a UUID its key has
+        # since superseded away from, and a key that was retired, handed
+        # over or reclaimed. Staging replay would reject each of these
+        # plans anyway; this fails at plan time instead. Historical
+        # ownership (uuid_owner) is not part of the contract: it records
+        # FIRST ownership and never moves, so a placeholder that was itself
+        # the successor of an earlier enrichment never owns its UUID and
+        # could never be enriched again.
         if not (
-            enrichment_shaped
+            placeholder_shaped
             and registry.is_live(prior_own_key)
             and registry.binding(prior_own_key) == row_uuid
-            and prior_own_key not in registry.consumed
         ):
             return False
+        # Lineage never crosses concepts. Observed buckets always take the
+        # prior's concept; a docket entry matched through a curated alias
+        # can name another one, and the grammar refuses that succeeds.
+        if prior.get("concept") != canon_key[0]:
+            raise SystemExit(
+                f"identity {canon_key} matches docket placeholder "
+                f"{prior_own_key} (uuid {row_uuid}) only through the "
+                f"curated alias {canon_key[0]!r}; lineage never crosses "
+                "concepts, so the placeholder cannot be enriched into it — "
+                f"name the docket entry {prior['concept']!r}, the "
+                "placeholder's own concept"
+            )
+        # A key hands over at most once. One that handed over and later
+        # returned as the successor of another hop is live again, but it
+        # stays consumed and the grammar refuses it as a predecessor.
+        if prior_own_key in registry.consumed:
+            raise SystemExit(
+                f"identity {canon_key} would take uuid {row_uuid} from docket "
+                f"placeholder {prior_own_key}, which already handed its "
+                "lineage over once and holds this uuid as the successor of a "
+                "later enrichment; a placeholder hands over at most once. "
+                "Curate it: for example, delete the placeholder's catalog row "
+                "and rerun with --allow-remint, so the observed identity "
+                "takes its own lineage (reviving its retired binding, or "
+                "minting if it has none) and the placeholder's binding "
+                "retires"
+            )
         # Docket-placeholder enrichment: the binding MOVES to the observed
         # identity via an explicit retire + succeeds pair. UUID continuity
         # is preserved, so no ceremony flag is needed — this holds for the

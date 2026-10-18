@@ -176,12 +176,19 @@ were closed on 2026-08-09 by chronicle#153:
   the first owner never moves, that conjunct refused every second
   enrichment hop. A placeholder that had already been enriched once (a
   geography-free placeholder enriched to geography-only when its docket
-  entry learned a country) could not take its first print. The conjunct is
-  gone, and the live binding alone is the contract.
+  entry learned a country) could not take its first print.
   `usaspending.dod.prime_award_obligations` (a2649fd9) hit this in Thesis
-  run 38962977031. Tests now pin the chain and the stale-row refusals. A
-  property test also checks that the builder plans an enrichment exactly
-  when the registry grammar admits the retire + succeeds pair.
+  run 38962977031. The conjunct is gone (#360). The contract is now the
+  live binding plus the grammar's hand-over rules: the placeholder's key
+  is live and bound to the row's UUID, it is the same concept as the
+  identity it hands over to, and it has not handed over before. A key that
+  handed over and later returned as the successor of another hop is live
+  again but stays consumed. When the binding holds but either hand-over
+  rule fails, the builder refuses at plan time and names the cause.
+  Tests pin the chain, the stale-row refusals, both hand-over refusals
+  and the curation each refusal suggests. A property test checks that the
+  builder plans an enrichment exactly when the registry grammar admits
+  the retire + succeeds pair.
 
 ## Country geography on Colorado-scoped concepts, and one raw series id (2026-09-04)
 
