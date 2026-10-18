@@ -3,6 +3,7 @@
   "reviewed_catalog_commit": "55bbf3d",
   "notes": {
     "2026_08": "Reviewed 2026-10-12. abs.cpi.all_groups.yoy took its 2026-08 first print at 2ed9bae9 (ledger line 231, source_record_id abs.cpi.all_groups.yoy.2026_08.first_print, period month 2026-08). 2026_08 is that row's own period written with an underscore; the concept's earlier print (line 161) wrote 2026-06 with a hyphen, which is why this is the concept's first strip in the source_record_id shape abs.cpi.all_groups.yoy.{P:9999_99}.first_print. A period label, so the strip stands.",
+    "fy2026": "Reviewed 2026-10-18. Five USAspending DoD series took their FY2026 first prints at dd929cba (chronicle#361, manifest 0024-b2328c1685c09fd7): usaspending.dod.new_prime_awards, prime_award_transactions, prime_contract_obligations, small_business_contract_obligation_share and unique_prime_contract_recipients, each with source_record_id usaspending.dod.<series>.fy2026.registered_query_snapshot and period fiscal_year 2026. fy2026 is that period spelled directly (kind derived): the docket entries declare period FY2026 and the USAspending query is keyed by fiscal_year, so it is a period label, not a statute, cohort or edition label, and the strips stand.",
     "week_2026-06-13": "One observation, the 2026-06-13 initial-claims first print (ledger line 44), spells its week twice: source_record_id us.dol.initial_claims.sa.week_2026-06-13 with ISO hyphens and measure.concept us.dol.initial_claims.sa.week_2026_06_13 with underscores. The builder strips period tokens from both identifier fields and records each distinct spelling, so this pair is one week spelled two ways, not a naming bug in the builder or the catalog. Both strip as overlap because the row declares period month 2026-06; see docs/catalog-curation-backlog.md, 'Initial claims cadence metadata'.",
     "week_2026-07-13": "va.vba.mmwr.claims_inventory, first seen at c2aa68d: the VA MMWR publication date for the week ending 2026-07-11, the row's own period, so a period spelling of this row and not a colliding label; the strip stands. It strips as overlap (the report date falls after the week it reports), so each further MMWR print in this spelling is reported for review until the rows spell their own week.",
     "week_2026_06_13": "The underscore spelling of week_2026-06-13; see that note.",
@@ -1632,6 +1633,41 @@
       "source_record_id": {
         "us.fed.fomc.target_range_upper.{P:9999-99}": {
           "2026-06": ["derived"]
+        }
+      }
+    },
+    "usaspending.dod.new_prime_awards": {
+      "source_record_id": {
+        "usaspending.dod.new_prime_awards.{P:fy9999}.registered_query_snapshot": {
+          "fy2026": ["derived"]
+        }
+      }
+    },
+    "usaspending.dod.prime_award_transactions": {
+      "source_record_id": {
+        "usaspending.dod.prime_award_transactions.{P:fy9999}.registered_query_snapshot": {
+          "fy2026": ["derived"]
+        }
+      }
+    },
+    "usaspending.dod.prime_contract_obligations": {
+      "source_record_id": {
+        "usaspending.dod.prime_contract_obligations.{P:fy9999}.registered_query_snapshot": {
+          "fy2026": ["derived"]
+        }
+      }
+    },
+    "usaspending.dod.small_business_contract_obligation_share": {
+      "source_record_id": {
+        "usaspending.dod.small_business_contract_obligation_share.{P:fy9999}.registered_query_snapshot": {
+          "fy2026": ["derived"]
+        }
+      }
+    },
+    "usaspending.dod.unique_prime_contract_recipients": {
+      "source_record_id": {
+        "usaspending.dod.unique_prime_contract_recipients.{P:fy9999}.registered_query_snapshot": {
+          "fy2026": ["derived"]
         }
       }
     },

@@ -2423,8 +2423,20 @@ def test_identity_uuid_map_matches_reviewed_anchor() -> None:
     # d5634fc4 (fed.g17.industrial_production.total_index_mom
     # institutional_sector). No mint, no supersede; the other 221 live
     # bindings keep their UUIDs (228 -> 221).
+    # Updated 2026-10-18 to the catalog at dd929cba (chronicle#361, manifest
+    # 0024-b2328c1685c09fd7) alongside its ten registry events: five
+    # geography-free docket placeholders enriched by their FY2026 first
+    # prints through retire+succeeds pairs that keep each UUID and take the
+    # observation's U.S. country (vintage current) geography and economy
+    # aggregate entity: usaspending.dod.new_prime_awards (8146ecb0),
+    # prime_award_transactions (82ff2d7f), prime_contract_obligations
+    # (11ea0d3d), small_business_contract_obligation_share (91e3b668) and
+    # unique_prime_contract_recipients (96d17026). Recomputed with this
+    # test's algorithm, 8c4a0f86 gives the previous pin exactly and the delta
+    # to dd929cba is those five tuples re-keyed with the same UUIDs. No mint,
+    # no supersede; the other 216 bindings are unchanged; 221 rows.
     assert digest == (
-        "56bb47bc6928206b1aad67e25a1ebe8a92ff4d02e53ec3923f540fefe7c57cad"
+        "b06bf665ffb608795c14a984d65a7145df4c0c58fd73a132b0756e23ad51e25f"
     )
 
 

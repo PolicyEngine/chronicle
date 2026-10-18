@@ -1,12 +1,12 @@
 {
   "comment": "Canonical series catalog. One row per (concept, geography level/id/vintage, entity) identity. UUID authority is the append-only ledger/series_uuid_registry.jsonl (digest below): a uuid is minted once, inherited from the registry on every regeneration, and changes only through explicit, chained supersede/retire/revive/succeeds events recorded there (live bindings and rows stay in bijection). Consumers reference series by uuid or concept only. Regenerate with scripts/build_series_catalog.py; verify with --check. Aliases are curated identity statements (plus observed spellings of the same identity) and inherit only within one (geography, entity) slice; aliases listed in ambiguous_aliases match multiple rows and never drive inheritance. source_concepts are publisher labels — provenance, never identity. Cross-spelling and cross-vintage merges are manual curation: delete the absorbed row, alias its concept on the survivor, regenerate with --allow-remint.",
   "generator_version": 3,
-  "observations_sha256": "10c15c16e92c71a0830b5551952f508c2908f3ce2c23615e13a050d7794bd3f2",
-  "observation_rows": 233,
-  "current_assertion_rows": 233,
+  "observations_sha256": "961a253aa9e91e00b6003de1f2420ceca1d8fd02f6517a0c2bdc9071491a5fb6",
+  "observation_rows": 239,
+  "current_assertion_rows": 239,
   "docket_seed_sha256": "5914192517350e0166045afd9064a515ea312acbea1844d9cb594cc9f525dbb9",
   "entity_folds_sha256": "f7496541139308e97c65c8681dd9f44829d46df25eede0d4e639203049667b58",
-  "uuid_registry_sha256": "272d8fd6b2e82151d781d8a9bc69f0f7abaf934a837279c47d2f534683443f31",
+  "uuid_registry_sha256": "65d65cdcb6047489a32baf7cfac86813534fbb104d76260c35daf3ba9a3ceba1",
   "suspect_segments": [
     "LNU02374597"
   ],
@@ -139,6 +139,13 @@
       "fns.snap.share_jurisdictions_at_or_above_6pct",
       "fns.snap.total_payment_error_rate"
     ],
+    "fy2026": [
+      "usaspending.dod.new_prime_awards",
+      "usaspending.dod.prime_award_transactions",
+      "usaspending.dod.prime_contract_obligations",
+      "usaspending.dod.small_business_contract_obligation_share",
+      "usaspending.dod.unique_prime_contract_recipients"
+    ],
     "july_2026": [
       "bls.cpi.u.core_mom",
       "bls.cpi.u.headline_mom",
@@ -269,6 +276,9 @@
     "week_2026-09-19": [
       "dol.eta.continued_claims.sa",
       "us.dol.initial_claims.sa"
+    ],
+    "week_2026-09-26": [
+      "dol.eta.continued_claims.sa"
     ],
     "week_2026_06_13": [
       "us.dol.initial_claims.sa"
@@ -3012,8 +3022,8 @@
         "dol.eta.continued_claims.sa.{P}.first_print"
       ],
       "first_observed_period": "2026-06-27",
-      "last_observed_period": "2026-09-19",
-      "observation_count": 13
+      "last_observed_period": "2026-09-26",
+      "observation_count": 14
     },
     {
       "uuid": "32b335ea-b2dd-4fba-8321-e9751df19318",
@@ -7094,18 +7104,32 @@
       "family_patterns": [
         "usaspending.dod.new_prime_awards"
       ],
-      "status": "docket-only",
+      "status": "observed",
       "unit": "millions",
-      "cadence": "year",
-      "geography": null,
-      "entity": null,
-      "sources": [],
+      "cadence": "fiscal_year",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current",
+        "name": "United States"
+      },
+      "entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "sources": [
+        "usaspending_api"
+      ],
       "aliases": [],
-      "source_concepts": [],
-      "rid_patterns": [],
-      "first_observed_period": null,
-      "last_observed_period": null,
-      "observation_count": 0
+      "source_concepts": [
+        "new_award_count"
+      ],
+      "rid_patterns": [
+        "usaspending.dod.new_prime_awards.{P}.registered_query_snapshot"
+      ],
+      "first_observed_period": "2026",
+      "last_observed_period": "2026",
+      "observation_count": 1
     },
     {
       "uuid": "a2649fd9-f382-4003-ba70-01030bc93b5e",
@@ -7136,18 +7160,32 @@
       "family_patterns": [
         "usaspending.dod.prime_award_transactions"
       ],
-      "status": "docket-only",
+      "status": "observed",
       "unit": "millions",
-      "cadence": "year",
-      "geography": null,
-      "entity": null,
-      "sources": [],
+      "cadence": "fiscal_year",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current",
+        "name": "United States"
+      },
+      "entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "sources": [
+        "usaspending_api"
+      ],
       "aliases": [],
-      "source_concepts": [],
-      "rid_patterns": [],
-      "first_observed_period": null,
-      "last_observed_period": null,
-      "observation_count": 0
+      "source_concepts": [
+        "transaction_count"
+      ],
+      "rid_patterns": [
+        "usaspending.dod.prime_award_transactions.{P}.registered_query_snapshot"
+      ],
+      "first_observed_period": "2026",
+      "last_observed_period": "2026",
+      "observation_count": 1
     },
     {
       "uuid": "11ea0d3d-fab9-42bb-b679-3471d4b60323",
@@ -7155,18 +7193,32 @@
       "family_patterns": [
         "usaspending.dod.prime_contract_obligations"
       ],
-      "status": "docket-only",
+      "status": "observed",
       "unit": "billions USD",
-      "cadence": "year",
-      "geography": null,
-      "entity": null,
-      "sources": [],
+      "cadence": "fiscal_year",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current",
+        "name": "United States"
+      },
+      "entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "sources": [
+        "usaspending_api"
+      ],
       "aliases": [],
-      "source_concepts": [],
-      "rid_patterns": [],
-      "first_observed_period": null,
-      "last_observed_period": null,
-      "observation_count": 0
+      "source_concepts": [
+        "results[category=contracts].aggregated_amount"
+      ],
+      "rid_patterns": [
+        "usaspending.dod.prime_contract_obligations.{P}.registered_query_snapshot"
+      ],
+      "first_observed_period": "2026",
+      "last_observed_period": "2026",
+      "observation_count": 1
     },
     {
       "uuid": "91e3b668-cb4b-4682-94a5-7ae404a6565d",
@@ -7174,18 +7226,32 @@
       "family_patterns": [
         "usaspending.dod.small_business_contract_obligation_share"
       ],
-      "status": "docket-only",
+      "status": "observed",
       "unit": "percent",
-      "cadence": "year",
-      "geography": null,
-      "entity": null,
-      "sources": [],
+      "cadence": "fiscal_year",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current",
+        "name": "United States"
+      },
+      "entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "sources": [
+        "usaspending_api"
+      ],
       "aliases": [],
-      "source_concepts": [],
-      "rid_patterns": [],
-      "first_observed_period": null,
-      "last_observed_period": null,
-      "observation_count": 0
+      "source_concepts": [
+        "100 * small_business contract obligations / all contract obligations"
+      ],
+      "rid_patterns": [
+        "usaspending.dod.small_business_contract_obligation_share.{P}.registered_query_snapshot"
+      ],
+      "first_observed_period": "2026",
+      "last_observed_period": "2026",
+      "observation_count": 1
     },
     {
       "uuid": "96d17026-b54c-4409-98c9-339b6725fde7",
@@ -7193,18 +7259,32 @@
       "family_patterns": [
         "usaspending.dod.unique_prime_contract_recipients"
       ],
-      "status": "docket-only",
+      "status": "observed",
       "unit": "thousands",
-      "cadence": "year",
-      "geography": null,
-      "entity": null,
-      "sources": [],
+      "cadence": "fiscal_year",
+      "geography": {
+        "level": "country",
+        "id": "0100000US",
+        "vintage": "current",
+        "name": "United States"
+      },
+      "entity": {
+        "name": "economy",
+        "role": "aggregate"
+      },
+      "sources": [
+        "usaspending_api"
+      ],
       "aliases": [],
-      "source_concepts": [],
-      "rid_patterns": [],
-      "first_observed_period": null,
-      "last_observed_period": null,
-      "observation_count": 0
+      "source_concepts": [
+        "distinct non-null recipient_id"
+      ],
+      "rid_patterns": [
+        "usaspending.dod.unique_prime_contract_recipients.{P}.registered_query_snapshot"
+      ],
+      "first_observed_period": "2026",
+      "last_observed_period": "2026",
+      "observation_count": 1
     },
     {
       "uuid": "f37307e0-91c6-49ee-afc7-2021e33ea863",
