@@ -189,6 +189,17 @@ were closed on 2026-08-09 by chronicle#153:
   and the curation each refusal suggests. A property test checks that the
   builder plans an enrichment exactly when the registry grammar admits
   the retire + succeeds pair.
+- 2026-10-18: when a catalog row's UUID differed from its key's binding,
+  `resolve_uuid` planned the curator remint (revive the key if retired,
+  then supersede it to the row's UUID) even when the key had retired after
+  handing its lineage over. The grammar refuses to revive a handed-over
+  key, so staging rejected the plan before any write. A docket entry that
+  gains a country reaches this: it re-keys a geography-free placeholder
+  row onto the country key (finding L2 of #360's second review). The
+  builder now reclaims the key on the row's UUID. That needs no ceremony,
+  because no live binding changes. A row whose UUID the registry already
+  knows is refused at plan time, and the message names the cause. The
+  enrichment differential now has a docket call-site arm as well.
 
 ## Country geography on Colorado-scoped concepts, and one raw series id (2026-09-04)
 

@@ -20,6 +20,7 @@ import uuid
 
 import pytest
 from hypothesis import HealthCheck, given, settings
+from hypothesis import event as hypothesis_event
 from hypothesis import strategies as st
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -5267,6 +5268,312 @@ def test_enrichment_is_planned_exactly_when_the_grammar_admits_it(
             _owner(registry, row["uuid"]) is None
         )
     # main attaches the ceremony note to gated events before staging.
+    for event in plan["supersedes"] + plan["retire_pending"]:
+        event["note"] = "generated ceremony"
+    staged = registry.stage(_plan_events(plan))
+    assert bsc.registry_agreement_problems(catalog, staged) == []
+
+
+# --- handed-over keys at the docket call site (2026-10-18) -------------------
+#
+# Finding L2 of the chronicle#360 round-2 review (pre-existing). When a
+# catalog row carried a UUID other than its key's binding, resolve_uuid
+# planned the gated remint (revive the key if retired, then supersede it to
+# the row's UUID) even when the key had retired after handing its lineage
+# over through a succeeds event. The grammar refuses to revive such a key,
+# so staging rejected the plan before any write. A docket entry that gains
+# a country reaches this: it re-keys a geography-free placeholder row onto
+# the country key. The builder now reclaims the key on the row's UUID, the
+# move the grammar provides for a handed-over key.
+
+LINEAGE = "agency.lineage"
+RECLAIM_NOTE = "identity re-established after its lineage was handed over"
+_B = {"concept": LINEAGE, "geography": US_UNDECLARED, "entity": None}
+_E = {"concept": LINEAGE, "geography": US_UNDECLARED, "entity": ECONOMY}
+_US_ENTRY = {"series": LINEAGE, "cadence": "monthly",
+             "extras": {"country": "US", "targetUnit": "percent"}}
+
+
+def _b_handed_to_e() -> list[dict]:
+    """The reviewer's repro: B minted on U1, retired, succeeded by E."""
+    return [
+        dict(_B, uuid=U1),
+        dict(_B, uuid=U1, retired=True, note=CHAIN_NOTE),
+        dict(_E, uuid=U1, succeeds=_B),
+    ]
+
+
+def test_a_curated_row_uuid_reclaims_a_handed_over_key(
+    tmp_path: pathlib.Path,
+) -> None:
+    # The catalog holds a geography-free docket row carrying a hand-edited,
+    # unregistered U2, and the docket entry gains country US, so the row
+    # re-keys onto B. Base planned revive B + supersede B -> U2, and staging
+    # refused both ("revives a consumed lineage", then "share uuid"). B is
+    # terminal: U2 starts its new lineage through a reclaim, which needs no
+    # ceremony because no live binding changes.
+    events = _b_handed_to_e()
+    registry = _registry(tmp_path, events)
+    assert not registry.is_live(_key(_B)) and _key(_B) in registry.consumed
+    assert _owner(registry, U2) is None
+    catalog, plan = _build(
+        tmp_path, [], existing={"series": [_docket_row(LINEAGE, U2, None)]},
+        registry_entries=events, docket={"series": [_US_ENTRY]},
+    )
+    (row,) = catalog["series"]
+    assert (_key(row), row["uuid"], row["status"]) == (
+        _key(_B), U2, "docket-only"
+    )
+    assert plan["enrich_retires"] == plan["revives"] == plan["supersedes"] == []
+    assert [bsc.UuidRegistry.render_entry(e) for e in plan["mints"]] == [
+        bsc.UuidRegistry.render_entry(
+            dict(_B, uuid=U2, reclaimed=True, note=RECLAIM_NOTE)
+        )
+    ]
+    # E has no row in this synthetic catalog, so its live binding is the
+    # one gated event, as on base.
+    assert [(_key(e), e["uuid"]) for e in plan["retire_pending"]] == [
+        (_key(_E), U1)
+    ]
+    for event in plan["retire_pending"]:
+        event["note"] = "synthetic gate approval"
+    staged = registry.stage(_plan_events(plan))
+    assert staged.is_live(_key(_B)) and staged.binding(_key(_B)) == U2
+    assert _key(_B) not in staged.consumed  # an ordinary lineage again
+    assert staged.binding(_key(_E)) == U1  # U1 stays with its lineage
+    assert bsc.registry_agreement_problems(catalog, staged) == []
+
+
+def test_a_handed_over_key_reclaims_the_row_uuid_through_main(
+    tmp_path: pathlib.Path,
+) -> None:
+    # The same move end to end, with E's observation withdrawn (E retired)
+    # so nothing else changes: main writes exactly the reclaim without
+    # --allow-remint, --check passes, and a rerun is byte-idempotent.
+    events = _b_handed_to_e() + [
+        dict(_E, uuid=U1, retired=True, note="observation withdrawn upstream"),
+    ]
+    argv = _repo(tmp_path, [], seed={"series": [_US_ENTRY]})
+    _registry(tmp_path, events)
+    (tmp_path / "catalog.json").write_text(
+        json.dumps({"series": [_docket_row(LINEAGE, U2, None)]}) + "\n",
+        encoding="utf-8",
+    )
+    assert bsc.main(argv + ["--check"]) == 1  # the reclaim is unrecorded
+    assert bsc.main(argv) == 0
+    assert bsc.main(argv + ["--check"]) == 0
+    assert [
+        (_key(e), e["uuid"], _event_kind(e), e.get("note"))
+        for e in _registry_lines(tmp_path)[len(events):]
+    ] == [(_key(_B), U2, "reclaimed", RECLAIM_NOTE)]
+    (row,) = json.loads((tmp_path / "catalog.json").read_text())["series"]
+    assert (_key(row), row["uuid"], row["status"]) == (
+        _key(_B), U2, "docket-only"
+    )
+    snapshot = (
+        (tmp_path / "catalog.json").read_bytes(),
+        (tmp_path / "registry.jsonl").read_bytes(),
+    )
+    assert bsc.main(argv) == 0
+    assert (
+        (tmp_path / "catalog.json").read_bytes(),
+        (tmp_path / "registry.jsonl").read_bytes(),
+    ) == snapshot
+
+
+def test_a_registered_row_uuid_never_reclaims_a_handed_over_key(
+    tmp_path: pathlib.Path,
+) -> None:
+    # A reclaim needs a UUID new to the registry. When the row carries one
+    # the registry already knows (here U3, B's own uuid before a curated
+    # remint), the builder refuses at plan time naming the cause, with or
+    # without --allow-remint, and leaves both artifacts untouched. Base
+    # refused too, but blamed a supersede. The remedy the refusal names
+    # works: delete the row, and the builder reclaims B on a fresh UUID.
+    bystander = _row("bls.cps.unemployment_rate")
+    argv = _repo(tmp_path, [bystander], seed={"series": []})
+    assert bsc.main(argv) == 0
+    events = _registry_lines(tmp_path) + [
+        dict(_B, uuid=U3),
+        dict(_B, uuid=U1, supersedes=U3,
+             note="curated remint of the placeholder"),
+        dict(_B, uuid=U1, retired=True, note=CHAIN_NOTE),
+        dict(_E, uuid=U1, succeeds=_B),
+        dict(_E, uuid=U1, retired=True, note="observation withdrawn upstream"),
+    ]
+    _registry(tmp_path, events)
+    catalog = json.loads((tmp_path / "catalog.json").read_text())
+    catalog["series"].append(_docket_row(LINEAGE, U3, None))
+    (tmp_path / "catalog.json").write_text(
+        json.dumps(catalog, indent=2) + "\n", encoding="utf-8"
+    )
+    (tmp_path / "seed.json").write_text(
+        json.dumps({"series": [_US_ENTRY]}), encoding="utf-8"
+    )
+    catalog_before = (tmp_path / "catalog.json").read_bytes()
+    registry_before = (tmp_path / "registry.jsonl").read_bytes()
+    for flags in ([], ["--allow-remint", "--remint-note", "curated"]):
+        with pytest.raises(
+            SystemExit, match="a reclaimed identity is a NEW series"
+        ) as refused:
+            bsc.main(argv + flags)
+        assert "handed its lineage over" in str(refused.value)
+        assert (tmp_path / "catalog.json").read_bytes() == catalog_before
+        assert (tmp_path / "registry.jsonl").read_bytes() == registry_before
+
+    catalog["series"] = [r for r in catalog["series"] if r["concept"] != LINEAGE]
+    (tmp_path / "catalog.json").write_text(
+        json.dumps(catalog, indent=2) + "\n", encoding="utf-8"
+    )
+    assert bsc.main(argv) == 0
+    assert bsc.main(argv + ["--check"]) == 0
+    (reclaim,) = _registry_lines(tmp_path)[len(events):]
+    assert (_key(reclaim), _event_kind(reclaim)) == (_key(_B), "reclaimed")
+    assert reclaim["uuid"] not in {U1, U3}
+    (row,) = [
+        r for r in json.loads((tmp_path / "catalog.json").read_text())["series"]
+        if r["concept"] == LINEAGE
+    ]
+    assert (_key(row), row["uuid"]) == (_key(_B), reclaim["uuid"])
+
+
+def _docket_identity(country: str | None) -> dict:
+    """The identity a docket entry for _GEN_CONCEPT keys its row under."""
+    geography = (
+        None if country is None
+        else bsc._identity_geography(bsc.COUNTRY_GEOGRAPHY[country])
+    )
+    return {"concept": _GEN_CONCEPT, "geography": geography, "entity": None}
+
+
+@settings(
+    max_examples=400,
+    deadline=None,
+    suppress_health_check=[HealthCheck.function_scoped_fixture],
+)
+@given(data=st.data())
+def test_docket_enrichment_is_planned_exactly_when_the_grammar_admits_it(
+    tmp_path_factory: pytest.TempPathFactory, data: st.DataObject
+) -> None:
+    """The differential above, at the docket call site.
+
+    A docket entry keys its row by its own name and country, not by the
+    row it matches. So unlike an observed bucket it can re-key a
+    placeholder onto a key that handed its lineage over and retired (the
+    class of finding L2), and it can reach a placeholder of another
+    concept through a curated alias. For any history the grammar admits,
+    any existing docket-only row (as above, or carrying a UUID the
+    registry never met; of the entry's concept, or of another concept
+    that lists the entry's name as an alias) and a docket entry declaring
+    no country, US or GB, the same four properties hold: a hop is planned
+    exactly when the grammar admits it, every plan stages and agrees with
+    the catalog, a refusal is a plan-time diagnostic, and without a hop the
+    row takes its key's binding or a UUID new to the registry.
+    """
+    tmp_path = tmp_path_factory.mktemp("docket-differential")
+    registry = _generated_registry(data)
+    # A docket hop starts from the live geography-free placeholder. When
+    # the history lacks one, sometimes mint it (a move the grammar checks).
+    root = _docket_identity(None)
+    unused = [u for u in _GEN_UUIDS if _owner(registry, u) is None]
+    if _key(root) not in registry.latest and unused and data.draw(
+        st.booleans(), label="mint the geography-free placeholder"
+    ):
+        registry = registry.stage(
+            [dict(root, uuid=data.draw(st.sampled_from(unused)))]
+        )
+    (tmp_path / "registry.jsonl").write_bytes(registry.raw)
+
+    def handed_over(key: tuple[str, str, str]) -> bool:
+        return key in registry.consumed and not registry.is_live(key)
+
+    # Entries whose key handed over and retired are weighted up most, then
+    # entries whose key a hop could land on (unbound or retired).
+    countries = []
+    for option in (None, "US", "GB"):
+        key = _key(_docket_identity(option))
+        weight = 9 if handed_over(key) else 2 if registry.is_live(key) else 4
+        countries += [option] * weight
+    country = data.draw(st.sampled_from(countries), label="country")
+    target = _docket_identity(country)
+    target_key = _key(target)
+    row_concept = data.draw(
+        st.sampled_from([_GEN_CONCEPT] * 4 + [_GEN_OTHER]), label="row concept"
+    )
+    placeholders = [
+        e for e in registry.latest.values()
+        if e["concept"] == row_concept and e["entity"] is None
+    ]
+    live = [e for e in placeholders if not e.get("retired")]
+    unused = [u for u in _GEN_UUIDS if _owner(registry, u) is None]
+    candidates = (
+        [(e["geography"], e["uuid"]) for e in live] * 8
+        + [(e["geography"], e["uuid"]) for e in live
+           if _key(e) in registry.consumed] * 16
+        # The live geography-free placeholder, which a country hands over.
+        + [(None, e["uuid"]) for e in live if e["geography"] is None] * 16
+        + [(e["geography"], e["uuid"]) for e in placeholders] * 2
+        # A hand-edited UUID the registry never met, on a row the entry
+        # re-keys (geography-free) or keeps where it is.
+        + [(g, u) for g in (None, target["geography"]) for u in unused] * 4
+        + [(g, u) for g in _PLACEHOLDER_GEOS for u in _GEN_UUIDS]
+    )
+    geography, row_uuid = data.draw(st.sampled_from(candidates))
+    placeholder = {"concept": row_concept, "geography": geography,
+                   "entity": None}
+    retire = dict(placeholder, uuid=row_uuid, retired=True, note=CHAIN_NOTE)
+    succeed = dict(target, uuid=row_uuid, succeeds=placeholder)
+    try:
+        registry.stage([retire, succeed])
+        admitted = True
+    except SystemExit:
+        admitted = False
+    if handed_over(target_key) and row_uuid != registry.binding(target_key):
+        hypothesis_event(
+            "entry key handed over; row uuid "
+            + ("unregistered" if _owner(registry, row_uuid) is None
+               else "registered")
+        )
+    hypothesis_event(f"admitted={admitted}")
+    row = _docket_row(row_concept, row_uuid, geography)
+    if row_concept != _GEN_CONCEPT:
+        row["aliases"] = [_GEN_CONCEPT]
+    extras = {"targetUnit": "percent"}
+    if country is not None:
+        extras["country"] = country
+    entry = {"series": _GEN_CONCEPT, "cadence": "monthly", "extras": extras}
+    try:
+        catalog, plan = _build(
+            tmp_path, [], existing={"series": [row]},
+            docket={"series": [entry]},
+        )
+    except SystemExit as exc:
+        assert not admitted, exc
+        assert any(
+            diagnostic in str(exc)
+            for diagnostic in (
+                "explicit ceremony",
+                "superseding UUIDs must be new",
+                "a reclaimed identity is a NEW series",
+                "hands over at most once",
+                "never crosses concepts",
+            )
+        ), exc
+        return
+    hop = [e for e in plan["mints"] if "succeeds" in e]
+    assert bool(hop) == admitted
+    (built,) = catalog["series"]
+    assert _key(built) == target_key
+    if admitted:
+        assert built["uuid"] == row_uuid
+        assert [
+            bsc.UuidRegistry.render_entry(e)
+            for e in plan["enrich_retires"] + hop
+        ] == [bsc.UuidRegistry.render_entry(e) for e in (retire, succeed)]
+    else:
+        assert built["uuid"] == registry.binding(target_key) or (
+            _owner(registry, built["uuid"]) is None
+        )
     for event in plan["supersedes"] + plan["retire_pending"]:
         event["note"] = "generated ceremony"
     staged = registry.stage(_plan_events(plan))
