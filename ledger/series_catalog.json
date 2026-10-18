@@ -1,9 +1,9 @@
 {
   "comment": "Canonical series catalog. One row per (concept, geography level/id/vintage, entity) identity. UUID authority is the append-only ledger/series_uuid_registry.jsonl (digest below): a uuid is minted once, inherited from the registry on every regeneration, and changes only through explicit, chained supersede/retire/revive/succeeds events recorded there (live bindings and rows stay in bijection). Consumers reference series by uuid or concept only. Regenerate with scripts/build_series_catalog.py; verify with --check. Aliases are curated identity statements (plus observed spellings of the same identity) and inherit only within one (geography, entity) slice; aliases listed in ambiguous_aliases match multiple rows and never drive inheritance. source_concepts are publisher labels — provenance, never identity. Cross-spelling and cross-vintage merges are manual curation: delete the absorbed row, alias its concept on the survivor, regenerate with --allow-remint.",
   "generator_version": 3,
-  "observations_sha256": "93c05656b0c0990bf2a84e8268949811b296ae4673c4a803cfaa85a3caf702fa",
-  "observation_rows": 238,
-  "current_assertion_rows": 238,
+  "observations_sha256": "961a253aa9e91e00b6003de1f2420ceca1d8fd02f6517a0c2bdc9071491a5fb6",
+  "observation_rows": 239,
+  "current_assertion_rows": 239,
   "docket_seed_sha256": "5914192517350e0166045afd9064a515ea312acbea1844d9cb594cc9f525dbb9",
   "entity_folds_sha256": "f7496541139308e97c65c8681dd9f44829d46df25eede0d4e639203049667b58",
   "uuid_registry_sha256": "65d65cdcb6047489a32baf7cfac86813534fbb104d76260c35daf3ba9a3ceba1",
@@ -276,6 +276,9 @@
     "week_2026-09-19": [
       "dol.eta.continued_claims.sa",
       "us.dol.initial_claims.sa"
+    ],
+    "week_2026-09-26": [
+      "dol.eta.continued_claims.sa"
     ],
     "week_2026_06_13": [
       "us.dol.initial_claims.sa"
@@ -3019,8 +3022,8 @@
         "dol.eta.continued_claims.sa.{P}.first_print"
       ],
       "first_observed_period": "2026-06-27",
-      "last_observed_period": "2026-09-19",
-      "observation_count": 13
+      "last_observed_period": "2026-09-26",
+      "observation_count": 14
     },
     {
       "uuid": "32b335ea-b2dd-4fba-8321-e9751df19318",
