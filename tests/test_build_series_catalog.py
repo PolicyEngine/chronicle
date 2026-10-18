@@ -4857,7 +4857,10 @@ def test_a_returned_placeholder_never_hands_over_twice(
     # cause. Without the consumed check it planned retire(B/U2) + C
     # succeeds B, which staging rejected. Base refused too (B never
     # first-owned U2), but with a remint message that blamed a supersede
-    # nobody made. The curation the diagnostic suggests must then work.
+    # nobody made. The diagnostic names the cause and prescribes nothing:
+    # the right curation depends on the lineage (a delta review showed that
+    # deleting the placeholder's row loses curated aliases held only there,
+    # and that a consumed observed identity reclaims rather than revives).
     concept = "agency.lineage"
     bystander = _row("bls.cps.unemployment_rate")
     observed = _row(concept)
@@ -4915,7 +4918,8 @@ def test_a_returned_placeholder_never_hands_over_twice(
         assert (tmp_path / "catalog.json").read_bytes() == catalog_before
         assert (tmp_path / "registry.jsonl").read_bytes() == registry_before
 
-    # The suggested curation: delete the placeholder's catalog row and
+    # One curation that resolves this lineage (no curated aliases on B, and
+    # C has an unconsumed retired binding): delete B's catalog row and
     # rerun with --allow-remint. C revives its own U1; B's U2 retires.
     catalog = json.loads(catalog_before)
     catalog["series"] = [

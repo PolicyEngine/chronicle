@@ -2186,18 +2186,17 @@ def build_catalog(
             )
         # A key hands over at most once. One that handed over and later
         # returned as the successor of another hop is live again, but it
-        # stays consumed and the grammar refuses it as a predecessor.
+        # stays consumed and the grammar refuses it as a predecessor. How
+        # to resolve that depends on the lineage (curated aliases, whether
+        # the observed identity has a binding of its own), so the
+        # diagnostic names the cause and prescribes no recipe.
         if prior_own_key in registry.consumed:
             raise SystemExit(
                 f"identity {canon_key} would take uuid {row_uuid} from docket "
-                f"placeholder {prior_own_key}, which already handed its "
-                "lineage over once and holds this uuid as the successor of a "
-                "later enrichment; a placeholder hands over at most once. "
-                "Curate it: for example, delete the placeholder's catalog row "
-                "and rerun with --allow-remint, so the observed identity "
-                "takes its own lineage (reviving its retired binding, or "
-                "minting if it has none) and the placeholder's binding "
-                "retires"
+                f"placeholder {prior_own_key}, which already handed a lineage "
+                "over once and remains consumed; a placeholder hands over at "
+                "most once, so it cannot hand this one over — this lineage "
+                "needs explicit curation"
             )
         # Docket-placeholder enrichment: the binding MOVES to the observed
         # identity via an explicit retire + succeeds pair. UUID continuity

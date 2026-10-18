@@ -184,11 +184,17 @@ were closed on 2026-08-09 by chronicle#153:
   identity it hands over to, and it has not handed over before. A key that
   handed over and later returned as the successor of another hop is live
   again but stays consumed. When the binding holds but either hand-over
-  rule fails, the builder refuses at plan time and names the cause.
-  Tests pin the chain, the stale-row refusals, both hand-over refusals
-  and the curation each refusal suggests. A property test checks that the
-  builder plans an enrichment exactly when the registry grammar admits
-  the retire + succeeds pair.
+  rule fails, the builder refuses at plan time and names the cause. The
+  cross-concept refusal names its remedy (call the docket entry by the
+  placeholder's concept). The consumed refusal prescribes none, because
+  the right curation depends on the lineage. Deleting the placeholder's
+  catalog row and rerunning with --allow-remint resolves the simple case,
+  but it loses curated aliases held only on that row, and an observed
+  identity that is itself consumed reclaims a fresh UUID instead of
+  reviving. Tests pin the chain, the stale-row refusals, both hand-over
+  refusals, the cross-concept remedy and the simple consumed curation. A
+  property test checks that the builder plans an enrichment exactly when
+  the registry grammar admits the retire + succeeds pair.
 
 ## Country geography on Colorado-scoped concepts, and one raw series id (2026-09-04)
 
