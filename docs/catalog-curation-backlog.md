@@ -171,6 +171,35 @@ were closed on 2026-08-09 by chronicle#153:
   replay rejects the hand-forged plan before any write reaches disk, and
   the builder end-to-end refuses the stale catalog, leaving both
   artifacts untouched.
+- 2026-10-16: #153 added the live-binding check but kept the first-owner
+  conjunct (`uuid_owner[row_uuid] == prior_own_key`) alongside it. Because
+  the first owner never moves, that conjunct refused every second
+  enrichment hop. A placeholder that had already been enriched once (a
+  geography-free placeholder enriched to geography-only when its docket
+  entry learned a country) could not take its first print.
+  `usaspending.dod.prime_award_obligations` (a2649fd9) hit this in Thesis
+  run 38962977031. The conjunct is gone (#360). The contract is now the
+  live binding plus the grammar's hand-over rules: the placeholder's key
+  is live and bound to the row's UUID, it is the same concept as the
+  identity it hands over to, and it has not handed over before. A key that
+  handed over and later returned as the successor of another hop is live
+  again but stays consumed. When the binding holds but either hand-over
+  rule fails, the builder refuses at plan time and names the cause.
+  Tests pin the chain, the stale-row refusals, both hand-over refusals
+  and the curation each refusal suggests. A property test checks that the
+  builder plans an enrichment exactly when the registry grammar admits
+  the retire + succeeds pair.
+- 2026-10-18: when a catalog row's UUID differed from its key's binding,
+  `resolve_uuid` planned the curator remint (revive the key if retired,
+  then supersede it to the row's UUID) even when the key had retired after
+  handing its lineage over. The grammar refuses to revive a handed-over
+  key, so staging rejected the plan before any write. A docket entry that
+  gains a country reaches this: it re-keys a geography-free placeholder
+  row onto the country key (finding L2 of #360's second review). The
+  builder now reclaims the key on the row's UUID. That needs no ceremony,
+  because no live binding changes. A row whose UUID the registry already
+  knows is refused at plan time, and the message names the cause. The
+  enrichment differential now has a docket call-site arm as well.
 
 ## Country geography on Colorado-scoped concepts, and one raw series id (2026-09-04)
 

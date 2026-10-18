@@ -1416,7 +1416,7 @@ class UuidRegistry:
     """The append-only UUID minting ledger.
 
     One JSON object per line, binding one identity (concept, geography
-    level/id/vintage, entity name/role) to a UUID. Five event kinds, chained
+    level/id/vintage, entity name/role) to a UUID. Six event kinds, chained
     per identity and never edited or removed (``--verify-registry-append-
     only`` and the git-HEAD prefix check enforce growth-only):
 
@@ -1431,7 +1431,12 @@ class UuidRegistry:
     * retire — ``retired: true`` with the unchanged UUID; ``note`` required.
       The identity left the catalog; its binding stays reserved but dormant.
     * revive — ``revived: true`` with the unchanged UUID; written
-      automatically when a retired identity is observed again.
+      automatically when a retired identity is observed again. Never for
+      a key whose lineage was handed over (consumed by a succeeds event):
+      that key is terminal.
+    * reclaim — ``reclaimed: true`` on a retired, handed-over key, with a
+      UUID new to the registry; ``note`` required. The key starts a NEW
+      lineage and is ordinary again (later drops retire, returns revive).
 
     Invariants ``--check`` builds on: live bindings and catalog rows are in
     BIJECTION (same identity, same UUID, both directions), and live
@@ -2129,14 +2134,21 @@ def build_catalog(
         entity: dict | None,
         row_uuid: str,
     ) -> bool:
-        """Plan a retire + succeeds pair when ``prior`` is a genuine
-        placeholder whose live binding owns ``row_uuid``; True if planned.
+        """Plan a retire + succeeds pair when ``prior`` is a docket
+        placeholder that holds ``row_uuid`` live and may hand it over to
+        ``canon_key``; True if planned.
+
+        A placeholder that holds ``row_uuid`` live but may not hand it over
+        (``canon_key`` is another concept, or the placeholder already
+        handed over once) raises a diagnostic naming that cause. Every
+        caller would refuse such a row anyway, since the UUID is
+        registered, but with a UUID-reuse or remint message that misstates
+        why.
         """
         prior_own_key = UuidRegistry.entry_key(prior)
-        owner_key = registry.uuid_owner.get(uuid_module.UUID(row_uuid).int)
         prior_geo = prior.get("geography") or None
         geo = geography or {}
-        enrichment_shaped = (
+        placeholder_shaped = (
             prior.get("status") == "docket-only"
             and prior.get("entity") is None
             and (
@@ -2149,23 +2161,57 @@ def build_catalog(
                 )
             )
         )
-        # uuid_owner records FIRST ownership and never moves, so alone it
-        # would accept a stale catalog row still carrying a UUID its key
-        # has since superseded away from. The contract is about the LIVE
-        # binding: demand it be row_uuid itself. Staging replay would
-        # reject such a plan anyway; this fails at plan time instead.
+        # The contract is the LIVE binding plus the grammar's hand-over
+        # rules. The row's own key must be live and bound to row_uuid right
+        # now: that refuses a stale row still carrying a UUID its key has
+        # since superseded away from, and a key that was retired, handed
+        # over or reclaimed. Staging replay would reject each of these
+        # plans anyway; this fails at plan time instead. Historical
+        # ownership (uuid_owner) is not part of the contract: it records
+        # FIRST ownership and never moves, so a placeholder that was itself
+        # the successor of an earlier enrichment never owns its UUID and
+        # could never be enriched again.
         if not (
-            enrichment_shaped
-            and owner_key == prior_own_key
+            placeholder_shaped
             and registry.is_live(prior_own_key)
             and registry.binding(prior_own_key) == row_uuid
         ):
             return False
+        # Lineage never crosses concepts. Observed buckets always take the
+        # prior's concept; a docket entry matched through a curated alias
+        # can name another one, and the grammar refuses that succeeds.
+        if prior.get("concept") != canon_key[0]:
+            raise SystemExit(
+                f"identity {canon_key} matches docket placeholder "
+                f"{prior_own_key} (uuid {row_uuid}) only through the "
+                f"curated alias {canon_key[0]!r}; lineage never crosses "
+                "concepts, so the placeholder cannot be enriched into it — "
+                f"name the docket entry {prior['concept']!r}, the "
+                "placeholder's own concept"
+            )
+        # A key hands over at most once. One that handed over and later
+        # returned as the successor of another hop is live again, but it
+        # stays consumed and the grammar refuses it as a predecessor.
+        if prior_own_key in registry.consumed:
+            raise SystemExit(
+                f"identity {canon_key} would take uuid {row_uuid} from docket "
+                f"placeholder {prior_own_key}, which already handed its "
+                "lineage over once and holds this uuid as the successor of a "
+                "later enrichment; a placeholder hands over at most once. "
+                "Curate it: for example, delete the placeholder's catalog row "
+                "and rerun with --allow-remint, so the observed identity "
+                "takes its own lineage (reviving its retired binding, or "
+                "minting if it has none) and the placeholder's binding "
+                "retires"
+            )
         # Docket-placeholder enrichment: the binding MOVES to the observed
         # identity via an explicit retire + succeeds pair. UUID continuity
         # is preserved, so no ceremony flag is needed — this holds for the
-        # first enrichment and for a re-enrichment after a withdraw/reclaim
-        # cycle (the grammar accepts succeeds on a retired successor key).
+        # first enrichment, for a chain of them (a geography-free
+        # placeholder enriched to a geography-only one, then to the
+        # observed identity), and for a re-enrichment after a
+        # withdraw/reclaim cycle (the grammar accepts succeeds on a retired
+        # successor key).
         plan["enrich_retires"].append(
             dict(
                 _registry_event(
@@ -2193,6 +2239,33 @@ def build_catalog(
         )
         return True
 
+    def _plan_reclaim(
+        canon_key: tuple[str, str, str],
+        geography: dict | None,
+        entity: dict | None,
+        row_uuid: str,
+    ) -> str:
+        """Plan a reclaim of ``canon_key`` on ``row_uuid``, which must be
+        new to the registry; return ``row_uuid``.
+
+        The key handed its lineage over through a succeeds event and is
+        retired, so it is terminal: the grammar refuses to revive it (and
+        so to supersede it, which needs a live binding). Anything that
+        reappears under it is a NEW series, and a reclaim is the one event
+        that starts one there. The old UUID stays with its lineage.
+        """
+        plan["mints"].append(
+            dict(
+                _registry_event(canon_key[0], geography, entity, row_uuid),
+                reclaimed=True,
+                note=(
+                    "identity re-established after its lineage was "
+                    "handed over"
+                ),
+            )
+        )
+        return row_uuid
+
     def resolve_uuid(
         canon_key: tuple[str, str, str],
         prior: dict | None,
@@ -2201,6 +2274,12 @@ def build_catalog(
     ) -> str:
         binding = registry.binding(canon_key)
         prior_uuid = prior["uuid"] if prior else None
+        # Retired after handing its lineage over through a succeeds event.
+        # A key that returned as a later hop's successor is live, so it is
+        # not handed over here (the grammar still bars it as a predecessor).
+        handed_over = (
+            not registry.is_live(canon_key) and canon_key in registry.consumed
+        )
         if prior_uuid and binding and prior_uuid != binding:
             # A RETIRED successor returning on the CURRENT placeholder
             # lineage is a re-enrichment, not a remint: plan the retire +
@@ -2213,12 +2292,23 @@ def build_catalog(
                 )
             ):
                 return prior_uuid
-            # The catalog row disagrees with the registry: an explicit,
-            # gated remint (the curator edited the row's uuid on purpose).
-            # The replacement must be new to the registry outright.
+            # The catalog row disagrees with the registry: the curator
+            # edited the row's uuid on purpose. Either event that can carry
+            # it (supersede, or reclaim for a handed-over key) needs a UUID
+            # new to the registry outright.
             replacement_owner = registry.uuid_owner.get(
                 uuid_module.UUID(prior_uuid).int
             )
+            if replacement_owner is not None and handed_over:
+                raise SystemExit(
+                    f"identity {canon_key} handed its lineage over, so only "
+                    "a reclaim can re-establish it, and the catalog row's "
+                    f"uuid {prior_uuid} is already known to the registry "
+                    f"(first bound to {replacement_owner}) — a reclaimed "
+                    "identity is a NEW series and mints fresh: give the "
+                    "row an unregistered uuid, or delete it so the builder "
+                    "reclaims with a fresh one"
+                )
             if replacement_owner is not None:
                 raise SystemExit(
                     f"identity {canon_key} would supersede to uuid "
@@ -2226,8 +2316,16 @@ def build_catalog(
                     f"(first bound to {replacement_owner}) — superseding "
                     "UUIDs must be new"
                 )
+            # A handed-over key is terminal: the grammar refuses the revive
+            # a supersede would need. The row's uuid starts the key's new
+            # lineage through a reclaim instead, as the handed-over branch
+            # below does with a fresh uuid. No live binding changes, so no
+            # remint ceremony applies.
+            if handed_over:
+                return _plan_reclaim(canon_key, geography, entity, prior_uuid)
             # A retired binding is revived first so the event chain stays
-            # valid (revives are staged before supersedes).
+            # valid (revives are staged before supersedes). The supersede
+            # is the gated remint.
             if not registry.is_live(canon_key):
                 plan["revives"].append(
                     dict(
@@ -2243,9 +2341,7 @@ def build_catalog(
                 )
             )
             return prior_uuid
-        if binding and not (
-            not registry.is_live(canon_key) and canon_key in registry.consumed
-        ):
+        if binding and not handed_over:
             if not registry.is_live(canon_key):
                 # A retired identity is being observed again: same UUID,
                 # explicit revive event (no ceremony — resuming an identity
@@ -2260,22 +2356,12 @@ def build_catalog(
                 )
             return binding
         if binding:
-            # The identity handed its lineage to a successor: terminal.
-            # Anything reappearing under the old key is a NEW series claim
-            # and mints fresh through an explicit reclaim event; the old
-            # UUID stays with its lineage.
-            row_uuid = str(uuid_module.uuid4())
-            plan["mints"].append(
-                dict(
-                    _registry_event(canon_key[0], geography, entity, row_uuid),
-                    reclaimed=True,
-                    note=(
-                        "identity re-established after its lineage was "
-                        "handed over"
-                    ),
-                )
+            # The identity handed its lineage to a successor and the row
+            # carries no UUID of its own (or carries exactly the one that
+            # was handed over): reclaim on a fresh UUID.
+            return _plan_reclaim(
+                canon_key, geography, entity, str(uuid_module.uuid4())
             )
-            return row_uuid
         row_uuid = prior_uuid if prior_uuid else str(uuid_module.uuid4())
         owner_key = registry.uuid_owner.get(uuid_module.UUID(row_uuid).int)
         if owner_key is not None:
@@ -2285,7 +2371,8 @@ def build_catalog(
                 return row_uuid
             raise SystemExit(
                 f"identity {canon_key} would mint uuid {row_uuid}, which "
-                f"the registry already binds to {owner_key} — UUID reuse "
+                f"the registry already knows (first bound to {owner_key}) "
+                "— UUID reuse "
                 "requires an explicit ceremony (merge via curated alias + "
                 "--allow-remint, or placeholder enrichment)"
             )
