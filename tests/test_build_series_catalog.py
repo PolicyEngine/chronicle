@@ -4831,6 +4831,97 @@ def test_stale_rows_after_a_chain_are_still_refused(
     assert (tmp_path / "registry.jsonl").read_bytes() == registry_before
 
 
+def test_a_returned_placeholder_never_hands_over_twice(
+    tmp_path: pathlib.Path,
+) -> None:
+    # Independent-review counterexample (chronicle#360, 2026-10-18). A
+    # placeholder B hands U1 to its observed identity C. The observation is
+    # withdrawn and the docket loses its country (fresh placeholder A/U2),
+    # then the country returns and B takes U2 from A. B is live and bound
+    # to U2, but it is still consumed: it already handed over once, and the
+    # grammar never lets a predecessor hand over twice. When C's
+    # observation returns, the builder must refuse at plan time. Without the
+    # consumed check it planned retire(B/U2) + C succeeds B, which staging
+    # rejected. Base refused too (B never first-owned U2), so this pins the
+    # status quo for this lineage, not a regression.
+    concept = "agency.lineage"
+    bystander = _row("bls.cps.unemployment_rate")
+    observed = _row(concept)
+
+    def stage(country: bool, rows: list[dict]) -> None:
+        extras = {"targetUnit": "percent"}
+        if country:
+            extras["country"] = "US"
+        seed = {"series": [
+            {"series": concept, "cadence": "monthly", "extras": extras},
+        ]}
+        (tmp_path / "seed.json").write_text(json.dumps(seed), encoding="utf-8")
+        (tmp_path / "obs.jsonl").write_text(
+            "".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8"
+        )
+
+    argv = _repo(tmp_path, [])
+    remint = ["--allow-remint", "--remint-note", "observation withdrawn"]
+    stage(True, [bystander])
+    assert bsc.main(argv) == 0  # mint B/U1
+    stage(True, [bystander, observed])
+    assert bsc.main(argv) == 0  # retire B, C succeeds B with U1
+    stage(False, [bystander])
+    assert bsc.main(argv + remint) == 0  # mint A/U2, retire C
+    stage(True, [bystander])
+    assert bsc.main(argv) == 0  # retire A, B succeeds A with U2
+    assert bsc.main(argv + ["--check"]) == 0
+    a_key = (concept, bsc._geo_key(None), bsc._entity_key(None))
+    b_key = (concept, bsc._geo_key(US_UNDECLARED), bsc._entity_key(None))
+    c_key = (concept, bsc._geo_key(US_IDENTITY), bsc._entity_key(ECONOMY))
+    assert [
+        (_key(e), _event_kind(e))
+        for e in _registry_lines(tmp_path)
+        if e["concept"] == concept
+    ] == [
+        (b_key, "mint"),
+        (b_key, "retired"),
+        (c_key, "succeeds"),
+        (a_key, "mint"),
+        (c_key, "retired"),
+        (a_key, "retired"),
+        (b_key, "succeeds"),
+    ]
+    registry = bsc.UuidRegistry.load(tmp_path / "registry.jsonl")
+    u2 = registry.binding(a_key)
+    assert registry.is_live(b_key) and registry.binding(b_key) == u2
+    assert b_key in registry.consumed  # the state the live binding misses
+
+    stage(True, [bystander, observed])
+    catalog_before = (tmp_path / "catalog.json").read_bytes()
+    registry_before = (tmp_path / "registry.jsonl").read_bytes()
+    for flags in ([], remint):
+        with pytest.raises(SystemExit, match="superseding UUIDs must be new"):
+            bsc.main(argv + flags)
+        assert (tmp_path / "catalog.json").read_bytes() == catalog_before
+        assert (tmp_path / "registry.jsonl").read_bytes() == registry_before
+
+
+def test_a_docket_alias_never_plans_a_cross_concept_hop(
+    tmp_path: pathlib.Path,
+) -> None:
+    # Independent-review finding (chronicle#360, LOW, pre-existing): a
+    # docket entry naming a placeholder by its curated alias keys the
+    # docket row under the alias, so the planned succeeds crossed concepts
+    # and died only in staging replay. The builder now refuses at plan time.
+    existing = {"series": [
+        dict(_docket_row("agency.a", U1, None), aliases=["agency.b"]),
+    ]}
+    docket = {"series": [{"series": "agency.b", "cadence": "monthly",
+                          "extras": {"country": "US",
+                                     "targetUnit": "percent"}}]}
+    with pytest.raises(SystemExit, match="explicit ceremony"):
+        _build(
+            tmp_path, [], existing=existing,
+            registry_entries=[_mint("agency.a", U1)], docket=docket,
+        )
+
+
 # A small identity universe for generated registry histories: two concepts
 # (so a row can carry another series' UUID), geographies at every
 # refinement level, three entities, and six UUIDs (so stale rows collide
@@ -4884,12 +4975,15 @@ def _generated_registry(data: st.DataObject) -> bsc.UuidRegistry:
 
     Each step draws a move the current state allows: mint an unbound
     identity on an unused UUID, retire a live binding, revive a retired
-    one, supersede or reclaim onto an unused UUID, or take an enrichment
-    hop (retire an entity-less binding and succeed it at a refinement).
+    one, supersede or reclaim onto an unused UUID, take an enrichment hop
+    (retire an entity-less binding and succeed it at a refinement), or
+    return (mint a coarser placeholder and hop it onto a retired key that
+    already handed over).
     The move is kept only if UuidRegistry accepts it, so every history is
     one the grammar itself admits. Hops chain, so placeholders enriched
     once, twice and three times occur alongside stale, superseded,
-    retired, handed-over and reclaimed keys."""
+    retired, handed-over and reclaimed keys, and keys that handed over and
+    then returned as a later hop's successor (live, but consumed)."""
     registry = bsc.UuidRegistry(pathlib.Path("generated.jsonl"), b"")
     for _ in range(data.draw(st.integers(1, 12), label="steps")):
         held = list(registry.latest.values())
@@ -4911,6 +5005,22 @@ def _generated_registry(data: st.DataObject) -> bsc.UuidRegistry:
             moves += ["reclaim"]
         if any(e["entity"] is None for e in live):
             moves += ["hop", "hop", "hop"]
+        # A consumed placeholder can take a lineage again as a later hop's
+        # successor (main writes this when a docket entry loses its
+        # country, which mints a fresh coarser placeholder, and regains
+        # it): mint a coarser placeholder and hop it straight onto the key.
+        returns = [
+            (coarser, entry)
+            for entry in consumed
+            if entry["entity"] is None
+            for coarser in unbound
+            if coarser["concept"] == entry["concept"]
+            and coarser["entity"] is None
+            and _key(coarser) != _key(entry)
+            and _refines(coarser["geography"], entry["geography"])
+        ]
+        if returns and unused:
+            moves += ["return", "return"]
         if not moves:
             break
         move = data.draw(st.sampled_from(moves))
@@ -4938,6 +5048,14 @@ def _generated_registry(data: st.DataObject) -> bsc.UuidRegistry:
                            uuid=data.draw(st.sampled_from(unused)),
                            reclaimed=True,
                            note="generated reclaim after handover")]
+        elif move == "return":
+            coarser, entry = data.draw(st.sampled_from(returns))
+            fresh = data.draw(st.sampled_from(unused))
+            events = [
+                dict(coarser, uuid=fresh),
+                dict(coarser, uuid=fresh, retired=True, note=CHAIN_NOTE),
+                dict(_ident(entry), uuid=fresh, succeeds=coarser),
+            ]
         else:
             entry = data.draw(st.sampled_from(
                 [e for e in live if e["entity"] is None]
@@ -4948,9 +5066,14 @@ def _generated_registry(data: st.DataObject) -> bsc.UuidRegistry:
                 and _key(ident) != _key(entry)
                 and _refines(entry["geography"], ident["geography"])
             ]
-            # Entity-less targets are weighted up so hops chain.
+            # Entity-less targets are weighted up so hops chain, and retired
+            # ones further still so lineages return onto keys that already
+            # handed over (live again, but consumed).
+            retired_keys = {_key(e) for e in retired}
             target = data.draw(st.sampled_from(
-                [t for t in targets if t["entity"] is None] * 3 + targets
+                [t for t in targets if _key(t) in retired_keys] * 6
+                + [t for t in targets if t["entity"] is None] * 3
+                + targets
             ))
             events = [
                 dict(_ident(entry), uuid=entry["uuid"], retired=True,
@@ -4996,9 +5119,10 @@ def test_enrichment_is_planned_exactly_when_the_grammar_admits_it(
 ) -> None:
     """Differential: plan-time guard vs. the registry grammar.
 
-    For any history the grammar admits, any docket-only row (live, stale,
-    superseded, retired, handed over, reclaimed, the root of a chain, or
-    carrying another series' UUID) and any observation of its concept:
+    For any history the grammar admits, any docket-only row (live, live
+    but already handed over, stale, superseded, retired, handed over,
+    reclaimed, the root of a chain, or carrying another series' UUID) and
+    any observation of its concept:
 
     * completeness: the builder plans the retire + succeeds pair exactly
       when UuidRegistry would accept that very pair (so no enrichment
@@ -5017,11 +5141,14 @@ def test_enrichment_is_planned_exactly_when_the_grammar_admits_it(
         if e["concept"] == _GEN_CONCEPT and e["entity"] is None
     ]
     # Steer toward rows at keys the history holds, carrying their last
-    # binding: live ones (the chained case lives here) and stale ones
-    # (retired, handed over). Any geography with any UUID stays possible.
+    # binding: live ones (the chained case lives here), live ones that
+    # already handed over (consumed), and stale ones (retired, handed
+    # over). Any geography with any UUID stays possible.
+    live = [e for e in placeholders if not e.get("retired")]
     candidates = (
-        [(e["geography"], e["uuid"]) for e in placeholders
-         if not e.get("retired")] * 8
+        [(e["geography"], e["uuid"]) for e in live] * 8
+        + [(e["geography"], e["uuid"]) for e in live
+           if _key(e) in registry.consumed] * 16
         + [(e["geography"], e["uuid"]) for e in placeholders] * 2
         + [(g, u) for g in _PLACEHOLDER_GEOS for u in _GEN_UUIDS]
     )

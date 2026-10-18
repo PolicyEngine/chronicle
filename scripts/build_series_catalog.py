@@ -2135,9 +2135,13 @@ def build_catalog(
         prior_own_key = UuidRegistry.entry_key(prior)
         prior_geo = prior.get("geography") or None
         geo = geography or {}
+        # Lineage never crosses concepts. Observed buckets always take the
+        # prior's concept; a docket entry matched through a curated alias
+        # can name another one, and the grammar would refuse that succeeds.
         enrichment_shaped = (
             prior.get("status") == "docket-only"
             and prior.get("entity") is None
+            and prior.get("concept") == canon_key[0]
             and (
                 prior_geo is None
                 or (
@@ -2148,11 +2152,15 @@ def build_catalog(
                 )
             )
         )
-        # The contract is the LIVE binding: the row's own key must be live
-        # and bound to row_uuid right now. That alone refuses a stale row
-        # still carrying a UUID its key has since superseded away from, or
-        # a key that was retired, handed over or reclaimed. Staging replay
-        # would reject such a plan anyway; this fails at plan time instead.
+        # The contract is the LIVE binding: the row's own key must be live,
+        # bound to row_uuid right now, and still able to hand its lineage
+        # over. Liveness and binding refuse a stale row still carrying a
+        # UUID its key has since superseded away from, and a key that was
+        # retired, handed over or reclaimed. A key hands over at most once:
+        # one that handed over and later returned as the successor of
+        # another hop is live again but stays consumed, and the grammar
+        # refuses it as a predecessor. Staging replay would reject each of
+        # these plans anyway; this fails at plan time instead.
         # Historical ownership (uuid_owner) is not part of the contract: it
         # records FIRST ownership and never moves, so a placeholder that
         # was itself the successor of an earlier enrichment never owns its
@@ -2161,6 +2169,7 @@ def build_catalog(
             enrichment_shaped
             and registry.is_live(prior_own_key)
             and registry.binding(prior_own_key) == row_uuid
+            and prior_own_key not in registry.consumed
         ):
             return False
         # Docket-placeholder enrichment: the binding MOVES to the observed
