@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import mimetypes
+from contextlib import closing
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -852,7 +853,7 @@ def infer_build_id(input_dir: str | Path) -> str | None:
 
     db_path = input_path / "arch.db"
     if db_path.exists():
-        with sqlite3.connect(db_path) as connection:
+        with closing(sqlite3.connect(db_path)) as connection, connection:
             row = connection.execute(
                 "SELECT build_id FROM arch_builds ORDER BY build_id LIMIT 1"
             ).fetchone()
