@@ -565,6 +565,13 @@ def test_full_ci_fact_validation_accepts_an_explicit_correction():
     assert len(current) == len(effective_current_rows(rows))
     assert original not in current
     assert correction in current
+    # And independently of effective_current_rows: check_rows makes every
+    # superseding row name the active version, so each one retires exactly
+    # one distinct row, and the synthetic correction retires the original.
+    superseding = sum(
+        1 for row in rows if (row.get("assertionVersion") or {}).get("supersedes")
+    )
+    assert len(current) == len(rows) - superseding
 
 
 def test_correction_chain_cannot_restore_a_superseded_legacy_value():
