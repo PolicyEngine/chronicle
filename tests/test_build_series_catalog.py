@@ -2435,8 +2435,22 @@ def test_identity_uuid_map_matches_reviewed_anchor() -> None:
     # test's algorithm, 8c4a0f86 gives the previous pin exactly and the delta
     # to dd929cba is those five tuples re-keyed with the same UUIDs. No mint,
     # no supersede; the other 216 bindings are unchanged; 221 rows.
+    # Updated 2026-10-19 to the catalog at 61475bf8 (chronicle#369, Thesis
+    # resolver run 39198762190) alongside its ten registry events: five more
+    # country-level docket placeholders, whose retired identities carry
+    # vintage-null U.S. country geography and no entity, enriched by their
+    # FY2026 first prints through retire+succeeds pairs that keep each UUID
+    # and re-key to the observation's vintage-current geography and economy
+    # aggregate entity: usaspending.cdfi.assistance_transaction_obligations
+    # (69834e1f), dhs.title_vi.award_transaction_obligations (e64ea5db),
+    # dod.prime_award_obligations (a2649fd9), ntia.broadband_al11038_obligations
+    # (f37307e0) and usfs.minnesota_place_of_performance_obligations
+    # (720be189). Recomputed with this test's algorithm, 7adcc72f gives the
+    # previous pin exactly and the delta to 61475bf8 is those five tuples
+    # re-keyed with the same UUIDs. No mint, no supersede; the other 216
+    # bindings are unchanged; 221 rows.
     assert digest == (
-        "b06bf665ffb608795c14a984d65a7145df4c0c58fd73a132b0756e23ad51e25f"
+        "d5b88530f3f0c9e709dc0a0d379302db539d2600f76f60ed7fdd83f7474e5eef"
     )
 
 
