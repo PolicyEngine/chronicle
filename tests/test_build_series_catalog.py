@@ -2481,6 +2481,8 @@ _ANCHOR_MUTATIONS = [
     "unsorted_events",
     "unknown_mover",
     "stale_pin",
+    "repeated_row",
+    "mint_existing_identity",
 ]
 
 
@@ -2504,10 +2506,16 @@ def _anchor_append(data: st.DataObject) -> tuple[list, list, list]:
     a machine move records for that append: placeholder enrichments under
     the same UUID and concept, and mints of full identities under fresh
     UUIDs."""
-    prior = []
+    def key(concept, geography, entity) -> str:
+        return json.dumps(
+            [concept, bsc._geo_key(geography), bsc._entity_key(entity)]
+        )
+
+    # As in a real catalog, every (concept, geography, entity) is bound once.
+    prior, held = [], set()
     for index in range(data.draw(st.integers(0, 6), label="rows")):
         placeholder = data.draw(st.booleans(), label="placeholder")
-        prior.append({
+        row = {
             "uuid": _anchor_uuid(index),
             "concept": data.draw(st.sampled_from(_ANCHOR_CONCEPTS)),
             "geography": data.draw(st.sampled_from(
@@ -2517,16 +2525,26 @@ def _anchor_append(data: st.DataObject) -> tuple[list, list, list]:
             "entity": None if placeholder else data.draw(
                 st.sampled_from(_ANCHOR_ENTITIES)
             ),
-        })
+        }
+        if key(row["concept"], row["geography"], row["entity"]) in held:
+            continue
+        held.add(key(row["concept"], row["geography"], row["entity"]))
+        prior.append(row)
     current = [dict(row) for row in prior]
     events = []
     for row in current:
-        if row["entity"] is not None or not data.draw(st.booleans()):
+        options = [
+            (geography, entity)
+            for geography in _admitted_geographies(row["geography"])
+            for entity in _ANCHOR_ENTITIES
+            if key(row["concept"], geography, entity) not in held
+        ]
+        if row["entity"] is not None or not options or not data.draw(
+            st.booleans()
+        ):
             continue
-        geography = data.draw(
-            st.sampled_from(_admitted_geographies(row["geography"]))
-        )
-        entity = data.draw(st.sampled_from(_ANCHOR_ENTITIES))
+        geography, entity = data.draw(st.sampled_from(options))
+        held.add(key(row["concept"], geography, entity))
         events.append({
             "event": "enrich", "uuid": row["uuid"], "concept": row["concept"],
             "geography": geography, "entity": entity,
@@ -2540,6 +2558,9 @@ def _anchor_append(data: st.DataObject) -> tuple[list, list, list]:
             "geography": data.draw(st.sampled_from(_ANCHOR_FULL_GEOS)),
             "entity": data.draw(st.sampled_from(_ANCHOR_ENTITIES)),
         }
+        if key(mint["concept"], mint["geography"], mint["entity"]) in held:
+            continue
+        held.add(key(mint["concept"], mint["geography"], mint["entity"]))
         current.append(mint)
         events.append({"event": "mint", **mint})
     events.sort(key=lambda event: (event["concept"], event["uuid"]))
@@ -2583,22 +2604,23 @@ def test_a_machine_move_of_sanctioned_events_is_accepted(
     assert bsc.identity_anchor_problems(current, stale)
 
 
+@pytest.mark.parametrize("mutation", _ANCHOR_MUTATIONS)
 @settings(
-    max_examples=600,
+    max_examples=120,
     deadline=None,
     suppress_health_check=[HealthCheck.filter_too_much],
 )
 @given(data=st.data())
 def test_a_machine_move_cannot_hide_any_other_binding_change(
-    data: st.DataObject,
+    mutation: str, data: st.DataObject,
 ) -> None:
     """Soundness: every way a recorded move can misstate its append — an
     unrecorded change, a remint or reused UUID, an entity change on a full
     identity, a concept change, an unadmitted geography, a placeholder
-    mint, a wrong origin, unsorted events, an unknown mover or a stale pin
-    — is reported."""
+    mint, a wrong origin, unsorted events, an unknown mover, a stale pin, a
+    repeated row, or a mint of an identity already bound — is reported.
+    Parametrized, so a mutation Hypothesis can never exercise fails."""
     prior, current, events = _anchor_append(data)
-    mutation = data.draw(st.sampled_from(_ANCHOR_MUTATIONS), label="mutation")
     enriched = [e for e in events if e["event"] == "enrich"]
     mints = [e for e in events if e["event"] == "mint"]
     full = [row for row in current if row["entity"] is not None
@@ -2677,6 +2699,22 @@ def test_a_machine_move_cannot_hide_any_other_binding_change(
         assume(events)
     elif mutation == "stale_pin":
         assume(placeholders and events)
+    elif mutation == "repeated_row":
+        # A second copy of a mint's row: the digest (over the list) moves,
+        # the set the undo works on does not.
+        assume(mints)
+        row = data.draw(st.sampled_from(
+            [r for r in current if r["uuid"] in {m["uuid"] for m in mints}]
+        ))
+        current.append(dict(row))
+    elif mutation == "mint_existing_identity":
+        assume(full)
+        row = data.draw(st.sampled_from(full))
+        twin = {**row, "uuid": _anchor_uuid(998)}
+        current.append(twin)
+        events.append({"event": "mint", **{k: twin[k] for k in (
+            "uuid", "concept", "geography", "entity")}})
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
     anchor = _machine_anchor(prior, current, events)
     if mutation == "unknown_mover":
         anchor["move"]["by"] = "someone-else"
@@ -5664,3 +5702,7 @@ def test_the_anchor_continuity_cli(tmp_path: pathlib.Path) -> None:
     assert bsc.main(argv) == 1
     base_path.write_text("")
     assert bsc.main(argv) == 1
+    # No identity anchor fixture at all (a base before it): nothing to check.
+    missing = ["--verify-anchor-move-from", str(base_path), "--anchor",
+               str(tmp_path / "absent.json")]
+    assert bsc.main(missing) == 0

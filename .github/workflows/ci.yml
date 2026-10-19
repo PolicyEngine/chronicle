@@ -97,15 +97,16 @@ jobs:
           BASE_SHA: ${{ github.event_name == 'pull_request'
             && github.event.pull_request.base.sha
             || github.event.before }}
-          FALLBACK_REF: codex/thesis-ledger-facts
         run: |
           if [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
-            git fetch --no-tags --depth=1 origin \
-              "refs/heads/$FALLBACK_REF"
-            BASE_SHA=FETCH_HEAD
-          else
-            git fetch --no-tags --depth=1 origin "$BASE_SHA"
+            # A new branch's first push has no comparison base of its own,
+            # and a branch cut before the latest machine move would compare
+            # an older move with today's pin. Its pull request run checks
+            # the move against the pull request's base instead.
+            echo "new branch: the pull request run checks the anchor move"
+            exit 0
           fi
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
           anchor=tests/fixtures/series_catalog/identity_anchor.json
           if git cat-file -e "$BASE_SHA:$anchor" 2>/dev/null; then
             git show "$BASE_SHA:$anchor" > /tmp/base-identity-anchor.json

@@ -3000,6 +3000,16 @@ def identity_anchor_problems(series: list[dict], anchor: dict) -> list[str]:
     events = move["events"]
     if not isinstance(events, list) or not events:
         return problems + ["identity anchor move records no events"]
+    # The digest covers the list, duplicates included, while the undo below
+    # works on sets, so a repeated row or a UUID on two rows would let a
+    # move hide a change. A machine move needs every row to be distinct.
+    current_uuids = [json.loads(line)[0] for line in current]
+    if len(set(current)) != len(current) or len(set(current_uuids)) != len(
+        current_uuids
+    ):
+        return problems + [
+            "identity anchor move over a catalog that repeats a row or a UUID"
+        ]
     current_set = set(current)
     prior = set(current)
     seen: set[str] = set()
@@ -3067,12 +3077,25 @@ def identity_anchor_problems(series: list[dict], anchor: dict) -> list[str]:
             "identity anchor move events are not sorted by (concept, uuid)"
         )
     prior_uuids = [json.loads(line)[0] for line in prior]
+    prior_identities = {json.dumps(json.loads(line)[1:]) for line in prior}
     for uuid in mints:
         if uuid in prior_uuids:
             problems.append(
                 f"identity anchor move: mint of {uuid} reuses a UUID the "
                 "prior catalog holds"
             )
+    for event in events:
+        if isinstance(event, dict) and event.get("event") == "mint":
+            identity = json.dumps([
+                event.get("concept"),
+                _geo_key(event.get("geography")),
+                _entity_key(event.get("entity")),
+            ])
+            if identity in prior_identities:
+                problems.append(
+                    f"identity anchor move: mint of {event.get('uuid')} repeats "
+                    "an identity the prior catalog already binds"
+                )
     if len(prior_uuids) != len(set(prior_uuids)):
         problems.append(
             "identity anchor move: undoing its events leaves a UUID on two "
@@ -3278,6 +3301,9 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.verify_anchor_move_from is not None:
+        if not args.anchor.exists():
+            print("identity anchor vs base: ok (no identity anchor fixture)")
+            return 0
         anchor = json.loads(args.anchor.read_text(encoding="utf-8"))
         base_raw = (
             args.verify_anchor_move_from.read_text(encoding="utf-8")
