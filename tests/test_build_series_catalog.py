@@ -19,7 +19,8 @@ import tempfile
 import uuid
 
 import pytest
-from hypothesis import HealthCheck, given, settings
+from hypothesis import HealthCheck, assume, given, settings
+from hypothesis import event as hypothesis_event
 from hypothesis import strategies as st
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -40,6 +41,11 @@ REVIEWED_STRIPPED_FIXTURE = json.loads(
 )
 REVIEWED_STRIPS: dict[str, dict[str, dict[str, dict[str, list[str]]]]] = (
     REVIEWED_STRIPPED_FIXTURE["strips"]
+)
+# The reviewed identity anchor (see test_identity_uuid_map_matches_reviewed_
+# anchor and build_series_catalog.identity_anchor_problems).
+IDENTITY_ANCHOR_PATH = (
+    ROOT / "tests" / "fixtures" / "series_catalog" / "identity_anchor.json"
 )
 
 PERIOD_SEGMENTS = [
@@ -2297,27 +2303,18 @@ def test_identity_uuid_map_matches_reviewed_anchor() -> None:
     """The registry's introduction commit cannot be continuity-checked by
     the append-only gate (there is no prior registry to extend), so the
     identity->uuid map verified by the adversarial review of PR #128 is
-    pinned here. Changing any live binding — or adding or retiring one —
-    must edit this constant in the same diff, making wholesale remints
-    impossible to slip through as regeneration noise.
+    pinned in IDENTITY_ANCHOR_PATH. Changing any live binding — or adding or
+    retiring one — must move that pin in the same diff, making wholesale
+    remints impossible to slip through as regeneration noise.
 
-    Update the constant only alongside registry events that justify it.
+    Move the pin only alongside registry events that justify it: by hand,
+    with move null and a dated entry in the history below, or by the Thesis
+    resolver in its own append proposal, with a move record that
+    identity_anchor_problems re-derives (fresh-UUID mints and same-UUID
+    placeholder enrichments only).
     """
-    import hashlib
-
     catalog = json.loads(bsc.CATALOG.read_text(encoding="utf-8"))
-    lines = sorted(
-        json.dumps(
-            [
-                row["uuid"],
-                row["concept"],
-                bsc._geo_key(row.get("geography")),
-                bsc._entity_key(row.get("entity")),
-            ]
-        )
-        for row in catalog["series"]
-    )
-    digest = hashlib.sha256("\n".join(lines).encode()).hexdigest()
+    anchor = json.loads(IDENTITY_ANCHOR_PATH.read_text(encoding="utf-8"))
     # Updated 2026-08-05 alongside five registry events: two docket
     # placeholders enriched by their first observations (retire+succeeds,
     # UUIDs preserved: bls.jolts.hires_rate,
@@ -2449,8 +2446,273 @@ def test_identity_uuid_map_matches_reviewed_anchor() -> None:
     # previous pin exactly and the delta to 61475bf8 is those five tuples
     # re-keyed with the same UUIDs. No mint, no supersede; the other 216
     # bindings are unchanged; 221 rows.
-    assert digest == (
-        "d5b88530f3f0c9e709dc0a0d379302db539d2600f76f60ed7fdd83f7474e5eef"
+    # Moved 2026-10-19 from a literal here to IDENTITY_ANCHOR_PATH, unchanged
+    # (d5b88530...), so the Thesis resolver can pin the anchor its own
+    # first observations move in the same proposal, under a move record
+    # this test re-derives. Twice in three days (chronicle#361, #369) an
+    # append merged with this test red and held every other pull request
+    # into the branch until a curation PR (#363, #371) moved the literal.
+    # From here on, machine moves are recorded in the fixture and its git
+    # history; hand moves keep being explained here.
+    assert bsc.identity_anchor_problems(catalog["series"], anchor) == []
+
+
+# --- Machine moves of the identity anchor -----------------------------------
+
+_ANCHOR_CONCEPTS = ["a.series", "b.series", "c.series"]
+_ANCHOR_FULL_GEOS = [
+    {"level": "country", "id": "US", "vintage": "current"},
+    {"level": "country", "id": "US", "vintage": None},
+    {"level": "state", "id": "MN", "vintage": "current"},
+]
+_ANCHOR_ENTITIES = [
+    {"name": "economy", "role": "aggregate"},
+    {"name": "person", "role": "civilian_labor_force"},
+]
+_ANCHOR_MUTATIONS = [
+    "drop_event",
+    "wrong_origin",
+    "mint_reuses_uuid",
+    "remint_full_identity",
+    "enrich_full_identity",
+    "enrich_changes_concept",
+    "enrich_unadmitted_geography",
+    "mint_placeholder",
+    "unsorted_events",
+    "unknown_mover",
+    "stale_pin",
+]
+
+
+def _anchor_uuid(index: int) -> str:
+    return f"{index:08x}-0000-4000-8000-000000000000"
+
+
+def _admitted_geographies(placeholder: dict | None) -> list[dict]:
+    return [
+        geo for geo in _ANCHOR_FULL_GEOS
+        if placeholder is None
+        or (
+            (placeholder["level"], placeholder["id"]) == (geo["level"], geo["id"])
+            and placeholder["vintage"] in (None, geo["vintage"])
+        )
+    ]
+
+
+def _anchor_append(data: st.DataObject) -> tuple[list, list, list]:
+    """A prior catalog, the catalog one append makes of it, and the events
+    a machine move records for that append: placeholder enrichments under
+    the same UUID and concept, and mints of full identities under fresh
+    UUIDs."""
+    prior = []
+    for index in range(data.draw(st.integers(0, 6), label="rows")):
+        placeholder = data.draw(st.booleans(), label="placeholder")
+        prior.append({
+            "uuid": _anchor_uuid(index),
+            "concept": data.draw(st.sampled_from(_ANCHOR_CONCEPTS)),
+            "geography": data.draw(st.sampled_from(
+                [None, *_ANCHOR_FULL_GEOS] if placeholder
+                else _ANCHOR_FULL_GEOS
+            )),
+            "entity": None if placeholder else data.draw(
+                st.sampled_from(_ANCHOR_ENTITIES)
+            ),
+        })
+    current = [dict(row) for row in prior]
+    events = []
+    for row in current:
+        if row["entity"] is not None or not data.draw(st.booleans()):
+            continue
+        geography = data.draw(
+            st.sampled_from(_admitted_geographies(row["geography"]))
+        )
+        entity = data.draw(st.sampled_from(_ANCHOR_ENTITIES))
+        events.append({
+            "event": "enrich", "uuid": row["uuid"], "concept": row["concept"],
+            "geography": geography, "entity": entity,
+            "placeholder_geography": row["geography"],
+        })
+        row["geography"], row["entity"] = geography, entity
+    for index in range(data.draw(st.integers(0, 3), label="mints")):
+        mint = {
+            "uuid": _anchor_uuid(100 + index),
+            "concept": data.draw(st.sampled_from(_ANCHOR_CONCEPTS)),
+            "geography": data.draw(st.sampled_from(_ANCHOR_FULL_GEOS)),
+            "entity": data.draw(st.sampled_from(_ANCHOR_ENTITIES)),
+        }
+        current.append(mint)
+        events.append({"event": "mint", **mint})
+    events.sort(key=lambda event: (event["concept"], event["uuid"]))
+    return prior, current, events
+
+
+def _machine_anchor(prior: list, current: list, events: list) -> dict:
+    return {
+        "comment": "c",
+        "sha256": bsc.identity_anchor_digest(bsc.identity_anchor_lines(current)),
+        "move": {
+            "by": "thesis-resolver",
+            "run_url": "https://github.com/ThesisInstitute/thesis/actions/runs/1",
+            "from_sha256": bsc.identity_anchor_digest(
+                bsc.identity_anchor_lines(prior)
+            ),
+            "events": events,
+        },
+    }
+
+
+@settings(max_examples=300, deadline=None)
+@given(data=st.data())
+def test_a_machine_move_of_sanctioned_events_is_accepted(
+    data: st.DataObject,
+) -> None:
+    """Completeness: any append made only of fresh-UUID mints and
+    same-UUID placeholder enrichments can be recorded as a machine move
+    that identity_anchor_problems accepts, and recording no move at all
+    for it is refused (the pin moved)."""
+    prior, current, events = _anchor_append(data)
+    assume(events)
+    assert bsc.identity_anchor_problems(
+        current, _machine_anchor(prior, current, events)
+    ) == []
+    stale = {
+        "comment": "c",
+        "sha256": bsc.identity_anchor_digest(bsc.identity_anchor_lines(prior)),
+        "move": None,
+    }
+    assert bsc.identity_anchor_problems(current, stale)
+
+
+@settings(
+    max_examples=600,
+    deadline=None,
+    suppress_health_check=[HealthCheck.filter_too_much],
+)
+@given(data=st.data())
+def test_a_machine_move_cannot_hide_any_other_binding_change(
+    data: st.DataObject,
+) -> None:
+    """Soundness: every way a recorded move can misstate its append — an
+    unrecorded change, a remint or reused UUID, an entity change on a full
+    identity, a concept change, an unadmitted geography, a placeholder
+    mint, a wrong origin, unsorted events, an unknown mover or a stale pin
+    — is reported."""
+    prior, current, events = _anchor_append(data)
+    mutation = data.draw(st.sampled_from(_ANCHOR_MUTATIONS), label="mutation")
+    enriched = [e for e in events if e["event"] == "enrich"]
+    mints = [e for e in events if e["event"] == "mint"]
+    full = [row for row in current if row["entity"] is not None
+            and row["uuid"] not in {e["uuid"] for e in events}]
+    placeholders = [row for row in current if row["entity"] is None]
+    if mutation == "drop_event":
+        assume(events)
+        dropped = data.draw(st.sampled_from(events))
+        events = [e for e in events if e is not dropped]
+    elif mutation == "wrong_origin":
+        assume(events)
+        prior = current
+    elif mutation == "mint_reuses_uuid":
+        assume(mints and prior)
+        mint = data.draw(st.sampled_from(mints))
+        reused = data.draw(st.sampled_from(prior))["uuid"]
+        for row in current:
+            if row["uuid"] == mint["uuid"] and row["concept"] == mint["concept"]:
+                row["uuid"] = reused
+        mint["uuid"] = reused
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "remint_full_identity":
+        assume(full)
+        row = data.draw(st.sampled_from(full))
+        row["uuid"] = _anchor_uuid(999)
+        events.append({"event": "mint", **{k: row[k] for k in (
+            "uuid", "concept", "geography", "entity")}})
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "enrich_full_identity":
+        assume(full)
+        row = data.draw(st.sampled_from(full))
+        old_geography = row["geography"]
+        row["entity"] = next(
+            e for e in _ANCHOR_ENTITIES if e != row["entity"]
+        )
+        events.append({
+            "event": "enrich", "uuid": row["uuid"], "concept": row["concept"],
+            "geography": row["geography"], "entity": row["entity"],
+            "placeholder_geography": old_geography,
+        })
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "enrich_changes_concept":
+        assume(enriched)
+        target = data.draw(st.sampled_from(enriched))
+        renamed = "z.renamed"
+        for row in current:
+            if row["uuid"] == target["uuid"]:
+                row["concept"] = renamed
+        target["concept"] = renamed
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "enrich_unadmitted_geography":
+        assume(enriched)
+        target = data.draw(st.sampled_from(enriched))
+        assume(target["placeholder_geography"] is not None)
+        unadmitted = [
+            geo for geo in _ANCHOR_FULL_GEOS
+            if geo not in _admitted_geographies(target["placeholder_geography"])
+        ]
+        assume(unadmitted)
+        geography = data.draw(st.sampled_from(unadmitted))
+        for row in current:
+            if row["uuid"] == target["uuid"]:
+                row["geography"] = geography
+        target["geography"] = geography
+    elif mutation == "mint_placeholder":
+        assume(mints)
+        mint = data.draw(st.sampled_from(mints))
+        for row in current:
+            if row["uuid"] == mint["uuid"]:
+                row["entity"] = None
+        mint["entity"] = None
+    elif mutation == "unsorted_events":
+        assume(len({(e["concept"], e["uuid"]) for e in events}) > 1)
+        events = list(reversed(events))
+    elif mutation == "unknown_mover":
+        assume(events)
+    elif mutation == "stale_pin":
+        assume(placeholders and events)
+    anchor = _machine_anchor(prior, current, events)
+    if mutation == "unknown_mover":
+        anchor["move"]["by"] = "someone-else"
+    if mutation == "stale_pin":
+        row = data.draw(st.sampled_from(placeholders))
+        row["entity"] = _ANCHOR_ENTITIES[0]
+        row["geography"] = _ANCHOR_FULL_GEOS[0]
+    hypothesis_event(mutation)
+    assert bsc.identity_anchor_problems(current, anchor), mutation
+
+
+def test_identity_anchor_fixture_shape_is_enforced() -> None:
+    """A fixture with extra or missing keys, a malformed pin, or a move
+    without events is reported rather than read leniently."""
+    series = [{"uuid": _anchor_uuid(0), "concept": "a.series",
+               "geography": _ANCHOR_FULL_GEOS[0],
+               "entity": _ANCHOR_ENTITIES[0]}]
+    pin = bsc.identity_anchor_digest(bsc.identity_anchor_lines(series))
+    good = {"comment": "c", "sha256": pin, "move": None}
+    assert bsc.identity_anchor_problems(series, good) == []
+    assert bsc.identity_anchor_problems(series, {**good, "extra": 1})
+    assert bsc.identity_anchor_problems(series, {**good, "sha256": pin.upper()})
+    no_events = {**good, "move": {
+        "by": "thesis-resolver", "run_url": None, "from_sha256": pin,
+        "events": [],
+    }}
+    assert bsc.identity_anchor_problems(series, no_events) == [
+        "identity anchor move records no events"
+    ]
+    bad_url = {**good, "move": {
+        "by": "thesis-resolver", "run_url": "http://example.com",
+        "from_sha256": pin, "events": [],
+    }}
+    assert (
+        "identity anchor move run_url is not a GitHub URL"
+        in bsc.identity_anchor_problems(series, bad_url)
     )
 
 

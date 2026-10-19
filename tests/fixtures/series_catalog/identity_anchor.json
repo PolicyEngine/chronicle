@@ -1,0 +1,5 @@
+{
+  "comment": "The reviewed identity anchor of ledger/series_catalog.json: sha256 is build_series_catalog.identity_anchor_digest of the catalog rows' [uuid, concept, geography key, entity key] tuples, the digest the adversarial review of PR #128 started. Changing any live binding, or adding or retiring one, moves it, so the same diff must move this pin; test_identity_uuid_map_matches_reviewed_anchor checks it with identity_anchor_problems. A curator who moves the pin sets move to null and explains the move in that test's comment history. The Thesis resolver may move it in its own append proposal and records how in move: by, run_url, from_sha256 (the pin it moved from) and events, one per identity tuple the append changed. The test re-derives from_sha256 from the current catalog and those events and accepts only mints of full identities under fresh UUIDs and enrichments of entity-free docket placeholders under the same UUID and concept, so a machine move is re-checked here, never taken on trust.",
+  "sha256": "d5b88530f3f0c9e709dc0a0d379302db539d2600f76f60ed7fdd83f7474e5eef",
+  "move": null
+}
