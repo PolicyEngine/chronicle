@@ -5551,3 +5551,116 @@ def test_enrichment_is_planned_exactly_when_the_grammar_admits_it(
         event["note"] = "generated ceremony"
     staged = registry.stage(_plan_events(plan))
     assert bsc.registry_agreement_problems(catalog, staged) == []
+
+
+def test_a_malformed_event_kind_is_reported_not_raised() -> None:
+    series = [{"uuid": _anchor_uuid(0), "concept": "a.series",
+               "geography": _ANCHOR_FULL_GEOS[0], "entity": _ANCHOR_ENTITIES[0]}]
+    pin = bsc.identity_anchor_digest(bsc.identity_anchor_lines(series))
+    for kind in (["mint"], {"x": 1}, None, 3):
+        anchor = {"comment": "c", "sha256": pin, "move": {
+            "by": "thesis-resolver", "run_url": None, "from_sha256": pin,
+            "events": [{"event": kind}],
+        }}
+        assert any(
+            "malformed event" in problem
+            for problem in bsc.identity_anchor_problems(series, anchor)
+        ), kind
+
+
+def test_a_self_consistent_move_with_a_false_origin_is_caught_against_the_base(
+) -> None:
+    """The 2026-10-19 review's case: the base holds (u_old, a); the change
+    remints it as (u_new, a) and records one "mint u_new" whose from_sha256
+    is the current catalog minus u_new. identity_anchor_problems accepts the
+    record (it is consistent with itself); the base comparison does not."""
+    geo, ent = _ANCHOR_FULL_GEOS[0], _ANCHOR_ENTITIES[0]
+    base_rows = [{"uuid": _anchor_uuid(1), "concept": "a.series",
+                  "geography": geo, "entity": ent}]
+    current = [{"uuid": _anchor_uuid(2), "concept": "a.series",
+                "geography": geo, "entity": ent}]
+    forged = {
+        "comment": "c",
+        "sha256": bsc.identity_anchor_digest(bsc.identity_anchor_lines(current)),
+        "move": {
+            "by": "thesis-resolver", "run_url": None,
+            "from_sha256": bsc.identity_anchor_digest([]),
+            "events": [{"event": "mint", "uuid": _anchor_uuid(2),
+                        "concept": "a.series", "geography": geo,
+                        "entity": ent}],
+        },
+    }
+    assert bsc.identity_anchor_problems(current, forged) == []
+    base_anchor = {
+        "comment": "c",
+        "sha256": bsc.identity_anchor_digest(bsc.identity_anchor_lines(base_rows)),
+        "move": None,
+    }
+    problems = bsc.identity_anchor_continuity_problems(
+        base_anchor, forged, {_anchor_uuid(1)}
+    )
+    assert problems and "but the base pins" in problems[0]
+    # A mint of a UUID the base registry holds is a revive, never a mint.
+    revived = json.loads(json.dumps(forged))
+    revived["move"]["events"][0]["uuid"] = _anchor_uuid(1)
+    assert any(
+        "reuses a UUID the base registry already holds" in problem
+        for problem in bsc.identity_anchor_continuity_problems(
+            base_anchor, revived, {_anchor_uuid(1)}
+        )
+    )
+
+
+@settings(max_examples=300, deadline=None)
+@given(data=st.data())
+def test_a_machine_move_continues_the_base_exactly_when_it_starts_from_its_pin(
+    data: st.DataObject,
+) -> None:
+    prior, current, events = _anchor_append(data)
+    assume(events)
+    anchor = _machine_anchor(prior, current, events)
+    base_anchor = {"comment": "c", "sha256": anchor["move"]["from_sha256"],
+                   "move": None}
+    prior_uuids = {row["uuid"] for row in prior}
+    assert bsc.identity_anchor_continuity_problems(
+        base_anchor, anchor, prior_uuids
+    ) == []
+    # Any base pin other than the move's origin (and other than the new pin,
+    # which would mean the change leaves the pin alone) is not continued.
+    other = data.draw(st.sampled_from(["f" * 64, "0" * 64]))
+    assume(other not in (base_anchor["sha256"], anchor["sha256"]))
+    assert bsc.identity_anchor_continuity_problems(
+        {**base_anchor, "sha256": other}, anchor, prior_uuids
+    )
+    # With no base fixture at all, a machine move has nothing to continue.
+    assert bsc.identity_anchor_continuity_problems(None, anchor, prior_uuids)
+    # A pin the change leaves alone carries the base's record over.
+    assert bsc.identity_anchor_continuity_problems(anchor, anchor, prior_uuids) == []
+
+
+def test_the_anchor_continuity_cli(tmp_path: pathlib.Path) -> None:
+    geo, ent = _ANCHOR_FULL_GEOS[0], _ANCHOR_ENTITIES[0]
+    prior = [{"uuid": _anchor_uuid(1), "concept": "a.series",
+              "geography": None, "entity": None}]
+    current = [{"uuid": _anchor_uuid(1), "concept": "a.series",
+                "geography": geo, "entity": ent}]
+    events = [{"event": "enrich", "uuid": _anchor_uuid(1), "concept": "a.series",
+               "geography": geo, "entity": ent, "placeholder_geography": None}]
+    anchor = _machine_anchor(prior, current, events)
+    anchor_path = tmp_path / "anchor.json"
+    anchor_path.write_text(json.dumps(anchor))
+    base_path = tmp_path / "base-anchor.json"
+    registry_path = tmp_path / "base-registry.jsonl"
+    registry_path.write_text(json.dumps({"uuid": _anchor_uuid(1)}) + "\n")
+    argv = ["--verify-anchor-move-from", str(base_path), "--anchor",
+            str(anchor_path), "--anchor-base-registry", str(registry_path)]
+    base_path.write_text(json.dumps(
+        {"comment": "c", "sha256": anchor["move"]["from_sha256"], "move": None}
+    ))
+    assert bsc.main(argv) == 0
+    base_path.write_text(json.dumps(
+        {"comment": "c", "sha256": "e" * 64, "move": None}
+    ))
+    assert bsc.main(argv) == 1
+    base_path.write_text("")
+    assert bsc.main(argv) == 1

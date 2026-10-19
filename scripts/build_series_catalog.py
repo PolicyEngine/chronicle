@@ -160,6 +160,9 @@ OBSERVATIONS = ROOT / "ledger" / "official_observations.jsonl"
 CATALOG = ROOT / "ledger" / "series_catalog.json"
 DOCKET_SEED = ROOT / "ledger" / "seeds" / "thesis_docket_series.json"
 UUID_REGISTRY = ROOT / "ledger" / "series_uuid_registry.jsonl"
+IDENTITY_ANCHOR = (
+    ROOT / "tests" / "fixtures" / "series_catalog" / "identity_anchor.json"
+)
 ENTITY_FOLDS = ROOT / "ledger" / "seeds" / "entity_folds.json"
 ENTITY_FOLDS_SCHEMA = "chronicle_entity_folds_v1"
 ENTITY_FOLD_FIELDS = (
@@ -2934,9 +2937,14 @@ def identity_anchor_problems(series: list[dict], anchor: dict) -> list[str]:
       geography and an entity) under a UUID the prior tuples do not hold, or
       an ``enrich`` of a docket placeholder (no entity) whose
       ``placeholder_geography`` admits the new geography, re-keyed under the
-      same UUID and concept. A remint, a supersede, a retire, an entity
-      change on a full identity or any unrecorded change is reported, so a
-      machine can move the anchor only by what this function re-derives.
+      same UUID and concept. Relative to ``from_sha256``, a remint, a
+      supersede, a retire, an entity change on a full identity or any
+      unrecorded change is reported.
+
+    This function sees only the current catalog, so it cannot tell whether
+    ``from_sha256`` is where the branch really was: a record that names a
+    false origin is consistent with itself. identity_anchor_continuity_
+    problems closes that, and CI runs it against the comparison base.
 
     >>> geo = {"level": "country", "id": "US", "vintage": "current"}
     >>> ent = {"name": "economy", "role": "aggregate"}
@@ -2999,8 +3007,10 @@ def identity_anchor_problems(series: list[dict], anchor: dict) -> list[str]:
     mints: list[str] = []
     for event in events:
         kind = event.get("event") if isinstance(event, dict) else None
-        if kind not in IDENTITY_ANCHOR_EVENT_KEYS or set(event) != (
-            IDENTITY_ANCHOR_EVENT_KEYS[kind]
+        if (
+            not isinstance(kind, str)
+            or kind not in IDENTITY_ANCHOR_EVENT_KEYS
+            or set(event) != IDENTITY_ANCHOR_EVENT_KEYS[kind]
         ):
             problems.append(
                 f"identity anchor move: malformed event {event!r}"
@@ -3073,6 +3083,58 @@ def identity_anchor_problems(series: list[dict], anchor: dict) -> list[str]:
             "identity anchor move: undoing its events does not give "
             f"from_sha256 {origin}"
         )
+    return problems
+
+
+def identity_anchor_continuity_problems(
+    base_anchor: dict | None,
+    anchor: dict,
+    base_registry_uuids: set[str] | None = None,
+) -> list[str]:
+    """Why a machine move does not continue from the comparison base.
+
+    ``base_anchor`` is the base commit's identity_anchor.json (None when it
+    has none) and ``base_registry_uuids`` every UUID in the base's registry.
+    A move that changes the pin must start from the base's pin, and none of
+    its mints may take a UUID the base registry already holds (a retired
+    UUID brought back is a revive, a curator's call). A pin the change
+    leaves alone carries the base's record over and needs nothing here.
+
+    >>> base = {"sha256": "a" * 64, "move": None}
+    >>> moved = {"sha256": "b" * 64, "move": {"from_sha256": "c" * 64,
+    ...                                       "events": []}}
+    >>> identity_anchor_continuity_problems(base, moved)  # doctest: +ELLIPSIS
+    ['identity anchor move starts from ccc... but the base pins aaa...']
+    """
+    move = anchor.get("move") if isinstance(anchor, dict) else None
+    if not isinstance(move, dict):
+        return []
+    base_pin = base_anchor.get("sha256") if isinstance(base_anchor, dict) else None
+    if base_pin is not None and anchor.get("sha256") == base_pin:
+        return []
+    problems: list[str] = []
+    origin = move.get("from_sha256")
+    if base_pin is None:
+        problems.append(
+            "identity anchor move with no base pin to continue: the base "
+            "has no identity anchor fixture"
+        )
+    elif origin != base_pin:
+        problems.append(
+            f"identity anchor move starts from {origin} but the base pins "
+            f"{base_pin}"
+        )
+    for event in move.get("events") or []:
+        if (
+            isinstance(event, dict)
+            and event.get("event") == "mint"
+            and base_registry_uuids is not None
+            and event.get("uuid") in base_registry_uuids
+        ):
+            problems.append(
+                f"identity anchor move: mint of {event.get('uuid')} reuses a "
+                "UUID the base registry already holds"
+            )
     return problems
 
 
@@ -3196,7 +3258,55 @@ def main(argv: list[str] | None = None) -> int:
             "this against the PR base's registry), then exit"
         ),
     )
+    parser.add_argument(
+        "--verify-anchor-move-from",
+        type=pathlib.Path,
+        default=None,
+        metavar="BASE_ANCHOR",
+        help=(
+            "verify a machine move in --anchor starts from BASE_ANCHOR's pin "
+            "(an empty file: the base has none) and mints no UUID in "
+            "--anchor-base-registry (CI runs this against the comparison "
+            "base), then exit"
+        ),
+    )
+    parser.add_argument("--anchor", type=pathlib.Path, default=IDENTITY_ANCHOR)
+    parser.add_argument(
+        "--anchor-base-registry", type=pathlib.Path, default=None,
+        metavar="BASE_REGISTRY",
+    )
     args = parser.parse_args(argv)
+
+    if args.verify_anchor_move_from is not None:
+        anchor = json.loads(args.anchor.read_text(encoding="utf-8"))
+        base_raw = (
+            args.verify_anchor_move_from.read_text(encoding="utf-8")
+            if args.verify_anchor_move_from.exists()
+            else ""
+        )
+        base_anchor = json.loads(base_raw) if base_raw.strip() else None
+        base_uuids = None
+        if args.anchor_base_registry is not None:
+            base_uuids = set()
+            if args.anchor_base_registry.exists():
+                for line in args.anchor_base_registry.read_text(
+                    encoding="utf-8"
+                ).splitlines():
+                    if line.strip():
+                        entry = json.loads(line)
+                        if isinstance(entry, dict) and isinstance(
+                            entry.get("uuid"), str
+                        ):
+                            base_uuids.add(entry["uuid"])
+        problems = identity_anchor_continuity_problems(
+            base_anchor, anchor, base_uuids
+        )
+        for problem in problems:
+            sys.stderr.write(problem + "\n")
+        if problems:
+            return 1
+        print("identity anchor vs base: ok")
+        return 0
 
     if args.verify_registry_append_only is not None:
         registry = UuidRegistry.load(args.registry)
