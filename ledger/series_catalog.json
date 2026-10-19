@@ -1,9 +1,9 @@
 {
   "comment": "Canonical series catalog. One row per (concept, geography level/id/vintage, entity) identity. UUID authority is the append-only ledger/series_uuid_registry.jsonl (digest below): a uuid is minted once, inherited from the registry on every regeneration, and changes only through explicit, chained supersede/retire/revive/succeeds events recorded there (live bindings and rows stay in bijection). Consumers reference series by uuid or concept only. Regenerate with scripts/build_series_catalog.py; verify with --check. Aliases are curated identity statements (plus observed spellings of the same identity) and inherit only within one (geography, entity) slice; aliases listed in ambiguous_aliases match multiple rows and never drive inheritance. source_concepts are publisher labels — provenance, never identity. Cross-spelling and cross-vintage merges are manual curation: delete the absorbed row, alias its concept on the survivor, regenerate with --allow-remint.",
   "generator_version": 3,
-  "observations_sha256": "2719e6af8ff9b904c26017ff4bcfc6f9732bf3cd3dcf313432bef95151e1d605",
-  "observation_rows": 250,
-  "current_assertion_rows": 244,
+  "observations_sha256": "290d40eedd8f1452f6e6f9a87ae4aed74d1946d2f56fcb4e869a107a6e5a30d0",
+  "observation_rows": 251,
+  "current_assertion_rows": 245,
   "docket_seed_sha256": "5914192517350e0166045afd9064a515ea312acbea1844d9cb594cc9f525dbb9",
   "entity_folds_sha256": "f7496541139308e97c65c8681dd9f44829d46df25eede0d4e639203049667b58",
   "uuid_registry_sha256": "84661b6ad1d7806c936a4114471e14b055bf5b5beaf252aa71e37b2ec699f699",
@@ -95,6 +95,9 @@
     ],
     "2026_08": [
       "abs.cpi.all_groups.yoy"
+    ],
+    "2026_09": [
+      "statcan.cpi.allitems.yoy"
     ],
     "2026_q2": [
       "bls.eci.private_wages_salaries_qoq",
@@ -6446,6 +6449,7 @@
       "uuid": "23bf4da6-874a-4b29-affb-ee68d03d2dee",
       "concept": "statcan.cpi.allitems.yoy",
       "family_patterns": [
+        "statcan.cpi.allitems.yoy",
         "statcan.cpi.allitems.yoy.{P}"
       ],
       "status": "observed",
@@ -6471,11 +6475,12 @@
         "v41690973"
       ],
       "rid_patterns": [
-        "statcan.cpi.allitems.yoy.{P}"
+        "statcan.cpi.allitems.yoy.{P}",
+        "statcan.cpi.allitems.yoy.{P}.first_print"
       ],
       "first_observed_period": "2026-05",
-      "last_observed_period": "2026-05",
-      "observation_count": 1
+      "last_observed_period": "2026-09",
+      "observation_count": 2
     },
     {
       "uuid": "52fba74f-ea83-4b12-981f-3ca2c581686d",
