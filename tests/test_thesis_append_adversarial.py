@@ -558,7 +558,20 @@ def test_full_ci_fact_validation_accepts_an_explicit_correction():
     current = effective_current_rows([*rows, correction])
     report = validate_facts([_to_aggregate_fact(row) for row in current])
     assert report.valid, report.to_dict()
-    assert len(current) == len(rows)
+    # The correction replaces the original one for one. Compare with the
+    # ledger's own current view, not its row count: once the ledger holds a
+    # real correction (Thesis's six first-print corrections, 2026-10-19), the
+    # current view is already shorter than the file.
+    assert len(current) == len(effective_current_rows(rows))
+    assert original not in current
+    assert correction in current
+    # And independently of effective_current_rows: check_rows makes every
+    # superseding row name the active version, so each one retires exactly
+    # one distinct row, and the synthetic correction retires the original.
+    superseding = sum(
+        1 for row in rows if (row.get("assertionVersion") or {}).get("supersedes")
+    )
+    assert len(current) == len(rows) - superseding
 
 
 def test_correction_chain_cannot_restore_a_superseded_legacy_value():
