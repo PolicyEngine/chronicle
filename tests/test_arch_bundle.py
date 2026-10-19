@@ -3,7 +3,11 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
+import pytest
+
+import arch.bundle
 from arch.bundle import build_bundle, build_bundle_coverage
 from arch.harness import main as harness_main
 
@@ -12,6 +16,31 @@ def _load_jsonl(path):
     return [json.loads(line) for line in path.read_text().splitlines() if line]
 
 
+@pytest.fixture
+def prune_suite_intermediates(monkeypatch):
+    """Delete each source suite's intermediates once the suite is built.
+
+    Every suite in the default bundle writes source_rows.jsonl,
+    source_cells.jsonl, facts.jsonl and a per-source arch.db, and
+    build_bundle then reads back only its consumer_facts.jsonl.
+    A BEA NIPA suite alone writes a 494 MB source_rows.jsonl and a 1 GB
+    arch.db for 65 KB of consumer facts.
+    The suites are still built, validated and merged exactly as before; only
+    files nothing reads afterwards are removed, so they no longer pile up
+    across the bundle's source packages.
+    """
+    build_source_suite = arch.bundle.build_source_suite
+
+    def build_then_prune(*args, **kwargs):
+        report = build_source_suite(*args, **kwargs)
+        for output in ("source_rows", "source_cells", "facts", "database"):
+            Path(report.outputs[output]).unlink(missing_ok=True)
+        return report
+
+    monkeypatch.setattr(arch.bundle, "build_source_suite", build_then_prune)
+
+
+@pytest.mark.usefixtures("prune_suite_intermediates")
 def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     """Pin the merged default bundle to exact counts so drift is loud.
 
