@@ -1,8 +1,8 @@
 {
   "comment": "Canonical series catalog. One row per (concept, geography level/id/vintage, entity) identity. UUID authority is the append-only ledger/series_uuid_registry.jsonl (digest below): a uuid is minted once, inherited from the registry on every regeneration, and changes only through explicit, chained supersede/retire/revive/succeeds events recorded there (live bindings and rows stay in bijection). Consumers reference series by uuid or concept only. Regenerate with scripts/build_series_catalog.py; verify with --check. Aliases are curated identity statements (plus observed spellings of the same identity) and inherit only within one (geography, entity) slice; aliases listed in ambiguous_aliases match multiple rows and never drive inheritance. source_concepts are publisher labels — provenance, never identity. Cross-spelling and cross-vintage merges are manual curation: delete the absorbed row, alias its concept on the survivor, regenerate with --allow-remint.",
   "generator_version": 3,
-  "observations_sha256": "961a253aa9e91e00b6003de1f2420ceca1d8fd02f6517a0c2bdc9071491a5fb6",
-  "observation_rows": 239,
+  "observations_sha256": "b51c795b1774c33d66bd24bd20e7f3cc575ce28cdc6d487e4306f168647e7b5e",
+  "observation_rows": 245,
   "current_assertion_rows": 239,
   "docket_seed_sha256": "5914192517350e0166045afd9064a515ea312acbea1844d9cb594cc9f525dbb9",
   "entity_folds_sha256": "f7496541139308e97c65c8681dd9f44829d46df25eede0d4e639203049667b58",
