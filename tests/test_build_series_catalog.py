@@ -2437,9 +2437,10 @@ def test_identity_uuid_map_matches_reviewed_anchor() -> None:
     # no supersede; the other 216 bindings are unchanged; 221 rows.
     # Updated 2026-10-19 to the catalog at 61475bf8 (chronicle#369, Thesis
     # resolver run 39198762190) alongside its ten registry events: five more
-    # geography-free docket placeholders enriched by their FY2026 first
-    # prints through retire+succeeds pairs that keep each UUID and take the
-    # observation's U.S. country (vintage current) geography and economy
+    # country-level docket placeholders, whose retired identities carry
+    # vintage-null U.S. country geography and no entity, enriched by their
+    # FY2026 first prints through retire+succeeds pairs that keep each UUID
+    # and re-key to the observation's vintage-current geography and economy
     # aggregate entity: usaspending.cdfi.assistance_transaction_obligations
     # (69834e1f), dhs.title_vi.award_transaction_obligations (e64ea5db),
     # dod.prime_award_obligations (a2649fd9), ntia.broadband_al11038_obligations
