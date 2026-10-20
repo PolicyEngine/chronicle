@@ -3081,6 +3081,9 @@ def identity_anchor_problems(series: list[dict], anchor: dict) -> list[str]:
         problems.append(
             "identity anchor move events are not sorted by (concept, uuid)"
         )
+    # Defensive: with rows, UUIDs and identities unique in the current
+    # catalog (checked above), a mint cannot reuse a prior UUID or identity;
+    # these checks keep that true if the uniqueness rule is ever relaxed.
     prior_uuids = [json.loads(line)[0] for line in prior]
     prior_identities = {json.dumps(json.loads(line)[1:]) for line in prior}
     for uuid in mints:
