@@ -3004,11 +3004,15 @@ def identity_anchor_problems(series: list[dict], anchor: dict) -> list[str]:
     # works on sets, so a repeated row or a UUID on two rows would let a
     # move hide a change. A machine move needs every row to be distinct.
     current_uuids = [json.loads(line)[0] for line in current]
-    if len(set(current)) != len(current) or len(set(current_uuids)) != len(
-        current_uuids
+    current_identities = [json.dumps(json.loads(line)[1:]) for line in current]
+    if (
+        len(set(current)) != len(current)
+        or len(set(current_uuids)) != len(current_uuids)
+        or len(set(current_identities)) != len(current_identities)
     ):
         return problems + [
-            "identity anchor move over a catalog that repeats a row or a UUID"
+            "identity anchor move over a catalog that repeats a row, a UUID "
+            "or an identity"
         ]
     current_set = set(current)
     prior = set(current)

@@ -2483,6 +2483,8 @@ _ANCHOR_MUTATIONS = [
     "stale_pin",
     "repeated_row",
     "mint_existing_identity",
+    "two_mints_one_identity",
+    "enrich_onto_bound_identity",
 ]
 
 
@@ -2715,6 +2717,30 @@ def test_a_machine_move_cannot_hide_any_other_binding_change(
         events.append({"event": "mint", **{k: twin[k] for k in (
             "uuid", "concept", "geography", "entity")}})
         events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "two_mints_one_identity":
+        # Both rows are minted in this move, so neither is in the prior
+        # catalog the mint-collision check reads.
+        assume(mints)
+        mint = data.draw(st.sampled_from(mints))
+        twin = {k: mint[k] for k in ("concept", "geography", "entity")}
+        twin["uuid"] = _anchor_uuid(997)
+        current.append(twin)
+        events.append({"event": "mint", **twin})
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "enrich_onto_bound_identity":
+        # A placeholder enriched onto an identity another row already binds.
+        assume(enriched and full)
+        event = data.draw(st.sampled_from(enriched))
+        bound = data.draw(st.sampled_from(full))
+        assume(bound["concept"] == event["concept"])
+        assume(bound["geography"] in _admitted_geographies(
+            event["placeholder_geography"]))
+        for row in current:
+            if row["uuid"] == event["uuid"]:
+                row["geography"], row["entity"] = (
+                    bound["geography"], bound["entity"]
+                )
+        event["geography"], event["entity"] = bound["geography"], bound["entity"]
     anchor = _machine_anchor(prior, current, events)
     if mutation == "unknown_mover":
         anchor["move"]["by"] = "someone-else"
