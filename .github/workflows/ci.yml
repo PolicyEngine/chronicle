@@ -82,6 +82,48 @@ jobs:
           uv run --locked python scripts/build_series_catalog.py \
             --verify-registry-append-only /tmp/base-series-uuid-registry.jsonl
 
+      # The catalog tests re-derive a machine move of the identity anchor
+      # (tests/fixtures/series_catalog/identity_anchor.json, written by the
+      # Thesis resolver in its own append proposals) from the current
+      # catalog alone, which cannot show the move starts where the branch
+      # was. This ties it to the same comparison base as the registry step:
+      # the move must start from the base's pin, and no mint may take a UUID
+      # the base registry already holds.
+      - name: Identity anchor move continues the base pin
+        if: >-
+          github.event_name == 'pull_request' ||
+          github.event_name == 'push'
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request'
+            && github.event.pull_request.base.sha
+            || github.event.before }}
+        run: |
+          if [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            # A new branch's first push has no comparison base of its own,
+            # and a branch cut before the latest machine move would compare
+            # an older move with today's pin. Its pull request run checks
+            # the move against the pull request's base instead.
+            echo "new branch: the pull request run checks the anchor move"
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          anchor=tests/fixtures/series_catalog/identity_anchor.json
+          if git cat-file -e "$BASE_SHA:$anchor" 2>/dev/null; then
+            git show "$BASE_SHA:$anchor" > /tmp/base-identity-anchor.json
+          else
+            : > /tmp/base-identity-anchor.json
+          fi
+          if git cat-file -e "$BASE_SHA:ledger/series_uuid_registry.jsonl" \
+              2>/dev/null; then
+            git show "$BASE_SHA:ledger/series_uuid_registry.jsonl" \
+              > /tmp/base-anchor-registry.jsonl
+          else
+            : > /tmp/base-anchor-registry.jsonl
+          fi
+          uv run --locked python scripts/build_series_catalog.py \
+            --verify-anchor-move-from /tmp/base-identity-anchor.json \
+            --anchor-base-registry /tmp/base-anchor-registry.jsonl
+
       - name: Lint Arch surface
         run: >
           uv run ruff check

@@ -160,6 +160,9 @@ OBSERVATIONS = ROOT / "ledger" / "official_observations.jsonl"
 CATALOG = ROOT / "ledger" / "series_catalog.json"
 DOCKET_SEED = ROOT / "ledger" / "seeds" / "thesis_docket_series.json"
 UUID_REGISTRY = ROOT / "ledger" / "series_uuid_registry.jsonl"
+IDENTITY_ANCHOR = (
+    ROOT / "tests" / "fixtures" / "series_catalog" / "identity_anchor.json"
+)
 ENTITY_FOLDS = ROOT / "ledger" / "seeds" / "entity_folds.json"
 ENTITY_FOLDS_SCHEMA = "chronicle_entity_folds_v1"
 ENTITY_FOLD_FIELDS = (
@@ -2859,6 +2862,313 @@ def stripped_segment_review_problems(
     return sorted(set(problems))
 
 
+# Who may record a machine move of the identity anchor. A move is accepted
+# only when identity_anchor_problems re-derives it, so the name is
+# provenance, not authority.
+IDENTITY_ANCHOR_MOVERS = ("thesis-resolver",)
+IDENTITY_ANCHOR_KEYS = {"comment", "sha256", "move"}
+IDENTITY_ANCHOR_MOVE_KEYS = {"by", "from_sha256", "run_url", "events"}
+IDENTITY_ANCHOR_EVENT_KEYS = {
+    "mint": {"event", "uuid", "concept", "geography", "entity"},
+    "enrich": {
+        "event", "uuid", "concept", "geography", "entity",
+        "placeholder_geography",
+    },
+}
+_SHA256_HEX = re.compile(r"[0-9a-f]{64}")
+
+
+def identity_anchor_line(
+    uuid: str, concept: str, geography: dict | None, entity: dict | None,
+) -> str:
+    """One catalog row's identity tuple as the anchor digests it."""
+    return json.dumps([uuid, concept, _geo_key(geography), _entity_key(entity)])
+
+
+def identity_anchor_lines(series: list[dict]) -> list[str]:
+    """The sorted identity tuples of a catalog's rows."""
+    return sorted(
+        identity_anchor_line(
+            row["uuid"], row["concept"], row.get("geography"),
+            row.get("entity"),
+        )
+        for row in series
+    )
+
+
+def identity_anchor_digest(lines: list[str]) -> str:
+    """The anchor digest of sorted identity tuples."""
+    return hashlib.sha256("\n".join(sorted(lines)).encode()).hexdigest()
+
+
+def _geography_admits(placeholder: dict | None, observed: dict) -> bool:
+    # The enrichment rule of _plan_enrichment: the placeholder has no
+    # geography yet, or the observed level and id with no vintage or the
+    # same vintage.
+    if placeholder is None:
+        return True
+    return (placeholder.get("level"), placeholder.get("id")) == (
+        observed.get("level"), observed.get("id"),
+    ) and placeholder.get("vintage") in (None, observed.get("vintage"))
+
+
+def _full_identity_part(value: object, keys: tuple[str, ...]) -> bool:
+    return (
+        isinstance(value, dict)
+        and set(value) == set(keys)
+        and all(isinstance(value[key], str) and value[key] for key in keys[:2])
+    )
+
+
+def identity_anchor_problems(series: list[dict], anchor: dict) -> list[str]:
+    """Why ``series`` does not match the reviewed identity anchor.
+
+    ``anchor`` is tests/fixtures/series_catalog/identity_anchor.json.
+    ``sha256`` is the identity_anchor_digest of the catalog's rows, so
+    changing any live binding, or adding or retiring one, moves it and must
+    be pinned in the same diff. ``move`` says who moved it last:
+
+    * ``null``: a curator, who reviewed the diff. The reasons are in the
+      comment history of test_identity_uuid_map_matches_reviewed_anchor.
+    * a machine move: ``by`` (one of IDENTITY_ANCHOR_MOVERS), ``run_url``,
+      ``from_sha256`` and ``events``. It stands only when undoing its events
+      on the current tuples gives exactly ``from_sha256``, and every event is
+      one a first observation may cause: a ``mint`` of a full identity (a
+      geography and an entity) under a UUID the prior tuples do not hold, or
+      an ``enrich`` of a docket placeholder (no entity) whose
+      ``placeholder_geography`` admits the new geography, re-keyed under the
+      same UUID and concept. Relative to ``from_sha256``, a remint, a
+      supersede, a retire, an entity change on a full identity or any
+      unrecorded change is reported.
+
+    This function sees only the current catalog, so it cannot tell whether
+    ``from_sha256`` is where the branch really was: a record that names a
+    false origin is consistent with itself. identity_anchor_continuity_
+    problems closes that, and CI runs it against the comparison base.
+
+    >>> geo = {"level": "country", "id": "US", "vintage": "current"}
+    >>> ent = {"name": "economy", "role": "aggregate"}
+    >>> before = [{"uuid": "u1", "concept": "a", "geography": None,
+    ...            "entity": None}]
+    >>> after = [{"uuid": "u1", "concept": "a", "geography": geo,
+    ...           "entity": ent}]
+    >>> move = {"by": "thesis-resolver", "run_url": None,
+    ...         "from_sha256": identity_anchor_digest(
+    ...             identity_anchor_lines(before)),
+    ...         "events": [{"event": "enrich", "uuid": "u1", "concept": "a",
+    ...                     "geography": geo, "entity": ent,
+    ...                     "placeholder_geography": None}]}
+    >>> anchor = {"comment": "c", "sha256": identity_anchor_digest(
+    ...     identity_anchor_lines(after)), "move": move}
+    >>> identity_anchor_problems(after, anchor)
+    []
+    >>> move["events"][0]["concept"] = "b"
+    >>> identity_anchor_problems(after, anchor)[0]
+    'identity anchor move: enrich of u1 (b) is not a current catalog row'
+    """
+    if not isinstance(anchor, dict) or set(anchor) != IDENTITY_ANCHOR_KEYS:
+        keys = sorted(IDENTITY_ANCHOR_KEYS)
+        return [f"identity anchor fixture must hold exactly {keys}"]
+    pinned = anchor["sha256"]
+    if not isinstance(pinned, str) or not _SHA256_HEX.fullmatch(pinned):
+        return ["identity anchor sha256 is not a lowercase hex SHA-256"]
+    current = identity_anchor_lines(series)
+    problems: list[str] = []
+    digest = identity_anchor_digest(current)
+    if digest != pinned:
+        problems.append(
+            f"identity anchor moved: the catalog digests to {digest}, the "
+            f"fixture pins {pinned}. Review the binding changes and pin the "
+            "new digest with move null, explaining it in the test's history"
+        )
+    move = anchor["move"]
+    if move is None:
+        return problems
+    if not isinstance(move, dict) or set(move) != IDENTITY_ANCHOR_MOVE_KEYS:
+        keys = sorted(IDENTITY_ANCHOR_MOVE_KEYS)
+        return problems + [f"identity anchor move must hold exactly {keys}"]
+    if move["by"] not in IDENTITY_ANCHOR_MOVERS:
+        problems.append(f"identity anchor move by unknown mover {move['by']!r}")
+    run_url = move["run_url"]
+    if run_url is not None and not (
+        isinstance(run_url, str) and run_url.startswith("https://github.com/")
+    ):
+        problems.append("identity anchor move run_url is not a GitHub URL")
+    origin = move["from_sha256"]
+    if not isinstance(origin, str) or not _SHA256_HEX.fullmatch(origin):
+        return problems + ["identity anchor move from_sha256 is not a SHA-256"]
+    events = move["events"]
+    if not isinstance(events, list) or not events:
+        return problems + ["identity anchor move records no events"]
+    # The digest covers the list, duplicates included, while the undo below
+    # works on sets, so a repeated row or a UUID on two rows would let a
+    # move hide a change. A machine move needs every row to be distinct.
+    current_uuids = [json.loads(line)[0] for line in current]
+    current_identities = [json.dumps(json.loads(line)[1:]) for line in current]
+    if (
+        len(set(current)) != len(current)
+        or len(set(current_uuids)) != len(current_uuids)
+        or len(set(current_identities)) != len(current_identities)
+    ):
+        repeated = (
+            "identity anchor move over a catalog that repeats a row, a UUID "
+            "or an identity"
+        )
+        return problems + [repeated]
+    current_set = set(current)
+    prior = set(current)
+    seen: set[str] = set()
+    order: list[tuple[str, str]] = []
+    mints: list[str] = []
+    for event in events:
+        kind = event.get("event") if isinstance(event, dict) else None
+        if (
+            not isinstance(kind, str)
+            or kind not in IDENTITY_ANCHOR_EVENT_KEYS
+            or set(event) != IDENTITY_ANCHOR_EVENT_KEYS[kind]
+        ):
+            problems.append(
+                f"identity anchor move: malformed event {event!r}"
+            )
+            continue
+        uuid, concept = event["uuid"], event["concept"]
+        if not (isinstance(uuid, str) and isinstance(concept, str)):
+            problems.append(f"identity anchor move: malformed event {event!r}")
+            continue
+        order.append((concept, uuid))
+        label = f"{kind} of {uuid} ({concept})"
+        if uuid in seen:
+            problems.append(f"identity anchor move: {label} repeats a UUID")
+            continue
+        seen.add(uuid)
+        geography, entity = event["geography"], event["entity"]
+        if not (
+            _full_identity_part(geography, ("level", "id", "vintage"))
+            and _full_identity_part(entity, ("name", "role"))
+        ):
+            problems.append(
+                f"identity anchor move: {label} does not land on a full "
+                "identity (a geography and an entity)"
+            )
+            continue
+        after = identity_anchor_line(uuid, concept, geography, entity)
+        if after not in current_set:
+            problems.append(
+                f"identity anchor move: {label} is not a current catalog row"
+            )
+            continue
+        prior.discard(after)
+        if kind == "mint":
+            mints.append(uuid)
+            continue
+        placeholder = event["placeholder_geography"]
+        if placeholder is not None and not _full_identity_part(
+            placeholder, ("level", "id", "vintage")
+        ):
+            problems.append(
+                f"identity anchor move: {label} has a malformed "
+                "placeholder_geography"
+            )
+            continue
+        if not _geography_admits(placeholder, geography):
+            problems.append(
+                f"identity anchor move: {label} lands on a geography its "
+                "placeholder does not admit"
+            )
+            continue
+        prior.add(identity_anchor_line(uuid, concept, placeholder, None))
+    if order != sorted(order):
+        problems.append(
+            "identity anchor move events are not sorted by (concept, uuid)"
+        )
+    # Defensive: with rows, UUIDs and identities unique in the current
+    # catalog (checked above), a mint cannot reuse a prior UUID or identity;
+    # these checks keep that true if the uniqueness rule is ever relaxed.
+    prior_uuids = [json.loads(line)[0] for line in prior]
+    prior_identities = {json.dumps(json.loads(line)[1:]) for line in prior}
+    for uuid in mints:
+        if uuid in prior_uuids:
+            problems.append(
+                f"identity anchor move: mint of {uuid} reuses a UUID the "
+                "prior catalog holds"
+            )
+    for event in events:
+        if isinstance(event, dict) and event.get("event") == "mint":
+            identity = json.dumps([
+                event.get("concept"),
+                _geo_key(event.get("geography")),
+                _entity_key(event.get("entity")),
+            ])
+            if identity in prior_identities:
+                problems.append(
+                    f"identity anchor move: mint of {event.get('uuid')} repeats "
+                    "an identity the prior catalog already binds"
+                )
+    if len(prior_uuids) != len(set(prior_uuids)):
+        problems.append(
+            "identity anchor move: undoing its events leaves a UUID on two "
+            "identities"
+        )
+    if identity_anchor_digest(sorted(prior)) != origin:
+        problems.append(
+            "identity anchor move: undoing its events does not give "
+            f"from_sha256 {origin}"
+        )
+    return problems
+
+
+def identity_anchor_continuity_problems(
+    base_anchor: dict | None,
+    anchor: dict,
+    base_registry_uuids: set[str] | None = None,
+) -> list[str]:
+    """Why a machine move does not continue from the comparison base.
+
+    ``base_anchor`` is the base commit's identity_anchor.json (None when it
+    has none) and ``base_registry_uuids`` every UUID in the base's registry.
+    A move that changes the pin must start from the base's pin, and none of
+    its mints may take a UUID the base registry already holds (a retired
+    UUID brought back is a revive, a curator's call). A pin the change
+    leaves alone carries the base's record over and needs nothing here.
+
+    >>> base = {"sha256": "a" * 64, "move": None}
+    >>> moved = {"sha256": "b" * 64, "move": {"from_sha256": "c" * 64,
+    ...                                       "events": []}}
+    >>> identity_anchor_continuity_problems(base, moved)  # doctest: +ELLIPSIS
+    ['identity anchor move starts from ccc... but the base pins aaa...']
+    """
+    move = anchor.get("move") if isinstance(anchor, dict) else None
+    if not isinstance(move, dict):
+        return []
+    base_pin = base_anchor.get("sha256") if isinstance(base_anchor, dict) else None
+    if base_pin is not None and anchor.get("sha256") == base_pin:
+        return []
+    problems: list[str] = []
+    origin = move.get("from_sha256")
+    if base_pin is None:
+        problems.append(
+            "identity anchor move with no base pin to continue: the base "
+            "has no identity anchor fixture"
+        )
+    elif origin != base_pin:
+        problems.append(
+            f"identity anchor move starts from {origin} but the base pins "
+            f"{base_pin}"
+        )
+    for event in move.get("events") or []:
+        if (
+            isinstance(event, dict)
+            and event.get("event") == "mint"
+            and base_registry_uuids is not None
+            and event.get("uuid") in base_registry_uuids
+        ):
+            problems.append(
+                f"identity anchor move: mint of {event.get('uuid')} reuses a "
+                "UUID the base registry already holds"
+            )
+    return problems
+
+
 def git_head_bytes(path: pathlib.Path) -> bytes | None:
     """The file's committed HEAD content, or None when unavailable."""
     try:
@@ -2979,7 +3289,58 @@ def main(argv: list[str] | None = None) -> int:
             "this against the PR base's registry), then exit"
         ),
     )
+    parser.add_argument(
+        "--verify-anchor-move-from",
+        type=pathlib.Path,
+        default=None,
+        metavar="BASE_ANCHOR",
+        help=(
+            "verify a machine move in --anchor starts from BASE_ANCHOR's pin "
+            "(an empty file: the base has none) and mints no UUID in "
+            "--anchor-base-registry (CI runs this against the comparison "
+            "base), then exit"
+        ),
+    )
+    parser.add_argument("--anchor", type=pathlib.Path, default=IDENTITY_ANCHOR)
+    parser.add_argument(
+        "--anchor-base-registry", type=pathlib.Path, default=None,
+        metavar="BASE_REGISTRY",
+    )
     args = parser.parse_args(argv)
+
+    if args.verify_anchor_move_from is not None:
+        if not args.anchor.exists():
+            print("identity anchor vs base: ok (no identity anchor fixture)")
+            return 0
+        anchor = json.loads(args.anchor.read_text(encoding="utf-8"))
+        base_raw = (
+            args.verify_anchor_move_from.read_text(encoding="utf-8")
+            if args.verify_anchor_move_from.exists()
+            else ""
+        )
+        base_anchor = json.loads(base_raw) if base_raw.strip() else None
+        base_uuids = None
+        if args.anchor_base_registry is not None:
+            base_uuids = set()
+            if args.anchor_base_registry.exists():
+                for line in args.anchor_base_registry.read_text(
+                    encoding="utf-8"
+                ).splitlines():
+                    if line.strip():
+                        entry = json.loads(line)
+                        if isinstance(entry, dict) and isinstance(
+                            entry.get("uuid"), str
+                        ):
+                            base_uuids.add(entry["uuid"])
+        problems = identity_anchor_continuity_problems(
+            base_anchor, anchor, base_uuids
+        )
+        for problem in problems:
+            sys.stderr.write(problem + "\n")
+        if problems:
+            return 1
+        print("identity anchor vs base: ok")
+        return 0
 
     if args.verify_registry_append_only is not None:
         registry = UuidRegistry.load(args.registry)
