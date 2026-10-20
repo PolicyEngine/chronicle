@@ -3010,10 +3010,11 @@ def identity_anchor_problems(series: list[dict], anchor: dict) -> list[str]:
         or len(set(current_uuids)) != len(current_uuids)
         or len(set(current_identities)) != len(current_identities)
     ):
-        return problems + [
+        repeated = (
             "identity anchor move over a catalog that repeats a row, a UUID "
             "or an identity"
-        ]
+        )
+        return problems + [repeated]
     current_set = set(current)
     prior = set(current)
     seen: set[str] = set()
