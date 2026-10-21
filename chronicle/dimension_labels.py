@@ -31,6 +31,8 @@ Dimension values:
 
 Everything else must be declared. :func:`dimension_label_issues` checks rows
 the way Microcosm reads them and reports what is missing or labelled two ways.
+A value labelled two ways is a bundle error unless it is a reviewed publisher
+wording in :data:`REVIEWED_VALUE_LABEL_VARIANTS` (chronicle#376).
 """
 
 from __future__ import annotations
@@ -41,6 +43,7 @@ from collections import defaultdict
 from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass, replace
 from decimal import Decimal
+from types import MappingProxyType
 from typing import Any
 
 from chronicle.consumer_contract import _concept_leaf
@@ -49,6 +52,207 @@ from chronicle.epoch import Epoch, canonicalize_key
 from chronicle.sources.rows import SourceRow, build_source_row_key
 
 _ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+# One dimension value id carries one label (chronicle#376). Microcosm copies a
+# fact's labels into every target it compiles, and a release whose targets
+# label one value two ways cannot be shown as one value. ``build-bundle``
+# therefore refuses a value labelled two ways, whether by two packages or by
+# the groupby rows of one package, unless every label it carries is listed
+# here for that value; those it reports as warnings.
+#
+# Each entry is publisher wording that a review kept as published before the
+# rule. A new package takes the label the other packages give a value, even
+# where its own table words it differently, and its guards check the
+# publisher's text. An entry leaves this register once its packages agree:
+# the merged-bundle test requires every entry to still warn.
+REVIEWED_VALUE_LABEL_VARIANTS: Mapping[tuple[str, str], frozenset[str]] = (
+    MappingProxyType(
+        {
+            # chronicle#265: Census Bureau tables word ages differently.
+            ("age", "85_plus"): frozenset({"Age 85 and over", "Age 85 plus"}),
+            ("age", "age_20"): frozenset({"Age 20", "Female 20 years"}),
+            ("age", "age_21"): frozenset({"Age 21", "Female 21 years"}),
+            # chronicle#302: ASHE writes '30 to 39' where NTS0601 writes
+            # 'Age 30 to 39'.
+            ("age_band", "30 to 39"): frozenset({"30 to 39", "Age 30 to 39"}),
+            ("age_band", "40 to 49"): frozenset({"40 to 49", "Age 40 to 49"}),
+            # chronicle#313: SLC Table 7C(ii) spells one footnote two ways
+            # (B75 and B111).
+            (
+                "early_year_award_line",
+                "new_returning_total_returning_31_33_35",
+            ): frozenset(
+                {"Total returning [31[[33][35]", "Total returning [31][33][35]"}
+            ),
+            # chronicle#265: Groeipakket counts each supplement per child and
+            # per family.
+            ("groeipakket.component", "pleegzorgtoeslag"): frozenset(
+                {
+                    "Foster care supplement child caseload",
+                    "Foster care supplement family caseload",
+                }
+            ),
+            ("groeipakket.component", "sociale_toeslag"): frozenset(
+                {
+                    "Social supplement child caseload",
+                    "Social supplement family caseload",
+                }
+            ),
+            ("groeipakket.component", "wezentoeslag"): frozenset(
+                {
+                    "Orphan supplement child caseload",
+                    "Orphan supplement family caseload",
+                }
+            ),
+            ("groeipakket.component", "zorgtoeslag"): frozenset(
+                {
+                    "Care supplement child caseload",
+                    "Care supplement family caseload",
+                }
+            ),
+            # chronicle#265: two ONS tables number the same footnote
+            # differently.
+            ("household_type", "couple_3_plus_children_households"): frozenset(
+                {
+                    "3 or more dependent children [note 3]",
+                    "3 or more dependent children [note 5]",
+                }
+            ),
+            ("ons.household_type", "couple_3_plus_children_households"): frozenset(
+                {
+                    "3 or more dependent children [note 3]",
+                    "3 or more dependent children [note 5]",
+                }
+            ),
+            # chronicle#265: each Belgian package names its own country total.
+            ("measure", "country_total"): frozenset(
+                {
+                    "Belgium PIT federal and local tax before withholding",
+                    "Complete unemployment benefit recipients",
+                    "Household disposable income gross",
+                    "Worker-borne personal social security contributions",
+                }
+            ),
+            # chronicle#265: Eurostat's paid-direction and received-direction
+            # cells of one national-accounts item.
+            ("na_item", "belgium_household_disposable_income_gross"): frozenset(
+                {
+                    "Disposable income, gross (B.6G), paid-direction cell",
+                    "Disposable income, gross (B.6G), received-direction cell",
+                }
+            ),
+            ("na_item", "belgium_household_mixed_income_gross"): frozenset(
+                {
+                    "Mixed income, gross (B.3G), paid-direction cell",
+                    "Mixed income, gross (B.3G), received-direction cell",
+                }
+            ),
+            ("na_item", "belgium_household_operating_surplus_gross"): frozenset(
+                {
+                    "Operating surplus, gross (B.2G), paid-direction cell",
+                    "Operating surplus, gross (B.2G), received-direction cell",
+                }
+            ),
+            # chronicle#322: the ONS Consumer Trends overview and detailed
+            # worksheets name six divisions differently.
+            ("ons.coicop", "coicop_01"): frozenset(
+                {"Food and drink", "Food and non-alcoholic beverages"}
+            ),
+            ("ons.coicop", "coicop_02"): frozenset(
+                {
+                    "Alcohol, tobacco and narcotics",
+                    "Alcoholic beverages and tobacco [note 1]",
+                }
+            ),
+            ("ons.coicop", "coicop_04"): frozenset(
+                {"Housing", "Housing, water, electricity, gas and other fuel"}
+            ),
+            ("ons.coicop", "coicop_05"): frozenset(
+                {
+                    "Furnishing, household equipment and routine HH maintenance",
+                    "Furnishings, household equipment and routine maintenance "
+                    "of the house",
+                }
+            ),
+            ("ons.coicop", "coicop_11"): frozenset(
+                {"Restaurant and hotels", "Restaurants and hotels"}
+            ),
+            ("ons.coicop", "coicop_12"): frozenset(
+                {"Miscellaneous", "Miscellaneous goods and services"}
+            ),
+            # chronicle#211: Stats NZ heads its oldest band '65+' where
+            # Statbel's rows write '65_plus'.
+            ("person.age_band", "65_plus"): frozenset({"65+", "65_plus"}),
+            # chronicle#313 and #343: DESNZ, ONS house-price and ONS rent
+            # tables word property types differently.
+            ("property_type", "detached"): frozenset(
+                {"Detached", "Detached houses", "detached"}
+            ),
+            ("property_type", "semi_detached"): frozenset(
+                {"Semi detached", "Semi-detached houses"}
+            ),
+            ("property_type", "terraced"): frozenset(
+                {"Terraced", "Terraced houses", "terraced"}
+            ),
+            # chronicle#265: Eurostat publishes a decile's income threshold and
+            # its income share under one income-quantile code.
+            ("quant_inc", "d1"): frozenset(
+                {"First income decile cut-point", "First income decile share"}
+            ),
+            ("quant_inc", "d2"): frozenset(
+                {"Second income decile cut-point", "Second income decile share"}
+            ),
+            ("quant_inc", "d3"): frozenset(
+                {"Third income decile cut-point", "Third income decile share"}
+            ),
+            ("quant_inc", "d4"): frozenset(
+                {"Fourth income decile cut-point", "Fourth income decile share"}
+            ),
+            ("quant_inc", "d5"): frozenset(
+                {"Fifth income decile cut-point", "Fifth income decile share"}
+            ),
+            ("quant_inc", "d6"): frozenset(
+                {"Sixth income decile cut-point", "Sixth income decile share"}
+            ),
+            ("quant_inc", "d7"): frozenset(
+                {"Seventh income decile cut-point", "Seventh income decile share"}
+            ),
+            ("quant_inc", "d8"): frozenset(
+                {"Eighth income decile cut-point", "Eighth income decile share"}
+            ),
+            ("quant_inc", "d9"): frozenset(
+                {"Ninth income decile cut-point", "Ninth income decile share"}
+            ),
+            # chronicle#265: the UK statistics offices and HMRC write 'Female'
+            # or 'Females'; ACS B01001's rows write 'female'.
+            ("sex", "female"): frozenset({"Female", "Females", "female"}),
+            ("sex", "male"): frozenset({"Male", "Males"}),
+            # chronicle#265: IRS SOI's total rows: 'All returns' in Historic
+            # Table 2 and Table 1.1, 'All returns, total' in Tables 1.2, 1.4,
+            # 2.1 and 4.3.
+            ("us:statutes/26/62#adjusted_gross_income", "all"): frozenset(
+                {"All returns", "All returns, total"}
+            ),
+        }
+    )
+)
+
+
+def is_reviewed_value_label_variant(
+    dimension_id: str,
+    value_id: str | None,
+    labels: Iterable[str],
+) -> bool:
+    """Whether every label of one value is a reviewed wording of it.
+
+    A value labelled two ways is accepted only when its id is in
+    :data:`REVIEWED_VALUE_LABEL_VARIANTS` and each label is listed for it, so a
+    third wording of a reviewed value is refused like any other (chronicle#376).
+    """
+    if value_id is None:
+        return False
+    reviewed = REVIEWED_VALUE_LABEL_VARIANTS.get((dimension_id, value_id))
+    return reviewed is not None and set(labels) <= reviewed
 
 
 def dimension_value_id(value: Any) -> str:
@@ -494,10 +698,12 @@ def _count(
 
 
 __all__ = [
+    "REVIEWED_VALUE_LABEL_VARIANTS",
     "DimensionLabelIssue",
     "dimension_label_issues",
     "dimension_labels_by_id",
     "dimension_value_id",
+    "is_reviewed_value_label_variant",
     "label_facts",
     "unused_label_declarations",
 ]

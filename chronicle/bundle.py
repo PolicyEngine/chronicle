@@ -9,7 +9,11 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Callable, Sequence
 
-from chronicle.dimension_labels import dimension_label_issues, dimension_labels_by_id
+from chronicle.dimension_labels import (
+    dimension_label_issues,
+    dimension_labels_by_id,
+    is_reviewed_value_label_variant,
+)
 from chronicle.epoch import canonicalize_key, schema_id
 from chronicle.source_package import (
     ARTIFACT_YEAR_RESTAMP_CODE,
@@ -673,6 +677,7 @@ def build_bundle(
                 ).append(source)
 
     errors.extend(_cross_package_dimension_label_errors(dimension_labels))
+    errors.extend(_cross_package_value_label_errors(value_labels))
     warnings.extend(_cross_package_geography_name_warnings(geography_names))
     warnings.extend(_cross_package_value_label_warnings(value_labels))
     aggregate_duplicates = _duplicate_key_reports(
@@ -751,24 +756,42 @@ def build_bundle(
     return report
 
 
+_ONE_LABEL_PER_VALUE = (
+    "One dimension value carries one label (chronicle#376): use the label the "
+    "other facts give this value. Only reviewed publisher wordings, listed in "
+    "REVIEWED_VALUE_LABEL_VARIANTS, may differ."
+)
+
+
 def _dimension_label_reports(
     source: str,
     rows: list[dict[str, Any]],
 ) -> tuple[list[BuildBundleIssue], list[BuildBundleIssue]]:
-    """Report one source's dimension-label issues (chronicle#261, #265).
+    """Report one source's dimension-label issues (chronicle#261, #265, #376).
 
     Every package must label every dimension and value it emits, whichever
     country it publishes for: the row contract is one contract, and a consumer
-    reads the labels the same way everywhere. The exception is publisher row
-    labels that differ across the rows of one groupby value: Chronicle keeps
-    that text as published and warns.
+    reads the labels the same way everywhere. Publisher row labels that differ
+    across the rows of one groupby value are an error too, since a consumer
+    then sees one value under two names, unless every one of them is a
+    reviewed wording Chronicle keeps as published
+    (``REVIEWED_VALUE_LABEL_VARIANTS``), which is a warning.
     """
     errors: list[BuildBundleIssue] = []
     warnings: list[BuildBundleIssue] = []
     for issue in dimension_label_issues(rows):
+        reviewed_wording = (
+            issue.code == "conflicting_groupby_value_label"
+            and is_reviewed_value_label_variant(
+                issue.dimension_id, issue.value_id, issue.labels
+            )
+        )
+        message = issue.message
+        if issue.code == "conflicting_groupby_value_label" and not reviewed_wording:
+            message = f"{message} {_ONE_LABEL_PER_VALUE}"
         report = BuildBundleIssue(
             code=issue.code,
-            message=issue.message,
+            message=message,
             source=source,
             key=(
                 issue.dimension_id
@@ -776,7 +799,7 @@ def _dimension_label_reports(
                 else f"{issue.dimension_id}={issue.value_id}"
             ),
         )
-        if issue.code == "conflicting_groupby_value_label":
+        if reviewed_wording:
             warnings.append(report)
         else:
             errors.append(report)
@@ -894,34 +917,71 @@ def _value_labels(rows: list[dict[str, Any]]) -> dict[tuple[str, str], set[str]]
     return found
 
 
+def _cross_package_value_label_errors(
+    labels_by_value: dict[tuple[str, str], dict[str, list[str]]],
+) -> list[BuildBundleIssue]:
+    """Refuse a dimension value two packages label differently (chronicle#376).
+
+    Microcosm copies each fact's labels into every target it compiles, so a
+    release built from both packages labels one value two ways, and a consumer
+    that groups targets by value cannot show it as one (the IRS filing-season
+    week-47 table labelled adjusted gross income ``under_1`` "No adjusted gross
+    income and deficit" where every other IRS SOI package writes "No adjusted
+    gross income"). Two tables may still word one band differently; the
+    package then takes the label the others use, and its guards keep the
+    publisher's text. Reviewed wordings Chronicle keeps as published are the
+    warnings of :func:`_cross_package_value_label_warnings` instead.
+    """
+    return [
+        _cross_package_value_label_issue(
+            dimension_id, value_id, labels, remedy=_ONE_LABEL_PER_VALUE
+        )
+        for (dimension_id, value_id), labels in sorted(labels_by_value.items())
+        if len(labels) > 1
+        and _spans_two_sources(labels)
+        and not is_reviewed_value_label_variant(dimension_id, value_id, labels)
+    ]
+
+
 def _cross_package_value_label_warnings(
     labels_by_value: dict[tuple[str, str], dict[str, list[str]]],
 ) -> list[BuildBundleIssue]:
-    """Report a dimension value two packages label differently (chronicle#265).
+    """Report a reviewed wording two packages keep for one value (chronicle#265).
 
-    One label per dimension id is an error because a consumer selects on the
-    id; one label per value is a warning because the wording belongs to the
-    table the value was read from, and two tables of one publisher may word a
-    band or a total differently. A consumer target that spans both sees both,
-    so the bundle says where that is possible.
+    These are the publisher wordings listed in ``REVIEWED_VALUE_LABEL_VARIANTS``:
+    Chronicle keeps each as published, and a consumer target that spans both
+    packages sees both, so the bundle says where that is possible. Any other
+    value two packages label differently is an error (chronicle#376).
     """
     return [
-        BuildBundleIssue(
-            code="conflicting_value_label_across_packages",
-            message=(
-                f"Packages label {dimension_id!r} value {value_id!r} "
-                "differently: "
-                + "; ".join(
-                    f"{label!r} in {sorted(sources)}"
-                    for label, sources in sorted(labels.items())
-                )
-                + "."
-            ),
-            key=f"{dimension_id}={value_id}",
-        )
+        _cross_package_value_label_issue(dimension_id, value_id, labels)
         for (dimension_id, value_id), labels in sorted(labels_by_value.items())
-        if len(labels) > 1 and _spans_two_sources(labels)
+        if len(labels) > 1
+        and _spans_two_sources(labels)
+        and is_reviewed_value_label_variant(dimension_id, value_id, labels)
     ]
+
+
+def _cross_package_value_label_issue(
+    dimension_id: str,
+    value_id: str,
+    labels: dict[str, list[str]],
+    *,
+    remedy: str | None = None,
+) -> BuildBundleIssue:
+    message = (
+        f"Packages label {dimension_id!r} value {value_id!r} differently: "
+        + "; ".join(
+            f"{label!r} in {sorted(sources)}"
+            for label, sources in sorted(labels.items())
+        )
+        + "."
+    )
+    return BuildBundleIssue(
+        code="conflicting_value_label_across_packages",
+        message=f"{message} {remedy}" if remedy else message,
+        key=f"{dimension_id}={value_id}",
+    )
 
 
 def _cross_package_geography_name_warnings(

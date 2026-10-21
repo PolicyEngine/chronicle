@@ -852,9 +852,19 @@ dimension_value_labels:
 A groupby axis whose rows cross several fields takes the label of its leading field, the one its id names; the crossed fields carry their own labels as dimensions of the same fact. A declaration wins over every recovered label. `build-bundle` reports an error
 for any package fact with an unlabelled or doubly labelled dimension or value,
 and for a dimension id two packages label differently (chronicle#265 — the rule
-covers every country, since a consumer reads one artifact); publisher row labels
-that differ across one groupby value's rows are a warning, since Chronicle keeps
-them as published. `build_facts` refuses a declaration no fact uses.
+covers every country, since a consumer reads one artifact). One dimension value
+id carries one label too (chronicle#376): `build-bundle` reports an error for a
+value two packages label differently, and for publisher row labels that differ
+across one groupby value's rows. Microcosm copies the labels into every target,
+so a release would otherwise label one value two ways. A package whose table
+words a band differently from the other packages takes their label in the row's
+`label:` and keeps the publisher's text in its guards; the IRS filing-season
+week-47 table heads its below-$1 column "No adjusted gross income and deficit",
+and the package labels it "No adjusted gross income", as every other IRS SOI
+package does. The exceptions are the publisher wordings Chronicle reviewed and
+kept before that rule, listed with every label each value may carry in
+`REVIEWED_VALUE_LABEL_VARIANTS` (`chronicle/dimension_labels.py`); those are
+warnings. `build_facts` refuses a declaration no fact uses.
 
 Every fact also carries the publisher's name for its geography (chronicle#266),
 taken from the record set's or the row's `geography_name`. `build-bundle`
