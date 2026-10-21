@@ -98,7 +98,7 @@ def _v2_row(index=0):
     row = _fixture_row(index)
     row["schema_version"] = _V2
     row.get("geography", {}).pop("name", None)
-    row.pop("publisher_dimension_value_labels", None)
+    row.pop("package_dimension_value_labels", None)
     return row
 
 
@@ -145,11 +145,11 @@ def test_v5_schema_is_v4_plus_the_packages_own_value_wording():
     assert v5["properties"]["schema_version"] == {"const": _V5}
     assert v5["required"] == v4["required"]
     assert set(v5["properties"]) - set(v4["properties"]) == {
-        "publisher_dimension_value_labels"
+        "package_dimension_value_labels"
     }
-    publisher_labels = v5["properties"]["publisher_dimension_value_labels"]
-    assert publisher_labels["type"] == "object"
-    assert publisher_labels["additionalProperties"] == {
+    package_wording = v5["properties"]["package_dimension_value_labels"]
+    assert package_wording["type"] == "object"
+    assert package_wording["additionalProperties"] == {
         "type": "object",
         "additionalProperties": {"$ref": "#/$defs/label"},
     }
@@ -157,9 +157,32 @@ def test_v5_schema_is_v4_plus_the_packages_own_value_wording():
         for key in ("$id", "title", "description"):
             schema.pop(key, None)
         schema["properties"].pop("schema_version")
-        schema["properties"].pop("publisher_dimension_value_labels", None)
+        schema["properties"].pop("package_dimension_value_labels", None)
         schema["properties"]["dimension_value_labels"].pop("description")
     assert v5 == v4
+
+
+def test_v5_describes_the_package_wording_as_unchecked_text_chronicle_may_write():
+    """The field holds a package's own wording, which is often Chronicle's text.
+
+    Statbel's "65_plus", Census B01001's "Female 20 years" and "female",
+    Eurostat's "First income decile cut-point" and the Belgian country-total
+    phrases are text Chronicle wrote (the chronicle#377 source-fidelity
+    review), so the contract must not call the field the publisher's text.
+    """
+    v5_text = (_REPO_ROOT / "docs" / "schemas" / _SCHEMA_FILES[_V5]).read_text()
+    description = consumer_fact_schema(_V5)["properties"][
+        "package_dimension_value_labels"
+    ]["description"]
+
+    assert "publisher_dimension_value_labels" not in v5_text
+    assert "the publisher's row or column text" not in v5_text
+    assert "not checked against the publisher's file" in description
+    assert "text Chronicle wrote" in description
+    assert "lineage.source_cell_keys" in description
+    # A groupby value whose axis is also a filter with another value (Eurostat
+    # quant_inc: filter D1, row d1) is keyed by its groupby value id.
+    assert "layout.groupby_value_id" in description
 
 
 def test_v4_schema_is_v3_plus_the_publishers_own_geography_name():

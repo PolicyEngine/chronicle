@@ -473,7 +473,7 @@ def test_frozen_fixture_bytes_are_unchanged():
             # labels, chronicle#281 again for the v4 contract, and chronicle#376
             # for v5: Table 1.1's "All returns" row now exports the register's
             # "All returns, total" and keeps the IRS text in
-            # publisher_dimension_value_labels. The keys and values in them
+            # package_dimension_value_labels. The keys and values in them
             # are unchanged throughout.
             "d14e2bd4b66d46dd765e82805713f03e46141c479368bc7f78a73ef9cf9cc0a9"
         ),

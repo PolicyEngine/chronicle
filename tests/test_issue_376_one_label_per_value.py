@@ -14,8 +14,10 @@ Each (dimension id, value id) that more than one package emits now has one
 label in Chronicle's register, ``chronicle/dimension_values/canonical_labels.json``.
 Every fact takes that label when it is built, at any build year, in
 ``dimension_value_labels`` and ``layout.groupby_value_label``. A package's own
-wording, where it differs, is kept in ``publisher_dimension_value_labels``
-(``chronicle.consumer_fact.v5``), as chronicle#281 did for geography names. A
+wording, where it differs, is kept in ``package_dimension_value_labels``
+(``chronicle.consumer_fact.v5``). That wording is the package's, not
+necessarily the publisher's: often it is text Chronicle wrote, so the field
+says so and nothing presents it as the publisher's text. A
 value no register entry covers takes its package's label, and two labels for it
 are an error wherever Chronicle can see both: inside one package in
 ``validate-package``, ``build-suite`` and ``build-bundle``, and across packages
@@ -28,6 +30,8 @@ import hashlib
 import json
 from pathlib import Path
 
+import openpyxl
+import pytest
 import yaml
 
 from chronicle import bundle, dimension_labels
@@ -55,6 +59,16 @@ _REGISTER = (
     / "chronicle"
     / "dimension_values"
     / "canonical_labels.json"
+)
+_REGISTER_PATH_TEXT = "chronicle/dimension_values/canonical_labels.json"
+_HARNESS_DOC = Path(__file__).parents[1] / "docs" / "agent-source-package-harness.md"
+_ONS_CONSUMER_TRENDS = (
+    Path(__file__).parents[1]
+    / "db"
+    / "data"
+    / "ons"
+    / "consumer_trends_current_price_2026"
+    / "cpnsa.xlsx"
 )
 
 
@@ -144,7 +158,7 @@ def test_week47_facts_carry_the_register_label_and_keep_the_irs_wording():
             "under_1": IRS_SOI_LABEL
         }
         assert fact.layout.groupby_value_label == IRS_SOI_LABEL
-        assert fact.publisher_dimension_value_labels == {
+        assert fact.package_dimension_value_labels == {
             ADJUSTED_GROSS_INCOME: {"under_1": WEEK47_WORDING}
         }
         assert [
@@ -158,7 +172,7 @@ def test_week47_facts_carry_the_register_label_and_keep_the_irs_wording():
             "under_1": IRS_SOI_LABEL
         }
         assert row["layout"]["groupby_value_label"] == IRS_SOI_LABEL
-        assert row["publisher_dimension_value_labels"] == {
+        assert row["package_dimension_value_labels"] == {
             ADJUSTED_GROSS_INCOME: {"under_1": WEEK47_WORDING}
         }
 
@@ -233,7 +247,7 @@ def test_a_row_with_the_publisher_wording_loads_with_its_fact_key(tmp_path):
         "ledger.aggregate_fact.v2:fba2311e623134c71d8c78cd",
     ]
     assert all(
-        row["publisher_dimension_value_labels"]
+        row["package_dimension_value_labels"]
         == {ADJUSTED_GROSS_INCOME: {"under_1": WEEK47_WORDING}}
         for row in artifact.rows
     )
@@ -294,10 +308,21 @@ def test_a_value_two_packages_label_differently_is_refused_with_its_remedy():
         ),
         ("conflicting_value_label_across_packages", "sex=male"),
     ]
-    message = errors[0].message
-    assert "'Heads of household' in ['a-new-package']" in message
-    assert "chronicle/dimension_values/canonical_labels.json" in message
-    assert "publisher_dimension_value_labels" in message
+    unlisted, listed = errors[0].message, errors[1].message
+    assert "'Heads of household' in ['a-new-package']" in unlisted
+    # Two packages emit it, so only a register entry can apply, and the
+    # message says how to choose its label.
+    assert f"Add it to {_REGISTER_PATH_TEXT}" in unlisted
+    assert "the wording most of these packages use" in unlisted
+    assert "national statistics office" in unlisted
+    assert "scripts/build_dimension_value_register.py --static-check" in unlisted
+    assert "dimension_value_labels" not in unlisted.replace(
+        "package_dimension_value_labels", ""
+    )
+    # A listed value already has its label: the message names it.
+    assert "Chronicle's register labels this value 'Male'" in listed
+    assert "rebuild" in listed
+    assert "Add it to" not in listed
 
 
 # One label inside one package, refused as early as validate-package.
@@ -316,8 +341,12 @@ def test_validate_package_refuses_a_value_one_package_labels_two_ways(tmp_path):
     assert f"{FILING_SEASON_LINE!r} value 'earned_income_credit'" in message
     assert "'Earned income credit'" in message
     assert "'Earned income credit amount'" in message
-    assert "dimension_value_labels" in message
-    assert "chronicle/dimension_values/canonical_labels.json" in message
+    # One package emits it and the register does not list it: the one remedy
+    # is a declaration in this package.
+    assert "Declare one label for it in this package's dimension_value_labels" in (
+        message
+    )
+    assert _REGISTER_PATH_TEXT not in message
 
 
 def test_build_suite_refuses_a_value_one_package_labels_two_ways(tmp_path):
@@ -358,7 +387,7 @@ def test_a_package_declaration_settles_its_own_value_and_keeps_the_rows(tmp_path
         )
     )
     assert amount.layout.groupby_value_label == "Earned income credit"
-    assert amount.publisher_dimension_value_labels == {
+    assert amount.package_dimension_value_labels == {
         FILING_SEASON_LINE: {"earned_income_credit": "Earned income credit amount"}
     }
 
@@ -390,8 +419,267 @@ def test_the_bundle_refuses_a_value_one_package_labels_two_ways():
             f"{FILING_SEASON_LINE}=earned_income_credit",
         )
     ]
-    assert "chronicle/dimension_values/canonical_labels.json" in errors[0].message
+    assert "Declare one label for it in this package's dimension_value_labels" in (
+        errors[0].message
+    )
+    assert _REGISTER_PATH_TEXT not in errors[0].message
     assert warnings == []
+
+
+def test_a_listed_value_labelled_two_ways_in_old_rows_names_the_register_label():
+    """Rows built before the register (or by hand) can still disagree."""
+    rows = [
+        {
+            "aggregate_fact_key": f"ledger.aggregate_fact.v2:{label}",
+            "dimensions": {"sex": "male"},
+            "dimension_labels": {"sex": "Sex"},
+            "dimension_value_labels": {"sex": {"male": label}},
+            "layout": {},
+        }
+        for label in ("Male", "Males")
+    ]
+
+    errors, _warnings = bundle._dimension_label_reports("nrs-a", rows)
+
+    assert [(error.code, error.key) for error in errors] == [
+        ("conflicting_dimension_value_label", "sex=male")
+    ]
+    assert "Chronicle's register labels this value 'Male'" in errors[0].message
+    assert "Declare one label" not in errors[0].message
+
+
+# A package declaration cannot contradict the register (chronicle#377 review).
+
+
+def test_validate_package_refuses_a_declaration_the_register_contradicts(tmp_path):
+    package_dir = _week47_copy_with_drifting_line_label(tmp_path)
+    package_yaml = package_dir / "source_package.yaml"
+    payload = yaml.safe_load(package_yaml.read_text())
+    payload["dimension_value_labels"][ADJUSTED_GROSS_INCOME] = {
+        "under_1": WEEK47_WORDING
+    }
+    package_yaml.write_text(yaml.safe_dump(payload, sort_keys=False))
+
+    issues = [
+        issue
+        for issue in validate_source_package(package_dir, year=2024).errors
+        if issue.code == "declared_value_label_differs_from_register"
+    ]
+
+    assert len(issues) == 1
+    message = issues[0].message
+    assert (
+        f"dimension_value_labels.{ADJUSTED_GROSS_INCOME}.under_1 declares "
+        f"{WEEK47_WORDING!r}"
+    ) in message
+    assert f"labels this value {IRS_SOI_LABEL!r}" in message
+    assert _REGISTER_PATH_TEXT in message
+    assert f"Change the declaration to {IRS_SOI_LABEL!r}" in message
+    assert str(package_yaml) in message or "source_package.yaml" in message
+
+
+@pytest.mark.parametrize(
+    ("package_dir", "dimension_id", "value_id", "register_label"),
+    [
+        ("nrs/mye_2025_council_area", "sex", "female", "Female"),
+        ("nrs/mye_2025_council_area", "sex", "male", "Male"),
+        ("nisra/mye_2025_lgd_single_year_age", "sex", "female", "Female"),
+        ("nisra/mye_2025_lgd_single_year_age", "sex", "male", "Male"),
+        ("nrs/pcon24_population_by_age_2024_revised_2026", "sex", "female", "Female"),
+        ("nrs/pcon24_population_by_age_2024_revised_2026", "sex", "male", "Male"),
+        ("ons/hpssa_pcon24_year_ending_march_2026", "property_type", "detached", "Detached"),
+        (
+            "ons/hpssa_pcon24_year_ending_march_2026",
+            "property_type",
+            "semi_detached",
+            "Semi detached",
+        ),
+        ("ons/hpssa_pcon24_year_ending_march_2026", "property_type", "terraced", "Terraced"),
+        ("ons/pipr_rents_by_area_august_2026", "property_type", "detached", "Detached"),
+        ("ons/pipr_rents_by_area_august_2026", "property_type", "terraced", "Terraced"),
+        ("dft/nts0601_age_mode_trips_2025", "age_band", "30 to 39", "30 to 39"),
+        ("dft/nts0601_age_mode_trips_2025", "age_band", "40 to 49", "40 to 49"),
+    ],
+)
+def test_the_declarations_the_register_overrode_now_agree_with_it(
+    package_dir, dimension_id, value_id, register_label
+):
+    """The 13 declarations the register silently overrode at e29da32."""
+    payload = yaml.safe_load(
+        (_PACKAGES / package_dir / "source_package.yaml").read_text()
+    )
+
+    assert dimension_labels.canonical_value_label(dimension_id, value_id) == (
+        register_label
+    )
+    assert payload["dimension_value_labels"][dimension_id][value_id] == register_label
+
+
+# The package's own wording: a field that says what it holds.
+
+# Each wording is text Chronicle wrote, not the publisher's (the chronicle#377
+# source-fidelity, contract and boundary reviews): a curated extract's value
+# id, a parser's constant, or a package author's phrase. Each must be kept in a
+# field that names it as the package's wording and says it is unchecked.
+_CHRONICLE_WRITTEN_WORDINGS = [
+    # The Statbel ZIP has single-year CD_AGE only; "65_plus" is the curated
+    # CSV's value id.
+    ("statbel-population-structure-2025", 2025, "person.age_band", "65_plus", "65_plus"),
+    # The B01001 JSON holds variable codes and numbers; the text is
+    # B01001_FEMALE_AGE_COLUMNS and the parser's sex column.
+    ("census-b01001-female-age-2023", 2023, "age", "age_20", "Female 20 years"),
+    ("census-b01001-female-age-2023", 2023, "sex", "female", "female"),
+    # Eurostat calls D1 "First decile"; the guard checks the code D1.
+    (
+        "eurostat-ilc-di01",
+        2023,
+        "quant_inc",
+        "d1",
+        "First income decile cut-point",
+    ),
+    # The four Belgian country-total rows: guards check Chronicle identifiers.
+    (
+        "spf-finances-pit-2023",
+        2023,
+        "measure",
+        "country_total",
+        "Belgium PIT federal and local tax before withholding",
+    ),
+    (
+        "onem-rva-unemployment-2024",
+        2023,
+        "measure",
+        "country_total",
+        "Complete unemployment benefit recipients",
+    ),
+    (
+        "nbb-national-accounts-household-disposable-income-2024",
+        2023,
+        "measure",
+        "country_total",
+        "Household disposable income gross",
+    ),
+    (
+        "onss-contributions-2024",
+        2023,
+        "measure",
+        "country_total",
+        "Worker-borne personal social security contributions",
+    ),
+    # The guard checks the code B2G in column D.
+    (
+        "eurostat-nasa-10-nf-tr",
+        2023,
+        "na_item",
+        "belgium_household_operating_surplus_gross",
+        "Operating surplus, gross (B.2G), paid-direction cell",
+    ),
+    # The guard checks the code sociale_toeslag.
+    (
+        "opgroeien-groeipakket-caseload-2025",
+        2023,
+        "groeipakket.component",
+        "sociale_toeslag",
+        "Social supplement child caseload",
+    ),
+    # DfT's row header, which the guard checks, is "30 to 39".
+    ("dft-nts0601-age-mode-trips-2025", 2023, "age_band", "30 to 39", "Age 30 to 39"),
+]
+
+
+@pytest.mark.parametrize(
+    ("source", "year", "dimension_id", "value_id", "wording"),
+    _CHRONICLE_WRITTEN_WORDINGS,
+)
+def test_text_chronicle_wrote_is_kept_as_the_packages_wording_not_the_publishers(
+    source, year, dimension_id, value_id, wording
+):
+    package = load_source_package(source)
+    facts = package.build_facts(year, cells=package.build_source_cells(year))
+    rows = consumer_fact_rows(facts)
+    description = json.loads(
+        (
+            Path(__file__).parents[1]
+            / "docs"
+            / "schemas"
+            / "consumer_fact.v5.schema.json"
+        ).read_text()
+    )["properties"]["package_dimension_value_labels"]["description"]
+
+    wordings = {
+        fact.package_dimension_value_labels.get(dimension_id, {}).get(value_id)
+        for fact in facts
+    }
+    assert wording in wordings
+    assert all("publisher_dimension_value_labels" not in row for row in rows)
+    assert any(
+        (row.get("package_dimension_value_labels") or {})
+        .get(dimension_id, {})
+        .get(value_id)
+        == wording
+        for row in rows
+    )
+    assert "text Chronicle wrote" in description
+
+
+def test_a_groupby_value_whose_axis_is_also_a_filter_is_keyed_by_its_row_value():
+    """Eurostat ilc_di01: quant_inc is the filter D1 and the groupby row d1."""
+    package = load_source_package("eurostat-ilc-di01")
+    facts = package.build_facts(2023, cells=package.build_source_cells(2023))
+    fact = next(
+        fact
+        for fact in facts
+        if fact.layout.groupby_value_id == "d1" and fact.filters["statinfo"] == "SHARE"
+    )
+
+    assert fact.filters["quant_inc"] == "D1"
+    assert fact.layout.groupby_value_label == "First income decile"
+    assert fact.package_dimension_value_labels == {
+        "quant_inc": {"d1": "First income decile share"}
+    }
+
+
+def test_the_harness_doc_says_which_fields_the_guards_check():
+    text = " ".join(_HARNESS_DOC.read_text(encoding="utf-8").split())
+
+    assert "a row's `label:` stays the publisher's text" not in text
+    assert "package_dimension_value_labels" in text
+    assert "publisher_dimension_value_labels" not in text
+    assert (
+        "The guards compare a row's `expected_row_header` and "
+        "`expected_column_header`, which are fields separate from its `label:`"
+    ) in text
+
+
+# ONS COICOP 02: the total includes narcotics (chronicle#377 review).
+
+
+def test_coicop_02_takes_the_ons_wording_that_names_narcotics():
+    assert (
+        dimension_labels.canonical_value_label("ons.coicop", "coicop_02")
+        == "Alcohol, tobacco and narcotics"
+    )
+
+
+def test_the_ons_coicop_02_total_includes_narcotics():
+    """ADFL = ADFM (alcoholic beverages) + ADFN (tobacco) + MNC2 (narcotics)."""
+    workbook = openpyxl.load_workbook(
+        _ONS_CONSUMER_TRENDS, read_only=True, data_only=True
+    )
+    sheet_rows = list(workbook["02CN"].iter_rows(values_only=True))
+    workbook.close()
+    cdid_row = next(row for row in sheet_rows if row[0] == "CDID identifier code")
+    column_by_cdid = {cdid: index for index, cdid in enumerate(cdid_row) if cdid}
+    annual = [
+        row
+        for row in sheet_rows
+        if isinstance(row[0], int) and 1997 <= row[0] <= 2100
+    ]
+
+    assert len(annual) >= 29
+    for row in annual:
+        parts = [row[column_by_cdid[cdid]] for cdid in ("ADFM", "ADFN", "MNC2")]
+        assert abs(row[column_by_cdid["ADFL"]] - sum(parts)) < 0.5, row[0]
 
 
 def test_irs_soi_packages_label_the_band_below_one_dollar_one_way(tmp_path):

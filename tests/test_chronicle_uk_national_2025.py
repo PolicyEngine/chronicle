@@ -239,7 +239,7 @@ def test_slc_returning_support_keeps_both_publisher_footnote_spellings(facts_for
             "Total returning [31][33][35]"
         )
         assert (
-            fact.publisher_dimension_value_labels.get(axis, {}).get(
+            fact.package_dimension_value_labels.get(axis, {}).get(
                 line, "Total returning [31][33][35]"
             )
             == spelling
