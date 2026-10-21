@@ -843,8 +843,11 @@ record_sets:
           end: 84
       label: single-year age sequence
     table_record_kind: detail
+  # Labelled as census-pep-2024-state-age-sex labels the same value, so one
+  # value id carries one label. The guards below still check the source's
+  # single-year ages 85 to 100.
   - value_id: 85_plus
-    label: Age 85 and over
+    label: Age 85 plus
     ordinal: 18
     row_number: 88
     row_end_number: 103
