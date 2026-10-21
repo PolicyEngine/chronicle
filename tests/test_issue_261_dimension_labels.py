@@ -328,7 +328,7 @@ def test_labels_never_move_a_fact_key_or_value():
         **plain["layout"],
         "groupby_dimension_label": "Carer Entitlement",
     }
-    assert rich["schema_version"] == "chronicle.consumer_fact.v4"
+    assert rich["schema_version"] == "chronicle.consumer_fact.v5"
     validate_consumer_fact_row(rich, 1, "labelled.jsonl")
 
 
@@ -430,8 +430,8 @@ def test_bundle_requires_labels_for_uk_packages_only():
         UK_BUNDLE_SOURCES[0], [unlabelled, _row(), drifting]
     )
 
-    # Row labels that drift across one groupby value are refused too, unless
-    # the value is a reviewed publisher wording (chronicle#376).
+    # Row labels that drift across one groupby value are refused too: a value
+    # carries one label (chronicle#376).
     assert {error.code for error in errors} == {
         "missing_dimension_label",
         "missing_dimension_value_label",
