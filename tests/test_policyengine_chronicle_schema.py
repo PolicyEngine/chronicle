@@ -92,11 +92,13 @@ def _chronicle_epoch_row(row):
 def _v2_row(index=0):
     """A fixture row restated as a ``chronicle.consumer_fact.v2`` row.
 
-    v2 carries the labels and knows nothing of the publisher's geography name.
+    v2 carries the labels and knows nothing of the publisher's geography name
+    or of a package's own value wording (v5).
     """
     row = _fixture_row(index)
     row["schema_version"] = _V2
     row.get("geography", {}).pop("name", None)
+    row.pop("publisher_dimension_value_labels", None)
     return row
 
 

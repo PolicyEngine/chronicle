@@ -354,7 +354,7 @@ def test_a_package_declaration_settles_its_own_value_and_keeps_the_rows(tmp_path
         fact
         for fact in facts
         if fact.source_record_id.endswith(
-            "eitc_all_returns.total_earned_income_credit_amount"
+            "eitc_all_returns.earned_income_credit.total_earned_income_credit_amount"
         )
     )
     assert amount.layout.groupby_value_label == "Earned income credit"

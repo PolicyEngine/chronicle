@@ -290,6 +290,12 @@ class AggregateFact:
     # keyed by ``consumer_contract.dimension_value_id``.
     dimension_labels: dict[str, str] = field(default_factory=dict)
     dimension_value_labels: dict[str, dict[str, str]] = field(default_factory=dict)
+    # The package's own wording of a value, keyed like dimension_value_labels,
+    # where it differs from the label Chronicle's register gives the value
+    # (chronicle#376). Display metadata too.
+    publisher_dimension_value_labels: dict[str, dict[str, str]] = field(
+        default_factory=dict
+    )
 
 
 @dataclass(frozen=True)

@@ -852,19 +852,44 @@ dimension_value_labels:
 A groupby axis whose rows cross several fields takes the label of its leading field, the one its id names; the crossed fields carry their own labels as dimensions of the same fact. A declaration wins over every recovered label. `build-bundle` reports an error
 for any package fact with an unlabelled or doubly labelled dimension or value,
 and for a dimension id two packages label differently (chronicle#265 — the rule
-covers every country, since a consumer reads one artifact). One dimension value
-id carries one label too (chronicle#376): `build-bundle` reports an error for a
-value two packages label differently, and for publisher row labels that differ
-across one groupby value's rows. Microcosm copies the labels into every target,
-so a release would otherwise label one value two ways. A package whose table
-words a band differently from the other packages takes their label in the row's
-`label:` and keeps the publisher's text in its guards; the IRS filing-season
-week-47 table heads its below-$1 column "No adjusted gross income and deficit",
-and the package labels it "No adjusted gross income", as every other IRS SOI
-package does. The exceptions are the publisher wordings Chronicle reviewed and
-kept before that rule, listed with every label each value may carry in
-`REVIEWED_VALUE_LABEL_VARIANTS` (`chronicle/dimension_labels.py`); those are
-warnings. `build_facts` refuses a declaration no fact uses.
+covers every country, since a consumer reads one artifact). `build_facts`
+refuses a declaration no fact uses.
+
+One dimension value carries one label (chronicle#376). Microcosm copies labels
+into every target and merges packages built for different years into one feed,
+so a value must not depend on which packages one build compares. Chronicle's
+register, `chronicle/dimension_values/canonical_labels.json`, gives one label to
+every value that two or more packages emit, and to every value its packages word
+more than one way. When a package is built, at any year, each value the
+register lists takes the register's label in `dimension_value_labels` and, for
+the groupby value, `layout.groupby_value_label`; the package's own wording (the
+row's `label:`, else its declaration, else its source-row text) is kept in
+`publisher_dimension_value_labels` where it differs, the way
+`geography.publisher_name` keeps a publisher's area name (chronicle#281). So a
+row's `label:` stays the publisher's text, and the row's guards still check it
+against the source: the IRS filing-season week-47 table heads its below-$1
+column "No adjusted gross income and deficit", the package's rows say so, and
+their facts carry the register's "No adjusted gross income" with the IRS text
+beside it.
+
+A value the register does not list is one only one package emits, so its
+package's label is its one label. A value labelled two ways is an error, with no
+list of exceptions:
+
+- inside one package, `validate-package` reports `conflicting_value_label` for
+  a groupby value whose rows word it two ways, `build-suite` reports the same
+  for any value its facts label two ways, and `build-bundle` reports
+  `conflicting_groupby_value_label` or `conflicting_dimension_value_label`;
+  declare one label for the value in the package's `dimension_value_labels`;
+- across packages, `build-bundle` reports
+  `conflicting_value_label_across_packages`; add the value to the register with
+  one label.
+
+A new package that emits a value another package already emits should check the
+register: the value is either listed, and takes the listed label, or needs an
+entry. To choose a register label for a value its packages word differently,
+take the wording most packages use, ties going to the national statistics
+office's wording, and keep each package's text in its rows.
 
 Every fact also carries the publisher's name for its geography (chronicle#266),
 taken from the record set's or the row's `geography_name`. `build-bundle`
@@ -874,8 +899,9 @@ catalog only for identifiers it already knows, and an identifier is not a name.
 A country-level geography may stay unnamed, and no name is ever invented from
 the code. Where two packages name one area differently — the IRS truncates
 county names to twenty characters, and ONS writes "Yorkshire and The Humber"
-where HMRC writes "the" — Chronicle keeps each publisher's text and warns, the
-same way it does for a groupby value's row labels.
+where HMRC writes "the" — Chronicle's UK register gives one name where it
+carries the identifier (chronicle#281), and the bundle warns about the areas it
+does not carry yet.
 
 ### Pinned artifacts and year labels
 

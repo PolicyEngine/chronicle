@@ -8,31 +8,43 @@ carries ``dimension_labels`` (dimension id to label) and
 ``filters`` and, when it has one, its ``layout.groupby_dimension``, whose label
 is also stamped on ``layout.groupby_dimension_label``.
 
-Labels resolve per package; the first source that has one wins.
-
-Dimension ids:
+Dimension ids take the first label one of these gives:
 
 1. the package's ``dimension_labels`` declaration;
 2. the publisher's field label, for a Stat-Xplore field the parser read;
 3. the label on the package's ``==`` constraints for that filter, when they
    agree on one label that is not the identifier itself.
 
-Dimension values:
+One dimension value carries one label (chronicle#376). Microcosm merges facts
+from packages built for different years into one feed, so the label cannot
+depend on which packages one build happens to compare. A value takes the first
+label one of these gives:
 
-1. the package's ``dimension_value_labels`` declaration;
-2. the fact's publisher row label (``layout.groupby_value_label``) when the
+1. Chronicle's register, :data:`REGISTER_PATH`
+   (``chronicle/dimension_values/canonical_labels.json``), which lists every
+   value that two or more packages emit, or that its packages word more than
+   one way, with one label;
+2. the package's ``dimension_value_labels`` declaration;
+3. the fact's publisher row label (``layout.groupby_value_label``) when the
    dimension is the record set's groupby axis (the same id, or the same leaf
    name source-filter canonicalization matches on) and the value is the row's
    value id;
-3. the publisher's text in the matching column of the fact's source row, when
+4. the publisher's text in the matching column of the fact's source row, when
    the row-semantic acceptance matches the filter to it (for ``all``, the
    publisher's aggregate item, such as Stat-Xplore's ``Total``);
-4. a number or an ISO date, which labels itself.
+5. a number or an ISO date, which labels itself.
 
-Everything else must be declared. :func:`dimension_label_issues` checks rows
-the way Microcosm reads them and reports what is missing or labelled two ways.
-A value labelled two ways is a bundle error unless it is a reviewed publisher
-wording in :data:`REVIEWED_VALUE_LABEL_VARIANTS` (chronicle#376).
+That label goes on ``dimension_value_labels`` and, for the groupby value, on
+``layout.groupby_value_label``. The package's own wording of the value (its row
+label, else its declaration, else its source-row text) is kept in
+``publisher_dimension_value_labels`` where it differs, as
+``geography.publisher_name`` keeps a publisher's area name (chronicle#281).
+
+A value the register does not list is one that only one package emits, so its
+package's label is its one label. :func:`dimension_label_issues` reports such a
+value labelled two ways inside one package, and ``build-bundle`` reports it
+labelled two ways by two packages; both are errors, with no exceptions.
+Everything else that is unlabelled must be declared.
 """
 
 from __future__ import annotations
@@ -43,6 +55,8 @@ from collections import defaultdict
 from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass, replace
 from decimal import Decimal
+from functools import cache
+from pathlib import Path
 from types import MappingProxyType
 from typing import Any
 
@@ -53,206 +67,46 @@ from chronicle.sources.rows import SourceRow, build_source_row_key
 
 _ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 
-# One dimension value id carries one label (chronicle#376). Microcosm copies a
-# fact's labels into every target it compiles, and a release whose targets
-# label one value two ways cannot be shown as one value. ``build-bundle``
-# therefore refuses a value labelled two ways, whether by two packages or by
-# the groupby rows of one package, unless every label it carries is listed
-# here for that value; those it reports as warnings.
-#
-# Each entry is publisher wording that a review kept as published before the
-# rule. A new package takes the label the other packages give a value, even
-# where its own table words it differently, and its guards check the
-# publisher's text. An entry leaves this register once its packages agree:
-# the merged-bundle test requires every entry to still warn.
-REVIEWED_VALUE_LABEL_VARIANTS: Mapping[tuple[str, str], frozenset[str]] = (
-    MappingProxyType(
-        {
-            # chronicle#265: Census Bureau tables word ages differently.
-            ("age", "85_plus"): frozenset({"Age 85 and over", "Age 85 plus"}),
-            ("age", "age_20"): frozenset({"Age 20", "Female 20 years"}),
-            ("age", "age_21"): frozenset({"Age 21", "Female 21 years"}),
-            # chronicle#302: ASHE writes '30 to 39' where NTS0601 writes
-            # 'Age 30 to 39'.
-            ("age_band", "30 to 39"): frozenset({"30 to 39", "Age 30 to 39"}),
-            ("age_band", "40 to 49"): frozenset({"40 to 49", "Age 40 to 49"}),
-            # chronicle#313: SLC Table 7C(ii) spells one footnote two ways
-            # (B75 and B111).
-            (
-                "early_year_award_line",
-                "new_returning_total_returning_31_33_35",
-            ): frozenset(
-                {"Total returning [31[[33][35]", "Total returning [31][33][35]"}
-            ),
-            # chronicle#265: Groeipakket counts each supplement per child and
-            # per family.
-            ("groeipakket.component", "pleegzorgtoeslag"): frozenset(
-                {
-                    "Foster care supplement child caseload",
-                    "Foster care supplement family caseload",
-                }
-            ),
-            ("groeipakket.component", "sociale_toeslag"): frozenset(
-                {
-                    "Social supplement child caseload",
-                    "Social supplement family caseload",
-                }
-            ),
-            ("groeipakket.component", "wezentoeslag"): frozenset(
-                {
-                    "Orphan supplement child caseload",
-                    "Orphan supplement family caseload",
-                }
-            ),
-            ("groeipakket.component", "zorgtoeslag"): frozenset(
-                {
-                    "Care supplement child caseload",
-                    "Care supplement family caseload",
-                }
-            ),
-            # chronicle#265: two ONS tables number the same footnote
-            # differently.
-            ("household_type", "couple_3_plus_children_households"): frozenset(
-                {
-                    "3 or more dependent children [note 3]",
-                    "3 or more dependent children [note 5]",
-                }
-            ),
-            ("ons.household_type", "couple_3_plus_children_households"): frozenset(
-                {
-                    "3 or more dependent children [note 3]",
-                    "3 or more dependent children [note 5]",
-                }
-            ),
-            # chronicle#265: each Belgian package names its own country total.
-            ("measure", "country_total"): frozenset(
-                {
-                    "Belgium PIT federal and local tax before withholding",
-                    "Complete unemployment benefit recipients",
-                    "Household disposable income gross",
-                    "Worker-borne personal social security contributions",
-                }
-            ),
-            # chronicle#265: Eurostat's paid-direction and received-direction
-            # cells of one national-accounts item.
-            ("na_item", "belgium_household_disposable_income_gross"): frozenset(
-                {
-                    "Disposable income, gross (B.6G), paid-direction cell",
-                    "Disposable income, gross (B.6G), received-direction cell",
-                }
-            ),
-            ("na_item", "belgium_household_mixed_income_gross"): frozenset(
-                {
-                    "Mixed income, gross (B.3G), paid-direction cell",
-                    "Mixed income, gross (B.3G), received-direction cell",
-                }
-            ),
-            ("na_item", "belgium_household_operating_surplus_gross"): frozenset(
-                {
-                    "Operating surplus, gross (B.2G), paid-direction cell",
-                    "Operating surplus, gross (B.2G), received-direction cell",
-                }
-            ),
-            # chronicle#322: the ONS Consumer Trends overview and detailed
-            # worksheets name six divisions differently.
-            ("ons.coicop", "coicop_01"): frozenset(
-                {"Food and drink", "Food and non-alcoholic beverages"}
-            ),
-            ("ons.coicop", "coicop_02"): frozenset(
-                {
-                    "Alcohol, tobacco and narcotics",
-                    "Alcoholic beverages and tobacco [note 1]",
-                }
-            ),
-            ("ons.coicop", "coicop_04"): frozenset(
-                {"Housing", "Housing, water, electricity, gas and other fuel"}
-            ),
-            ("ons.coicop", "coicop_05"): frozenset(
-                {
-                    "Furnishing, household equipment and routine HH maintenance",
-                    "Furnishings, household equipment and routine maintenance "
-                    "of the house",
-                }
-            ),
-            ("ons.coicop", "coicop_11"): frozenset(
-                {"Restaurant and hotels", "Restaurants and hotels"}
-            ),
-            ("ons.coicop", "coicop_12"): frozenset(
-                {"Miscellaneous", "Miscellaneous goods and services"}
-            ),
-            # chronicle#211: Stats NZ heads its oldest band '65+' where
-            # Statbel's rows write '65_plus'.
-            ("person.age_band", "65_plus"): frozenset({"65+", "65_plus"}),
-            # chronicle#313 and #343: DESNZ, ONS house-price and ONS rent
-            # tables word property types differently.
-            ("property_type", "detached"): frozenset(
-                {"Detached", "Detached houses", "detached"}
-            ),
-            ("property_type", "semi_detached"): frozenset(
-                {"Semi detached", "Semi-detached houses"}
-            ),
-            ("property_type", "terraced"): frozenset(
-                {"Terraced", "Terraced houses", "terraced"}
-            ),
-            # chronicle#265: Eurostat publishes a decile's income threshold and
-            # its income share under one income-quantile code.
-            ("quant_inc", "d1"): frozenset(
-                {"First income decile cut-point", "First income decile share"}
-            ),
-            ("quant_inc", "d2"): frozenset(
-                {"Second income decile cut-point", "Second income decile share"}
-            ),
-            ("quant_inc", "d3"): frozenset(
-                {"Third income decile cut-point", "Third income decile share"}
-            ),
-            ("quant_inc", "d4"): frozenset(
-                {"Fourth income decile cut-point", "Fourth income decile share"}
-            ),
-            ("quant_inc", "d5"): frozenset(
-                {"Fifth income decile cut-point", "Fifth income decile share"}
-            ),
-            ("quant_inc", "d6"): frozenset(
-                {"Sixth income decile cut-point", "Sixth income decile share"}
-            ),
-            ("quant_inc", "d7"): frozenset(
-                {"Seventh income decile cut-point", "Seventh income decile share"}
-            ),
-            ("quant_inc", "d8"): frozenset(
-                {"Eighth income decile cut-point", "Eighth income decile share"}
-            ),
-            ("quant_inc", "d9"): frozenset(
-                {"Ninth income decile cut-point", "Ninth income decile share"}
-            ),
-            # chronicle#265: the UK statistics offices and HMRC write 'Female'
-            # or 'Females'; ACS B01001's rows write 'female'.
-            ("sex", "female"): frozenset({"Female", "Females", "female"}),
-            ("sex", "male"): frozenset({"Male", "Males"}),
-            # chronicle#265: IRS SOI's total rows: 'All returns' in Historic
-            # Table 2 and Table 1.1, 'All returns, total' in Tables 1.2, 1.4,
-            # 2.1 and 4.3.
-            ("us:statutes/26/62#adjusted_gross_income", "all"): frozenset(
-                {"All returns", "All returns, total"}
-            ),
-        }
-    )
+#: Chronicle's register of dimension value labels (chronicle#376).
+REGISTER_PATH = Path(__file__).with_name("dimension_values") / "canonical_labels.json"
+#: The register's path as error messages name it, relative to the repository.
+REGISTER_DISPLAY_PATH = "chronicle/dimension_values/canonical_labels.json"
+#: The remedy every one-label-per-value error states.
+ONE_LABEL_PER_VALUE = (
+    "One dimension value carries one label (chronicle#376). If other packages "
+    f"emit this value, add it to {REGISTER_DISPLAY_PATH} with one label; if "
+    "only this package does, declare one label for it in the package's "
+    "dimension_value_labels. Each package's own wording is then kept in "
+    "publisher_dimension_value_labels, and its guards still check the "
+    "publisher's text."
 )
 
 
-def is_reviewed_value_label_variant(
-    dimension_id: str,
-    value_id: str | None,
-    labels: Iterable[str],
-) -> bool:
-    """Whether every label of one value is a reviewed wording of it.
+@cache
+def _register() -> Mapping[str, Mapping[str, str]]:
+    payload = json.loads(REGISTER_PATH.read_text(encoding="utf-8"))
+    return MappingProxyType(
+        {
+            dimension_id: MappingProxyType(dict(value_labels))
+            for dimension_id, value_labels in payload["labels"].items()
+        }
+    )
 
-    A value labelled two ways is accepted only when its id is in
-    :data:`REVIEWED_VALUE_LABEL_VARIANTS` and each label is listed for it, so a
-    third wording of a reviewed value is refused like any other (chronicle#376).
+
+def canonical_value_label(dimension_id: str, value_id: str) -> str | None:
+    """Return the register's label for one dimension value, or None.
+
+    *value_id* is the value's :func:`dimension_value_id` form. A value the
+    register does not list takes its package's label.
     """
-    if value_id is None:
-        return False
-    reviewed = REVIEWED_VALUE_LABEL_VARIANTS.get((dimension_id, value_id))
-    return reviewed is not None and set(labels) <= reviewed
+
+    return _register().get(str(dimension_id), {}).get(str(value_id))
+
+
+def register_size() -> int:
+    """Return how many dimension values the register labels."""
+
+    return sum(len(value_labels) for value_labels in _register().values())
 
 
 def dimension_value_id(value: Any) -> str:
@@ -284,8 +138,11 @@ def label_facts(
     ``dimension_labels`` and ``dimension_value_labels`` are the package's
     declarations, ``field_labels`` the publisher's labels for parsed source-row
     columns, and ``source_rows`` the parsed rows the facts' lineage points at.
-    A dimension or value no source labels is left unlabelled for
-    :func:`dimension_label_issues` to report.
+    A value the register lists takes the register's label, in
+    ``dimension_value_labels`` and ``layout.groupby_value_label`` alike, and
+    the package's own wording goes to ``publisher_dimension_value_labels``
+    where it differs. A dimension or value no source labels is left
+    unlabelled for :func:`dimension_label_issues` to report.
     """
     facts = list(facts)
     declared = dict(dimension_labels or {})
@@ -322,41 +179,103 @@ def label_facts(
             if key in rows_by_key
         ]
         value_labels: dict[str, dict[str, str]] = defaultdict(dict)
+        publisher_labels: dict[str, dict[str, str]] = defaultdict(dict)
+
+        def resolve(
+            dimension_id: str,
+            value_id: str,
+            *,
+            row_label: str | None,
+            source_text: str | None = None,
+            self_label: str | None = None,
+        ) -> None:
+            declared_label = declared_values.get(dimension_id, {}).get(value_id)
+            label = (
+                canonical_value_label(dimension_id, value_id)
+                or declared_label
+                or row_label
+                or source_text
+                or self_label
+            )
+            if not label:
+                return
+            value_labels[dimension_id][value_id] = label
+            # The package's own wording: its row's label (the publisher's text
+            # its guards check), else its declaration, else the source text.
+            package_wording = row_label or declared_label or source_text
+            if package_wording and package_wording != label:
+                publisher_labels[dimension_id][value_id] = package_wording
+
         for dimension_id, value in dimensions.items():
             value_id = dimension_value_id(value)
-            label = (
-                declared_values.get(dimension_id, {}).get(value_id)
-                or _groupby_row_label(layout, dimension_id, value_id)
-                or _source_row_label(rows, dimension_id, value)
-                or _self_label(value)
+            resolve(
+                dimension_id,
+                value_id,
+                row_label=_groupby_row_label(layout, dimension_id, value_id),
+                source_text=_source_row_label(rows, dimension_id, value),
+                self_label=_self_label(value),
             )
-            if label:
-                value_labels[dimension_id][value_id] = label
-        if (
-            groupby
-            and groupby not in dimensions
-            and layout.groupby_value_id is not None
-        ):
-            value_id = dimension_value_id(layout.groupby_value_id)
-            label = declared_values.get(groupby, {}).get(value_id) or (
-                _groupby_row_label(layout, groupby, value_id)
+        groupby_value_id = (
+            dimension_value_id(layout.groupby_value_id)
+            if groupby and layout.groupby_value_id is not None
+            else None
+        )
+        if groupby_value_id is not None and groupby not in dimensions:
+            resolve(
+                groupby,
+                groupby_value_id,
+                row_label=_groupby_row_label(layout, groupby, groupby_value_id),
             )
-            if label:
-                value_labels[groupby][value_id] = label
+        if layout is not None:
+            layout = replace(layout, groupby_dimension_label=labels.get(groupby))
+            if groupby_value_id is not None:
+                layout = replace(
+                    layout,
+                    groupby_value_label=_groupby_value_label(
+                        layout, value_labels, publisher_labels, declared_values
+                    ),
+                )
 
         labelled.append(
             replace(
                 fact,
                 dimension_labels=labels,
                 dimension_value_labels=dict(value_labels),
-                layout=(
-                    replace(layout, groupby_dimension_label=labels.get(groupby))
-                    if layout
-                    else layout
-                ),
+                publisher_dimension_value_labels=dict(publisher_labels),
+                layout=layout,
             )
         )
     return labelled
+
+
+def _groupby_value_label(
+    layout: SourceRecordLayout,
+    value_labels: Mapping[str, Mapping[str, str]],
+    publisher_labels: dict[str, dict[str, str]],
+    declared_values: Mapping[str, Mapping[str, str]],
+) -> str | None:
+    """Return the one label of a fact's groupby value (chronicle#376).
+
+    The groupby value is usually in ``value_labels`` already. When the groupby
+    axis is also a filter whose value differs from the row's, the row's value
+    is not, so its label is resolved here the same way, and the row's own
+    wording is kept with the others.
+    """
+
+    groupby = layout.groupby_dimension
+    value_id = dimension_value_id(layout.groupby_value_id)
+    row_label = (layout.groupby_value_label or "").strip() or None
+    resolved = value_labels.get(groupby, {}).get(value_id)
+    if resolved is not None:
+        return resolved
+    label = (
+        canonical_value_label(groupby, value_id)
+        or declared_values.get(groupby, {}).get(value_id)
+        or row_label
+    )
+    if row_label and label and row_label != label:
+        publisher_labels.setdefault(groupby, {})[value_id] = row_label
+    return label
 
 
 def unused_label_declarations(
@@ -416,7 +335,13 @@ class DimensionLabelIssue:
             return (
                 f"{target} carries publisher row labels that differ across "
                 f"facts: {list(self.labels)!r}; a consumer selecting facts "
-                "from more than one of those rows sees conflicting labels."
+                "from more than one of those rows sees conflicting labels. "
+                f"{ONE_LABEL_PER_VALUE}"
+            )
+        if self.code == "conflicting_dimension_value_label":
+            return (
+                f"{target} carries more than one label: {list(self.labels)!r}. "
+                f"{ONE_LABEL_PER_VALUE}"
             )
         if self.code.startswith("conflicting"):
             return f"{target} carries more than one label: {list(self.labels)!r}."
@@ -450,13 +375,16 @@ def dimension_label_issues(
     dimension, ``layout.groupby_dimension_label``; each value likewise, from
     ``dimension_value_labels`` or, for the groupby value,
     ``layout.groupby_value_label``. Across *rows*, every dimension id and every
-    value must carry a single label. Values that only ever appear as a groupby
-    value, whose publisher row labels differ across rows, are reported
-    separately as ``conflicting_groupby_value_label``: that text is the
-    publisher's, kept as published — including the row value of a groupby axis
-    that is also a filter, whose own value the row names and the filter does
-    not. Issues are aggregated per dimension or value, with a fact count and an
-    example fact key.
+    value must carry a single label (chronicle#376). A value labelled two ways
+    that only ever appears as a groupby value is reported as
+    ``conflicting_groupby_value_label`` (including the row value of a groupby
+    axis that is also a filter, whose own value the row names and the filter
+    does not), and any other as ``conflicting_dimension_value_label``. Facts a
+    package builds take the register's label for every value it lists, so
+    either code means a value the register does not list, labelled two ways
+    by the package's rows or declarations; both are errors. Issues are
+    aggregated per dimension or value, with a fact count and an example fact
+    key.
     """
     missing: dict[tuple[str, str, str | None], list[Any]] = {}
     row_conflicts: dict[tuple[str, str | None], set[str]] = defaultdict(set)
@@ -698,12 +626,15 @@ def _count(
 
 
 __all__ = [
-    "REVIEWED_VALUE_LABEL_VARIANTS",
+    "ONE_LABEL_PER_VALUE",
+    "REGISTER_DISPLAY_PATH",
+    "REGISTER_PATH",
     "DimensionLabelIssue",
+    "canonical_value_label",
     "dimension_label_issues",
     "dimension_labels_by_id",
     "dimension_value_id",
-    "is_reviewed_value_label_variant",
     "label_facts",
+    "register_size",
     "unused_label_declarations",
 ]

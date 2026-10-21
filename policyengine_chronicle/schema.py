@@ -9,7 +9,9 @@ validate each fact row against the exact contract it claims: the frozen
 (chronicle#266), for ``chronicle.consumer_fact.v3`` rows, and the
 ``consumer_fact.v4`` schema, v3 with one name per geography identifier and the
 publisher's own text beside it (chronicle#281), for
-``chronicle.consumer_fact.v4`` rows. The packaged schema
+``chronicle.consumer_fact.v4`` rows, and the ``consumer_fact.v5`` schema, v4
+with one label per dimension value and the package's own wording beside it
+(chronicle#376), for ``chronicle.consumer_fact.v5`` rows. The packaged schema
 bytes are the single source of truth: each artifact manifest records the sha256
 of the schema its rows use, and a load rejects any manifest that claims a
 different one.
@@ -40,6 +42,7 @@ _SCHEMA_RESOURCES = MappingProxyType(
         SCHEMA_IDS["consumer_fact"].chronicle: "consumer_fact.v2.schema.json",
         "chronicle.consumer_fact.v3": "consumer_fact.v3.schema.json",
         "chronicle.consumer_fact.v4": "consumer_fact.v4.schema.json",
+        "chronicle.consumer_fact.v5": "consumer_fact.v5.schema.json",
     }
 )
 

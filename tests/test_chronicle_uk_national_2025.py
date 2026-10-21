@@ -224,21 +224,30 @@ def test_slc_returning_support_keeps_both_publisher_footnote_spellings(facts_for
     line = "new_returning_total_returning_31_33_35"
     returning = {f.aggregation.method: f for f in facts if f.filters[axis] == line}
     # Table 7C(ii)!B75 and B111 contain different literal footnote spellings.
-    labels = {
+    # Both facts carry the one label Chronicle's register gives the value, and
+    # the row whose spelling differs keeps it as the package's own wording
+    # (chronicle#376).
+    publisher_spellings = {
         "sum": "Total returning [31][33][35]",
         "mean": "Total returning [31[[33][35]",
     }
-    assert set(returning) == set(labels)
-    for method, label in labels.items():
+    assert set(returning) == set(publisher_spellings)
+    for method, spelling in publisher_spellings.items():
         fact = returning[method]
-        assert fact.layout.groupby_value_label == label
-        assert fact.dimension_value_labels[axis][line] == label
+        assert fact.layout.groupby_value_label == "Total returning [31][33][35]"
+        assert fact.dimension_value_labels[axis][line] == (
+            "Total returning [31][33][35]"
+        )
+        assert (
+            fact.publisher_dimension_value_labels.get(axis, {}).get(
+                line, "Total returning [31][33][35]"
+            )
+            == spelling
+        )
 
     errors, warnings = _dimension_label_reports(alias, consumer_fact_rows(facts))
     assert not errors, [error.to_dict() for error in errors]
-    assert [(warning.code, warning.key) for warning in warnings] == [
-        ("conflicting_groupby_value_label", f"{axis}={line}")
-    ]
+    assert warnings == []
 
 
 def test_public_sector_employment_keeps_four_published_quarters(facts_for):

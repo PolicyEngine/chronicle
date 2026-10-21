@@ -10,6 +10,7 @@ from io import BytesIO
 from pathlib import Path
 import re
 import time
+from collections.abc import Mapping, Sequence
 from typing import Any
 from urllib.parse import unquote, urlparse
 from zipfile import ZipFile
@@ -32,7 +33,13 @@ from chronicle.core import (
     AggregateFact,
     build_label,
 )
-from chronicle.dimension_labels import label_facts, unused_label_declarations
+from chronicle.dimension_labels import (
+    ONE_LABEL_PER_VALUE,
+    canonical_value_label,
+    dimension_value_id,
+    label_facts,
+    unused_label_declarations,
+)
 from chronicle.epoch import SCHEMA_IDS, schema_id
 from chronicle.sources.cells import (
     SourceArtifactMetadata,
@@ -2348,6 +2355,71 @@ def try_load_source_package(source: str | Path) -> SourcePackage | None:
         return None
 
 
+def _row_value_label_issues(
+    record_sets: Sequence[SourceRecordSetSpec],
+    declared_value_labels: Mapping[str, Mapping[str, str]],
+    *,
+    package_path: Path | None = None,
+) -> list[SourcePackageIssue]:
+    """Refuse a groupby value the package's rows label two ways (chronicle#376).
+
+    Each row's ``label:`` becomes its facts' value label unless Chronicle's
+    register lists the value or the package declares one label for it in
+    ``dimension_value_labels``; the rows' wording is then kept as the
+    package's own, in ``publisher_dimension_value_labels``. Otherwise rows
+    that word one value differently would give its facts two labels, which
+    ``build-bundle`` refuses. This finds it from the package file alone, at
+    any build year.
+    """
+
+    labels_by_value: dict[tuple[str, str], set[str]] = {}
+    record_sets_by_value: dict[tuple[str, str], list[str]] = {}
+    for record_set in record_sets:
+        groupby = (record_set.groupby_dimension or "").strip()
+        if not groupby:
+            continue
+        for row in record_set.rows:
+            label = (row.label or "").strip()
+            if not label:
+                continue
+            value_id = dimension_value_id(row.value_id)
+            if canonical_value_label(groupby, value_id) or (
+                declared_value_labels.get(groupby, {}).get(value_id)
+            ):
+                continue
+            labels_by_value.setdefault((groupby, value_id), set()).add(label)
+            record_sets_by_value.setdefault((groupby, value_id), []).append(
+                record_set.record_set_id
+            )
+    where = f" in {_display_package_path(package_path)}" if package_path else ""
+    return [
+        SourcePackageIssue(
+            code="conflicting_value_label",
+            message=(
+                f"Dimension {dimension_id!r} value {value_id!r} is labelled "
+                f"{sorted(labels)!r} by the rows of this package{where}. "
+                f"{ONE_LABEL_PER_VALUE}"
+            ),
+            record_set_id=record_sets_by_value[(dimension_id, value_id)][0],
+            row_id=value_id,
+        )
+        for (dimension_id, value_id), labels in sorted(labels_by_value.items())
+        if len(labels) > 1
+    ]
+
+
+def _display_package_path(package_path: str | Path) -> str:
+    """Return a package file's path relative to the repository when it can."""
+
+    path = Path(package_path)
+    if path.is_dir():
+        path = path / "source_package.yaml"
+    try:
+        return str(path.resolve().relative_to(Path(__file__).resolve().parents[1]))
+    except ValueError:
+        return str(path)
+
+
 def validate_source_package(
     source: str | Path,
     *,
@@ -2448,6 +2520,13 @@ def validate_source_package(
             source_record_ids.setdefault(spec.source_record_id, []).append(spec_index)
             counts["source_record_count"] += 1
 
+    errors.extend(
+        _row_value_label_issues(
+            record_sets,
+            package.dimension_value_labels or {},
+            package_path=package.package_path,
+        )
+    )
     for record_set_id, indices in record_set_ids.items():
         if len(indices) > 1:
             errors.append(

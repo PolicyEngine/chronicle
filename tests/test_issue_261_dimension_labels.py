@@ -242,22 +242,24 @@ def test_constraint_labels_that_disagree_label_nothing():
 
 
 def test_the_groupby_row_label_labels_a_filter_on_the_same_axis():
+    # A value Chronicle's register does not list (chronicle#376), so the row
+    # label is its label.
     [labelled] = label_facts(
         [
             _fact(
                 {
-                    "household_income_band": "gbp15_000_gbp19_999",
-                    "region": "gbp15_000_gbp19_999",
+                    "household_income_band": "gbp15_000_gbp19_998",
+                    "region": "gbp15_000_gbp19_998",
                 },
                 groupby="desnz.need.household_income_band",
-                value_id="gbp15_000_gbp19_999",
-                value_label="£15,000 to £19,999 ",
+                value_id="gbp15_000_gbp19_998",
+                value_label="£15,000 to £19,998 ",
             )
         ]
     )
 
     assert labelled.dimension_value_labels["household_income_band"] == {
-        "gbp15_000_gbp19_999": "£15,000 to £19,999"
+        "gbp15_000_gbp19_998": "£15,000 to £19,998"
     }
     assert "region" not in labelled.dimension_value_labels
 
@@ -534,9 +536,9 @@ def test_build_bundle_reports_an_unlabelled_uk_package(tmp_path, monkeypatch):
     )
 
     assert not report.valid
-    assert {issue.code for issue in report.errors} == {
-        "missing_dimension_label",
-        "missing_dimension_value_label",
-    }
+    # The package's values are ones other ISC packages emit too, so they take
+    # the labels Chronicle's register gives them (chronicle#376); its
+    # dimension ids still need the declarations this copy dropped.
+    assert {issue.code for issue in report.errors} == {"missing_dimension_label"}
     assert {issue.source for issue in report.errors} == {str(package_dir)}
     assert "isc.census_line" in {issue.key for issue in report.errors}
