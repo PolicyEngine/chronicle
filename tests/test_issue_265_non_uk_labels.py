@@ -151,23 +151,29 @@ def test_the_packages_microcosm_targets_outside_the_uk_declare_their_labels():
     }
 
 
-def test_a_value_two_packages_word_differently_is_a_warning():
-    warnings = _cross_package_value_label_warnings(
-        {
-            ("income_range", "under_1"): {
-                "No adjusted gross income": ["soi-table-1-1"],
-                "No adjusted gross income and deficit": [
-                    "soi-filing-season-week47-2024-eitc-total"
-                ],
-            },
-            ("filing_status", "all"): {"All filing statuses": ["soi-table-1-1"]},
-        }
-    )
+def test_a_value_two_packages_word_differently_is_an_error():
+    """One value id carries one label across packages (chronicle#376).
 
-    assert [(warning.code, warning.key) for warning in warnings] == [
+    Only the publisher wordings Chronicle has reviewed and kept stay warnings;
+    test_issue_376_one_label_per_value.py covers those.
+    """
+    labels_by_value = {
+        ("income_range", "under_1"): {
+            "No adjusted gross income": ["soi-table-1-1"],
+            "No adjusted gross income and deficit": [
+                "soi-filing-season-week47-2024-eitc-total"
+            ],
+        },
+        ("filing_status", "all"): {"All filing statuses": ["soi-table-1-1"]},
+    }
+
+    errors = bundle._cross_package_value_label_errors(labels_by_value)
+
+    assert [(error.code, error.key) for error in errors] == [
         ("conflicting_value_label_across_packages", "income_range=under_1")
     ]
-    assert "'No adjusted gross income' in ['soi-table-1-1']" in warnings[0].message
+    assert "'No adjusted gross income' in ['soi-table-1-1']" in errors[0].message
+    assert _cross_package_value_label_warnings(labels_by_value) == []
 
 
 def test_an_area_name_is_left_to_the_geography_warning():

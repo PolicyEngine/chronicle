@@ -430,12 +430,15 @@ def test_bundle_requires_labels_for_uk_packages_only():
         UK_BUNDLE_SOURCES[0], [unlabelled, _row(), drifting]
     )
 
+    # Row labels that drift across one groupby value are refused too, unless
+    # the value is a reviewed publisher wording (chronicle#376).
     assert {error.code for error in errors} == {
         "missing_dimension_label",
         "missing_dimension_value_label",
+        "conflicting_groupby_value_label",
     }
-    assert [warning.code for warning in warnings] == ["conflicting_groupby_value_label"]
-    assert all(issue.source == UK_BUNDLE_SOURCES[0] for issue in errors + warnings)
+    assert warnings == []
+    assert all(issue.source == UK_BUNDLE_SOURCES[0] for issue in errors)
 
 
 def test_one_uk_dimension_id_needs_one_label_across_packages():

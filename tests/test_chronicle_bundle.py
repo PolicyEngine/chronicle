@@ -470,7 +470,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#356 adds two: DESNZ's LSOA workbooks name data zones
         # S01019676 and S01019677 'Newtown St Boswells', where NRS writes
         # 'Newton St Boswells'.
-        "warning_count": 122,
+        # chronicle#376 removes one: the week-47 filing-season rows now label
+        # adjusted gross income under_1 as the other IRS SOI packages do. Since
+        # then every value wording kept here is listed in the reviewed register
+        # (REVIEWED_VALUE_LABEL_VARIANTS); any other is a bundle error.
+        "warning_count": 121,
     }
     row_count = 0
     provenance_classes = set()
@@ -1982,7 +1986,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 82,
         "conflicting_groupby_value_label": 23,
-        "conflicting_value_label_across_packages": 16,
+        "conflicting_value_label_across_packages": 15,
         "duplicate_semantic_fact_key": 1,
     }
     assert [
@@ -2041,8 +2045,24 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "sex=female",
         "sex=male",
         "us:statutes/26/62#adjusted_gross_income=all",
-        "us:statutes/26/62#adjusted_gross_income=under_1",
     ]
+    # A value may carry two labels only as a reviewed publisher wording
+    # (chronicle#376), and the register lists exactly the ones this bundle
+    # still warns about: an entry leaves it once its packages agree.
+    from chronicle.dimension_labels import REVIEWED_VALUE_LABEL_VARIANTS
+
+    assert {
+        warning["key"]
+        for warning in summary["warnings"]
+        if warning["code"]
+        in {
+            "conflicting_value_label_across_packages",
+            "conflicting_groupby_value_label",
+        }
+    } == {
+        f"{dimension_id}={value_id}"
+        for dimension_id, value_id in REVIEWED_VALUE_LABEL_VARIANTS
+    }
     # E12000003 is the case chronicle#281 was opened on: six packages wrote
     # "Yorkshire and The Humber" and five "Yorkshire and the Humber". The
     # register carries the identifier, so the export names it once and the
