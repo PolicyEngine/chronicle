@@ -145,8 +145,14 @@ record_sets:
     domain: all_individual_income_tax_returns
     groupby_dimension: us:statutes/26/62#adjusted_gross_income
     rows:
+      # The IRS heads column C "No adjusted gross income and deficit" (the
+      # guard below checks that text). It is the class every other IRS SOI
+      # package labels "No adjusted gross income": adjusted gross income
+      # below $1, deficits included (column C's AGI is -$120.2 billion, and
+      # the 16 columns add up to all returns). One value id carries one label
+      # (chronicle#376).
       - value_id: under_1
-        label: No adjusted gross income and deficit
+        label: No adjusted gross income
         ordinal: 0
         row_number: 115
         column: C
@@ -411,8 +417,9 @@ record_sets:
     domain: all_individual_income_tax_returns
     groupby_dimension: us:statutes/26/62#adjusted_gross_income
     rows:
+      # Labelled as in the count record set above (chronicle#376).
       - value_id: under_1
-        label: No adjusted gross income and deficit
+        label: No adjusted gross income
         ordinal: 0
         row_number: 116
         column: C
