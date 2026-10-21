@@ -487,14 +487,24 @@ def test_validate_package_refuses_a_declaration_the_register_contradicts(tmp_pat
         ("nisra/mye_2025_lgd_single_year_age", "sex", "male", "Male"),
         ("nrs/pcon24_population_by_age_2024_revised_2026", "sex", "female", "Female"),
         ("nrs/pcon24_population_by_age_2024_revised_2026", "sex", "male", "Male"),
-        ("ons/hpssa_pcon24_year_ending_march_2026", "property_type", "detached", "Detached"),
+        (
+            "ons/hpssa_pcon24_year_ending_march_2026",
+            "property_type",
+            "detached",
+            "Detached",
+        ),
         (
             "ons/hpssa_pcon24_year_ending_march_2026",
             "property_type",
             "semi_detached",
             "Semi detached",
         ),
-        ("ons/hpssa_pcon24_year_ending_march_2026", "property_type", "terraced", "Terraced"),
+        (
+            "ons/hpssa_pcon24_year_ending_march_2026",
+            "property_type",
+            "terraced",
+            "Terraced",
+        ),
         ("ons/pipr_rents_by_area_august_2026", "property_type", "detached", "Detached"),
         ("ons/pipr_rents_by_area_august_2026", "property_type", "terraced", "Terraced"),
         ("dft/nts0601_age_mode_trips_2025", "age_band", "30 to 39", "30 to 39"),
@@ -524,7 +534,13 @@ def test_the_declarations_the_register_overrode_now_agree_with_it(
 _CHRONICLE_WRITTEN_WORDINGS = [
     # The Statbel ZIP has single-year CD_AGE only; "65_plus" is the curated
     # CSV's value id.
-    ("statbel-population-structure-2025", 2025, "person.age_band", "65_plus", "65_plus"),
+    (
+        "statbel-population-structure-2025",
+        2025,
+        "person.age_band",
+        "65_plus",
+        "65_plus",
+    ),
     # The B01001 JSON holds variable codes and numbers; the text is
     # B01001_FEMALE_AGE_COLUMNS and the parser's sex column.
     ("census-b01001-female-age-2023", 2023, "age", "age_20", "Female 20 years"),
@@ -582,8 +598,6 @@ _CHRONICLE_WRITTEN_WORDINGS = [
         "sociale_toeslag",
         "Social supplement child caseload",
     ),
-    # DfT's row header, which the guard checks, is "30 to 39".
-    ("dft-nts0601-age-mode-trips-2025", 2023, "age_band", "30 to 39", "Age 30 to 39"),
 ]
 
 
@@ -620,6 +634,27 @@ def test_text_chronicle_wrote_is_kept_as_the_packages_wording_not_the_publishers
         for row in rows
     )
     assert "text Chronicle wrote" in description
+
+
+def test_nts0601_age_bands_now_carry_dfts_header_and_no_package_wording():
+    """NTS0601's "Age 30 to 39" came from its declaration, now the register's.
+
+    DfT's row header, which the guard checks, is "30 to 39"; the declaration
+    "Age 30 to 39" was Chronicle's text in the field at e29da32.
+    """
+    package = load_source_package("dft-nts0601-age-mode-trips-2025")
+    facts = package.build_facts(2023, cells=package.build_source_cells(2023))
+    banded = [
+        fact
+        for fact in facts
+        if fact.filters.get("age_band") in {"30 to 39", "40 to 49"}
+    ]
+
+    assert len(banded) == 18
+    for fact in banded:
+        value_id = fact.filters["age_band"]
+        assert fact.dimension_value_labels["age_band"] == {value_id: value_id}
+        assert "age_band" not in fact.package_dimension_value_labels
 
 
 def test_a_groupby_value_whose_axis_is_also_a_filter_is_keyed_by_its_row_value():
@@ -671,9 +706,7 @@ def test_the_ons_coicop_02_total_includes_narcotics():
     cdid_row = next(row for row in sheet_rows if row[0] == "CDID identifier code")
     column_by_cdid = {cdid: index for index, cdid in enumerate(cdid_row) if cdid}
     annual = [
-        row
-        for row in sheet_rows
-        if isinstance(row[0], int) and 1997 <= row[0] <= 2100
+        row for row in sheet_rows if isinstance(row[0], int) and 1997 <= row[0] <= 2100
     ]
 
     assert len(annual) >= 29

@@ -34,9 +34,11 @@ from chronicle.core import (
     build_label,
 )
 from chronicle.dimension_labels import (
-    ONE_LABEL_PER_VALUE,
+    REGISTER_DISPLAY_PATH,
     canonical_value_label,
+    declared_value_label_issues,
     dimension_value_id,
+    in_package_value_label_remedy,
     label_facts,
     unused_label_declarations,
 )
@@ -2366,7 +2368,7 @@ def _row_value_label_issues(
     Each row's ``label:`` becomes its facts' value label unless Chronicle's
     register lists the value or the package declares one label for it in
     ``dimension_value_labels``; the rows' wording is then kept as the
-    package's own, in ``publisher_dimension_value_labels``. Otherwise rows
+    package's own, in ``package_dimension_value_labels``. Otherwise rows
     that word one value differently would give its facts two labels, which
     ``build-bundle`` refuses. This finds it from the package file alone, at
     any build year.
@@ -2398,13 +2400,45 @@ def _row_value_label_issues(
             message=(
                 f"Dimension {dimension_id!r} value {value_id!r} is labelled "
                 f"{sorted(labels)!r} by the rows of this package{where}. "
-                f"{ONE_LABEL_PER_VALUE}"
+                f"{in_package_value_label_remedy(dimension_id, value_id)}"
             ),
             record_set_id=record_sets_by_value[(dimension_id, value_id)][0],
             row_id=value_id,
         )
         for (dimension_id, value_id), labels in sorted(labels_by_value.items())
         if len(labels) > 1
+    ]
+
+
+def _declared_value_label_register_issues(
+    declared_value_labels: Mapping[str, Mapping[str, Any]],
+    *,
+    package_path: Path | None = None,
+) -> list[SourcePackageIssue]:
+    """Refuse a declaration that Chronicle's register contradicts (chronicle#376).
+
+    Every fact takes the register's label for a value it lists, so a package
+    declaration with other text would never reach a fact and would mislead
+    whoever reads the package file. The register is the one source of those
+    labels; the package's rows keep their own wording.
+    """
+
+    where = f" in {_display_package_path(package_path)}" if package_path else ""
+    return [
+        SourcePackageIssue(
+            code="declared_value_label_differs_from_register",
+            message=(
+                f"dimension_value_labels.{dimension_id}.{value_id} declares "
+                f"{declared!r}{where}, but Chronicle's register "
+                f"({REGISTER_DISPLAY_PATH}) labels this value {canonical!r}, "
+                "and every fact takes the register's label (chronicle#376). "
+                f"Change the declaration to {canonical!r}."
+            ),
+            row_id=value_id,
+        )
+        for dimension_id, value_id, declared, canonical in (
+            declared_value_label_issues(declared_value_labels)
+        )
     ]
 
 
@@ -2523,6 +2557,12 @@ def validate_source_package(
     errors.extend(
         _row_value_label_issues(
             record_sets,
+            package.dimension_value_labels or {},
+            package_path=package.package_path,
+        )
+    )
+    errors.extend(
+        _declared_value_label_register_issues(
             package.dimension_value_labels or {},
             package_path=package.package_path,
         )

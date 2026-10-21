@@ -92,10 +92,10 @@ def fact_from_mapping(payload: dict[str, Any]) -> AggregateFact:
                 "dimension_value_labels", {}
             ).items()
         },
-        publisher_dimension_value_labels={
+        package_dimension_value_labels={
             dimension_id: dict(value_labels)
             for dimension_id, value_labels in payload.get(
-                "publisher_dimension_value_labels", {}
+                "package_dimension_value_labels", {}
             ).items()
         },
     )
@@ -110,7 +110,7 @@ def fact_to_mapping(fact: AggregateFact) -> dict[str, Any]:
     for label_field in (
         "dimension_labels",
         "dimension_value_labels",
-        "publisher_dimension_value_labels",
+        "package_dimension_value_labels",
     ):
         if not payload[label_field]:
             payload.pop(label_field)

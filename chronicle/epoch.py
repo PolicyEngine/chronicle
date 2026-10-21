@@ -169,7 +169,7 @@ SCHEMA_IDS: Mapping[str, EpochPair] = MappingProxyType(
 # where Chronicle's register carries it, the publisher's own text moving to an
 # optional geography.publisher_name, and v5 (chronicle#376) is v4 with one
 # label per dimension value where Chronicle's register lists it, the package's
-# own wording moving to an optional publisher_dimension_value_labels. The pair
+# own wording moving to an optional package_dimension_value_labels. The pair
 # above is the Ledger rename table, not this contract history, so only v1 and
 # v2 name a naming epoch. The row contract and the hash-key domains move independently:
 # EMIT_EPOCH still keeps every key Ledger-named.

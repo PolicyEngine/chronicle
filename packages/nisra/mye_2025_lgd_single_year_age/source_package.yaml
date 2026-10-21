@@ -7,8 +7,10 @@ dimension_labels:
   age: Age
 dimension_value_labels:
   sex:
-    female: Females
-    male: Males
+    # Chronicle's register gives these labels (chronicle#376); NISRA's own
+    # "Females" and "Males" stay in the source rows.
+    female: Female
+    male: Male
   age:
     90_plus: 90 and over
 artifact:

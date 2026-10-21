@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://policyengine.org/chronicle/schemas/consumer_fact.v5.schema.json",
   "title": "Chronicle consumer fact contract row",
-  "description": "The v4 contract row with one label per dimension value (chronicle#376). Where Chronicle's register of dimension value labels carries a value, dimension_value_labels and layout.groupby_value_label carry the register's label, and publisher_dimension_value_labels carries the source package's own wording of that value when it differs; elsewhere the labels are the package's, as in v4. Both stay display metadata: neither enters a fact key, and a v4 row restamped with this schema_version is a valid v5 row.",
+  "description": "The v4 contract row with one label per dimension value (chronicle#376). Where Chronicle's register of dimension value labels carries a value, dimension_value_labels and layout.groupby_value_label carry the register's label, and package_dimension_value_labels carries the source package's own wording of that value when it differs, which is not checked against the publisher's file and may be text Chronicle wrote; elsewhere the labels are the package's, as in v4. Both stay display metadata: neither enters a fact key, and a v4 row restamped with this schema_version is a valid v5 row.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -241,9 +241,9 @@
         }
       }
     },
-    "publisher_dimension_value_labels": {
+    "package_dimension_value_labels": {
       "type": "object",
-      "description": "The source package's own wording of a dimension value, keyed dimension id then value id like dimension_value_labels: the publisher's row or column text the package reads, present only where it differs from the label in dimension_value_labels.",
+      "description": "The source package's own wording of a dimension value, present only where it differs from the label this row carries for that value: the package row's label, else the package's dimension_value_labels declaration, else the text in the matching column of the parsed source row. This text is not checked against the publisher's file. It may be the publisher's wording (for example a row label that the row's guard compares with a header cell) or text Chronicle wrote (a parser's constant, a value id in an extract Chronicle prepared, or a package author's phrase); the publisher's own cells are reached through lineage.source_cell_keys. Keyed dimension id then value id like dimension_value_labels; the groupby value of a groupby axis that is also a filter with a different value is keyed by layout.groupby_value_id and differs from layout.groupby_value_label.",
       "additionalProperties": {
         "type": "object",
         "additionalProperties": {

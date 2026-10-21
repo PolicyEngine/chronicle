@@ -150,7 +150,7 @@ record_sets:
       # income": adjusted gross income below $1, deficits included (column C's
       # AGI is -$120.2 billion, and the 16 columns add up to all returns).
       # Facts take Chronicle's register label for under_1 and keep this text
-      # in publisher_dimension_value_labels (chronicle#376).
+      # in package_dimension_value_labels (chronicle#376).
       - value_id: under_1
         label: No adjusted gross income and deficit
         ordinal: 0

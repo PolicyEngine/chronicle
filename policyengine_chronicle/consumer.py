@@ -288,7 +288,7 @@ def _recompute_aggregate_fact_key(row: dict[str, Any]) -> str:
 
     Labels are display metadata and never enter the payload:
     ``dimension_labels``, ``dimension_value_labels``, ``layout`` and the v5
-    ``publisher_dimension_value_labels`` (chronicle#376) are not read here, and
+    ``package_dimension_value_labels`` (chronicle#376) are not read here, and
     the geography's display names are dropped by :func:`_geography_key_payload`.
     """
     declared_key = row.get("aggregate_fact_key")

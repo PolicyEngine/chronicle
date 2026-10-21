@@ -292,8 +292,9 @@ class AggregateFact:
     dimension_value_labels: dict[str, dict[str, str]] = field(default_factory=dict)
     # The package's own wording of a value, keyed like dimension_value_labels,
     # where it differs from the label Chronicle's register gives the value
-    # (chronicle#376). Display metadata too.
-    publisher_dimension_value_labels: dict[str, dict[str, str]] = field(
+    # (chronicle#376). Display metadata too, and not checked against the
+    # publisher's file: often it is text Chronicle wrote.
+    package_dimension_value_labels: dict[str, dict[str, str]] = field(
         default_factory=dict
     )
 

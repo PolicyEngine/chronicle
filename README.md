@@ -295,7 +295,8 @@ must label all of them, and `build-bundle` reports a gap as an error
 two or more packages emit takes the label in
 `chronicle/dimension_values/canonical_labels.json` at every build year, and the
 package's own wording, where it differs, rides in
-`publisher_dimension_value_labels`. A value labelled two ways is an error, never
+`package_dimension_value_labels` (the package's text, which is not checked
+against the publisher's file and is often Chronicle's). A value labelled two ways is an error, never
 a warning: `validate-package` and `build-suite` refuse one a package's rows label
 two ways, and `build-bundle` also refuses one two packages label differently.
 See `docs/agent-source-package-harness.md` for where labels come from.
@@ -593,7 +594,7 @@ payload as its Ledger key; only the prefix differs.
   with one name per UK geography identifier and the publisher's text in an
   optional `geography.publisher_name`, and `chronicle.consumer_fact.v5`
   (chronicle#376) is v4 with one label per dimension value and the package's
-  own wording in an optional `publisher_dimension_value_labels`. Rows are
+  own wording in an optional `package_dimension_value_labels`. Rows are
   emitted as v5 with Ledger-named keys, and each row validates against the
   schema of the contract it names. Only v1 and v2 name a naming epoch: the
   epoch table renames identifiers, it does not version the row.

@@ -37,14 +37,23 @@ label one of these gives:
 That label goes on ``dimension_value_labels`` and, for the groupby value, on
 ``layout.groupby_value_label``. The package's own wording of the value (its row
 label, else its declaration, else its source-row text) is kept in
-``publisher_dimension_value_labels`` where it differs, as
-``geography.publisher_name`` keeps a publisher's area name (chronicle#281).
+``package_dimension_value_labels`` where it differs. That wording is the
+package's, and nothing checks it against the publisher's file: it is the
+publisher's text only where a row guard happens to compare the same text with a
+source cell (week 47's IRS column header), and elsewhere it is often text
+Chronicle wrote (a parser's constant, a value id in an extract Chronicle
+prepared, or a package author's phrase). The publisher's cells stay reachable
+through each fact's lineage.
 
-A value the register does not list is one that only one package emits, so its
-package's label is its one label. :func:`dimension_label_issues` reports such a
-value labelled two ways inside one package, and ``build-bundle`` reports it
-labelled two ways by two packages; both are errors, with no exceptions.
-Everything else that is unlabelled must be declared.
+A package may not declare a label the register contradicts: ``validate-package``
+refuses it (:func:`declared_value_label_issues`), so the register is the one
+source of the label of every value it lists. A value the register does not list
+is one that only one package emits (``scripts/build_dimension_value_register.py
+--static-check`` checks this), so its package's label is its one label.
+:func:`dimension_label_issues` reports such a value labelled two ways inside one
+package, and ``build-bundle`` reports it labelled two ways by two packages; both
+are errors, with no exceptions. Everything else that is unlabelled must be
+declared.
 """
 
 from __future__ import annotations
@@ -71,15 +80,80 @@ _ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 REGISTER_PATH = Path(__file__).with_name("dimension_values") / "canonical_labels.json"
 #: The register's path as error messages name it, relative to the repository.
 REGISTER_DISPLAY_PATH = "chronicle/dimension_values/canonical_labels.json"
-#: The remedy every one-label-per-value error states.
-ONE_LABEL_PER_VALUE = (
-    "One dimension value carries one label (chronicle#376). If other packages "
-    f"emit this value, add it to {REGISTER_DISPLAY_PATH} with one label; if "
-    "only this package does, declare one label for it in the package's "
-    "dimension_value_labels. Each package's own wording is then kept in "
-    "publisher_dimension_value_labels, and its guards still check the "
-    "publisher's text."
+#: Where the rule for choosing a register label is written down.
+LABEL_RULE_DISPLAY_PATH = "docs/agent-source-package-harness.md"
+#: The command that compares the register with the package files.
+REGISTER_STATIC_CHECK = (
+    "uv run python scripts/build_dimension_value_register.py --static-check"
 )
+
+
+def _register_label_remedy(canonical: str) -> str:
+    return (
+        f"Chronicle's register labels this value {canonical!r} "
+        f"({REGISTER_DISPLAY_PATH}), and every fact built at this Chronicle "
+        "version carries that label, so rebuild these facts (chronicle#376)."
+    )
+
+
+def in_package_value_label_remedy(dimension_id: str, value_id: str) -> str:
+    """Return the one remedy for a value one package labels two ways.
+
+    A value the register lists already has its label, which the message names.
+    Any other value is one only this package emits, so the remedy is one
+    declaration in the package, never a register entry.
+    """
+
+    canonical = canonical_value_label(dimension_id, value_id)
+    if canonical is not None:
+        return _register_label_remedy(canonical)
+    return (
+        "Declare one label for it in this package's dimension_value_labels "
+        "(chronicle#376): the publisher's wording of the value itself, without "
+        "words that name the measure, cell or table it was read from. Each "
+        "row's own wording is then kept in package_dimension_value_labels."
+    )
+
+
+def cross_package_value_label_remedy(dimension_id: str, value_id: str) -> str:
+    """Return the one remedy for a value two packages label differently.
+
+    Two packages emit the value, so a package declaration cannot settle it:
+    the remedy is a register entry, and the message says how to choose its
+    label. A value the register lists already has its label.
+    """
+
+    canonical = canonical_value_label(dimension_id, value_id)
+    if canonical is not None:
+        return _register_label_remedy(canonical)
+    return (
+        f"Add it to {REGISTER_DISPLAY_PATH} with one label (chronicle#376), "
+        f"chosen by the rule in {LABEL_RULE_DISPLAY_PATH}: the wording most of "
+        "these packages use, a tie going to the national statistics office's "
+        "wording, without footnote markers or words that name the measure. "
+        f"Then run `{REGISTER_STATIC_CHECK}`."
+    )
+
+
+def declared_value_label_issues(
+    dimension_value_labels: Mapping[str, Mapping[str, Any]],
+) -> list[tuple[str, str, str, str]]:
+    """Return each declaration the register contradicts.
+
+    Returns ``(dimension id, value id, declared label, register label)``. The
+    register's label wins on every fact, so a different declaration would only
+    mislead someone reading the package file.
+    """
+
+    found = []
+    for dimension_id, value_labels in (dimension_value_labels or {}).items():
+        for value_id, declared in (value_labels or {}).items():
+            canonical = canonical_value_label(str(dimension_id), str(value_id))
+            if canonical is not None and str(declared).strip() != canonical:
+                found.append(
+                    (str(dimension_id), str(value_id), str(declared), canonical)
+                )
+    return sorted(found)
 
 
 @cache
@@ -140,7 +214,7 @@ def label_facts(
     columns, and ``source_rows`` the parsed rows the facts' lineage points at.
     A value the register lists takes the register's label, in
     ``dimension_value_labels`` and ``layout.groupby_value_label`` alike, and
-    the package's own wording goes to ``publisher_dimension_value_labels``
+    the package's own wording goes to ``package_dimension_value_labels``
     where it differs. A dimension or value no source labels is left
     unlabelled for :func:`dimension_label_issues` to report.
     """
@@ -200,8 +274,9 @@ def label_facts(
             if not label:
                 return
             value_labels[dimension_id][value_id] = label
-            # The package's own wording: its row's label (the publisher's text
-            # its guards check), else its declaration, else the source text.
+            # The package's own wording: its row's label, else its declaration,
+            # else the source-row text. Nothing checks it against the
+            # publisher's file, and it is often Chronicle's text.
             package_wording = row_label or declared_label or source_text
             if package_wording and package_wording != label:
                 publisher_labels[dimension_id][value_id] = package_wording
@@ -241,7 +316,7 @@ def label_facts(
                 fact,
                 dimension_labels=labels,
                 dimension_value_labels=dict(value_labels),
-                publisher_dimension_value_labels=dict(publisher_labels),
+                package_dimension_value_labels=dict(publisher_labels),
                 layout=layout,
             )
         )
@@ -333,15 +408,15 @@ class DimensionLabelIssue:
             target = f"{target} value {self.value_id!r}"
         if self.code == "conflicting_groupby_value_label":
             return (
-                f"{target} carries publisher row labels that differ across "
-                f"facts: {list(self.labels)!r}; a consumer selecting facts "
-                "from more than one of those rows sees conflicting labels. "
-                f"{ONE_LABEL_PER_VALUE}"
+                f"{target} carries row labels that differ across facts: "
+                f"{list(self.labels)!r}; a consumer selecting facts from more "
+                "than one of those rows sees conflicting labels. "
+                f"{in_package_value_label_remedy(self.dimension_id, self.value_id)}"
             )
         if self.code == "conflicting_dimension_value_label":
             return (
                 f"{target} carries more than one label: {list(self.labels)!r}. "
-                f"{ONE_LABEL_PER_VALUE}"
+                f"{in_package_value_label_remedy(self.dimension_id, self.value_id)}"
             )
         if self.code.startswith("conflicting"):
             return f"{target} carries more than one label: {list(self.labels)!r}."
@@ -626,14 +701,18 @@ def _count(
 
 
 __all__ = [
-    "ONE_LABEL_PER_VALUE",
+    "LABEL_RULE_DISPLAY_PATH",
     "REGISTER_DISPLAY_PATH",
     "REGISTER_PATH",
+    "REGISTER_STATIC_CHECK",
     "DimensionLabelIssue",
     "canonical_value_label",
+    "cross_package_value_label_remedy",
+    "declared_value_label_issues",
     "dimension_label_issues",
     "dimension_labels_by_id",
     "dimension_value_id",
+    "in_package_value_label_remedy",
     "label_facts",
     "register_size",
     "unused_label_declarations",

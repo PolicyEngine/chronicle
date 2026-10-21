@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Callable, Sequence
 
 from chronicle.dimension_labels import (
-    ONE_LABEL_PER_VALUE,
+    cross_package_value_label_remedy,
     dimension_label_issues,
     dimension_labels_by_id,
 )
@@ -908,9 +908,9 @@ def _cross_package_value_label_errors(
     adjusted gross income and deficit" where every other IRS SOI package writes
     "No adjusted gross income"). Every fact takes the label Chronicle's
     register gives a value it lists, so this finds values the register does not
-    list yet. There are no accepted exceptions: the remedy is one register
-    entry, and each package's own wording is then kept in
-    ``publisher_dimension_value_labels``.
+    list yet. There are no accepted exceptions: two packages emit the value,
+    so the one remedy is a register entry, and the message says how to choose
+    its label (or names the register's label, for rows built before it).
     """
     return [
         BuildBundleIssue(
@@ -922,7 +922,7 @@ def _cross_package_value_label_errors(
                     f"{label!r} in {sorted(sources)}"
                     for label, sources in sorted(labels.items())
                 )
-                + f". {ONE_LABEL_PER_VALUE}"
+                + f". {cross_package_value_label_remedy(dimension_id, value_id)}"
             ),
             key=f"{dimension_id}={value_id}",
         )

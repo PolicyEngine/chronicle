@@ -1064,7 +1064,7 @@ def _canonical_fact_mapping(fact: AggregateFact) -> dict[str, Any]:
     for label_field in (
         "dimension_labels",
         "dimension_value_labels",
-        "publisher_dimension_value_labels",
+        "package_dimension_value_labels",
     ):
         if not mapping[label_field]:
             mapping.pop(label_field)

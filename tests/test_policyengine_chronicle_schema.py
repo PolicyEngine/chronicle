@@ -46,7 +46,7 @@ _FROZEN_SCHEMA_SHA256 = {
     # chronicle#356 adds gas_year to period.type's vocabulary description.
     _V4: "d953306d6f01fbc64db4372d0262d3012ee590269f8a25b276b18dca0626c6a0",
     # chronicle#376: v4 plus the source package's own wording of a value.
-    _V5: "c4d2579cdf0e4a8ea0b43ec74c75f198ea12916f443073af29adcd2e670eb7a6",
+    _V5: "acd33a091cd8d192be5d264e3e94c13e00afb6fd1972e57d4576ac55a54f6970",
 }
 
 _TOP_LEVEL_KEY_DOMAINS = {
