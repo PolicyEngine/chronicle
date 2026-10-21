@@ -931,7 +931,7 @@ def test_source_package_alias_compiles_soi_table_1_1_specs():
     assert len(specs) == 80
     assert specs[0].source_record_id == "irs_soi.ty2023.table_1_1.all.return_count"
     assert specs[0].layout is not None
-    assert specs[0].layout.record_set_spec_hash == "a1ecc4d67a3d281548a4660e"
+    assert specs[0].layout.record_set_spec_hash == "34a421f665dc61864f21c060"
 
 
 def test_empty_guard_cells_do_not_change_legacy_single_cell_hash(tmp_path):
@@ -946,7 +946,7 @@ def test_empty_guard_cells_do_not_change_legacy_single_cell_hash(tmp_path):
     specs = load_source_package(package_dir).build_source_record_specs(2023)
 
     assert specs[0].layout is not None
-    assert specs[0].layout.record_set_spec_hash == "a1ecc4d67a3d281548a4660e"
+    assert specs[0].layout.record_set_spec_hash == "34a421f665dc61864f21c060"
 
 
 def test_source_package_validation_rejects_count_aggregation(tmp_path):

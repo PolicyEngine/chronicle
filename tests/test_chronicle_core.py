@@ -464,9 +464,11 @@ def test_frozen_fixture_bytes_are_unchanged():
         fixture_root / "consumer_facts.jsonl": (
             # chronicle#266 re-pinned this from cc18841e… when the rows began
             # carrying the publisher's geography name, and chronicle#265 again
-            # here, because the sample's own package now declares its dimension
-            # labels. The keys and values in them are unchanged.
-            "686ba7f0a357967ffa186cc38bf353a424e59d72074316d2e502ebc19af09c7c"
+            # when the sample's own package declared its dimension labels. The
+            # microcosm US feed base re-pinned it from 686ba7f0… when Table 1.1
+            # labelled its all row "All returns, total" (microcosm#1343). The
+            # keys and values in them are unchanged.
+            "9a94299d712ec0b334a230264cb350faceb75f46a7b9bb2a915aa0029099314e"
         ),
         fixture_root / "source_cells" / "soi_table_1_1_2023_cells.jsonl": (
             "615639f21ee63e54595c677e24c3eddff484c00a795a2f91b45a8575f021c7e2"

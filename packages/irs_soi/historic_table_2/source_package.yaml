@@ -72,8 +72,11 @@ record_sets:
     domain: all_individual_income_tax_returns
     groupby_dimension: us:statutes/26/62#adjusted_gross_income
     rows:
+      # AGI_STUB 0 (the guard below checks it). The Table 1.2, 1.4, 2.1 and
+      # 4.3 packages label the same value "All returns, total", and one
+      # value id carries one label, so this row takes their wording.
       - value_id: all
-        label: All returns
+        label: All returns, total
         ordinal: 0
         row_number: 2
         expected_row_header_column: B
