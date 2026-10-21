@@ -1,0 +1,208 @@
+# Publisher of every Chronicle source folder (packages/<folder> and
+# db/data/<folder>; every package lives in the same folder as its data).
+#
+# Chronicle holds government-produced records only: see the 2026-10-21
+# amendment to docs/adr-chronicle-facts-only.md. tests/test_source_publishers.py
+# fails when a folder is missing here, when an entry names no folder, or when a
+# non-government folder appears beyond the three that predate the rule.
+#
+# status:
+#   government      part of a national, subnational, or supranational government
+#   edge_case       a category whose treatment awaits a ruling (edge_case names it);
+#                   existing packages stay until then
+#   non_government  predates the rule; stays until its migration is ruled on
+schema_version: chronicle.source_publishers.v1
+folders:
+  bea:
+    publisher: U.S. Bureau of Economic Analysis
+    status: government
+  bfp:
+    publisher: Federal Planning Bureau (Belgium)
+    status: government
+    notes: Same publisher as fpb, under its French acronym.
+  cbo:
+    publisher: Congressional Budget Office
+    status: government
+  census:
+    publisher: U.S. Census Bureau
+    status: government
+  cms_aca:
+    publisher: Centers for Medicare & Medicaid Services
+    status: government
+  cms_medicaid:
+    publisher: Centers for Medicare & Medicaid Services
+    status: government
+  cms_medicare:
+    publisher: Centers for Medicare & Medicaid Services
+    status: government
+  cms_nhe:
+    publisher: Centers for Medicare & Medicaid Services
+    status: government
+  defra:
+    publisher: Department for Environment, Food & Rural Affairs
+    status: government
+  desnz:
+    publisher: Department for Energy Security and Net Zero
+    status: government
+  dfc_ni:
+    publisher: Department for Communities (Northern Ireland)
+    status: government
+  dfe:
+    publisher: Department for Education
+    status: government
+  dfi_ni:
+    publisher: Department for Infrastructure (Northern Ireland)
+    status: government
+  dft:
+    publisher: Department for Transport
+    status: government
+  dwp:
+    publisher: Department for Work and Pensions
+    status: government
+    notes: >-
+      pip_daily_living_foi_2025 is a DWP freedom-of-information reply fetched
+      from WhatDoTheyKnow, a third-party host.
+  eurostat:
+    publisher: Eurostat (European Commission)
+    status: edge_case
+    edge_case: intergovernmental
+  federal_reserve:
+    publisher: Board of Governors of the Federal Reserve System
+    status: edge_case
+    edge_case: central_bank
+  fpb:
+    publisher: Federal Planning Bureau (Belgium)
+    status: government
+  hhs_acf:
+    publisher: Administration for Children and Families (HHS)
+    status: government
+  hhs_acf_liheap:
+    publisher: Administration for Children and Families (HHS)
+    status: government
+  hmlr:
+    publisher: HM Land Registry
+    status: government
+  hmrc:
+    publisher: HM Revenue & Customs
+    status: government
+  ici:
+    publisher: Investment Company Institute
+    status: non_government
+    notes: Trade association of US regulated funds.
+  ird:
+    publisher: Inland Revenue (New Zealand)
+    status: government
+  irs_soi:
+    publisher: Internal Revenue Service, Statistics of Income
+    status: government
+  isc:
+    publisher: Independent Schools Council
+    status: non_government
+    notes: Umbrella body for UK independent-school associations.
+  jct:
+    publisher: Joint Committee on Taxation
+    status: government
+  jrc:
+    publisher: Joint Research Centre (European Commission)
+    status: edge_case
+    edge_case: intergovernmental
+  kff:
+    publisher: KFF
+    status: non_government
+    notes: Nonprofit; the packaged table republishes CMS effectuated enrollment.
+  lps:
+    publisher: Land & Property Services (Department of Finance, Northern Ireland)
+    status: government
+  mbie:
+    publisher: Ministry of Business, Innovation and Employment (New Zealand)
+    status: government
+    notes: Tenancy bond data from Tenancy Services (tenancy.govt.nz).
+  mhclg:
+    publisher: Ministry of Housing, Communities and Local Government
+    status: government
+  msd:
+    publisher: Ministry of Social Development (New Zealand)
+    status: government
+  nbb:
+    publisher: National Bank of Belgium
+    status: edge_case
+    edge_case: central_bank
+  nisra:
+    publisher: Northern Ireland Statistics and Research Agency
+    status: government
+  nithc:
+    publisher: Northern Ireland Transport Holding Company (Translink)
+    status: edge_case
+    edge_case: public_corporation
+  nrs:
+    publisher: National Records of Scotland
+    status: government
+    notes: >-
+      Some census 2022 tables are fetched from UK Data Service mirrors, a
+      third-party host.
+  obr:
+    publisher: Office for Budget Responsibility
+    status: government
+  ofgem:
+    publisher: Ofgem
+    status: edge_case
+    edge_case: regulator
+  onem_rva:
+    publisher: National Employment Office (ONEM/RVA, Belgium)
+    status: government
+  ons:
+    publisher: Office for National Statistics
+    status: government
+  onss:
+    publisher: National Social Security Office (ONSS/RSZ, Belgium)
+    status: government
+  opgroeien:
+    publisher: Opgroeien regie (Flemish Government agency)
+    status: government
+  orr:
+    publisher: Office of Rail and Road
+    status: edge_case
+    edge_case: regulator
+  scotgov:
+    publisher: Scottish Government
+    status: government
+  sfpd:
+    publisher: Federal Pensions Service (SFP/SFPD, Belgium)
+    status: government
+  slc:
+    publisher: Student Loans Company
+    status: edge_case
+    edge_case: public_corporation
+  spf_finances:
+    publisher: Federal Public Service Finance (Belgium), released by Statbel
+    status: government
+  ssa:
+    publisher: Social Security Administration
+    status: government
+  statbel:
+    publisher: Statbel (Belgian statistical office)
+    status: government
+    notes: >-
+      The curated nis_2025_commune_crosswalk cites publisys.eu next to
+      Statbel's own REFNIS file.
+  stats_nz:
+    publisher: Stats NZ
+    status: government
+  treasury:
+    publisher: The Treasury (New Zealand)
+    status: government
+    notes: >-
+      an24_01_fiscal_totals is fetched from the NZ Treasury Analytics &
+      Insights GitHub organisation, a third-party host.
+  usda_snap:
+    publisher: USDA Food and Nutrition Service
+    status: government
+  voa:
+    publisher: Valuation Office Agency (now part of HMRC)
+    status: government
+  welshgov:
+    publisher: Welsh Government
+    status: government
+    notes: >-
+      brma_boundaries_2012 is fetched from University of Edinburgh DataShare,
+      a third-party host.

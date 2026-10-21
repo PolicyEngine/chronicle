@@ -7,9 +7,9 @@ Microcosm turns those facts into active, aged, reconciled calibration targets.
 ## Boundary
 
 The store is facts-only, and the line is who asserted the value, not level
-versus projection. A publisher's own forward-looking estimate — a CBO
-baseline, a BFP outlook, an SSA trustees table, a TPC or JCT score — is a
-source-backed claim like any other and enters Chronicle as a fact typed
+versus projection. A government's own forward-looking estimate — a CBO
+baseline, a BFP outlook, an SSA trustees table — is a source-backed claim
+like any other and enters Chronicle as a fact typed
 `assertion: source_projection`. A value PolicyEngine computed — an aged,
 uprated, forecast, or reconciled level — is never a fact, whatever object it
 hides in. This keeps three properties intact: every value in Chronicle traces to
@@ -31,6 +31,11 @@ Chronicle may:
 
 Chronicle must not:
 
+- hold records that a non-government publisher produced (a trade
+  association, charity, think tank, university, firm, or an aggregator that
+  republishes government data); every source folder's publisher is named and
+  classified in `docs/source-publishers.yaml`, and edge cases follow the
+  2026-10-21 amendment to `docs/adr-chronicle-facts-only.md`
 - reconcile across sources
 - age facts to a build year
 - store PolicyEngine-computed values (aged, uprated, forecast, or reconciled
