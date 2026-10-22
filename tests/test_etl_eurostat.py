@@ -62,7 +62,19 @@ EUROSTAT_ARTIFACT_FILENAMES = {
 # constraints happened to carry. With the three label fields stripped, these
 # facts still hash to the pre-label 9db298bc... and 51768608... : only the
 # labels moved.
+# chronicle#376 adds AggregateFact.package_dimension_value_labels. It is an
+# empty mapping on every fact of these two packages; with that key removed,
+# the facts still hash to the digests before it (below): only the empty
+# field moved.
 PRIOR_VINTAGE_FACT_DIGESTS = {
+    "eurostat-gov-10a-taxag": (
+        "516a28c598db59fa4aafd0abef2fd3339a22495e3f2143a0b137e7290672f9d5"
+    ),
+    "eurostat-spr-exp-func": (
+        "e0231b789fb8142751a78aeeac09548f3dd6dba86d2031abf160b8fe63cd101b"
+    ),
+}
+FACT_DIGESTS_BEFORE_PACKAGE_WORDING = {
     "eurostat-gov-10a-taxag": (
         "89b50ea09e046680f1acd6f3a5e7778a249a0e671a31dfe74b5245a12c31fb8a"
     ),
@@ -421,16 +433,28 @@ def test_eurostat_production_values_match_publisher_bytes():
     assert isinstance(be_disability[0].value, int)
 
 
+def _fact_payload_digest(fact_payloads):
+    return hashlib.sha256(
+        json.dumps(fact_payloads, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+
+
 @pytest.mark.parametrize("alias", PRIOR_VINTAGE_FACT_DIGESTS)
 def test_eurostat_prior_vintage_facts_remain_byte_stable(alias):
-    facts = _package_outputs(alias)[3]
-    canonical = json.dumps(
-        [asdict(fact) for fact in facts],
-        sort_keys=True,
-        separators=(",", ":"),
-    ).encode()
+    fact_payloads = [asdict(fact) for fact in _package_outputs(alias)[3]]
 
-    assert hashlib.sha256(canonical).hexdigest() == PRIOR_VINTAGE_FACT_DIGESTS[alias]
+    assert _fact_payload_digest(fact_payloads) == PRIOR_VINTAGE_FACT_DIGESTS[alias]
+    # Only the new, empty package-wording field moved the bytes (chronicle#376).
+    assert all(
+        payload["package_dimension_value_labels"] == {}
+        for payload in fact_payloads
+    )
+    for payload in fact_payloads:
+        del payload["package_dimension_value_labels"]
+    assert (
+        _fact_payload_digest(fact_payloads)
+        == FACT_DIGESTS_BEFORE_PACKAGE_WORDING[alias]
+    )
 
 
 def test_eurostat_2025_tax_vintage_adds_only_new_coordinates():
