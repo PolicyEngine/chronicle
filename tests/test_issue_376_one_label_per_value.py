@@ -709,6 +709,19 @@ def test_the_label_module_does_not_call_package_wording_the_publishers():
     ) in docstring
 
 
+def test_the_bundle_label_report_does_not_call_package_wording_the_publishers():
+    """``build-bundle``'s label report names row labels as the package's.
+
+    The labels that can differ across one groupby value's rows are the
+    record-set rows' ``label:`` values, package text that nothing checks
+    against the publisher's file (chronicle#377 fix-round review, F1).
+    """
+    docstring = " ".join(bundle._dimension_label_reports.__doc__.split())
+
+    assert "publisher row label" not in docstring
+    assert "the package's row labels" in docstring
+
+
 # ONS COICOP 02: the total includes narcotics (chronicle#377 review).
 
 
