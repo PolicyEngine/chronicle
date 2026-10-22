@@ -25,13 +25,14 @@ label one of these gives:
    value that two or more packages emit, or that its packages word more than
    one way, with one label;
 2. the package's ``dimension_value_labels`` declaration;
-3. the fact's publisher row label (``layout.groupby_value_label``) when the
-   dimension is the record set's groupby axis (the same id, or the same leaf
-   name source-filter canonicalization matches on) and the value is the row's
-   value id;
-4. the publisher's text in the matching column of the fact's source row, when
-   the row-semantic acceptance matches the filter to it (for ``all``, the
-   publisher's aggregate item, such as Stat-Xplore's ``Total``);
+3. the package's row label for the fact (``layout.groupby_value_label``, the
+   record-set row's ``label:``) when the dimension is the record set's groupby
+   axis (the same id, or the same leaf name source-filter canonicalization
+   matches on) and the value is the row's value id;
+4. the text in the matching column of the fact's source row, as Chronicle's
+   parser read it (from the publisher's file or from an extract Chronicle
+   prepared), when the row-semantic acceptance matches the filter to it (for
+   ``all``, the source's aggregate item, such as Stat-Xplore's ``Total``);
 5. a number or an ISO date, which labels itself.
 
 That label goes on ``dimension_value_labels`` and, for the groupby value, on
@@ -82,10 +83,10 @@ REGISTER_PATH = Path(__file__).with_name("dimension_values") / "canonical_labels
 REGISTER_DISPLAY_PATH = "chronicle/dimension_values/canonical_labels.json"
 #: Where the rule for choosing a register label is written down.
 LABEL_RULE_DISPLAY_PATH = "docs/agent-source-package-harness.md"
+#: The script that regenerates the register, as error messages name it.
+REGISTER_SCRIPT_DISPLAY_PATH = "scripts/build_dimension_value_register.py"
 #: The command that compares the register with the package files.
-REGISTER_STATIC_CHECK = (
-    "uv run python scripts/build_dimension_value_register.py --static-check"
-)
+REGISTER_STATIC_CHECK = f"uv run python {REGISTER_SCRIPT_DISPLAY_PATH} --static-check"
 
 
 def _register_label_remedy(canonical: str) -> str:
@@ -120,7 +121,9 @@ def cross_package_value_label_remedy(dimension_id: str, value_id: str) -> str:
 
     Two packages emit the value, so a package declaration cannot settle it:
     the remedy is a register entry, and the message says how to choose its
-    label. A value the register lists already has its label.
+    label. The packages word it differently, so the script that regenerates
+    the register needs the same label in its ``CHOSEN_LABELS``, or it no longer
+    reproduces the register. A value the register lists already has its label.
     """
 
     canonical = canonical_value_label(dimension_id, value_id)
@@ -130,7 +133,9 @@ def cross_package_value_label_remedy(dimension_id: str, value_id: str) -> str:
         f"Add it to {REGISTER_DISPLAY_PATH} with one label (chronicle#376), "
         f"chosen by the rule in {LABEL_RULE_DISPLAY_PATH}: the wording most of "
         "these packages use, a tie going to the national statistics office's "
-        "wording, without footnote markers or words that name the measure. "
+        "wording, without footnote markers or words that name the measure, "
+        f"and add that label to CHOSEN_LABELS in {REGISTER_SCRIPT_DISPLAY_PATH}, "
+        "so the script still reproduces the register. "
         f"Then run `{REGISTER_STATIC_CHECK}`."
     )
 
@@ -253,7 +258,7 @@ def label_facts(
             if key in rows_by_key
         ]
         value_labels: dict[str, dict[str, str]] = defaultdict(dict)
-        publisher_labels: dict[str, dict[str, str]] = defaultdict(dict)
+        package_wordings: dict[str, dict[str, str]] = defaultdict(dict)
 
         def resolve(
             dimension_id: str,
@@ -279,7 +284,7 @@ def label_facts(
             # publisher's file, and it is often Chronicle's text.
             package_wording = row_label or declared_label or source_text
             if package_wording and package_wording != label:
-                publisher_labels[dimension_id][value_id] = package_wording
+                package_wordings[dimension_id][value_id] = package_wording
 
         for dimension_id, value in dimensions.items():
             value_id = dimension_value_id(value)
@@ -307,7 +312,7 @@ def label_facts(
                 layout = replace(
                     layout,
                     groupby_value_label=_groupby_value_label(
-                        layout, value_labels, publisher_labels, declared_values
+                        layout, value_labels, package_wordings, declared_values
                     ),
                 )
 
@@ -316,7 +321,7 @@ def label_facts(
                 fact,
                 dimension_labels=labels,
                 dimension_value_labels=dict(value_labels),
-                package_dimension_value_labels=dict(publisher_labels),
+                package_dimension_value_labels=dict(package_wordings),
                 layout=layout,
             )
         )
@@ -326,7 +331,7 @@ def label_facts(
 def _groupby_value_label(
     layout: SourceRecordLayout,
     value_labels: Mapping[str, Mapping[str, str]],
-    publisher_labels: dict[str, dict[str, str]],
+    package_wordings: dict[str, dict[str, str]],
     declared_values: Mapping[str, Mapping[str, str]],
 ) -> str | None:
     """Return the one label of a fact's groupby value (chronicle#376).
@@ -349,7 +354,7 @@ def _groupby_value_label(
         or row_label
     )
     if row_label and label and row_label != label:
-        publisher_labels.setdefault(groupby, {})[value_id] = row_label
+        package_wordings.setdefault(groupby, {})[value_id] = row_label
     return label
 
 
@@ -704,6 +709,7 @@ __all__ = [
     "LABEL_RULE_DISPLAY_PATH",
     "REGISTER_DISPLAY_PATH",
     "REGISTER_PATH",
+    "REGISTER_SCRIPT_DISPLAY_PATH",
     "REGISTER_STATIC_CHECK",
     "DimensionLabelIssue",
     "canonical_value_label",

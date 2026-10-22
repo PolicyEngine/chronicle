@@ -320,8 +320,7 @@ def test_a_value_two_packages_label_differently_is_refused_with_its_remedy():
     # register needs the chosen label too, or it no longer reproduces the
     # register (chronicle#377 re-check, N2).
     assert (
-        "add that label to CHOSEN_LABELS in "
-        "scripts/build_dimension_value_register.py"
+        "add that label to CHOSEN_LABELS in scripts/build_dimension_value_register.py"
     ) in unlisted
     assert "dimension_value_labels" not in unlisted.replace(
         "package_dimension_value_labels", ""

@@ -446,8 +446,7 @@ def test_eurostat_prior_vintage_facts_remain_byte_stable(alias):
     assert _fact_payload_digest(fact_payloads) == PRIOR_VINTAGE_FACT_DIGESTS[alias]
     # Only the new, empty package-wording field moved the bytes (chronicle#376).
     assert all(
-        payload["package_dimension_value_labels"] == {}
-        for payload in fact_payloads
+        payload["package_dimension_value_labels"] == {} for payload in fact_payloads
     )
     for payload in fact_payloads:
         del payload["package_dimension_value_labels"]
