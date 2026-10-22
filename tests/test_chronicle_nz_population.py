@@ -1,17 +1,17 @@
-"""Source-only regression gates for the partial 30 June 2025 NZ population package."""
+"""Source-only gates for the 2023/2025 ERP in the pinned October 2025 release."""
 
 from __future__ import annotations
 
-from collections import Counter
-from dataclasses import asdict, replace
 import hashlib
 import html
-from io import BytesIO
 import json
 import os
-from pathlib import Path
 import subprocess
 import sys
+from collections import Counter
+from dataclasses import asdict, replace
+from io import BytesIO
+from pathlib import Path
 
 import openpyxl
 import pytest
@@ -160,8 +160,8 @@ def test_partial_package_counts_and_whole_sheet_preservation(population):
     report = validate_source_package(ALIAS, year=2025)
     assert report.valid
     assert not report.warnings
-    assert report.counts["record_set_count"] == 5
-    assert report.counts["source_record_count"] == len(facts) == 85
+    assert report.counts["record_set_count"] == 6
+    assert report.counts["source_record_count"] == len(facts) == 102
     assert "partial" in package.label.lower()
     assert package.artifact.sheets == ("Table 1", "Table 3")
     # Full used ranges, including unused years and source footnotes: 35x9 + 75x26.
@@ -177,19 +177,24 @@ def test_partial_package_counts_and_whole_sheet_preservation(population):
 def test_every_fact_equals_one_published_cell_with_no_scaling(population, workbook):
     package, cells, facts = population
     actual = {
-        (fact.geography.id, fact.filters.get("person.age_band", "all")): fact
+        (
+            fact.period.value,
+            fact.geography.id,
+            fact.filters.get("person.age_band", "all"),
+        ): fact
         for fact in facts
     }
     cell_keys = {build_source_cell_key(cell) for cell in cells}
-    assert len(actual) == 85
+    assert len(actual) == 102
     for geography_id, total_row, broad_age_row in REGIONS:
-        assert (
-            actual[(geography_id, "all")].value
-            == workbook["Table 1"][f"D{total_row}"].value
-        )
+        for year, column in ((2023, "B"), (2025, "D")):
+            assert (
+                actual[(year, geography_id, "all")].value
+                == workbook["Table 1"][f"{column}{total_row}"].value
+            )
         for age_band, (column, _lower, _upper) in AGE_BANDS.items():
             assert (
-                actual[(geography_id, age_band)].value
+                actual[(2025, geography_id, age_band)].value
                 == workbook["Table 3"][f"{column}{broad_age_row}"].value
             )
     for fact, spec in zip(facts, package.build_source_record_specs(2025), strict=True):
@@ -206,6 +211,92 @@ def test_every_fact_equals_one_published_cell_with_no_scaling(population, workbo
         assert type(fact.value) is int
 
 
+@pytest.mark.parametrize("geography_id,row_number,_age_row", REGIONS)
+def test_2023_fact_preserves_unmarked_status_and_source_guards(
+    population, workbook, geography_id, row_number, _age_row
+):
+    package, cells, facts = population
+    (fact,) = [
+        fact
+        for fact in facts
+        if fact.period.value == 2023 and fact.geography.id == geography_id
+    ]
+    (comparison,) = [
+        fact
+        for fact in facts
+        if fact.period.value == 2025
+        and fact.geography.id == geography_id
+        and not fact.filters
+    ]
+    assert fact.geography == comparison.geography
+    # Evidence describes each reference year's column and status separately.
+    assert (
+        replace(
+            fact.measure,
+            concept_evidence_notes=comparison.measure.concept_evidence_notes,
+        )
+        == comparison.measure
+    )
+    assert fact.entity == comparison.entity
+    assert fact.provenance_class == comparison.provenance_class == "census"
+    assert fact.assertion == comparison.assertion == "observation"
+    assert not fact.filters and not fact.constraints
+    assert fact.period_coverage.source_period_label == "At 30 June 2023"
+    assert "2023-base" in fact.period_coverage.notes
+    assert "7 March 2023 census-night count" in fact.period_coverage.notes
+    (spec,) = [
+        spec
+        for spec in package.build_source_record_specs(2025)
+        if spec.source_record_id == fact.source_record_id
+    ]
+    selector = spec.selector
+    assert (selector.sheet_name, selector.address, selector.end_address) == (
+        "Table 1",
+        f"B{row_number}",
+        None,
+    )
+    assert selector.expected_row_header_address == f"A{row_number}"
+    assert selector.expected_row_header == workbook["Table 1"][f"A{row_number}"].value
+    assert selector.expected_column_header_address == "B6"
+    assert selector.expected_column_header == workbook["Table 1"]["B6"].value == 2023
+    expected_guards = {
+        "A3": "Regional council areas",
+        "A4": "At 30 June 2023–2025",
+        "A5": "Regional council area(2)",
+        "B5": "At 30 June",
+        "A29": "2. Boundaries at 1 January 2025.",
+        "A34": "P provisional",
+    }
+    assert {
+        guard.address: guard.expected_value for guard in selector.guard_cells
+    } == expected_guards
+    lineage_addresses = {
+        cell.address
+        for cell in cells
+        if build_source_cell_key(cell) in fact.source_cell_keys
+    }
+    assert {
+        *expected_guards,
+        "B6",
+        f"B{row_number}",
+    } <= lineage_addresses
+
+
+@pytest.mark.parametrize(
+    "address,expected",
+    [
+        ("B7", 198_500),
+        ("B8", 1_755_200),
+        ("B15", 538_000),
+        ("B20", 676_600),
+        ("B22", 102_700),
+        ("B25", 5_200_000),
+    ],
+)
+def test_2023_sample_cells_retain_publisher_counts(workbook, address, expected):
+    assert workbook["Table 1"][address].value == expected
+
+
 def test_regc_codes_and_names_match_official_2025_classification(population):
     _package, _cells, facts = population
     content, _ = _artifact("regional_council_2025_codes")
@@ -218,7 +309,7 @@ def test_regc_codes_and_names_match_official_2025_classification(population):
     assert len(codes) == 17  # Sixteen regions plus publisher code 99 (outside region).
     regional_facts = [fact for fact in facts if fact.geography.level == "region"]
     assert {fact.geography.id for fact in regional_facts} == codes.keys() - {"99"}
-    assert len(regional_facts) == 80
+    assert len(regional_facts) == 96
     assert all(fact.geography.vintage == "regc_2025" for fact in regional_facts)
     assert all(
         fact.geography.name == codes[fact.geography.id] for fact in regional_facts
@@ -228,11 +319,20 @@ def test_regc_codes_and_names_match_official_2025_classification(population):
     )  # Workbook calls the same region "Auckland region".
 
 
-def test_national_total_is_published_not_reconciled_from_regions(population, workbook):
+@pytest.mark.parametrize(
+    "year,column,expected", [(2023, "B", 5_200_000), (2025, "D", 5_324_700)]
+)
+def test_national_total_is_published_not_reconciled_from_regions(
+    population, workbook, year, column, expected
+):
     _package, _cells, facts = population
-    totals = {fact.geography.id: fact for fact in facts if not fact.filters}
+    totals = {
+        fact.geography.id: fact
+        for fact in facts
+        if not fact.filters and fact.period.value == year
+    }
     # Table 1 footnote 3 includes areas outside a region (for example Chatham).
-    assert totals["NZ"].value == workbook["Table 1"]["D25"].value == 5_324_700
+    assert totals["NZ"].value == workbook["Table 1"][f"{column}25"].value == expected
     assert totals["NZ"].value != sum(
         fact.value for code, fact in totals.items() if code != "NZ"
     )
@@ -250,7 +350,7 @@ def test_each_fact_reads_its_own_cell_and_regions_never_feed_the_nation(
     value_cells = {}
     for fact, spec in zip(facts, specs, strict=True):
         # The first lineage key is the one value cell; the rest are its column
-        # header and guard cells, all of them text.
+        # header and guard cells. The 2023 column header is numeric.
         value_cell, *context_cells = (
             cells_by_key[key] for key in fact.source_cell_keys
         )
@@ -259,13 +359,23 @@ def test_each_fact_reads_its_own_cell_and_regions_never_feed_the_nation(
             spec.selector.address,
         )
         assert value_cell.raw_value == fact.value
-        assert all(type(cell.raw_value) is str for cell in context_cells)
+        for cell in context_cells:
+            if fact.period.value == 2023 and cell.address == "B6":
+                assert cell.raw_value == 2023
+            else:
+                assert type(cell.raw_value) is str
         value_cells[fact.source_record_id] = fact.source_cell_keys[0]
-    assert len(set(value_cells.values())) == len(facts) == 85
+    assert len(set(value_cells.values())) == len(facts) == 102
 
-    for band, (sheet, column) in BAND_COLUMNS.items():
+    selections = [(2023, "all", "Table 1", "B")] + [
+        (2025, band, sheet, column) for band, (sheet, column) in BAND_COLUMNS.items()
+    ]
+    for year, band, sheet, column in selections:
         band_facts = [
-            fact for fact in facts if fact.filters.get("person.age_band", "all") == band
+            fact
+            for fact in facts
+            if fact.period.value == year
+            and fact.filters.get("person.age_band", "all") == band
         ]
         regional = [fact for fact in band_facts if fact.geography.level == "region"]
         (national,) = [fact for fact in band_facts if fact.geography.id == "NZ"]
@@ -295,11 +405,13 @@ def test_every_row_records_reference_date_and_regc_2025_boundaries(population):
     } == {"2. Boundaries at 1 January 2025."}
     assert len(footnotes) == 2
     rows = consumer_fact_rows(facts)
-    assert len(rows) == 85
+    assert len(rows) == 102
     for row in rows:
         coverage = row["period_coverage"]
-        assert coverage["start_date"] == coverage["end_date"] == "2025-06-30"
-        assert row["period"] == {"type": "calendar_year", "value": 2025}
+        year = row["period"]["value"]
+        assert year in (2023, 2025)
+        assert coverage["start_date"] == coverage["end_date"] == f"{year}-06-30"
+        assert row["period"]["type"] == "calendar_year"
         # Each row's lineage carries its table's boundary footnote.
         assert len(footnotes & set(row["lineage"]["source_cell_keys"])) == 1
         notes = row["concept_alignment"]["evidence_notes"]
@@ -370,14 +482,15 @@ def test_requested_build_year_cannot_uprate_or_relabel_pinned_vintage(
     facts = package.build_facts(requested_year, cells=cells)
     assert facts == original
     assert package.artifact.artifact_year == 2025
+    assert Counter(fact.period.value for fact in facts) == {2023: 17, 2025: 85}
     for fact in facts:
         assert fact.period.type == "calendar_year"
-        assert fact.period.value == 2025
-        assert fact.period_coverage.start_date == "2025-06-30"
-        assert fact.period_coverage.end_date == "2025-06-30"
+        year = fact.period.value
+        assert fact.period_coverage.start_date == f"{year}-06-30"
+        assert fact.period_coverage.end_date == f"{year}-06-30"
         assert fact.period_coverage.basis == "calendar"
-        assert (
-            fact.period_coverage.source_period_label == "At 30 June 2025 (provisional)"
+        assert fact.period_coverage.source_period_label == (
+            "At 30 June 2023" if year == 2023 else "At 30 June 2025 (provisional)"
         )
         assert fact.source.vintage == "stats_nz_subnational_population_2025_10_29"
         assert fact.assertion == "observation"
@@ -387,6 +500,10 @@ def test_requested_build_year_cannot_uprate_or_relabel_pinned_vintage(
 @pytest.mark.parametrize(
     ("sheet", "address", "replacement"),
     [
+        ("Table 1", "A3", "Territorial authority areas"),
+        ("Table 1", "A5", "Regional council area(3)"),
+        ("Table 1", "B5", "Year ended 30 June"),
+        ("Table 1", "B6", "2023 P"),
         ("Table 1", "D6", "2026 P"),
         ("Table 1", "A7", "Auckland region"),
         ("Table 1", "A4", "Year ended 30 June 2023–2025"),
@@ -416,8 +533,8 @@ def test_consumer_rows_preserve_source_only_scope_and_lineage(population):
     _package, _cells, facts = population
     rows = consumer_fact_rows(facts)
     assert validate_consumer_fact_contract(facts).valid
-    assert len({row["aggregate_fact_key"] for row in rows}) == 85
-    assert len({row["semantic_fact_key"] for row in rows}) == 85
+    assert len({row["aggregate_fact_key"] for row in rows}) == 102
+    assert len({row["semantic_fact_key"] for row in rows}) == 102
     for row in rows:
         assert row["concept_alignment"]["relation"] == "source_label"
         notes = row["concept_alignment"]["evidence_notes"]
@@ -455,10 +572,14 @@ def test_explicit_single_package_bundle_passes_all_source_gates(tmp_path):
         for line in (tmp_path / "bundle/consumer_facts.jsonl").read_text().splitlines()
     ]
     coverage = build_bundle_coverage(rows)
-    assert coverage["fact_count"] == 85
-    assert coverage["counts"]["by_source"] == {"stats_nz": 85}
-    assert coverage["counts"]["by_period"] == {"calendar_year:2025": 85}
-    assert coverage["counts"]["by_geography"]["country:NZ"] == 5
+    assert coverage["fact_count"] == 102
+    assert coverage["counts"]["by_source"] == {"stats_nz": 102}
+    assert coverage["counts"]["by_period"] == {
+        "calendar_year:2023": 17,
+        "calendar_year:2025": 85,
+    }
+    assert set(coverage["counts"]["by_geography"].values()) == {6}
+    assert coverage["counts"]["by_geography"]["country:NZ"] == 6
     assert len(coverage["counts"]["by_geography"]) == 17
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert not coverage["duplicates"]["semantic_fact_keys"]

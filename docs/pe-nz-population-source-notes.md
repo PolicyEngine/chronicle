@@ -3,7 +3,8 @@
 This records the bounded source-ingestion work for demographic packages 1 and 2
 of [issue #176](https://github.com/PolicyEngine/chronicle/issues/176), checked on
 30 August 2026 UTC, with G8-d2 territorial-authority evidence added on
-13 October 2026 UTC. It does not mark the demographic target surface complete.
+13 October 2026 UTC and G8-d4's 2023-reference-date cells verified locally on
+22 October 2026 UTC. It does not mark the demographic target surface complete.
 
 ## Pinned publisher evidence
 
@@ -32,8 +33,9 @@ The NZ hub published the TA 2025 classification to its declared R2 key on
 13 October 2026 and verified it by streaming the remote object back: its
 SHA-256 matched the manifest. The workbook and its existing manifest are
 unchanged.
-The two population references share a 30 June 2025 reference date, not a
-publication date. The national landing page is evidence of the missing download
+The two population release titles refer to 30 June 2025, not their
+publication dates; the subnational workbook also publishes historical 2023
+and 2024 estimates. The national landing page is evidence of the missing download
 surface, **not** a single-year-age data artifact or a national source package.
 Both classifications are geography evidence only and emit no population facts.
 
@@ -69,11 +71,44 @@ authority areas; published rounding also qualifies comparisons with the
 territorial-authority figures. No total, Auckland local-board sum, residual,
 share, aging, imputation, or reconciliation is computed or emitted.
 
+## G8-d4: regional population at 30 June 2023
+
+The existing [regional package](../packages/stats_nz/subnational_population_estimates_2025/README.md)
+also reads Table 1!B7:B22 and B25: 16 regional council areas and the separately
+published New Zealand total. These 17 all-age ERP facts use `calendar_year: 2023`
+and equal coverage dates `2023-06-30`. Each is one publisher cell at scale 1,
+with the same ERP concept, REGC codes/names, `regc_2025` regional vintage,
+`provenance_class: census`, and `assertion: observation` as the 2025 facts.
+The national geography remains `country:NZ`, vintage `current`.
+
+Verified with openpyxl `data_only`: A3 is `Regional council areas`; A4 is
+`At 30 June 2023–2025`; A5 is `Regional council area(2)`; B5 is `At 30 June`;
+B6 is numeric `2023`, with no `P`. C6 and D6 are `2024 P` and `2025 P`.
+Samples are Northland 198,500 (B7), Auckland 1,755,200 (B8), Wellington
+538,000 (B15), Canterbury 676,600 (B20), Southland 102,700 (B22), and New
+Zealand 5,200,000 (B25). All 17 cells are compared directly in the tests.
+
+The Contents sheet and workbook footnotes do not explicitly call 2023 final or
+revised. Table 1!A34 defines `P provisional`; the unmarked B6 header is retained
+without assigning provisional, final or revised status. A26:A28 define ERP
+using the 2023 census usually resident population count, adjusted for net
+census under/overcount, residents temporarily overseas, and births, deaths
+and net migration up to the estimate date. These 2023 estimates are the
+release's 2023-base series, not the 7 March 2023 census-night count.
+
+Guards cover A3, A4, A5, B5, numeric B6, every selected row header, the
+1 January 2025 boundary footnote A29, and the P-symbol definition A34.
+Rows 23–24 (island subtotals), the 2024 P column and population-change columns
+remain preserved source cells without facts. No new source artifact is added;
+the workbook, manifest, 2,265 parsed cells, and the existing 85 facts are
+unchanged. The package constructs no ratios, growth rates or aligned values.
+
 ## S7: partial workbook package
 
 The [source package](../packages/stats_nz/subnational_population_estimates_2025/README.md)
-admits 85 cells from Tables 1 and 3: 17 geographic rows × all ages/four broad
-age bands. Its precise scope, semantics, and guards are documented there.
+admits 102 cells from Tables 1 and 3: 85 at 30 June 2025 (17 geographic rows ×
+all ages/four broad age bands), plus the 17 G8-d4 all-age cells at 30 June 2023.
+Its precise scope, semantics, and guards are documented there.
 
 The workbook does not contain the requested five-year-age × sex × region cut.
 Stats NZ's public metadata catalog lists `POPES_SUB_004`:
@@ -97,7 +132,7 @@ revision vintage before it can extend this package. In particular,
 `POPES_SUB_003` advertises **2026 boundaries** and is not a substitute.
 
 The regional five-year-age × sex table is a **follow-up**, not part of this
-package. This package lands only the 85 partial counts above. The follow-up
+package. This package lands only the 102 partial counts above. The follow-up
 extends it once an authorized export passes those checks; until then the
 package emits no five-year-age or sex-specific fact.
 
@@ -129,7 +164,7 @@ registered, and the national facts count added by S8 is **zero**.
 The partial S7 package passes source-package validation, exact source-cell
 comparisons, geography mapping checks, source-semantic drift tests, consumer
 contract validation, and an explicit one-package build. The bounded source
-build records 85/85 lineaged facts and 2,265 parsed cells.
+build records 102/102 lineaged facts and 2,265 parsed cells.
 
 The source build warns that Axiom CLI canonical-concept validation did not run.
 All mappings are source-label relations; this work claims neither Axiom
@@ -137,6 +172,6 @@ canonical certification nor calibration quality.
 
 Microcosm retains responsibility for choosing constraints, reconciling source
 universes, aging, imputing, constructing solver targets, and activating a
-population. The 85 counts are available source facts, not proof that these
+population. The 102 counts are available source facts, not proof that these
 downstream steps have run. Independent source-fidelity and boundary review is
 still required before landing.
