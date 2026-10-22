@@ -316,6 +316,13 @@ def test_a_value_two_packages_label_differently_is_refused_with_its_remedy():
     assert "the wording most of these packages use" in unlisted
     assert "national statistics office" in unlisted
     assert "scripts/build_dimension_value_register.py --static-check" in unlisted
+    # Two packages word it differently, so the script that regenerates the
+    # register needs the chosen label too, or it no longer reproduces the
+    # register (chronicle#377 re-check, N2).
+    assert (
+        "add that label to CHOSEN_LABELS in "
+        "scripts/build_dimension_value_register.py"
+    ) in unlisted
     assert "dimension_value_labels" not in unlisted.replace(
         "package_dimension_value_labels", ""
     )
@@ -323,6 +330,7 @@ def test_a_value_two_packages_label_differently_is_refused_with_its_remedy():
     assert "Chronicle's register labels this value 'Male'" in listed
     assert "rebuild" in listed
     assert "Add it to" not in listed
+    assert "CHOSEN_LABELS" not in listed
 
 
 # One label inside one package, refused as early as validate-package.
@@ -684,6 +692,22 @@ def test_the_harness_doc_says_which_fields_the_guards_check():
         "The guards compare a row's `expected_row_header` and "
         "`expected_column_header`, which are fields separate from its `label:`"
     ) in text
+
+
+def test_the_label_module_does_not_call_package_wording_the_publishers():
+    """The label-source list names the package's row label and source-row text.
+
+    A row's ``label:`` and the text Chronicle's parser reads into a source row
+    are the package's wording, which nothing checks against the publisher's
+    file (chronicle#377 re-check, N3).
+    """
+    docstring = " ".join(dimension_labels.__doc__.split())
+
+    assert "publisher row label" not in docstring
+    assert "the publisher's text in the matching column" not in docstring
+    assert (
+        "the package's row label for the fact (``layout.groupby_value_label``"
+    ) in docstring
 
 
 # ONS COICOP 02: the total includes narcotics (chronicle#377 review).
