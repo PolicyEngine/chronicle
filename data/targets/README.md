@@ -133,24 +133,16 @@ weighted_data = reweighter.fit_transform(microdata, targets)
 - **Update frequency**: Annual
 - **Notes**: 5-year ACS estimates. Includes demographics and economic characteristics.
 
-## Integration with Calibration Pipeline
+## Loading targets
 
-These targets integrate with the calibration pipeline in `calibration/`:
+The in-repo `calibration/` package that once consumed these files was retired
+with the legacy target store. The parquet outputs stand alone as inputs for
+downstream Microplex calibration:
 
 ```python
-from calibration.loader import load_microdata
-from calibration.constraints import build_constraint_matrix
-from calibration.methods.entropy import entropy_calibrate
-
-# Load microdata
-df = load_microdata("cps", year=2023)
-
-# Load state targets
 from data.targets.build_state_targets import load_state_targets
-targets = load_state_targets("income_distribution", years=[2023])
 
-# Build constraints and calibrate
-# ... (see calibration module documentation)
+targets = load_state_targets("income_distribution", years=[2023])
 ```
 
 ## Extending Targets

@@ -2,13 +2,12 @@
 
 import pytest
 
-from arch.targets import DataSource, Jurisdiction, TargetType
+from db.schema import DataSource, Jurisdiction
 from arch.normalization import (
     SourceFact,
     apply_share,
-    as_target,
     convert_units,
-    target_kwargs,
+    format_derivation,
 )
 
 
@@ -30,7 +29,7 @@ def test_convert_units_records_derivation():
     assert converted.derivation[0].parameters["factor"] == 1000
 
 
-def test_apply_share_and_as_target_preserve_provenance():
+def test_apply_share_preserves_provenance():
     total = SourceFact(
         name="aca_marketplace_enrollment",
         value=21_446_150,
@@ -42,23 +41,20 @@ def test_apply_share_and_as_target_preserve_provenance():
     )
 
     silver = apply_share(total, 0.54, name="silver_marketplace_enrollment")
-    target = as_target(
-        silver,
-        variable="aca_metal_level_enrollment",
-        target_type=TargetType.COUNT,
-        stratum_name="US ACA Marketplace Silver Enrollment",
-        constraints=(("metal_level", "==", "silver"),),
+
+    assert silver.name == "silver_marketplace_enrollment"
+    assert silver.value == pytest.approx(11_580_921)
+    assert silver.period == 2024
+    assert silver.source == "cms-aca"
+    assert silver.jurisdiction == "us"
+    assert silver.source_table == "Marketplace OEP Report"
+    assert silver.derivation[-1].operation == "apply_share"
+    assert silver.derivation[-1].parameters["total_fact"] == (
+        "aca_marketplace_enrollment"
     )
 
-    assert target.value == pytest.approx(11_580_921)
-    assert target.source == DataSource.CMS_ACA
-    assert target.jurisdiction == Jurisdiction.US
-    assert target.source_table == "Marketplace OEP Report"
-    assert target.constraints == (("metal_level", "==", "silver"),)
-    assert "apply_share" in target.notes
 
-
-def test_target_kwargs_maps_blueprint_to_target_fields():
+def test_format_derivation_lists_steps_in_order():
     fact = SourceFact(
         name="snap_households",
         value=22_323,
@@ -67,16 +63,12 @@ def test_target_kwargs_maps_blueprint_to_target_fields():
         source=DataSource.USDA_SNAP,
         jurisdiction=Jurisdiction.US,
     )
-    target = as_target(
-        convert_units(fact, 1000, "count"),
-        target_type=TargetType.COUNT,
-        stratum_name="US SNAP Households",
-    )
 
-    kwargs = target_kwargs(target, stratum_id=7)
+    converted = convert_units(fact, 1000, "count")
+    shared = apply_share(converted, 0.5, name="half_snap_households")
 
-    assert kwargs["stratum_id"] == 7
-    assert kwargs["variable"] == "snap_households"
-    assert kwargs["value"] == 22_323_000
-    assert kwargs["source"] == DataSource.USDA_SNAP
-    assert "convert_units" in kwargs["notes"]
+    formatted = format_derivation(shared.derivation)
+
+    assert formatted.startswith("convert_units(factor=1000")
+    assert "; apply_share(share=0.5" in formatted
+    assert format_derivation(()) == ""

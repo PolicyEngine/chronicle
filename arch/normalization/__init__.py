@@ -7,24 +7,18 @@ target selection.
 """
 
 from arch.facts import DerivationStep, SourceFact
-from .targets import (
-    TargetBlueprint,
+from .transforms import (
     apply_share,
-    as_target,
     convert_units,
     format_derivation,
     scale_value,
-    target_kwargs,
 )
 
 __all__ = [
     "DerivationStep",
     "SourceFact",
-    "TargetBlueprint",
     "apply_share",
-    "as_target",
     "convert_units",
     "format_derivation",
     "scale_value",
-    "target_kwargs",
 ]

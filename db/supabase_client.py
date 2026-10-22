@@ -4,7 +4,9 @@ Supabase client for Arch.
 Provides connection to PolicyEngine Supabase database for:
 - Source metadata and dataset registries
 - Raw microdata tables (e.g., microdata.us_census_cps_asec_2024_person)
-- Target inputs
+
+The legacy Supabase target-input helpers (query_targets, query_strata,
+insert_targets_batch) were retired with the local target tables.
 
 Table naming pattern: {jurisdiction}_{institution}_{dataset}_{year}_{table_type}
 Example: us_census_cps_asec_2024_person
@@ -34,9 +36,6 @@ def _env(*names: str) -> str | None:
 ARCH_SCHEMA = _env("POLICYENGINE_ARCH_SCHEMA") or "arch"
 MICRODATA_SCHEMA = (
     _env("POLICYENGINE_MICRODATA_SCHEMA") or "microdata"
-)
-TARGETS_SCHEMA = (
-    _env("POLICYENGINE_TARGETS_SCHEMA") or "targets"
 )
 
 
@@ -365,76 +364,6 @@ def query_cps(
 
 
 # =============================================================================
-# Targets and strata
-# =============================================================================
-
-
-def query_strata(
-    jurisdiction: Optional[str] = None,
-) -> List[Dict[str, Any]]:
-    """
-    Query target input strata with their constraints.
-
-    Args:
-        jurisdiction: Filter by jurisdiction
-
-    Returns:
-        List of strata records with nested constraints
-    """
-    client = get_supabase_client()
-    query = _table(client, TARGETS_SCHEMA, "strata").select("*, stratum_constraints(*)")
-
-    if jurisdiction:
-        query = query.eq("jurisdiction", jurisdiction)
-
-    result = query.execute()
-    return result.data
-
-
-def query_targets(
-    jurisdiction: Optional[str] = None,
-    year: Optional[int] = None,
-    source_id: Optional[str] = None,
-    variable: Optional[str] = None,
-) -> List[Dict[str, Any]]:
-    """
-    Query Arch target inputs.
-
-    Args:
-        jurisdiction: Filter by jurisdiction (via stratum join)
-        year: Filter by period/year
-        source_id: Filter by source UUID
-        variable: Filter by variable name
-
-    Returns:
-        List of target records with stratum info
-    """
-    client = get_supabase_client()
-    # Nested join: strata with their stratum_constraints
-    query = _table(client, TARGETS_SCHEMA, "targets").select(
-        "*, strata(*, stratum_constraints(*)), sources(*)"
-    )
-
-    if year:
-        query = query.eq("period", year)
-    if source_id:
-        query = query.eq("source_id", source_id)
-    if variable:
-        query = query.eq("variable", variable)
-
-    result = query.execute()
-
-    # Filter by jurisdiction if specified (post-query since it's on joined table)
-    data = result.data
-    if jurisdiction:
-        data = [
-            t for t in data if t.get("strata", {}).get("jurisdiction") == jurisdiction
-        ]
-
-    return data
-
-
-# =============================================================================
 # Insert operations
 # =============================================================================
 
@@ -470,31 +399,6 @@ def insert_microdata_batch(
     for i in range(0, len(records), chunk_size):
         chunk = records[i : i + chunk_size]
         _table(client, MICRODATA_SCHEMA, table_name).insert(chunk).execute()
-        total += len(chunk)
-
-    return total
-
-
-def insert_targets_batch(
-    targets: List[Dict[str, Any]],
-    chunk_size: int = 100,
-) -> int:
-    """
-    Insert target records in batches.
-
-    Args:
-        targets: List of target dicts
-        chunk_size: Records per batch
-
-    Returns:
-        Number of records inserted
-    """
-    client = get_supabase_client()
-    total = 0
-
-    for i in range(0, len(targets), chunk_size):
-        chunk = targets[i : i + chunk_size]
-        _table(client, TARGETS_SCHEMA, "targets").insert(chunk).execute()
         total += len(chunk)
 
     return total
