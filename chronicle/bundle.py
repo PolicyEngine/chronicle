@@ -764,9 +764,10 @@ def _dimension_label_reports(
     Every package must label every dimension and value it emits, whichever
     country it publishes for: the row contract is one contract, and a consumer
     reads the labels the same way everywhere. A value one package labels two
-    ways, publisher row labels that differ across one groupby value's rows
-    included, is an error too: a consumer would see one value under two names
-    (chronicle#376). Nothing about labels is only a warning.
+    ways, the package's row labels (its record-set rows' ``label:``) that
+    differ across one groupby value's rows included, is an error too: a
+    consumer would see one value under two names (chronicle#376). Nothing
+    about labels is only a warning.
     """
     errors: list[BuildBundleIssue] = []
     warnings: list[BuildBundleIssue] = []
