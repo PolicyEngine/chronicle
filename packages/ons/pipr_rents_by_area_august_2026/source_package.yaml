@@ -13,9 +13,11 @@ dimension_value_labels:
     three bed: three bed
     four or more bed: four or more bed
   property_type:
-    detached: detached
+    # Chronicle's register gives detached and terraced their labels
+    # (chronicle#376).
+    detached: Detached
     semidetached: semidetached
-    terraced: terraced
+    terraced: Terraced
     flat maisonette: flat maisonette
 artifact:
   source_name: ons
