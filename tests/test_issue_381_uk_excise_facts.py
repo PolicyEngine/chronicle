@@ -397,18 +397,12 @@ def test_betting_and_gaming_receipts_and_mgd_liabilities(facts):
 
 def test_gambling_commission_ggy_and_lotteries(facts):
     built = facts[GAMBLING]
-    # Great Britain, but for the UK-wide National Lottery.
-    geography = {
-        f.geography.id
-        for f in built
-        if f.filters.get("gambling_sector") != "national_lottery"
-    }
-    assert geography == {"K03000001"}
+    # Great Britain, as the publication describes itself, the lottery included.
+    assert {f.geography.id for f in built} == {"K03000001"}
     lottery = [
         f for f in built if f.filters.get("gambling_sector") == "national_lottery"
     ]
     assert len(lottery) == 160
-    assert {f.geography.id for f in lottery} == {"K02000001"}
     ggy = [
         f
         for f in built
@@ -636,23 +630,20 @@ def test_gambling_commission_notes_the_remote_regime_and_lottery_geography(facts
     assert "includes the National Lottery" in total.measure.concept_evidence_notes
 
 
-def test_gambling_commission_lottery_uk_stamp_says_what_it_rests_on(facts):
-    # The workbook describes Great Britain; the lottery's UK stamp rests on the
-    # Commission's remit page, which Chronicle does not archive.
+def test_gambling_commission_lottery_keeps_the_publication_geography(facts):
+    # The workbook describes Great Britain, and the lottery's facts say so, along
+    # with the Commission's UK-wide remit over the National Lottery.
     cells = load_source_package(GAMBLING).build_source_cells(2026)
     (preface,) = [c for c in cells if (c.sheet_name, c.address) == ("0", "B40")]
     assert "the gambling industry in Great Britain" in preface.raw_value
     for fact in facts[GAMBLING]:
-        lottery = fact.filters.get("gambling_sector") == "national_lottery"
+        assert fact.geography.id == "K03000001"
         notes = fact.measure.concept_evidence_notes
-        assert fact.geography.id == ("K02000001" if lottery else "K03000001")
-        if lottery:
-            assert "stamped United Kingdom (K02000001)" in notes
-            assert "preface (sheet 0, cell B40) describes Great Britain" in notes
+        if fact.filters.get("gambling_sector") == "national_lottery":
+            assert "Geography: Great Britain, as the workbook's preface" in notes
+            assert "regulates the National Lottery across the United Kingdom" in notes
             assert "/about-us/guide/what-we-regulate" in notes
-            assert "Chronicle does not archive that page" in notes
-        else:
-            assert "stamped United Kingdom (K02000001)" not in notes
+            assert "whether it includes Northern Ireland" in notes
 
 
 def test_tobacco_part_years_start_with_the_monthly_tables(facts):

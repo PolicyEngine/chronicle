@@ -2033,18 +2033,18 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     # chronicle#357 adds HBAI's FYE 2003-2025 rows (92) and FYE 2025 bounds (8)
     # and the EFO sheet 3.7 SDLT lines (35), and moves table 4.9's DWP lines (84)
-    # to the geography DWP counts them over: +51. chronicle#381 adds 1,715:
-    # OBR's 181 excise lines, HMRC's 1,374 alcohol, tobacco and betting and
-    # gaming facts, and the Gambling Commission's 160 National Lottery facts.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 33667
+    # to the geography DWP counts them over: +51. chronicle#381 adds 1,555:
+    # OBR's 181 excise lines and HMRC's 1,374 alcohol, tobacco and betting and
+    # gaming facts.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 33507
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England.
     assert coverage["counts"]["by_geography"]["country:E92000001"] == 6768
     # Great Britain gains HBAI's FYE 1995-2002 rows (32), Move to UC (80), the
     # table 4.9 lines DWP counts over Great Britain (56) and BUS04 (2): +170.
-    # chronicle#381's Gambling Commission facts, less the National Lottery's,
-    # add 1,275.
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 22846
+    # chronicle#381's 1,435 Gambling Commission facts, the National Lottery's
+    # included, as the publication describes them.
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 23006
     # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28).
     assert coverage["counts"]["by_geography"]["country:K04000001"] == 1176
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
