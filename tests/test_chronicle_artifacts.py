@@ -190,7 +190,8 @@ def test_every_nz_suite_manifest_declares_its_default_canonical_raw_key():
             checked.append(manifest["source_id"])
 
     assert set(checked) == set(NZ_BUNDLE_SOURCE_PREFIXES)
-    assert checked.count("treasury") == 4
+    # G8-d3 adds PREFU 2026 (treasury/prefu26_economic_assumptions).
+    assert checked.count("treasury") == 5
 
 
 def test_all_desnz_manifests_use_canonical_uk_r2_keys_and_pinned_bytes():
