@@ -1,5 +1,0 @@
-value_id,period,scheme,reference_basis,recipients,source_url
-all_schemes,2025,all,january_2025,2674520,https://www.pensionstat.be/fr
-salarie,2025,employee,january_2025,2357954,https://www.pensionstat.be/fr
-independant,2025,self_employed,january_2025,690590,https://www.pensionstat.be/fr
-fonctionnaire,2025,civil_servant,january_2025,604506,https://www.pensionstat.be/fr
