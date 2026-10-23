@@ -243,6 +243,12 @@ SOURCE_PACKAGE_ALIASES = {
     "stats-nz-census-2023-households-by-region-rc-99": Path(
         "stats_nz/census_2023_households_by_region/rc_99"
     ),
+    "stats-nz-qes-average-weekly-earnings-june-2025": Path(
+        "stats_nz/qes_average_weekly_earnings_june_2025"
+    ),
+    "stats-nz-qes-average-weekly-earnings-june-2026": Path(
+        "stats_nz/qes_average_weekly_earnings_june_2026"
+    ),
     "stats-nz-subnational-population-estimates-2025": Path(
         "stats_nz/subnational_population_estimates_2025"
     ),
@@ -621,6 +627,9 @@ SOURCE_PACKAGE_ALIASES = {
     "msd-nzs-vp-fact-sheet-june-2026": Path("msd/nzs_vp_fact_sheet_june_2026"),
     "msd-annual-report-benefit-expenses-2025": Path(
         "msd/annual_report_benefit_expenses_2025"
+    ),
+    "treasury-prefu26-economic-assumptions": Path(
+        "treasury/prefu26_economic_assumptions"
     ),
     "treasury-an24-01-fiscal-totals": Path("treasury/an24_01_fiscal_totals"),
     "treasury-estimates-of-appropriations-2026-27": Path(

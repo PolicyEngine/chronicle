@@ -196,6 +196,9 @@ def test_build_bundle_dir_nz_suite_uses_curated_sources(tmp_path, fake_build_bun
     assert call["year"] == 2023
     assert "treasury-an24-01-fiscal-totals" in call["sources"]
     assert "treasury-estimates-of-appropriations-2026-27" in call["sources"]
+    assert "treasury-prefu26-economic-assumptions" in call["sources"]
+    assert "stats-nz-qes-average-weekly-earnings-june-2025" in call["sources"]
+    assert "stats-nz-qes-average-weekly-earnings-june-2026" in call["sources"]
     assert "stats-nz-census-2023-households-by-region-rc-99" in call["sources"]
     assert not set(call["sources"]) & set(UK_BUNDLE_SOURCES)
 
@@ -403,6 +406,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # Standalone warnings/duplicates are zero. Comparing the declared names
     # with MBIE through the bundle warning function adds two geography-name
     # warnings (nz-ta-018 and nz-ta-027); both publisher spellings are kept.
+    # G8-d3: three separate single-source builds measure +33 facts: +26
+    # Stats NZ QES people and +7 Treasury economic assumptions (government).
+    # Three packages/tables; existing country:NZ, publishers, entities and
+    # quarter/fiscal-year keys; no bundle warnings or duplicate keys.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
@@ -416,8 +423,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # packages, and 91,982 net for the Stat-Xplore extracts (183,804 UC
         # area facts by Payment Indicator replace the 91,902 all-claims ones;
         # Move to UC adds 80).
-        # G8-d4 adds 17 CY2023 ERP cells to the existing Stats NZ package.
-        "fact_count": 1579280,
+        # G8-d4 adds 17 CY2023 ERP cells to the existing Stats NZ package;
+        # G8-d3 adds 33 (26 QES levels, 7 PREFU26 earnings assumptions).
+        "fact_count": 1579313,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -452,7 +460,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "source_count": 56,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
         # all-claims UC area packages.
-        "source_package_count": 405,
+        "source_package_count": 408,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -492,14 +500,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1579280
+    assert row_count == 1579313
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 405
+    assert source_packages["source_package_count"] == 408
     assert source_packages["skipped_source_count"] == 17
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -520,7 +528,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1579280
+    assert coverage["fact_count"] == 1579313
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -573,14 +581,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "statbel_fiscal_income": 565,
         "statbel_fiscal_income_distribution": 14600,
         "statbel_population_structure": 36,
-        "treasury": 139,
-        "stats_nz": 2032,
+        "treasury": 146,
+        "stats_nz": 2058,
         "usda_snap": 852,
         "voa": 3001,
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 347
+    assert len(table_counts) == 350
     assert (
         table_counts["bea:NIPA Table 7.8. Supplements to Wages and Salaries by Type"]
         == 1
@@ -618,6 +626,26 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert table_counts["ird:Working for Families statistics - September 2025"] == 330
     assert table_counts["treasury:AN24-01 fiscal totals, TY2019"] == 27
+    assert (
+        table_counts[
+            "stats_nz:Quarterly Employment Survey June 2025 quarter, "
+            "Table 7: Average weekly earnings for FTEs, by sector"
+        ]
+        == 8
+    )
+    assert (
+        table_counts[
+            "stats_nz:Quarterly Employment Survey June 2026 quarter, "
+            "Table 7: Average weekly earnings for FTEs, by sector"
+        ]
+        == 18
+    )
+    assert (
+        table_counts[
+            "treasury:PREFU 2026 Table 4.1 - Key economic assumptions for fiscal forecasts"
+        ]
+        == 7
+    )
     assert (
         table_counts[
             "treasury:Expenditure - Budget 2026 Data from the Estimates of "
@@ -1904,13 +1932,25 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         uk_feed_period_increments[f"fiscal_year:{year}"] += 7
     for key, count in uk_feed_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # G8-d3: QES published quarters and PREFU opening-year fiscal periods.
+    for year, quarters in (
+        (2023, (2, 3, 4)),
+        (2024, (1, 2, 3, 4)),
+        (2025, (1, 2, 3, 4)),
+        (2026, (1, 2)),
+    ):
+        for quarter in quarters:
+            expected_period_counts[f"quarter:{year}-Q{quarter}"] += 2
+    for fiscal_year in range(2024, 2031):
+        expected_period_counts[f"fiscal_year:{fiscal_year}"] += 1
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
     # + 84 MBIE (#320) + 112 Treasury Budget 2026 expenses (B7 part 2)
     # + 1,413 Stats NZ household net worth + 16 B5 national census
-    # + nine G8-d1 national weekly-rent facts + one G8-d4 ERP fact = 6,132.
-    assert coverage["counts"]["by_geography"]["country:NZ"] == 6132
+    # + nine G8-d1 national weekly-rent facts + one G8-d4 ERP fact
+    # + 33 G8-d3 earnings facts = 6,165.
+    assert coverage["counts"]["by_geography"]["country:NZ"] == 6165
     for regional_council in (*range(1, 10), *range(12, 19)):
         assert (
             coverage["counts"]["by_geography"][f"region:{regional_council:02d}"] == 31
@@ -1980,11 +2020,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dwelling": 274367,
         "family": 1700,
         "firm": 1440,
-        "government": 3562,
+        "government": 3569,
         "household": 676320,
         "institutional_sector": 6654,
         "pension_plan": 2,
-        "person": 521336,
+        "person": 521362,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
