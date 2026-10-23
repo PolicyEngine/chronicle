@@ -636,6 +636,25 @@ def test_gambling_commission_notes_the_remote_regime_and_lottery_geography(facts
     assert "includes the National Lottery" in total.measure.concept_evidence_notes
 
 
+def test_gambling_commission_lottery_uk_stamp_says_what_it_rests_on(facts):
+    # The workbook describes Great Britain; the lottery's UK stamp rests on the
+    # Commission's remit page, which Chronicle does not archive.
+    cells = load_source_package(GAMBLING).build_source_cells(2026)
+    (preface,) = [c for c in cells if (c.sheet_name, c.address) == ("0", "B40")]
+    assert "the gambling industry in Great Britain" in preface.raw_value
+    for fact in facts[GAMBLING]:
+        lottery = fact.filters.get("gambling_sector") == "national_lottery"
+        notes = fact.measure.concept_evidence_notes
+        assert fact.geography.id == ("K02000001" if lottery else "K03000001")
+        if lottery:
+            assert "stamped United Kingdom (K02000001)" in notes
+            assert "preface (sheet 0, cell B40) describes Great Britain" in notes
+            assert "/about-us/guide/what-we-regulate" in notes
+            assert "Chronicle does not archive that page" in notes
+        else:
+            assert "stamped United Kingdom (K02000001)" not in notes
+
+
 def test_tobacco_part_years_start_with_the_monthly_tables(facts):
     built = facts[TOBACCO]
     starts = {

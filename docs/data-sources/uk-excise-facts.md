@@ -93,14 +93,26 @@ remote detail of sheets 10 to 10b). The Commission marks the latest year provisi
 and revisions `R`; the marker stays in `source_period_label`. A new publisher,
 `gambling_commission`, routed under `raw/uk/`.
 
-- **Geography.** The publication covers Great Britain (sheet 0), and so do its facts
-  (`K03000001`), except the National Lottery's. The Commission regulates gambling in
-  Great Britain and the National Lottery in the UK
-  ([What we regulate](https://www.gamblingcommission.gov.uk/about-us/guide/what-we-regulate)),
-  and the workbook reports the lottery as one total. So sheet 1's National Lottery GGY
-  (column M, its own record sets) and sheet 11 are stamped United Kingdom (`K02000001`),
-  160 facts. Sheet 1's overall total, which includes the lottery, stays Great Britain and
-  says so in its notes.
+- **Geography: Great Britain, but the National Lottery is stamped United Kingdom on
+  Chronicle's reading, from an unarchived page.**
+  - What the workbook says: its preface (sheet 0, cell B40) describes "the gambling
+    industry in Great Britain". It never names the United Kingdom or Northern Ireland,
+    and it prints the National Lottery as one total, with no country split.
+  - What Chronicle stamps: Great Britain (`K03000001`) for every fact except the
+    National Lottery's own tables, sheet 1's column M (its own record sets) and sheet 11.
+    Those 160 facts are stamped United Kingdom (`K02000001`).
+  - Why: the Commission's
+    [What we regulate](https://www.gamblingcommission.gov.uk/about-us/guide/what-we-regulate)
+    page lists "The National Lottery across the United Kingdom" among what it regulates,
+    and licenses the other sectors for Great Britain. The page was last updated
+    5 May 2026 and read on 23 October 2026.
+  - The limit: Chronicle does not archive that page, so no preserved byte backs the UK
+    stamp. The values are the workbook's either way; only the geography is a reading.
+    Each lottery fact's notes say this, and the generator asserts that the preface
+    still reads Great Britain.
+  - For consumers: a Great Britain filter returns no lottery facts. Sheet 1's overall
+    total includes the lottery and stays Great Britain, with a note, so within the
+    Commission's facts the lottery line and the total sit under different geographies.
 - **Remote gambling before November 2014.** Sheet 1's remote lines follow the regime before
   the November 2014 legislation until 2013-14, where they equal sheet 12, and 2014-15 adds
   sheet 12's April to October 2014 to sheet 10's November 2014 to March 2015. Those years'
