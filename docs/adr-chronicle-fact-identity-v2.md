@@ -278,6 +278,12 @@ universe constraint.
 
 ## Legacy Migration
 
+> **Superseded (2026-10).** The synthetic-legacy migration below was never
+> implemented. The legacy target rows were retired instead of migrated: no live
+> consumer read them, and most of their values did not trace to publisher bytes. See
+> `docs/us-legacy-etl-cleanup.md`. No Chronicle code emits `synthetic_legacy`
+> records or `L0_SYNTHETIC` facts.
+
 Legacy direct target rows are compatibility inputs, not production Chronicle facts.
 
 Migration path:
