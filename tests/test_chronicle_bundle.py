@@ -410,6 +410,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # Stats NZ QES people and +7 Treasury economic assumptions (government).
     # Three packages/tables; existing country:NZ, publishers, entities and
     # quarter/fiscal-year keys; no bundle warnings or duplicate keys.
+    # B2a: the Statbel commune package's source-only suite at build year 2025
+    # measured 3,955 person facts, one package/table, and seven facts at each
+    # of 565 existing commune keys. All retain their 1 January 2025 reference
+    # date. Source-only coverage and comparisons with the NUTS1/fiscal facts
+    # found no new period/entity/geography keys, duplicates or label warnings.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
@@ -425,7 +430,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Move to UC adds 80).
         # G8-d4 adds 17 CY2023 ERP cells to the existing Stats NZ package;
         # G8-d3 adds 33 (26 QES levels, 7 PREFU26 earnings assumptions).
-        "fact_count": 1579313,
+        "fact_count": 1583268,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -460,7 +465,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "source_count": 56,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
         # all-claims UC area packages.
-        "source_package_count": 408,
+        "source_package_count": 409,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -500,14 +505,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1579313
+    assert row_count == 1583268
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 408
+    assert source_packages["source_package_count"] == 409
     assert source_packages["skipped_source_count"] == 17
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -528,7 +533,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1579313
+    assert coverage["fact_count"] == 1583268
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -580,7 +585,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "ssa": 426,
         "statbel_fiscal_income": 565,
         "statbel_fiscal_income_distribution": 14600,
-        "statbel_population_structure": 36,
+        "statbel_population_structure": 3991,
         "treasury": 146,
         "stats_nz": 2058,
         "usda_snap": 852,
@@ -588,7 +593,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 350
+    assert len(table_counts) == 351
     assert (
         table_counts["bea:NIPA Table 7.8. Supplements to Wages and Salaries by Type"]
         == 1
@@ -1112,6 +1117,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             "marital status, age and sex, 2025"
         ]
         == 18
+    )
+    assert (
+        table_counts[
+            "statbel_population_structure:Population by place of residence, nationality, "
+            "marital status, age and sex, 2025, NIS 2025 communes"
+        ]
+        == 3955
     )
     assert (
         table_counts[
@@ -1746,6 +1758,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     expected_period_counts["calendar_year:2025"] += 85
     # G8-d2 reads Table 2 at the same point-in-time publisher period.
     expected_period_counts["calendar_year:2025"] += 67
+    # B2a: measured source-only commune facts retain the 1 January 2025 period.
+    expected_period_counts["calendar_year:2025"] += 3955
     # chronicle#322: 16 areas x 10 vehicle/fuel columns annually, and the
     # ONS extension (166 columns minus seven existing series, plus three
     # annual tourism columns).
@@ -1970,7 +1984,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["nuts1:BE1"] == 3662
     assert coverage["counts"]["by_geography"]["nuts1:BE2"] == 3673
     assert coverage["counts"]["by_geography"]["nuts1:BE3"] == 3662
-    assert coverage["counts"]["by_geography"]["commune:11002"] == 1
+    assert coverage["counts"]["by_geography"]["commune:11002"] == 8
     assert coverage["counts"]["by_geography"]["country:0100000US"] == 2116
     assert coverage["counts"]["by_geography"]["state:0400000US06"] == 255
     assert (
@@ -2024,7 +2038,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 676320,
         "institutional_sector": 6654,
         "pension_plan": 2,
-        "person": 521362,
+        "person": 525317,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,

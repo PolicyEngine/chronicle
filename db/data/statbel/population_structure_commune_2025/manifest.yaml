@@ -1,0 +1,47 @@
+source_id: belgium
+package_id: statbel-population-structure-commune-2025
+source_name: Statbel commune population structure 2025
+publisher: Statbel
+source_page: https://data.gov.be/en/datasets/nodeid5468
+files:
+  2025:
+    filename: statbel_population_structure_commune_2025.csv
+    source_url: https://statbel.fgov.be/sites/default/files/files/opendata/bevolking%20naar%20woonplaats%2C%20nationaliteit%20burgelijke%20staat%20%2C%20leeftijd%20en%20geslacht/TF_SOC_POP_STRUCT_2025.zip
+    source_table: Population by place of residence, nationality, marital status, age and sex, 2025, NIS
+      2025 communes
+    sha256: c2e08240e4b6820e81bbb7b8f3ec001605583bd6dbb43cf6871c0c65189ba1d6
+    size_bytes: 4519597
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/statbel-population-structure-commune-2025/2025/c2e08240e4b6820e81bbb7b8f3ec001605583bd6dbb43cf6871c0c65189ba1d6/statbel_population_structure_commune_2025.csv
+        uri: r2://ledger-raw/raw/belgium/statbel-population-structure-commune-2025/2025/c2e08240e4b6820e81bbb7b8f3ec001605583bd6dbb43cf6871c0c65189ba1d6/statbel_population_structure_commune_2025.csv
+    source_urls:
+    - https://data.gov.be/en/datasets/nodeid5468
+    - https://statbel.fgov.be/sites/default/files/files/opendata/bevolking%20naar%20woonplaats%2C%20nationaliteit%20burgelijke%20staat%20%2C%20leeftijd%20en%20geslacht/TF_SOC_POP_STRUCT_2025.zip
+    notes: 'Deterministic aggregation of the sole TF_SOC_POP_STRUCT_2025.txt member of the captured ZIP.
+      Sum integer MS_POPULATION (column U) over nationality and marital status, and over ages 0-17, 18-64,
+      65+ by sex; also retain each commune''s all-age/all-sex total. Reference date: 1 January 2025. All
+      565 publisher CD_REFNIS codes exactly equal the crosswalk target_nis set; the ZIP already uses NIS
+      2025, so no code translation or merger aggregation is applied. Names follow the fiscal commune package;
+      original Dutch/French publisher names are retained. source_rows are inclusive text line ranges separated
+      by semicolons (header line 1), pointing to column U in source_member; source_sha256 pins the ZIP.
+      All 18 NUTS1 x sex x age-band sums exactly match the existing NUTS1 extract: zero differences. Regional
+      totals: BE1 1255795, BE2 6864766, BE3 3704990; national total 11825551. R2 location declared for
+      session upload; this lane does not upload raw artifacts.'
+source_capture_reference:
+  filename: ../population_structure_nuts1_2025/TF_SOC_POP_STRUCT_2025.zip
+  source_url: https://statbel.fgov.be/sites/default/files/files/opendata/bevolking%20naar%20woonplaats%2C%20nationaliteit%20burgelijke%20staat%20%2C%20leeftijd%20en%20geslacht/TF_SOC_POP_STRUCT_2025.zip
+  sha256: 33910ea36437e39cfffd82ad82c759a2a8d1f2ab7662d45ce71c8ec9f336716c
+  size_bytes: 2551751
+  storage:
+    r2:
+      provider: r2
+      bucket: ledger-raw
+      key: raw/belgium/statbel-population-structure-2025/source_capture/33910ea36437e39cfffd82ad82c759a2a8d1f2ab7662d45ce71c8ec9f336716c/TF_SOC_POP_STRUCT_2025.zip
+      uri: r2://ledger-raw/raw/belgium/statbel-population-structure-2025/source_capture/33910ea36437e39cfffd82ad82c759a2a8d1f2ab7662d45ce71c8ec9f336716c/TF_SOC_POP_STRUCT_2025.zip
+  notes: Same captured publisher ZIP as the NUTS1 package, referenced in place; no duplicate bytes or
+    upload.
+  manifest: ../population_structure_nuts1_2025/manifest.yaml
+  manifest_entry: source_capture
