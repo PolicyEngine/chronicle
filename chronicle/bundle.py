@@ -397,10 +397,13 @@ NZ_BUNDLE_SOURCES = (
     "stats-nz-census-2023-weekly-rent-rc-18",
     "stats-nz-census-2023-weekly-rent-rc-99",
     "stats-nz-household-net-worth-2024",
+    "stats-nz-qes-average-weekly-earnings-june-2025",
+    "stats-nz-qes-average-weekly-earnings-june-2026",
     "stats-nz-subnational-population-estimates-2025",
     "stats-nz-subnational-population-ta-2025",
     "treasury-an24-01-fiscal-totals",
     "treasury-estimates-of-appropriations-2026-27",
+    "treasury-prefu26-economic-assumptions",
 )
 BUNDLE_SUITES = ("nz", "uk")
 
