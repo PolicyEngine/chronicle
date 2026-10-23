@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-consumer-trends-current-price-september-2026
+dataset: ons_ons-consumer-trends-current-price-september-2026
+source_page: https://www.ons.gov.uk/economy/nationalaccounts/satelliteaccounts/datasets/consumertrendscurrentpricenotseasonallyadjusted
+table: Consumer Trends current price, not seasonally adjusted, 0CN, 01CN-12CN and
+  TOURCN
+files:
+  2026:
+    filename: cpnsa.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/economy/nationalaccounts/satelliteaccounts/datasets/consumertrendscurrentpricenotseasonallyadjusted/current/cpnsa.xlsx
+    sha256: 982307e5fd2a790bf2821df8d920ed708cef55f04dd5d64a2ca2b618674cf7df
+    size_bytes: 526549
+    fetched_at: '2026-10-23T09:40:05+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-consumer-trends-current-price-september-2026/2026/982307e5fd2a790bf2821df8d920ed708cef55f04dd5d64a2ca2b618674cf7df/cpnsa.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-consumer-trends-current-price-september-2026/2026/982307e5fd2a790bf2821df8d920ed708cef55f04dd5d64a2ca2b618674cf7df/cpnsa.xlsx

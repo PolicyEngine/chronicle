@@ -13,8 +13,10 @@ The workbook's cover sheet identifies the 30 June 2026 release, covering January
 to March 2026. Chronicle acquired these bytes on 9 September 2026; that date is
 `extracted_at`, not the publication vintage. Facts carry
 `vintage=2026_06_30_release_2026_q1`. The publisher's current URL now serves a
-later release; adding the 30 September 2026 release requires a separate vintage
-and artifact, preserving this workbook's bytes and checksum.
+later release. The 30 September 2026 release is archived as its own artifact and
+package, `ons-consumer-trends-current-price-september-2026`, with these record sets
+and this workbook's bytes and checksum untouched; see
+[UK excise facts](data-sources/uk-excise-facts.md).
 
 The extension retains every existing energy and road-fuel source-record
 identifier. It selects 0CN, every column of 01CN–12CN,

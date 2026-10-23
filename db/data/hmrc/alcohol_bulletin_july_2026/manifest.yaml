@@ -1,0 +1,18 @@
+source_id: hmrc
+package_id: hmrc-alcohol-bulletin-july-2026
+dataset: hmrc_hmrc-alcohol-bulletin-july-2026
+source_page: https://www.gov.uk/government/statistics/alcohol-bulletin
+table: Alcohol Bulletin tables (May 2026 to July 2026)
+files:
+  2026:
+    filename: Alcohol_Tables_Jul26.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a8c1154ac563f363ba3c3f4/Alcohol_Tables_Jul26.ods
+    sha256: e01eba25c179422c694611db71782647bf91c30d05798e7218fa368d0610f8b3
+    size_bytes: 60468
+    fetched_at: '2026-10-23T09:40:03+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-alcohol-bulletin-july-2026/2026/e01eba25c179422c694611db71782647bf91c30d05798e7218fa368d0610f8b3/Alcohol_Tables_Jul26.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-alcohol-bulletin-july-2026/2026/e01eba25c179422c694611db71782647bf91c30d05798e7218fa368d0610f8b3/Alcohol_Tables_Jul26.ods

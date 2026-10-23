@@ -1,0 +1,19 @@
+source_id: gambling_commission
+package_id: gambling-commission-industry-statistics-fy2025-26
+dataset: gambling_commission_gambling-commission-industry-statistics-fy2025-26
+source_page: https://www.gamblingcommission.gov.uk/statistics-and-research/publication/industry-statistics-annual-report-financial-year-april-2025-to-march-2026-official-statistics
+table: Industry Statistics - Annual report - Financial year April 2025 to March 2026
+  - Official statistics
+files:
+  2026:
+    filename: Industry_Statistics_-_Annual_report_-_Financial_year_April_2025_to_March_2026_-_Official_Statistics.xlsx
+    source_url: https://assets.ctfassets.net/j16ev64qyf6l/2Iypz3C0LQ58lXLV0Xm1AZ/0ff2f2262311214f523e0da007f50405/Industry_Statistics_-_Annual_report_-_Financial_year_April_2025_to_March_2026_-_Official_Statistics.xlsx
+    sha256: a6ea23b5ddff2f3839ebec2a8cc0d9a0817e218f5bf10921e0172ecae768da58
+    size_bytes: 440955
+    fetched_at: '2026-10-23T09:40:07+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/gambling_commission/gambling-commission-industry-statistics-fy2025-26/2026/a6ea23b5ddff2f3839ebec2a8cc0d9a0817e218f5bf10921e0172ecae768da58/Industry_Statistics_-_Annual_report_-_Financial_year_April_2025_to_March_2026_-_Official_Statistics.xlsx
+        uri: r2://ledger-raw/raw/uk/gambling_commission/gambling-commission-industry-statistics-fy2025-26/2026/a6ea23b5ddff2f3839ebec2a8cc0d9a0817e218f5bf10921e0172ecae768da58/Industry_Statistics_-_Annual_report_-_Financial_year_April_2025_to_March_2026_-_Official_Statistics.xlsx
