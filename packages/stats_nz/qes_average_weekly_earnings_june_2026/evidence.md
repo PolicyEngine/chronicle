@@ -5,8 +5,8 @@ employment workbooks. Both use `xlsx_used_range` with no sheet restriction:
 every worksheet's rectangular used range is preserved before fact selection.
 Source URLs, receipt timestamps, lengths and SHA-256 hashes are in each manifest;
 the canonical `raw/nz/stats_nz/...` keys are generated with
-`chronicle.artifacts.build_r2_key`. The hub must upload and verify the objects
-before merge. No remote verification was performed in this offline lane.
+`chronicle.artifacts.build_r2_key`. The hub published both objects to those keys
+on 2026-10-23 and verified each by streaming it back and matching its SHA-256.
 
 ## Exact scope and vintage ownership
 
@@ -57,7 +57,8 @@ maps and source/YAML mutants cover their failure modes.
 
 Stats NZ CC BY 4.0 attribution is recorded in both manifests, using the
 hub-supplied [Stats NZ copyright statement](https://www.stats.govt.nz/about-us/copyright/).
-This offline lane verified the staged XLSX hashes and lengths against
-`.hub-sources/receipts.jsonl`; it did not fetch publication or licence pages.
-The publisher release pages are linked in the manifests. Raw byte objects
-remain pending hub upload and remote SHA-256 verification.
+The build verified each committed XLSX's hash and length against the hub's
+fetch receipt, whose URL, timestamp, length and SHA-256 the manifests record;
+it did not fetch publication or licence pages. The publisher release pages are
+linked in the manifests. The raw objects are on R2 and verified by SHA-256
+(2026-10-23).
