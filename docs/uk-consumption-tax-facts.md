@@ -30,7 +30,7 @@ June one read `NAT0`; the guard reads `NAT` and the `coicop` dimension keeps
 
 The declarations cover 5,164 facts: 166 columns in 31 annual/quarterly periods,
 plus three tourism columns in six years. Annual periods run from 2020 to 2025;
-quarterly periods run from 2020-Q1 to 2026-Q1. The workbook's 2026-Q2 column
+quarterly periods run from 2020-Q1 to 2026-Q1. The workbook's 2026-Q2 row
 stays in the preserved bytes and source cells.
 
 | Selection | Publisher coverage |

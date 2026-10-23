@@ -6,7 +6,8 @@ levelled to published clearances, checks them against duty receipts, and later m
 gambling stakes to the gambling duties. Everything here is a published aggregate; no
 UKDS-licensed microdata is involved. Values are the publishers' as fetched on 23 October
 2026. `scripts/build_uk_excise_packages.py` regenerates every package below from the
-pinned bytes.
+pinned bytes, except Consumer Trends, which `scripts/build_uk_consumption_tax_packages.py`
+regenerates.
 
 ## Summary
 

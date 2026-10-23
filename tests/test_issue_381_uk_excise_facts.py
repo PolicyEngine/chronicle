@@ -7,7 +7,7 @@
 - HMRC Alcohol Bulletin and Tobacco Bulletin tables of 28 August 2026.
 - HMRC UK Betting and Gaming Statistics tables of 30 September 2026.
 - Gambling Commission Industry Statistics, annual report of 17 September 2026.
-- ONS Consumer Trends, the 30 September 2026 release beside the 30 June one.
+- ONS Consumer Trends, the 30 September 2026 release, which supersedes the 30 June one.
 
 Values are the publishers' as fetched on 2026-10-23.
 """
@@ -100,8 +100,8 @@ def test_packages_are_registered_valid_and_labelled(alias, facts):
     assert all(fact.source_cell_keys for fact in built)
     assert all(fact.period_coverage is not None for fact in built)
     issues = dimension_label_issues(consumer_fact_rows(built))
-    # The ONS overview and detailed sheets word some divisions differently; both
-    # vintages keep the publisher's text.
+    # The ONS overview and detailed sheets word some divisions differently; the
+    # package keeps the publisher's text.
     errors = [i for i in issues if i.code != "conflicting_groupby_value_label"]
     assert not errors, [issue.to_dict() for issue in errors]
     # One set of dimension values names one cell.
