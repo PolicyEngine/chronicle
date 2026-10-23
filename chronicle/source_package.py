@@ -907,6 +907,11 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-hydrocarbon-oils-quantities-june-2026": Path(
         "hmrc/hydrocarbon_oils_quantities_june_2026"
     ),
+    "hmrc-alcohol-bulletin-july-2026": Path("hmrc/alcohol_bulletin_july_2026"),
+    "hmrc-tobacco-bulletin-july-2026": Path("hmrc/tobacco_bulletin_july_2026"),
+    "hmrc-betting-gaming-statistics-july-2026": Path(
+        "hmrc/betting_gaming_statistics_july_2026"
+    ),
     "ed-fsa-portfolio-summary-fy2026-q3": Path("ed_fsa/portfolio_summary_fy2026_q3"),
     "ed-fsa-portfolio-by-location-fy2026-q2": Path(
         "ed_fsa/portfolio_by_location_fy2026_q2"
@@ -952,8 +957,11 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/subnational_dwellings_by_tenure_2024"
     ),
     "ons-pipr-rents-by-area-june-2026": Path("ons/pipr_rents_by_area_june_2026"),
-    "ons-consumer-trends-current-price-2026": Path(
-        "ons/consumer_trends_current_price_2026"
+    "ons-consumer-trends-current-price-september-2026": Path(
+        "ons/consumer_trends_current_price_september_2026"
+    ),
+    "gambling-commission-industry-statistics-fy2025-26": Path(
+        "gambling_commission/industry_statistics_fy2025_26"
     ),
     "nrs-census2022-households-ukpc24": Path("nrs/census2022_households_ukpc24"),
     "nrs-census2022-uv113-household-composition-country": Path(

@@ -430,7 +430,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Move to UC adds 80).
         # G8-d4 adds 17 CY2023 ERP cells to the existing Stats NZ package;
         # G8-d3 adds 33 (26 QES levels, 7 PREFU26 earnings assumptions).
-        "fact_count": 1583268,
+        # chronicle#381 adds 2,990: 181 OBR excise lines, HMRC's alcohol (288),
+        # tobacco (710) and betting and gaming (376) tables, and 1,435
+        # Gambling Commission facts. Its 30 September Consumer Trends package
+        # replaces the 30 June one fact for fact (5,164).
+        "fact_count": 1586258,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -439,7 +443,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "geography_count": 102613,
         # And 12 period keys: HBAI's FYE 1995 and FYE 1996 (fiscal_year 1994,
         # 1995) and gas_year 2015 to 2024, the period type chronicle#356 adds.
-        "period_count": 523,
+        # chronicle#381 adds 12 more: HMRC's betting and gaming receipts from
+        # 1986-87 and tobacco from 1990-91 (fiscal_year 1986 to 1993), and
+        # tobacco's calendar years 1991 to 1994.
+        "period_count": 535,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -462,10 +469,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
         "skipped_source_count": 17,
-        "source_count": 56,
+        # chronicle#381 adds the Gambling Commission.
+        "source_count": 57,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
-        # all-claims UC area packages.
-        "source_package_count": 409,
+        # all-claims UC area packages. chronicle#381 adds four and replaces the
+        # 30 June Consumer Trends package with the 30 September one.
+        "source_package_count": 413,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -475,7 +484,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#211 adds one: Stats NZ heads its oldest band '65+' where
         # Statbel's population-structure rows write '65_plus'.
         # chronicle#322 retains six division labels that differ between
-        # the ONS overview and detailed worksheets.
+        # the ONS overview and detailed worksheets; chronicle#381's September
+        # release keeps them.
         # chronicle#313 adds 27 English county wording differences and one
         # Scottish BRMA difference, preserving each publisher's name.
         # It also retains detached/terraced casing differences between DESNZ
@@ -505,14 +515,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1583268
+    assert row_count == 1586258
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 409
+    assert source_packages["source_package_count"] == 413
     assert source_packages["skipped_source_count"] == 17
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -533,7 +543,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1583268
+    assert coverage["fact_count"] == 1586258
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -554,9 +564,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "eurostat": 207,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
+        "gambling_commission": 1435,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 31867,
+        "hmrc": 33241,
         "ici": 12,
         "ird": 4362,
         "irs_soi": 43963,
@@ -571,7 +582,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "nisra": 29227,
         "nithc": 8,
         "nrs": 359094,
-        "obr": 467,
+        "obr": 648,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
         "ons": 347184,
@@ -593,7 +604,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 351
+    assert len(table_counts) == 355
     assert (
         table_counts["bea:NIPA Table 7.8. Supplements to Wages and Salaries by Type"]
         == 1
@@ -619,9 +630,24 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         table_counts[
             "ons:Consumer Trends current price, not seasonally adjusted, "
-            "0CN, 01CN-12CN and TOURCN"
+            "30 September 2026 release, 0CN, 01CN-12CN and TOURCN"
         ]
         == 5164
+    )
+    assert table_counts["hmrc:Alcohol Bulletin tables (May 2026 to July 2026)"] == 288
+    assert table_counts["hmrc:Tobacco Bulletin tables July 2026"] == 710
+    assert (
+        table_counts[
+            "hmrc:UK Betting and Gaming Statistics tables (August 2025 to July 2026)"
+        ]
+        == 376
+    )
+    assert (
+        table_counts[
+            "gambling_commission:Industry Statistics - Annual report - Financial "
+            "year April 2025 to March 2026 - Official statistics"
+        ]
+        == 1435
     )
     assert (
         table_counts[
@@ -1957,6 +1983,35 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             expected_period_counts[f"quarter:{year}-Q{quarter}"] += 2
     for fiscal_year in range(2024, 2031):
         expected_period_counts[f"fiscal_year:{fiscal_year}"] += 1
+    # chronicle#381: OBR's excise lines (2024-25 to 2030-31); HMRC's alcohol
+    # tables (2023 to 2025, financial and calendar years), tobacco tables (1990-91
+    # to 2025-26 and 1991 to 2025) and betting and gaming tables (receipts by
+    # duty in force from 1986-87, Machine Games Duty liabilities from 2013-14);
+    # and the Gambling Commission's financial years from 2008-09, with remote
+    # detail from 2015-16.
+    issue_381_period_increments = Counter(
+        {"fiscal_year:2024": 19}
+        | {f"fiscal_year:{year}": 27 for year in range(2025, 2031)}
+    )
+    for year in range(2023, 2026):
+        issue_381_period_increments[f"calendar_year:{year}"] += 48
+        issue_381_period_increments[f"fiscal_year:{year}"] += 48
+    for year in range(1990, 2026):
+        issue_381_period_increments[f"fiscal_year:{year}"] += 10
+        if year > 1990:
+            issue_381_period_increments[f"calendar_year:{year}"] += 10
+    for year in range(1986, 2026):
+        issue_381_period_increments[f"fiscal_year:{year}"] += (
+            7 if year < 1994 else 8 if year < 2013 else 12 if year == 2013 else 13
+        )
+    issue_381_period_increments.update(
+        {"fiscal_year:2008": 52}
+        | {f"fiscal_year:{year}": 54 for year in range(2009, 2015)}
+        | {f"fiscal_year:{year}": 97 for year in range(2015, 2024)}
+        | {"fiscal_year:2024": 93, "fiscal_year:2025": 93}
+    )
+    for key, count in issue_381_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -1992,14 +2047,18 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     # chronicle#357 adds HBAI's FYE 2003-2025 rows (92) and FYE 2025 bounds (8)
     # and the EFO sheet 3.7 SDLT lines (35), and moves table 4.9's DWP lines (84)
-    # to the geography DWP counts them over: +51.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 31952
+    # to the geography DWP counts them over: +51. chronicle#381 adds 1,555:
+    # OBR's 181 excise lines and HMRC's 1,374 alcohol, tobacco and betting and
+    # gaming facts.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 33507
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England.
     assert coverage["counts"]["by_geography"]["country:E92000001"] == 6768
     # Great Britain gains HBAI's FYE 1995-2002 rows (32), Move to UC (80), the
     # table 4.9 lines DWP counts over Great Britain (56) and BUS04 (2): +170.
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 21571
+    # chronicle#381's 1,435 Gambling Commission facts, the National Lottery's
+    # included, as the publication describes them.
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 23006
     # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28).
     assert coverage["counts"]["by_geography"]["country:K04000001"] == 1176
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
@@ -2028,7 +2087,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # all-claims ones, UV404 by output area and Move to UC), people +25,216
     # (residence type by age, UV101a, HBAI and the OBR lines), institutional
     # sectors +2,186 (DESNZ Northern Ireland non-domestic, BUS04) and returns
-    # +352 (HMRC stamp-tax transactions).
+    # +352 (HMRC stamp-tax transactions). chronicle#381: institutional sectors
+    # +2,097 (OBR and HMRC clearances, HMRC production and the Gambling
+    # Commission's figures) and people +893 (OBR and HMRC receipts and levies,
+    # and Machine Games Duty liabilities).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33643,
         "dwelling": 274367,
@@ -2036,9 +2098,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "firm": 1440,
         "government": 3569,
         "household": 676320,
-        "institutional_sector": 6654,
+        "institutional_sector": 8751,
         "pension_plan": 2,
-        "person": 525317,
+        "person": 526210,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,

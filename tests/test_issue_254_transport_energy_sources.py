@@ -24,7 +24,7 @@ ISSUE_254_ARTIFACT_YEARS = {
     "hmrc-hydrocarbon-oils-quantities-june-2026": 2026,
     "obr-fuel-duty-receipts-by-vehicle-april-2024": 2024,
     "ofgem-energy-price-cap-q1-2024": 2024,
-    "ons-consumer-trends-current-price-2026": 2026,
+    "ons-consumer-trends-current-price-september-2026": 2026,
     "orr-government-support-7270-2024-25": 2025,
     "orr-government-support-7271-2024-25": 2025,
     "orr-rail-fares-7180-2026": 2026,
@@ -43,7 +43,7 @@ EXPECTED_FACT_COUNTS = {
     "hmrc-hydrocarbon-oils-quantities-june-2026": 168,
     "obr-fuel-duty-receipts-by-vehicle-april-2024": 49,
     "ofgem-energy-price-cap-q1-2024": 4,
-    "ons-consumer-trends-current-price-2026": 5164,
+    "ons-consumer-trends-current-price-september-2026": 5164,
     "orr-government-support-7270-2024-25": 10,
     "orr-government-support-7271-2024-25": 60,
     "orr-rail-fares-7180-2026": 28,
@@ -89,9 +89,9 @@ REPRESENTATIVE_PUBLISHER_FACTS = {
         "ofgem.price_cap.q1_2024.electricity_unit_rate.electricity_unit_rate.electricity_unit_rate",
         28.62,
     ),
-    "ons-consumer-trends-current-price-2026": (
-        "ons.consumer_trends.04cn.cy2020.coicop_04_5.expenditure",
-        31_805_000_000,
+    "ons-consumer-trends-current-price-september-2026": (
+        "ons.consumer_trends_2026_09.04cn.cy2020.coicop_04_5.expenditure",
+        34_492_000_000,
     ),
     "orr-government-support-7270-2024-25": (
         "orr.government_support.table_7270.fy2015.great_britain.total_government_support",
@@ -176,9 +176,9 @@ def test_issue_254_subannual_facts_use_distinct_period_types():
     weekly = load_source_package(
         "desnz-weekly-road-fuel-prices-september-2026"
     ).build_facts(2026)
-    ons = load_source_package("ons-consumer-trends-current-price-2026").build_facts(
-        2026
-    )
+    ons = load_source_package(
+        "ons-consumer-trends-current-price-september-2026"
+    ).build_facts(2026)
     ofgem = load_source_package("ofgem-energy-price-cap-q1-2024").build_facts(2024)
 
     assert {fact.period.type for fact in weekly} == {"week"}
