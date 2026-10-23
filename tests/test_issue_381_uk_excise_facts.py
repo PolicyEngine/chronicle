@@ -39,7 +39,7 @@ NEW_PACKAGES = {
     ALCOHOL: 288,
     TOBACCO: 710,
     BETTING: 376,
-    GAMBLING: 1479,
+    GAMBLING: 1435,
     TRENDS_SEPTEMBER: 5164,
 }
 OBR_PREFIX = "obr.efo_2026_03.receipts."
@@ -391,7 +391,18 @@ def test_betting_and_gaming_receipts_and_mgd_liabilities(facts):
 
 def test_gambling_commission_ggy_and_lotteries(facts):
     built = facts[GAMBLING]
-    assert {f.geography.id for f in built} == {"K03000001"}
+    # Great Britain, but for the UK-wide National Lottery.
+    geography = {
+        f.geography.id
+        for f in built
+        if f.filters.get("gambling_sector") != "national_lottery"
+    }
+    assert geography == {"K03000001"}
+    lottery = [
+        f for f in built if f.filters.get("gambling_sector") == "national_lottery"
+    ]
+    assert len(lottery) == 160
+    assert {f.geography.id for f in lottery} == {"K02000001"}
     ggy = [
         f
         for f in built
@@ -514,3 +525,126 @@ def test_consumer_trends_september_vintage_beside_june(facts):
     # ONS relabelled the national total's code NAT0 to NAT; the series is the same.
     national = [f for f in september if f.filters.get("coicop") == "NAT0"]
     assert national and {f.filters["cdid"] for f in national} == {"ABPB"}
+
+
+def test_gambling_commission_leaves_out_zeros_that_are_not_measurements(facts):
+    built = facts[GAMBLING]
+    turnover = [f for f in built if f.measure.concept == "gambling_commission.turnover"]
+    # Turnover the Commission reports as zero in every year: none is emitted.
+    for sector, activity in (
+        ("bingo_non_remote", "gaming_machines"),
+        ("casino_remote", "poker_peer_to_peer"),
+        ("betting_remote", "betting_exchange"),
+    ):
+        assert not [
+            f
+            for f in turnover
+            if f.filters["gambling_sector"] == sector
+            and f.filters["gambling_activity"] == activity
+        ]
+    # Their GGY is published, and kept.
+    ggy = [
+        f
+        for f in built
+        if f.measure.concept == "gambling_commission.gross_gambling_yield"
+    ]
+    assert (
+        one(
+            ggy,
+            period=2024,
+            gambling_sector="bingo_non_remote",
+            gambling_activity="gaming_machines",
+            betting_event="all",
+        ).value
+        > 0
+    )
+    # Betting-shop machine turnover is '-' in every year but 2024-25 and 2025-26,
+    # whose zeros sit over quarters that are all '-': none is emitted, and the
+    # machines' GGY is.
+    assert not [
+        f
+        for f in turnover
+        if f.filters["gambling_activity"] == "off_course_gaming_machines"
+    ]
+    assert (
+        one(
+            ggy,
+            period=2025,
+            gambling_sector="betting_non_remote",
+            gambling_activity="off_course_gaming_machines",
+            betting_event="all",
+        ).value
+        > 0
+    )
+    # 2008-09's National Lottery sales carry no channel split.
+    sales = [
+        f for f in built if f.measure.concept == "gambling_commission.lottery_sales"
+    ]
+    first = [
+        f
+        for f in sales
+        if f.period.value == 2008 and f.filters["gambling_sector"] == "national_lottery"
+    ]
+    assert {f.filters["sales_channel"] for f in first} == {"all"}
+
+
+def test_gambling_commission_notes_the_remote_regime_and_lottery_geography(facts):
+    built = facts[GAMBLING]
+    notes = {
+        f.period.value: f.period_coverage.notes or ""
+        for f in built
+        if ".sheet_1.fy" in f.layout.record_set_id
+    }
+    for year in range(2008, 2014):
+        assert "before the November 2014 legislation" in notes[year]
+    assert "span the November 2014 legislation" in notes[2014]
+    assert "November 2014" not in notes[2015]
+    total = one(
+        [f for f in built if ".sheet_1.fy" in f.layout.record_set_id],
+        period=2024,
+        gambling_sector="all",
+    )
+    assert total.geography.id == "K03000001"
+    assert "includes the National Lottery" in total.measure.concept_evidence_notes
+
+
+def test_tobacco_part_years_start_with_the_monthly_tables(facts):
+    built = facts[TOBACCO]
+    starts = {
+        (
+            f.layout.record_set_id.split(".")[2],
+            f.period.type,
+            f.period.value,
+        ): f.period_coverage.start_date
+        for f in built
+    }
+    assert starts["clearances", "fiscal_year", 1990] == "1991-01-01"
+    assert starts["receipts", "fiscal_year", 1990] == "1991-02-01"
+    assert starts["receipts", "calendar_year", 1991] == "1991-02-01"
+    assert starts["clearances", "calendar_year", 1991] == "1991-01-01"
+    assert starts["clearances", "fiscal_year", 1991] == "1991-04-01"
+    narrowed = {
+        key
+        for key, start in starts.items()
+        if start not in (f"{key[2]}-04-01", f"{key[2]}-01-01")
+    }
+    assert narrowed == {
+        ("clearances", "fiscal_year", 1990),
+        ("receipts", "fiscal_year", 1990),
+        ("receipts", "calendar_year", 1991),
+    }
+
+
+def test_beer_production_carries_the_imputation_note(facts):
+    built = facts[ALCOHOL]
+    noted = {
+        (f.period.type, f.period.value)
+        for f in built
+        if f.measure.concept == "hmrc.uk_beer_production"
+        and "partly on imputed data" in (f.period_coverage.notes or "")
+    }
+    assert noted == {
+        ("fiscal_year", 2024),
+        ("calendar_year", 2024),
+        ("calendar_year", 2025),
+    }

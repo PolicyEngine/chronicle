@@ -107,7 +107,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: detail
-    guard_cells: &id002
+    guard_cells: &id009
     - &id001
       column: A
       row: 15
@@ -121,7 +121,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: &id003
+  measures: &id002
   - measure_id: uk_production_litres
     label: UK beer production (litres)
     ordinal: 0
@@ -203,7 +203,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: detail
-    guard_cells: &id004
+    guard_cells: &id003
     - *id001
     - column: A
       row: 12
@@ -224,7 +224,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: &id005
+  measures: &id004
   - measure_id: clearances_below_3_5_abv
     label: Clearances, less than 3.5% ABV
     ordinal: 0
@@ -695,7 +695,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: detail
-    guard_cells: &id006
+    guard_cells: &id005
     - *id001
     filters:
       alcohol_product: beer
@@ -704,7 +704,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: &id007
+  measures: &id006
   - measure_id: receipts
     label: Alcohol Duty receipts from beer
     ordinal: 0
@@ -768,7 +768,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: total
-    guard_cells: &id008
+    guard_cells: &id007
     - *id001
     filters:
       alcohol_product: all
@@ -777,7 +777,7 @@ record_sets:
       operator: ==
       value: all
       label: Alcohol product
-  measures: &id009
+  measures: &id008
   - measure_id: receipts
     label: Total Alcohol Duty receipts
     ordinal: 0
@@ -824,6 +824,9 @@ record_sets:
     end_date: '2025-03-31'
     basis: fiscal
     source_period_label: 2024 to 2025
+    notes: UK beer production figures between November 2024 and March 2025 are less reliable than other
+      periods as they are based partly on imputed data following a reporting issue identified in a small
+      number of returns.
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -840,7 +843,14 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: detail
-    guard_cells: *id002
+    guard_cells:
+    - *id001
+    - column: A
+      row: 13
+      expected_value: UK beer production figures between November 2024 and March 2025 are less reliable
+        than other periods as they are based partly on imputed data following a reporting issue identified
+        in a small number of returns.
+      label: imputation note
     filters:
       alcohol_product: beer
     constraints:
@@ -848,7 +858,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id003
+  measures: *id002
 - record_set_id: hmrc.alcohol_bulletin_2026_08.beer.clearances.fy2024
   provenance_class: administrative
   assertion: observation
@@ -878,7 +888,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: detail
-    guard_cells: *id004
+    guard_cells: *id003
     filters:
       alcohol_product: beer
     constraints:
@@ -886,7 +896,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id005
+  measures: *id004
 - record_set_id: hmrc.alcohol_bulletin_2026_08.beer.receipts.fy2024
   provenance_class: administrative
   assertion: observation
@@ -917,7 +927,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: detail
-    guard_cells: *id006
+    guard_cells: *id005
     filters:
       alcohol_product: beer
     constraints:
@@ -925,7 +935,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id007
+  measures: *id006
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -963,7 +973,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: total
-    guard_cells: *id008
+    guard_cells: *id007
     filters:
       alcohol_product: all
     constraints:
@@ -971,7 +981,7 @@ record_sets:
       operator: ==
       value: all
       label: Alcohol product
-  measures: *id009
+  measures: *id008
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -1008,7 +1018,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: detail
-    guard_cells: *id002
+    guard_cells: *id009
     filters:
       alcohol_product: beer
     constraints:
@@ -1016,7 +1026,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id003
+  measures: *id002
 - record_set_id: hmrc.alcohol_bulletin_2026_08.beer.clearances.fy2025
   provenance_class: administrative
   assertion: observation
@@ -1046,7 +1056,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: detail
-    guard_cells: *id004
+    guard_cells: *id003
     filters:
       alcohol_product: beer
     constraints:
@@ -1054,7 +1064,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id005
+  measures: *id004
 - record_set_id: hmrc.alcohol_bulletin_2026_08.beer.receipts.fy2025
   provenance_class: administrative
   assertion: observation
@@ -1085,7 +1095,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: detail
-    guard_cells: *id006
+    guard_cells: *id005
     filters:
       alcohol_product: beer
     constraints:
@@ -1093,7 +1103,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id007
+  measures: *id006
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -1131,7 +1141,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: total
-    guard_cells: *id008
+    guard_cells: *id007
     filters:
       alcohol_product: all
     constraints:
@@ -1139,7 +1149,7 @@ record_sets:
       operator: ==
       value: all
       label: Alcohol product
-  measures: *id009
+  measures: *id008
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -1176,7 +1186,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: detail
-    guard_cells: &id011
+    guard_cells:
     - &id010
       column: A
       row: 19
@@ -1190,7 +1200,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: &id012
+  measures: &id011
   - measure_id: uk_production_litres
     label: UK beer production (litres)
     ordinal: 0
@@ -1272,7 +1282,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: detail
-    guard_cells: &id013
+    guard_cells: &id012
     - *id010
     - column: A
       row: 12
@@ -1293,7 +1303,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: &id014
+  measures: &id013
   - measure_id: clearances_below_3_5_abv
     label: Clearances, less than 3.5% ABV
     ordinal: 0
@@ -1764,7 +1774,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: detail
-    guard_cells: &id015
+    guard_cells: &id014
     - *id010
     filters:
       alcohol_product: beer
@@ -1773,7 +1783,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: &id016
+  measures: &id015
   - measure_id: receipts
     label: Alcohol Duty receipts from beer
     ordinal: 0
@@ -1837,7 +1847,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: total
-    guard_cells: &id017
+    guard_cells: &id016
     - *id010
     filters:
       alcohol_product: all
@@ -1846,7 +1856,7 @@ record_sets:
       operator: ==
       value: all
       label: Alcohol product
-  measures: &id018
+  measures: &id017
   - measure_id: receipts
     label: Total Alcohol Duty receipts
     ordinal: 0
@@ -1893,6 +1903,9 @@ record_sets:
     end_date: '2024-12-31'
     basis: calendar
     source_period_label: '2024'
+    notes: UK beer production figures between November 2024 and March 2025 are less reliable than other
+      periods as they are based partly on imputed data following a reporting issue identified in a small
+      number of returns.
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -1909,7 +1922,14 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: detail
-    guard_cells: *id011
+    guard_cells:
+    - *id010
+    - column: A
+      row: 13
+      expected_value: UK beer production figures between November 2024 and March 2025 are less reliable
+        than other periods as they are based partly on imputed data following a reporting issue identified
+        in a small number of returns.
+      label: imputation note
     filters:
       alcohol_product: beer
     constraints:
@@ -1917,7 +1937,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id012
+  measures: *id011
 - record_set_id: hmrc.alcohol_bulletin_2026_08.beer.clearances.cy2024
   provenance_class: administrative
   assertion: observation
@@ -1947,7 +1967,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: detail
-    guard_cells: *id013
+    guard_cells: *id012
     filters:
       alcohol_product: beer
     constraints:
@@ -1955,7 +1975,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id014
+  measures: *id013
 - record_set_id: hmrc.alcohol_bulletin_2026_08.beer.receipts.cy2024
   provenance_class: administrative
   assertion: observation
@@ -1986,7 +2006,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: detail
-    guard_cells: *id015
+    guard_cells: *id014
     filters:
       alcohol_product: beer
     constraints:
@@ -1994,7 +2014,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id016
+  measures: *id015
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -2032,7 +2052,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: total
-    guard_cells: *id017
+    guard_cells: *id016
     filters:
       alcohol_product: all
     constraints:
@@ -2040,7 +2060,7 @@ record_sets:
       operator: ==
       value: all
       label: Alcohol product
-  measures: *id018
+  measures: *id017
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -2061,6 +2081,9 @@ record_sets:
     end_date: '2025-12-31'
     basis: calendar
     source_period_label: '2025'
+    notes: UK beer production figures between November 2024 and March 2025 are less reliable than other
+      periods as they are based partly on imputed data following a reporting issue identified in a small
+      number of returns.
   geography_id: K02000001
   geography_level: country
   geography_name: United Kingdom
@@ -2077,7 +2100,14 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: detail
-    guard_cells: *id011
+    guard_cells:
+    - *id010
+    - column: A
+      row: 13
+      expected_value: UK beer production figures between November 2024 and March 2025 are less reliable
+        than other periods as they are based partly on imputed data following a reporting issue identified
+        in a small number of returns.
+      label: imputation note
     filters:
       alcohol_product: beer
     constraints:
@@ -2085,7 +2115,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id012
+  measures: *id011
 - record_set_id: hmrc.alcohol_bulletin_2026_08.beer.clearances.cy2025
   provenance_class: administrative
   assertion: observation
@@ -2115,7 +2145,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: detail
-    guard_cells: *id013
+    guard_cells: *id012
     filters:
       alcohol_product: beer
     constraints:
@@ -2123,7 +2153,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id014
+  measures: *id013
 - record_set_id: hmrc.alcohol_bulletin_2026_08.beer.receipts.cy2025
   provenance_class: administrative
   assertion: observation
@@ -2154,7 +2184,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: detail
-    guard_cells: *id015
+    guard_cells: *id014
     filters:
       alcohol_product: beer
     constraints:
@@ -2162,7 +2192,7 @@ record_sets:
       operator: ==
       value: beer
       label: Alcohol product
-  measures: *id016
+  measures: *id015
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -2200,7 +2230,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: total
-    guard_cells: *id017
+    guard_cells: *id016
     filters:
       alcohol_product: all
     constraints:
@@ -2208,7 +2238,7 @@ record_sets:
       operator: ==
       value: all
       label: Alcohol product
-  measures: *id018
+  measures: *id017
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -2247,8 +2277,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: detail
-    guard_cells: &id020
-    - &id019
+    guard_cells: &id019
+    - &id018
       column: A
       row: 13
       expected_value: Table 2a. Alcohol Duty receipts from cider, and cider clearances statistics by financial
@@ -2273,7 +2303,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: &id021
+  measures: &id020
   - measure_id: clearances_no_relief
     label: Clearances claiming no relief
     ordinal: 0
@@ -2624,8 +2654,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: detail
-    guard_cells: &id022
-    - *id019
+    guard_cells: &id021
+    - *id018
     - column: A
       row: 12
       expected_value: Wine, OFP and Cider receipts from April 2023 are undergoing further assurance and
@@ -2639,7 +2669,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: &id023
+  measures: &id022
   - measure_id: receipts
     label: Alcohol Duty receipts from cider
     ordinal: 0
@@ -2703,7 +2733,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: detail
-    guard_cells: *id020
+    guard_cells: *id019
     filters:
       alcohol_product: cider
     constraints:
@@ -2711,7 +2741,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: *id021
+  measures: *id020
 - record_set_id: hmrc.alcohol_bulletin_2026_08.cider.receipts.fy2024
   provenance_class: administrative
   assertion: observation
@@ -2742,7 +2772,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: detail
-    guard_cells: *id022
+    guard_cells: *id021
     filters:
       alcohol_product: cider
     constraints:
@@ -2750,7 +2780,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: *id023
+  measures: *id022
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -2787,7 +2817,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: detail
-    guard_cells: *id020
+    guard_cells: *id019
     filters:
       alcohol_product: cider
     constraints:
@@ -2795,7 +2825,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: *id021
+  measures: *id020
 - record_set_id: hmrc.alcohol_bulletin_2026_08.cider.receipts.fy2025
   provenance_class: administrative
   assertion: observation
@@ -2826,7 +2856,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: detail
-    guard_cells: *id022
+    guard_cells: *id021
     filters:
       alcohol_product: cider
     constraints:
@@ -2834,7 +2864,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: *id023
+  measures: *id022
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -2873,8 +2903,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: detail
-    guard_cells: &id025
-    - &id024
+    guard_cells: &id024
+    - &id023
       column: A
       row: 17
       expected_value: Table 2b. Alcohol Duty receipts from cider, and cider clearances statistics by calendar
@@ -2899,7 +2929,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: &id026
+  measures: &id025
   - measure_id: clearances_no_relief
     label: Clearances claiming no relief
     ordinal: 0
@@ -3250,8 +3280,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: detail
-    guard_cells: &id027
-    - *id024
+    guard_cells: &id026
+    - *id023
     - column: A
       row: 12
       expected_value: Wine, OFP and Cider receipts from April 2023 are undergoing further assurance and
@@ -3265,7 +3295,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: &id028
+  measures: &id027
   - measure_id: receipts
     label: Alcohol Duty receipts from cider
     ordinal: 0
@@ -3329,7 +3359,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: detail
-    guard_cells: *id025
+    guard_cells: *id024
     filters:
       alcohol_product: cider
     constraints:
@@ -3337,7 +3367,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: *id026
+  measures: *id025
 - record_set_id: hmrc.alcohol_bulletin_2026_08.cider.receipts.cy2024
   provenance_class: administrative
   assertion: observation
@@ -3368,7 +3398,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: detail
-    guard_cells: *id027
+    guard_cells: *id026
     filters:
       alcohol_product: cider
     constraints:
@@ -3376,7 +3406,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: *id028
+  measures: *id027
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -3413,7 +3443,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: detail
-    guard_cells: *id025
+    guard_cells: *id024
     filters:
       alcohol_product: cider
     constraints:
@@ -3421,7 +3451,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: *id026
+  measures: *id025
 - record_set_id: hmrc.alcohol_bulletin_2026_08.cider.receipts.cy2025
   provenance_class: administrative
   assertion: observation
@@ -3452,7 +3482,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: detail
-    guard_cells: *id027
+    guard_cells: *id026
     filters:
       alcohol_product: cider
     constraints:
@@ -3460,7 +3490,7 @@ record_sets:
       operator: ==
       value: cider
       label: Alcohol product
-  measures: *id028
+  measures: *id027
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -3499,8 +3529,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: detail
-    guard_cells: &id030
-    - &id029
+    guard_cells: &id029
+    - &id028
       column: A
       row: 13
       expected_value: Table 3a. Alcohol Duty receipts from wine and other fermented products, and wine
@@ -3525,7 +3555,7 @@ record_sets:
       operator: ==
       value: wine
       label: Alcohol product
-  measures: &id031
+  measures: &id030
   - measure_id: clearances_below_8_5_abv
     label: Clearances, less than 8.5% ABV
     ordinal: 0
@@ -3796,8 +3826,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: detail
-    guard_cells: &id032
-    - *id029
+    guard_cells: &id031
+    - *id028
     - column: A
       row: 12
       expected_value: Wine, OFP and Cider receipts from April 2023 are undergoing further assurance and
@@ -3811,7 +3841,7 @@ record_sets:
       operator: ==
       value: wine_and_other_fermented_products
       label: Alcohol product
-  measures: &id033
+  measures: &id032
   - measure_id: receipts
     label: Alcohol Duty receipts from wine and other fermented products
     ordinal: 0
@@ -3876,7 +3906,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: detail
-    guard_cells: *id030
+    guard_cells: *id029
     filters:
       alcohol_product: wine
     constraints:
@@ -3884,7 +3914,7 @@ record_sets:
       operator: ==
       value: wine
       label: Alcohol product
-  measures: *id031
+  measures: *id030
 - record_set_id: hmrc.alcohol_bulletin_2026_08.wine_and_other_fermented_products.receipts.fy2024
   provenance_class: administrative
   assertion: observation
@@ -3915,7 +3945,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: detail
-    guard_cells: *id032
+    guard_cells: *id031
     filters:
       alcohol_product: wine_and_other_fermented_products
     constraints:
@@ -3923,7 +3953,7 @@ record_sets:
       operator: ==
       value: wine_and_other_fermented_products
       label: Alcohol product
-  measures: *id033
+  measures: *id032
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -3960,7 +3990,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: detail
-    guard_cells: *id030
+    guard_cells: *id029
     filters:
       alcohol_product: wine
     constraints:
@@ -3968,7 +3998,7 @@ record_sets:
       operator: ==
       value: wine
       label: Alcohol product
-  measures: *id031
+  measures: *id030
 - record_set_id: hmrc.alcohol_bulletin_2026_08.wine_and_other_fermented_products.receipts.fy2025
   provenance_class: administrative
   assertion: observation
@@ -3999,7 +4029,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: detail
-    guard_cells: *id032
+    guard_cells: *id031
     filters:
       alcohol_product: wine_and_other_fermented_products
     constraints:
@@ -4007,7 +4037,7 @@ record_sets:
       operator: ==
       value: wine_and_other_fermented_products
       label: Alcohol product
-  measures: *id033
+  measures: *id032
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -4046,8 +4076,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: detail
-    guard_cells: &id035
-    - &id034
+    guard_cells: &id034
+    - &id033
       column: A
       row: 17
       expected_value: Table 3b. Alcohol Duty receipts from wine and other fermented products, and wine
@@ -4072,7 +4102,7 @@ record_sets:
       operator: ==
       value: wine
       label: Alcohol product
-  measures: &id036
+  measures: &id035
   - measure_id: clearances_below_8_5_abv
     label: Clearances, less than 8.5% ABV
     ordinal: 0
@@ -4343,8 +4373,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: detail
-    guard_cells: &id037
-    - *id034
+    guard_cells: &id036
+    - *id033
     - column: A
       row: 12
       expected_value: Wine, OFP and Cider receipts from April 2023 are undergoing further assurance and
@@ -4358,7 +4388,7 @@ record_sets:
       operator: ==
       value: wine_and_other_fermented_products
       label: Alcohol product
-  measures: &id038
+  measures: &id037
   - measure_id: receipts
     label: Alcohol Duty receipts from wine and other fermented products
     ordinal: 0
@@ -4423,7 +4453,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: detail
-    guard_cells: *id035
+    guard_cells: *id034
     filters:
       alcohol_product: wine
     constraints:
@@ -4431,7 +4461,7 @@ record_sets:
       operator: ==
       value: wine
       label: Alcohol product
-  measures: *id036
+  measures: *id035
 - record_set_id: hmrc.alcohol_bulletin_2026_08.wine_and_other_fermented_products.receipts.cy2024
   provenance_class: administrative
   assertion: observation
@@ -4462,7 +4492,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: detail
-    guard_cells: *id037
+    guard_cells: *id036
     filters:
       alcohol_product: wine_and_other_fermented_products
     constraints:
@@ -4470,7 +4500,7 @@ record_sets:
       operator: ==
       value: wine_and_other_fermented_products
       label: Alcohol product
-  measures: *id038
+  measures: *id037
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -4507,7 +4537,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: detail
-    guard_cells: *id035
+    guard_cells: *id034
     filters:
       alcohol_product: wine
     constraints:
@@ -4515,7 +4545,7 @@ record_sets:
       operator: ==
       value: wine
       label: Alcohol product
-  measures: *id036
+  measures: *id035
 - record_set_id: hmrc.alcohol_bulletin_2026_08.wine_and_other_fermented_products.receipts.cy2025
   provenance_class: administrative
   assertion: observation
@@ -4546,7 +4576,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: detail
-    guard_cells: *id037
+    guard_cells: *id036
     filters:
       alcohol_product: wine_and_other_fermented_products
     constraints:
@@ -4554,7 +4584,7 @@ record_sets:
       operator: ==
       value: wine_and_other_fermented_products
       label: Alcohol product
-  measures: *id038
+  measures: *id037
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -4593,7 +4623,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: detail
-    guard_cells: &id039
+    guard_cells: &id038
     - column: A
       row: 15
       expected_value: Table 4a. Alcohol Duty receipts from wine and other fermented products, and other
@@ -4618,7 +4648,7 @@ record_sets:
       operator: ==
       value: other_fermented_products
       label: Alcohol product
-  measures: &id040
+  measures: &id039
   - measure_id: clearances_below_8_5_abv
     label: Clearances, less than 8.5% ABV (including sparkling cider from 5.5% to 8.5% ABV)
     ordinal: 0
@@ -4971,7 +5001,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: detail
-    guard_cells: *id039
+    guard_cells: *id038
     filters:
       alcohol_product: other_fermented_products
     constraints:
@@ -4979,7 +5009,7 @@ record_sets:
       operator: ==
       value: other_fermented_products
       label: Alcohol product
-  measures: *id040
+  measures: *id039
 - record_set_id: hmrc.alcohol_bulletin_2026_08.other_fermented_products.clearances.fy2025
   provenance_class: administrative
   assertion: observation
@@ -5009,7 +5039,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: detail
-    guard_cells: *id039
+    guard_cells: *id038
     filters:
       alcohol_product: other_fermented_products
     constraints:
@@ -5017,7 +5047,7 @@ record_sets:
       operator: ==
       value: other_fermented_products
       label: Alcohol product
-  measures: *id040
+  measures: *id039
 - record_set_id: hmrc.alcohol_bulletin_2026_08.other_fermented_products.clearances.cy2023
   provenance_class: administrative
   assertion: observation
@@ -5049,7 +5079,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: detail
-    guard_cells: &id041
+    guard_cells: &id040
     - column: A
       row: 19
       expected_value: Table 4b. Alcohol Duty receipts from wine and other fermented products, and other
@@ -5074,7 +5104,7 @@ record_sets:
       operator: ==
       value: other_fermented_products
       label: Alcohol product
-  measures: &id042
+  measures: &id041
   - measure_id: clearances_below_8_5_abv
     label: Clearances, less than 8.5% ABV (including sparkling cider from 5.5% to 8.5% ABV)
     ordinal: 0
@@ -5427,7 +5457,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: detail
-    guard_cells: *id041
+    guard_cells: *id040
     filters:
       alcohol_product: other_fermented_products
     constraints:
@@ -5435,7 +5465,7 @@ record_sets:
       operator: ==
       value: other_fermented_products
       label: Alcohol product
-  measures: *id042
+  measures: *id041
 - record_set_id: hmrc.alcohol_bulletin_2026_08.other_fermented_products.clearances.cy2025
   provenance_class: administrative
   assertion: observation
@@ -5465,7 +5495,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: detail
-    guard_cells: *id041
+    guard_cells: *id040
     filters:
       alcohol_product: other_fermented_products
     constraints:
@@ -5473,7 +5503,7 @@ record_sets:
       operator: ==
       value: other_fermented_products
       label: Alcohol product
-  measures: *id042
+  measures: *id041
 - record_set_id: hmrc.alcohol_bulletin_2026_08.spirits.production.fy2023
   provenance_class: administrative
   assertion: observation
@@ -5503,8 +5533,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: detail
-    guard_cells: &id044
-    - &id043
+    guard_cells: &id043
+    - &id042
       column: A
       row: 14
       expected_value: Table 5a. Alcohol Duty receipts from spirits, and spirits production and clearances
@@ -5517,7 +5547,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: &id045
+  measures: &id044
   - measure_id: uk_potable_production_litres_of_alcohol
     label: UK potable spirits production (litres of alcohol)
     ordinal: 0
@@ -5574,8 +5604,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: detail
-    guard_cells: &id046
-    - *id043
+    guard_cells: &id045
+    - *id042
     - column: A
       row: 12
       expected_value: All spirits goods clearances are reported in litres of alcohol content. Up to February
@@ -5595,7 +5625,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: &id047
+  measures: &id046
   - measure_id: clearances_below_3_5_abv
     label: Clearances, less than 3.5% ABV
     ordinal: 0
@@ -5906,8 +5936,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023 to 2024
     table_record_kind: detail
-    guard_cells: &id048
-    - *id043
+    guard_cells: &id047
+    - *id042
     filters:
       alcohol_product: spirits
     constraints:
@@ -5915,7 +5945,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: &id049
+  measures: &id048
   - measure_id: receipts
     label: Alcohol Duty receipts from spirits
     ordinal: 0
@@ -5978,7 +6008,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: detail
-    guard_cells: *id044
+    guard_cells: *id043
     filters:
       alcohol_product: spirits
     constraints:
@@ -5986,7 +6016,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id045
+  measures: *id044
 - record_set_id: hmrc.alcohol_bulletin_2026_08.spirits.clearances.fy2024
   provenance_class: administrative
   assertion: observation
@@ -6016,7 +6046,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: detail
-    guard_cells: *id046
+    guard_cells: *id045
     filters:
       alcohol_product: spirits
     constraints:
@@ -6024,7 +6054,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id047
+  measures: *id046
 - record_set_id: hmrc.alcohol_bulletin_2026_08.spirits.receipts.fy2024
   provenance_class: administrative
   assertion: observation
@@ -6055,7 +6085,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024 to 2025
     table_record_kind: detail
-    guard_cells: *id048
+    guard_cells: *id047
     filters:
       alcohol_product: spirits
     constraints:
@@ -6063,7 +6093,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id049
+  measures: *id048
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -6100,7 +6130,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: detail
-    guard_cells: *id044
+    guard_cells: *id043
     filters:
       alcohol_product: spirits
     constraints:
@@ -6108,7 +6138,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id045
+  measures: *id044
 - record_set_id: hmrc.alcohol_bulletin_2026_08.spirits.clearances.fy2025
   provenance_class: administrative
   assertion: observation
@@ -6138,7 +6168,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: detail
-    guard_cells: *id046
+    guard_cells: *id045
     filters:
       alcohol_product: spirits
     constraints:
@@ -6146,7 +6176,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id047
+  measures: *id046
 - record_set_id: hmrc.alcohol_bulletin_2026_08.spirits.receipts.fy2025
   provenance_class: administrative
   assertion: observation
@@ -6177,7 +6207,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025 to 2026
     table_record_kind: detail
-    guard_cells: *id048
+    guard_cells: *id047
     filters:
       alcohol_product: spirits
     constraints:
@@ -6185,7 +6215,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id049
+  measures: *id048
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -6222,8 +6252,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: detail
-    guard_cells: &id051
-    - &id050
+    guard_cells: &id050
+    - &id049
       column: A
       row: 18
       expected_value: Table 5b. Alcohol Duty receipts from spirits, and spirits production and clearances
@@ -6236,7 +6266,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: &id052
+  measures: &id051
   - measure_id: uk_potable_production_litres_of_alcohol
     label: UK potable spirits production (litres of alcohol)
     ordinal: 0
@@ -6293,8 +6323,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: detail
-    guard_cells: &id053
-    - *id050
+    guard_cells: &id052
+    - *id049
     - column: A
       row: 12
       expected_value: All spirits goods clearances are reported in litres of alcohol content. Up to February
@@ -6314,7 +6344,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: &id054
+  measures: &id053
   - measure_id: clearances_below_3_5_abv
     label: Clearances, less than 3.5% ABV
     ordinal: 0
@@ -6625,8 +6655,8 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2023
     table_record_kind: detail
-    guard_cells: &id055
-    - *id050
+    guard_cells: &id054
+    - *id049
     filters:
       alcohol_product: spirits
     constraints:
@@ -6634,7 +6664,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: &id056
+  measures: &id055
   - measure_id: receipts
     label: Alcohol Duty receipts from spirits
     ordinal: 0
@@ -6697,7 +6727,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: detail
-    guard_cells: *id051
+    guard_cells: *id050
     filters:
       alcohol_product: spirits
     constraints:
@@ -6705,7 +6735,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id052
+  measures: *id051
 - record_set_id: hmrc.alcohol_bulletin_2026_08.spirits.clearances.cy2024
   provenance_class: administrative
   assertion: observation
@@ -6735,7 +6765,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: detail
-    guard_cells: *id053
+    guard_cells: *id052
     filters:
       alcohol_product: spirits
     constraints:
@@ -6743,7 +6773,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id054
+  measures: *id053
 - record_set_id: hmrc.alcohol_bulletin_2026_08.spirits.receipts.cy2024
   provenance_class: administrative
   assertion: observation
@@ -6774,7 +6804,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2024
     table_record_kind: detail
-    guard_cells: *id055
+    guard_cells: *id054
     filters:
       alcohol_product: spirits
     constraints:
@@ -6782,7 +6812,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id056
+  measures: *id055
   shared_filters:
     accounting_basis: cash
   shared_constraints:
@@ -6819,7 +6849,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: detail
-    guard_cells: *id051
+    guard_cells: *id050
     filters:
       alcohol_product: spirits
     constraints:
@@ -6827,7 +6857,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id052
+  measures: *id051
 - record_set_id: hmrc.alcohol_bulletin_2026_08.spirits.clearances.cy2025
   provenance_class: administrative
   assertion: observation
@@ -6857,7 +6887,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: detail
-    guard_cells: *id053
+    guard_cells: *id052
     filters:
       alcohol_product: spirits
     constraints:
@@ -6865,7 +6895,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id054
+  measures: *id053
 - record_set_id: hmrc.alcohol_bulletin_2026_08.spirits.receipts.cy2025
   provenance_class: administrative
   assertion: observation
@@ -6896,7 +6926,7 @@ record_sets:
     expected_row_header_column: A
     expected_row_header: 2025
     table_record_kind: detail
-    guard_cells: *id055
+    guard_cells: *id054
     filters:
       alcohol_product: spirits
     constraints:
@@ -6904,7 +6934,7 @@ record_sets:
       operator: ==
       value: spirits
       label: Alcohol product
-  measures: *id056
+  measures: *id055
   shared_filters:
     accounting_basis: cash
   shared_constraints:

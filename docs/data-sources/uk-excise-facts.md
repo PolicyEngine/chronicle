@@ -14,7 +14,7 @@ pinned bytes.
 |---|---|---:|
 | #381.1 OBR EFO March 2026 excise lines | sheets 3.8, 3.10, 3.11, 3.12 and 3.2 added to `obr-efo-receipts-march-2026` | +181 |
 | #381.2 ONS Consumer Trends, 30 September 2026 release | `ons-consumer-trends-current-price-september-2026`, beside the 30 June package | 5,164 |
-| #381.3 Gambling Commission GGY by sector | `gambling-commission-industry-statistics-fy2025-26` | 1,479 |
+| #381.3 Gambling Commission GGY by sector | `gambling-commission-industry-statistics-fy2025-26` | 1,435 |
 | #381.4 HMRC betting and gaming receipts by duty | `hmrc-betting-gaming-statistics-july-2026` | 376 |
 | addendum: HMRC Alcohol Bulletin | `hmrc-alcohol-bulletin-july-2026` | 288 |
 | addendum: HMRC Tobacco Bulletin | `hmrc-tobacco-bulletin-july-2026` | 710 |
@@ -65,8 +65,7 @@ the same record sets as `ons-consumer-trends-current-price-2026` (the 30 June re
 acquired 9 September) against the new workbook: the same `record_set_spec_id` values,
 `record_set_id` and `source_record_id_prefix` under `ons.consumer_trends_2026_09`, vintage
 `2026_09_30_release_2026_q2`, and a `source_table` naming the release. The June package is
-unchanged and stays in the export, as #381 asked, so Microcosm's road-fuel row and
-division-capture diagnostic can stay on it until Microcosm re-pins.
+unchanged and stays in the export, as #381 asked.
 
 - Every emitted period (2020 to 2025, 2020 Q1 to 2026 Q1) sits on the row it held in June.
   2026 Q2 stays in the preserved workbook and source cells.
@@ -81,11 +80,24 @@ division-capture diagnostic can stay on it until Microcosm re-pins.
 ## 3. Gambling Commission industry statistics
 
 "Industry Statistics – Annual report – Financial year April 2025 to March 2026 – Official
-statistics" (published 17 September 2026), 440,955 bytes, sha256 `a6ea23b5…`. Great
-Britain only (`K03000001`): Northern Ireland is outside the Commission's remit. Financial
-years from April 2008 to March 2009 (remote gambling from April 2015), GBP million. The
-Commission marks the latest year provisional (`P`) and revisions `R`; the marker stays in
-`source_period_label`. A new publisher, `gambling_commission`, routed under `raw/uk/`.
+statistics" (published 17 September 2026), 440,955 bytes, sha256 `a6ea23b5…`. GBP
+million, financial years from 2008-09 (sheets 1, 4 and 6 to 9 and 11) or 2015-16 (the
+remote detail of sheets 10 to 10b). The Commission marks the latest year provisional (`P`)
+and revisions `R`; the marker stays in `source_period_label`. A new publisher,
+`gambling_commission`, routed under `raw/uk/`.
+
+- **Geography.** The publication covers Great Britain (sheet 0), and so do its facts
+  (`K03000001`), except the National Lottery's. The Commission regulates gambling in
+  Great Britain and the National Lottery in the UK
+  ([What we regulate](https://www.gamblingcommission.gov.uk/about-us/guide/what-we-regulate)),
+  and the workbook reports the lottery as one total. So sheet 1's National Lottery GGY
+  (column M, its own record sets) and sheet 11 are stamped United Kingdom (`K02000001`),
+  160 facts. Sheet 1's overall total, which includes the lottery, stays Great Britain and
+  says so in its notes.
+- **Remote gambling before November 2014.** Sheet 1's remote lines follow the regime before
+  the November 2014 legislation until 2013-14, where they equal sheet 12, and 2014-15 adds
+  sheet 12's April to October 2014 to sheet 10's November 2014 to March 2015. Those years'
+  `period_coverage` notes say so; the generator asserts both identities.
 
 - Concepts: `gambling_commission.gross_gambling_yield` and `gambling_commission.turnover`,
   with `gambling_sector`, `gambling_activity` and `betting_event`;
@@ -105,13 +117,23 @@ Commission marks the latest year provisional (`P`) and revisions `R`; the marker
 - Sheets 9 and 11: lotteries and the National Lottery, sales by channel and their
   distribution (good causes, prizes, expenses; for the National Lottery also lottery duty,
   retailers' commission, and costs and operator profit).
-- Left out: columns that restate a line already emitted (each sector sheet's GGY total is
-  sheet 1's line; each remote sheet's turnover total is sheet 10's; sheet 10's sector GGY
-  is sheet 1's); sheet 4's by-category total (column I, the same total as column B,
-  differing in a few early years); percentage changes; machine, premises and account
-  counts; funds held in customer accounts; the External Lottery Manager columns;
-  quarterly rows; the November 2014 to March 2015 part year; sheets 5, 6a to 6d, 7a, 7b,
-  8a, 8b, 10c and 12; and `-` cells.
+- Left out:
+  - totals that restate a line already emitted. Sheets 6 to 8's GGY totals restate sheet
+    1's sector lines, differing by at most £0.01m (sheet 6 in 2024-25, sheet 7 in 2011-12
+    and 2022-23, sheet 8 in 2011-12), so in those years an activity split can miss its
+    `all` margin by that much. Sheet 10's sector GGY and the totals of sheets 10a to 10c
+    restate sheets 1 and 10 exactly. Sheet 4's by-category total (column I) restates
+    column B, differing by at most £0.012m, in 2010-11 to 2013-14;
+  - percentage changes; machine, premises and account counts; funds held in customer
+    accounts; the External Lottery Manager columns;
+  - quarterly rows, and the November 2014 to March 2015 part year;
+  - sheets 5, 6a to 6d, 7a, 7b, 8a and 8b (finer splits #381 does not ask for), sheet 10c
+    (it restates sheets 1 and 10) and sheet 12 (remote gambling before November 2014);
+  - `-` cells, and published zeros that stand for no measurement: turnover the
+    Commission reports as zero in every year (bingo machines, peer-to-peer poker, betting
+    exchanges), betting-shop machine turnover for 2024-25 and 2025-26 (zeros over
+    quarters that are all `-`), and the National Lottery's 2008-09 sales channels (zeros
+    against a positive total). That is 44 cells; each rule is asserted against the bytes.
 
 ## 4. HMRC UK Betting and Gaming Statistics
 
@@ -146,7 +168,9 @@ to 5b), for 2023 to 2025.
 - The bulletin publishes clearances in litres of alcohol only (since February 2024; before,
   hectolitres). No clearance volume in litres of product exists, so strengths cannot be
   derived from clearances. `hmrc.uk_beer_production` (litres and litres of alcohol) and
-  `hmrc.uk_potable_spirits_production` are UK production, not clearances.
+  `hmrc.uk_potable_spirits_production` are UK production, not clearances. The Beer
+  sheet calls November 2024 to March 2025 production partly imputed: the 2024-25,
+  calendar 2024 and calendar 2025 production facts carry that note.
 - Clearances cover the regime introduced in August 2023 only, so the 2023 to 2024 and
   calendar 2023 clearance facts start on 1 August 2023 (`period_coverage`); receipts and
   production cover whole years.
@@ -163,6 +187,12 @@ to 5b), for 2023 to 2025.
   millions); cigars, hand-rolling tobacco, other and the non-cigarette total in kilograms
   (published in thousands). Financial years 1990-91 to 2025-26 (Table 2a) and calendar
   years 1991 to 2025 (Table 2b).
+- The monthly tables start in January 1991, and the receipts mark January 1991 `[X]`, so
+  three record sets are part years. The 1990 to 1991 clearances cover January to March
+  1991, and the 1990 to 1991 and calendar 1991 receipts start in February 1991. Their
+  `period_coverage` starts there, with a note; their lineage gains the monthly table's
+  first-month label and, for receipts, its `[X]` cell. The generator asserts that each
+  annual figure equals its published months.
 - `hmrc.tobacco_duty_receipts` by the same products and overall, cash basis, GBP million
   (Tables 1a and 1b).
 - Tobacco for heating has no column: both sheets' notes include its receipts in "Other".
