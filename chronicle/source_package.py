@@ -926,6 +926,7 @@ SOURCE_PACKAGE_ALIASES = {
     "ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3": Path(
         "ed_fsa/dl_portfolio_by_repayment_plan_fy2026_q3"
     ),
+    "eurostat-ert-bil-eur-a-usd": Path("eurostat/ert_bil_eur_a_usd"),
     "eurostat-gov-10a-taxag": Path("eurostat/gov_10a_taxag"),
     "eurostat-gov-10a-taxag-2025": Path("eurostat/gov_10a_taxag_2025"),
     "eurostat-spr-exp-func": Path("eurostat/spr_exp_func"),
