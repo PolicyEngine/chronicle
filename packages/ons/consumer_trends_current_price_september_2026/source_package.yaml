@@ -9,7 +9,11 @@
 # stays in the preserved workbook and source cells. ONS relabelled the national total's
 # COICOP header from NAT0 to NAT in this release; its series (CDID ABPB) is unchanged,
 # so the guard reads NAT and the coicop dimension keeps NAT0.
-# Regenerate with scripts/build_uk_consumption_tax_packages.py.
+# scripts/build_uk_consumption_tax_packages.py regenerates the expanded record sets from
+# the workbook and refreshes the headers, CDID guards and shared dimensions of the seven
+# older series (04.5, 04.5.1 to 04.5.4, 07.2.2, 07.3.2). Their 217 record sets are kept by
+# hand in this file, carried over from the June package by renaming their ids, so the
+# script needs this file and cannot build the package from scratch.
 schema_version: ledger.source_package.v1
 package_id: ons-consumer-trends-current-price-september-2026
 label: ONS Consumer Trends household final consumption expenditure, every COICOP division

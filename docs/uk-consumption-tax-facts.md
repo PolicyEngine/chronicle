@@ -143,7 +143,12 @@ conversion factors. Consumers supply those factors separately.
 
 `scripts/build_uk_consumption_tax_packages.py` regenerates the declarative
 packages from the preserved workbooks. It builds no facts and runs no tests.
-YAML templates share repeated category definitions across periods.
+YAML templates share repeated category definitions across periods. The Consumer
+Trends package cannot be built from the workbook alone: the 217 record sets of
+the seven older series (04.5, 04.5.1–04.5.4, 07.2.2 and 07.3.2) are kept by hand
+in its YAML, carried over from the June package by renaming their ids. The
+script refreshes their headers, CDID guards and shared dimensions, and
+regenerates every expanded record set.
 
 Regression coverage lives in `tests/test_source_uk_consumption_tax_facts.py`;
 the existing transport/energy tests retain their original series checks and

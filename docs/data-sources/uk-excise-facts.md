@@ -5,9 +5,10 @@ behind PolicyEngine/microcosm#1359, which gives households alcohol and tobacco q
 levelled to published clearances, checks them against duty receipts, and later maps
 gambling stakes to the gambling duties. Everything here is a published aggregate; no
 UKDS-licensed microdata is involved. Values are the publishers' as fetched on 23 October
-2026. `scripts/build_uk_excise_packages.py` regenerates every package below from the
-pinned bytes, except Consumer Trends, which `scripts/build_uk_consumption_tax_packages.py`
-regenerates.
+2026, except the OBR workbook, archived on 6 August 2026 and not re-downloaded.
+`scripts/build_uk_excise_packages.py` regenerates the OBR, HMRC and Gambling Commission
+packages from the pinned bytes. The Consumer Trends package cannot be built from scratch;
+see section 2.
 
 ## Summary
 
@@ -66,7 +67,12 @@ the record sets of `ons-consumer-trends-current-price-2026` (the 30 June release
 9 September) against the new workbook: the same `record_set_spec_id` values,
 `record_set_id` and `source_record_id_prefix` under `ons.consumer_trends_2026_09`, vintage
 `2026_09_30_release_2026_q2`, and a `source_table` naming the release.
-`scripts/build_uk_consumption_tax_packages.py` generates it.
+`scripts/build_uk_consumption_tax_packages.py` regenerates its expanded record sets from
+the workbook. It refreshes the headers, CDID guards and shared dimensions of the seven
+series that predate chronicle#322 (04.5, 04.5.1 to 04.5.4, 07.2.2 and 07.3.2), but those
+series' 217 record sets are kept by hand in the YAML. They were carried over from the June
+package by renaming their ids, so the script needs the YAML and cannot build the package
+from the bytes alone.
 
 It supersedes the June package, retired as 02d43ae9 retires superseded editions: the
 package and its alias are gone, and its workbook and manifest stay in
@@ -218,6 +224,23 @@ to 5b), for 2023 to 2025.
   The clearances sheet's note repeats the receipts sheet's text ("Values are in £
   millions"); the column headers give the units. OBR sheet 3.11's "Other tobacco
   products" corresponds to HMRC's cigars plus other.
+
+## Licences
+
+Each new manifest records its licence, attribution and evidence (`license`,
+`license_url`, `attribution`, `license_evidence`, `license_verified_at`), checked on
+23 October 2026.
+
+- HMRC's three workbooks and ONS's `cpnsa.xlsx`: the Open Government Licence v3.0, which
+  their GOV.UK and ONS pages state for all content not otherwise marked. The Alcohol
+  Bulletin's cover adds that it is Crown copyright and may be used if the source is made
+  clear.
+- The Gambling Commission's workbook: the Open Government Licence v3.0, on the strength of
+  data.gov.uk's listing of the Commission's Industry Statistics series, whose entry names
+  the November 2024 edition. Neither the workbook nor its publication page states a
+  licence, and the Commission's website terms require prior approval to copy material
+  unless otherwise stated.
+- The OBR workbook was archived before this change, and its manifest is unchanged.
 
 ## On-trade and off-trade split: not archived
 

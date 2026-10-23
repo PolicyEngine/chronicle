@@ -4,6 +4,20 @@ dataset: gambling_commission_gambling-commission-industry-statistics-fy2025-26
 source_page: https://www.gamblingcommission.gov.uk/statistics-and-research/publication/industry-statistics-annual-report-financial-year-april-2025-to-march-2026-official-statistics
 table: Industry Statistics - Annual report - Financial year April 2025 to March 2026
   - Official statistics
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Gambling Commission, Industry Statistics, annual report, financial year
+  April 2025 to March 2026 (official statistics). Contains public sector information licensed
+  under the Open Government Licence v3.0.'
+license_evidence: 'data.gov.uk lists the Commission''s Industry Statistics series under the
+  UK Open Government Licence: dataset ''GB Gambling Industry Statistics - November 2024''
+  (publisher Gambling Commission, updated 2 December 2024, https://www.data.gov.uk/dataset/e7032815-5990-4439-b5c8-8553cf5b7fdd/https-www-gamblingcommission-gov-uk-about-us-statistics-and-research),
+  which links the Commission''s industry statistics page. That listing names the November
+  2024 edition, not this one. Neither this workbook nor its publication page states a licence,
+  and the Commission''s website terms of use (https://www.gamblingcommission.gov.uk/terms-of-use,
+  last updated 14 October 2020) say that, unless otherwise stated, copying its material is
+  not permitted without prior approval.'
+license_verified_at: '2026-10-23'
 files:
   2026:
     filename: Industry_Statistics_-_Annual_report_-_Financial_year_April_2025_to_March_2026_-_Official_Statistics.xlsx

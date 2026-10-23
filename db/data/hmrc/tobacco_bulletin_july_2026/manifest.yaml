@@ -3,6 +3,14 @@ package_id: hmrc-tobacco-bulletin-july-2026
 dataset: hmrc_hmrc-tobacco-bulletin-july-2026
 source_page: https://www.gov.uk/government/statistics/tobacco-bulletin
 table: Tobacco Bulletin tables July 2026
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: HM Revenue and Customs, Tobacco Bulletin tables July 2026. Contains
+  public sector information licensed under the Open Government Licence v3.0.'
+license_evidence: The GOV.UK publication page (https://www.gov.uk/government/statistics/tobacco-bulletin)
+  states that all content is available under the Open Government Licence v3.0, except where
+  otherwise stated. The workbook states no other terms.
+license_verified_at: '2026-10-23'
 files:
   2026:
     filename: Tobacco_Tab_Jul_26.ods

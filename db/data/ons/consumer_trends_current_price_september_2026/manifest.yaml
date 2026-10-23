@@ -4,6 +4,18 @@ dataset: ons_ons-consumer-trends-current-price-september-2026
 source_page: https://www.ons.gov.uk/economy/nationalaccounts/satelliteaccounts/datasets/consumertrendscurrentpricenotseasonallyadjusted
 table: Consumer Trends current price, not seasonally adjusted, 0CN, 01CN-12CN and
   TOURCN
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics licensed under the Open Government Licence
+  v3.0.'
+license_evidence: The ONS dataset page (https://www.ons.gov.uk/economy/nationalaccounts/satelliteaccounts/datasets/consumertrendscurrentpricenotseasonallyadjusted)
+  states that all content is available under the Open Government Licence v3.0, except where
+  otherwise stated. The workbook states no other terms.
+license_verified_at: '2026-10-23'
+provenance_notes: The source_url is the dataset's /current/ path, which ONS repoints at each
+  release. From 22 December 2026, the next release date the dataset page gives, it serves
+  the next release, so these bytes (the 30 September 2026 release) are then available only
+  from this repository and R2.
 files:
   2026:
     filename: cpnsa.xlsx

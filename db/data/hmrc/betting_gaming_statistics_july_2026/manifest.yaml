@@ -3,6 +3,15 @@ package_id: hmrc-betting-gaming-statistics-july-2026
 dataset: hmrc_hmrc-betting-gaming-statistics-july-2026
 source_page: https://www.gov.uk/government/statistics/uk-betting-and-gaming-statistics
 table: UK Betting and Gaming Statistics tables (August 2025 to July 2026)
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: HM Revenue and Customs, UK Betting and Gaming Statistics tables (August
+  2025 to July 2026). Contains public sector information licensed under the Open Government
+  Licence v3.0.'
+license_evidence: The GOV.UK publication page (https://www.gov.uk/government/statistics/uk-betting-and-gaming-statistics)
+  states that all content is available under the Open Government Licence v3.0, except where
+  otherwise stated. The workbook states no other terms.
+license_verified_at: '2026-10-23'
 files:
   2026:
     filename: 2026_Jul_Bet_and_Gam_Tab.ods

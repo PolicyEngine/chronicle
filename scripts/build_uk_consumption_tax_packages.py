@@ -4,6 +4,13 @@ This writes declarative source packages; it does not build or validate facts.
 The ONS package is the current Consumer Trends edition, the 30 September 2026
 release (chronicle#381). It keeps the record sets the 30 June package had, whose
 package is retired; its raw workbook stays under db/data.
+
+The ONS package cannot be built from scratch. build_ons reads the package's own
+YAML and keeps the 217 record sets of the seven series that predate chronicle#322
+(04.5, 04.5.1 to 04.5.4, 07.2.2 and 07.3.2), which are maintained by hand there;
+they were carried over from the June package by renaming their ids. It refreshes
+their column headers, CDID guards and shared dimensions from the workbook and
+regenerates every expanded record set.
 """
 
 from __future__ import annotations
@@ -38,7 +45,11 @@ ONS_COMMENT = """# ONS Consumer Trends, current prices, not seasonally adjusted:
 # stays in the preserved workbook and source cells. ONS relabelled the national total's
 # COICOP header from NAT0 to NAT in this release; its series (CDID ABPB) is unchanged,
 # so the guard reads NAT and the coicop dimension keeps NAT0.
-# Regenerate with scripts/build_uk_consumption_tax_packages.py.
+# scripts/build_uk_consumption_tax_packages.py regenerates the expanded record sets from
+# the workbook and refreshes the headers, CDID guards and shared dimensions of the seven
+# older series (04.5, 04.5.1 to 04.5.4, 07.2.2, 07.3.2). Their 217 record sets are kept by
+# hand in this file, carried over from the June package by renaming their ids, so the
+# script needs this file and cannot build the package from scratch.
 """
 ROAD_DIRECTORY = ROOT / "packages/desnz/road_transport_fuel_consumption_2024"
 ONS_SOURCE = (
@@ -151,7 +162,11 @@ def write_package(directory: Path, payload: dict, comment: str) -> None:
 
 
 def build_ons() -> None:
-    """Regenerate the current ONS package from its own record sets and workbook."""
+    """Regenerate the current ONS package from its own record sets and workbook.
+
+    The seven older series' record sets come from the YAML, not the workbook: this
+    refreshes them and rebuilds the expanded ones, so the YAML must exist.
+    """
     path = ONS_DIRECTORY / "source_package.yaml"
     payload = yaml.safe_load(path.read_text())
     legacy = [
