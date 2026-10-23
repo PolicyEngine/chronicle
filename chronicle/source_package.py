@@ -653,6 +653,9 @@ SOURCE_PACKAGE_ALIASES = {
         "mhclg/ehs_weekly_housing_costs_2023_24"
     ),
     "statbel-population-structure-2025": Path("statbel/population_structure_2025"),
+    "statbel-population-structure-commune-2025": Path(
+        "statbel/population_structure_commune_2025"
+    ),
     "statbel-population-structure-2026": Path("statbel/population_structure_2026"),
     "statbel-fiscal-income-2023-nis-2025": Path("statbel/fiscal_income_2023_nis_2025"),
     "statbel-fiscal-income-distribution-2023": Path(
