@@ -7,25 +7,31 @@ observations with source-cell lineage.
 
 ## ONS Consumer Trends
 
-`ons-consumer-trends-current-price-2026` reuses the preserved `cpnsa.xlsx` with
-SHA-256 `109e53de0c09d30327ae2053a0487cee159fe44135884707c9000c252438143c`.
-The workbook's cover sheet identifies the 30 June 2026 release, covering January
-to March 2026. Chronicle acquired these bytes on 9 September 2026; that date is
-`extracted_at`, not the publication vintage. Facts carry
-`vintage=2026_06_30_release_2026_q1`. The publisher's current URL now serves a
-later release. The 30 September 2026 release is archived as its own artifact and
-package, `ons-consumer-trends-current-price-september-2026`, with these record sets
-and this workbook's bytes and checksum untouched; see
-[UK excise facts](data-sources/uk-excise-facts.md).
+`ons-consumer-trends-current-price-september-2026` preserves `cpnsa.xlsx` with
+SHA-256 `982307e5fd2a790bf2821df8d920ed708cef55f04dd5d64a2ca2b618674cf7df`.
+The workbook's cover sheet identifies the 30 September 2026 release, covering
+April to June 2026. Chronicle acquired these bytes on 23 October 2026; that date
+is `extracted_at`, not the publication vintage. Facts carry
+`vintage=2026_09_30_release_2026_q2`. Record-set and source-record identifiers
+start `ons.consumer_trends_2026_09.`; record-set spec identifiers are unchanged.
+See [UK excise facts](data-sources/uk-excise-facts.md).
 
-The extension retains every existing energy and road-fuel source-record
-identifier. It selects 0CN, every column of 01CN–12CN,
-and annual TOURCN observations. Selectors guard the period, COICOP header and
-ONS CDID identifier.
+It supersedes `ons-consumer-trends-current-price-2026`, the 30 June 2026 release
+(SHA-256 `109e53de0c09d30327ae2053a0487cee159fe44135884707c9000c252438143c`,
+acquired 9 September 2026, `vintage=2026_06_30_release_2026_q1`). That package
+is retired, as earlier superseded editions are; its workbook and manifest stay
+in `db/data/ons/consumer_trends_current_price_2026/`.
+
+The package selects 0CN, every column of 01CN–12CN, and annual TOURCN
+observations. Selectors guard the period, COICOP header and ONS CDID
+identifier. The September workbook labels the national total `NAT`, where the
+June one read `NAT0`; the guard reads `NAT` and the `coicop` dimension keeps
+`NAT0`.
 
 The declarations cover 5,164 facts: 166 columns in 31 annual/quarterly periods,
 plus three tourism columns in six years. Annual periods run from 2020 to 2025;
-quarterly periods run from 2020-Q1 to 2026-Q1.
+quarterly periods run from 2020-Q1 to 2026-Q1. The workbook's 2026-Q2 column
+stays in the preserved bytes and source cells.
 
 | Selection | Publisher coverage |
 | --- | --- |
@@ -56,15 +62,21 @@ the generic measure concept.
 
 ### Consumer migration
 
-The 217 existing facts retain their source-record IDs and values, but their
-aggregate and semantic fact keys change. Their domestic entity role changes
-from `resident_households` to `households_on_uk_territory`; they gain
+The [#322](https://github.com/PolicyEngine/chronicle/issues/322) extension kept the 217 earlier facts' source-record IDs and values, but
+changed their aggregate and semantic fact keys. Their domestic entity role
+changed from `resident_households` to `households_on_uk_territory`; they gained
 `price_basis`, `seasonal_adjustment`, `published_unit`, `source_sheet` and
-`consumption_concept`; and their lineage includes the value, COICOP header and
-CDID guard cells. The corrected publication vintage also changes provenance
-and source-cell keys. Consumers must refresh pinned keys and role selectors.
-Microcosm's `ons_household_expenditure_facts.json` vendors 42 annual rows affected
-by this migration; see [microcosm#1113](https://github.com/PolicyEngine/microcosm/issues/1113).
+`consumption_concept`; and their lineage included the value, COICOP header and
+CDID guard cells. The corrected publication vintage also changed provenance
+and source-cell keys. Microcosm's `ons_household_expenditure_facts.json` vendors
+42 annual rows affected by that migration; see
+[microcosm#1113](https://github.com/PolicyEngine/microcosm/issues/1113).
+
+The September edition keeps every concept, dimension, entity role and period,
+and changes the record-set and source-record prefix, the vintage, the source
+table, the provenance and source-cell keys, and the values ONS revised (every
+period). Selectors by concept, COICOP, source sheet and period match as they
+did; pinned keys, record-set identifiers and source tables must be refreshed.
 
 ONS publishes current prices, without seasonal adjustment, in £ million.
 Numeric facts retain the package's `gbp` representation through a scale of

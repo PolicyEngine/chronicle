@@ -95,6 +95,10 @@ def _write_package(root, rel_path):
             "dwp-uc-households-by-constituency-children-may-2025",
             "dwp/uc_households_by_constituency_children_may_2025",
         ),
+        (
+            "ons-consumer-trends-current-price-2026",
+            "ons/consumer_trends_current_price_2026",
+        ),
     ],
 )
 def test_superseded_editions_are_archived_without_active_fact_packages(

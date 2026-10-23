@@ -256,7 +256,6 @@ UK_BUNDLE_SOURCES = (
     "ons-census2021-ur-hh-age101-persons-rgn",
     "ons-census2021-ur-hh-age101-sex-ctry",
     "ons-census2021-ur-hh-age101-sex-rgn",
-    "ons-consumer-trends-current-price-2026",
     "ons-consumer-trends-current-price-september-2026",
     "ons-employee-workplace-pensions-summary-2024",
     "ons-families-households-2025",

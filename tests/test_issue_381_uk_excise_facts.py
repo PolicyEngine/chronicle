@@ -15,6 +15,7 @@ Values are the publishers' as fetched on 2026-10-23.
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from pathlib import Path
 
 import pytest
 
@@ -27,6 +28,11 @@ from chronicle.consumer_contract import (
 from chronicle.core import validate_facts
 from chronicle.dimension_labels import dimension_label_issues
 from chronicle.source_package import SOURCE_PACKAGE_ALIASES, load_source_package
+from chronicle.sources.cells import (
+    SourceArtifactMetadata,
+    build_source_cell_key,
+    source_cells_from_xlsx,
+)
 
 RECEIPTS = "obr-efo-receipts-march-2026"
 ALCOHOL = "hmrc-alcohol-bulletin-july-2026"
@@ -34,6 +40,7 @@ TOBACCO = "hmrc-tobacco-bulletin-july-2026"
 BETTING = "hmrc-betting-gaming-statistics-july-2026"
 GAMBLING = "gambling-commission-industry-statistics-fy2025-26"
 TRENDS_JUNE = "ons-consumer-trends-current-price-2026"
+TRENDS_JUNE_ARTIFACT = Path("db/data/ons/consumer_trends_current_price_2026/cpnsa.xlsx")
 TRENDS_SEPTEMBER = "ons-consumer-trends-current-price-september-2026"
 NEW_PACKAGES = {
     ALCOHOL: 288,
@@ -48,8 +55,7 @@ OBR_PREFIX = "obr.efo_2026_03.receipts."
 @pytest.fixture(scope="module")
 def facts():
     return {
-        alias: load_source_package(alias).build_facts(2026)
-        for alias in (*NEW_PACKAGES, TRENDS_JUNE)
+        alias: load_source_package(alias).build_facts(2026) for alias in NEW_PACKAGES
     }
 
 
@@ -485,43 +491,65 @@ def test_gambling_commission_ggy_and_lotteries(facts):
     assert "b" in categories[2024] and "b1" not in categories[2024]
 
 
-def test_consumer_trends_september_vintage_beside_june(facts):
-    june, september = facts[TRENDS_JUNE], facts[TRENDS_SEPTEMBER]
-    assert len(june) == len(september) == 5164
+def test_consumer_trends_september_edition_supersedes_june(facts):
+    september = facts[TRENDS_SEPTEMBER]
+    root = Path(__file__).resolve().parents[1]
+    # The 30 June edition is retired: no package, no export; its bytes stay.
+    assert TRENDS_JUNE not in SOURCE_PACKAGE_ALIASES
+    assert TRENDS_JUNE not in UK_BUNDLE_SOURCES
+    assert (root / TRENDS_JUNE_ARTIFACT.parent / "manifest.yaml").is_file()
     assert {f.source.vintage for f in september} == {"2026_09_30_release_2026_q2"}
-    assert {f.source.vintage for f in june} == {"2026_06_30_release_2026_q1"}
-    assert not {f.source.source_table for f in june} & {
-        f.source.source_table for f in september
+    # The June record sets: their spec ids, under new record-set ids.
+    assert {f.layout.record_set_spec_id.split(".")[1] for f in september} == {
+        "consumer_trends"
     }
-    # The same record sets: shared spec ids, new record-set ids.
-    assert {f.layout.record_set_spec_id for f in june} == {
-        f.layout.record_set_spec_id for f in september
+    assert {f.layout.record_set_id.split(".")[1] for f in september} == {
+        "consumer_trends_2026_09"
     }
-    assert {
-        f.layout.record_set_id.replace(
-            "ons.consumer_trends_2026_09.", "ons.consumer_trends."
+
+    june_cells = {
+        (cell.sheet_name, cell.address): cell.raw_value
+        for cell in source_cells_from_xlsx(
+            (root / TRENDS_JUNE_ARTIFACT).read_bytes(),
+            SourceArtifactMetadata(
+                source_name="ons",
+                source_table="x",
+                source_file="cpnsa.xlsx",
+                url=None,
+                vintage="x",
+                sha256="0",
+                size_bytes=0,
+                extracted_at="x",
+                extraction_method="x",
+            ),
         )
-        for f in september
-    } == {f.layout.record_set_id for f in june}
+    }
+    package = load_source_package(TRENDS_SEPTEMBER)
+    cells = package.build_source_cells(2026)
+    by_key = {build_source_cell_key(cell): cell for cell in cells}
 
-    def calendar_2024(built, code, sheet):
-        return one(
-            built,
-            period_type="calendar_year",
-            period=2024,
-            coicop=code,
-            source_sheet=sheet,
-        ).value
-
-    # The revisions chronicle#381 cites, current prices, GBP million.
+    # The revisions chronicle#381 cites, calendar 2024, GBP million: the same cell
+    # in each release.
     for code, sheet, before, after in (
         ("02.1", "02CN", 28097, 27058),
         ("02.2", "02CN", 19989, 17102),
         ("09.4.3", "09CN", 11093, 12828),
         ("07.2.2", "07CN", 37025, 35460),
     ):
-        assert calendar_2024(june, code, sheet) == before * 1_000_000
-        assert calendar_2024(september, code, sheet) == after * 1_000_000
+        fact = one(
+            september,
+            period_type="calendar_year",
+            period=2024,
+            coicop=code,
+            source_sheet=sheet,
+        )
+        assert fact.value == after * 1_000_000
+        (value_cell,) = [
+            by_key[key]
+            for key in fact.source_cell_keys
+            if by_key[key].row_number == 36 and isinstance(by_key[key].raw_value, int)
+        ]
+        assert june_cells[sheet, value_cell.address] == before
     # ONS relabelled the national total's code NAT0 to NAT; the series is the same.
     national = [f for f in september if f.filters.get("coicop") == "NAT0"]
     assert national and {f.filters["cdid"] for f in national} == {"ABPB"}

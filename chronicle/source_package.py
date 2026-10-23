@@ -954,9 +954,6 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/subnational_dwellings_by_tenure_2024"
     ),
     "ons-pipr-rents-by-area-june-2026": Path("ons/pipr_rents_by_area_june_2026"),
-    "ons-consumer-trends-current-price-2026": Path(
-        "ons/consumer_trends_current_price_2026"
-    ),
     "ons-consumer-trends-current-price-september-2026": Path(
         "ons/consumer_trends_current_price_september_2026"
     ),

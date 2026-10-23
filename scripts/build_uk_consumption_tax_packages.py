@@ -1,7 +1,9 @@
 """Author issue #322 selectors from the preserved ONS and DESNZ workbooks.
 
 This writes declarative source packages; it does not build or validate facts.
-The ONS extension retains the existing seven series' source-record identifiers.
+The ONS package is the current Consumer Trends edition, the 30 September 2026
+release (chronicle#381). It keeps the record sets the 30 June package had, whose
+package is retired; its raw workbook stays under db/data.
 """
 
 from __future__ import annotations
@@ -16,7 +18,28 @@ import yaml
 from openpyxl.utils import get_column_letter
 
 ROOT = Path(__file__).resolve().parents[1]
-ONS_DIRECTORY = ROOT / "packages/ons/consumer_trends_current_price_2026"
+ONS_DIRECTORY = ROOT / "packages/ons/consumer_trends_current_price_september_2026"
+ONS_WORKBOOK = (
+    ROOT / "db/data/ons/consumer_trends_current_price_september_2026/cpnsa.xlsx"
+)
+ONS_PREFIX = "ons.consumer_trends_2026_09."
+ONS_VINTAGE = "2026_09_30_release_2026_q2"
+# The 30 June edition's last quarter. 2026 Q2 stays in the preserved workbook and
+# source cells, so the edition keeps the June package's record sets.
+ONS_LAST_QUARTER = (2026, 1)
+ONS_COMMENT = """# ONS Consumer Trends, current prices, not seasonally adjusted: the 30 September 2026
+# release (April to June 2026), acquired on 23 October 2026 for chronicle#381. It
+# supersedes ons-consumer-trends-current-price-2026 (the 30 June 2026 release,
+# acquired 9 September), whose package is retired and whose workbook stays under
+# db/data. This package carries the June package's record sets against the new
+# workbook, with record_set_id and source_record_id_prefix under
+# ons.consumer_trends_2026_09 and a source_table naming the release, and keeps each
+# record_set_spec_id. The rows of 2020 to 2026 Q1 sit where they did in June; 2026 Q2
+# stays in the preserved workbook and source cells. ONS relabelled the national total's
+# COICOP header from NAT0 to NAT in this release; its series (CDID ABPB) is unchanged,
+# so the guard reads NAT and the coicop dimension keeps NAT0.
+# Regenerate with scripts/build_uk_consumption_tax_packages.py.
+"""
 ROAD_DIRECTORY = ROOT / "packages/desnz/road_transport_fuel_consumption_2024"
 ONS_SOURCE = (
     "https://www.ons.gov.uk/economy/nationalaccounts/satelliteaccounts/"
@@ -88,6 +111,8 @@ def period(label: int | str | None) -> tuple | None:
     match = re.fullmatch(r"(202[0-6]) Q([1-4])", str(label))
     if match:
         year, quarter = map(int, match.groups())
+        if (year, quarter) > ONS_LAST_QUARTER:
+            return None
         first, last = 3 * quarter - 2, 3 * quarter
         return (
             "quarter",
@@ -105,7 +130,13 @@ def period(label: int | str | None) -> tuple | None:
 
 
 def coicop_code(raw: float | str) -> str:
-    """Preserve ONS identifiers, including Excel's numeric 10, 11 and 12."""
+    """Preserve ONS identifiers, including Excel's numeric 10, 11 and 12.
+
+    The 30 September 2026 release heads the national total NAT where earlier
+    releases wrote NAT0; the series (CDID ABPB) is the same, so it keeps NAT0.
+    """
+    if raw == "NAT":
+        return "NAT0"
     return str(raw).zfill(2) if isinstance(raw, int) and raw != 0 else str(raw)
 
 
@@ -120,25 +151,26 @@ def write_package(directory: Path, payload: dict, comment: str) -> None:
 
 
 def build_ons() -> None:
-    """Extend the existing pinned ONS package without downloading a new vintage."""
+    """Regenerate the current ONS package from its own record sets and workbook."""
     path = ONS_DIRECTORY / "source_package.yaml"
     payload = yaml.safe_load(path.read_text())
     legacy = [
         record
         for record in payload["record_sets"]
-        if not record["record_set_id"].startswith("ons.consumer_trends.expanded_")
+        if not record["record_set_id"].startswith(f"{ONS_PREFIX}expanded_")
     ]
     payload["record_sets"] = legacy
     payload["label"] = (
         "ONS Consumer Trends household final consumption expenditure, every COICOP "
-        "division and class, national/domestic totals and tourism, 2020 to 2026 Q1"
+        "division and class, national/domestic totals and tourism, 2020 to 2026 Q1, "
+        "30 September 2026 release"
     )
     payload["artifact"].update(
         {
-            "source_table": "Consumer Trends current price, not seasonally adjusted, 0CN, 01CN-12CN and TOURCN",
+            "source_table": "Consumer Trends current price, not seasonally adjusted, 30 September 2026 release, 0CN, 01CN-12CN and TOURCN",
             "sheets": ["Notes", *ONS_SHEETS],
             "extraction_method": "XLSX used-range cell parse of declared sheets",
-            "vintage": "2026_06_30_release_2026_q1",
+            "vintage": ONS_VINTAGE,
         }
     )
     payload["dimension_labels"].update(
@@ -183,7 +215,7 @@ def build_ons() -> None:
         for record in legacy
     }
     workbook = openpyxl.load_workbook(
-        ROOT / "db/data/ons/consumer_trends_current_price_2026/cpnsa.xlsx",
+        ONS_WORKBOOK,
         read_only=True,
         data_only=True,
     )
@@ -329,9 +361,7 @@ def build_ons() -> None:
                     }
                 )
             for (consumption_concept, status), rows in groups.items():
-                identifier = (
-                    f"ons.consumer_trends.expanded_{sheet.lower()}.{suffix}.{status}"
-                )
+                identifier = f"{ONS_PREFIX}expanded_{sheet.lower()}.{suffix}.{status}"
                 if consumption_concept != "domestic":
                     identifier += f".{consumption_concept}"
                 filters = {**shared, "publication_status": status}
@@ -340,7 +370,12 @@ def build_ons() -> None:
                         "record_set_id": identifier,
                         "provenance_class": "administrative",
                         "assertion": "observation",
-                        "record_set_spec_id": f"{identifier}.v1",
+                        # Spec ids stay the June edition's, as a revised edition keeps
+                        # its predecessor's (ons-mye-2024-uk-revised-2026).
+                        "record_set_spec_id": (
+                            "ons.consumer_trends."
+                            f"{identifier.removeprefix(ONS_PREFIX)}.v1"
+                        ),
                         "source_record_id_prefix": identifier,
                         "sheet_name": sheet,
                         "period_type": period_type,
@@ -362,13 +397,7 @@ def build_ons() -> None:
                         else numeric_measure,
                     }
                 )
-    write_package(
-        ONS_DIRECTORY,
-        payload,
-        "# Preserved 30 June 2026 release, acquired 9 September; no new download.\n"
-        "# Published [x] markers and signed tourism adjustments are retained.\n"
-        "# Regenerate with scripts/build_uk_consumption_tax_packages.py.\n",
-    )
+    write_package(ONS_DIRECTORY, payload, ONS_COMMENT)
 
 
 def build_road_fuel() -> None:

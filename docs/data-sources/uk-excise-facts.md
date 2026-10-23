@@ -13,7 +13,7 @@ pinned bytes.
 | request | Chronicle | facts |
 |---|---|---:|
 | #381.1 OBR EFO March 2026 excise lines | sheets 3.8, 3.10, 3.11, 3.12 and 3.2 added to `obr-efo-receipts-march-2026` | +181 |
-| #381.2 ONS Consumer Trends, 30 September 2026 release | `ons-consumer-trends-current-price-september-2026`, beside the 30 June package | 5,164 |
+| #381.2 ONS Consumer Trends, 30 September 2026 release | `ons-consumer-trends-current-price-september-2026`, which supersedes the 30 June package | 5,164 |
 | #381.3 Gambling Commission GGY by sector | `gambling-commission-industry-statistics-fy2025-26` | 1,435 |
 | #381.4 HMRC betting and gaming receipts by duty | `hmrc-betting-gaming-statistics-july-2026` | 376 |
 | addendum: HMRC Alcohol Bulletin | `hmrc-alcohol-bulletin-july-2026` | 288 |
@@ -61,21 +61,27 @@ facts carry `published_unit` (`million_sticks`, `thousand_kilograms`,
 
 `cpnsa.xlsx` from the dataset's current URL (514.2 KB, 526,549 bytes, sha256
 `982307e5…`), release of 30 September 2026 covering April to June 2026. The package carries
-the same record sets as `ons-consumer-trends-current-price-2026` (the 30 June release,
-acquired 9 September) against the new workbook: the same `record_set_spec_id` values,
+the record sets of `ons-consumer-trends-current-price-2026` (the 30 June release, acquired
+9 September) against the new workbook: the same `record_set_spec_id` values,
 `record_set_id` and `source_record_id_prefix` under `ons.consumer_trends_2026_09`, vintage
-`2026_09_30_release_2026_q2`, and a `source_table` naming the release. The June package is
-unchanged and stays in the export, as #381 asked.
+`2026_09_30_release_2026_q2`, and a `source_table` naming the release.
+`scripts/build_uk_consumption_tax_packages.py` generates it.
+
+It supersedes the June package, retired as 02d43ae9 retires superseded editions: the
+package and its alias are gone, and its workbook and manifest stay in
+`db/data/ons/consumer_trends_current_price_2026/`. #381 asked to keep the June vintage
+addressable; exporting one edition instead avoids 5,164 duplicate semantic keys, and a
+consumer that re-pins takes the September values.
 
 - Every emitted period (2020 to 2025, 2020 Q1 to 2026 Q1) sits on the row it held in June.
   2026 Q2 stays in the preserved workbook and source cells.
 - ONS relabelled the national total's COICOP header from `NAT0` to `NAT`; its series (CDID
-  ABPB) is unchanged. The guard reads `NAT` and the `coicop` dimension keeps `NAT0`, so one
-  selector matches both vintages.
-- The two vintages share semantic keys (5,164), which the bundle reports as duplicate
-  warnings. Select one vintage with `source_table` or the `record_set_id` prefix.
-- The revisions #381 cites, calendar 2024, £ million: 02.1 28,097 to 27,058; 02.2 19,989 to
-  17,102; 09.4.3 11,093 to 12,828; 07.2.2 37,025 to 35,460.
+  ABPB) is unchanged. The guard reads `NAT` and the `coicop` dimension keeps `NAT0`.
+- Selectors by concept, COICOP, source sheet and period match as they did; selectors by the
+  June `record_set_id` prefix (`ons.consumer_trends.`) or `source_table` match nothing.
+- ONS revised every period. Calendar 2024, £ million: 02.1 28,097 to 27,058; 02.2 19,989
+  to 17,102; 09.4.3 11,093 to 12,828; 07.2.2 37,025 to 35,460 (the four #381 cites);
+  04.5.1 electricity 26,099 to 28,129; 04.5.2 gas 14,642 to 18,298.
 
 ## 3. Gambling Commission industry statistics
 

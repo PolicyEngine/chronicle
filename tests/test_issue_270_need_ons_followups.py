@@ -17,7 +17,7 @@ NEED_2024_PACKAGES = {
     Path("packages/desnz/need_scotland_2024"): 84,
 }
 
-ONS_PACKAGE = Path("packages/ons/consumer_trends_current_price_2026")
+ONS_PACKAGE = Path("packages/ons/consumer_trends_current_price_september_2026")
 
 ONS_ENERGY_COICOPS = {
     "04.5",
@@ -146,10 +146,11 @@ def test_ons_energy_subclasses_preserve_publisher_cells_and_concepts():
     }
 
     expected = {
-        "04.5.1": ("ons.household_expenditure.electricity", "R", 26_099_000_000),
-        "04.5.2": ("ons.household_expenditure.gas", "S", 14_642_000_000),
-        "04.5.3": ("ons.household_expenditure.liquid_fuels", "T", 1_195_000_000),
-        "04.5.4": ("ons.household_expenditure.solid_fuels", "U", 352_000_000),
+        # The 30 September 2026 release (it revised every period).
+        "04.5.1": ("ons.household_expenditure.electricity", "R", 28_129_000_000),
+        "04.5.2": ("ons.household_expenditure.gas", "S", 18_298_000_000),
+        "04.5.3": ("ons.household_expenditure.liquid_fuels", "T", 1_180_000_000),
+        "04.5.4": ("ons.household_expenditure.solid_fuels", "U", 337_000_000),
     }
     for coicop, (concept, column, value) in expected.items():
         fact = annual_2024[coicop]
