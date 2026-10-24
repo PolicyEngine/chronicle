@@ -682,6 +682,7 @@ SOURCE_PACKAGE_ALIASES = {
     "sfpd-legal-pension-caseload-2025": Path("sfpd/legal_pension_caseload_2025"),
     "sfpd-pension-amount-bands-2025": Path("sfpd/pension_amount_bands_2025"),
     "opgroeien-groeipakket-caseload-2025": Path("opgroeien/groeipakket_caseload_2025"),
+    "ostbelgien-kindergeld-2025": Path("ostbelgien/kindergeld_2025"),
     "bfp-economic-outlook-2026-06": Path("bfp/economic_outlook_2026_06"),
     "fpb-economic-outlook-2026-2031-june-2026": Path(
         "fpb/economic_outlook_2026_2031_june_2026"
