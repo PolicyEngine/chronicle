@@ -430,6 +430,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # spells nine communes unlike Statbel (Bruxelles, Waimes and seven
     # orthographic forms); the package keeps SPF's wording, so nine commune
     # geography-name warnings are added.
+    # B2f: RSZ/ONSS adds 34,881 person facts at country:BE: 34,629 quarterly
+    # daily-wage-class cells (2023 Q1 to 2026 Q1) and 252 annual wage key
+    # figures (2020 to 2025). Two packages, sources and tables; no new
+    # geography, period or entity keys and no warnings.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
@@ -452,7 +456,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # The Belgian transport sources add 31,244: Eurostat's 55 annual USD
         # rates, FPD's 10,239 January 2025 amount-band cells and PensionStat's
         # 20,954 workbook cells, which replace its four curated headlines.
-        "fact_count": 1618067,
+        "fact_count": 1652948,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -490,11 +494,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # they are skipped (17 -> 24) and the built-package count is unchanged.
         "skipped_source_count": 24,
         # chronicle#381 adds the Gambling Commission.
-        "source_count": 59,
+        "source_count": 61,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
         # all-claims UC area packages. chronicle#381 adds four and replaces the
         # 30 June Consumer Trends package with the 30 September one.
-        "source_package_count": 416,
+        "source_package_count": 418,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -538,14 +542,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1618067
+    assert row_count == 1652948
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 416
+    assert source_packages["source_package_count"] == 418
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -573,7 +577,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1618067
+    assert coverage["fact_count"] == 1652948
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -619,6 +623,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
+        "rsz_annual_wages_key_figures": 252,
+        "rsz_employment_daily_wage_class": 34629,
         "scotgov": 4244,
         "sfpd_pension_amount_bands": 10239,
         "sfpd_pensions": 20954,
@@ -636,7 +642,21 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 358
+    assert len(table_counts) == 360
+    assert (
+        table_counts[
+            "rsz_employment_daily_wage_class:RSZ T17 daily wage, age and sex; "
+            "T7 NACE 2025, daily wage, sex and status"
+        ]
+        == 34629
+    )
+    assert (
+        table_counts[
+            "rsz_annual_wages_key_figures:Lonen en bezoldigde prestaties, "
+            "Kerncijfers-Chiffres Clés, 2020–2025"
+        ]
+        == 252
+    )
     assert (
         table_counts[
             "spf_finances_municipal_tax_rate:Municipal tax rates (%) for tax "
@@ -2084,6 +2104,26 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     expected_period_counts["calendar_year:2025"] += 22 - 4
     # B2b: SPF Finances' municipal rates, income year 2025 (assessment year 2026).
     expected_period_counts["tax_year:2025"] += 565
+    # B2f: RSZ's quarterly daily-wage classes and annual wage key figures.
+    expected_period_counts["quarter:2023-Q1"] += 432
+    expected_period_counts["quarter:2023-Q2"] += 432
+    expected_period_counts["quarter:2023-Q3"] += 432
+    expected_period_counts["quarter:2023-Q4"] += 432
+    expected_period_counts["quarter:2024-Q1"] += 3669
+    expected_period_counts["quarter:2024-Q2"] += 3672
+    expected_period_counts["quarter:2024-Q3"] += 3654
+    expected_period_counts["quarter:2024-Q4"] += 3636
+    expected_period_counts["quarter:2025-Q1"] += 3648
+    expected_period_counts["quarter:2025-Q2"] += 3654
+    expected_period_counts["quarter:2025-Q3"] += 3642
+    expected_period_counts["quarter:2025-Q4"] += 3669
+    expected_period_counts["quarter:2026-Q1"] += 3657
+    expected_period_counts["calendar_year:2020"] += 42
+    expected_period_counts["calendar_year:2021"] += 42
+    expected_period_counts["calendar_year:2022"] += 42
+    expected_period_counts["calendar_year:2023"] += 42
+    expected_period_counts["calendar_year:2024"] += 42
+    expected_period_counts["calendar_year:2025"] += 42
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2105,7 +2145,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         coverage["counts"]["by_geography"]["statistical_scope:nz-mbie-location-na"]
         == 84
     )
-    assert coverage["counts"]["by_geography"]["country:BE"] == 15145
+    assert coverage["counts"]["by_geography"]["country:BE"] == 50026
     assert coverage["counts"]["by_geography"]["country:DE"] == 36
     assert coverage["counts"]["by_geography"]["country:FR"] == 36
     assert coverage["counts"]["by_geography"]["nuts1:BE1"] == 8567
@@ -2184,7 +2224,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 676320,
         "institutional_sector": 8806,
         "pension_plan": 2,
-        "person": 557399,
+        "person": 592280,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
@@ -2316,6 +2356,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "sfpd-pension-amount-bands-2025",
         "sfpd-legal-pension-caseload-2025",
         "spf-finances-municipal-tax-rate-ay2026",
+        "rsz-employment-daily-wage-class-2023-2026",
+        "rsz-annual-wages-key-figures-2020-2025",
     ):
         assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
     assert (output_dir / "sources" / "soi-table-1-1" / "consumer_facts.jsonl").exists()
