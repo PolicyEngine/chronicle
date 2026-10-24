@@ -52,6 +52,19 @@ NORMALIZED_LABELS = {
     "Ottignies-Louvain-La-Neuve",
     "Villers-le-Bouillet",
 }
+# Communes whose SPF-printed name differs from Statbel's canonical name. Facts
+# carry the publisher's wording (harness, chronicle#266); identity is the NIS code.
+PUBLISHER_NAME_DIFFERS = {
+    "21004": ("Bruxelles", "Brussels"),
+    "25014": ("Braine-l'Alleud", "Braine-l’Alleud"),
+    "25121": ("Ottignies-Louvain-La-Neuve", "Ottignies-Louvain-la-Neuve"),
+    "52022": ("Fontaine-l'Evêque", "Fontaine-l’Evêque"),
+    "52075": ("Les-Bons-Villers", "Les Bons Villers"),
+    "57095": ("Mont-de-l'Enclus", "Mont-de-l’Enclus"),
+    "61068": ("Villers-le-Bouillet", "Villers-Le-Bouillet"),
+    "62119": ("Blégny", "Blegny"),
+    "63080": ("Waimes", "Weismes"),
+}
 
 
 def _csv_rows(path):
@@ -202,6 +215,7 @@ def test_mapping_is_bijective_and_matches_statbel_names_including_german_commune
         code: 1 for code in statbel_communes
     }
     normalized = set()
+    differing = {}
     for row in curated_rows:
         label = row["publisher_commune"]
         exact = {
@@ -226,16 +240,17 @@ def test_mapping_is_bijective_and_matches_statbel_names_including_german_commune
             assert candidates == {row["geography_id"]}
             assert row["match_tier"] == "orthographic_normalization"
             normalized.add(label)
-        assert (
-            row["geography_name"]
-            == statbel_communes[row["geography_id"]]["geography_name"]
-        )
+        assert row["geography_name"] == label
+        statbel_name = statbel_communes[row["geography_id"]]["geography_name"]
+        if label != statbel_name:
+            differing[row["geography_id"]] = (label, statbel_name)
         assert row["geography_level"] == "commune"
         assert row["geography_vintage"] == "nis_2025"
         assert row["period"] == "2025"
         # Source-row evidence for the record set's year constraints.
         assert (row["income_year"], row["assessment_year"]) == ("2025", "2026")
     assert normalized == NORMALIZED_LABELS
+    assert differing == PUBLISHER_NAME_DIFFERS
     assert Counter(row["match_tier"] for row in curated_rows) == {
         "exact_statbel": 558,
         "orthographic_normalization": 7,
@@ -281,6 +296,7 @@ def test_mapping_audit_preserves_every_source_cell_and_matching_evidence(
         commune = statbel_communes[row["geography_id"]]
         for field in ("source_municipality_nl", "source_municipality_fr"):
             assert evidence[field] == commune[field]
+        assert evidence["statbel_geography_name"] == commune["geography_name"]
 
 
 def test_alias_validation_and_explicit_provenance():
@@ -333,9 +349,14 @@ def test_rates_preserve_published_tax_period_unit_and_source_lineage(
         assert coverage.basis == "tax"
         assert coverage.source_period_label == "for tax assessment year 2026"
         assert "2025" in coverage.notes
-        assert fact.geography.name == row["geography_name"]
+        assert fact.geography.name == row["publisher_commune"]
         assert fact.geography.vintage == "nis_2025"
-        assert fact.filters["publisher_commune"] == row["publisher_commune"]
+        # The NIS code identifies the commune; its spelling is not identity.
+        assert not fact.filters
+        assert {constraint.variable for constraint in fact.constraints} == {
+            "income_year",
+            "assessment_year",
+        }
         assert fact.source_record_id
         assert fact.source_row_keys
         assert fact.source_cell_keys

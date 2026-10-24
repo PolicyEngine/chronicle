@@ -59,7 +59,11 @@ HEADERS = (
     "income_year",
     "assessment_year",
 )
-AUDIT_HEADERS = HEADERS + ("source_municipality_nl", "source_municipality_fr")
+AUDIT_HEADERS = HEADERS + (
+    "statbel_geography_name",
+    "source_municipality_nl",
+    "source_municipality_fr",
+)
 
 
 def _normalized_name(label: str) -> str:
@@ -198,7 +202,9 @@ def assemble_rows(source_rows=None, catalog=None) -> list[dict]:
                 "period": INCOME_YEAR,
                 "geography_id": code,
                 "geography_level": "commune",
-                "geography_name": catalog[code]["geography_name"],
+                # Each fact carries the publisher's own name for its geography
+                # (harness, chronicle#266); Statbel's name stays in the audit.
+                "geography_name": label,
                 "geography_vintage": "nis_2025",
                 **source,
                 "source_sha256": RAW_SHA256,
@@ -273,15 +279,6 @@ def _package_payload(rows: list[dict]) -> dict:
                     )
                 },
                 "table_record_kind": "total",
-                "filters": {"publisher_commune": row["publisher_commune"]},
-                "constraints": [
-                    {
-                        "variable": "publisher_commune",
-                        "operator": "==",
-                        "value": row["publisher_commune"],
-                        "label": "Publisher municipality",
-                    }
-                ],
                 "guard_cells": [
                     {
                         "column": column,
@@ -308,10 +305,7 @@ def _package_payload(rows: list[dict]) -> dict:
             "SPF Finances municipal PIT surcharge rates, income year 2025 "
             "(tax assessment year 2026)"
         ),
-        "dimension_labels": {
-            "geography": "Geography",
-            "publisher_commune": "Publisher municipality",
-        },
+        "dimension_labels": {"geography": "Geography"},
         "artifact": {
             "source_name": SOURCE_NAME,
             "source_table": SOURCE_TABLE,
@@ -407,6 +401,7 @@ def render_outputs() -> dict[Path, bytes]:
     audit = [
         {
             **row,
+            "statbel_geography_name": catalog[row["geography_id"]]["geography_name"],
             **{
                 key: catalog[row["geography_id"]][key]
                 for key in (

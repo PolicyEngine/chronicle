@@ -67,16 +67,21 @@ identifies the municipal authority whose administrative rate is published;
 these are neither taxpayer counts nor measured effective household tax rates.
 Every record set explicitly declares `provenance_class: administrative`.
 
-Geography IDs, names and vintage come directly from the committed
+Geography IDs and vintage come directly from the committed
 [`statbel_population_structure_commune_2025.csv`](../../../db/data/statbel/population_structure_commune_2025/statbel_population_structure_commune_2025.csv),
-using its 565 `nis_<code>_total` rows. Names equal that package's `geography_name`
-literally: for example, PDF **Bruxelles** maps through the French alias to
-NIS **21004**, whose canonical geography name is **Brussels**. No merger sums,
-boundary translation or value reconciliation occur.
+using its 565 `nis_<code>_total` rows. Each fact's geography name is SPF's
+printed label, as the harness requires of every publisher (chronicle#266); the
+NIS code, not the name, identifies the commune. Nine printed names differ from
+Statbel's: PDF **Bruxelles** is NIS **21004**, which Statbel names **Brussels**;
+**Waimes** is NIS **63080**, which Statbel names **Weismes**; and the seven
+second-tier labels below differ in spelling or punctuation.
+`commune_mapping_audit.csv` keeps Statbel's name beside each printed label, and
+the bundle reports the differences as cross-package geography-name warnings. No
+merger sums, boundary translation or value reconciliation occur.
 
-The publisher's municipality label is preserved as the `publisher_commune`
-dimension and an equality constraint, separately from the canonical name.
-Matching proceeds in two tiers:
+The printed label also stays in the CSV's `publisher_commune` column, the
+source-row id and a guard cell. It is not a filter or a constraint, so a
+spelling never changes a fact's identity. Matching proceeds in two tiers:
 
 1. Exact equality with Statbel's `source_municipality_nl` or
    `source_municipality_fr`: **558** rows.
