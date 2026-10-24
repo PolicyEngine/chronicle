@@ -1,0 +1,29 @@
+source_id: census_acs
+package_id: census-acs5-b19013-county-2024
+dataset: census_acs5_b19013_county_2024
+source_page: https://api.census.gov/data/2024/acs/acs5.html
+vintage: 2024 ACS 5-year detailed tables (2020–2024)
+reference_period: 2020–2024
+table: B19013 Median Household Income in the Past 12 Months (in 2024 Inflation-Adjusted Dollars)
+notes: Publisher bytes copied unchanged from the supplied 2026-10-24 fetch. The response includes
+  3,222 county-equivalents; packages exclude Puerto Rico (state 72) and retain 3,144 counties
+  in the 50 states and DC. storage.r2 is a content-addressed locator; no upload or archival
+  completion is asserted. De Baca County, New Mexico (0500000US35011), has publisher estimate
+  sentinel -666666666 (annotation -) and MOE sentinel -222222222 (annotation **); preserve
+  these encodings rather than inventing a numeric estimate or MOE.
+files:
+  2024:
+    filename: acs5_2024_B19013_county.json
+    source_url: https://api.census.gov/data/2024/acs/acs5?get=NAME,group(B19013)&for=county:*
+    sha256: c574579d1f648472db366ea4726630c15f8d295ff9294e7dc9156b461d7e83a1
+    size_bytes: 357071
+    fetched_at: '2026-10-24'
+    source_table: ACS 2020–2024 5-year detailed table B19013 county estimates and margins
+      of error
+    year: 2024
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_acs/census-acs5-b19013-county-2024/2024/c574579d1f648472db366ea4726630c15f8d295ff9294e7dc9156b461d7e83a1/acs5_2024_B19013_county.json
+        uri: r2://ledger-raw/raw/census_acs/census-acs5-b19013-county-2024/2024/c574579d1f648472db366ea4726630c15f8d295ff9294e7dc9156b461d7e83a1/acs5_2024_B19013_county.json

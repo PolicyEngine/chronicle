@@ -67,6 +67,146 @@
     "Confirm that only numeric publisher months are emitted; '--' placeholder months must remain absent."
    ],
    "note_new_vintage_sha256": "94c6db7563806e682c5bfd82da4fd7529ff3b17cec9d36eb2b1bb5feabc1b063"
+  },
+  {
+   "package_id": "census-acs5-b01003-county-2024",
+   "url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,group(B01003)&for=county:*",
+   "expected_filename": "acs5_2024_B01003_county.json",
+   "destination_path": "db/data/census/acs5_b01003_county_2024/acs5_2024_B01003_county.json",
+   "manifest_path": "db/data/census/acs5_b01003_county_2024/manifest.yaml",
+   "manifest_year": 2024,
+   "expected_sha256": "c83ef6e45601455855312f2e26ea755cd43a7c65ee58662e4cb4fad122a70bf2",
+   "r2": {
+    "provider": "r2",
+    "bucket": "ledger-raw",
+    "key_template": "raw/census_acs/census-acs5-b01003-county-2024/2024/{sha256}/acs5_2024_B01003_county.json",
+    "uri_template": "r2://ledger-raw/raw/census_acs/census-acs5-b01003-county-2024/2024/{sha256}/acs5_2024_B01003_county.json"
+   },
+   "post_download_steps": [
+    "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
+    "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
+    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+   ]
+  },
+  {
+   "package_id": "census-acs5-b11001-county-2024",
+   "url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,group(B11001)&for=county:*",
+   "expected_filename": "acs5_2024_B11001_county.json",
+   "destination_path": "db/data/census/acs5_b11001_county_2024/acs5_2024_B11001_county.json",
+   "manifest_path": "db/data/census/acs5_b11001_county_2024/manifest.yaml",
+   "manifest_year": 2024,
+   "expected_sha256": "a0c2f64ad5f7172cded551364fc15d6bc37bbbc75ac135f7be00c8622d31d01a",
+   "r2": {
+    "provider": "r2",
+    "bucket": "ledger-raw",
+    "key_template": "raw/census_acs/census-acs5-b11001-county-2024/2024/{sha256}/acs5_2024_B11001_county.json",
+    "uri_template": "r2://ledger-raw/raw/census_acs/census-acs5-b11001-county-2024/2024/{sha256}/acs5_2024_B11001_county.json"
+   },
+   "post_download_steps": [
+    "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
+    "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
+    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+   ]
+  },
+  {
+   "package_id": "census-acs5-b19001-county-2024",
+   "url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,group(B19001)&for=county:*",
+   "expected_filename": "acs5_2024_B19001_county.json",
+   "destination_path": "db/data/census/acs5_b19001_county_2024/acs5_2024_B19001_county.json",
+   "manifest_path": "db/data/census/acs5_b19001_county_2024/manifest.yaml",
+   "manifest_year": 2024,
+   "expected_sha256": "731d54b9443455987e088c4e65c848034c99ef19fb20aef60b87dc481450b3c2",
+   "r2": {
+    "provider": "r2",
+    "bucket": "ledger-raw",
+    "key_template": "raw/census_acs/census-acs5-b19001-county-2024/2024/{sha256}/acs5_2024_B19001_county.json",
+    "uri_template": "r2://ledger-raw/raw/census_acs/census-acs5-b19001-county-2024/2024/{sha256}/acs5_2024_B19001_county.json"
+   },
+   "post_download_steps": [
+    "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
+    "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
+    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+   ]
+  },
+  {
+   "package_id": "census-acs5-b19013-county-2024",
+   "url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,group(B19013)&for=county:*",
+   "expected_filename": "acs5_2024_B19013_county.json",
+   "destination_path": "db/data/census/acs5_b19013_county_2024/acs5_2024_B19013_county.json",
+   "manifest_path": "db/data/census/acs5_b19013_county_2024/manifest.yaml",
+   "manifest_year": 2024,
+   "expected_sha256": "c574579d1f648472db366ea4726630c15f8d295ff9294e7dc9156b461d7e83a1",
+   "r2": {
+    "provider": "r2",
+    "bucket": "ledger-raw",
+    "key_template": "raw/census_acs/census-acs5-b19013-county-2024/2024/{sha256}/acs5_2024_B19013_county.json",
+    "uri_template": "r2://ledger-raw/raw/census_acs/census-acs5-b19013-county-2024/2024/{sha256}/acs5_2024_B19013_county.json"
+   },
+   "post_download_steps": [
+    "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
+    "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
+    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+   ]
+  },
+  {
+   "package_id": "census-acs5-b19025-county-2024",
+   "url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,group(B19025)&for=county:*",
+   "expected_filename": "acs5_2024_B19025_county.json",
+   "destination_path": "db/data/census/acs5_b19025_county_2024/acs5_2024_B19025_county.json",
+   "manifest_path": "db/data/census/acs5_b19025_county_2024/manifest.yaml",
+   "manifest_year": 2024,
+   "expected_sha256": "8def9b6a5684a4b499d3ed0e23737358882ea4ad5627a06f7db5a63114bf7589",
+   "r2": {
+    "provider": "r2",
+    "bucket": "ledger-raw",
+    "key_template": "raw/census_acs/census-acs5-b19025-county-2024/2024/{sha256}/acs5_2024_B19025_county.json",
+    "uri_template": "r2://ledger-raw/raw/census_acs/census-acs5-b19025-county-2024/2024/{sha256}/acs5_2024_B19025_county.json"
+   },
+   "post_download_steps": [
+    "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
+    "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
+    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+   ]
+  },
+  {
+   "package_id": "census-acs5-b19051-county-2024",
+   "url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,group(B19051)&for=county:*",
+   "expected_filename": "acs5_2024_B19051_county.json",
+   "destination_path": "db/data/census/acs5_b19051_county_2024/acs5_2024_B19051_county.json",
+   "manifest_path": "db/data/census/acs5_b19051_county_2024/manifest.yaml",
+   "manifest_year": 2024,
+   "expected_sha256": "919b6abbf7e46452761a04b1051a3e6bf085808b2d251a554d10f82940c4f5d3",
+   "r2": {
+    "provider": "r2",
+    "bucket": "ledger-raw",
+    "key_template": "raw/census_acs/census-acs5-b19051-county-2024/2024/{sha256}/acs5_2024_B19051_county.json",
+    "uri_template": "r2://ledger-raw/raw/census_acs/census-acs5-b19051-county-2024/2024/{sha256}/acs5_2024_B19051_county.json"
+   },
+   "post_download_steps": [
+    "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
+    "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
+    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+   ]
+  },
+  {
+   "package_id": "census-acs5-b19061-county-2024",
+   "url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,group(B19061)&for=county:*",
+   "expected_filename": "acs5_2024_B19061_county.json",
+   "destination_path": "db/data/census/acs5_b19061_county_2024/acs5_2024_B19061_county.json",
+   "manifest_path": "db/data/census/acs5_b19061_county_2024/manifest.yaml",
+   "manifest_year": 2024,
+   "expected_sha256": "d3948e8118f7a5c5bbd82d2802591bb6edf184e012e227b478d71edd860f59f4",
+   "r2": {
+    "provider": "r2",
+    "bucket": "ledger-raw",
+    "key_template": "raw/census_acs/census-acs5-b19061-county-2024/2024/{sha256}/acs5_2024_B19061_county.json",
+    "uri_template": "r2://ledger-raw/raw/census_acs/census-acs5-b19061-county-2024/2024/{sha256}/acs5_2024_B19061_county.json"
+   },
+   "post_download_steps": [
+    "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
+    "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
+    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+   ]
   }
  ],
  "final_validation": [
