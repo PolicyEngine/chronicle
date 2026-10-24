@@ -93,6 +93,34 @@ HEADERS = [
     "recipients_raw",
     "expenditure_raw",
 ]
+METRICS = (
+    ("recipients", "count", "Aantal gerechtigden"),
+    ("monthly_expenditure_eur", "eur", "Maandelijkse uitgave (EUR)"),
+)
+_SCOPE = (
+    "FPD employees/self-employed database; public-sector pension amounts "
+    "excluded. Includes beneficiaries residing abroad. See package README."
+)
+# Counts carry the section headers' snapshot date (printed pp15, 215, 229);
+# expenditure is the gross monthly amount paid for January.
+COVERAGE = {
+    "recipients": {
+        "start_date": "2025-01-01",
+        "end_date": "2025-01-01",
+        "basis": "calendar",
+        "source_period_label": "Toestand op 1 januari 2025",
+        "notes": "Beneficiary stock on 1 January 2025, not a monthly average. "
+        + _SCOPE,
+    },
+    "monthly_expenditure_eur": {
+        "start_date": "2025-01-01",
+        "end_date": "2025-01-31",
+        "basis": "calendar",
+        "source_period_label": "januari 2025",
+        "notes": "Gross monthly amounts payable for January 2025 to the "
+        "beneficiaries counted on 1 January 2025. " + _SCOPE,
+    },
+}
 NUMBER = re.compile(r"\d+(?:\.\d{3})*(?:,\d{2})?\Z")
 BAND = re.compile(r"([\d.,]+) (?:-|tot) ([\d.,]+)\Z|([\d.,]+) en (?:>|meer)\Z")
 
@@ -442,8 +470,7 @@ def package_spec(rows: list[dict]) -> dict:
             if key != "sfpd.monthly_amount_band" and first[key]
         }
         identifier = f"sfpd.amount_bands.jan2025.group{group_index + 1}"
-        spec = {
-            "record_set_id": identifier,
+        base = {
             "provenance_class": "administrative",
             "assertion": "observation",
             "record_set_spec_id": identifier + ".v1",
@@ -451,13 +478,7 @@ def package_spec(rows: list[dict]) -> dict:
             "sheet_name": "amount_bands",
             "period_type": "month",
             "period": "2025-01",
-            "period_coverage": {
-                "start_date": "2025-01-01",
-                "end_date": "2025-01-31",
-                "basis": "calendar",
-                "source_period_label": "januari 2025",
-                "notes": "Beneficiary stock at 1 January 2025, not a monthly average; gross monthly amounts payable for January. FPD employees/self-employed database; public-sector pension amounts excluded. Includes beneficiaries residing abroad. See package README.",
-            },
+            "period_coverage": None,  # set per metric below
             "geography_id": "BE",
             "geography_level": "country",
             "geography_name": "Belgium",
@@ -469,7 +490,6 @@ def package_spec(rows: list[dict]) -> dict:
             "shared_filters": dict(shared),
             "shared_constraints": [_constraint(k, v) for k, v in shared.items()],
             "rows": [],
-            "measures": [],
         }
         for ordinal, (csv_row, row) in enumerate(members):
             band = row["sfpd.monthly_amount_band"]
@@ -488,7 +508,7 @@ def package_spec(rows: list[dict]) -> dict:
                             "label": "Published monthly amount boundary (EUR)",
                         }
                     )
-            spec["rows"].append(
+            base["rows"].append(
                 {
                     "value_id": row["row_id"],
                     "label": band,
@@ -512,21 +532,24 @@ def package_spec(rows: list[dict]) -> dict:
         population = {"1.2": "pension", "6.2": "igo", "9": "all_benefits"}[
             first["section"]
         ]
-        for ordinal, (metric, unit, label) in enumerate(
-            (
-                ("recipients", "count", "Aantal gerechtigden"),
-                ("monthly_expenditure_eur", "eur", "Maandelijkse uitgave (EUR)"),
-            )
-        ):
+        # One record set per metric: counts and expenditure differ in coverage.
+        # They share the table's spec ID and record-ID prefix, so fact keys and
+        # source-record IDs do not depend on the split.
+        for metric, unit, label in METRICS:
             if not first[metric]:
                 continue
             column = chr(65 + HEADERS.index(metric))
             # The two metric columns occur before Excel Z in this fixed schema.
-            spec["measures"].append(
+            spec = {
+                "record_set_id": f"{identifier}.{metric}",
+                **base,
+                "period_coverage": COVERAGE[metric],
+            }
+            spec["measures"] = [
                 {
                     "measure_id": metric,
                     "label": label,
-                    "ordinal": ordinal,
+                    "ordinal": 0,
                     "column": column,
                     "source_column_id": metric,
                     "expected_column_header_row": 1,
@@ -541,8 +564,8 @@ def package_spec(rows: list[dict]) -> dict:
                     "aggregation": "sum",
                     "expected_cell_type": "number",
                 }
-            )
-        record_sets.append(spec)
+            ]
+            record_sets.append(spec)
     return {
         "schema_version": schema_id("source_package"),
         "package_id": PACKAGE_ID,

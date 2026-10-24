@@ -96,6 +96,47 @@ VALUE_COLUMNS = {
     "Jaaruitgave": (6,),
     "MinP_aantal": (8,),
 }
+_KADASTER = "Pensioners paid only through the kadaster are excluded."
+# The IGO page dates its counts to 1 January 2025 and its amounts to January
+# 2025; the other monthly sheets date both to January 2025.
+COVERAGE = {
+    "annual": {
+        "start_date": "2025-01-01",
+        "end_date": "2025-12-31",
+        "source_period_label": "2025",
+        "basis": "calendar",
+        "notes": "Jaaruitgave uses the publisher's Jaar label without shifting it.",
+    },
+    "january": {
+        "start_date": "2025-01-01",
+        "end_date": "2025-01-31",
+        "source_period_label": "januari 2025",
+        "basis": "calendar",
+        "notes": "January caseload/payment reference; gross published amounts. "
+        + _KADASTER,
+    },
+    "igo_counts": {
+        "start_date": "2025-01-01",
+        "end_date": "2025-01-01",
+        "source_period_label": "1 januari 2025",
+        "basis": "calendar",
+        "notes": "IGO counts refer to 1 January 2025 (PensionStat IGO page). "
+        + _KADASTER,
+    },
+    "igo_amounts": {
+        "start_date": "2025-01-01",
+        "end_date": "2025-01-31",
+        "source_period_label": "januari 2025",
+        "basis": "calendar",
+        "notes": "Gross monthly IGO amounts for January 2025 (PensionStat IGO page). "
+        + _KADASTER,
+    },
+}
+# IGO's value columns split into record sets by period coverage.
+IGO_RECORD_SETS = (
+    ("counts", VALUE_COLUMNS["IGO"][:1], "igo_counts"),
+    ("amounts", VALUE_COLUMNS["IGO"][1:], "igo_amounts"),
+)
 # Geography names follow the Statbel packages' NUTS1 names; the publisher's
 # own code or label stays in the woonplaats/regio dimension.
 REGIONS = {
@@ -413,43 +454,41 @@ def generate_package() -> dict:
                     }
                 )
             annual = sheet == "Jaaruitgave"
-            records.append(
-                {
-                    "record_set_id": "pensionstat.2025." + sheet.lower(),
-                    "provenance_class": "administrative",
-                    "assertion": "observation",
-                    "record_set_spec_id": "pensionstat." + sheet.lower() + ".v1",
-                    "source_record_id_prefix": "pensionstat.2025." + sheet.lower(),
-                    "sheet_name": sheet,
-                    "period_type": "calendar_year" if annual else "month",
-                    "period": 2025 if annual else "2025-01",
-                    "period_coverage": {
-                        "start_date": "2025-01-01",
-                        "end_date": "2025-12-31" if annual else "2025-01-31",
-                        "source_period_label": "2025" if annual else "januari 2025",
-                        "basis": "calendar",
-                        "notes": (
-                            "Jaaruitgave uses the publisher's Jaar label without shifting it."
-                            if annual
-                            else "January caseload/payment reference; gross published amounts. "
-                            "Pensioners paid only through the kadaster are excluded."
-                        ),
-                    },
-                    "geography_id": "BE",
-                    "geography_level": "country",
-                    "geography_name": "Belgium",
-                    "geography_vintage": "current",
-                    "entity": "person",
-                    "entity_role": "benefit_recipient",
-                    "domain": "pensions",
-                    "groupby_dimension": dimension(groupby_header),
-                    "rows": rows,
-                    "measures": [
-                        measure(sheet, headers[index], index, ordinal)
-                        for ordinal, index in enumerate(VALUE_COLUMNS[sheet])
-                    ],
-                }
+            base_id = "pensionstat.2025." + sheet.lower()
+            groups = (
+                IGO_RECORD_SETS
+                if sheet == "IGO"
+                else ((None, VALUE_COLUMNS[sheet], "annual" if annual else "january"),)
             )
+            # Split sets share the sheet's spec ID and record-ID prefix, so
+            # fact keys and source-record IDs do not depend on the split.
+            for suffix, columns, coverage in groups:
+                records.append(
+                    {
+                        "record_set_id": f"{base_id}.{suffix}" if suffix else base_id,
+                        "provenance_class": "administrative",
+                        "assertion": "observation",
+                        "record_set_spec_id": "pensionstat." + sheet.lower() + ".v1",
+                        "source_record_id_prefix": base_id,
+                        "sheet_name": sheet,
+                        "period_type": "calendar_year" if annual else "month",
+                        "period": 2025 if annual else "2025-01",
+                        "period_coverage": COVERAGE[coverage],
+                        "geography_id": "BE",
+                        "geography_level": "country",
+                        "geography_name": "Belgium",
+                        "geography_vintage": "current",
+                        "entity": "person",
+                        "entity_role": "benefit_recipient",
+                        "domain": "pensions",
+                        "groupby_dimension": dimension(groupby_header),
+                        "rows": rows,
+                        "measures": [
+                            measure(sheet, headers[index], index, ordinal)
+                            for ordinal, index in enumerate(columns)
+                        ],
+                    }
+                )
     finally:
         workbook.close()
     return {
@@ -503,7 +542,7 @@ def main() -> None:
     print(
         json.dumps(
             {
-                r["sheet_name"]: len(r["rows"]) * len(r["measures"])
+                r["record_set_id"]: len(r["rows"]) * len(r["measures"])
                 for r in package["record_sets"]
             }
         )

@@ -6,7 +6,7 @@ import csv
 import hashlib
 import re
 import runpy
-from collections import defaultdict
+from collections import Counter, defaultdict
 from decimal import Decimal
 from functools import lru_cache
 from pathlib import Path
@@ -29,6 +29,11 @@ PDF = "nl_statistiek_2025.pdf"
 CSV = "pension_amount_bands_2025.csv"
 SHA256 = "198baf61f9277755059367c811664a71917aab6fe5d2b7e2c7e2c96e9baa8c64"
 SOURCE_URL = "https://www.sfpd.fgov.be/media/Stat/Jaarlijks/" + PDF
+# Restated from the PDF's section headers, not imported from the generator.
+COVERAGE = {
+    "recipients": ("2025-01-01", "2025-01-01", "Toestand op 1 januari 2025"),
+    "monthly_expenditure_eur": ("2025-01-01", "2025-01-31", "januari 2025"),
+}
 
 
 @lru_cache
@@ -321,14 +326,23 @@ def test_sfpd_package_has_publisher_period_single_cell_selectors_and_provenance(
     assert "<<:" not in text
     spec = yaml.safe_load(text)
     assert text.count("provenance_class: administrative") == len(spec["record_sets"])
+    coverage_counts = Counter()
     for record_set in spec["record_sets"]:
         assert record_set["provenance_class"] == "administrative"
         assert record_set["assertion"] == "observation"
         assert (record_set["period_type"], record_set["period"]) == ("month", "2025-01")
-        assert record_set["period_coverage"]["source_period_label"] == "januari 2025"
-        assert record_set["period_coverage"]["start_date"] == "2025-01-01"
-        assert record_set["period_coverage"]["end_date"] == "2025-01-31"
-        assert record_set["period_coverage"]["basis"] == "calendar"
+        # Counts are the 1 January stock ("Toestand op 1 januari 2025");
+        # expenditure is the gross monthly amount for January.
+        (measure,) = record_set["measures"]
+        assert record_set["record_set_id"].endswith("." + measure["measure_id"])
+        coverage = record_set["period_coverage"]
+        assert (
+            coverage["start_date"],
+            coverage["end_date"],
+            coverage["source_period_label"],
+        ) == COVERAGE[measure["measure_id"]]
+        assert coverage["basis"] == "calendar"
+        coverage_counts[measure["measure_id"]] += len(record_set["rows"])
         for row in record_set["rows"]:
             assert "row_end_number" not in row
             assert row["guard_cells"]
@@ -336,6 +350,7 @@ def test_sfpd_package_has_publisher_period_single_cell_selectors_and_provenance(
             assert measure.get("value_scale", 1) == 1
             assert "divisor_column" not in measure
             assert measure["aggregation"] == "sum"
+    assert coverage_counts == {"recipients": 5572, "monthly_expenditure_eur": 4667}
     assert load_source_package(PACKAGE).package_id == ALIAS
 
 
@@ -361,7 +376,10 @@ def test_sfpd_scope_and_gross_reference_month_are_publisher_evidence():
     assert "gedeelte werknemers en zelfstandigen" in intro
     assert "(ex-RVP)" in intro
     assert "steeds maandelijkse brutobedragen" in (_document().pages[13].extract_text())
+    # Each selected section (1, 6 and 9) dates its population to 1 January.
+    for page in (25, 225, 239):
+        text = _document().pages[page - 1].extract_text()
+        assert "Toestand op 1 januari 2025" in text
     scope9 = _document().pages[238].extract_text()
-    assert "Toestand op 1 januari 2025" in scope9
     assert "2.489.512" in scope9
     assert "maar met het betaalde bedrag wordt geen rekening gehouden" in scope9

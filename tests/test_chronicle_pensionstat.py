@@ -199,6 +199,56 @@ def test_pensionstat_covers_each_published_2025_value_once(specs, publisher_rows
         assert spec.selector.end_address is None
 
 
+# PensionStat's definition pages date IGO counts to 1 January 2025 and every
+# other monthly cell, IGO amounts included, to January 2025.
+COVERAGE = {
+    ("IGO", "I"): ("2025-01-01", "2025-01-01", "1 januari 2025"),
+    ("Jaaruitgave", "G"): ("2025-01-01", "2025-12-31", "2025"),
+}
+JANUARY = ("2025-01-01", "2025-01-31", "januari 2025")
+
+
+def test_pensionstat_period_coverage_follows_publisher_reference_dates(specs):
+    seen = Counter()
+    for spec in specs:
+        column = spec.selector.address.rstrip("0123456789")
+        key = (spec.selector.sheet_name, column)
+        coverage = spec.period_coverage
+        expected = COVERAGE.get(key, JANUARY)
+        assert (
+            coverage.start_date,
+            coverage.end_date,
+            coverage.source_period_label,
+        ) == expected, key
+        # Coverage is provenance; the compact period identity does not move.
+        annual = key == ("Jaaruitgave", "G")
+        assert (spec.period_type, spec.period) == (
+            ("calendar_year", 2025) if annual else ("month", "2025-01")
+        )
+        seen[expected] += 1
+    assert seen[COVERAGE[("IGO", "I")]] == 1715
+    assert seen[COVERAGE[("Jaaruitgave", "G")]] == 22
+    assert seen[JANUARY] == 20954 - 1715 - 22
+
+
+def test_pensionstat_igo_split_keeps_one_table_identity(package):
+    records = {
+        record.payload["record_set_id"]: record.payload
+        for record in package.record_sets
+        if record.payload["sheet_name"] == "IGO"
+    }
+    assert set(records) == {
+        "pensionstat.2025.igo.counts",
+        "pensionstat.2025.igo.amounts",
+    }
+    counts, amounts = records.values()
+    assert [m["column"] for m in counts["measures"]] == ["I"]
+    assert [m["column"] for m in amounts["measures"]] == ["J", "K"]
+    assert counts["rows"] == amounts["rows"]
+    for field in ("record_set_spec_id", "source_record_id_prefix", "period"):
+        assert counts[field] == amounts[field]
+
+
 @pytest.mark.parametrize("sheet_name", VALUE_COLUMNS)
 def test_pensionstat_sample_cells_resolve_exact_publisher_values(
     sheet_name, specs, publisher_rows, artifact

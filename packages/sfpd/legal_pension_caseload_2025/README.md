@@ -28,9 +28,25 @@ source evidence without relabeling them as 2025 facts.
 | --- | --- | --- |
 | Gepensioneerden | I: Aantal; J: Gemiddeld bedrag januari | January 2025 |
 | Gepensioneerden_gemeente | C: Aantal | January 2025 |
-| IGO | I: Aantal; J: Gemiddeld bedrag; K: Mediaanbedrag | January 2025 |
+| IGO | I: Aantal | 1 January 2025 (stock) |
+| IGO | J: Gemiddeld bedrag; K: Mediaanbedrag | January 2025 |
 | Jaaruitgave | G: Jaaruitgave | Printed year 2025 |
 | MinP_aantal | I: Aantal | January 2025 |
+
+The reference dates follow PensionStat's definition pages, retrieved
+2026-10-23. The [pensioner](https://www.pensionstat.be/nl/kerncijfers/wettelijk-pensioen/gepensioneerden)
+and [minimum-pension](https://www.pensionstat.be/nl/kerncijfers/wettelijk-pensioen/minimumpensioen)
+pages count everyone who received a legal FPD pension in January 2025. Their
+amounts are gross January 2025 amounts. The
+[IGO page](https://www.pensionstat.be/nl/kerncijfers/wettelijk-pensioen/igo)
+instead dates its counts to 1 January 2025, and its mean and median amounts
+are gross monthly amounts for January 2025.
+
+The IGO sheet is therefore two record sets. Counts have period coverage
+1 January 2025 to 1 January 2025; amounts have coverage 1–31 January 2025.
+They share one spec ID and source-record-ID prefix, so fact keys and
+source-record IDs do not depend on the split. Every monthly fact keeps the
+compact period `month:2025-01`.
 
 Each fact selects one numeric cell, with an exact sheet/row/column locator,
 native header guard and guards for every category and year in its source row.

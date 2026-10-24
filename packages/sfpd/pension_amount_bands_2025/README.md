@@ -24,6 +24,14 @@ database. This is a stock of beneficiaries and the associated monthly amounts,
 not an annual flow or a sum of twelve months. The chapter introductions make
 the date explicit on PDF pages 25, 225 and 239 (printed pages 15, 215 and 229).
 
+In the package, each recipient count has period coverage 1 January 2025 to
+1 January 2025, the stock date. Each monthly-expenditure cell has coverage
+1–31 January 2025, the month whose gross monthly amounts it reports. Coverage
+is declared per record set, so each table group becomes one record set per
+metric. The two sets share the group's spec ID and source-record-ID prefix, so
+fact keys and source-record IDs match a combined set. Both keep the compact
+period `month:2025-01`.
+
 The introduction on PDF page 14 (printed page 4) defines all reported amounts
 as **monthly gross amounts**. Actual cash payments may be reduced by income
 tax withholding, health insurance contributions, solidarity contributions or
