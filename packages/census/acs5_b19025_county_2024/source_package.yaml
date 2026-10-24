@@ -11,7 +11,7 @@ dimension_value_labels:
   statistic:
     estimate: Estimate
     margin_of_error: Margin of error
-source_county_count: 3144
+source_county_count: 3222
 unavailable_cells: []
 artifact:
   source_name: census_acs
@@ -22,8 +22,9 @@ artifact:
   manifest: manifest.yaml
   vintage: acs_5_year_2020_2024
   extracted_at: '2026-10-24'
-  extraction_method: Full publisher JSON row parse with guarded county E/M source cells; Puerto
-    Rico excluded; sentinel codes and annotations retained in raw rows only
+  extraction_method: Full publisher JSON row parse with guarded county E/M source cells; all
+    3,222 county rows retained, including 78 Puerto Rico municipios; sentinel codes and annotations
+    retained in raw rows and unavailable_cells, never emitted as numeric facts
   parser: json_table_full_rows
   sheet_name: api_response
   selected_rows:
@@ -3171,6 +3172,84 @@ artifact:
   - GEO_ID: 0500000US56041
   - GEO_ID: 0500000US56043
   - GEO_ID: 0500000US56045
+  - GEO_ID: 0500000US72001
+  - GEO_ID: 0500000US72003
+  - GEO_ID: 0500000US72005
+  - GEO_ID: 0500000US72007
+  - GEO_ID: 0500000US72009
+  - GEO_ID: 0500000US72011
+  - GEO_ID: 0500000US72013
+  - GEO_ID: 0500000US72015
+  - GEO_ID: 0500000US72017
+  - GEO_ID: 0500000US72019
+  - GEO_ID: 0500000US72021
+  - GEO_ID: 0500000US72023
+  - GEO_ID: 0500000US72025
+  - GEO_ID: 0500000US72027
+  - GEO_ID: 0500000US72029
+  - GEO_ID: 0500000US72031
+  - GEO_ID: 0500000US72033
+  - GEO_ID: 0500000US72035
+  - GEO_ID: 0500000US72037
+  - GEO_ID: 0500000US72039
+  - GEO_ID: 0500000US72041
+  - GEO_ID: 0500000US72043
+  - GEO_ID: 0500000US72045
+  - GEO_ID: 0500000US72047
+  - GEO_ID: 0500000US72049
+  - GEO_ID: 0500000US72051
+  - GEO_ID: 0500000US72053
+  - GEO_ID: 0500000US72054
+  - GEO_ID: 0500000US72055
+  - GEO_ID: 0500000US72057
+  - GEO_ID: 0500000US72059
+  - GEO_ID: 0500000US72061
+  - GEO_ID: 0500000US72063
+  - GEO_ID: 0500000US72065
+  - GEO_ID: 0500000US72067
+  - GEO_ID: 0500000US72069
+  - GEO_ID: 0500000US72071
+  - GEO_ID: 0500000US72073
+  - GEO_ID: 0500000US72075
+  - GEO_ID: 0500000US72077
+  - GEO_ID: 0500000US72079
+  - GEO_ID: 0500000US72081
+  - GEO_ID: 0500000US72083
+  - GEO_ID: 0500000US72085
+  - GEO_ID: 0500000US72087
+  - GEO_ID: 0500000US72089
+  - GEO_ID: 0500000US72091
+  - GEO_ID: 0500000US72093
+  - GEO_ID: 0500000US72095
+  - GEO_ID: 0500000US72097
+  - GEO_ID: 0500000US72099
+  - GEO_ID: 0500000US72101
+  - GEO_ID: 0500000US72103
+  - GEO_ID: 0500000US72105
+  - GEO_ID: 0500000US72107
+  - GEO_ID: 0500000US72109
+  - GEO_ID: 0500000US72111
+  - GEO_ID: 0500000US72113
+  - GEO_ID: 0500000US72115
+  - GEO_ID: 0500000US72117
+  - GEO_ID: 0500000US72119
+  - GEO_ID: 0500000US72121
+  - GEO_ID: 0500000US72123
+  - GEO_ID: 0500000US72125
+  - GEO_ID: 0500000US72127
+  - GEO_ID: 0500000US72129
+  - GEO_ID: 0500000US72131
+  - GEO_ID: 0500000US72133
+  - GEO_ID: 0500000US72135
+  - GEO_ID: 0500000US72137
+  - GEO_ID: 0500000US72139
+  - GEO_ID: 0500000US72141
+  - GEO_ID: 0500000US72143
+  - GEO_ID: 0500000US72145
+  - GEO_ID: 0500000US72147
+  - GEO_ID: 0500000US72149
+  - GEO_ID: 0500000US72151
+  - GEO_ID: 0500000US72153
 record_sets:
 - record_set_id: census_acs.acs5_2020_2024.b19025.county.group_0
   provenance_class: survey_aggregate
@@ -50356,6 +50435,1176 @@ record_sets:
       expected_value: 0500000US56045
       label: County GEO_ID
     table_record_kind: total
+  - value_id: '72001'
+    label: Adjuntas Municipio, Puerto Rico
+    ordinal: 3144
+    row_number: 3146
+    geography_id: 0500000US72001
+    geography_level: county
+    geography_name: Adjuntas Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Adjuntas Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72001
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72003'
+    label: Aguada Municipio, Puerto Rico
+    ordinal: 3145
+    row_number: 3147
+    geography_id: 0500000US72003
+    geography_level: county
+    geography_name: Aguada Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Aguada Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72003
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72005'
+    label: Aguadilla Municipio, Puerto Rico
+    ordinal: 3146
+    row_number: 3148
+    geography_id: 0500000US72005
+    geography_level: county
+    geography_name: Aguadilla Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Aguadilla Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72005
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72007'
+    label: Aguas Buenas Municipio, Puerto Rico
+    ordinal: 3147
+    row_number: 3149
+    geography_id: 0500000US72007
+    geography_level: county
+    geography_name: Aguas Buenas Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Aguas Buenas Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72007
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72009'
+    label: Aibonito Municipio, Puerto Rico
+    ordinal: 3148
+    row_number: 3150
+    geography_id: 0500000US72009
+    geography_level: county
+    geography_name: Aibonito Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Aibonito Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72009
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72011'
+    label: Añasco Municipio, Puerto Rico
+    ordinal: 3149
+    row_number: 3151
+    geography_id: 0500000US72011
+    geography_level: county
+    geography_name: Añasco Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Añasco Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72011
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72013'
+    label: Arecibo Municipio, Puerto Rico
+    ordinal: 3150
+    row_number: 3152
+    geography_id: 0500000US72013
+    geography_level: county
+    geography_name: Arecibo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Arecibo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72013
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72015'
+    label: Arroyo Municipio, Puerto Rico
+    ordinal: 3151
+    row_number: 3153
+    geography_id: 0500000US72015
+    geography_level: county
+    geography_name: Arroyo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Arroyo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72015
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72017'
+    label: Barceloneta Municipio, Puerto Rico
+    ordinal: 3152
+    row_number: 3154
+    geography_id: 0500000US72017
+    geography_level: county
+    geography_name: Barceloneta Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Barceloneta Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72017
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72019'
+    label: Barranquitas Municipio, Puerto Rico
+    ordinal: 3153
+    row_number: 3155
+    geography_id: 0500000US72019
+    geography_level: county
+    geography_name: Barranquitas Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Barranquitas Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72019
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72021'
+    label: Bayamón Municipio, Puerto Rico
+    ordinal: 3154
+    row_number: 3156
+    geography_id: 0500000US72021
+    geography_level: county
+    geography_name: Bayamón Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Bayamón Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72021
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72023'
+    label: Cabo Rojo Municipio, Puerto Rico
+    ordinal: 3155
+    row_number: 3157
+    geography_id: 0500000US72023
+    geography_level: county
+    geography_name: Cabo Rojo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Cabo Rojo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72023
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72025'
+    label: Caguas Municipio, Puerto Rico
+    ordinal: 3156
+    row_number: 3158
+    geography_id: 0500000US72025
+    geography_level: county
+    geography_name: Caguas Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Caguas Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72025
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72027'
+    label: Camuy Municipio, Puerto Rico
+    ordinal: 3157
+    row_number: 3159
+    geography_id: 0500000US72027
+    geography_level: county
+    geography_name: Camuy Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Camuy Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72027
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72029'
+    label: Canóvanas Municipio, Puerto Rico
+    ordinal: 3158
+    row_number: 3160
+    geography_id: 0500000US72029
+    geography_level: county
+    geography_name: Canóvanas Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Canóvanas Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72029
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72031'
+    label: Carolina Municipio, Puerto Rico
+    ordinal: 3159
+    row_number: 3161
+    geography_id: 0500000US72031
+    geography_level: county
+    geography_name: Carolina Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Carolina Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72031
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72033'
+    label: Cataño Municipio, Puerto Rico
+    ordinal: 3160
+    row_number: 3162
+    geography_id: 0500000US72033
+    geography_level: county
+    geography_name: Cataño Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Cataño Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72033
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72035'
+    label: Cayey Municipio, Puerto Rico
+    ordinal: 3161
+    row_number: 3163
+    geography_id: 0500000US72035
+    geography_level: county
+    geography_name: Cayey Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Cayey Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72035
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72037'
+    label: Ceiba Municipio, Puerto Rico
+    ordinal: 3162
+    row_number: 3164
+    geography_id: 0500000US72037
+    geography_level: county
+    geography_name: Ceiba Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Ceiba Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72037
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72039'
+    label: Ciales Municipio, Puerto Rico
+    ordinal: 3163
+    row_number: 3165
+    geography_id: 0500000US72039
+    geography_level: county
+    geography_name: Ciales Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Ciales Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72039
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72041'
+    label: Cidra Municipio, Puerto Rico
+    ordinal: 3164
+    row_number: 3166
+    geography_id: 0500000US72041
+    geography_level: county
+    geography_name: Cidra Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Cidra Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72041
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72043'
+    label: Coamo Municipio, Puerto Rico
+    ordinal: 3165
+    row_number: 3167
+    geography_id: 0500000US72043
+    geography_level: county
+    geography_name: Coamo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Coamo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72043
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72045'
+    label: Comerío Municipio, Puerto Rico
+    ordinal: 3166
+    row_number: 3168
+    geography_id: 0500000US72045
+    geography_level: county
+    geography_name: Comerío Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Comerío Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72045
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72047'
+    label: Corozal Municipio, Puerto Rico
+    ordinal: 3167
+    row_number: 3169
+    geography_id: 0500000US72047
+    geography_level: county
+    geography_name: Corozal Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Corozal Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72047
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72049'
+    label: Culebra Municipio, Puerto Rico
+    ordinal: 3168
+    row_number: 3170
+    geography_id: 0500000US72049
+    geography_level: county
+    geography_name: Culebra Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Culebra Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72049
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72051'
+    label: Dorado Municipio, Puerto Rico
+    ordinal: 3169
+    row_number: 3171
+    geography_id: 0500000US72051
+    geography_level: county
+    geography_name: Dorado Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Dorado Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72051
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72053'
+    label: Fajardo Municipio, Puerto Rico
+    ordinal: 3170
+    row_number: 3172
+    geography_id: 0500000US72053
+    geography_level: county
+    geography_name: Fajardo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Fajardo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72053
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72054'
+    label: Florida Municipio, Puerto Rico
+    ordinal: 3171
+    row_number: 3173
+    geography_id: 0500000US72054
+    geography_level: county
+    geography_name: Florida Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Florida Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72054
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72055'
+    label: Guánica Municipio, Puerto Rico
+    ordinal: 3172
+    row_number: 3174
+    geography_id: 0500000US72055
+    geography_level: county
+    geography_name: Guánica Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Guánica Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72055
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72057'
+    label: Guayama Municipio, Puerto Rico
+    ordinal: 3173
+    row_number: 3175
+    geography_id: 0500000US72057
+    geography_level: county
+    geography_name: Guayama Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Guayama Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72057
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72059'
+    label: Guayanilla Municipio, Puerto Rico
+    ordinal: 3174
+    row_number: 3176
+    geography_id: 0500000US72059
+    geography_level: county
+    geography_name: Guayanilla Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Guayanilla Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72059
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72061'
+    label: Guaynabo Municipio, Puerto Rico
+    ordinal: 3175
+    row_number: 3177
+    geography_id: 0500000US72061
+    geography_level: county
+    geography_name: Guaynabo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Guaynabo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72061
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72063'
+    label: Gurabo Municipio, Puerto Rico
+    ordinal: 3176
+    row_number: 3178
+    geography_id: 0500000US72063
+    geography_level: county
+    geography_name: Gurabo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Gurabo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72063
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72065'
+    label: Hatillo Municipio, Puerto Rico
+    ordinal: 3177
+    row_number: 3179
+    geography_id: 0500000US72065
+    geography_level: county
+    geography_name: Hatillo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Hatillo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72065
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72067'
+    label: Hormigueros Municipio, Puerto Rico
+    ordinal: 3178
+    row_number: 3180
+    geography_id: 0500000US72067
+    geography_level: county
+    geography_name: Hormigueros Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Hormigueros Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72067
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72069'
+    label: Humacao Municipio, Puerto Rico
+    ordinal: 3179
+    row_number: 3181
+    geography_id: 0500000US72069
+    geography_level: county
+    geography_name: Humacao Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Humacao Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72069
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72071'
+    label: Isabela Municipio, Puerto Rico
+    ordinal: 3180
+    row_number: 3182
+    geography_id: 0500000US72071
+    geography_level: county
+    geography_name: Isabela Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Isabela Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72071
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72073'
+    label: Jayuya Municipio, Puerto Rico
+    ordinal: 3181
+    row_number: 3183
+    geography_id: 0500000US72073
+    geography_level: county
+    geography_name: Jayuya Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Jayuya Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72073
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72075'
+    label: Juana Díaz Municipio, Puerto Rico
+    ordinal: 3182
+    row_number: 3184
+    geography_id: 0500000US72075
+    geography_level: county
+    geography_name: Juana Díaz Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Juana Díaz Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72075
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72077'
+    label: Juncos Municipio, Puerto Rico
+    ordinal: 3183
+    row_number: 3185
+    geography_id: 0500000US72077
+    geography_level: county
+    geography_name: Juncos Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Juncos Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72077
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72079'
+    label: Lajas Municipio, Puerto Rico
+    ordinal: 3184
+    row_number: 3186
+    geography_id: 0500000US72079
+    geography_level: county
+    geography_name: Lajas Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Lajas Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72079
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72081'
+    label: Lares Municipio, Puerto Rico
+    ordinal: 3185
+    row_number: 3187
+    geography_id: 0500000US72081
+    geography_level: county
+    geography_name: Lares Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Lares Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72081
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72083'
+    label: Las Marías Municipio, Puerto Rico
+    ordinal: 3186
+    row_number: 3188
+    geography_id: 0500000US72083
+    geography_level: county
+    geography_name: Las Marías Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Las Marías Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72083
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72085'
+    label: Las Piedras Municipio, Puerto Rico
+    ordinal: 3187
+    row_number: 3189
+    geography_id: 0500000US72085
+    geography_level: county
+    geography_name: Las Piedras Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Las Piedras Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72085
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72087'
+    label: Loíza Municipio, Puerto Rico
+    ordinal: 3188
+    row_number: 3190
+    geography_id: 0500000US72087
+    geography_level: county
+    geography_name: Loíza Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Loíza Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72087
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72089'
+    label: Luquillo Municipio, Puerto Rico
+    ordinal: 3189
+    row_number: 3191
+    geography_id: 0500000US72089
+    geography_level: county
+    geography_name: Luquillo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Luquillo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72089
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72091'
+    label: Manatí Municipio, Puerto Rico
+    ordinal: 3190
+    row_number: 3192
+    geography_id: 0500000US72091
+    geography_level: county
+    geography_name: Manatí Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Manatí Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72091
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72093'
+    label: Maricao Municipio, Puerto Rico
+    ordinal: 3191
+    row_number: 3193
+    geography_id: 0500000US72093
+    geography_level: county
+    geography_name: Maricao Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Maricao Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72093
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72095'
+    label: Maunabo Municipio, Puerto Rico
+    ordinal: 3192
+    row_number: 3194
+    geography_id: 0500000US72095
+    geography_level: county
+    geography_name: Maunabo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Maunabo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72095
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72097'
+    label: Mayagüez Municipio, Puerto Rico
+    ordinal: 3193
+    row_number: 3195
+    geography_id: 0500000US72097
+    geography_level: county
+    geography_name: Mayagüez Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Mayagüez Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72097
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72099'
+    label: Moca Municipio, Puerto Rico
+    ordinal: 3194
+    row_number: 3196
+    geography_id: 0500000US72099
+    geography_level: county
+    geography_name: Moca Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Moca Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72099
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72101'
+    label: Morovis Municipio, Puerto Rico
+    ordinal: 3195
+    row_number: 3197
+    geography_id: 0500000US72101
+    geography_level: county
+    geography_name: Morovis Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Morovis Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72101
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72103'
+    label: Naguabo Municipio, Puerto Rico
+    ordinal: 3196
+    row_number: 3198
+    geography_id: 0500000US72103
+    geography_level: county
+    geography_name: Naguabo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Naguabo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72103
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72105'
+    label: Naranjito Municipio, Puerto Rico
+    ordinal: 3197
+    row_number: 3199
+    geography_id: 0500000US72105
+    geography_level: county
+    geography_name: Naranjito Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Naranjito Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72105
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72107'
+    label: Orocovis Municipio, Puerto Rico
+    ordinal: 3198
+    row_number: 3200
+    geography_id: 0500000US72107
+    geography_level: county
+    geography_name: Orocovis Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Orocovis Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72107
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72109'
+    label: Patillas Municipio, Puerto Rico
+    ordinal: 3199
+    row_number: 3201
+    geography_id: 0500000US72109
+    geography_level: county
+    geography_name: Patillas Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Patillas Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72109
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72111'
+    label: Peñuelas Municipio, Puerto Rico
+    ordinal: 3200
+    row_number: 3202
+    geography_id: 0500000US72111
+    geography_level: county
+    geography_name: Peñuelas Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Peñuelas Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72111
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72113'
+    label: Ponce Municipio, Puerto Rico
+    ordinal: 3201
+    row_number: 3203
+    geography_id: 0500000US72113
+    geography_level: county
+    geography_name: Ponce Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Ponce Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72113
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72115'
+    label: Quebradillas Municipio, Puerto Rico
+    ordinal: 3202
+    row_number: 3204
+    geography_id: 0500000US72115
+    geography_level: county
+    geography_name: Quebradillas Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Quebradillas Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72115
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72117'
+    label: Rincón Municipio, Puerto Rico
+    ordinal: 3203
+    row_number: 3205
+    geography_id: 0500000US72117
+    geography_level: county
+    geography_name: Rincón Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Rincón Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72117
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72119'
+    label: Río Grande Municipio, Puerto Rico
+    ordinal: 3204
+    row_number: 3206
+    geography_id: 0500000US72119
+    geography_level: county
+    geography_name: Río Grande Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Río Grande Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72119
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72121'
+    label: Sabana Grande Municipio, Puerto Rico
+    ordinal: 3205
+    row_number: 3207
+    geography_id: 0500000US72121
+    geography_level: county
+    geography_name: Sabana Grande Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Sabana Grande Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72121
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72123'
+    label: Salinas Municipio, Puerto Rico
+    ordinal: 3206
+    row_number: 3208
+    geography_id: 0500000US72123
+    geography_level: county
+    geography_name: Salinas Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Salinas Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72123
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72125'
+    label: San Germán Municipio, Puerto Rico
+    ordinal: 3207
+    row_number: 3209
+    geography_id: 0500000US72125
+    geography_level: county
+    geography_name: San Germán Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: San Germán Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72125
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72127'
+    label: San Juan Municipio, Puerto Rico
+    ordinal: 3208
+    row_number: 3210
+    geography_id: 0500000US72127
+    geography_level: county
+    geography_name: San Juan Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: San Juan Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72127
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72129'
+    label: San Lorenzo Municipio, Puerto Rico
+    ordinal: 3209
+    row_number: 3211
+    geography_id: 0500000US72129
+    geography_level: county
+    geography_name: San Lorenzo Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: San Lorenzo Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72129
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72131'
+    label: San Sebastián Municipio, Puerto Rico
+    ordinal: 3210
+    row_number: 3212
+    geography_id: 0500000US72131
+    geography_level: county
+    geography_name: San Sebastián Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: San Sebastián Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72131
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72133'
+    label: Santa Isabel Municipio, Puerto Rico
+    ordinal: 3211
+    row_number: 3213
+    geography_id: 0500000US72133
+    geography_level: county
+    geography_name: Santa Isabel Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Santa Isabel Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72133
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72135'
+    label: Toa Alta Municipio, Puerto Rico
+    ordinal: 3212
+    row_number: 3214
+    geography_id: 0500000US72135
+    geography_level: county
+    geography_name: Toa Alta Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Toa Alta Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72135
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72137'
+    label: Toa Baja Municipio, Puerto Rico
+    ordinal: 3213
+    row_number: 3215
+    geography_id: 0500000US72137
+    geography_level: county
+    geography_name: Toa Baja Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Toa Baja Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72137
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72139'
+    label: Trujillo Alto Municipio, Puerto Rico
+    ordinal: 3214
+    row_number: 3216
+    geography_id: 0500000US72139
+    geography_level: county
+    geography_name: Trujillo Alto Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Trujillo Alto Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72139
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72141'
+    label: Utuado Municipio, Puerto Rico
+    ordinal: 3215
+    row_number: 3217
+    geography_id: 0500000US72141
+    geography_level: county
+    geography_name: Utuado Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Utuado Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72141
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72143'
+    label: Vega Alta Municipio, Puerto Rico
+    ordinal: 3216
+    row_number: 3218
+    geography_id: 0500000US72143
+    geography_level: county
+    geography_name: Vega Alta Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Vega Alta Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72143
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72145'
+    label: Vega Baja Municipio, Puerto Rico
+    ordinal: 3217
+    row_number: 3219
+    geography_id: 0500000US72145
+    geography_level: county
+    geography_name: Vega Baja Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Vega Baja Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72145
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72147'
+    label: Vieques Municipio, Puerto Rico
+    ordinal: 3218
+    row_number: 3220
+    geography_id: 0500000US72147
+    geography_level: county
+    geography_name: Vieques Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Vieques Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72147
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72149'
+    label: Villalba Municipio, Puerto Rico
+    ordinal: 3219
+    row_number: 3221
+    geography_id: 0500000US72149
+    geography_level: county
+    geography_name: Villalba Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Villalba Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72149
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72151'
+    label: Yabucoa Municipio, Puerto Rico
+    ordinal: 3220
+    row_number: 3222
+    geography_id: 0500000US72151
+    geography_level: county
+    geography_name: Yabucoa Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Yabucoa Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72151
+      label: County GEO_ID
+    table_record_kind: total
+  - value_id: '72153'
+    label: Yauco Municipio, Puerto Rico
+    ordinal: 3221
+    row_number: 3223
+    geography_id: 0500000US72153
+    geography_level: county
+    geography_name: Yauco Municipio, Puerto Rico
+    geography_vintage: '2024'
+    expected_row_header_column: A
+    expected_row_header: Yauco Municipio, Puerto Rico
+    guard_cells:
+    - column: F
+      expected_value: 0500000US72153
+      label: County GEO_ID
+    table_record_kind: total
   measures:
   - measure_id: B19025_001E
     label: 'Total: Estimate'
@@ -50396,9 +51645,9 @@ record_sets:
       dollars): Total (margin_of_error)'
     concept_relation: source_label
     concept_evidence_url: https://api.census.gov/data/2024/acs/acs5/groups/B19025.html
-    concept_evidence_notes: Publisher margin of error at the ACS 90% confidence level. Aggregation
-      sum denotes selection of one publisher cell with scale 1; MOEs must not be added across
-      categories or counties.
+    concept_evidence_notes: Publisher margin of error at the ACS 90% confidence level. Each
+      MOE selects one publisher cell with scale 1; MOEs must not be added across categories
+      or counties.
     unit: USD
     aggregation: sum
     expected_cell_type: number

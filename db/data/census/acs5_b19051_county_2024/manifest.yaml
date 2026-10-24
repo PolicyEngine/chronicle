@@ -5,10 +5,10 @@ source_page: https://api.census.gov/data/2024/acs/acs5.html
 vintage: 2024 ACS 5-year detailed tables (2020–2024)
 reference_period: 2020–2024
 table: B19051 Earnings in the Past 12 Months for Households
-notes: Publisher bytes copied unchanged from the supplied 2026-10-24 fetch. The response includes
-  3,222 county-equivalents; packages exclude Puerto Rico (state 72) and retain 3,144 counties
-  in the 50 states and DC. storage.r2 is a content-addressed locator; no upload or archival
-  completion is asserted.
+notes: Publisher bytes copied unchanged from the supplied 2026-10-24 fetch. The response
+  includes all 3,222 county-equivalents, retained by the packages, comprising 3,144
+  counties in the 50 states and DC plus 78 Puerto Rico municipios (state 72). storage.r2
+  is a content-addressed locator; no upload or archival completion is asserted.
 files:
   2024:
     filename: acs5_2024_B19051_county.json

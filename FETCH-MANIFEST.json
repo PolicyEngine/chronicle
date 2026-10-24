@@ -85,7 +85,7 @@
    "post_download_steps": [
     "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
     "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
-    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+    "Retain all 3,222 county rows, including 78 Puerto Rico municipios (state 72); retain publisher estimate/MOE sentinel codes and their annotations in unavailable_cells rather than numeric facts."
    ]
   },
   {
@@ -105,7 +105,7 @@
    "post_download_steps": [
     "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
     "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
-    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+    "Retain all 3,222 county rows, including 78 Puerto Rico municipios (state 72); retain publisher estimate/MOE sentinel codes and their annotations in unavailable_cells rather than numeric facts."
    ]
   },
   {
@@ -125,7 +125,7 @@
    "post_download_steps": [
     "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
     "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
-    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+    "Retain all 3,222 county rows, including 78 Puerto Rico municipios (state 72); retain publisher estimate/MOE sentinel codes and their annotations in unavailable_cells rather than numeric facts."
    ]
   },
   {
@@ -145,7 +145,7 @@
    "post_download_steps": [
     "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
     "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
-    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+    "Retain all 3,222 county rows, including 78 Puerto Rico municipios (state 72); retain publisher estimate/MOE sentinel codes and their annotations in unavailable_cells rather than numeric facts."
    ]
   },
   {
@@ -165,7 +165,7 @@
    "post_download_steps": [
     "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
     "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
-    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+    "Retain all 3,222 county rows, including 78 Puerto Rico municipios (state 72); retain publisher estimate/MOE sentinel codes and their annotations in unavailable_cells rather than numeric facts."
    ]
   },
   {
@@ -185,7 +185,7 @@
    "post_download_steps": [
     "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
     "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
-    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+    "Retain all 3,222 county rows, including 78 Puerto Rico municipios (state 72); retain publisher estimate/MOE sentinel codes and their annotations in unavailable_cells rather than numeric facts."
    ]
   },
   {
@@ -205,7 +205,7 @@
    "post_download_steps": [
     "Copy the supplied publisher bytes without re-fetching; verify their hash matches expected_sha256.",
     "Confirm files.2024.sha256, size_bytes, and storage.r2 in the manifest match the pinned bytes; the R2 fields are content-addressed locators and do not assert that an upload has occurred.",
-    "Retain publisher estimate/MOE annotations and sentinel encodings; exclude Puerto Rico (state 72) only when building facts."
+    "Retain all 3,222 county rows, including 78 Puerto Rico municipios (state 72); retain publisher estimate/MOE sentinel codes and their annotations in unavailable_cells rather than numeric facts."
    ]
   }
  ],

@@ -203,13 +203,13 @@ def _measure(
         "concept_evidence_url": f"https://api.census.gov/data/2024/acs/acs5/groups/{table}.html",
         "concept_evidence_notes": (
             "Publisher margin of error at the ACS 90% confidence level. "
-            "Aggregation sum denotes selection of one publisher cell with scale 1; "
+            "Each MOE selects one publisher cell with scale 1; "
             "MOEs must not be added across categories or counties."
             if is_moe
             else "Publisher estimate, without period alignment or adjustment."
         ),
         "unit": unit,
-        "aggregation": "median" if table == "B19013" and not is_moe else "sum",
+        "aggregation": "median" if table == "B19013" else "sum",
         "expected_cell_type": "number",
         "filters": filters,
         "constraints": constraints,
@@ -262,16 +262,22 @@ def build_package(table: str, root: Path = ROOT) -> dict[str, Any]:
             for name, value in zip(raw_header, raw_row, strict=True)
         ):
             raise ValueError(f"Conflicting duplicate source columns in {table}")
-        if source["state"] == "72":
-            continue
         geo_id = f"0500000US{source['state']}{source['county']}"
         if source["GEO_ID"] != geo_id:
             raise ValueError(f"GEO_ID does not match county FIPS in {table}: {source}")
         source_rows.append(source)
     source_rows.sort(key=lambda row: row["GEO_ID"])
     geo_ids = [row["GEO_ID"] for row in source_rows]
-    if len(geo_ids) != len(set(geo_ids)) or len(geo_ids) != 3144:
-        raise ValueError(f"Expected 3,144 unique counties in {table}")
+    pr_count = sum(row["state"] == "72" for row in source_rows)
+    if (
+        len(geo_ids) != len(set(geo_ids))
+        or len(geo_ids) - pr_count != 3144
+        or pr_count != 78
+    ):
+        raise ValueError(
+            "Expected 3,222 unique county rows (3,144 non-PR counties and "
+            f"78 Puerto Rico municipios) in {table}"
+        )
     if {geo for geo in geo_ids if geo.startswith("0500000US09")} != {
         f"0500000US09{code}" for code in range(110, 200, 10)
     }:
@@ -406,7 +412,9 @@ def build_package(table: str, root: Path = ROOT) -> dict[str, Any]:
             "vintage": "acs_5_year_2020_2024",
             "extracted_at": "2026-10-24",
             "extraction_method": "Full publisher JSON row parse with guarded county E/M source cells; "
-            "Puerto Rico excluded; sentinel codes and annotations retained in raw rows only",
+            "all 3,222 county rows retained, including 78 Puerto Rico municipios; "
+            "sentinel codes and annotations retained in raw rows and unavailable_cells, "
+            "never emitted as numeric facts",
             "parser": "json_table_full_rows",
             "sheet_name": "api_response",
             "selected_rows": [{"GEO_ID": row["GEO_ID"]} for row in source_rows],

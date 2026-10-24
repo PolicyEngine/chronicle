@@ -1,4 +1,4 @@
-"""Publisher-backed 2020–2024 ACS 5-year detailed tables for US counties."""
+"""Publisher-backed ACS 2020–2024 county tables, including PR municipios."""
 
 from __future__ import annotations
 
@@ -46,8 +46,11 @@ from chronicle.yaml_io import safe_load as safe_load_yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 TABLES = ("B01003", "B11001", "B19001", "B19013", "B19025", "B19051", "B19061")
-COUNTY_COUNT = 3_144
+NON_PR_COUNTY_COUNT = 3_144
+PR_MUNICIPIO_COUNT = 78
+COUNTY_COUNT = NON_PR_COUNTY_COUNT + PR_MUNICIPIO_COUNT
 CT_REGIONS = {f"0500000US09{code}" for code in range(110, 191, 10)}
+CT_LEGACY_COUNTIES = {f"0500000US09{code:03}" for code in range(1, 16, 2)}
 SHA256 = {
     "B01003": "c83ef6e45601455855312f2e26ea755cd43a7c65ee58662e4cb4fad122a70bf2",
     "B11001": "a0c2f64ad5f7172cded551364fc15d6bc37bbbc75ac135f7be00c8622d31d01a",
@@ -58,13 +61,13 @@ SHA256 = {
     "B19061": "d3948e8118f7a5c5bbd82d2802591bb6edf184e012e227b478d71edd860f59f4",
 }
 FACT_COUNTS = {
-    "B01003": 3_274,
-    "B11001": 18_864,
-    "B19001": 106_896,
-    "B19013": 6_286,
-    "B19025": 6_288,
-    "B19051": 18_864,
-    "B19061": 6_288,
+    "B01003": 3_354,
+    "B11001": 19_332,
+    "B19001": 109_548,
+    "B19013": 6_442,
+    "B19025": 6_444,
+    "B19051": 19_332,
+    "B19061": 6_444,
 }
 INCOME_BOUNDS = (
     (None, 10_000),
@@ -178,7 +181,7 @@ def test_pinned_bytes_manifests_and_deterministic_generation(table):
 def test_source_rows_and_cells_preserve_publisher_values(county_package):
     bundle = county_package
     publisher = _publisher_rows(bundle.table)
-    assert len(bundle.rows) == len(publisher) == 3_222
+    assert len(bundle.rows) == len(publisher) == COUNTY_COUNT
     assert validate_source_rows(bundle.rows).valid
     assert validate_source_cells(bundle.cells).valid
     by_key = {}
@@ -186,16 +189,19 @@ def test_source_rows_and_cells_preserve_publisher_values(county_package):
         assert parsed.values == {name: _scalar(value) for name, value in raw.items()}
         assert parsed.artifact.sha256 == SHA256[bundle.table]
         by_key[build_source_row_key(parsed)] = parsed
-    county_ids = {row["GEO_ID"] for row in publisher if row["state"] != "72"}
+    county_ids = {row["GEO_ID"] for row in publisher}
     assert len(county_ids) == COUNTY_COUNT
+    assert sum(row["state"] != "72" for row in publisher) == NON_PR_COUNTY_COUNT
+    assert sum(row["state"] == "72" for row in publisher) == PR_MUNICIPIO_COUNT
     assert {geoid for geoid in county_ids if geoid.startswith("0500000US09")} == (
         CT_REGIONS
     )
     assert all(
         "Planning Region" in row["NAME"] for row in publisher if row["state"] == "09"
     )
+    assert county_ids.isdisjoint(CT_LEGACY_COUNTIES)
     columns = list(bundle.rows[0].values)
-    # Source cells select 50-state/DC rows while full source rows also retain PR.
+    # Every publisher county or municipio row remains available as source cells.
     assert len(bundle.cells) == (COUNTY_COUNT + 1) * len(columns)
     for cell in bundle.cells:
         column = columns[cell.column_number - 1]
@@ -263,11 +269,7 @@ def test_agent_acceptance_checks_source_semantics(county_package):
 def test_every_numeric_fact_is_the_exact_publisher_cell(county_package):
     bundle = county_package
     variables = _variables(bundle.table)
-    publisher = {
-        row["GEO_ID"]: row
-        for row in _publisher_rows(bundle.table)
-        if row["state"] != "72"
-    }
+    publisher = {row["GEO_ID"]: row for row in _publisher_rows(bundle.table)}
     expected = {
         (geoid, variable): int(row[variable])
         for geoid, row in publisher.items()
@@ -309,7 +311,7 @@ def test_every_numeric_fact_is_the_exact_publisher_cell(county_package):
         if is_moe:
             assert "90%" in fact.measure.concept_evidence_notes
         assert fact.aggregation.method == (
-            "median" if bundle.table == "B19013" and not is_moe else "sum"
+            "median" if bundle.table == "B19013" else "sum"
         )
         assert fact.provenance_class == "survey_aggregate"
         assert fact.survey_instrument == "ACS 5-year"
@@ -322,11 +324,16 @@ def test_every_numeric_fact_is_the_exact_publisher_cell(county_package):
     assert seen == set(expected)
     assert len(bundle.facts) == FACT_COUNTS[bundle.table]
     counties = {fact.geography.id for fact in bundle.facts}
-    assert len(counties) == (3_143 if bundle.table == "B19013" else COUNTY_COUNT)
+    assert len(counties) == (
+        COUNTY_COUNT - 1 if bundle.table == "B19013" else COUNTY_COUNT
+    )
+    assert sum(geoid.startswith("0500000US72") for geoid in counties) == (
+        PR_MUNICIPIO_COUNT
+    )
     assert {
         geoid for geoid in counties if geoid.startswith("0500000US09")
     } == CT_REGIONS
-    assert not any(geoid.startswith("0500000US72") for geoid in counties)
+    assert counties.isdisjoint(CT_LEGACY_COUNTIES)
 
 
 def test_other_years_cannot_relabel_the_publisher_period(county_package):
@@ -354,13 +361,48 @@ def test_estimate_partition_identities_and_publisher_suppression(county_package)
                 values[geoid, f"{bundle.table}_{index:03}E"] for index in detail
             )
     elif bundle.table == "B01003":
-        rows = [row for row in bundle.rows if row.values["state"] != 72]
+        rows = bundle.rows
         assert Counter(row.values["B01003_001MA"] for row in rows) == {
-            "*****": 3_014,
-            None: 130,
+            "*****": 3_090,
+            None: 132,
         }
-        assert sum(row.values["B01003_001M"] == -555_555_555 for row in rows) == 3_014
-        assert sum(variable.endswith("M") for _geoid, variable in values) == 130
+        assert sum(row.values["B01003_001M"] == -555_555_555 for row in rows) == 3_090
+        assert sum(variable.endswith("M") for _geoid, variable in values) == 132
+        pr_rows = [row for row in rows if row.values["state"] == 72]
+        assert Counter(row.values["B01003_001MA"] for row in pr_rows) == {
+            "*****": 76,
+            None: 2,
+        }
+        payload = census_acs5_county.build_package("B01003", root=ROOT)
+        unavailable = {
+            (
+                cell["geography_id"],
+                cell["source_column_id"],
+                cell["publisher_code"],
+                cell["annotation"],
+            )
+            for cell in payload["unavailable_cells"]
+        }
+        expected_unavailable = {
+            (row.values["GEO_ID"], "B01003_001M", -555_555_555, "*****")
+            for row in rows
+            if row.values["B01003_001M"] == -555_555_555
+        }
+        assert unavailable == expected_unavailable
+        assert len(payload["unavailable_cells"]) == len(unavailable) == 3_090
+        for geoid, variable, _code, _annotation in unavailable:
+            assert (geoid, variable) not in values
+        pr_moes = {
+            geoid: value
+            for (geoid, variable), value in values.items()
+            if geoid.startswith("0500000US72") and variable == "B01003_001M"
+        }
+        assert pr_moes == {
+            row.values["GEO_ID"]: row.values["B01003_001M"]
+            for row in pr_rows
+            if row.values["B01003_001M"] >= 0
+        }
+        assert len(pr_moes) == 2
     elif bundle.table == "B19013":
         row = next(
             row for row in bundle.rows if row.values["GEO_ID"] == "0500000US35011"
@@ -452,6 +494,34 @@ def test_generator_refuses_a_missing_required_variable(tmp_path):
 def test_generator_refuses_geography_disagreement(tmp_path):
     def mutate(payload):
         payload[1][payload[0].index("GEO_ID")] = "0500000US99999"
+
+    root = _mutated_root(tmp_path, "B19025", mutate)
+    with pytest.raises(ValueError):
+        census_acs5_county.build_package("B19025", root=root)
+
+
+@pytest.mark.parametrize("state", ("01", "72"))
+def test_generator_refuses_a_missing_county_or_municipio(tmp_path, state):
+    def mutate(payload):
+        state_column = payload[0].index("state")
+        row = next(row for row in payload[1:] if row[state_column] == state)
+        payload.remove(row)
+
+    root = _mutated_root(tmp_path, "B19025", mutate)
+    with pytest.raises(ValueError):
+        census_acs5_county.build_package("B19025", root=root)
+
+
+@pytest.mark.parametrize("old_state,new_state", (("01", "72"), ("72", "01")))
+def test_generator_refuses_wrong_county_and_municipio_counts(
+    tmp_path, old_state, new_state
+):
+    def mutate(payload):
+        state_column = payload[0].index("state")
+        row = next(row for row in payload[1:] if row[state_column] == old_state)
+        row[state_column] = new_state
+        row[payload[0].index("county")] = "999"
+        row[payload[0].index("GEO_ID")] = f"0500000US{new_state}999"
 
     root = _mutated_root(tmp_path, "B19025", mutate)
     with pytest.raises(ValueError):
