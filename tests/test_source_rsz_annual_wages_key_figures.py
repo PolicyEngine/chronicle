@@ -248,8 +248,14 @@ def test_every_fact_keeps_value_units_coverage_and_publisher_locator(
     _, cells, facts = annual
     assert len(facts) == 252
     assert validate_facts(facts).valid
+    assert validate_consumer_fact_contract(facts).valid
     exported = consumer_fact_rows(facts)
-    assert validate_consumer_fact_contract(exported).valid
+    assert len(exported) == len(facts)
+    for row in exported:
+        assert row["lineage"]["source_cell_keys"]
+        assert row["source"]["raw_r2_key"].startswith(
+            "raw/belgium/rsz-annual-wages-key-figures-2020-2025/"
+        )
     assert Counter(fact.period.value for fact in facts) == {
         year: 42 for year in range(2020, 2026)
     }
