@@ -468,14 +468,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
-        # Seven ACS 2020–2024 county packages also have no 2023 artifact.
+        # Seven ACS 2020–2024 county packages also have no 2023 artifact, so
+        # they are skipped (17 -> 24) and the built-package count is unchanged.
         "skipped_source_count": 24,
         # chronicle#381 adds the Gambling Commission.
         "source_count": 57,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
         # all-claims UC area packages. chronicle#381 adds four and replaces the
         # 30 June Consumer Trends package with the 30 September one.
-        "source_package_count": 420,
+        "source_package_count": 413,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -523,7 +524,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 420
+    assert source_packages["source_package_count"] == 413
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
