@@ -425,6 +425,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # USD series and PensionStat's residents abroad) and 18 calendar years.
     # Their commune, NUTS1 and country names follow the existing Statbel
     # packages, so no geography-name warning is added.
+    # B2b: SPF Finances' assessment-year 2026 municipal surcharge rates add 565
+    # government facts, one at each existing commune key (tax_year:2025). SPF
+    # spells nine communes unlike Statbel (Bruxelles, Waimes and seven
+    # orthographic forms); the package keeps SPF's wording, so nine commune
+    # geography-name warnings are added.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
@@ -447,7 +452,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # The Belgian transport sources add 31,244: Eurostat's 55 annual USD
         # rates, FPD's 10,239 January 2025 amount-band cells and PensionStat's
         # 20,954 workbook cells, which replace its four curated headlines.
-        "fact_count": 1617502,
+        "fact_count": 1618067,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -485,11 +490,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # they are skipped (17 -> 24) and the built-package count is unchanged.
         "skipped_source_count": 24,
         # chronicle#381 adds the Gambling Commission.
-        "source_count": 58,
+        "source_count": 59,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
         # all-claims UC area packages. chronicle#381 adds four and replaces the
         # 30 June Consumer Trends package with the 30 September one.
-        "source_package_count": 415,
+        "source_package_count": 416,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -515,7 +520,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # The Belgian transport sources add one: Eurostat's exchange-rate
         # dataset labels freq=A 'Annual', as its JSON-stat category label
         # prints it, where the older Eurostat packages carry the bare code 'A'.
-        "warning_count": 123,
+        "warning_count": 132,
     }
     row_count = 0
     provenance_classes = set()
@@ -533,14 +538,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1617502
+    assert row_count == 1618067
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 415
+    assert source_packages["source_package_count"] == 416
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -568,7 +573,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1617502
+    assert coverage["fact_count"] == 1618067
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -618,6 +623,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "sfpd_pension_amount_bands": 10239,
         "sfpd_pensions": 20954,
         "slc": 343,
+        "spf_finances_municipal_tax_rate": 565,
         "spf_finances_pit": 1,
         "ssa": 426,
         "statbel_fiscal_income": 565,
@@ -630,7 +636,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 357
+    assert len(table_counts) == 358
+    assert (
+        table_counts[
+            "spf_finances_municipal_tax_rate:Municipal tax rates (%) for tax "
+            "assessment year 2026"
+        ]
+        == 565
+    )
     assert (
         table_counts["bea:NIPA Table 7.8. Supplements to Wages and Salaries by Type"]
         == 1
@@ -2069,6 +2082,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         expected_period_counts[key] = expected_period_counts.get(key, 0) + 1
     expected_period_counts["month:2025-01"] += 10239 + 20932
     expected_period_counts["calendar_year:2025"] += 22 - 4
+    # B2b: SPF Finances' municipal rates, income year 2025 (assessment year 2026).
+    expected_period_counts["tax_year:2025"] += 565
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2096,7 +2111,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["nuts1:BE1"] == 8567
     assert coverage["counts"]["by_geography"]["nuts1:BE2"] == 9447
     assert coverage["counts"]["by_geography"]["nuts1:BE3"] == 9321
-    assert coverage["counts"]["by_geography"]["commune:11002"] == 9
+    assert coverage["counts"]["by_geography"]["commune:11002"] == 10
     assert (
         coverage["counts"]["by_geography"][
             "statistical_scope:eurostat:ert_bil_eur_a:USD"
@@ -2165,7 +2180,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dwelling": 274367,
         "family": 1700,
         "firm": 1440,
-        "government": 3569,
+        "government": 4134,
         "household": 676320,
         "institutional_sector": 8806,
         "pension_plan": 2,
@@ -2177,7 +2192,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
-        "conflicting_geography_name_across_packages": 82,
+        "conflicting_geography_name_across_packages": 91,
         "conflicting_groupby_value_label": 23,
         "conflicting_value_label_across_packages": 17,
         "duplicate_semantic_fact_key": 1,
@@ -2209,6 +2224,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if warning["code"] == "conflicting_geography_name_across_packages"
     ]
     assert Counter(warning["key"].split(":")[0] for warning in geography_names) == {
+        "commune": 9,
         "county": 77,
         "local_authority": 2,
         "statistical_scope": 3,
@@ -2251,6 +2267,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     ] == []
     assert {warning["key"].split(":")[1][0] for warning in geography_names} == {
         "0",
+        "2",
+        "5",
+        "6",
         "E",
         "S",
         "n",
@@ -2296,6 +2315,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "statbel-population-structure-2025",
         "sfpd-pension-amount-bands-2025",
         "sfpd-legal-pension-caseload-2025",
+        "spf-finances-municipal-tax-rate-ay2026",
     ):
         assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
     assert (output_dir / "sources" / "soi-table-1-1" / "consumer_facts.jsonl").exists()
