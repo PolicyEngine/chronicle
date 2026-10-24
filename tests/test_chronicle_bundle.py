@@ -22,10 +22,10 @@ from chronicle.bundle import (
 from chronicle.bundle import (
     _load_jsonl as load_bundle_jsonl,
 )
+from chronicle.consumer_contract import consumer_fact_rows
 from chronicle.epoch import CONSUMER_FACT_EMIT_SCHEMA_VERSION, HASH_DOMAINS, Epoch
 from chronicle.harness import build_bundle_dir
 from chronicle.harness import main as harness_main
-from chronicle.consumer_contract import consumer_fact_rows
 from chronicle.source_package import (
     load_source_package,
     r2_only_package_artifacts,
@@ -510,7 +510,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#356 adds two: DESNZ's LSOA workbooks name data zones
         # S01019676 and S01019677 'Newtown St Boswells', where NRS writes
         # 'Newton St Boswells'.
-        "warning_count": 122,
+        # The Belgian transport sources add one: Eurostat's exchange-rate
+        # dataset labels freq=A 'Annual', as its JSON-stat category label
+        # prints it, where the older Eurostat packages carry the bare code 'A'.
+        "warning_count": 123,
     }
     row_count = 0
     provenance_classes = set()
@@ -2167,7 +2170,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 82,
         "conflicting_groupby_value_label": 23,
-        "conflicting_value_label_across_packages": 16,
+        "conflicting_value_label_across_packages": 17,
         "duplicate_semantic_fact_key": 1,
     }
     assert [
@@ -2216,6 +2219,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "age=age_21",
         "age_band=30 to 39",
         "age_band=40 to 49",
+        "freq=A",
         "household_type=couple_3_plus_children_households",
         "measure=country_total",
         "ons.household_type=couple_3_plus_children_households",
