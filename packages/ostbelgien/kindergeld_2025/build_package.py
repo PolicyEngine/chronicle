@@ -2,7 +2,8 @@
 """Transcribe printed article figures; never calculate new observations.
 
 The input is a sanitized browser transcription, not publisher response bytes.
-Its immutable hash and per-figure sentence/table locators preserve that limit.
+Its immutable hash, per-figure sentence/table locators and verbatim evidence
+fragments (the printed sentence, or the table row's own HTML) preserve that limit.
 Run from any directory to regenerate the curated CSV, manifest and package YAML.
 """
 
@@ -29,6 +30,8 @@ SOURCE_URL = (
     "https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/"
 )
 SOURCE_TABLE = "Kindergeld in Ostbelgien, Aktualisierung vom 31.03.2026"
+# As the article's tables print it: "Quelle: Ministerium der Deutschsprachigen Gemeinschaft".
+PUBLISHER = "Ministerium der Deutschsprachigen Gemeinschaft"
 SCOPE_ID = "ostbelgien:deutschsprachige_gemeinschaft"
 # The article's own name for the area (harness: publisher geography wording).
 SCOPE_NAME = "Deutschsprachige Gemeinschaft"
@@ -62,6 +65,7 @@ HEADERS = [
     "reference_basis",
     "source_period_label",
     "source_locator",
+    "source_evidence",
     "table_record_kind",
     "entity",
     "entity_role",
@@ -113,6 +117,18 @@ class ArticleParser(HTMLParser):
         self.stack[-1].parts.append(data)
 
 
+def row_cells(fragment: str) -> list[str]:
+    """The header and data cell texts of one captured ``<tr>`` fragment."""
+    parser = ArticleParser()
+    parser.feed(fragment)
+    return [
+        part.text()
+        for tr in parser.root.descendants("tr")
+        for part in tr.parts
+        if isinstance(part, Element) and part.tag in {"td", "th"}
+    ]
+
+
 def parse_number(raw: str) -> str:
     """Normalize German number notation; preserve published precision."""
     text = raw.replace("%", "").replace(" ", "").replace(".", "")
@@ -123,8 +139,10 @@ def extract_rows(path: Path) -> list[dict]:
     content = path.read_bytes()
     if hashlib.sha256(content).hexdigest() != CAPTURE_SHA256:
         raise ValueError("Article evidence transcription checksum mismatch")
+    source = content.decode("utf-8")
     parser = ArticleParser()
-    parser.feed(content.decode("utf-8"))
+    parser.feed(source)
+    raw_rows = re.findall(r"<tr>.*?</tr>", source, flags=re.S)
     paragraphs = [p.text() for p in parser.root.descendants("p")]
     rows = []
 
@@ -143,6 +161,7 @@ def extract_rows(path: Path) -> list[dict]:
         basis,
         period_label,
         locator,
+        evidence,
         axis,
         category,
         population,
@@ -162,6 +181,7 @@ def extract_rows(path: Path) -> list[dict]:
                 "reference_basis": basis,
                 "source_period_label": period_label,
                 "source_locator": locator,
+                "source_evidence": evidence,
                 "table_record_kind": "total" if total else "detail",
                 "entity": entity,
                 "entity_role": role,
@@ -183,6 +203,7 @@ def extract_rows(path: Path) -> list[dict]:
             unit,
             "december_2025",
             "Dezember 2025",
+            evidence,
             evidence,
             "ostbelgien.amount_type",
             amount,
@@ -323,6 +344,9 @@ def extract_rows(path: Path) -> list[dict]:
             raise ValueError(f"Published table labels changed: {title}")
         for (value_id, label), (_, raw) in zip(labels, cells[1:]):
             expenditure = title == EXPENDITURE_TABLE
+            fragments = [tr for tr in raw_rows if row_cells(tr) == [label, raw]]
+            if len(fragments) != 1:
+                raise ValueError(f"Expected one captured row for {title}: {label}")
             add(
                 value_id,
                 title,
@@ -332,6 +356,7 @@ def extract_rows(path: Path) -> list[dict]:
                 basis,
                 "2025",
                 f'Tabelle "{title}"; Zeile "{label}"; Spalte "2025"',
+                fragments[0],
                 axis,
                 label,
                 population,
@@ -364,6 +389,7 @@ def extract_rows(path: Path) -> list[dict]:
             "count",
             "calendar_year_2025",
             "2025",
+            premium,
             premium,
             "ostbelgien.premium",
             label,
@@ -432,21 +458,47 @@ def package_spec(rows: list[dict]) -> dict:
             "Ausgaben": "spending",
             "Prämienauszahlungen": "payments",
         }[population]
-        snapshot = basis in {"december_2025", "end_2025"}
-        notes = (
-            "Published December/end-December stock; represented at 31 December, not an annual flow."
-            if snapshot
-            else "Publisher's calendar-year 2025 payments or expenditure."
-        )
-        if table == AGE_TABLE:
-            notes = (
-                'Publisher column label "2025"; prose says "die 2025 Kindergeld von der '
-                'Deutschsprachigen Gemeinschaft erhalten haben". Full-year dates represent that '
-                "label only. Total equals the December stock, but the article does not establish "
-                "whether these are annual unique recipients or a December age distribution."
-            )
-        if table == SUPPLEMENT_TABLE:
-            notes += " A child may receive two supplements; rows overlap and no total is published."
+        # Dates only where the article states the span: "im Dezember 2025" is the
+        # month, "zum Stand Ende Dezember 2025" its last day, and the premiums and
+        # expenditure are "im Jahr 2025". The age table states neither.
+        coverage = {
+            "december_2025": {
+                "start_date": "2025-12-01",
+                "end_date": "2025-12-31",
+                "basis": "calendar",
+                "notes": 'Published as "im Dezember 2025": the month, not a day.'
+                + (
+                    ' The payee total refers to the same December figure ("Die 15.533 '
+                    'Kinder ... verteilen sich auf 8.302 Empfänger").'
+                    if population == "Empfänger"
+                    else ""
+                ),
+            },
+            "end_2025": {
+                "start_date": "2025-12-31",
+                "end_date": "2025-12-31",
+                "basis": "calendar",
+                "notes": (
+                    'Published as "zum Stand Ende Dezember 2025". A child may receive two '
+                    "supplements; rows overlap and no total is published."
+                ),
+            },
+            "calendar_year_2025": {
+                "start_date": "2025-01-01",
+                "end_date": "2025-12-31",
+                "basis": "calendar",
+                "notes": 'Publisher\'s 2025 payments or expenditure ("im Jahr 2025", "2025 wurde").',
+            },
+            "publisher_year_2025_ambiguous": {
+                "notes": (
+                    'Publisher column label "2025"; prose says "die 2025 Kindergeld von der '
+                    'Deutschsprachigen Gemeinschaft erhalten haben". No dates are given because '
+                    "the article states none. Its total equals the December count, but the "
+                    "article does not establish whether these are annual recipients or a "
+                    "December age distribution."
+                ),
+            },
+        }[basis]
         record_set = {
             "record_set_id": f"{stem}.{subgroup}.{metric}",
             "provenance_class": "administrative",
@@ -457,11 +509,15 @@ def package_spec(rows: list[dict]) -> dict:
             "period_type": "calendar_year",
             "period": 2025,
             "period_coverage": {
-                "start_date": "2025-12-31" if snapshot else "2025-01-01",
-                "end_date": "2025-12-31",
-                "basis": "calendar",
-                "source_period_label": first["source_period_label"],
-                "notes": notes,
+                key: value
+                for key, value in (
+                    ("start_date", coverage.get("start_date")),
+                    ("end_date", coverage.get("end_date")),
+                    ("basis", coverage.get("basis")),
+                    ("source_period_label", first["source_period_label"]),
+                    ("notes", coverage["notes"]),
+                )
+                if value is not None
             },
             "geography_id": SCOPE_ID,
             "geography_level": "statistical_scope",
@@ -498,6 +554,7 @@ def package_spec(rows: list[dict]) -> dict:
                             "unit",
                             "reference_basis",
                             "source_locator",
+                            "source_evidence",
                         )
                     ],
                     "table_record_kind": row["table_record_kind"],
@@ -522,7 +579,8 @@ def package_spec(rows: list[dict]) -> dict:
                 "concept_evidence_url": SOURCE_URL,
                 "concept_evidence_notes": (
                     "Direct publisher figure in the hashed sanitized browser article transcription; "
-                    "the CSV preserves the exact sentence or table/row/column locator and raw lexeme. "
+                    "the CSV preserves the sentence or table/row/column locator, a verbatim capture "
+                    "fragment (the sentence, or the table row's HTML) and the raw lexeme. "
                     "Published shares remain percentage values as printed, not recalculated ratios. "
                     "Empfänger are payees, not an asserted household count. Premium counts are "
                     "payment occurrences, not unique children. See README for scope and definitions."
@@ -606,7 +664,7 @@ def generate(data_dir: Path = DATA_DIR, package_dir: Path = PACKAGE_DIR) -> None
             "source_id": "belgium",
             "package_id": PACKAGE_ID,
             "source_name": SOURCE_TABLE,
-            "publisher": "Ministerium der Deutschsprachigen Gemeinschaft Belgiens, Fachbereich Familienleistungen",
+            "publisher": PUBLISHER,
             "source_page": SOURCE_URL,
             "reuse_status": "no licence stated; figures cited with attribution",
             "reuse_reference": "https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-2399/",

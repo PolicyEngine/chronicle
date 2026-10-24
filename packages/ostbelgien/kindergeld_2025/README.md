@@ -1,8 +1,8 @@
 # Kindergeld in Ostbelgien, 2025
 
-This curated source package records 35 published figures from **Ministerium der
-Deutschsprachigen Gemeinschaft Belgiens, Fachbereich Familienleistungen**, via
-Ostbelgien Statistik: [Kindergeld in
+This curated source package records 35 published figures from the **Ministerium der
+Deutschsprachigen Gemeinschaft**, as the article's tables attribute them
+(“Quelle: Ministerium der Deutschsprachigen Gemeinschaft”), via Ostbelgien Statistik: [Kindergeld in
 Ostbelgien](https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/),
 labelled **“Aktualisierung vom 31.03.2026”**. The figures are administrative
 observations in the `child_benefit` domain.
@@ -22,25 +22,30 @@ Cloudflare challenge; this package does not fetch or bypass it.
 The manifest distinguishes `ostbelgien_kindergeld_2025.csv` from this evidence
 capture and records their hashes and source URLs. Both are stored under their
 manifest keys in the `ledger-raw` R2 bucket, verified by SHA-256 readback on
-2026-10-24. The source figure locator on each CSV row names
-the article sentence or table and row label. `build_package.py` reproducibly
-extracts the figures and generates the CSV, manifest and package declaration.
+2026-10-24. Each CSV row carries two pointers into the evidence. The
+`source_locator` names the article sentence, or gives structured table, row and
+column coordinates. The `source_evidence` column quotes the capture verbatim: the
+sentence, or the table row's own `<tr>…</tr>` HTML, which occurs exactly once in
+the capture. `build_package.py` reproducibly extracts the figures and generates
+the CSV, manifest and package declaration.
 
 The [Impressum](https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-2399/)
 names the Ministry as publisher and states no data licence. Reuse status:
 **no licence stated; figures cited with attribution**. The capture is committed as
 evidence, as other packages commit publisher HTML pages (for example
 `db/data/kff/marketplace_effectuated_enrollment`); the article is attributed
-to the Ministry here and in the manifest.
+to the Ministry here and in the manifest. The embedded 2015–2025 graph, which this
+package does not use, carries a different line: “Quelle: Famifed und Ministerium der
+Deutschsprachigen Gemeinschaft”. The expenditure table prints no source line.
 
 ## Figures and reference periods
 
 | Published section | Facts | Reference basis |
 | --- | ---: | --- |
-| Text: children, Empfänger and protected/new amounts | 6 | December 2025 stock |
-| Text: protected/new amount shares | 4 | December 2025 stock |
+| Text: children, Empfänger and protected/new amounts | 6 | “im Dezember 2025” |
+| Text: protected/new amount shares | 4 | “im Dezember 2025” |
 | Verteilung des Kindergelds nach Altersgruppen | 4 | Publisher's column label “2025”; ambiguity below |
-| Verteilung des Kindergelds nach Zuschlag | 5 | “Stand Ende Dezember 2025” |
+| Verteilung des Kindergelds nach Zuschlag | 5 | “zum Stand Ende Dezember 2025” |
 | Text: Geburtsprämie and Adoptionsprämie payment instances | 2 | Calendar year 2025 |
 | Ausgaben Familienleistungen im Jahr 2025 | 14 | Calendar year 2025; EUR |
 
@@ -54,9 +59,19 @@ Repeated prose mentions of 15.533 children and the expenditure total
 46.892.862,30 EUR do not create additional facts for the same observation.
 
 All facts retain the coarse identity `calendar_year:2025`, following the
-Opgroeien package. Explicit coverage distinguishes stocks from annual flows:
-December and end-December stocks use `basis: calendar` with start and end
-`2025-12-31`; annual premium payments and expenditure use the full calendar year.
+Opgroeien package. Explicit coverage gives dates only where the article states
+the span, and quotes the phrase that states it:
+
+| Reference basis | Coverage | Article wording |
+| --- | --- | --- |
+| `december_2025` | 2025-12-01 to 2025-12-31 | “im Dezember 2025”: the month, not a day |
+| `end_2025` | 2025-12-31 | “zum Stand Ende Dezember 2025” |
+| `calendar_year_2025` | 2025-01-01 to 2025-12-31 | “im Jahr 2025”, “2025 wurde” |
+| `publisher_year_2025_ambiguous` | no dates | column label “2025” only |
+
+The payee total comes from the sentence “Die 15.533 Kinder … verteilen sich auf
+8.302 Empfänger”, which refers back to the December child count, so it shares
+the December coverage.
 Record sets are split where coverage differs while retaining the same
 `record_set_spec_id` and `source_record_id_prefix` for measures from one table.
 Opgroeien preserves `december_2025` and `end_2025` only in its CSV
@@ -66,9 +81,10 @@ intentional clarification of that convention.
 For the age table the publisher writes **“die 2025 Kindergeld von der
 Deutschsprachigen Gemeinschaft erhalten haben”**, and the column header is
 **“2025”**. Its total is the same as the December count, but the article does not
-resolve whether this is an annual recipient count or a year-end stock. The
-package retains the year-labelled coverage and records this ambiguity; it does
-not infer a December snapshot from the matching total. The `25 Jahre und älter`
+resolve whether this is an annual recipient count or a December distribution. The
+package keeps the label “2025” as its `source_period_label`, gives no start or end
+date, and records the ambiguity in the coverage notes; it infers neither a
+December snapshot from the matching total nor a full-year span from the label. The `25 Jahre und älter`
 row is preserved without inferring unreported eligibility conditions.
 
 The age-table `Total` and the expenditure subtotals `Kindergeld neuer Betrag`
@@ -88,9 +104,11 @@ payments, distinct from the children for whom Kindergeld is paid. Child and
 payee observations use `person` / `benefit_recipient`; no household count is
 inferred. The article says the Geburtsprämie was paid 700 times and the Adoptionsprämie
 once ("700 und die Adoptionsprämie einmal ausgezahlt"), so these annual counts are
-payment instances, not children or families: `benefit_unit` / `premium_payment`,
-as the DWP Housing Benefit packages count claims with `benefit_unit` /
-`housing_benefit_claim`. Spending has `government` / `payer` as its entity.
+payment instances, not children or families. They are recorded under the
+receiving unit, `benefit_unit` / `premium_payment`, following the convention of
+counting activity under the participating entity, as
+`scotgov/bus_coach_statistics_2024_25` counts passenger journeys under `person` /
+`bus_passenger`. Spending has `government` / `payer` as its entity.
 
 The supplement definitions are those given in the article:
 
@@ -145,9 +163,11 @@ uv run chronicle build-suite ostbelgien-kindergeld-2025 --year 2025 --out .hub-s
 
 The focused tests in `tests/test_source_ostbelgien_kindergeld_2025.py` parse the
 HTML independently and check every selected figure, period declaration and
-published arithmetic. Every record set declares `provenance_class:
-administrative` textually. Every fact has curated-CSV row lineage and a sentence
-or table-cell locator into the evidence.
+published arithmetic. They also check that every `source_evidence` value occurs
+verbatim in the capture, and that each table fragment's cells are exactly the
+row label and the printed value. Every record set declares `provenance_class:
+administrative` textually. Every fact has curated-CSV row lineage, a sentence or
+table-cell locator and a verbatim evidence fragment.
 Concepts retain source labels; no external canonical concept alignment is
 asserted.
 

@@ -1,7 +1,7 @@
 source_id: belgium
 package_id: ostbelgien-kindergeld-2025
 source_name: Kindergeld in Ostbelgien, Aktualisierung vom 31.03.2026
-publisher: Ministerium der Deutschsprachigen Gemeinschaft Belgiens, Fachbereich Familienleistungen
+publisher: Ministerium der Deutschsprachigen Gemeinschaft
 source_page: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
 reuse_status: no licence stated; figures cited with attribution
 reuse_reference: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-2399/
@@ -38,16 +38,16 @@ files:
     filename: ostbelgien_kindergeld_2025.csv
     source_url: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
     source_table: Kindergeld in Ostbelgien, Aktualisierung vom 31.03.2026
-    sha256: 67516362e100fb353f5a6c53f3c9eb225a51d85df80ac918bd5db18f3a217e8b
-    size_bytes: 15518
+    sha256: 51b9faa492df7846b9f3c7bcd2a565ab1eccfc3cdc037e0c72f79a908f84135f
+    size_bytes: 24769
     retrieved_at: '2026-10-24'
     artifact_kind: curated_extract
     storage:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/belgium/ostbelgien-kindergeld-2025/2025/67516362e100fb353f5a6c53f3c9eb225a51d85df80ac918bd5db18f3a217e8b/ostbelgien_kindergeld_2025.csv
-        uri: r2://ledger-raw/raw/belgium/ostbelgien-kindergeld-2025/2025/67516362e100fb353f5a6c53f3c9eb225a51d85df80ac918bd5db18f3a217e8b/ostbelgien_kindergeld_2025.csv
+        key: raw/belgium/ostbelgien-kindergeld-2025/2025/51b9faa492df7846b9f3c7bcd2a565ab1eccfc3cdc037e0c72f79a908f84135f/ostbelgien_kindergeld_2025.csv
+        uri: r2://ledger-raw/raw/belgium/ostbelgien-kindergeld-2025/2025/51b9faa492df7846b9f3c7bcd2a565ab1eccfc3cdc037e0c72f79a908f84135f/ostbelgien_kindergeld_2025.csv
     notes: Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24. One published figure
       per row; not publisher bytes. Derived only by German number-format normalization and einmal=1. Repeated
       prose headlines are not duplicated; the age-table total is a separate printed cell. Four publisher

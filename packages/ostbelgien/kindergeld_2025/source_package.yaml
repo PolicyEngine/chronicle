@@ -69,11 +69,11 @@ record_sets:
   period_type: calendar_year
   period: 2025
   period_coverage:
-    start_date: '2025-12-31'
+    start_date: '2025-12-01'
     end_date: '2025-12-31'
     basis: calendar
     source_period_label: Dezember 2025
-    notes: Published December/end-December stock; represented at 31 December, not an annual flow.
+    notes: 'Published as "im Dezember 2025": the month, not a day.'
   geography_id: ostbelgien:deutschsprachige_gemeinschaft
   geography_level: statistical_scope
   geography_name: Deutschsprachige Gemeinschaft
@@ -122,6 +122,11 @@ record_sets:
       expected_value: Neue Zahlen zum Kindergeld in Ostbelgien stehen zur Verfügung. Insgesamt wurde im
         Dezember 2025 für 15.533 Kinder Kindergeld ausgezahlt.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Neue Zahlen zum Kindergeld in Ostbelgien stehen zur Verfügung. Insgesamt wurde im
+        Dezember 2025 für 15.533 Kinder Kindergeld ausgezahlt.
+      label: source_evidence
     table_record_kind: total
     filters:
       ostbelgien.amount_type: Insgesamt
@@ -167,6 +172,16 @@ record_sets:
         Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
         festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Bei der Einführung der eigenen Kindergeldgesetzgebung der Deutschsprachigen Gemeinschaft
+        zum 1. Januar 2019 wurde eine Übergangsregelung geschaffen. Dadurch erhält ein Empfänger denselben
+        Betrag wie im Dezember 2018, den sogenannten festgehaltenen Betrag. Dies gilt solange, bis entweder
+        der Betrag laut neuem System höher ist oder bis sich die Anzahl der kindergeldberechtigten Kinder
+        ändert. Im Dezember 2025 erhielten 185 Kinder, d.h. 1,2 %, einen festgehaltenen Betrag und 15.348
+        Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
+        festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.amount_type: festgehaltener Betrag
@@ -212,6 +227,16 @@ record_sets:
         Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
         festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Bei der Einführung der eigenen Kindergeldgesetzgebung der Deutschsprachigen Gemeinschaft
+        zum 1. Januar 2019 wurde eine Übergangsregelung geschaffen. Dadurch erhält ein Empfänger denselben
+        Betrag wie im Dezember 2018, den sogenannten festgehaltenen Betrag. Dies gilt solange, bis entweder
+        der Betrag laut neuem System höher ist oder bis sich die Anzahl der kindergeldberechtigten Kinder
+        ändert. Im Dezember 2025 erhielten 185 Kinder, d.h. 1,2 %, einen festgehaltenen Betrag und 15.348
+        Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
+        festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.amount_type: neuer Betrag
@@ -234,10 +259,10 @@ record_sets:
     concept_authority: publisher
     concept_evidence_url: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
     concept_evidence_notes: Direct publisher figure in the hashed sanitized browser article transcription;
-      the CSV preserves the exact sentence or table/row/column locator and raw lexeme. Published shares
-      remain percentage values as printed, not recalculated ratios. Empfänger are payees, not an asserted
-      household count. Premium counts are payment occurrences, not unique children. See README for scope
-      and definitions.
+      the CSV preserves the sentence or table/row/column locator, a verbatim capture fragment (the sentence,
+      or the table row's HTML) and the raw lexeme. Published shares remain percentage values as printed,
+      not recalculated ratios. Empfänger are payees, not an asserted household count. Premium counts are
+      payment occurrences, not unique children. See README for scope and definitions.
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -250,11 +275,12 @@ record_sets:
   period_type: calendar_year
   period: 2025
   period_coverage:
-    start_date: '2025-12-31'
+    start_date: '2025-12-01'
     end_date: '2025-12-31'
     basis: calendar
     source_period_label: Dezember 2025
-    notes: Published December/end-December stock; represented at 31 December, not an annual flow.
+    notes: 'Published as "im Dezember 2025": the month, not a day. The payee total refers to the same
+      December figure ("Die 15.533 Kinder ... verteilen sich auf 8.302 Empfänger").'
   geography_id: ostbelgien:deutschsprachige_gemeinschaft
   geography_level: statistical_scope
   geography_name: Deutschsprachige Gemeinschaft
@@ -305,6 +331,13 @@ record_sets:
         der Anzahl Kinder, die in der Deutschsprachigen Gemeinschaft Kindergeld erhalten haben. 2019 war
         das erste Jahr, in dem die Deutschsprachige Gemeinschaft für diese Zahlungen zuständig war.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Die 15.533 Kinder, für die Kindergeld von der Deutschsprachigen Gemeinschaft ausgezahlt
+        wird, verteilen sich auf 8.302 Empfänger. Nachfolgende Grafik zeigt von 2015 bis 2025 die Entwicklung
+        der Anzahl Kinder, die in der Deutschsprachigen Gemeinschaft Kindergeld erhalten haben. 2019 war
+        das erste Jahr, in dem die Deutschsprachige Gemeinschaft für diese Zahlungen zuständig war.
+      label: source_evidence
     table_record_kind: total
     filters:
       ostbelgien.amount_type: Insgesamt
@@ -350,6 +383,16 @@ record_sets:
         Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
         festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Bei der Einführung der eigenen Kindergeldgesetzgebung der Deutschsprachigen Gemeinschaft
+        zum 1. Januar 2019 wurde eine Übergangsregelung geschaffen. Dadurch erhält ein Empfänger denselben
+        Betrag wie im Dezember 2018, den sogenannten festgehaltenen Betrag. Dies gilt solange, bis entweder
+        der Betrag laut neuem System höher ist oder bis sich die Anzahl der kindergeldberechtigten Kinder
+        ändert. Im Dezember 2025 erhielten 185 Kinder, d.h. 1,2 %, einen festgehaltenen Betrag und 15.348
+        Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
+        festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.amount_type: festgehaltener Betrag
@@ -395,6 +438,16 @@ record_sets:
         Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
         festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Bei der Einführung der eigenen Kindergeldgesetzgebung der Deutschsprachigen Gemeinschaft
+        zum 1. Januar 2019 wurde eine Übergangsregelung geschaffen. Dadurch erhält ein Empfänger denselben
+        Betrag wie im Dezember 2018, den sogenannten festgehaltenen Betrag. Dies gilt solange, bis entweder
+        der Betrag laut neuem System höher ist oder bis sich die Anzahl der kindergeldberechtigten Kinder
+        ändert. Im Dezember 2025 erhielten 185 Kinder, d.h. 1,2 %, einen festgehaltenen Betrag und 15.348
+        Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
+        festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.amount_type: neuer Betrag
@@ -417,10 +470,10 @@ record_sets:
     concept_authority: publisher
     concept_evidence_url: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
     concept_evidence_notes: Direct publisher figure in the hashed sanitized browser article transcription;
-      the CSV preserves the exact sentence or table/row/column locator and raw lexeme. Published shares
-      remain percentage values as printed, not recalculated ratios. Empfänger are payees, not an asserted
-      household count. Premium counts are payment occurrences, not unique children. See README for scope
-      and definitions.
+      the CSV preserves the sentence or table/row/column locator, a verbatim capture fragment (the sentence,
+      or the table row's HTML) and the raw lexeme. Published shares remain percentage values as printed,
+      not recalculated ratios. Empfänger are payees, not an asserted household count. Premium counts are
+      payment occurrences, not unique children. See README for scope and definitions.
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -433,11 +486,11 @@ record_sets:
   period_type: calendar_year
   period: 2025
   period_coverage:
-    start_date: '2025-12-31'
+    start_date: '2025-12-01'
     end_date: '2025-12-31'
     basis: calendar
     source_period_label: Dezember 2025
-    notes: Published December/end-December stock; represented at 31 December, not an annual flow.
+    notes: 'Published as "im Dezember 2025": the month, not a day.'
   geography_id: ostbelgien:deutschsprachige_gemeinschaft
   geography_level: statistical_scope
   geography_name: Deutschsprachige Gemeinschaft
@@ -491,6 +544,16 @@ record_sets:
         Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
         festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Bei der Einführung der eigenen Kindergeldgesetzgebung der Deutschsprachigen Gemeinschaft
+        zum 1. Januar 2019 wurde eine Übergangsregelung geschaffen. Dadurch erhält ein Empfänger denselben
+        Betrag wie im Dezember 2018, den sogenannten festgehaltenen Betrag. Dies gilt solange, bis entweder
+        der Betrag laut neuem System höher ist oder bis sich die Anzahl der kindergeldberechtigten Kinder
+        ändert. Im Dezember 2025 erhielten 185 Kinder, d.h. 1,2 %, einen festgehaltenen Betrag und 15.348
+        Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
+        festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.amount_type: festgehaltener Betrag
@@ -536,6 +599,16 @@ record_sets:
         Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
         festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Bei der Einführung der eigenen Kindergeldgesetzgebung der Deutschsprachigen Gemeinschaft
+        zum 1. Januar 2019 wurde eine Übergangsregelung geschaffen. Dadurch erhält ein Empfänger denselben
+        Betrag wie im Dezember 2018, den sogenannten festgehaltenen Betrag. Dies gilt solange, bis entweder
+        der Betrag laut neuem System höher ist oder bis sich die Anzahl der kindergeldberechtigten Kinder
+        ändert. Im Dezember 2025 erhielten 185 Kinder, d.h. 1,2 %, einen festgehaltenen Betrag und 15.348
+        Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
+        festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.amount_type: neuer Betrag
@@ -558,10 +631,10 @@ record_sets:
     concept_authority: publisher
     concept_evidence_url: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
     concept_evidence_notes: Direct publisher figure in the hashed sanitized browser article transcription;
-      the CSV preserves the exact sentence or table/row/column locator and raw lexeme. Published shares
-      remain percentage values as printed, not recalculated ratios. Empfänger are payees, not an asserted
-      household count. Premium counts are payment occurrences, not unique children. See README for scope
-      and definitions.
+      the CSV preserves the sentence or table/row/column locator, a verbatim capture fragment (the sentence,
+      or the table row's HTML) and the raw lexeme. Published shares remain percentage values as printed,
+      not recalculated ratios. Empfänger are payees, not an asserted household count. Premium counts are
+      payment occurrences, not unique children. See README for scope and definitions.
     unit: percent
     aggregation: share
     expected_cell_type: number
@@ -574,11 +647,12 @@ record_sets:
   period_type: calendar_year
   period: 2025
   period_coverage:
-    start_date: '2025-12-31'
+    start_date: '2025-12-01'
     end_date: '2025-12-31'
     basis: calendar
     source_period_label: Dezember 2025
-    notes: Published December/end-December stock; represented at 31 December, not an annual flow.
+    notes: 'Published as "im Dezember 2025": the month, not a day. The payee total refers to the same
+      December figure ("Die 15.533 Kinder ... verteilen sich auf 8.302 Empfänger").'
   geography_id: ostbelgien:deutschsprachige_gemeinschaft
   geography_level: statistical_scope
   geography_name: Deutschsprachige Gemeinschaft
@@ -632,6 +706,16 @@ record_sets:
         Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
         festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Bei der Einführung der eigenen Kindergeldgesetzgebung der Deutschsprachigen Gemeinschaft
+        zum 1. Januar 2019 wurde eine Übergangsregelung geschaffen. Dadurch erhält ein Empfänger denselben
+        Betrag wie im Dezember 2018, den sogenannten festgehaltenen Betrag. Dies gilt solange, bis entweder
+        der Betrag laut neuem System höher ist oder bis sich die Anzahl der kindergeldberechtigten Kinder
+        ändert. Im Dezember 2025 erhielten 185 Kinder, d.h. 1,2 %, einen festgehaltenen Betrag und 15.348
+        Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
+        festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.amount_type: festgehaltener Betrag
@@ -677,6 +761,16 @@ record_sets:
         Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
         festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Bei der Einführung der eigenen Kindergeldgesetzgebung der Deutschsprachigen Gemeinschaft
+        zum 1. Januar 2019 wurde eine Übergangsregelung geschaffen. Dadurch erhält ein Empfänger denselben
+        Betrag wie im Dezember 2018, den sogenannten festgehaltenen Betrag. Dies gilt solange, bis entweder
+        der Betrag laut neuem System höher ist oder bis sich die Anzahl der kindergeldberechtigten Kinder
+        ändert. Im Dezember 2025 erhielten 185 Kinder, d.h. 1,2 %, einen festgehaltenen Betrag und 15.348
+        Kinder, d.h. 98,8 %, einen neuen Betrag. Auf die Empfänger bezogen erhielten 139 (1,7 %) einen
+        festgehaltenen und 8.163 Empfänger (98,3 %) einen neuen Betrag.
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.amount_type: neuer Betrag
@@ -699,10 +793,10 @@ record_sets:
     concept_authority: publisher
     concept_evidence_url: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
     concept_evidence_notes: Direct publisher figure in the hashed sanitized browser article transcription;
-      the CSV preserves the exact sentence or table/row/column locator and raw lexeme. Published shares
-      remain percentage values as printed, not recalculated ratios. Empfänger are payees, not an asserted
-      household count. Premium counts are payment occurrences, not unique children. See README for scope
-      and definitions.
+      the CSV preserves the sentence or table/row/column locator, a verbatim capture fragment (the sentence,
+      or the table row's HTML) and the raw lexeme. Published shares remain percentage values as printed,
+      not recalculated ratios. Empfänger are payees, not an asserted household count. Premium counts are
+      payment occurrences, not unique children. See README for scope and definitions.
     unit: percent
     aggregation: share
     expected_cell_type: number
@@ -715,13 +809,11 @@ record_sets:
   period_type: calendar_year
   period: 2025
   period_coverage:
-    start_date: '2025-01-01'
-    end_date: '2025-12-31'
-    basis: calendar
     source_period_label: '2025'
     notes: Publisher column label "2025"; prose says "die 2025 Kindergeld von der Deutschsprachigen Gemeinschaft
-      erhalten haben". Full-year dates represent that label only. Total equals the December stock, but
-      the article does not establish whether these are annual unique recipients or a December age distribution.
+      erhalten haben". No dates are given because the article states none. Its total equals the December
+      count, but the article does not establish whether these are annual recipients or a December age
+      distribution.
   geography_id: ostbelgien:deutschsprachige_gemeinschaft
   geography_level: statistical_scope
   geography_name: Deutschsprachige Gemeinschaft
@@ -770,6 +862,11 @@ record_sets:
       expected_value: Tabelle "Verteilung des Kindergelds nach Altersgruppen"; Zeile "0-17 Jahre"; Spalte
         "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr><th scope="row">0-17 Jahre</th><td headers="j-2025_80644c j-0-17jahre_80644r
+        ">12.702</td></tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.age_group: 0-17 Jahre
@@ -810,6 +907,11 @@ record_sets:
       expected_value: Tabelle "Verteilung des Kindergelds nach Altersgruppen"; Zeile "18-24 Jahre"; Spalte
         "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr><th scope="row">18-24 Jahre</th><td headers="j-2025_80644c j-18-24jahre_80644r
+        ">2.777</td></tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.age_group: 18-24 Jahre
@@ -850,6 +952,11 @@ record_sets:
       expected_value: Tabelle "Verteilung des Kindergelds nach Altersgruppen"; Zeile "25 Jahre und älter";
         Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr><th scope="row">25 Jahre und älter</th><td headers="j-2025_80644c j-25jahreundälter_80644r
+        ">54</td></tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.age_group: 25 Jahre und älter
@@ -889,6 +996,10 @@ record_sets:
       row: start
       expected_value: Tabelle "Verteilung des Kindergelds nach Altersgruppen"; Zeile "Total"; Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr><th scope="row">Total</th><td headers="j-2025_80644c j-total_80644r ">15.533</td></tr>
+      label: source_evidence
     table_record_kind: total
     filters:
       ostbelgien.age_group: Total
@@ -911,10 +1022,10 @@ record_sets:
     concept_authority: publisher
     concept_evidence_url: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
     concept_evidence_notes: Direct publisher figure in the hashed sanitized browser article transcription;
-      the CSV preserves the exact sentence or table/row/column locator and raw lexeme. Published shares
-      remain percentage values as printed, not recalculated ratios. Empfänger are payees, not an asserted
-      household count. Premium counts are payment occurrences, not unique children. See README for scope
-      and definitions.
+      the CSV preserves the sentence or table/row/column locator, a verbatim capture fragment (the sentence,
+      or the table row's HTML) and the raw lexeme. Published shares remain percentage values as printed,
+      not recalculated ratios. Empfänger are payees, not an asserted household count. Premium counts are
+      payment occurrences, not unique children. See README for scope and definitions.
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -931,8 +1042,8 @@ record_sets:
     end_date: '2025-12-31'
     basis: calendar
     source_period_label: '2025'
-    notes: Published December/end-December stock; represented at 31 December, not an annual flow. A child
-      may receive two supplements; rows overlap and no total is published.
+    notes: Published as "zum Stand Ende Dezember 2025". A child may receive two supplements; rows overlap
+      and no total is published.
   geography_id: ostbelgien:deutschsprachige_gemeinschaft
   geography_level: statistical_scope
   geography_name: Deutschsprachige Gemeinschaft
@@ -981,6 +1092,11 @@ record_sets:
       expected_value: Tabelle "Verteilung des Kindergelds nach Zuschlag"; Zeile "Sozialzuschlag"; Spalte
         "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr><th scope="row">Sozialzuschlag</th><td headers="j-2025_71643c j-sozialzuschlag_71643r
+        ">3.697</td></tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.supplement: Sozialzuschlag
@@ -1021,6 +1137,11 @@ record_sets:
       expected_value: Tabelle "Verteilung des Kindergelds nach Zuschlag"; Zeile "Zuschlag für kinderreiche
         Familien"; Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr><th scope="row">Zuschlag für kinderreiche Familien</th><td headers="j-2025_71643c
+        j-zuschlagfürkinderreichefamilien_71643r ">2.012</td></tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.supplement: Zuschlag für kinderreiche Familien
@@ -1061,6 +1182,11 @@ record_sets:
       expected_value: Tabelle "Verteilung des Kindergelds nach Zuschlag"; Zeile "Zuschlag für Kinder mit
         Beeinträchtigung"; Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr><th scope="row">Zuschlag für Kinder mit Beeinträchtigung</th><td headers="j-2025_71643c
+        j-zuschlagfürkindermitbeeinträchtigung_71643r ">472</td></tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.supplement: Zuschlag für Kinder mit Beeinträchtigung
@@ -1101,6 +1227,11 @@ record_sets:
       expected_value: Tabelle "Verteilung des Kindergelds nach Zuschlag"; Zeile "Halbwaisenzuschlag";
         Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr><th scope="row">Halbwaisenzuschlag</th><td headers="j-2025_71643c j-halbwaisenzuschlag_71643r
+        ">226</td></tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.supplement: Halbwaisenzuschlag
@@ -1141,6 +1272,11 @@ record_sets:
       expected_value: Tabelle "Verteilung des Kindergelds nach Zuschlag"; Zeile "Vollwaisenzuschlag";
         Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr><th scope="row">Vollwaisenzuschlag</th><td headers="j-2025_71643c j-vollwaisenzuschlag_71643r
+        ">8</td></tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.supplement: Vollwaisenzuschlag
@@ -1163,10 +1299,10 @@ record_sets:
     concept_authority: publisher
     concept_evidence_url: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
     concept_evidence_notes: Direct publisher figure in the hashed sanitized browser article transcription;
-      the CSV preserves the exact sentence or table/row/column locator and raw lexeme. Published shares
-      remain percentage values as printed, not recalculated ratios. Empfänger are payees, not an asserted
-      household count. Premium counts are payment occurrences, not unique children. See README for scope
-      and definitions.
+      the CSV preserves the sentence or table/row/column locator, a verbatim capture fragment (the sentence,
+      or the table row's HTML) and the raw lexeme. Published shares remain percentage values as printed,
+      not recalculated ratios. Empfänger are payees, not an asserted household count. Premium counts are
+      payment occurrences, not unique children. See README for scope and definitions.
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -1183,7 +1319,7 @@ record_sets:
     end_date: '2025-12-31'
     basis: calendar
     source_period_label: '2025'
-    notes: Publisher's calendar-year 2025 payments or expenditure.
+    notes: Publisher's 2025 payments or expenditure ("im Jahr 2025", "2025 wurde").
   geography_id: ostbelgien:deutschsprachige_gemeinschaft
   geography_level: statistical_scope
   geography_name: Deutschsprachige Gemeinschaft
@@ -1232,6 +1368,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Basiskindergeld"; Spalte
         "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Basiskindergeld</strong></p> </td> <td nowrap="nowrap">
+        <p>33.958.484,38</p> </td> </tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.expenditure_component: Basiskindergeld
@@ -1272,6 +1413,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Zuschlag Beeinträchtigung";
         Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Zuschlag Beeinträchtigung</strong></p> </td>
+        <td nowrap="nowrap"> <p>1.955.996,96</p> </td> </tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.expenditure_component: Zuschlag Beeinträchtigung
@@ -1312,6 +1458,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Sozialzuschlag"; Spalte
         "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Sozialzuschlag</strong></p> </td> <td nowrap="nowrap">
+        <p>3.948.213,81</p> </td> </tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.expenditure_component: Sozialzuschlag
@@ -1352,6 +1503,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Jahreszuschlag"; Spalte
         "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Jahreszuschlag</strong></p> </td> <td nowrap="nowrap">
+        <p>942.957,83</p> </td> </tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.expenditure_component: Jahreszuschlag
@@ -1392,6 +1548,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Zuschlag für kinderreiche
         Familien"; Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Zuschlag für kinderreiche Familien</strong></p>
+        </td> <td nowrap="nowrap"> <p>4.027.580,12</p> </td> </tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.expenditure_component: Zuschlag für kinderreiche Familien
@@ -1432,6 +1593,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Halbwaisenzuschlag";
         Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Halbwaisenzuschlag</strong></p> </td> <td nowrap="nowrap">
+        <p>353.566,56</p> </td> </tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.expenditure_component: Halbwaisenzuschlag
@@ -1472,6 +1638,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Vollwaisenzuschlag";
         Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Vollwaisenzuschlag</strong></p> </td> <td nowrap="nowrap">
+        <p>28.984,23</p> </td> </tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.expenditure_component: Vollwaisenzuschlag
@@ -1512,6 +1683,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Kindergeld neuer Betrag";
         Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Kindergeld neuer Betrag</strong></p> </td>
+        <td nowrap="nowrap"> <p>45.215.783,89</p> </td> </tr>
+      label: source_evidence
     table_record_kind: total
     filters:
       ostbelgien.expenditure_component: Kindergeld neuer Betrag
@@ -1552,6 +1728,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Kindergeld festgehaltener
         Betrag"; Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Kindergeld festgehaltener Betrag</strong></p>
+        </td> <td nowrap="nowrap"> <p>659.339,23</p> </td> </tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.expenditure_component: Kindergeld festgehaltener Betrag
@@ -1592,6 +1773,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Geburtsprämie"; Spalte
         "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Geburtsprämie</strong></p> </td> <td nowrap="nowrap">
+        <p>964.288,40</p> </td> </tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.expenditure_component: Geburtsprämie
@@ -1632,6 +1818,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Adoptionsprämie"; Spalte
         "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Adoptionsprämie</strong></p> </td> <td nowrap="nowrap">
+        <p>1.376,16</p> </td> </tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.expenditure_component: Adoptionsprämie
@@ -1671,6 +1862,11 @@ record_sets:
       row: start
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Prämien"; Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Prämien</strong></p> </td> <td nowrap="nowrap">
+        <p>965.664,56</p> </td> </tr>
+      label: source_evidence
     table_record_kind: total
     filters:
       ostbelgien.expenditure_component: Prämien
@@ -1711,6 +1907,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Sonstiges (Korrekturen,
         Verträge etc.)"; Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Sonstiges (Korrekturen, Verträge etc.)</strong></p>
+        </td> <td nowrap="nowrap"> <p>52.074,62</p> </td> </tr>
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.expenditure_component: Sonstiges (Korrekturen, Verträge etc.)
@@ -1751,6 +1952,11 @@ record_sets:
       expected_value: Tabelle "Ausgaben Familienleistungen im Jahr 2025"; Zeile "Total Familienleistungen";
         Spalte "2025"
       label: source_locator
+    - column: P
+      row: start
+      expected_value: <tr> <td nowrap="nowrap"> <p><strong>Total Familienleistungen</strong></p> </td>
+        <td nowrap="nowrap"> <p><strong>46.892.862,30</strong></p> </td> </tr>
+      label: source_evidence
     table_record_kind: total
     filters:
       ostbelgien.expenditure_component: Total Familienleistungen
@@ -1773,10 +1979,10 @@ record_sets:
     concept_authority: publisher
     concept_evidence_url: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
     concept_evidence_notes: Direct publisher figure in the hashed sanitized browser article transcription;
-      the CSV preserves the exact sentence or table/row/column locator and raw lexeme. Published shares
-      remain percentage values as printed, not recalculated ratios. Empfänger are payees, not an asserted
-      household count. Premium counts are payment occurrences, not unique children. See README for scope
-      and definitions.
+      the CSV preserves the sentence or table/row/column locator, a verbatim capture fragment (the sentence,
+      or the table row's HTML) and the raw lexeme. Published shares remain percentage values as printed,
+      not recalculated ratios. Empfänger are payees, not an asserted household count. Premium counts are
+      payment occurrences, not unique children. See README for scope and definitions.
     unit: eur
     aggregation: sum
     expected_cell_type: number
@@ -1793,7 +1999,7 @@ record_sets:
     end_date: '2025-12-31'
     basis: calendar
     source_period_label: '2025'
-    notes: Publisher's calendar-year 2025 payments or expenditure.
+    notes: Publisher's 2025 payments or expenditure ("im Jahr 2025", "2025 wurde").
   geography_id: ostbelgien:deutschsprachige_gemeinschaft
   geography_level: statistical_scope
   geography_name: Deutschsprachige Gemeinschaft
@@ -1843,6 +2049,12 @@ record_sets:
         Adoptionsprämie in die Zuständigkeit der Deutschsprachigen Gemeinschaft. 2025 wurde die Geburtsprämie
         700 und die Adoptionsprämie einmal ausgezahlt.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Neben der Auszahlung des Kindergeldes fällt auch die Auszahlung der Geburts- und
+        Adoptionsprämie in die Zuständigkeit der Deutschsprachigen Gemeinschaft. 2025 wurde die Geburtsprämie
+        700 und die Adoptionsprämie einmal ausgezahlt.
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.premium: Geburtsprämie
@@ -1884,6 +2096,12 @@ record_sets:
         Adoptionsprämie in die Zuständigkeit der Deutschsprachigen Gemeinschaft. 2025 wurde die Geburtsprämie
         700 und die Adoptionsprämie einmal ausgezahlt.
       label: source_locator
+    - column: P
+      row: start
+      expected_value: Neben der Auszahlung des Kindergeldes fällt auch die Auszahlung der Geburts- und
+        Adoptionsprämie in die Zuständigkeit der Deutschsprachigen Gemeinschaft. 2025 wurde die Geburtsprämie
+        700 und die Adoptionsprämie einmal ausgezahlt.
+      label: source_evidence
     table_record_kind: detail
     filters:
       ostbelgien.premium: Adoptionsprämie
@@ -1906,10 +2124,10 @@ record_sets:
     concept_authority: publisher
     concept_evidence_url: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
     concept_evidence_notes: Direct publisher figure in the hashed sanitized browser article transcription;
-      the CSV preserves the exact sentence or table/row/column locator and raw lexeme. Published shares
-      remain percentage values as printed, not recalculated ratios. Empfänger are payees, not an asserted
-      household count. Premium counts are payment occurrences, not unique children. See README for scope
-      and definitions.
+      the CSV preserves the sentence or table/row/column locator, a verbatim capture fragment (the sentence,
+      or the table row's HTML) and the raw lexeme. Published shares remain percentage values as printed,
+      not recalculated ratios. Empfänger are payees, not an asserted household count. Premium counts are
+      payment occurrences, not unique children. See README for scope and definitions.
     unit: count
     aggregation: sum
     expected_cell_type: number

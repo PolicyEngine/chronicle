@@ -145,6 +145,15 @@ def _tables(article):
     return result
 
 
+def _row_cells(fragment):
+    """The cell texts of one ``<tr>`` fragment, read with the test's own parser."""
+    parser = _ArticleParser()
+    parser.feed(fragment)
+    rows = list(parser.root.descendants("tr"))
+    assert len(rows) == 1, fragment
+    return [cell.text() for cell in rows[0].children if isinstance(cell, _Element)]
+
+
 def _paragraph(article, contains):
     matches = [p.text() for p in article.descendants("p") if contains in p.text()]
     assert len(matches) == 1, contains
@@ -230,6 +239,8 @@ def test_evidence_capture_is_the_declared_attributed_transcription():
     assert csv_entry["sha256"] == hashlib.sha256(CSV.read_bytes()).hexdigest()
     assert csv_entry["size_bytes"] == CSV.stat().st_size
     assert SOURCE_URL in manifest_text
+    # The tables' own attribution line names the publisher.
+    assert f"<em>Quelle: {manifest['publisher']}</em>" in text
     assert CAPTURE_SHA256 in manifest_text
     assert CAPTURE.name in manifest_text
     assert "no licence stated; figures cited with attribution" in manifest_text
@@ -246,6 +257,7 @@ def test_evidence_capture_is_the_declared_attributed_transcription():
 def test_every_curated_value_and_built_fact_matches_independent_html_parse(
     curated_rows, facts
 ):
+    capture = CAPTURE.read_text(encoding="utf-8")
     article = _article()
     tables = _tables(article)
     narrative = _narrative(article)
@@ -259,12 +271,23 @@ def test_every_curated_value_and_built_fact_matches_independent_html_parse(
         if row["table"] in tables:
             expected_raw = tables[row["table"]][row["row_label"]]
             seen_tables[row["table"]] += 1
-            assert row["row_label"] in row["source_locator"]
-            assert row["table"] in row["source_locator"]
+            # Structured coordinates, not a quotation; the evidence column carries
+            # the captured row itself, which must occur once, verbatim.
+            assert row["source_locator"] == (
+                f'Tabelle "{row["table"]}"; Zeile "{row["row_label"]}"; Spalte "2025"'
+            )
+            assert capture.count(row["source_evidence"]) == 1
+            assert _row_cells(row["source_evidence"]) == [
+                row["row_label"],
+                expected_raw,
+            ]
         else:
             expected_raw = narrative[row["value_id"]]
             seen_narrative.add(row["value_id"])
             assert row["source_locator"] in {p.text() for p in article.descendants("p")}
+            assert row["source_evidence"] == row["source_locator"]
+            assert row["source_evidence"] in capture
+            assert expected_raw in row["source_evidence"]
         assert row["value_raw"] == expected_raw
         assert Decimal(row["value"]) == _number(expected_raw)
         fact = by_id[row["value_id"]]
@@ -387,26 +410,46 @@ def test_package_validation_lineage_and_source_only_coverage(package, facts):
     assert all(fact.dimension_value_labels for fact in facts)
 
 
+# Each basis maps to the span the article states, with the phrase that states it.
+# The age table states no span, so its coverage carries the label and no dates.
+EXPECTED_COVERAGE = {
+    "december_2025": ("2025-12-01", "2025-12-31", "im Dezember 2025"),
+    "end_2025": ("2025-12-31", "2025-12-31", "zum Stand Ende Dezember 2025"),
+    "calendar_year_2025": ("2025-01-01", "2025-12-31", "im Jahr 2025"),
+    "publisher_year_2025_ambiguous": (None, None, None),
+}
+
+
 def test_publisher_periods_do_not_change_with_build_year(package, facts, curated_rows):
     assert package.build_facts(2026) == facts
     assert {fact.period.value for fact in facts} == {2025}
     assert {fact.period.type for fact in facts} == {"calendar_year"}
-    assert all(fact.period_coverage for fact in facts)
+    text = _article().text()
     by_id = {fact.layout.groupby_value_id: fact for fact in facts}
+    assert {row["reference_basis"] for row in curated_rows} == set(EXPECTED_COVERAGE)
     for row in curated_rows:
         coverage = by_id[row["value_id"]].period_coverage
-        snapshot = row["reference_basis"] in {"december_2025", "end_2025"}
-        assert coverage.start_date == ("2025-12-31" if snapshot else "2025-01-01")
-        assert coverage.end_date == "2025-12-31"
-        assert coverage.basis == "calendar"
+        start, end, phrase = EXPECTED_COVERAGE[row["reference_basis"]]
+        assert coverage.start_date == start
+        assert coverage.end_date == end
+        assert coverage.basis == ("calendar" if start else None)
         assert coverage.source_period_label == row["source_period_label"]
+        if phrase:
+            assert phrase in text
+            assert phrase in coverage.notes
+        if row["reference_basis"] == "calendar_year_2025":
+            assert "2025 wurde" in coverage.notes
+        if row["entity_role"] == "benefit_recipient" and row["value_id"].startswith(
+            "recipients"
+        ):
+            assert "verteilen sich auf 8.302 Empfänger" in coverage.notes
         if row["table"] == AGE_TABLE:
             assert coverage.source_period_label == "2025"
             assert (
                 "die 2025 Kindergeld von der Deutschsprachigen Gemeinschaft erhalten haben"
                 in coverage.notes
             )
-            assert "December" in coverage.notes
+            assert "the article states none" in coverage.notes
             assert "does not establish" in coverage.notes
         if row["table"] == SUPPLEMENT_TABLE:
             assert "rows overlap and no total is published" in coverage.notes
@@ -443,6 +486,7 @@ def test_declarations_guard_every_row_and_explicitly_declare_provenance(curated_
                 "unit",
                 "reference_basis",
                 "source_locator",
+                "source_evidence",
             ):
                 assert guards[key] == source_row[key]
             filters = {
