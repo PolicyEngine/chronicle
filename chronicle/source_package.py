@@ -662,6 +662,9 @@ SOURCE_PACKAGE_ALIASES = {
         "statbel/fiscal_income_distribution_2023"
     ),
     "spf-finances-pit-2023": Path("spf_finances/pit_2023"),
+    "spf-finances-municipal-tax-rate-ay2026": Path(
+        "spf_finances/municipal_tax_rate_ay2026"
+    ),
     "onss-contributions-2024": Path("onss/contributions_2024"),
     "onem-rva-unemployment-2024": Path("onem_rva/unemployment_2024"),
     "nbb-national-accounts-household-disposable-income-2024": Path(
