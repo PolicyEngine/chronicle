@@ -468,7 +468,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
-        "skipped_source_count": 17,
+        # Seven ACS 2020–2024 county packages also have no 2023 artifact, so
+        # they are skipped (17 -> 24) and the built-package count is unchanged.
+        "skipped_source_count": 24,
         # chronicle#381 adds the Gambling Commission.
         "source_count": 57,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
@@ -523,13 +525,20 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "survey_aggregate",
     }
     assert source_packages["source_package_count"] == 413
-    assert source_packages["skipped_source_count"] == 17
+    assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
         "census-acs-s0101-national-age-2024",
         "census-acs-s0101-state-age-2024",
         "census-acs-s1501-state-attainment-2024",
         "census-acs-s2201-congressional-district-snap-2024",
+        "census-acs5-b01003-county-2024",
+        "census-acs5-b11001-county-2024",
+        "census-acs5-b19001-county-2024",
+        "census-acs5-b19013-county-2024",
+        "census-acs5-b19025-county-2024",
+        "census-acs5-b19051-county-2024",
+        "census-acs5-b19061-county-2024",
         "cms-aca-effectuated-enrollment-2022",
         "cms-aca-oep-state-level",
         "cms-aca-oep-state-level-2022",
