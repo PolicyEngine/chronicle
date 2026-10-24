@@ -27,6 +27,9 @@ PACKAGE_ID = "rsz-employment-daily-wage-class-2023-2026"
 DATA = ROOT / "db/data/rsz/employment_daily_wage_class_2023_2026"
 CSV_NAME = "employment_daily_wage_class.csv"
 CAPTURED_AT = "2026-10-24T01:05:27Z"
+# T7 prints "Man-homme"/"Vrouw-femme" through 2025Q3 and T17 always prints the
+# capitalized forms; one value per sex keeps a series whole. Locators keep the print.
+SEX_VALUES = {"man-homme": "Man-Homme", "vrouw-femme": "Vrouw-Femme"}
 LANDING = "https://www.rsz.be/stats/arbeidsmarktanalyse-gedetailleerde-kwartaalgegevens"
 OLD = "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx"
 NEW = "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx"
@@ -196,7 +199,9 @@ def extract():
                         if wage.lower() == "onbekend-inconnu"
                         else wage
                     )
-                    dims["rsz.sex"] = sex
+                    if sex.casefold() not in SEX_VALUES:
+                        raise ValueError(f"Unexpected sex label {sex!r} in {sheet}")
+                    dims["rsz.sex"] = SEX_VALUES[sex.casefold()]
                     for key, value in dims.items():
                         value_labels[key].setdefault(value, value)
                     native = [sheet, quarter, sorted(dims.items())]

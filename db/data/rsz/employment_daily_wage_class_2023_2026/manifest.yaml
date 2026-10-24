@@ -10,15 +10,15 @@ files:
   2026:
     filename: employment_daily_wage_class.csv
     source_url: https://www.rsz.be/stats/arbeidsmarktanalyse-gedetailleerde-kwartaalgegevens
-    sha256: 20ddb0fcf1c68e97309db09af76c07f44c3ee5bb3611eca3c84fb0f5174a2fb8
+    sha256: b4f2f13436db6966f167e8d7d250d043608c63975d8911de7ab0f1f3e5734c7e
     size_bytes: 9032043
     retrieved_at: '2026-10-24T01:05:27Z'
     storage:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/20ddb0fcf1c68e97309db09af76c07f44c3ee5bb3611eca3c84fb0f5174a2fb8/employment_daily_wage_class.csv
-        uri: r2://ledger-raw/raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/20ddb0fcf1c68e97309db09af76c07f44c3ee5bb3611eca3c84fb0f5174a2fb8/employment_daily_wage_class.csv
+        key: raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/b4f2f13436db6966f167e8d7d250d043608c63975d8911de7ab0f1f3e5734c7e/employment_daily_wage_class.csv
+        uri: r2://ledger-raw/raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/b4f2f13436db6966f167e8d7d250d043608c63975d8911de7ab0f1f3e5734c7e/employment_daily_wage_class.csv
     notes: Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24. Representation-only cell extract; publisher captures below.
   rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx:
     filename: rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx

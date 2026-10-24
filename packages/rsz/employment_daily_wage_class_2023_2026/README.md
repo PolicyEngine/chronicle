@@ -130,8 +130,11 @@ normalize to the same string label. No age bounds are inferred. The criteria
 page states: “De leeftijd is deze die bereikt wordt op de laatste dag van het
 kwartaal.”
 
-Printed sex strings are preserved, including `Man-Homme`/`Man-homme` and
-`Vrouw-Femme`/`Vrouw-femme`; these case variants are not silently merged.
+Sex values are `Man-Homme` and `Vrouw-Femme`. T17 always prints these; T7
+prints `Man-homme`/`Vrouw-femme` through 2025Q3 and the capitalized forms from
+2025Q4. As for `Onbekend-Inconnu`, each sex is one value, so a T7 series does
+not split at 2025Q4; the printed form remains in every source locator, and any
+other sex label stops the build.
 Worker status retains the bilingual published `Arbeider-Ouvrier`,
 `Bediende-Employé`, `Ambtenaar-Fonctionnaire` labels. NACE activity uses the
 published code as its stable category. The first encountered (latest-quarter)

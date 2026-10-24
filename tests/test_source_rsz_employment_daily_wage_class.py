@@ -68,6 +68,8 @@ def test_every_ingested_cell_labels_and_display_precision(extract, workbooks):
     noisy_samples = []
     age_types = set()
     unknown_printed = set()
+    sex_printed = set()
+    sex_values = {"man-homme": "Man-Homme", "vrouw-femme": "Vrouw-Femme"}
     for row in extract:
         locator = json.loads(row["source_locator"])
         name, sheet, number = locator["workbook"], locator["sheet"], locator["row"]
@@ -87,10 +89,14 @@ def test_every_ingested_cell_labels_and_display_precision(extract, workbooks):
             assert row["rsz.age_class"] == str(source[2].value)
             if str(source[2].value) == "-20":
                 age_types.add(type(source[2].value))
-            assert row["rsz.sex"] == source[3].value
+            assert row["rsz.sex"] == sex_values[source[3].value.casefold()]
+            assert locator["printed_dimensions"][f"D{number}"] == source[3].value
+            sex_printed.add((sheet, source[3].value))
         else:
             assert row["rsz.worker_status"] == source[1].value
-            assert row["rsz.sex"] == source[2].value
+            assert row["rsz.sex"] == sex_values[source[2].value.casefold()]
+            assert locator["printed_dimensions"][f"C{number}"] == source[2].value
+            sex_printed.add((sheet, source[2].value))
             assert row["rsz.nace2025_activity"] == source[3].value
             assert locator["printed_dimensions"][f"E{number}"] == source[4].value
             assert locator["printed_dimensions"][f"F{number}"] == source[5].value
@@ -124,6 +130,16 @@ def test_every_ingested_cell_labels_and_display_precision(extract, workbooks):
     assert len(noisy_samples) > 100
     assert age_types == {int, str}
     assert unknown_printed == {"Onbekend-Inconnu", "Onbekend-inconnu"}
+    # Both printed cases occur in T7; each sex is still a single value.
+    assert sex_printed == {
+        ("T17", "Man-Homme"),
+        ("T17", "Vrouw-Femme"),
+        ("T7", "Man-Homme"),
+        ("T7", "Vrouw-Femme"),
+        ("T7", "Man-homme"),
+        ("T7", "Vrouw-femme"),
+    }
+    assert {r["rsz.sex"] for r in extract} == {"Man-Homme", "Vrouw-Femme"}
     assert {r["rsz.daily_wage_class"] for r in extract} == {
         "<100",
         "100 - 149",
