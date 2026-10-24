@@ -19,6 +19,8 @@ from pypdf import PdfReader
 
 from chronicle.bundle import _dimension_label_reports, build_bundle_coverage
 from chronicle.consumer_contract import (
+    build_aggregate_fact_key,
+    build_semantic_fact_key,
     consumer_fact_rows,
     validate_consumer_fact_contract,
 )
@@ -378,6 +380,53 @@ def test_rates_preserve_published_tax_period_unit_and_source_lineage(
             "label": "Publisher assessment year",
         },
     ]
+
+
+def _respell(fact, old, new):
+    """Replace a printed name wherever a fact carries it: name, filters, constraints."""
+    return replace(
+        fact,
+        geography=replace(fact.geography, name=new),
+        filters={
+            key: new if value == old else value for key, value in fact.filters.items()
+        },
+        constraints=tuple(
+            replace(constraint, value=new) if constraint.value == old else constraint
+            for constraint in fact.constraints
+        ),
+    )
+
+
+def test_printed_spelling_never_changes_fact_identity(
+    municipal_rates, statbel_communes
+):
+    """For every fact, respelling its commune leaves both keys unchanged.
+
+    The NIS code is the identity; the printed name is a label (fact identity
+    ADR v2). Changing the code, by contrast, must change the keys.
+    """
+    _, _, facts = municipal_rates
+    codes = sorted(statbel_communes)
+    for fact in facts:
+        keys = (build_aggregate_fact_key(fact), build_semantic_fact_key(fact))
+        name = fact.geography.name
+        spellings = {
+            statbel_communes[fact.geography.id]["geography_name"],
+            name.casefold(),
+            name.upper(),
+            _orthographic_key(name),
+        } - {name}
+        assert spellings
+        for spelling in spellings:
+            respelled = _respell(fact, name, spelling)
+            assert (
+                build_aggregate_fact_key(respelled),
+                build_semantic_fact_key(respelled),
+            ) == keys
+        other = codes[(codes.index(fact.geography.id) + 1) % len(codes)]
+        moved = replace(fact, geography=replace(fact.geography, id=other))
+        assert build_aggregate_fact_key(moved) != keys[0]
+        assert build_semantic_fact_key(moved) != keys[1]
 
 
 def test_source_capture_hash_and_r2_storage_are_declared():
