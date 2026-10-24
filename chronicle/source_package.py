@@ -652,6 +652,12 @@ SOURCE_PACKAGE_ALIASES = {
     "mhclg-ehs-weekly-housing-costs-2023-24": Path(
         "mhclg/ehs_weekly_housing_costs_2023_24"
     ),
+    "rsz-employment-daily-wage-class-2023-2026": Path(
+        "rsz/employment_daily_wage_class_2023_2026"
+    ),
+    "rsz-annual-wages-key-figures-2020-2025": Path(
+        "rsz/annual_wages_key_figures_2020_2025"
+    ),
     "statbel-population-structure-2025": Path("statbel/population_structure_2025"),
     "statbel-population-structure-commune-2025": Path(
         "statbel/population_structure_commune_2025"
