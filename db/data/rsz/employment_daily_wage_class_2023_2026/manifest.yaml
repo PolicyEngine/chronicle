@@ -1,0 +1,100 @@
+source_id: belgium
+package_id: rsz-employment-daily-wage-class-2023-2026
+source_name: RSZ/ONSS quarterly labour market analysis
+publisher: Rijksdienst voor Sociale Zekerheid / Office national de sécurité sociale, Directie Statistiek
+source_page: https://www.rsz.be/stats/arbeidsmarktanalyse-gedetailleerde-kwartaalgegevens
+license: CC BY 4.0
+license_url: https://creativecommons.org/licenses/by/4.0/
+attribution: 'Source: RSZ/ONSS, Directie Statistiek, Arbeidsmarktanalyse: gedetailleerde kwartaalgegevens, updated 26/08/2026; CC BY 4.0. Chronicle selected cells and normalized display representation and documented labels.'
+files:
+  2026:
+    filename: employment_daily_wage_class.csv
+    source_url: https://www.rsz.be/stats/arbeidsmarktanalyse-gedetailleerde-kwartaalgegevens
+    sha256: b4f2f13436db6966f167e8d7d250d043608c63975d8911de7ab0f1f3e5734c7e
+    size_bytes: 9032043
+    retrieved_at: '2026-10-24T01:05:27Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/b4f2f13436db6966f167e8d7d250d043608c63975d8911de7ab0f1f3e5734c7e/employment_daily_wage_class.csv
+        uri: r2://ledger-raw/raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/b4f2f13436db6966f167e8d7d250d043608c63975d8911de7ab0f1f3e5734c7e/employment_daily_wage_class.csv
+    notes: Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24. Representation-only cell extract; publisher captures below.
+  rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx:
+    filename: rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx
+    source_url: https://www.rsz.be/file/6103c41969844d308979992d7f84d51e59927e1e/e99a2c6552443e5bcb6d91bbf13bd59186d0318d/analyse-du-marche-du-travail-trimestrielle-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx
+    sha256: 7338f7aafb61e6469b53b917fb07b3d2017f17b8a457fb025ebc78bac355cce6
+    size_bytes: 7439065
+    retrieved_at: '2026-10-24T01:05:27Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/7338f7aafb61e6469b53b917fb07b3d2017f17b8a457fb025ebc78bac355cce6/rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx
+        uri: r2://ledger-raw/raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/7338f7aafb61e6469b53b917fb07b3d2017f17b8a457fb025ebc78bac355cce6/rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx
+    notes: Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24. Verbatim publisher source capture; checksum verified against supplied SHA256SUMS.txt.
+  rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx:
+    filename: rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx
+    source_url: https://www.rsz.be/file/6103c41969844d308979992d7f84d51e59927e1e/3317e5e3f67597073d8a13e89ec258298ba42e48/analyse-du-marche-du-travail-trimestrielle-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx
+    sha256: 35e43c50ba0f31038d6e46965404b9d828855a77151828795738ff048f646bec
+    size_bytes: 13498057
+    retrieved_at: '2026-10-24T01:05:27Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/35e43c50ba0f31038d6e46965404b9d828855a77151828795738ff048f646bec/rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx
+        uri: r2://ledger-raw/raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/35e43c50ba0f31038d6e46965404b9d828855a77151828795738ff048f646bec/rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx
+    notes: Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24. Verbatim publisher source capture; checksum verified against supplied SHA256SUMS.txt.
+  rsz-gedetailleerde-kwartaalgegevens.html:
+    filename: rsz-gedetailleerde-kwartaalgegevens.html
+    source_url: https://www.rsz.be/stats/arbeidsmarktanalyse-gedetailleerde-kwartaalgegevens
+    sha256: aaf7d6a870f40d8942f9fca7f9d022c26a6fe12a7e9feec8a515db064984bae8
+    size_bytes: 545435
+    retrieved_at: '2026-10-24T01:05:27Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/aaf7d6a870f40d8942f9fca7f9d022c26a6fe12a7e9feec8a515db064984bae8/rsz-gedetailleerde-kwartaalgegevens.html
+        uri: r2://ledger-raw/raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/aaf7d6a870f40d8942f9fca7f9d022c26a6fe12a7e9feec8a515db064984bae8/rsz-gedetailleerde-kwartaalgegevens.html
+    notes: Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24. Verbatim publisher source capture; checksum verified against supplied SHA256SUMS.txt.
+  rsz-gemeenschappelijke-criteria.html:
+    filename: rsz-gemeenschappelijke-criteria.html
+    source_url: https://www.rsz.be/gemeenschappelijke-criteria
+    sha256: b1f9df57fcd06e5091ed34d642ddb91a4c79b3d86f1d50cbaf68fc3e41b54c91
+    size_bytes: 54965
+    retrieved_at: '2026-10-24T01:05:27Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/b1f9df57fcd06e5091ed34d642ddb91a4c79b3d86f1d50cbaf68fc3e41b54c91/rsz-gemeenschappelijke-criteria.html
+        uri: r2://ledger-raw/raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/b1f9df57fcd06e5091ed34d642ddb91a4c79b3d86f1d50cbaf68fc3e41b54c91/rsz-gemeenschappelijke-criteria.html
+    notes: Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24. Verbatim publisher source capture; checksum verified against supplied SHA256SUMS.txt.
+  rsz-gemeenschappelijke-variabelen.html:
+    filename: rsz-gemeenschappelijke-variabelen.html
+    source_url: https://www.rsz.be/gemeenschappelijke-variabelen
+    sha256: e008e4a37f1686b8ce8c5bd22b575e3953b76dbfb701e7490f2ce6ec099f0428
+    size_bytes: 49534
+    retrieved_at: '2026-10-24T01:05:27Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/e008e4a37f1686b8ce8c5bd22b575e3953b76dbfb701e7490f2ce6ec099f0428/rsz-gemeenschappelijke-variabelen.html
+        uri: r2://ledger-raw/raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/e008e4a37f1686b8ce8c5bd22b575e3953b76dbfb701e7490f2ce6ec099f0428/rsz-gemeenschappelijke-variabelen.html
+    notes: Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24. Verbatim publisher source capture; checksum verified against supplied SHA256SUMS.txt.
+  rsz-open-data-data-governance-act.html:
+    filename: rsz-open-data-data-governance-act.html
+    source_url: https://www.rsz.be/open-data-data-governance-act
+    sha256: 956cb55a26adbdca779ed153a8cb8290bb2dea3e2b643380cc485fc5d554ab6e
+    size_bytes: 34617
+    retrieved_at: '2026-10-24T01:05:27Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/956cb55a26adbdca779ed153a8cb8290bb2dea3e2b643380cc485fc5d554ab6e/rsz-open-data-data-governance-act.html
+        uri: r2://ledger-raw/raw/belgium/rsz-employment-daily-wage-class-2023-2026/2026/956cb55a26adbdca779ed153a8cb8290bb2dea3e2b643380cc485fc5d554ab6e/rsz-open-data-data-governance-act.html
+    notes: Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24. Verbatim publisher source capture; checksum verified against supplied SHA256SUMS.txt.
