@@ -22,10 +22,15 @@ from chronicle.bundle import (
 from chronicle.bundle import (
     _load_jsonl as load_bundle_jsonl,
 )
+from chronicle.consumer_contract import consumer_fact_rows
 from chronicle.epoch import CONSUMER_FACT_EMIT_SCHEMA_VERSION, HASH_DOMAINS, Epoch
 from chronicle.harness import build_bundle_dir
 from chronicle.harness import main as harness_main
-from chronicle.source_package import r2_only_package_artifacts, read_registered_artifact
+from chronicle.source_package import (
+    load_source_package,
+    r2_only_package_artifacts,
+    read_registered_artifact,
+)
 
 
 def _load_jsonl(path):
@@ -415,6 +420,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # of 565 existing commune keys. All retain their 1 January 2025 reference
     # date. Source-only coverage and comparisons with the NUTS1/fiscal facts
     # found no new period/entity/geography keys, duplicates or label warnings.
+    # The Belgian transport sources add one source (FPD amount bands), two
+    # packages, two tables net, two statistical-scope geographies (Eurostat's
+    # USD series and PensionStat's residents abroad) and 18 calendar years.
+    # Their commune, NUTS1 and country names follow the existing Statbel
+    # packages, so no geography-name warning is added.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
@@ -434,19 +444,22 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # tobacco (710) and betting and gaming (376) tables, and 1,435
         # Gambling Commission facts. Its 30 September Consumer Trends package
         # replaces the 30 June one fact for fact (5,164).
-        "fact_count": 1586258,
+        # The Belgian transport sources add 31,244: Eurostat's 55 annual USD
+        # rates, FPD's 10,239 January 2025 amount-band cells and PensionStat's
+        # 20,954 workbook cells, which replace its four curated headlines.
+        "fact_count": 1617502,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
         # Ireland districts of DESNZ's 2009-2014 rows, DESNZ's Northern Ireland
         # unallocated row and HMRC's England and Northern Ireland scope.
-        "geography_count": 102613,
+        "geography_count": 102615,
         # And 12 period keys: HBAI's FYE 1995 and FYE 1996 (fiscal_year 1994,
         # 1995) and gas_year 2015 to 2024, the period type chronicle#356 adds.
         # chronicle#381 adds 12 more: HMRC's betting and gaming receipts from
         # 1986-87 and tobacco from 1990-91 (fiscal_year 1986 to 1993), and
         # tobacco's calendar years 1991 to 1994.
-        "period_count": 535,
+        "period_count": 553,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -472,11 +485,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # they are skipped (17 -> 24) and the built-package count is unchanged.
         "skipped_source_count": 24,
         # chronicle#381 adds the Gambling Commission.
-        "source_count": 57,
+        "source_count": 58,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
         # all-claims UC area packages. chronicle#381 adds four and replaces the
         # 30 June Consumer Trends package with the 30 September one.
-        "source_package_count": 413,
+        "source_package_count": 415,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -499,7 +512,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#356 adds two: DESNZ's LSOA workbooks name data zones
         # S01019676 and S01019677 'Newtown St Boswells', where NRS writes
         # 'Newton St Boswells'.
-        "warning_count": 122,
+        # The Belgian transport sources add one: Eurostat's exchange-rate
+        # dataset labels freq=A 'Annual', as its JSON-stat category label
+        # prints it, where the older Eurostat packages carry the bare code 'A'.
+        "warning_count": 123,
     }
     row_count = 0
     provenance_classes = set()
@@ -517,14 +533,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1586258
+    assert row_count == 1617502
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 413
+    assert source_packages["source_package_count"] == 415
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -552,7 +568,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1586258
+    assert coverage["fact_count"] == 1617502
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -570,7 +586,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dfi_ni": 33,
         "dft": 2777,
         "dwp": 234078,
-        "eurostat": 207,
+        "eurostat": 262,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
         "gambling_commission": 1435,
@@ -599,7 +615,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "opgroeien_groeipakket": 11,
         "orr": 99,
         "scotgov": 4244,
-        "sfpd_pensions": 4,
+        "sfpd_pension_amount_bands": 10239,
+        "sfpd_pensions": 20954,
         "slc": 343,
         "spf_finances_pit": 1,
         "ssa": 426,
@@ -613,7 +630,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 355
+    assert len(table_counts) == 357
     assert (
         table_counts["bea:NIPA Table 7.8. Supplements to Wages and Salaries by Type"]
         == 1
@@ -1138,6 +1155,28 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             "tables A.1, B.1, B.3, B.4, and B.5, income year 2023"
         ]
         == 14600
+    )
+    assert (
+        table_counts[
+            "eurostat:Eurostat ert_bil_eur_a Euro/ECU exchange rates - "
+            "annual data, USD average"
+        ]
+        == 55
+    )
+    assert (
+        table_counts[
+            "sfpd_pension_amount_bands:Jaarlijkse statistiek 2025, "
+            "sections 1.2, 6.2 and 9"
+        ]
+        == 10239
+    )
+    # PensionStat's workbook table replaces its curated headline table.
+    assert table_counts["sfpd_pensions:PensionStat legal pensions and IGO, 2025"] == (
+        20954
+    )
+    assert (
+        "sfpd_pensions:Legal pension beneficiaries by scheme, January 2025"
+        not in table_counts
     )
     assert (
         table_counts[
@@ -2021,6 +2060,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     for key, count in issue_381_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # Belgian transport sources: Eurostat's annual USD rate for each year
+    # 1971-2025 (1972-1980 and 1982-1990 are new keys); January 2025 for FPD's
+    # amount bands and PensionStat's caseloads; and PensionStat's printed 2025
+    # expenditure year in place of its four calendar-2025 headlines.
+    for year in range(1971, 2026):
+        key = f"calendar_year:{year}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + 1
+    expected_period_counts["month:2025-01"] += 10239 + 20932
+    expected_period_counts["calendar_year:2025"] += 22 - 4
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2042,13 +2090,25 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         coverage["counts"]["by_geography"]["statistical_scope:nz-mbie-location-na"]
         == 84
     )
-    assert coverage["counts"]["by_geography"]["country:BE"] == 4888
+    assert coverage["counts"]["by_geography"]["country:BE"] == 15145
     assert coverage["counts"]["by_geography"]["country:DE"] == 36
     assert coverage["counts"]["by_geography"]["country:FR"] == 36
-    assert coverage["counts"]["by_geography"]["nuts1:BE1"] == 3662
-    assert coverage["counts"]["by_geography"]["nuts1:BE2"] == 3673
-    assert coverage["counts"]["by_geography"]["nuts1:BE3"] == 3662
-    assert coverage["counts"]["by_geography"]["commune:11002"] == 8
+    assert coverage["counts"]["by_geography"]["nuts1:BE1"] == 8567
+    assert coverage["counts"]["by_geography"]["nuts1:BE2"] == 9447
+    assert coverage["counts"]["by_geography"]["nuts1:BE3"] == 9321
+    assert coverage["counts"]["by_geography"]["commune:11002"] == 9
+    assert (
+        coverage["counts"]["by_geography"][
+            "statistical_scope:eurostat:ert_bil_eur_a:USD"
+        ]
+        == 55
+    )
+    assert (
+        coverage["counts"]["by_geography"][
+            "statistical_scope:pensionstat:residence:BUI"
+        ]
+        == 4029
+    )
     assert coverage["counts"]["by_geography"]["country:0100000US"] == 2116
     assert coverage["counts"]["by_geography"]["state:0400000US06"] == 255
     assert (
@@ -2071,7 +2131,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28).
     assert coverage["counts"]["by_geography"]["country:K04000001"] == 1176
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
-    assert len(coverage["counts"]["by_geography"]) == 102613
+    assert len(coverage["counts"]["by_geography"]) == 102615
     for region in (
         "auckland",
         "bay-of-plenty",
@@ -2107,9 +2167,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "firm": 1440,
         "government": 3569,
         "household": 676320,
-        "institutional_sector": 8751,
+        "institutional_sector": 8806,
         "pension_plan": 2,
-        "person": 526210,
+        "person": 557399,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
@@ -2119,7 +2179,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 82,
         "conflicting_groupby_value_label": 23,
-        "conflicting_value_label_across_packages": 16,
+        "conflicting_value_label_across_packages": 17,
         "duplicate_semantic_fact_key": 1,
     }
     assert [
@@ -2168,6 +2228,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "age=age_21",
         "age_band=30 to 39",
         "age_band=40 to 49",
+        "freq=A",
         "household_type=couple_3_plus_children_households",
         "measure=country_total",
         "ons.household_type=couple_3_plus_children_households",
@@ -2233,6 +2294,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fpb-economic-outlook-2026-2031-june-2026",
         "statbel-fiscal-income-distribution-2023",
         "statbel-population-structure-2025",
+        "sfpd-pension-amount-bands-2025",
+        "sfpd-legal-pension-caseload-2025",
     ):
         assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
     assert (output_dir / "sources" / "soi-table-1-1" / "consumer_facts.jsonl").exists()
@@ -2381,6 +2444,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         / "consumer_facts.jsonl"
     ).exists()
     for source in (
+        "eurostat-ert-bil-eur-a-usd",
         "eurostat-gov-10a-taxag",
         "eurostat-spr-exp-func",
         "eurostat-nasa-10-nf-tr",
@@ -2388,6 +2452,80 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "eurostat-ilc-di01",
     ):
         assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
+
+
+def test_eurostat_exchange_rate_source_coverage():
+    package = load_source_package("eurostat-ert-bil-eur-a-usd")
+    rows = consumer_fact_rows(package.build_facts(2023))
+
+    coverage = build_bundle_coverage(rows)
+
+    assert coverage["fact_count"] == 55
+    assert coverage["counts"]["by_source"] == {"eurostat": 55}
+    assert coverage["counts"]["by_source_table"] == {
+        "eurostat:Eurostat ert_bil_eur_a Euro/ECU exchange rates - "
+        "annual data, USD average": 55
+    }
+    assert coverage["counts"]["by_period"] == {
+        f"calendar_year:{year}": 1 for year in range(1971, 2026)
+    }
+    assert coverage["counts"]["by_geography"] == {
+        "statistical_scope:eurostat:ert_bil_eur_a:USD": 55
+    }
+    assert coverage["counts"]["by_entity"] == {"institutional_sector": 55}
+    assert coverage["unique_counts"]["aggregate_fact_key"] == 55
+    assert coverage["unique_counts"]["semantic_fact_key"] == 55
+    assert coverage["duplicates"] == {
+        "aggregate_fact_keys": [],
+        "semantic_fact_keys": [],
+    }
+
+
+def test_belgian_pension_source_coverage():
+    """The source-only measurements behind the merged bundle's pension pins."""
+    bands = build_bundle_coverage(
+        consumer_fact_rows(
+            load_source_package("sfpd-pension-amount-bands-2025").build_facts(2023)
+        )
+    )
+    assert bands["fact_count"] == 10239
+    assert bands["counts"]["by_source"] == {"sfpd_pension_amount_bands": 10239}
+    assert bands["counts"]["by_period"] == {"month:2025-01": 10239}
+    assert bands["counts"]["by_geography"] == {"country:BE": 10239}
+    assert bands["counts"]["by_entity"] == {"person": 10239}
+
+    pensionstat = build_bundle_coverage(
+        consumer_fact_rows(
+            load_source_package("sfpd-legal-pension-caseload-2025").build_facts(2023)
+        )
+    )
+    geography = pensionstat["counts"]["by_geography"]
+    assert pensionstat["fact_count"] == 20954
+    assert pensionstat["counts"]["by_source"] == {"sfpd_pensions": 20954}
+    assert pensionstat["counts"]["by_source_table"] == {
+        "sfpd_pensions:PensionStat legal pensions and IGO, 2025": 20954
+    }
+    assert pensionstat["counts"]["by_period"] == {
+        "calendar_year:2025": 22,
+        "month:2025-01": 20932,
+    }
+    assert pensionstat["counts"]["by_entity"] == {"person": 20954}
+    communes = {
+        key: count for key, count in geography.items() if key.startswith("commune:")
+    }
+    assert len(communes) == 565 and set(communes.values()) == {1}
+    assert {key: count for key, count in geography.items() if key not in communes} == {
+        "country:BE": 22,
+        "nuts1:BE1": 4905,
+        "nuts1:BE2": 5774,
+        "nuts1:BE3": 5659,
+        "statistical_scope:pensionstat:residence:BUI": 4029,
+    }
+    for coverage in (bands, pensionstat):
+        assert coverage["duplicates"] == {
+            "aggregate_fact_keys": [],
+            "semantic_fact_keys": [],
+        }
 
 
 def test_build_bundle_cli_supports_explicit_sources(tmp_path, capsys):

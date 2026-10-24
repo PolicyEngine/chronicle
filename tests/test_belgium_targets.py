@@ -611,25 +611,21 @@ def test_belgium_supplementary_publisher_aliases_are_registered():
     } <= set(SOURCE_PACKAGE_ALIASES)
 
 
-def test_sfpd_legal_pension_caseload_matches_published_cells():
-    facts = _facts(SFPD_PENSION_ALIAS, 2025)
-    by_scheme = {fact.filters["sfpd.scheme"]: fact.value for fact in facts}
-
-    # Exact published counts from PensionStat.be (SFP/SFPD), January 2025.
-    assert by_scheme == {
-        "all": 2674520,
-        "employee": 2357954,
-        "self_employed": 690590,
-        "civil_servant": 604506,
+def test_sfpd_legal_pension_caseload_uses_publisher_workbook():
+    # The package now reads detailed publisher cells, replacing four curated
+    # headlines. Independent cell/value checks live in test_chronicle_pensionstat.
+    package = load_source_package(SFPD_PENSION_ALIAS)
+    assert package.artifact.source_name == "sfpd_pensions"
+    assert package.artifact.artifact_year == 2025
+    assert package.artifact.parser == "xlsx_read_only_used_range"
+    assert set(package.artifact.sheets) == {
+        "Info",
+        "Gepensioneerden",
+        "Gepensioneerden_gemeente",
+        "IGO",
+        "Jaaruitgave",
+        "MinP_aantal",
     }
-    # Scheme counts are per-scheme recipients (mixed careers), not a partition:
-    # their sum exceeds the all-schemes total.
-    scheme_sum = sum(v for k, v in by_scheme.items() if k != "all")
-    assert scheme_sum > by_scheme["all"]
-    assert {fact.source.source_name for fact in facts} == {"sfpd_pensions"}
-    assert {fact.geography.level for fact in facts} == {"country"}
-    assert {fact.measure.unit for fact in facts} == {"count"}
-    assert validate_facts(facts).valid
 
 
 def test_groeipakket_caseload_matches_published_component_cells():
