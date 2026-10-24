@@ -1,0 +1,27 @@
+source_id: census_acs
+package_id: census-acs5-b11001-county-2024
+dataset: census_acs5_b11001_county_2024
+source_page: https://api.census.gov/data/2024/acs/acs5.html
+vintage: 2024 ACS 5-year detailed tables (2020–2024)
+reference_period: 2020–2024
+table: B11001 Household Type (Including Living Alone)
+notes: Publisher bytes copied unchanged from the supplied 2026-10-24 fetch. The response
+  includes all 3,222 county-equivalents, retained by the packages, comprising 3,144
+  counties in the 50 states and DC plus 78 Puerto Rico municipios (state 72). storage.r2
+  is a content-addressed locator; no upload or archival completion is asserted.
+files:
+  2024:
+    filename: acs5_2024_B11001_county.json
+    source_url: https://api.census.gov/data/2024/acs/acs5?get=NAME,group(B11001)&for=county:*
+    sha256: a0c2f64ad5f7172cded551364fc15d6bc37bbbc75ac135f7be00c8622d31d01a
+    size_bytes: 938354
+    fetched_at: '2026-10-24'
+    source_table: ACS 2020–2024 5-year detailed table B11001 county estimates and margins
+      of error
+    year: 2024
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_acs/census-acs5-b11001-county-2024/2024/a0c2f64ad5f7172cded551364fc15d6bc37bbbc75ac135f7be00c8622d31d01a/acs5_2024_B11001_county.json
+        uri: r2://ledger-raw/raw/census_acs/census-acs5-b11001-county-2024/2024/a0c2f64ad5f7172cded551364fc15d6bc37bbbc75ac135f7be00c8622d31d01a/acs5_2024_B11001_county.json

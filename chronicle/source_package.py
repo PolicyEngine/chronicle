@@ -807,6 +807,10 @@ SOURCE_PACKAGE_ALIASES = {
     "census-acs-s0101-national-age-2024": Path("census/acs_s0101_national_2024"),
     "census-acs-s0101-state-age-2024": Path("census/acs_s0101_state_2024"),
     "census-acs-s1501-state-attainment-2024": Path("census/acs_s1501_state_2024"),
+    **{
+        f"census-acs5-{table}-county-2024": Path(f"census/acs5_{table}_county_2024")
+        for table in ("b01003", "b11001", "b19001", "b19013", "b19025", "b19051", "b19061")
+    },
     "census-acs-s2201-congressional-district-snap-2024": Path(
         "census/acs_s2201_district_2024"
     ),
