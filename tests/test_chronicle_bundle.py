@@ -531,7 +531,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # The Belgian transport sources add one: Eurostat's exchange-rate
         # dataset labels freq=A 'Annual', as its JSON-stat category label
         # prints it, where the older Eurostat packages carry the bare code 'A'.
-        "warning_count": 132,
+        # GSGB 2025 adds one: B.9 writes "Tickets National Lottery draws bought in
+        # person" where B.10 writes "Tickets for ...", both kept as published.
+        "warning_count": 133,
     }
     row_count = 0
     provenance_classes = set()
@@ -2268,7 +2270,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
-        "conflicting_groupby_value_label": 23,
+        "conflicting_groupby_value_label": 24,
         "conflicting_value_label_across_packages": 17,
         "duplicate_semantic_fact_key": 1,
     }

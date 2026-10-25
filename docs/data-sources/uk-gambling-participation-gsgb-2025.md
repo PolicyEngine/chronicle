@@ -22,8 +22,8 @@ Official statistics: 20,775 adults aged 18 and over in Great Britain, with field
   `license_evidence`. Builds read the file from the source-artifact cache, or, with
   `LEDGER_SOURCE_ARTIFACT_FETCH=1` as CI sets, from `source_url`.
 - **Period.** Every fact is calendar year 2025, with `survey_reference` coverage from
-  13 January 2025 to 22 January 2026. "Past 12 months" and "past four weeks" count back
-  from each interview.
+  13 January 2025 to 22 January 2026. "Past 12 months" and "past four weeks" are the
+  questionnaire's recall windows (GSGB is self-completed, online or on paper).
 - **Values.** Each value is the stored cell. Participation cells hold proportions, which
   the workbook displays as percentages to 0 decimal places. Some bases carry
   floating-point noise from the file (1231.999999999998 for 1,232), kept as published.
@@ -38,14 +38,26 @@ Great Britain". Record-set ids start `gambling_commission.gsgb_2025.`.
 - `gambling_commission.gsgb.participation` (870 facts): the share of adults who took
   part, unit `share`.
 - `gambling_commission.gsgb.unweighted_base` (104): each table's unweighted base, unit
-  `count`. The publisher prints the base for the first measure (any gambling) only. Its
-  footnote says other bases "vary but are of a similar magnitude".
+  `count`, as printed.
+  - B.1 to B.4 print the base of their first measure, any gambling in the window.
+  - B.9 and B.10 print that of any gambling activity in the past four weeks.
+  - For these six tables, the footnotes say other bases "vary but are of a similar
+    magnitude".
+  - B.13's base is its own denominator: productive individuals who gambled in the past
+    four weeks.
 - `gambling_commission.gsgb.activity_count_distribution` (40): among people who gambled
   in the past four weeks, the share by number of activities.
 - `gambling_commission.gsgb.mean_activity_count` (10): their mean number of activities,
   unit `gambling_activities`, aggregation `mean`.
 
-**Dimensions.** Every fact in a concept family carries all of that family's dimensions.
+**Dimensions.**
+- Participation facts, and the bases of B.1 to B.4, B.9 and B.10, carry
+  `participation_window`, `participation_scope`, `gambling_channel`, `sex`, `age_band`,
+  `survey_base` and `source_sheet`.
+- B.13's facts carry `participation_window`, `sex`, `age_band`, `survey_base` and
+  `source_sheet`. Its shares also carry `activity_count_band`.
+
+The values:
 - `participation_window`: `past_12_months` or `past_4_weeks`.
 - `participation_scope`: `any_gambling`, `excluding_lottery_draw_only`, or one of B.9's
   activities. The activities are:
@@ -93,6 +105,12 @@ Great Britain". Record-set ids start `gambling_commission.gsgb_2025.`.
 - **Bases.** B.9 and B.10's bases differ from B.3 and B.4's by one in three cells (ages
   55 to 64 and 65 to 74, and Scotland). So each table keeps its own bases, and every fact
   carries its `source_sheet`.
+- **Row labels are each table's own text,** with whitespace collapsed and footnote
+  markers dropped.
+  - B.9's row 6 reads "Tickets National Lottery draws bought in person", where B.10's
+    reads "Tickets for National Lottery draws bought in person".
+  - Both are kept, so the bundle reports a groupby-label warning for that row.
+  - B.2 and B.4's rows are named by area, on a `gambling_commission.gsgb_area` axis.
 - **Left out:**
   - weighted bases;
   - B.13's standard deviation, which has no Chronicle aggregation;

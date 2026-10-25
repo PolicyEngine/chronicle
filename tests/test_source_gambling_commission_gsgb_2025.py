@@ -126,7 +126,11 @@ def test_facts_are_valid_labelled_and_unique(facts):
     assert len(facts) == 1024
     assert validate_facts(facts).valid
     assert validate_consumer_fact_contract(facts).valid
-    assert not dimension_label_issues(consumer_fact_rows(facts))
+    # B.9 and B.10 word row 6 differently, and both labels are kept as published.
+    issues = dimension_label_issues(consumer_fact_rows(facts))
+    assert [(issue.code, issue.value_id) for issue in issues] == [
+        ("conflicting_groupby_value_label", "national_lottery_draws_in_person")
+    ]
     assert max(Counter(build_semantic_fact_key(f) for f in facts).values()) == 1
     assert Counter(f.filters["source_sheet"] for f in facts) == {
         "Table B.1": 72,
