@@ -216,6 +216,36 @@ def test_participation_by_sex_and_age_equals_the_cells(facts, cells):
     )
 
 
+def test_adult_universe_and_footnotes_ride_with_the_facts(facts):
+    bounds = {
+        "all": [(">=", 18)],
+        "age_18_to_24": [(">=", 18), ("<", 25)],
+        "age_45_to_54": [(">=", 45), ("<", 55)],
+        "age_75_plus": [(">=", 75)],
+    }
+    for fact in facts:
+        ages = [(c.operator, c.value) for c in fact.constraints if c.variable == "age"]
+        if fact.filters["age_band"] in bounds:
+            assert ages == bounds[fact.filters["age_band"]]
+        assert ages[0][0] == ">=" and ages[0][1] >= 18
+    excluded = [
+        f
+        for f in facts
+        if f.filters.get("participation_scope") == "excluding_lottery_draw_only"
+    ]
+    assert len(excluded) == 72
+    for fact in excluded:
+        assert (
+            "Excluding participants who had only played National Lottery or other "
+            "charity lottery draw based games." in fact.measure.concept_evidence_notes
+        )
+    for fact in facts:
+        if fact.filters["source_sheet"] in {"Table B.1", "Table B.2"}:
+            assert "could not be derived for 95" in fact.measure.concept_evidence_notes
+        if fact.filters["source_sheet"] in {"Table B.3", "Table B.4"}:
+            assert "could not be derived for 299" in fact.measure.concept_evidence_notes
+
+
 def test_areas_take_their_codes(facts, cells):
     for sheet in ("Table B.2", "Table B.4"):
         table = [f for f in facts if f.filters["source_sheet"] == sheet]

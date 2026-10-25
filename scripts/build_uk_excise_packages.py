@@ -3419,7 +3419,7 @@ GSGB_GEOGRAPHIES = {
 }
 # B.9 and B.10 rows 3 to 36: (row, row value id, label, scope, channel). A row's label
 # is the publisher's text, whitespace collapsed and footnote marker dropped; B.9 row 6
-# drops a "for" B.10 keeps, so both spellings are accepted and the label is B.10's.
+# drops a "for" B.10 keeps, so both spellings are accepted; each table keeps its own.
 GSGB_ACTIVITY_ROWS = [
     (3, "any_lottery_draw", "Tickets for any lottery draw", "any_lottery_draw", "all"),
     (
@@ -3708,6 +3708,23 @@ GSGB_NOISE_NOTE = (
     " Some cells carry floating-point noise from the file (for example "
     "1231.999999999998 for 1,232), kept as published."
 )
+# Footnote i of B.1 to B.4, which defines the "excluding lottery draw only" measure.
+GSGB_EXCLUSION_FOOTNOTE = (
+    "Excluding participants who had only played National Lottery or other charity "
+    "lottery draw based games."
+)
+# Every GSGB population is adults aged 18 and over; each age band adds its bounds, as
+# the ASHE packages state theirs ("Age lower bound", "Age upper bound").
+GSGB_AGE_BOUNDS = {
+    "all": (18, None),
+    "age_18_to_24": (18, 25),
+    "age_25_to_34": (25, 35),
+    "age_35_to_44": (35, 45),
+    "age_45_to_54": (45, 55),
+    "age_55_to_64": (55, 65),
+    "age_65_to_74": (65, 75),
+    "age_75_plus": (75, None),
+}
 GSGB_GAMBLERS_BASE_LABEL = (
     "Unweighted base (productive individuals who gambled in the past four weeks)"
 )
@@ -3733,6 +3750,9 @@ GSGB_COMMENT = """# Gambling Commission, Gambling Survey for Great Britain (GSGB
 # B.10 that of any gambling activity, and B.13 its own base, people who gambled.
 # Row labels are each table's own text, so B.9 row 6 ("Tickets National Lottery draws
 # bought in person") and B.10 row 6 ("Tickets for ...") differ, as published.
+# Every fact carries an age >= 18 constraint, and each age band its bounds. The measures
+# of B.1 to B.4 carry footnote i, which defines "excluding lottery draw only" (only
+# people whose sole gambling was lottery draws are left out), and the non-response one.
 #
 # Values are the stored cells: proportions the workbook displays as percentages to 0
 # dp, and bases with the file's floating-point noise. B.9 and B.10's "Any gambling"
@@ -3775,6 +3795,41 @@ def gsgb_dims(**dims: str) -> list[tuple[str, str, str]]:
         for name in order
         if name in dims
     ]
+
+
+def gsgb_age_constraints(band: str) -> list[dict]:
+    lower, upper = GSGB_AGE_BOUNDS[band]
+    bounds = [
+        {
+            "variable": "age",
+            "operator": ">=",
+            "value": lower,
+            "unit": "years",
+            "label": "Age lower bound",
+        }
+    ]
+    if upper is not None:
+        bounds.append(
+            {
+                "variable": "age",
+                "operator": "<",
+                "value": upper,
+                "unit": "years",
+                "label": "Age upper bound",
+            }
+        )
+    return bounds
+
+
+def gsgb_with_dims(target: dict, dims: dict) -> dict:
+    """Attach the dimensions, and the age bounds of an age band."""
+    with_dimensions(target, gsgb_dims(**dims))
+    if "age_band" in dims:
+        target["constraints"] = [
+            *target["constraints"],
+            *gsgb_age_constraints(dims["age_band"]),
+        ]
+    return target
 
 
 def gsgb_measure(
@@ -3833,7 +3888,7 @@ def gsgb_measure(
         "aggregation": aggregation,
         "expected_cell_type": "number",
     }
-    return with_dimensions(measure, gsgb_dims(**dims))
+    return gsgb_with_dims(measure, dims)
 
 
 def gsgb_record_set(
@@ -3906,7 +3961,7 @@ def gsgb_row(
         "table_record_kind": "detail",
     }
     if dims:
-        with_dimensions(entry, gsgb_dims(**dims))
+        gsgb_with_dims(entry, dims)
     if guards:
         entry["guard_cells"] = guards
     return entry
@@ -3937,44 +3992,62 @@ def gsgb_geography_column(header: str) -> tuple[str, str, str]:
     return geography_id, level, name
 
 
-def gsgb_by_group_table(grid: dict, sheet: str, scopes: list[tuple[str, str]]) -> dict:
-    """B.1 or B.3: one record set, a row per population group, measures by column."""
-    title = gsgb_title_guard(grid, sheet)
-    rows = []
-    for ordinal, row in enumerate(range(3, 27)):
+def gsgb_footnotes(grid: dict, rows: range) -> dict[str, tuple[int, str, str]]:
+    """The table's footnotes by marker: (row, text as printed, text without marker)."""
+    notes = {}
+    for row in rows:
         published = grid[(row, "A")]
-        value_id, sex, band = GSGB_GROUP_BY_LABEL[gsgb_text(published)]
-        rows.append(
-            gsgb_row(
-                value_id,
-                gsgb_text(published),
-                ordinal,
-                row,
-                published,
-                dims={"sex": sex, "age_band": band},
-                guards=[title],
-            )
+        marker, text = str(published).split(" ", 1)
+        assert marker in ("i", "ii", "iii", "iv"), (row, published)
+        notes[marker] = (row, published, text.strip())
+    return notes
+
+
+def gsgb_window_measures(
+    grid: dict, sheet: str, scopes: list[tuple[str, str]], footnote_rows: range
+) -> tuple[list[dict], list[dict]]:
+    """B.1 to B.4's measures (columns B to D) with their footnotes, and the guards."""
+    footnotes = gsgb_footnotes(grid, footnote_rows)
+    row_i, published_i, exclusion = footnotes["i"]
+    assert exclusion == GSGB_EXCLUSION_FOOTNOTE, exclusion
+    ((row_nr, published_nr, nonresponse),) = [
+        note
+        for note in footnotes.values()
+        if note[2].startswith(("Gambling prevalence", "Gambling participation"))
+    ]
+    guards = [
+        guard("A", row_i, published_i, "table footnote"),
+        guard("A", row_nr, published_nr, "table footnote"),
+    ]
+    sex_notes = [
+        note[2] for note in footnotes.values() if note[2].startswith("Sex could not")
+    ]
+    response = f" The table's footnote on non-response: '{nonresponse}'"
+    excluded = (
+        f" The table's footnote i defines the measure: '{exclusion}' So it leaves out "
+        "only people whose sole gambling was lottery draws; anyone who also took part "
+        "in another activity, National Lottery scratchcards and online instant win "
+        "games included, stays in."
+    )
+    measures = [
+        gsgb_measure(
+            f"participation_{scope}",
+            ordinal,
+            column,
+            2,
+            grid[(2, column)],
+            kind="participation",
+            notes=(
+                f"GSGB 2025 data tables, {sheet}, column {column} "
+                f"('{gsgb_text(grid[(2, column)])}')."
+                + GSGB_SHARE_NOTE
+                + (excluded if scope == "excluding_lottery_draw_only" else "")
+                + response
+            ),
+            dims={"participation_scope": scope, "gambling_channel": "all"},
         )
-        for column in ("B", "C", "D"):
-            assert gsgb_number(grid, row, column) is not None, (sheet, row, column)
-    assert grid[(27, "A")].strip() == "Base: Productive individuals"
-    measures = []
-    for ordinal, (column, scope) in enumerate(scopes):
-        measures.append(
-            gsgb_measure(
-                f"participation_{scope}",
-                ordinal,
-                column,
-                2,
-                grid[(2, column)],
-                kind="participation",
-                notes=(
-                    f"GSGB 2025 data tables, {sheet}, column {column} "
-                    f"('{gsgb_text(grid[(2, column)])}')." + GSGB_SHARE_NOTE
-                ),
-                dims={"participation_scope": scope, "gambling_channel": "all"},
-            )
-        )
+        for ordinal, (column, scope) in enumerate(scopes)
+    ]
     measures.append(
         gsgb_measure(
             "unweighted_base",
@@ -3988,10 +4061,37 @@ def gsgb_by_group_table(grid: dict, sheet: str, scopes: list[tuple[str, str]]) -
                 f"('{gsgb_text(grid[(2, 'D')])}')."
                 + GSGB_BASE_NOTES["column"]
                 + GSGB_NOISE_NOTE
+                + response
+                + "".join(f" The table's footnote: '{note}'" for note in sex_notes)
             ),
             dims={"participation_scope": "any_gambling", "gambling_channel": "all"},
         )
     )
+    return measures, guards
+
+
+def gsgb_by_group_table(grid: dict, sheet: str, scopes: list[tuple[str, str]]) -> dict:
+    """B.1 or B.3: one record set, a row per population group, measures by column."""
+    title = gsgb_title_guard(grid, sheet)
+    measures, footnote_guards = gsgb_window_measures(grid, sheet, scopes, range(28, 32))
+    rows = []
+    for ordinal, row in enumerate(range(3, 27)):
+        published = grid[(row, "A")]
+        value_id, sex, band = GSGB_GROUP_BY_LABEL[gsgb_text(published)]
+        rows.append(
+            gsgb_row(
+                value_id,
+                gsgb_text(published),
+                ordinal,
+                row,
+                published,
+                dims={"sex": sex, "age_band": band},
+                guards=[title, *footnote_guards],
+            )
+        )
+        for column in ("B", "C", "D"):
+            assert gsgb_number(grid, row, column) is not None, (sheet, row, column)
+    assert grid[(27, "A")].strip() == "Base: Productive individuals"
     return gsgb_record_set(
         f"{GSGB_PREFIX}.{sheet.removeprefix('Table ').lower().replace('.', '')}",
         sheet,
@@ -4010,38 +4110,8 @@ def gsgb_by_area_tables(grid: dict, sheet: str, scopes: list[tuple[str, str]]) -
     for row in range(3, 15):
         published = grid[(row, "A")]
         geography_id, level, slug = GSGB_GEOGRAPHIES[gsgb_text(published)]
-        measures = [
-            gsgb_measure(
-                f"participation_{scope}",
-                ordinal,
-                column,
-                2,
-                grid[(2, column)],
-                kind="participation",
-                notes=(
-                    f"GSGB 2025 data tables, {sheet}, column {column} "
-                    f"('{gsgb_text(grid[(2, column)])}')." + GSGB_SHARE_NOTE
-                ),
-                dims={"participation_scope": scope, "gambling_channel": "all"},
-            )
-            for ordinal, (column, scope) in enumerate(scopes)
-        ]
-        measures.append(
-            gsgb_measure(
-                "unweighted_base",
-                len(scopes),
-                "D",
-                2,
-                grid[(2, "D")],
-                kind="base",
-                notes=(
-                    f"GSGB 2025 data tables, {sheet}, column D "
-                    f"('{gsgb_text(grid[(2, 'D')])}')."
-                    + GSGB_BASE_NOTES["column"]
-                    + GSGB_NOISE_NOTE
-                ),
-                dims={"participation_scope": "any_gambling", "gambling_channel": "all"},
-            )
+        measures, footnote_guards = gsgb_window_measures(
+            grid, sheet, scopes, range(16, 19)
         )
         for column in ("B", "C", "D"):
             assert gsgb_number(grid, row, column) is not None, (sheet, row, column)
@@ -4059,7 +4129,7 @@ def gsgb_by_area_tables(grid: dict, sheet: str, scopes: list[tuple[str, str]]) -
                         row,
                         published,
                         dims={"sex": "all", "age_band": "all"},
-                        guards=[title],
+                        guards=[title, *footnote_guards],
                     )
                 ],
                 measures,

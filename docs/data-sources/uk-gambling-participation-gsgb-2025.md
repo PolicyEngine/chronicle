@@ -117,7 +117,51 @@ The values:
   - tables A.1 to A.6, B.5 to B.8, B.11, B.12, C.1 to C.3 and D.1 to D.21;
   - `-` cells, which mark a base under 50 or a count of 0. None fall in these tables, and
     the generator asserts every emitted cell is a number.
-- **Publisher guidance.** The Commission's guidance on using GSGB statistics advises
-  against direct comparisons with other gambling or health surveys, whose methods
-  differ. It also gives a 95% confidence interval as p ± 1.96 × √(p(1 − p)/n), where n is
-  the base. The bases are kept for that reason.
+- **Confidence intervals.** The Commission's guidance gives a 95% confidence interval as
+  p ± 1.96 × √(p(1 − p)/n), where n is the base. The bases are kept for that reason.
+
+## What these facts can and can't answer
+
+PolicyEngine/microcosm#1381 tops up gambling incidence on its frame. These tables answer
+some of its questions and not others.
+
+- **People, not households.** Every rate is a share of adults aged 18 and over living in
+  Great Britain.
+  - Every fact says so with an `age >= 18` constraint. Each age band adds its bounds, as
+    the ASHE packages do (`age >= 18` and `age < 25` for 18 to 24).
+  - The workbook has no household table, so household incidence is not published.
+  - Northern Ireland is not covered.
+- **What "excluding lottery draw only" leaves in.** Footnote i defines the measure:
+  "Excluding participants who had only played National Lottery or other charity lottery
+  draw based games."
+  - It leaves out only people whose sole gambling was lottery draws.
+  - People who also played National Lottery scratchcards or online instant win games, or
+    took part in any other activity, stay in.
+  - The measure's notes carry the footnote.
+- **No union cells.**
+  - No cell gives participation in betting and gaming excluding every National Lottery
+    product.
+  - No cell gives participation in any National Lottery product: draws, scratchcards and
+    online instant win games together.
+  - The activity rows overlap, so they can't be summed. In B.13, people who gambled in the
+    past four weeks took part in 2.4 activities on average.
+- **Windows.**
+  - By activity, the tables give only the past four weeks (B.9 and B.10).
+  - The past 12 months come only for any gambling and for the measure excluding
+    lottery-draw-only players (B.1 and B.2).
+  - Fieldwork ran from January 2025 to January 2026.
+- **Non-response.** The footnotes, which the notes carry, say what could not be derived:
+  - past-12-month prevalence for 95 participants, and 149 for the measure excluding
+    lottery-draw-only players (B.1 and B.2);
+  - past-four-week participation for 299 (B.3 and B.4);
+  - sex for 20.
+- **The Commission's caveats.**
+  - The publication says its push-to-web estimates are not directly comparable with
+    earlier gambling or health surveys.
+  - Its guidance on using GSGB statistics advises against direct comparisons with other
+    gambling or health surveys. It accepts pointing out differences between surveys when
+    the different methods are made clear.
+  - The guidance reports an experiment the Commission commissioned from the London School
+    of Economics and NatCen. Mentioning gambling in the survey invitation significantly
+    increased participation estimates. The study could not say whether that made the
+    estimates more or less accurate.
