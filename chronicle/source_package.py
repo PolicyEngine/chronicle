@@ -979,6 +979,9 @@ SOURCE_PACKAGE_ALIASES = {
     "gambling-commission-industry-statistics-fy2025-26": Path(
         "gambling_commission/industry_statistics_fy2025_26"
     ),
+    "gambling-commission-gsgb-annual-report-2025": Path(
+        "gambling_commission/gsgb_annual_report_2025"
+    ),
     "nrs-census2022-households-ukpc24": Path("nrs/census2022_households_ukpc24"),
     "nrs-census2022-uv113-household-composition-country": Path(
         "nrs/census2022_uv113_household_composition_country"
