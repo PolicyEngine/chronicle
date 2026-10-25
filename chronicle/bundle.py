@@ -134,6 +134,7 @@ UK_BUNDLE_SOURCES = (
     "dwp-winter-fuel-payment-statistics-winter-2024-25",
     "dwp-winter-fuel-payment-statistics-winter-2025-26",
     "dwp-workplace-pension-savings-trends-2009-to-2025",
+    "gambling-commission-gsgb-annual-report-2025",
     "gambling-commission-industry-statistics-fy2025-26",
     "hmrc-alcohol-bulletin-july-2026",
     "hmrc-betting-gaming-statistics-july-2026",

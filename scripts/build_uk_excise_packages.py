@@ -12,6 +12,9 @@ built:
   alcohol receipts; and sheet 3.2's three gambling lines.
 - the HMRC Alcohol Bulletin, Tobacco Bulletin and UK Betting and Gaming Statistics
   packages, and the Gambling Commission industry statistics package.
+- the Gambling Commission's GSGB 2025 participation tables (B.1 to B.4, B.9, B.10 and
+  B.13), for PolicyEngine/microcosm#1381. That workbook is stored in R2 only, so this
+  reads it through the source-artifact cache (read_registered_artifact).
 
 The 30 September 2026 Consumer Trends edition chronicle#381 also asks for comes
 from scripts/build_uk_consumption_tax_packages.py, which needs that package's own
@@ -29,6 +32,7 @@ from pathlib import Path
 
 import yaml
 
+from chronicle.source_package import read_registered_artifact
 from chronicle.sources.cells import (
     SourceArtifactMetadata,
     source_cells_from_ods,
@@ -3316,12 +3320,1147 @@ def build_gambling_commission() -> None:
     write_package(GC_PACKAGE, payload, GC_COMMENT)
 
 
+# ------------------------------------------------------------------ GSGB 2025
+
+GSGB_PACKAGE = ROOT / "packages/gambling_commission/gsgb_annual_report_2025"
+GSGB_DATA = ROOT / "db/data/gambling_commission/gsgb_annual_report_2025"
+GSGB_XLSX = "GSGB_annual_report_2025_data_tables.xlsx"
+GSGB_PAGE = (
+    "https://www.gamblingcommission.gov.uk/statistics-and-research/publication/"
+    "gambling-survey-for-great-britain-annual-report-2025-official-statistics"
+)
+GSGB_PREFIX = "gambling_commission.gsgb_2025"
+GSGB_FIELDWORK = ("2025-01-13", "2026-01-22")
+GSGB_COVER = {
+    "publication": "Publication date: 16 July 2026",
+    "fieldwork": "Fieldwork took place between 13 January 2025 and 22 January 2026.",
+}
+GSGB_SUPPRESSION = (
+    "Estimates with a base of less than 50 or cells with a count of 0 are not shown "
+    "but are indicated by '-'."
+)
+GSGB_TITLES = {
+    "Table B.1": (
+        "Table B.1: Gambling participation in the past 12 months (including and "
+        "excluding Lottery draw products only players) by sex and age"
+    ),
+    "Table B.2": (
+        "Table B.2: Gambling participation in the past 12 months (including and "
+        "excluding Lottery draw products only players) by country and English region"
+    ),
+    "Table B.3": (
+        "Table B.3: Gambling participation in the past four weeks (including and "
+        "excluding Lottery draw products only players) by sex and age"
+    ),
+    "Table B.4": (
+        "Table B.4: Gambling participation in the past four weeks (including and "
+        "excluding Lottery draw products only players), by country and English region"
+    ),
+    "Table B.9": (
+        "Table B.9: Gambling participation in the past four weeks, by type of gambling "
+        "activity by sex and age"
+    ),
+    "Table B.10": (
+        "Table B.10: Gambling participation in the past four weeks, by type of gambling "
+        "activity, by country and English region"
+    ),
+    "Table B.13": (
+        "Table B.13 Number of gambling activities taken part in, in past four weeks by "
+        "sex and age "
+    ),
+}
+GSGB_WINDOWS = {
+    "Table B.1": "past_12_months",
+    "Table B.2": "past_12_months",
+    "Table B.3": "past_4_weeks",
+    "Table B.4": "past_4_weeks",
+    "Table B.9": "past_4_weeks",
+    "Table B.10": "past_4_weeks",
+    "Table B.13": "past_4_weeks",
+}
+GSGB_AGE_BANDS = {
+    "18 to 24": "age_18_to_24",
+    "25 to 34": "age_25_to_34",
+    "35 to 44": "age_35_to_44",
+    "45 to 54": "age_45_to_54",
+    "55 to 64": "age_55_to_64",
+    "65 to 74": "age_65_to_74",
+    "75 plus": "age_75_plus",
+}
+# (row value id, label, sex, age band) for every population group the tables print.
+GSGB_GROUPS = [
+    ("all_participants", "All participants", "all", "all"),
+    ("all_males", "All males", "male", "all"),
+    ("all_females", "All females", "female", "all"),
+    *(
+        (f"aged_{band.removeprefix('age_')}", label, "all", band)
+        for label, band in GSGB_AGE_BANDS.items()
+    ),
+    *(
+        (f"{sex}_aged_{band.removeprefix('age_')}", f"{sex.title()} {label}", sex, band)
+        for sex in ("male", "female")
+        for label, band in GSGB_AGE_BANDS.items()
+    ),
+]
+GSGB_GROUP_BY_LABEL = {label: (vid, sex, band) for vid, label, sex, band in GSGB_GROUPS}
+GSGB_GEOGRAPHIES = {
+    "England": ("E92000001", "country", "england"),
+    "Scotland": ("S92000003", "country", "scotland"),
+    "Wales": ("W92000004", "country", "wales"),
+    "North East": ("E12000001", "region", "north_east"),
+    "North West": ("E12000002", "region", "north_west"),
+    "Yorkshire and the Humber": ("E12000003", "region", "yorkshire_and_the_humber"),
+    "East Midlands": ("E12000004", "region", "east_midlands"),
+    "West Midlands": ("E12000005", "region", "west_midlands"),
+    "East of England": ("E12000006", "region", "east_of_england"),
+    "London": ("E12000007", "region", "london"),
+    "South East": ("E12000008", "region", "south_east"),
+    "South West": ("E12000009", "region", "south_west"),
+}
+# B.9 and B.10 rows 3 to 36: (row, row value id, label, scope, channel). A row's label
+# is the publisher's text, whitespace collapsed and footnote marker dropped; B.9 row 6
+# drops a "for" B.10 keeps, so both spellings are accepted; each table keeps its own.
+GSGB_ACTIVITY_ROWS = [
+    (3, "any_lottery_draw", "Tickets for any lottery draw", "any_lottery_draw", "all"),
+    (
+        4,
+        "national_lottery_draws",
+        "Tickets for National Lottery draws",
+        "national_lottery_draws",
+        "all",
+    ),
+    (
+        5,
+        "national_lottery_draws_online",
+        "Tickets for National Lottery draws bought online",
+        "national_lottery_draws",
+        "online",
+    ),
+    (
+        6,
+        "national_lottery_draws_in_person",
+        "Tickets for National Lottery draws bought in person",
+        "national_lottery_draws",
+        "in_person",
+    ),
+    (
+        7,
+        "other_charity_lottery_draws",
+        "Tickets for other charity lottery draws",
+        "other_charity_lottery_draws",
+        "all",
+    ),
+    (
+        8,
+        "other_charity_lottery_draws_online",
+        "Tickets for other charity lottery draws bought online",
+        "other_charity_lottery_draws",
+        "online",
+    ),
+    (
+        9,
+        "other_charity_lottery_draws_in_person",
+        "Tickets for other charity lottery draws bought in person",
+        "other_charity_lottery_draws",
+        "in_person",
+    ),
+    (10, "scratchcards", "Scratchcards", "scratchcards", "all"),
+    (
+        11,
+        "national_lottery_scratchcards",
+        "National Lottery scratchcards",
+        "national_lottery_scratchcards",
+        "all",
+    ),
+    (
+        12,
+        "other_scratchcards_in_person",
+        "Other scratchcards bought in person",
+        "other_scratchcards",
+        "in_person",
+    ),
+    (
+        13,
+        "online_instant_win_games",
+        "Online instant win games",
+        "online_instant_win_games",
+        "online",
+    ),
+    (
+        14,
+        "national_lottery_online_instant_win_games",
+        "National Lottery online instant win games",
+        "national_lottery_online_instant_win_games",
+        "online",
+    ),
+    (
+        15,
+        "other_online_instant_win_games",
+        "Other online instant win games",
+        "other_online_instant_win_games",
+        "online",
+    ),
+    (16, "betting", "Betting", "betting", "all"),
+    (
+        17,
+        "betting_on_sports_and_racing_online",
+        "Betting on sports and racing online/via an app",
+        "betting_on_sports_and_racing",
+        "online",
+    ),
+    (
+        18,
+        "betting_on_sports_and_racing_in_person",
+        "Betting on sports and racing in person",
+        "betting_on_sports_and_racing",
+        "in_person",
+    ),
+    (
+        19,
+        "betting_on_the_outcome_of_events_online",
+        "Betting on the outcome of events online/via an app",
+        "betting_on_the_outcome_of_events",
+        "online",
+    ),
+    (
+        20,
+        "betting_on_the_outcome_of_events_in_person",
+        "Betting on the outcome of events in person",
+        "betting_on_the_outcome_of_events",
+        "in_person",
+    ),
+    (21, "bingo", "Bingo", "bingo", "all"),
+    (22, "bingo_online", "Bingo online/via an app", "bingo", "online"),
+    (
+        23,
+        "bingo_at_a_venue",
+        "Bingo played at a venue e.g. bingo hall, social club",
+        "bingo",
+        "venue",
+    ),
+    (24, "casino_games", "Casino games", "casino_games", "all"),
+    (
+        25,
+        "casino_games_online",
+        "Casino games played online/via an app",
+        "casino_games",
+        "online",
+    ),
+    (
+        26,
+        "casino_games_at_a_casino",
+        "Casino games played at a casino",
+        "casino_games",
+        "casino",
+    ),
+    (
+        27,
+        "casino_games_on_a_machine_in_a_venue",
+        "Casino games played on a machine/terminal in a venue e.g. casino, bookmakers, "
+        "club, pub",
+        "casino_games",
+        "machine_in_a_venue",
+    ),
+    (
+        28,
+        "fruit_and_slots_games",
+        "Fruit and slots games",
+        "fruit_and_slots_games",
+        "all",
+    ),
+    (
+        29,
+        "fruit_and_slots_online",
+        "Fruit and slots online/via an app",
+        "fruit_and_slots_games",
+        "online",
+    ),
+    (
+        30,
+        "fruit_and_slots_in_person",
+        "Fruit and slots played in person",
+        "fruit_and_slots_games",
+        "in_person",
+    ),
+    (
+        31,
+        "another_form_of_gambling",
+        "Another form of gambling activity",
+        "another_form_of_gambling",
+        "all",
+    ),
+    (32, "football_pools", "Football pools", "football_pools", "all"),
+    (33, "private_betting", "Private betting", "private_betting", "all"),
+    (34, "any_gambling", "Any gambling", "any_gambling", "all"),
+    (35, "any_gambling_online", "Any gambling online", "any_gambling", "online"),
+    (
+        36,
+        "any_gambling_in_person",
+        "Any gambling in person",
+        "any_gambling",
+        "in_person",
+    ),
+]
+# Row labels are each table's own text (whitespace collapsed, footnote marker dropped),
+# so B.9 row 6's wording differs from B.10's and the bundle reports that row's two
+# labels as a groupby-label warning, as it does for any label kept as published.
+GSGB_ACTIVITY_VARIANTS = {
+    "Tickets National Lottery draws bought in person": (
+        "Tickets for National Lottery draws bought in person"
+    ),
+}
+# B.9 and B.10's "Any gambling" row restates B.3 and B.4's past-four-week column
+# exactly (the builder asserts it), so it is emitted once, from B.3 and B.4.
+GSGB_RESTATED_ROW = 34
+GSGB_COUNT_BANDS = [
+    (3, "one", "1 activity"),
+    (4, "two_to_three", "2 to 3 activities"),
+    (5, "four_to_six", "4 to 6 activities"),
+    (6, "seven_or_more", "7 or more activities"),
+]
+GSGB_DIMENSION_LABELS = {
+    "participation_window": "Participation window",
+    "participation_scope": "Gambling participation scope",
+    "gambling_channel": "Gambling channel",
+    "activity_count_band": "Number of gambling activities",
+    "survey_base": "Survey base",
+    "sex": "Sex",
+    "age_band": "Age band",
+    "source_sheet": "Publisher worksheet",
+    "gambling_commission.gsgb_population_group": "GSGB population group",
+    "gambling_commission.gsgb_area": "GSGB area",
+    "gambling_commission.gsgb_activity": "GSGB gambling activity row",
+    "gambling_commission.gsgb_activity_count_band": "GSGB number of activities row",
+    "gambling_commission.gsgb_statistic": "GSGB statistic",
+}
+GSGB_SCOPE_LABELS = {
+    "any_gambling": "Any gambling",
+    "excluding_lottery_draw_only": "Any gambling, excluding lottery draw only players",
+    "any_lottery_draw": "Tickets for any lottery draw",
+    "national_lottery_draws": "Tickets for National Lottery draws",
+    "other_charity_lottery_draws": "Tickets for other charity lottery draws",
+    "scratchcards": "Scratchcards",
+    "national_lottery_scratchcards": "National Lottery scratchcards",
+    "other_scratchcards": "Other scratchcards",
+    "online_instant_win_games": "Online instant win games",
+    "national_lottery_online_instant_win_games": (
+        "National Lottery online instant win games"
+    ),
+    "other_online_instant_win_games": "Other online instant win games",
+    "betting": "Betting",
+    "betting_on_sports_and_racing": "Betting on sports and racing",
+    "betting_on_the_outcome_of_events": "Betting on the outcome of events",
+    "bingo": "Bingo",
+    "casino_games": "Casino games",
+    "fruit_and_slots_games": "Fruit and slots games",
+    "another_form_of_gambling": "Another form of gambling activity",
+    "football_pools": "Football pools",
+    "private_betting": "Private betting",
+}
+GSGB_VALUE_LABELS = {
+    "participation_window": {
+        "past_12_months": "Past 12 months",
+        "past_4_weeks": "Past four weeks",
+    },
+    "participation_scope": GSGB_SCOPE_LABELS,
+    "gambling_channel": {
+        "all": "All channels",
+        "online": "Online or via an app",
+        "in_person": "In person",
+        "venue": "At a venue, such as a bingo hall or social club",
+        "casino": "At a casino",
+        "machine_in_a_venue": "On a machine or terminal in a venue",
+    },
+    "activity_count_band": {vid: label for _row, vid, label in GSGB_COUNT_BANDS},
+    "survey_base": {
+        "productive_individuals": "Productive individuals",
+        "gambled_in_the_past_four_weeks": (
+            "Productive individuals who gambled in the past four weeks"
+        ),
+    },
+    "sex": {"all": "All", "male": "Male", "female": "Female"},
+    "age_band": {
+        "all": "All ages",
+        **{band: label for label, band in GSGB_AGE_BANDS.items()},
+    },
+    "source_sheet": {sheet: title.strip() for sheet, title in GSGB_TITLES.items()},
+}
+GSGB_SHARE_NOTE = (
+    " The cell holds a proportion of the base, which the workbook displays as a "
+    "percentage to 0 decimal places; the value is the stored proportion."
+)
+GSGB_BASE_NOTES = {
+    "column": (
+        " The unweighted base for column B (any gambling in the window), as printed; "
+        "the table's footnote says other bases vary but are of a similar magnitude."
+    ),
+    "activity": (
+        " The unweighted base for any gambling activity in the past four weeks, as "
+        "printed; the table's footnote says the other activities' bases vary but are "
+        "of a similar magnitude."
+    ),
+    "gamblers": (
+        " The table's unweighted base: productive individuals who gambled in the past "
+        "four weeks."
+    ),
+}
+GSGB_NOISE_NOTE = (
+    " Some cells carry floating-point noise from the file (for example "
+    "1231.999999999998 for 1,232), kept as published."
+)
+# Footnote i of B.1 to B.4, which defines the "excluding lottery draw only" measure.
+GSGB_EXCLUSION_FOOTNOTE = (
+    "Excluding participants who had only played National Lottery or other charity "
+    "lottery draw based games."
+)
+# Every GSGB population is adults aged 18 and over; each age band adds its bounds, as
+# the ASHE packages state theirs ("Age lower bound", "Age upper bound").
+GSGB_AGE_BOUNDS = {
+    "all": (18, None),
+    "age_18_to_24": (18, 25),
+    "age_25_to_34": (25, 35),
+    "age_35_to_44": (35, 45),
+    "age_45_to_54": (45, 55),
+    "age_55_to_64": (55, 65),
+    "age_65_to_74": (65, 75),
+    "age_75_plus": (75, None),
+}
+GSGB_GAMBLERS_BASE_LABEL = (
+    "Unweighted base (productive individuals who gambled in the past four weeks)"
+)
+GSGB_COMMENT = """# Gambling Commission, Gambling Survey for Great Britain (GSGB), Annual Report 2025 data
+# tables, published 16 July 2026, for PolicyEngine/microcosm#1381: gambling participation
+# among adults aged 18 and over in Great Britain. 20,775 adults took part; fieldwork ran
+# from 13 January 2025 to 22 January 2026, so facts take calendar year 2025 with that
+# survey-reference coverage. "Past 12 months" and "past four weeks" are the
+# questionnaire's recall windows. Generated by scripts/build_uk_excise_packages.py;
+# nothing re-downloaded.
+#
+# The workbook is stored in R2 only (storage.local: false) and is not committed: the
+# Commission states no licence for it, on the workbook, the publication page or
+# data.gov.uk, and its website terms require prior approval to copy its material.
+#
+# Tables: B.1 and B.3 (past 12 months and past four weeks, any gambling and excluding
+# lottery-draw-only players, by sex, age band and sex by age band); B.2 and B.4 (the
+# same by country and English region); B.9 and B.10 (past four weeks by activity, with
+# the online and in-person sub-rows, by sex and age band, and by country and English
+# region); and B.13 (number of activities among people who gambled in the past four
+# weeks, by sex and age band, with the mean). Each table's unweighted bases are facts
+# with the same dimensions: B.1 to B.4 print the base of their first measure, B.9 and
+# B.10 that of any gambling activity, and B.13 its own base, people who gambled.
+# Row labels are each table's own text, so B.9 row 6 ("Tickets National Lottery draws
+# bought in person") and B.10 row 6 ("Tickets for ...") differ, as published.
+# Every fact carries an age >= 18 constraint, and each age band its bounds. The measures
+# of B.1 to B.4 carry footnote i, which defines "excluding lottery draw only" (only
+# people whose sole gambling was lottery draws are left out), and the non-response one.
+#
+# Values are the stored cells: proportions the workbook displays as percentages to 0
+# dp, and bases with the file's floating-point noise. B.9 and B.10's "Any gambling"
+# row restates B.3 and B.4's past-four-week column exactly (asserted) and is emitted
+# once, from B.3 and B.4. B.9 and B.10's bases differ from B.3 and B.4's by one in
+# three cells, so every fact carries its source_sheet. Left out: weighted bases, B.13's
+# standard deviation (Chronicle has no aggregation for it), tables A, B.5 to B.8, B.11,
+# B.12, C and D, and '-' cells (a base under 50 or a count of 0; none in these tables).
+"""
+
+
+def gsgb_text(value: object) -> str:
+    """Publisher text with whitespace collapsed and a trailing footnote marker dropped."""
+    text = " ".join(str(value).split())
+    return re.sub(r" (i{1,3}|iv)(,(i{1,3}|iv))*$", "", text)
+
+
+def gsgb_number(grid: dict, row: int, column: str) -> float | None:
+    value = grid.get((row, column))
+    if value == "-":
+        return None
+    assert isinstance(value, (int, float)), (row, column, value)
+    return value
+
+
+def gsgb_dims(**dims: str) -> list[tuple[str, str, str]]:
+    """(variable, value, constraint label) triples, in a fixed order."""
+    order = (
+        "participation_window",
+        "participation_scope",
+        "gambling_channel",
+        "activity_count_band",
+        "sex",
+        "age_band",
+        "survey_base",
+        "source_sheet",
+    )
+    return [
+        (name, dims[name], GSGB_DIMENSION_LABELS[name])
+        for name in order
+        if name in dims
+    ]
+
+
+def gsgb_age_constraints(band: str) -> list[dict]:
+    lower, upper = GSGB_AGE_BOUNDS[band]
+    bounds = [
+        {
+            "variable": "age",
+            "operator": ">=",
+            "value": lower,
+            "unit": "years",
+            "label": "Age lower bound",
+        }
+    ]
+    if upper is not None:
+        bounds.append(
+            {
+                "variable": "age",
+                "operator": "<",
+                "value": upper,
+                "unit": "years",
+                "label": "Age upper bound",
+            }
+        )
+    return bounds
+
+
+def gsgb_with_dims(target: dict, dims: dict) -> dict:
+    """Attach the dimensions, and the age bounds of an age band."""
+    with_dimensions(target, gsgb_dims(**dims))
+    if "age_band" in dims:
+        target["constraints"] = [
+            *target["constraints"],
+            *gsgb_age_constraints(dims["age_band"]),
+        ]
+    return target
+
+
+def gsgb_measure(
+    measure_id: str,
+    ordinal: int,
+    column: str,
+    header_row: int,
+    header: str,
+    *,
+    kind: str,
+    notes: str,
+    dims: dict,
+    label: str | None = None,
+) -> dict:
+    concept, default_label, unit, aggregation = {
+        "participation": (
+            "gambling_commission.gsgb.participation",
+            "Proportion of adults who gambled",
+            "share",
+            "share",
+        ),
+        "base": (
+            "gambling_commission.gsgb.unweighted_base",
+            "Unweighted base (productive individuals)",
+            "count",
+            "sum",
+        ),
+        "activity_count": (
+            "gambling_commission.gsgb.activity_count_distribution",
+            "Proportion of past-four-week gamblers by number of activities",
+            "share",
+            "share",
+        ),
+        "mean": (
+            "gambling_commission.gsgb.mean_activity_count",
+            "Mean number of gambling activities in the past four weeks",
+            "gambling_activities",
+            "mean",
+        ),
+    }[kind]
+    measure = {
+        "measure_id": measure_id,
+        "label": label or default_label,
+        "ordinal": ordinal,
+        "column": column,
+        "source_column_id": measure_id,
+        "expected_column_header_row": header_row,
+        "expected_column_header": header,
+        "concept": concept,
+        "source_concept": concept,
+        "concept_relation": "source_label",
+        "concept_authority": "gambling_commission",
+        "concept_evidence_url": GSGB_PAGE,
+        "concept_evidence_notes": notes,
+        "unit": unit,
+        "aggregation": aggregation,
+        "expected_cell_type": "number",
+    }
+    return gsgb_with_dims(measure, dims)
+
+
+def gsgb_record_set(
+    record_set_id: str,
+    sheet: str,
+    geography: tuple[str, str, str],
+    groupby: str,
+    rows: list[dict],
+    measures: list[dict],
+    *,
+    base: str = "productive_individuals",
+) -> dict:
+    geography_id, level, name = geography
+    shared = gsgb_dims(
+        participation_window=GSGB_WINDOWS[sheet], survey_base=base, source_sheet=sheet
+    )
+    return {
+        "record_set_id": record_set_id,
+        "provenance_class": "survey_aggregate",
+        "survey_instrument": "Gambling Survey for Great Britain",
+        "assertion": "observation",
+        "record_set_spec_id": f"{record_set_id}.v1",
+        "source_record_id_prefix": record_set_id,
+        "sheet_name": sheet,
+        "period_type": "calendar_year",
+        "period": 2025,
+        "period_coverage": {
+            "start_date": GSGB_FIELDWORK[0],
+            "end_date": GSGB_FIELDWORK[1],
+            "basis": "survey_reference",
+            "source_period_label": "2025",
+            "notes": (
+                "GSGB Annual Report 2025: fieldwork from 13 January 2025 to 22 January "
+                "2026. 'Past 12 months' and 'past four weeks' are the questionnaire's "
+                "recall windows."
+            ),
+        },
+        "geography_id": geography_id,
+        "geography_level": level,
+        "geography_name": name,
+        "geography_vintage": "current",
+        "entity": "person",
+        "entity_role": "survey_population",
+        "domain": "gambling_participation",
+        "groupby_dimension": groupby,
+        "shared_filters": {variable: value for variable, value, _ in shared},
+        "shared_constraints": [constraint(*triple) for triple in shared],
+        "rows": rows,
+        "measures": measures,
+    }
+
+
+def gsgb_row(
+    value_id: str,
+    label: str,
+    ordinal: int,
+    row: int,
+    published: str,
+    *,
+    dims: dict | None = None,
+    guards: list[dict] | None = None,
+) -> dict:
+    entry = {
+        "value_id": value_id,
+        "label": label,
+        "ordinal": ordinal,
+        "row_number": row,
+        "expected_row_header_column": "A",
+        "expected_row_header": published,
+        "table_record_kind": "detail",
+    }
+    if dims:
+        gsgb_with_dims(entry, dims)
+    if guards:
+        entry["guard_cells"] = guards
+    return entry
+
+
+def gsgb_title_guard(grid: dict, sheet: str) -> dict:
+    assert grid[(1, "A")] == GSGB_TITLES[sheet], (sheet, grid[(1, "A")])
+    return guard("A", 1, GSGB_TITLES[sheet], "table title")
+
+
+def gsgb_group_column(header: str) -> tuple[str, str, str, str]:
+    """(value id, label, sex, age band) of a B.9 or B.13 column header."""
+    # "All aged 18 to 24 (percentage)" in B.9; "18 to 24: Gambled in the past four
+    # weeks (percentage)" in B.13.
+    text = gsgb_text(header.replace("(percentage)", ""))
+    text = re.sub(r":? Gambled in the past four weeks$", "", text)
+    label = text.removeprefix("All aged ")
+    value_id, sex, band = GSGB_GROUP_BY_LABEL[label]
+    return value_id, label, sex, band
+
+
+def gsgb_geography_column(header: str) -> tuple[str, str, str]:
+    """(geography id, level, publisher name) of a B.10 column header."""
+    # The headers end "(percentage)", "(percentage" or "(percentgage)" as published.
+    text = gsgb_text(header).removeprefix("All participants: ")
+    name = re.sub(r" ?\((percentage|percentgage)\)?$", "", text)
+    geography_id, level, _slug = GSGB_GEOGRAPHIES[name]
+    return geography_id, level, name
+
+
+def gsgb_footnotes(grid: dict, rows: range) -> dict[str, tuple[int, str, str]]:
+    """The table's footnotes by marker: (row, text as printed, text without marker)."""
+    notes = {}
+    for row in rows:
+        published = grid[(row, "A")]
+        marker, text = str(published).split(" ", 1)
+        assert marker in ("i", "ii", "iii", "iv"), (row, published)
+        notes[marker] = (row, published, text.strip())
+    return notes
+
+
+def gsgb_window_measures(
+    grid: dict, sheet: str, scopes: list[tuple[str, str]], footnote_rows: range
+) -> tuple[list[dict], list[dict]]:
+    """B.1 to B.4's measures (columns B to D) with their footnotes, and the guards."""
+    footnotes = gsgb_footnotes(grid, footnote_rows)
+    row_i, published_i, exclusion = footnotes["i"]
+    assert exclusion == GSGB_EXCLUSION_FOOTNOTE, exclusion
+    ((row_nr, published_nr, nonresponse),) = [
+        note
+        for note in footnotes.values()
+        if note[2].startswith(("Gambling prevalence", "Gambling participation"))
+    ]
+    guards = [
+        guard("A", row_i, published_i, "table footnote"),
+        guard("A", row_nr, published_nr, "table footnote"),
+    ]
+    sex_notes = [
+        note[2] for note in footnotes.values() if note[2].startswith("Sex could not")
+    ]
+    response = f" The table's footnote on non-response: '{nonresponse}'"
+    excluded = (
+        f" The table's footnote i defines the measure: '{exclusion}' So it leaves out "
+        "only people whose sole gambling was lottery draws; anyone who also took part "
+        "in another activity, National Lottery scratchcards and online instant win "
+        "games included, stays in."
+    )
+    measures = [
+        gsgb_measure(
+            f"participation_{scope}",
+            ordinal,
+            column,
+            2,
+            grid[(2, column)],
+            kind="participation",
+            notes=(
+                f"GSGB 2025 data tables, {sheet}, column {column} "
+                f"('{gsgb_text(grid[(2, column)])}')."
+                + GSGB_SHARE_NOTE
+                + (excluded if scope == "excluding_lottery_draw_only" else "")
+                + response
+            ),
+            dims={"participation_scope": scope, "gambling_channel": "all"},
+        )
+        for ordinal, (column, scope) in enumerate(scopes)
+    ]
+    measures.append(
+        gsgb_measure(
+            "unweighted_base",
+            len(scopes),
+            "D",
+            2,
+            grid[(2, "D")],
+            kind="base",
+            notes=(
+                f"GSGB 2025 data tables, {sheet}, column D "
+                f"('{gsgb_text(grid[(2, 'D')])}')."
+                + GSGB_BASE_NOTES["column"]
+                + GSGB_NOISE_NOTE
+                + response
+                + "".join(f" The table's footnote: '{note}'" for note in sex_notes)
+            ),
+            dims={"participation_scope": "any_gambling", "gambling_channel": "all"},
+        )
+    )
+    return measures, guards
+
+
+def gsgb_by_group_table(grid: dict, sheet: str, scopes: list[tuple[str, str]]) -> dict:
+    """B.1 or B.3: one record set, a row per population group, measures by column."""
+    title = gsgb_title_guard(grid, sheet)
+    measures, footnote_guards = gsgb_window_measures(grid, sheet, scopes, range(28, 32))
+    rows = []
+    for ordinal, row in enumerate(range(3, 27)):
+        published = grid[(row, "A")]
+        value_id, sex, band = GSGB_GROUP_BY_LABEL[gsgb_text(published)]
+        rows.append(
+            gsgb_row(
+                value_id,
+                gsgb_text(published),
+                ordinal,
+                row,
+                published,
+                dims={"sex": sex, "age_band": band},
+                guards=[title, *footnote_guards],
+            )
+        )
+        for column in ("B", "C", "D"):
+            assert gsgb_number(grid, row, column) is not None, (sheet, row, column)
+    assert grid[(27, "A")].strip() == "Base: Productive individuals"
+    return gsgb_record_set(
+        f"{GSGB_PREFIX}.{sheet.removeprefix('Table ').lower().replace('.', '')}",
+        sheet,
+        ("K03000001", "country", "Great Britain"),
+        "gambling_commission.gsgb_population_group",
+        rows,
+        measures,
+    )
+
+
+def gsgb_by_area_tables(grid: dict, sheet: str, scopes: list[tuple[str, str]]) -> list:
+    """B.2 or B.4: a record set per country or region row."""
+    title = gsgb_title_guard(grid, sheet)
+    table = sheet.removeprefix("Table ").lower().replace(".", "")
+    record_sets = []
+    for row in range(3, 15):
+        published = grid[(row, "A")]
+        geography_id, level, slug = GSGB_GEOGRAPHIES[gsgb_text(published)]
+        measures, footnote_guards = gsgb_window_measures(
+            grid, sheet, scopes, range(16, 19)
+        )
+        for column in ("B", "C", "D"):
+            assert gsgb_number(grid, row, column) is not None, (sheet, row, column)
+        record_sets.append(
+            gsgb_record_set(
+                f"{GSGB_PREFIX}.{table}.{slug}",
+                sheet,
+                (geography_id, level, gsgb_text(published)),
+                "gambling_commission.gsgb_area",
+                [
+                    gsgb_row(
+                        slug,
+                        gsgb_text(published),
+                        0,
+                        row,
+                        published,
+                        dims={"sex": "all", "age_band": "all"},
+                        guards=[title, *footnote_guards],
+                    )
+                ],
+                measures,
+            )
+        )
+    assert grid[(15, "A")].strip() == "Base: Productive individuals"
+    return record_sets
+
+
+def gsgb_activity_rows(grid: dict, title: dict) -> list[dict]:
+    rows = []
+    for row, value_id, label, scope, channel in GSGB_ACTIVITY_ROWS:
+        published = grid[(row, "A")]
+        text = gsgb_text(published)
+        assert GSGB_ACTIVITY_VARIANTS.get(text, text) == label, (row, text)
+        if row == GSGB_RESTATED_ROW:
+            continue
+        rows.append(
+            gsgb_row(
+                value_id,
+                text,
+                len(rows),
+                row,
+                published,
+                dims={"participation_scope": scope, "gambling_channel": channel},
+                guards=[title],
+            )
+        )
+    return rows
+
+
+def gsgb_base_row(grid: dict, row: int, title: dict) -> dict:
+    published = grid[(row, "A")]
+    assert gsgb_text(published) == "Unweighted bases (number)", published
+    return gsgb_row(
+        "unweighted_base", gsgb_text(published), 0, row, published, guards=[title]
+    )
+
+
+def build_gsgb_participation() -> None:
+    content = read_registered_artifact(GSGB_DATA / "manifest.yaml", 2026)
+    cells = source_cells_from_xlsx(content, artifact_meta(GSGB_DATA / GSGB_XLSX))
+    cover = {value for (_r, _c), value in sheet_grid(cells, "Coversheet").items()}
+    assert {GSGB_COVER["publication"], GSGB_COVER["fieldwork"]} <= {
+        str(value).strip() for value in cover
+    }, cover
+    notes = {
+        str(v).strip() for v in sheet_grid(cells, "Notes and definitions").values()
+    }
+    assert GSGB_SUPPRESSION in notes, notes
+    grids = {sheet: sheet_grid(cells, sheet) for sheet in GSGB_TITLES}
+    by_group_scopes = [("B", "any_gambling"), ("C", "excluding_lottery_draw_only")]
+    record_sets = [
+        gsgb_by_group_table(grids["Table B.1"], "Table B.1", by_group_scopes),
+        *gsgb_by_area_tables(grids["Table B.2"], "Table B.2", by_group_scopes),
+        gsgb_by_group_table(grids["Table B.3"], "Table B.3", by_group_scopes),
+        *gsgb_by_area_tables(grids["Table B.4"], "Table B.4", by_group_scopes),
+    ]
+
+    # B.9: activities by sex and age band.
+    b9, b3 = grids["Table B.9"], grids["Table B.3"]
+    title = gsgb_title_guard(b9, "Table B.9")
+    columns = [chr(ord("B") + index) for index in range(10)]
+    groups = [gsgb_group_column(b9[(2, column)]) for column in columns]
+    assert [g[0] for g in groups] == [vid for vid, *_ in GSGB_GROUPS[:10]], groups
+    for column, row3 in zip(columns, range(3, 13)):
+        # The restated row equals B.3's past-four-week participation, cell for cell.
+        assert b9[(GSGB_RESTATED_ROW, column)] == b3[(row3, "B")], column
+        for row, *_ in GSGB_ACTIVITY_ROWS:
+            assert gsgb_number(b9, row, column) is not None, (row, column)
+    share_measures = [
+        gsgb_measure(
+            value_id,
+            ordinal,
+            column,
+            2,
+            b9[(2, column)],
+            kind="participation",
+            notes=(
+                f"GSGB 2025 data tables, Table B.9, column {column} ('{label}'), "
+                "past-four-week participation by activity." + GSGB_SHARE_NOTE
+            ),
+            dims={"sex": sex, "age_band": band},
+        )
+        for ordinal, (column, (value_id, label, sex, band)) in enumerate(
+            zip(columns, groups)
+        )
+    ]
+    base_measures = [
+        gsgb_measure(
+            value_id,
+            ordinal,
+            column,
+            2,
+            b9[(2, column)],
+            kind="base",
+            notes=(
+                f"GSGB 2025 data tables, Table B.9, row 37, column {column} ('{label}')."
+                + GSGB_BASE_NOTES["activity"]
+                + GSGB_NOISE_NOTE
+            ),
+            dims={
+                "participation_scope": "any_gambling",
+                "gambling_channel": "all",
+                "sex": sex,
+                "age_band": band,
+            },
+        )
+        for ordinal, (column, (value_id, label, sex, band)) in enumerate(
+            zip(columns, groups)
+        )
+    ]
+    record_sets.append(
+        gsgb_record_set(
+            f"{GSGB_PREFIX}.b9",
+            "Table B.9",
+            ("K03000001", "country", "Great Britain"),
+            "gambling_commission.gsgb_activity",
+            gsgb_activity_rows(b9, title),
+            share_measures,
+        )
+    )
+    record_sets.append(
+        gsgb_record_set(
+            f"{GSGB_PREFIX}.b9.base",
+            "Table B.9",
+            ("K03000001", "country", "Great Britain"),
+            "gambling_commission.gsgb_statistic",
+            [gsgb_base_row(b9, 37, title)],
+            base_measures,
+        )
+    )
+    assert gsgb_text(b9[(38, "A")]) == "Weighted bases (number)"
+
+    # B.10: activities by country and English region, a record set per area column.
+    b10, b4 = grids["Table B.10"], grids["Table B.4"]
+    title = gsgb_title_guard(b10, "Table B.10")
+    b4_rows = {gsgb_text(b4[(row, "A")]): row for row in range(3, 15)}
+    for column in [chr(ord("B") + index) for index in range(12)]:
+        geography_id, level, name = gsgb_geography_column(b10[(2, column)])
+        slug = GSGB_GEOGRAPHIES[name][2]
+        assert b10[(GSGB_RESTATED_ROW, column)] == b4[(b4_rows[name], "B")], name
+        for row, *_ in GSGB_ACTIVITY_ROWS:
+            assert gsgb_number(b10, row, column) is not None, (row, column)
+        dims_all = {"sex": "all", "age_band": "all"}
+        record_sets.append(
+            gsgb_record_set(
+                f"{GSGB_PREFIX}.b10.{slug}",
+                "Table B.10",
+                (geography_id, level, name),
+                "gambling_commission.gsgb_activity",
+                gsgb_activity_rows(b10, title),
+                [
+                    gsgb_measure(
+                        "all_participants",
+                        0,
+                        column,
+                        2,
+                        b10[(2, column)],
+                        kind="participation",
+                        notes=(
+                            f"GSGB 2025 data tables, Table B.10, column {column} "
+                            f"('{name}'), past-four-week participation by activity."
+                            + GSGB_SHARE_NOTE
+                        ),
+                        dims=dims_all,
+                    )
+                ],
+            )
+        )
+        record_sets.append(
+            gsgb_record_set(
+                f"{GSGB_PREFIX}.b10.{slug}.base",
+                "Table B.10",
+                (geography_id, level, name),
+                "gambling_commission.gsgb_statistic",
+                [gsgb_base_row(b10, 37, title)],
+                [
+                    gsgb_measure(
+                        "all_participants",
+                        0,
+                        column,
+                        2,
+                        b10[(2, column)],
+                        kind="base",
+                        notes=(
+                            f"GSGB 2025 data tables, Table B.10, row 37, column {column} "
+                            f"('{name}')."
+                            + GSGB_BASE_NOTES["activity"]
+                            + GSGB_NOISE_NOTE
+                        ),
+                        dims={
+                            "participation_scope": "any_gambling",
+                            "gambling_channel": "all",
+                            **dims_all,
+                        },
+                    )
+                ],
+            )
+        )
+
+    # B.13: number of activities among people who gambled in the past four weeks.
+    b13 = grids["Table B.13"]
+    title = gsgb_title_guard(b13, "Table B.13")
+    groups = [gsgb_group_column(b13[(2, column)]) for column in columns]
+    assert [g[0] for g in groups] == [vid for vid, *_ in GSGB_GROUPS[:10]], groups
+    assert gsgb_text(b13[(8, "A")]) == "Standard Deviation"
+    assert (
+        b13[(11, "A")].strip()
+        == "Base: Productive individuals who gambled in the past 4 weeks"
+    )
+    band_rows = []
+    for ordinal, (row, value_id, label) in enumerate(GSGB_COUNT_BANDS):
+        assert gsgb_text(b13[(row, "A")]) == label, (row, b13[(row, "A")])
+        band_rows.append(
+            gsgb_row(
+                value_id,
+                label,
+                ordinal,
+                row,
+                b13[(row, "A")],
+                dims={"activity_count_band": value_id},
+                guards=[title],
+            )
+        )
+    for column in columns:
+        for row in (3, 4, 5, 6, 7, 9):
+            assert gsgb_number(b13, row, column) is not None, (row, column)
+
+    def b13_measures(kind: str, row_note: str, extra: dict) -> list[dict]:
+        return [
+            gsgb_measure(
+                value_id,
+                ordinal,
+                column,
+                2,
+                b13[(2, column)],
+                kind=kind,
+                notes=(
+                    f"GSGB 2025 data tables, Table B.13, {row_note}column {column} "
+                    f"('{label}'), among people who gambled in the past four weeks."
+                    + (
+                        GSGB_BASE_NOTES["gamblers"] + GSGB_NOISE_NOTE
+                        if kind == "base"
+                        else ""
+                    )
+                    + (GSGB_SHARE_NOTE if kind == "activity_count" else "")
+                ),
+                dims={"sex": sex, "age_band": band, **extra},
+                label=GSGB_GAMBLERS_BASE_LABEL if kind == "base" else None,
+            )
+            for ordinal, (column, (value_id, label, sex, band)) in enumerate(
+                zip(columns, groups)
+            )
+        ]
+
+    gamblers = "gambled_in_the_past_four_weeks"
+    record_sets.append(
+        gsgb_record_set(
+            f"{GSGB_PREFIX}.b13",
+            "Table B.13",
+            ("K03000001", "country", "Great Britain"),
+            "gambling_commission.gsgb_activity_count_band",
+            band_rows,
+            b13_measures("activity_count", "", {}),
+            base=gamblers,
+        )
+    )
+    mean_row = gsgb_row("mean", "Mean", 0, 7, b13[(7, "A")], guards=[title])
+    assert gsgb_text(b13[(7, "A")]) == "Mean"
+    record_sets.append(
+        gsgb_record_set(
+            f"{GSGB_PREFIX}.b13.mean",
+            "Table B.13",
+            ("K03000001", "country", "Great Britain"),
+            "gambling_commission.gsgb_statistic",
+            [mean_row],
+            b13_measures("mean", "row 7, ", {}),
+            base=gamblers,
+        )
+    )
+    record_sets.append(
+        gsgb_record_set(
+            f"{GSGB_PREFIX}.b13.base",
+            "Table B.13",
+            ("K03000001", "country", "Great Britain"),
+            "gambling_commission.gsgb_statistic",
+            [gsgb_base_row(b13, 9, title)],
+            b13_measures("base", "row 9, ", {}),
+            base=gamblers,
+        )
+    )
+
+    # Every groupby axis takes its value labels from the rows, as published.
+    value_labels = dict(GSGB_VALUE_LABELS)
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": "gambling-commission-gsgb-annual-report-2025",
+        "label": (
+            "Gambling Commission, Gambling Survey for Great Britain 2025: gambling "
+            "participation by sex, age, country, English region and activity"
+        ),
+        "dimension_labels": dict(GSGB_DIMENSION_LABELS),
+        "dimension_value_labels": value_labels,
+        "artifact": {
+            "source_name": "gambling_commission",
+            "source_table": (
+                "Gambling Survey for Great Britain, Annual Report 2025: data tables "
+                "B.1 to B.4, B.9, B.10 and B.13"
+            ),
+            "resource_package": "db",
+            "resource_directory": "data/gambling_commission/gsgb_annual_report_2025",
+            "manifest": "manifest.yaml",
+            "vintage": "2026_07_16_release",
+            "extracted_at": "2026-10-25",
+            "extraction_method": "XLSX whole-workbook used-range cell parse",
+            "parser": "xlsx_used_range",
+            "artifact_year": 2026,
+        },
+        "record_sets": record_sets,
+    }
+    write_package(GSGB_PACKAGE, payload, GSGB_COMMENT)
+
+
 def main() -> None:
     build_obr_excise()
     build_alcohol_bulletin()
     build_tobacco_bulletin()
     build_betting_gaming()
     build_gambling_commission()
+    build_gsgb_participation()
 
 
 if __name__ == "__main__":

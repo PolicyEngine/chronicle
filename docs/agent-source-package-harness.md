@@ -34,7 +34,9 @@ The old `CHRONICLE_`-prefixed environment variables remain accepted only as
 migration fallbacks.
 
 A fact package may keep its artifact in R2 only when the bytes are too large to
-commit (DESNZ's 50-56 MB LSOA energy workbooks, chronicle#356): its manifest entry
+commit (DESNZ's 50-56 MB LSOA energy workbooks, chronicle#356), or when the publisher
+states no licence that lets Chronicle redistribute them (the Gambling Commission's GSGB
+2025 data tables, whose manifest records the evidence under `license_evidence`): its manifest entry
 carries `storage.local: false`, the file is git-ignored, and CI sets
 `LEDGER_SOURCE_ARTIFACT_FETCH=1` and caches the fetched bytes between runs.
 `publish-raw` refuses an R2-only entry that has no R2 location yet, so upload the

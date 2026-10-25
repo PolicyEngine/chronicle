@@ -460,7 +460,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # The Belgian transport sources add 31,244: Eurostat's 55 annual USD
         # rates, FPD's 10,239 January 2025 amount-band cells and PensionStat's
         # 20,954 workbook cells, which replace its four curated headlines.
-        "fact_count": 1652983,
+        # PolicyEngine/microcosm#1381's GSGB 2025 package adds 1,024 survey
+        # facts for people in calendar 2025, at existing keys.
+        "fact_count": 1654007,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -501,8 +503,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "source_count": 62,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
         # all-claims UC area packages. chronicle#381 adds four and replaces the
-        # 30 June Consumer Trends package with the 30 September one.
-        "source_package_count": 419,
+        # 30 June Consumer Trends package with the 30 September one. GSGB 2025
+        # (PolicyEngine/microcosm#1381) adds one.
+        "source_package_count": 420,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -528,7 +531,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # The Belgian transport sources add one: Eurostat's exchange-rate
         # dataset labels freq=A 'Annual', as its JSON-stat category label
         # prints it, where the older Eurostat packages carry the bare code 'A'.
-        "warning_count": 132,
+        # GSGB 2025 adds one: B.9 writes "Tickets National Lottery draws bought in
+        # person" where B.10 writes "Tickets for ...", both kept as published.
+        "warning_count": 133,
     }
     row_count = 0
     provenance_classes = set()
@@ -546,14 +551,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1652983
+    assert row_count == 1654007
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 419
+    assert source_packages["source_package_count"] == 420
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -581,7 +586,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1652983
+    assert coverage["fact_count"] == 1654007
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -602,7 +607,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "eurostat": 262,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
-        "gambling_commission": 1435,
+        "gambling_commission": 2459,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
         "hmrc": 33241,
@@ -647,7 +652,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 361
+    assert len(table_counts) == 362
     assert (
         table_counts[
             "ostbelgien_kindergeld:Kindergeld in Ostbelgien, Aktualisierung "
@@ -719,6 +724,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             "year April 2025 to March 2026 - Official statistics"
         ]
         == 1435
+    )
+    assert (
+        table_counts[
+            "gambling_commission:Gambling Survey for Great Britain, Annual Report "
+            "2025: data tables B.1 to B.4, B.9, B.10 and B.13"
+        ]
+        == 1024
     )
     assert (
         table_counts[
@@ -1879,6 +1891,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     expected_period_counts["calendar_year:2025"] += 67
     # B2a: measured source-only commune facts retain the 1 January 2025 period.
     expected_period_counts["calendar_year:2025"] += 3955
+    # GSGB 2025 (PolicyEngine/microcosm#1381): fieldwork January 2025 to January
+    # 2026, stamped calendar 2025.
+    expected_period_counts["calendar_year:2025"] += 1024
     # chronicle#322: 16 areas x 10 vehicle/fuel columns annually, and the
     # ONS extension (166 columns minus seven existing series, plus three
     # annual tourism columns).
@@ -2196,13 +2211,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # gaming facts.
     assert coverage["counts"]["by_geography"]["country:K02000001"] == 33507
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
-    # chronicle#358 ONS's 606 single-year residence-type rows for England.
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 6768
+    # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
+    # 2025's England participation rows add 40.
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 6808
     # Great Britain gains HBAI's FYE 1995-2002 rows (32), Move to UC (80), the
     # table 4.9 lines DWP counts over Great Britain (56) and BUS04 (2): +170.
     # chronicle#381's 1,435 Gambling Commission facts, the National Lottery's
-    # included, as the publication describes them.
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 23006
+    # included, as the publication describes them. GSGB 2025's Great Britain
+    # tables (B.1, B.3, B.9 and B.13) add 544.
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 23550
     # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28).
     assert coverage["counts"]["by_geography"]["country:K04000001"] == 1176
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
@@ -2234,7 +2251,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # +352 (HMRC stamp-tax transactions). chronicle#381: institutional sectors
     # +2,097 (OBR and HMRC clearances, HMRC production and the Gambling
     # Commission's figures) and people +893 (OBR and HMRC receipts and levies,
-    # and Machine Games Duty liabilities).
+    # and Machine Games Duty liabilities). GSGB 2025 adds 1,024 people.
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 274367,
@@ -2244,7 +2261,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 676320,
         "institutional_sector": 8806,
         "pension_plan": 2,
-        "person": 592299,
+        "person": 593323,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
@@ -2253,7 +2270,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
-        "conflicting_groupby_value_label": 23,
+        "conflicting_groupby_value_label": 24,
         "conflicting_value_label_across_packages": 17,
         "duplicate_semantic_fact_key": 1,
     }
