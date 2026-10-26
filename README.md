@@ -108,12 +108,12 @@ chronicle/
 │   ├── sources/             # Source lineage helpers
 │   ├── facts/               # Source-backed facts
 │   ├── normalization/       # Low-assumption representation helpers
-│   ├── targets/             # Target input schema, client, loaders
+│   ├── targets/             # Target source coverage (US poverty/nonfiler)
 │   ├── jurisdictions/       # Temporary in-repo jurisdiction source prototypes
-├── db/                      # SQLModel persistence and source loaders
-│   ├── schema.py            # SQLModel: Target, Stratum, StratumConstraint
+├── db/                      # Source-artifact store and packaged source files
+│   ├── schema.py            # SQLModel: SourceArtifact, SourceTable, SourceRow
 │   ├── supabase_client.py   # Supabase client helpers
-│   └── etl_*.py             # Source-specific ETL pipelines
+│   └── data/                # Publisher files that source packages read
 ├── data/                    # Cached data files
 └── docs/                    # Architecture and source documentation
 ```
@@ -127,23 +127,16 @@ Solver execution and calibrated dataset construction belong in Microcosm.
 
 ### 1. Install
 
+Chronicle is not published on PyPI. Clone this repository into a
+Chronicle-named directory and install it with its development extras:
+
 ```bash
-pip install policyengine-chronicle
-# Or for development, clone this repository into a Chronicle-named directory:
 git clone <current repository URL> chronicle
 cd chronicle
-pip install -e ".[dev]"
+uv sync --all-extras
 ```
 
-### 2. Initialize and Load Legacy Target Inputs
-
-```bash
-chronicle init
-chronicle load soi --years 2021
-chronicle stats
-```
-
-### 3. Validate Fixture Facts
+### 2. Validate Fixture Facts
 
 The standalone Chronicle fact harness validates JSONL aggregate facts and emits a
 JSON report with fact counts, QA counts, warnings, and validation errors:
@@ -519,7 +512,7 @@ same `--axiom-cli` and `--axiom-root` flags, plus
 `--require-axiom-validation` when skipped concept checks should fail agent
 acceptance.
 
-### 4. Run Chronicle Explorer
+### 3. Run Chronicle Explorer
 
 Chronicle Explorer is a Next/Tailwind app that reads the fixture fact JSONL and
 source-cell JSONL, then shows aggregate facts, source-cell lineage, and
@@ -541,25 +534,19 @@ By default, the workbench reads the current local suite outputs at
 LEDGER_EXPLORER_DATA_DIRS=/tmp/chronicle-build-a,/tmp/chronicle-build-b npm run dev -- --port 3090
 ```
 
-### 5. Query Target Inputs in Python
+## Retired legacy target tables
 
-```python
-from policyengine_chronicle.targets import DataSource, Target, TargetType, query_targets
-
-target_rows = query_targets(jurisdiction="us", year=2024)
-```
-
-## Target Input Schema
-
-Target inputs use a three-table schema:
-
-- **strata**: Population subgroups, such as California filers with AGI between
-  $50k and $75k.
-- **stratum_constraints**: Rules defining each stratum.
-- **targets**: Source-published aggregate values linked to strata.
-
-These are source-backed inputs. Microcosm owns the contracts that select them,
-the active support-aware subset, and calibrated solver execution.
+Chronicle used to load hand-written ETLs into a local SQLite `targets` /
+`strata` / `stratum_constraints` schema (`chronicle load`, `chronicle stats`,
+`chronicle query`) and to read a Supabase copy through
+`policyengine_chronicle.targets.query_targets`. No live consumer read those
+tables, and most of their values did not trace to publisher bytes, so they were
+retired.
+Source-backed facts reach consumers through source packages, the bundle and
+the consumer-fact export. Microcosm owns the contracts that select them, the
+active support-aware subset, and calibrated solver execution. See
+[`docs/us-legacy-etl-cleanup.md`](docs/us-legacy-etl-cleanup.md) for what each
+retired loader held and which package publishes it now.
 
 ## Identifier Epochs
 
@@ -626,7 +613,7 @@ normalized_fact = convert_units(fact, 1000, "count")
 
 ## Current Coverage
 
-### Aggregate Facts And Target Inputs
+### Aggregate facts
 
 | Source | Coverage | Description |
 |--------|----------|-------------|

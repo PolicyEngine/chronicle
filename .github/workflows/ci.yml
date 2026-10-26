@@ -160,11 +160,10 @@ jobs:
       - name: Test OpenTimestamps anchoring
         run: uv run pytest -q --durations=30 tests/test_ots_anchor.py
 
-      - name: Build source input database
+      - name: Smoke-test the source-artifact database CLI
         run: |
-          uv run chronicle --db /tmp/chronicle-targets-ci.db init
-          uv run chronicle --db /tmp/chronicle-targets-ci.db load all
-          uv run chronicle --db /tmp/chronicle-targets-ci.db stats
+          uv run chronicle --db /tmp/chronicle-source-ci.db init
+          uv run chronicle --db /tmp/chronicle-source-ci.db source-stats
 
       - name: Build wheel
         run: |
@@ -182,6 +181,7 @@ jobs:
           import policyengine_chronicle.normalization
           import policyengine_chronicle.sources
           import policyengine_chronicle.targets
+          from policyengine_chronicle.targets import hard_target_package_aliases
           from policyengine_chronicle.schema import (
               CONSUMER_FACT_SCHEMA_SHA256,
               CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION,
@@ -189,6 +189,9 @@ jobs:
           )
 
           assert policyengine_chronicle.__name__ == "policyengine_chronicle"
+          # Target source coverage ships; the legacy target tables do not.
+          assert "soi-table-1-1" in hard_target_package_aliases()
+          assert not hasattr(policyengine_chronicle.targets, "query_targets")
           # Every consumer-fact contract must ship inside the wheel: frozen v1,
           # the v2 labels contract, the v3 geography-name contract, and the v4
           # contract rows are emitted under.

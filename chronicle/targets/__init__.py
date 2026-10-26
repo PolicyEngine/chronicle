@@ -1,19 +1,10 @@
-"""Chronicle target-input schema and query helpers."""
+"""Chronicle target source coverage.
 
-from db.schema import (
-    DEFAULT_DB_PATH,
-    DataSource,
-    GeographicLevel,
-    Jurisdiction,
-    Stratum,
-    StratumConstraint,
-    Target,
-    TargetType,
-    get_engine,
-    get_session,
-    init_db,
-)
-from db.supabase_client import insert_targets_batch, query_strata, query_targets
+Chronicle records which source packages back a consumer's target families. The
+legacy SQLite and Supabase target tables (``Target``, ``Stratum``,
+``StratumConstraint``) were retired; see ``docs/us-legacy-etl-cleanup.md``.
+"""
+
 from .us_poverty import (
     US_POVERTY_NONFILER_TARGET_COVERAGE,
     TargetSourceCoverage,
@@ -25,24 +16,10 @@ from .us_poverty import (
 )
 
 __all__ = [
-    "DEFAULT_DB_PATH",
-    "DataSource",
-    "GeographicLevel",
-    "Jurisdiction",
-    "Stratum",
-    "StratumConstraint",
-    "Target",
     "TargetSourceCoverage",
-    "TargetType",
     "US_POVERTY_NONFILER_TARGET_COVERAGE",
     "coverage_entries",
-    "get_engine",
-    "get_session",
     "hard_target_package_aliases",
-    "init_db",
-    "insert_targets_batch",
-    "query_strata",
-    "query_targets",
     "source_gap_family_ids",
     "validate_us_poverty_nonfiler_source_coverage",
     "validation_only_family_ids",

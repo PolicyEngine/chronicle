@@ -1,7 +1,8 @@
 # US Poverty and Nonfiler Source-Target Coverage
 
 This document records the Chronicle-side source coverage contract for US poverty and
-nonfiler calibration work. Chronicle stores source-backed facts and target inputs.
+nonfiler calibration work. Chronicle stores source-backed facts and records which
+source packages back each target family.
 Microcosm owns the active calibration profile, source reconciliation, aging, and
 model variable mapping.
 

@@ -11,27 +11,24 @@ series, in the same form as the UK "Legacy ETL cleanup" table in
 
 | Loader | Outcome | Why |
 |---|---|---|
-| `db/etl_soi.py` | kept | Parses the IRS Table 1.1 and 1.4 workbooks committed under `db/data/irs_soi/`, checks each against its manifest sha256, and cites the exact `.xls` file on every row. |
-| `db/etl_snap.py` | kept | Reads the `usda-snap-fy69-to-current` source package (chronicle#81); every row carries the file, vintage and sha256. |
+| `db/etl_soi.py` | retired with the table | Parsed the IRS Table 1.1 and 1.4 workbooks committed under `db/data/irs_soi/` and checked each against its manifest sha256. Its values were publisher-backed, but they only fed the legacy `targets` table, which nothing read. The `soi-table-1-1` and `soi-table-1-4` packages publish the same cells as facts. |
+| `db/etl_snap.py` | retired with the table | Copied facts from the `usda-snap-fy69-to-current` source package (chronicle#81) into the legacy `targets` table. The package itself still publishes them. |
 | `db/etl_soi_state.py`, `db/etl_soi_credits.py`, `db/etl_soi_deductions.py`, `db/etl_soi_income_sources.py` | retired | Invented values presented as IRS figures (below). |
 | `db/etl_aca_enrollment.py`, `db/etl_bls.py`, `db/etl_cbo.py`, `db/etl_census.py`, `db/etl_cps.py`, `db/etl_medicaid.py`, `db/etl_ssa.py`, `db/etl_ssi.py` | retired | Hand-typed values with landing-page URLs and no artifact; each module mixes transcribed, rounded, computed and invented numbers (below). |
 
-A boundary test (`tests/test_chronicle_boundaries.py`) now runs `chronicle load
-all` and requires every row it writes to reproduce its own publisher cell: the
-one source-package fact with the same measure, period and complete stratum
-definition, built from a publisher file whose bytes hash to its manifest sha256,
-with matching source and lineage fields, and a stratum whose jurisdiction,
-labels, definition hash and parent are the ones the loader assigns. Every column
-of the target, stratum and constraint tables is checked except row ids and
-timestamps. Twenty-seven mutation cases, including a row given another real
-cell's value and a stratum whose constraint is negated, show it flags each
-change.
+Until the legacy targets table was retired, a boundary test ran `chronicle load
+all` and required every row it wrote to reproduce its own publisher cell (with
+27 mutation cases). With the table gone, boundary tests
+(`tests/test_chronicle_boundaries.py`) check instead that none of the 14 modules
+ships or imports, that no `db/etl_*.py` loader remains, that the CLI rejects
+`chronicle load`, `stats` and `query`, and that `chronicle init` creates only the
+source-artifact tables.
 
 ## Consumers
 
 No current reader outside Chronicle was found in the default branches
 searched. Inside Chronicle the loaders were reached only through `db/cli.py` (`chronicle load <source>`, and `load all`,
-which CI's surface job runs), the re-exports in `chronicle/targets/loaders.py`
+which CI's surface job ran until the targets table was retired), the re-exports in `chronicle/targets/loaders.py`
 and `chronicle/jurisdictions/us/__init__.py`, and their own tests. The legacy
 `targets` table is not part of the source-package bundle, the consumer-fact
 export or the hosted mirror (`chronicle/mirror.py` exports only the
@@ -170,5 +167,60 @@ numbers with rounded, computed and invented ones.
 The 12 modules, their tests, their `chronicle load` sources and their
 re-exports are deleted. `db/etl_census.py`'s `load_congressional_district_targets`
 took caller-supplied values and was called only from
-`tests/test_congressional_districts.py`, which keeps its schema check.
-`DataSource` members stay: existing databases carry the strings.
+`tests/test_congressional_districts.py`. That test file's last check pinned the
+legacy `GeographicLevel` enum and went with it when the table was retired.
+`DataSource` members stay: `SourceFact` and `SourceReference` still accept them.
+
+## Retired: the legacy targets table
+
+After the 12 loaders went, `etl_soi.py` and `etl_snap.py` were the only writers
+of the SQLite `targets` / `strata` / `stratum_constraints` tables, and no live
+consumer read those tables. The follow-on to chronicle#348 retired the whole path:
+
+- `db/schema.py`'s `Target`, `Stratum` and `StratumConstraint` tables and the
+  `TargetType` and `GeographicLevel` enums. `chronicle init` now creates only
+  the source-artifact tables, which `load-source-files` and `source-stats` use.
+- `chronicle load`, `chronicle stats` and `chronicle query` (`db/cli.py`).
+- `db/etl_soi.py` and `db/etl_snap.py`, with their tests. The two AGI-bracket
+  tables that `chronicle/jurisdictions/us/soi.py` imported from `etl_soi.py`
+  now live in `soi.py`.
+- `db/supabase_client.py`'s `query_targets`, `query_strata`,
+  `insert_targets_batch` and `TARGETS_SCHEMA`.
+- `chronicle/targets/loaders.py`, `chronicle/targets/client.py` and the legacy
+  names re-exported by `chronicle.targets` and `policyengine_chronicle.targets`.
+  Both modules keep the US poverty/nonfiler target source coverage
+  (`chronicle/targets/us_poverty.py`).
+- `chronicle.normalization`'s `as_target`, `target_kwargs` and
+  `TargetBlueprint`, which built rows for the table. The lineage helpers
+  (`convert_units`, `scale_value`, `apply_share`, `format_derivation`) stay, in
+  `chronicle/normalization/transforms.py`.
+- `scripts/export_to_json.py`, which wrote `targets_summary.json` from the table.
+
+What the audit checked before deleting:
+
+- **Chronicle itself.** No module under `chronicle/` reads the three tables.
+  `chronicle/database.py` and `chronicle/mirror.py` work on their own ledger
+  tables. The bundle, the consumer-fact export and the hosted mirror never
+  carried the table.
+- **Other repositories.** No current reader or writer (see Consumers above for
+  the search and the three historical readers, all in archived repositories).
+  Microcosm and chronicle.institute call `chronicle build-bundle` /
+  `ledger build-bundle`, which this change does not touch.
+- **Supabase.** Chronicle's configured project has no `targets` schema, so
+  `query_targets` and `query_strata` failed with PostgREST `PGRST106 Invalid
+  schema: targets`. The older copy of the three tables lives in that project's
+  `microplex` schema. It was loaded in December 2025, has not been modified
+  since 2026-01-02, and its last observed index read was on 2026-05-30.
+  Apart from the audit's own probes, no request touched it in the 90 days of
+  retained edge logs. This change leaves that hosted data alone.
+- **Websites.** `targets_summary.json` was written for a CosilicoAI/cosilico.ai
+  calibration page that was deleted on 2026-02-23. The script's
+  `../policyengine.org` default path came from a later rename. No
+  `PolicyEngine/policyengine.org` repository exists, policyengine.org returns
+  404 for the file, and policyengine-app-v2 never read it.
+- **Packaging.** Chronicle has never been published on PyPI under any of its
+  names, and no repository installs it as a dependency.
+
+The `codex/thesis-ledger-facts` branch carries its own frozen copy of the
+legacy loaders, and its "Arch checks" job runs `arch load all`. Retiring the
+path on `main` does not change that branch; chronicle#352 retires that copy.
