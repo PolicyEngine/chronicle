@@ -1,0 +1,22 @@
+source_id: ed_fsa
+package_id: ed-fsa-portfolio-by-debt-size-fy2026-q2
+dataset: ed_fsa_portfolio_by_debt_size_fy2026_q2
+source_page: https://studentaid.gov/data-center/student/portfolio
+table: Federal Student Loan Portfolio by Borrower Debt Size (Portfolio-by-Debt-Size.xls), through FY2026
+  Q2
+files:
+  2026:
+    filename: Portfolio-by-Debt-Size.xls
+    source_url: https://studentaid.gov/sites/default/files/fsawg/datacenter/library/Portfolio-by-Debt-Size.xls
+    sha256: 881bd8bbd257da5f5b906b0f0923cf246de6e3d28ee35e8be1cd23d841e88a4d
+    size_bytes: 71680
+    fetched_at: '2026-10-12T14:09:15Z'
+    source_table: Federal Student Loan Portfolio by Borrower Debt Size (Portfolio-by-Debt-Size.xls), through
+      FY2026 Q2
+    year: 2026
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/ed_fsa/ed-fsa-portfolio-by-debt-size-fy2026-q2/2026/881bd8bbd257da5f5b906b0f0923cf246de6e3d28ee35e8be1cd23d841e88a4d/Portfolio-by-Debt-Size.xls
+        uri: r2://ledger-raw/raw/ed_fsa/ed-fsa-portfolio-by-debt-size-fy2026-q2/2026/881bd8bbd257da5f5b906b0f0923cf246de6e3d28ee35e8be1cd23d841e88a4d/Portfolio-by-Debt-Size.xls

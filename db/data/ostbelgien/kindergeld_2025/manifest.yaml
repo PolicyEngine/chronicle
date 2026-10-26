@@ -1,0 +1,72 @@
+source_id: belgium
+package_id: ostbelgien-kindergeld-2025
+source_name: Kindergeld in Ostbelgien, Aktualisierung vom 31.03.2026
+publisher: Ministerium der Deutschsprachigen Gemeinschaft
+source_page: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
+reuse_status: no licence stated; figures cited with attribution
+reuse_reference: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-2399/
+geography_scope:
+  id: ostbelgien:deutschsprachige_gemeinschaft
+  name: Deutschsprachige Gemeinschaft
+  level: statistical_scope
+  vintage: nis_2025
+  definition: 'Belgian German-speaking Community: territory of these nine communes in Liège province;
+    not a NUTS region.'
+  membership_source: db/data/statbel/population_structure_commune_2025/statbel_population_structure_commune_2025.csv
+  communes:
+  - nis_2025: '63001'
+    geography_name: Amel
+  - nis_2025: '63012'
+    geography_name: Büllingen
+  - nis_2025: '63013'
+    geography_name: Bütgenbach
+  - nis_2025: '63023'
+    geography_name: Eupen
+  - nis_2025: '63040'
+    geography_name: Kelmis
+  - nis_2025: '63048'
+    geography_name: Lontzen
+  - nis_2025: '63061'
+    geography_name: Raeren
+  - nis_2025: '63067'
+    geography_name: Sankt Vith
+  - nis_2025: '63087'
+    geography_name: Burg-Reuland
+status: semantic_candidate
+files:
+  2025:
+    filename: ostbelgien_kindergeld_2025.csv
+    source_url: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
+    source_table: Kindergeld in Ostbelgien, Aktualisierung vom 31.03.2026
+    sha256: 51b9faa492df7846b9f3c7bcd2a565ab1eccfc3cdc037e0c72f79a908f84135f
+    size_bytes: 24769
+    retrieved_at: '2026-10-24'
+    artifact_kind: curated_extract
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/ostbelgien-kindergeld-2025/2025/51b9faa492df7846b9f3c7bcd2a565ab1eccfc3cdc037e0c72f79a908f84135f/ostbelgien_kindergeld_2025.csv
+        uri: r2://ledger-raw/raw/belgium/ostbelgien-kindergeld-2025/2025/51b9faa492df7846b9f3c7bcd2a565ab1eccfc3cdc037e0c72f79a908f84135f/ostbelgien_kindergeld_2025.csv
+    notes: Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24. One published figure
+      per row; not publisher bytes. Derived only by German number-format normalization and einmal=1. Repeated
+      prose headlines are not duplicated; the age-table total is a separate printed cell. Four publisher
+      percentages retained verbatim.
+  source_capture:
+    filename: kindergeld-in-ostbelgien.article.html
+    source_url: https://ostbelgienstatistik.be/desktopdefault.aspx/tabid-3748/6766_read-39090/
+    source_table: Kindergeld in Ostbelgien, Aktualisierung vom 31.03.2026
+    sha256: c570d9b5cef3bb100c4caf1ca8db528376d6f7b3176968d3d259bb947d2801c5
+    size_bytes: 9799
+    retrieved_at: '2026-10-24'
+    artifact_kind: sanitized_browser_transcription
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/ostbelgien-kindergeld-2025/source_capture/c570d9b5cef3bb100c4caf1ca8db528376d6f7b3176968d3d259bb947d2801c5/kindergeld-in-ostbelgien.article.html
+        uri: r2://ledger-raw/raw/belgium/ostbelgien-kindergeld-2025/source_capture/c570d9b5cef3bb100c4caf1ca8db528376d6f7b3176968d3d259bb947d2801c5/kindergeld-in-ostbelgien.article.html
+    notes: Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24. Browser capture 2026-10-24
+      ~01:10Z (Claude desktop built-in browser). Article outerHTML with script/style elements, class/style/id/data-*
+      attributes and comments stripped; whitespace collapsed. Original capture header retained. A transcription
+      for evidence, not the publisher's byte stream; plain clients receive a Cloudflare challenge.

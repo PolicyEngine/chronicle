@@ -57,6 +57,7 @@ from chronicle.sources.rows import (
     SourceRow,
     source_cells_from_source_rows,
     source_rows_from_census_acs_s0101_age_json,
+    source_rows_from_census_acs_s1501_attainment_json,
     source_rows_from_census_acs_s2201_snap_json,
     source_rows_from_census_b01001_female_age_json,
     source_rows_from_cdc_vsrr_live_births_json,
@@ -250,6 +251,12 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "stats-nz-census-2023-households-by-region-rc-99": Path(
         "stats_nz/census_2023_households_by_region/rc_99"
+    ),
+    "stats-nz-qes-average-weekly-earnings-june-2025": Path(
+        "stats_nz/qes_average_weekly_earnings_june_2025"
+    ),
+    "stats-nz-qes-average-weekly-earnings-june-2026": Path(
+        "stats_nz/qes_average_weekly_earnings_june_2026"
     ),
     "stats-nz-subnational-population-estimates-2025": Path(
         "stats_nz/subnational_population_estimates_2025"
@@ -630,6 +637,9 @@ SOURCE_PACKAGE_ALIASES = {
     "msd-annual-report-benefit-expenses-2025": Path(
         "msd/annual_report_benefit_expenses_2025"
     ),
+    "treasury-prefu26-economic-assumptions": Path(
+        "treasury/prefu26_economic_assumptions"
+    ),
     "treasury-an24-01-fiscal-totals": Path("treasury/an24_01_fiscal_totals"),
     "treasury-estimates-of-appropriations-2026-27": Path(
         "treasury/estimates_of_appropriations_2026_27"
@@ -651,13 +661,25 @@ SOURCE_PACKAGE_ALIASES = {
     "mhclg-ehs-weekly-housing-costs-2023-24": Path(
         "mhclg/ehs_weekly_housing_costs_2023_24"
     ),
+    "rsz-employment-daily-wage-class-2023-2026": Path(
+        "rsz/employment_daily_wage_class_2023_2026"
+    ),
+    "rsz-annual-wages-key-figures-2020-2025": Path(
+        "rsz/annual_wages_key_figures_2020_2025"
+    ),
     "statbel-population-structure-2025": Path("statbel/population_structure_2025"),
+    "statbel-population-structure-commune-2025": Path(
+        "statbel/population_structure_commune_2025"
+    ),
     "statbel-population-structure-2026": Path("statbel/population_structure_2026"),
     "statbel-fiscal-income-2023-nis-2025": Path("statbel/fiscal_income_2023_nis_2025"),
     "statbel-fiscal-income-distribution-2023": Path(
         "statbel/fiscal_income_distribution_2023"
     ),
     "spf-finances-pit-2023": Path("spf_finances/pit_2023"),
+    "spf-finances-municipal-tax-rate-ay2026": Path(
+        "spf_finances/municipal_tax_rate_ay2026"
+    ),
     "onss-contributions-2024": Path("onss/contributions_2024"),
     "onem-rva-unemployment-2024": Path("onem_rva/unemployment_2024"),
     "nbb-national-accounts-household-disposable-income-2024": Path(
@@ -667,7 +689,9 @@ SOURCE_PACKAGE_ALIASES = {
         "jrc/euromod_be_baseline_statistics_2025"
     ),
     "sfpd-legal-pension-caseload-2025": Path("sfpd/legal_pension_caseload_2025"),
+    "sfpd-pension-amount-bands-2025": Path("sfpd/pension_amount_bands_2025"),
     "opgroeien-groeipakket-caseload-2025": Path("opgroeien/groeipakket_caseload_2025"),
+    "ostbelgien-kindergeld-2025": Path("ostbelgien/kindergeld_2025"),
     "bfp-economic-outlook-2026-06": Path("bfp/economic_outlook_2026_06"),
     "fpb-economic-outlook-2026-2031-june-2026": Path(
         "fpb/economic_outlook_2026_2031_june_2026"
@@ -801,6 +825,11 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "census-acs-s0101-national-age-2024": Path("census/acs_s0101_national_2024"),
     "census-acs-s0101-state-age-2024": Path("census/acs_s0101_state_2024"),
+    "census-acs-s1501-state-attainment-2024": Path("census/acs_s1501_state_2024"),
+    **{
+        f"census-acs5-{table}-county-2024": Path(f"census/acs5_{table}_county_2024")
+        for table in ("b01003", "b11001", "b19001", "b19013", "b19025", "b19051", "b19061")
+    },
     "census-acs-s2201-congressional-district-snap-2024": Path(
         "census/acs_s2201_district_2024"
     ),
@@ -902,6 +931,26 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-hydrocarbon-oils-quantities-june-2026": Path(
         "hmrc/hydrocarbon_oils_quantities_june_2026"
     ),
+    "hmrc-alcohol-bulletin-july-2026": Path("hmrc/alcohol_bulletin_july_2026"),
+    "hmrc-tobacco-bulletin-july-2026": Path("hmrc/tobacco_bulletin_july_2026"),
+    "hmrc-betting-gaming-statistics-july-2026": Path(
+        "hmrc/betting_gaming_statistics_july_2026"
+    ),
+    "ed-fsa-portfolio-summary-fy2026-q3": Path("ed_fsa/portfolio_summary_fy2026_q3"),
+    "ed-fsa-portfolio-by-location-fy2026-q2": Path(
+        "ed_fsa/portfolio_by_location_fy2026_q2"
+    ),
+    "ed-fsa-portfolio-by-age-fy2026-q2": Path("ed_fsa/portfolio_by_age_fy2026_q2"),
+    "ed-fsa-portfolio-by-debt-size-fy2026-q2": Path(
+        "ed_fsa/portfolio_by_debt_size_fy2026_q2"
+    ),
+    "ed-fsa-portfolio-by-loan-type-fy2026-q3": Path(
+        "ed_fsa/portfolio_by_loan_type_fy2026_q3"
+    ),
+    "ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3": Path(
+        "ed_fsa/dl_portfolio_by_repayment_plan_fy2026_q3"
+    ),
+    "eurostat-ert-bil-eur-a-usd": Path("eurostat/ert_bil_eur_a_usd"),
     "eurostat-gov-10a-taxag": Path("eurostat/gov_10a_taxag"),
     "eurostat-gov-10a-taxag-2025": Path("eurostat/gov_10a_taxag_2025"),
     "eurostat-spr-exp-func": Path("eurostat/spr_exp_func"),
@@ -933,8 +982,14 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/subnational_dwellings_by_tenure_2024"
     ),
     "ons-pipr-rents-by-area-june-2026": Path("ons/pipr_rents_by_area_june_2026"),
-    "ons-consumer-trends-current-price-2026": Path(
-        "ons/consumer_trends_current_price_2026"
+    "ons-consumer-trends-current-price-september-2026": Path(
+        "ons/consumer_trends_current_price_september_2026"
+    ),
+    "gambling-commission-industry-statistics-fy2025-26": Path(
+        "gambling_commission/industry_statistics_fy2025_26"
+    ),
+    "gambling-commission-gsgb-annual-report-2025": Path(
+        "gambling_commission/gsgb_annual_report_2025"
     ),
     "nrs-census2022-households-ukpc24": Path("nrs/census2022_households_ukpc24"),
     "nrs-census2022-uv113-household-composition-country": Path(
@@ -1123,6 +1178,12 @@ class SourceArtifactSpec:
             )
         if self.parser == "census_acs_s2201_snap_json_rows":
             return source_rows_from_census_acs_s2201_snap_json(
+                content,
+                artifact,
+                sheet_name=self._sheet_name(filename, year=year),
+            )
+        if self.parser == "census_acs_s1501_attainment_json_rows":
+            return source_rows_from_census_acs_s1501_attainment_json(
                 content,
                 artifact,
                 sheet_name=self._sheet_name(filename, year=year),
@@ -1408,6 +1469,26 @@ class SourceArtifactSpec:
                 source_rows
                 if source_rows is not None
                 else source_rows_from_census_acs_s2201_snap_json(
+                    content,
+                    artifact,
+                    sheet_name=self._sheet_name(filename, year=year),
+                )
+            )
+            return source_cells_from_source_rows(
+                rows,
+                selected_rows=tuple(
+                    {
+                        key: str(_render_value(value, year=year))
+                        for key, value in row.items()
+                    }
+                    for row in self.selected_rows
+                ),
+            )
+        if self.parser == "census_acs_s1501_attainment_json_rows":
+            rows = (
+                source_rows
+                if source_rows is not None
+                else source_rows_from_census_acs_s1501_attainment_json(
                     content,
                     artifact,
                     sheet_name=self._sheet_name(filename, year=year),

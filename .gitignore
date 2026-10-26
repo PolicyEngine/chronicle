@@ -19,3 +19,4 @@ db/data/desnz/lsoa_domestic_*_consumption_2024/LSOA_domestic_*_2010-2024.xlsx
 # the DESNZ MSOA workbooks and the ONS 2021 rural-urban workbook. R2 holds them.
 db/data/desnz/msoa_domestic_*_consumption_2010_2024/MSOA_domestic_*_2010-2024.xlsx
 db/data/ons/ruc2021_lookups_march_2026/260331rucallsupplementarytables.xlsx
+db/data/gambling_commission/gsgb_annual_report_*/GSGB_annual_report_*_data_tables.xlsx

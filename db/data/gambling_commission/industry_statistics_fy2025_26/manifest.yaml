@@ -1,0 +1,33 @@
+source_id: gambling_commission
+package_id: gambling-commission-industry-statistics-fy2025-26
+dataset: gambling_commission_gambling-commission-industry-statistics-fy2025-26
+source_page: https://www.gamblingcommission.gov.uk/statistics-and-research/publication/industry-statistics-annual-report-financial-year-april-2025-to-march-2026-official-statistics
+table: Industry Statistics - Annual report - Financial year April 2025 to March 2026
+  - Official statistics
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Gambling Commission, Industry Statistics, annual report, financial year
+  April 2025 to March 2026 (official statistics). Contains public sector information licensed
+  under the Open Government Licence v3.0.'
+license_evidence: 'data.gov.uk lists the Commission''s Industry Statistics series under the
+  UK Open Government Licence: dataset ''GB Gambling Industry Statistics - November 2024''
+  (publisher Gambling Commission, updated 2 December 2024, https://www.data.gov.uk/dataset/e7032815-5990-4439-b5c8-8553cf5b7fdd/https-www-gamblingcommission-gov-uk-about-us-statistics-and-research),
+  which links the Commission''s industry statistics page. That listing names the November
+  2024 edition, not this one. Neither this workbook nor its publication page states a licence,
+  and the Commission''s website terms of use (https://www.gamblingcommission.gov.uk/terms-of-use,
+  last updated 14 October 2020) say that, unless otherwise stated, copying its material is
+  not permitted without prior approval.'
+license_verified_at: '2026-10-23'
+files:
+  2026:
+    filename: Industry_Statistics_-_Annual_report_-_Financial_year_April_2025_to_March_2026_-_Official_Statistics.xlsx
+    source_url: https://assets.ctfassets.net/j16ev64qyf6l/2Iypz3C0LQ58lXLV0Xm1AZ/0ff2f2262311214f523e0da007f50405/Industry_Statistics_-_Annual_report_-_Financial_year_April_2025_to_March_2026_-_Official_Statistics.xlsx
+    sha256: a6ea23b5ddff2f3839ebec2a8cc0d9a0817e218f5bf10921e0172ecae768da58
+    size_bytes: 440955
+    fetched_at: '2026-10-23T09:40:07+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/gambling_commission/gambling-commission-industry-statistics-fy2025-26/2026/a6ea23b5ddff2f3839ebec2a8cc0d9a0817e218f5bf10921e0172ecae768da58/Industry_Statistics_-_Annual_report_-_Financial_year_April_2025_to_March_2026_-_Official_Statistics.xlsx
+        uri: r2://ledger-raw/raw/uk/gambling_commission/gambling-commission-industry-statistics-fy2025-26/2026/a6ea23b5ddff2f3839ebec2a8cc0d9a0817e218f5bf10921e0172ecae768da58/Industry_Statistics_-_Annual_report_-_Financial_year_April_2025_to_March_2026_-_Official_Statistics.xlsx

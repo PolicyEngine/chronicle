@@ -1,30 +1,61 @@
 source_id: belgium
 package_id: sfpd-legal-pension-caseload-2025
-source_name: SFPD/SFP legal pension caseload 2025
-publisher: "Service f\xE9d\xE9ral des Pensions (SFP/SFPD), via PensionStat.be"
-source_page: https://www.pensionstat.be/fr
+source_name: PensionStat 2025 legal pensions and IGO
+publisher: Federale Pensioendienst and Sigedis, via PensionStat.be
+source_page: https://www.pensionstat.be/nl/kerncijfers/wettelijk-pensioen/gepensioneerden
 files:
   2025:
-    filename: sfpd_legal_pension_caseload_2025.csv
-    source_url: https://www.pensionstat.be/fr
-    source_table: Legal pension beneficiaries by scheme, January 2025
-    sha256: 5e2a249035f0871d81c21a0f44f88b9680990394a6f252fd5684d22b235a5a81
-    size_bytes: 370
+    filename: data-2025-nl.xlsx
+    source_url: https://www.pensionstat.be/file/6103c41969844d308979992d7f84d51e59927e1e/b7bc512baaae29d4344ac44519e892339ddf5d19/data-2025-nl.xlsx
+    sha256: d358fff0c643c8edfd53b55514c311d7f98a03e3c7d5a37be1450e5ce84f94a2
+    size_bytes: 5939528
+    fetched_at: '2026-10-23T18:51:29+00:00'
+    source_table: PensionStat legal pensions and IGO, 2025
+    retrieved_at: '2026-10-23'
+    source_urls:
+    - https://www.pensionstat.be/file/6103c41969844d308979992d7f84d51e59927e1e/b7bc512baaae29d4344ac44519e892339ddf5d19/data-2025-nl.xlsx
+    - https://www.pensionstat.be/nl/kerncijfers/wettelijk-pensioen/gepensioneerden
+    - https://www.pensionstat.be/nl/voorwaarden-voor-hergebruik
+    notes: 'Verbatim publisher workbook; Info!A13 attributes the data to the Federale
+      Pensioendienst and Info!A14 says 2019 - 2025. Only 2025 numeric cells from the
+      five declared data sheets become facts. Gross pension amounts refer to January
+      2025; pensioners paid only by the kadaster are excluded from pensioner tables.
+      Jaaruitgave retains its printed year and kadaster categories. Licence and January
+      definitions are acquisition context from the source landing page and reuse terms
+      supplied with this capture; Info itself is an index without detailed definitions.
+      Attribution: PensionStat.be (Federale Pensioendienst / Sigedis), data 2025,
+      retrieved 2026-10-23. R2 pointers are declared for the Belgium session to upload
+      after review; no upload has occurred.'
     storage:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/belgium/sfpd-legal-pension-caseload-2025/2025/5e2a249035f0871d81c21a0f44f88b9680990394a6f252fd5684d22b235a5a81/sfpd_legal_pension_caseload_2025.csv
-        uri: r2://ledger-raw/raw/belgium/sfpd-legal-pension-caseload-2025/2025/5e2a249035f0871d81c21a0f44f88b9680990394a6f252fd5684d22b235a5a81/sfpd_legal_pension_caseload_2025.csv
+        key: raw/belgium/sfpd-legal-pension-caseload-2025/2025/d358fff0c643c8edfd53b55514c311d7f98a03e3c7d5a37be1450e5ce84f94a2/data-2025-nl.xlsx
+        uri: r2://ledger-raw/raw/belgium/sfpd-legal-pension-caseload-2025/2025/d358fff0c643c8edfd53b55514c311d7f98a03e3c7d5a37be1450e5ce84f94a2/data-2025-nl.xlsx
+  label_evidence_fr:
+    filename: data-2025-fr.xlsx
+    source_url: https://www.pensionstat.be/file/6103c41969844d308979992d7f84d51e59927e1e/a5bd1f7926eaadcfdaa87b084c0d0151c7672086/data-2025-fr.xlsx
+    sha256: af638bd6dc344e83b514d91c7c2cb0b5b4cd00a8da10f8659ac452fbe8b79c33
+    size_bytes: 5621010
+    retrieved_at: '2026-10-23'
+    source_table: PensionStat pension legale et GRAPA, 2025 (French edition)
     source_urls:
-    - https://www.pensionstat.be/fr
+    - https://www.pensionstat.be/file/6103c41969844d308979992d7f84d51e59927e1e/a5bd1f7926eaadcfdaa87b084c0d0151c7672086/data-2025-fr.xlsx
     - https://www.pensionstat.be/fr/chiffres-cles/pension-legale/pensionnes
-    notes: Legal pension beneficiary counts published by the Federal Pensions Service
-      (SFP/SFPD) via PensionStat.be (a Sigedis / SFP / INASTI initiative), January
-      2025 reference. The three scheme counts (employee, self-employed, civil servant)
-      sum to 3,653,050, which exceeds the 2,674,520 all-schemes total because a person
-      with a mixed career is counted in each scheme they draw from; the scheme rows
-      are therefore per-scheme recipient counts, not a partition of the total. Total
-      legal pension expenditure is published only as a rounded "69 billion EUR" without
-      an exact figure or reference year on the source page, so it is recorded as a
-      gap rather than a fact.
+    notes: 'Verbatim French edition of the same PensionStat workbook. It is commune-label
+      evidence only and yields no facts. The generator pairs each commune of the Dutch
+      edition with the French-edition row that has the identical 2019-2025 count series,
+      then matches that French label to the official Statbel French commune name. This
+      resolves the four communes whose Dutch-edition label differs from the official Statbel Dutch
+      name. Attribution: PensionStat.be (Federale Pensioendienst / Sigedis), data 2025,
+      retrieved 2026-10-23.'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/sfpd-legal-pension-caseload-2025/label_evidence_fr/af638bd6dc344e83b514d91c7c2cb0b5b4cd00a8da10f8659ac452fbe8b79c33/data-2025-fr.xlsx
+        uri: r2://ledger-raw/raw/belgium/sfpd-legal-pension-caseload-2025/label_evidence_fr/af638bd6dc344e83b514d91c7c2cb0b5b4cd00a8da10f8659ac452fbe8b79c33/data-2025-fr.xlsx
+dataset: belgium_sfpd-legal-pension-caseload-2025
+table: PensionStat legal pensions and IGO, 2025
+licence: CC0
+licence_url: https://www.pensionstat.be/nl/voorwaarden-voor-hergebruik

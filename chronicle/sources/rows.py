@@ -689,6 +689,169 @@ def source_rows_from_census_acs_s2201_snap_json(
     return rows
 
 
+# Census ACS S1501 "Total" estimate columns for the two age universes the table
+# splits attainment by. Labels are the Census variable labels from
+# https://api.census.gov/data/{year}/acs/acs1/subject/groups/S1501.json; the
+# age wording is normalized to the "Aged ..." form the age-band evidence check
+# reads, and the attainment ids are slugs of the publisher's category labels.
+# The 18 to 24 universe publishes four categories (associate's degrees are
+# inside "Some college or associate's degree"); the 25 and over universe
+# publishes seven, separating associate's, bachelor's and graduate degrees.
+S1501_ATTAINMENT_COLUMNS: tuple[tuple[str, str, str, str], ...] = (
+    (
+        "S1501_C01_001E",
+        "Aged 18 to 24",
+        "all",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 18 to 24 years",
+    ),
+    (
+        "S1501_C01_002E",
+        "Aged 18 to 24",
+        "less_than_high_school_graduate",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 18 to 24 years"
+        "!!Less than high school graduate",
+    ),
+    (
+        "S1501_C01_003E",
+        "Aged 18 to 24",
+        "high_school_graduate_includes_equivalency",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 18 to 24 years"
+        "!!High school graduate (includes equivalency)",
+    ),
+    (
+        "S1501_C01_004E",
+        "Aged 18 to 24",
+        "some_college_or_associates_degree",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 18 to 24 years"
+        "!!Some college or associate's degree",
+    ),
+    (
+        "S1501_C01_005E",
+        "Aged 18 to 24",
+        "bachelors_degree_or_higher",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 18 to 24 years"
+        "!!Bachelor's degree or higher",
+    ),
+    (
+        "S1501_C01_006E",
+        "Aged 25 and over",
+        "all",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 25 years and over",
+    ),
+    (
+        "S1501_C01_007E",
+        "Aged 25 and over",
+        "less_than_9th_grade",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 25 years and over"
+        "!!Less than 9th grade",
+    ),
+    (
+        "S1501_C01_008E",
+        "Aged 25 and over",
+        "9th_to_12th_grade_no_diploma",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 25 years and over"
+        "!!9th to 12th grade, no diploma",
+    ),
+    (
+        "S1501_C01_009E",
+        "Aged 25 and over",
+        "high_school_graduate_includes_equivalency",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 25 years and over"
+        "!!High school graduate (includes equivalency)",
+    ),
+    (
+        "S1501_C01_010E",
+        "Aged 25 and over",
+        "some_college_no_degree",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 25 years and over"
+        "!!Some college, no degree",
+    ),
+    (
+        "S1501_C01_011E",
+        "Aged 25 and over",
+        "associates_degree",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 25 years and over"
+        "!!Associate's degree",
+    ),
+    (
+        "S1501_C01_012E",
+        "Aged 25 and over",
+        "bachelors_degree",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 25 years and over"
+        "!!Bachelor's degree",
+    ),
+    (
+        "S1501_C01_013E",
+        "Aged 25 and over",
+        "graduate_or_professional_degree",
+        "Estimate!!Total!!AGE BY EDUCATIONAL ATTAINMENT!!Population 25 years and over"
+        "!!Graduate or professional degree",
+    ),
+)
+
+
+def _census_table_json_content(content: bytes) -> bytes:
+    """Return the Census array-of-arrays table from either Census API.
+
+    ``api.census.gov`` returns the array itself. ``data.census.gov``'s
+    ``/api/access/data/table`` endpoint wraps the same array, header row first,
+    in ``{"response": {"data": [...]}}``.
+    """
+    data = json.loads(content.decode("utf-8"))
+    if isinstance(data, list):
+        return content
+    response = data.get("response") if isinstance(data, dict) else None
+    table = response.get("data") if isinstance(response, dict) else None
+    if not isinstance(table, list):
+        raise ValueError(
+            "Census table JSON must be an array of arrays or a data.census.gov "
+            '{"response": {"data": [...]}} payload.'
+        )
+    return json.dumps(table).encode("utf-8")
+
+
+def source_rows_from_census_acs_s1501_attainment_json(
+    content: bytes,
+    artifact: SourceArtifactMetadata,
+    *,
+    sheet_name: str,
+) -> list[SourceRow]:
+    """Unpivot Census ACS S1501 table rows into age-by-attainment source rows."""
+    table_rows = source_rows_from_json_table(
+        _census_table_json_content(content),
+        artifact,
+        sheet_name=sheet_name,
+    )
+    rows: list[SourceRow] = []
+    for source_table_row in table_rows:
+        missing = [
+            variable
+            for variable, _age, _attainment, _label in S1501_ATTAINMENT_COLUMNS
+            if variable not in source_table_row.values
+        ]
+        if missing:
+            raise ValueError(f"Census S1501 table is missing columns {missing}.")
+        for variable, age_label, attainment, source_concept in S1501_ATTAINMENT_COLUMNS:
+            rows.append(
+                SourceRow(
+                    artifact=artifact,
+                    sheet_name=sheet_name,
+                    row_number=len(rows) + 1,
+                    values={
+                        "GEO_ID": source_table_row.values.get("GEO_ID"),
+                        "NAME": source_table_row.values.get("NAME"),
+                        "age": age_label,
+                        "educational_attainment": attainment,
+                        "source_column_id": variable,
+                        "source_concept": source_concept,
+                        "value": source_table_row.values.get(variable),
+                        "source_table_row_number": source_table_row.row_number,
+                    },
+                )
+            )
+    return rows
+
+
 def source_rows_from_census_b01001_female_age_json(
     content: bytes,
     artifact: SourceArtifactMetadata,

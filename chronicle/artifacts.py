@@ -42,6 +42,7 @@ R2_COUNTRY_PUBLISHERS = {
             "desnz",
             "dft",
             "dwp",
+            "gambling_commission",
             "hmlr",
             "hmrc",
             "isc",
