@@ -96,7 +96,10 @@ AGI = "us:statutes/26/62#adjusted_gross_income"
 #: The label of each value its packages word more than one way. The three US
 #: labels are the maintainer's choice; the other 40 were proposed in
 #: chronicle#377 and approved on 2026-10-21, coicop_02 with ONS's overview
-#: wording after review.
+#: wording after review. The maintainer chose four more on 2026-10-26, for
+#: values the packages merged from main word two ways: freq=A, GSGB's
+#: national_lottery_draws_in_person, income_range=all and
+#: salary_sacrifice_threshold_position=all.
 CHOSEN_LABELS: dict[tuple[str, str], str] = {
     (AGI, "under_1"): "No adjusted gross income",
     (AGI, "all"): "All returns, total",
@@ -113,6 +116,15 @@ CHOSEN_LABELS: dict[tuple[str, str], str] = {
         "early_year_award_line",
         "new_returning_total_returning_31_33_35",
     ): "Total returning [31][33][35]",
+    # Eurostat's exchange-rate dataset's JSON-stat category label; the older
+    # Eurostat packages carry the bare code "A".
+    ("freq", "A"): "Annual",
+    # B.10's wording; B.9 writes "Tickets National Lottery draws bought in
+    # person" for the same row.
+    (
+        "gambling_commission.gsgb_activity",
+        "national_lottery_draws_in_person",
+    ): "Tickets for National Lottery draws bought in person",
     ("groeipakket.component", "pleegzorgtoeslag"): "Foster care supplement",
     ("groeipakket.component", "sociale_toeslag"): "Social supplement",
     ("groeipakket.component", "wezentoeslag"): "Orphan supplement",
@@ -125,6 +137,8 @@ CHOSEN_LABELS: dict[tuple[str, str], str] = {
         "ons.household_type",
         "couple_3_plus_children_households",
     ): "3 or more dependent children",
+    # The IRS SOI packages' wording; Census B19001 writes "Total".
+    ("income_range", "all"): "All income ranges",
     ("measure", "country_total"): "Country total",
     (
         "na_item",
@@ -163,6 +177,11 @@ CHOSEN_LABELS: dict[tuple[str, str], str] = {
     ("quant_inc", "d7"): "Seventh income decile",
     ("quant_inc", "d8"): "Eighth income decile",
     ("quant_inc", "d9"): "Ninth income decile",
+    # Chronicle's own wording. HMRC's salary sacrifice package words this value
+    # "Employees using salary sacrifice to make pension contributions" and
+    # "National Insurance contributions forgone through salary sacrifice for
+    # pensions": each names the measure, not the threshold position.
+    ("salary_sacrifice_threshold_position", "all"): "All threshold positions",
     ("sex", "female"): "Female",
     ("sex", "male"): "Male",
 }

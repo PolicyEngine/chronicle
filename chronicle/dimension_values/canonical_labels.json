@@ -43,11 +43,14 @@
       "age_band=30 to 39",
       "age_band=40 to 49",
       "early_year_award_line=new_returning_total_returning_31_33_35",
+      "freq=A",
+      "gambling_commission.gsgb_activity=national_lottery_draws_in_person",
       "groeipakket.component=pleegzorgtoeslag",
       "groeipakket.component=sociale_toeslag",
       "groeipakket.component=wezentoeslag",
       "groeipakket.component=zorgtoeslag",
       "household_type=couple_3_plus_children_households",
+      "income_range=all",
       "measure=country_total",
       "na_item=belgium_household_disposable_income_gross",
       "na_item=belgium_household_mixed_income_gross",
@@ -72,6 +75,7 @@
       "quant_inc=d7",
       "quant_inc=d8",
       "quant_inc=d9",
+      "salary_sacrifice_threshold_position=all",
       "sex=female",
       "sex=male",
       "us:statutes/26/62#adjusted_gross_income=all",
@@ -7178,7 +7182,7 @@
       "all": "All filing statuses"
     },
     "freq": {
-      "A": "A"
+      "A": "Annual"
     },
     "frequency": {
       "annual": "Annual",
@@ -7193,6 +7197,9 @@
       "concessionary_fares": "Concessionary fares",
       "local_authority_bus_support": "Local authority bus support",
       "network_support_grant": "Network Support Grant"
+    },
+    "gambling_commission.gsgb_activity": {
+      "national_lottery_draws_in_person": "Tickets for National Lottery draws bought in person"
     },
     "gender": {
       "Female": "Female",
@@ -8016,6 +8023,9 @@
       "age_97": "Aged 97 years",
       "age_98": "Aged 98 years",
       "age_99": "Aged 99 years"
+    },
+    "salary_sacrifice_threshold_position": {
+      "all": "All threshold positions"
     },
     "scheme_type": {
       "Defined benefit": "Defined benefit",

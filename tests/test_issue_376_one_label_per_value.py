@@ -125,6 +125,61 @@ def test_the_register_holds_the_three_chosen_us_labels():
     assert dimension_labels.canonical_value_label("age", "85_plus") == "Age 85 plus"
 
 
+def test_the_register_holds_the_four_labels_chosen_after_merging_main():
+    """The maintainer's 2026-10-26 choices for values main's packages word two ways."""
+    assert dimension_labels.canonical_value_label("freq", "A") == "Annual"
+    assert (
+        dimension_labels.canonical_value_label("income_range", "all")
+        == "All income ranges"
+    )
+    assert (
+        dimension_labels.canonical_value_label(
+            "gambling_commission.gsgb_activity", "national_lottery_draws_in_person"
+        )
+        == "Tickets for National Lottery draws bought in person"
+    )
+    assert (
+        dimension_labels.canonical_value_label(
+            "salary_sacrifice_threshold_position", "all"
+        )
+        == "All threshold positions"
+    )
+
+
+def test_a_chronicle_written_label_keeps_the_rows_text_beside_it():
+    """salary_sacrifice_threshold_position=all: both row texts name the measure."""
+    package = load_source_package("hmrc-salary-sacrifice-reform-2029-headcounts")
+    facts = package.build_facts(2023, cells=package.build_source_cells(2023))
+    all_positions = [
+        fact
+        for fact in facts
+        if fact.filters.get("salary_sacrifice_threshold_position") == "all"
+    ]
+
+    assert all_positions
+    assert {
+        fact.dimension_value_labels["salary_sacrifice_threshold_position"]["all"]
+        for fact in all_positions
+    } == {"All threshold positions"}
+    # Each row keeps its own text: the headcount row as its groupby label, the
+    # forgone National Insurance rows also as the package's wording of the value.
+    assert {fact.layout.groupby_value_label for fact in all_positions} == {
+        "Employees using salary sacrifice to make pension contributions",
+        "National Insurance contributions forgone through salary sacrifice for "
+        "pensions",
+    }
+    assert {
+        fact.package_dimension_value_labels.get(
+            "salary_sacrifice_threshold_position", {}
+        ).get("all")
+        for fact in all_positions
+    } == {
+        None,
+        "National Insurance contributions forgone through salary sacrifice for "
+        "pensions",
+    }
+
+
 def test_the_register_is_one_file_with_one_label_per_value():
     payload = json.loads(_REGISTER.read_text(encoding="utf-8"))
 
@@ -676,8 +731,10 @@ def test_a_groupby_value_whose_axis_is_also_a_filter_is_keyed_by_its_row_value()
 
     assert fact.filters["quant_inc"] == "D1"
     assert fact.layout.groupby_value_label == "First income decile"
+    # freq=A takes the register's "Annual"; the package's "A" is kept beside it.
     assert fact.package_dimension_value_labels == {
-        "quant_inc": {"d1": "First income decile share"}
+        "freq": {"A": "A"},
+        "quant_inc": {"d1": "First income decile share"},
     }
 
 

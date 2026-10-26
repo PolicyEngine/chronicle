@@ -126,11 +126,30 @@ def test_facts_are_valid_labelled_and_unique(facts):
     assert len(facts) == 1024
     assert validate_facts(facts).valid
     assert validate_consumer_fact_contract(facts).valid
-    # B.9 and B.10 word row 6 differently, and both labels are kept as published.
+    # B.9 and B.10 word row 6 differently. Chronicle's label register gives the
+    # value B.10's wording (chronicle#376), and B.9's facts keep their row's
+    # text as the package's wording.
     issues = dimension_label_issues(consumer_fact_rows(facts))
-    assert [(issue.code, issue.value_id) for issue in issues] == [
-        ("conflicting_groupby_value_label", "national_lottery_draws_in_person")
+    assert [(issue.code, issue.value_id) for issue in issues] == []
+    in_person = [
+        fact
+        for fact in facts
+        if fact.layout.groupby_value_id == "national_lottery_draws_in_person"
     ]
+    assert {fact.layout.groupby_value_label for fact in in_person} == {
+        "Tickets for National Lottery draws bought in person"
+    }
+    assert {
+        fact.filters["source_sheet"]: (
+            fact.package_dimension_value_labels.get(
+                "gambling_commission.gsgb_activity", {}
+            ).get("national_lottery_draws_in_person")
+        )
+        for fact in in_person
+    } == {
+        "Table B.9": "Tickets National Lottery draws bought in person",
+        "Table B.10": None,
+    }
     assert max(Counter(build_semantic_fact_key(f) for f in facts).values()) == 1
     assert Counter(f.filters["source_sheet"] for f in facts) == {
         "Table B.1": 72,

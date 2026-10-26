@@ -68,6 +68,15 @@ EUROSTAT_ARTIFACT_FILENAMES = {
 # field moved.
 PRIOR_VINTAGE_FACT_DIGESTS = {
     "eurostat-gov-10a-taxag": (
+        "c2e3256a6550d6864c60843591c2c5755d816aa23b97aeea8b051b6ac5b8d39a"
+    ),
+    "eurostat-spr-exp-func": (
+        "f9a785e52cd2c1df0e3e97828da34a3a15348f7bc89d106e948eccff11e53d61"
+    ),
+}
+#: The digests before freq=A took the register's label "Annual" (chronicle#376).
+FACT_DIGESTS_BEFORE_ANNUAL = {
+    "eurostat-gov-10a-taxag": (
         "516a28c598db59fa4aafd0abef2fd3339a22495e3f2143a0b137e7290672f9d5"
     ),
     "eurostat-spr-exp-func": (
@@ -444,10 +453,18 @@ def test_eurostat_prior_vintage_facts_remain_byte_stable(alias):
     fact_payloads = [asdict(fact) for fact in _package_outputs(alias)[3]]
 
     assert _fact_payload_digest(fact_payloads) == PRIOR_VINTAGE_FACT_DIGESTS[alias]
-    # Only the new, empty package-wording field moved the bytes (chronicle#376).
+    # Only labels moved the bytes (chronicle#376). Every fact's freq=A takes the
+    # register's "Annual", with the package's own "A" beside it.
     assert all(
-        payload["package_dimension_value_labels"] == {} for payload in fact_payloads
+        payload["dimension_value_labels"]["freq"] == {"A": "Annual"}
+        and payload["package_dimension_value_labels"] == {"freq": {"A": "A"}}
+        for payload in fact_payloads
     )
+    for payload in fact_payloads:
+        payload["dimension_value_labels"]["freq"] = {"A": "A"}
+        payload["package_dimension_value_labels"] = {}
+    assert _fact_payload_digest(fact_payloads) == FACT_DIGESTS_BEFORE_ANNUAL[alias]
+    # Before that, only the new, empty package-wording field had moved them.
     for payload in fact_payloads:
         del payload["package_dimension_value_labels"]
     assert (

@@ -536,8 +536,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#376 removes 41: every dimension value two packages emit
         # takes its label from chronicle/dimension_values/canonical_labels.json,
         # so the 17 values two packages labelled differently and the 24 values
-        # one package's rows labelled two ways now carry one label each, and a
-        # value labelled two ways is an error rather than a warning.
+        # one package's rows labelled two ways now carry one label each (freq=A
+        # 'Annual', and B.10's wording for GSGB's row), and a value labelled
+        # two ways is an error rather than a warning.
         "warning_count": 92,
     }
     row_count = 0

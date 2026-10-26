@@ -128,7 +128,7 @@ def test_the_chosen_labels_are_the_registers_labels():
     script = _script()
     register = json.loads(_REGISTER.read_text(encoding="utf-8"))["labels"]
 
-    assert len(script.CHOSEN_LABELS) == 43
+    assert len(script.CHOSEN_LABELS) == 47
     for (dimension_id, value_id), label in script.CHOSEN_LABELS.items():
         assert register[dimension_id][value_id] == label
 

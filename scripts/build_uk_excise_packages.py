@@ -3602,8 +3602,9 @@ GSGB_ACTIVITY_ROWS = [
     ),
 ]
 # Row labels are each table's own text (whitespace collapsed, footnote marker dropped),
-# so B.9 row 6's wording differs from B.10's and the bundle reports that row's two
-# labels as a groupby-label warning, as it does for any label kept as published.
+# so B.9 row 6's wording differs from B.10's. Chronicle's label register gives the
+# value B.10's wording, and B.9's facts keep their row's text as the package's wording
+# (chronicle#376).
 GSGB_ACTIVITY_VARIANTS = {
     "Tickets National Lottery draws bought in person": (
         "Tickets for National Lottery draws bought in person"
