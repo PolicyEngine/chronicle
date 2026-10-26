@@ -62,18 +62,32 @@ from chronicle.dimension_labels import (  # noqa: E402
 SCRIPT_DISPLAY_PATH = "scripts/build_dimension_value_register.py"
 SCHEMA_VERSION = "chronicle.dimension_value_labels.v1"
 #: The Chronicle commit whose package builds the register was generated from.
-BUILT_AT_CHRONICLE_COMMIT = "aa288c3"
+BUILT_AT_CHRONICLE_COMMIT = "dece5e9"
 DEFAULT_BUILD_YEAR = 2023
 #: Default-bundle packages that do not build at DEFAULT_BUILD_YEAR.
 BUILD_YEARS = {
     "census-acs-s0101-congressional-district-age-2024": 2024,
     "census-acs-s0101-national-age-2024": 2024,
     "census-acs-s0101-state-age-2024": 2024,
+    "census-acs-s1501-state-attainment-2024": 2024,
     "census-acs-s2201-congressional-district-snap-2024": 2024,
+    "census-acs5-b01003-county-2024": 2024,
+    "census-acs5-b11001-county-2024": 2024,
+    "census-acs5-b19001-county-2024": 2024,
+    "census-acs5-b19013-county-2024": 2024,
+    "census-acs5-b19025-county-2024": 2024,
+    "census-acs5-b19051-county-2024": 2024,
+    "census-acs5-b19061-county-2024": 2024,
     "cms-aca-effectuated-enrollment-2022": 2022,
     "cms-aca-oep-state-level": 2024,
     "cms-aca-oep-state-level-2022": 2022,
     "cms-aca-oep-state-level-2025": 2025,
+    "ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3": 2026,
+    "ed-fsa-portfolio-by-age-fy2026-q2": 2026,
+    "ed-fsa-portfolio-by-debt-size-fy2026-q2": 2026,
+    "ed-fsa-portfolio-by-loan-type-fy2026-q3": 2026,
+    "ed-fsa-portfolio-by-location-fy2026-q2": 2026,
+    "ed-fsa-portfolio-summary-fy2026-q3": 2026,
     "jct-obbba-revenue-estimates-2025": 2026,
     "jct-tax-expenditures-2024": 2024,
 }

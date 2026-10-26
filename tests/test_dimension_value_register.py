@@ -139,17 +139,31 @@ def test_the_register_records_what_it_was_built_from():
 
     assert sources["script"] == "scripts/build_dimension_value_register.py"
     assert sources["packages"] == "chronicle.bundle.DEFAULT_BUNDLE_SOURCES"
-    assert sources["built_at_chronicle_commit"].startswith("aa288c3")
+    assert sources["built_at_chronicle_commit"].startswith("dece5e9")
     assert sources["default_build_year"] == 2023
     assert sources["build_years"] == {
         "census-acs-s0101-congressional-district-age-2024": 2024,
         "census-acs-s0101-national-age-2024": 2024,
         "census-acs-s0101-state-age-2024": 2024,
+        "census-acs-s1501-state-attainment-2024": 2024,
         "census-acs-s2201-congressional-district-snap-2024": 2024,
+        "census-acs5-b01003-county-2024": 2024,
+        "census-acs5-b11001-county-2024": 2024,
+        "census-acs5-b19001-county-2024": 2024,
+        "census-acs5-b19013-county-2024": 2024,
+        "census-acs5-b19025-county-2024": 2024,
+        "census-acs5-b19051-county-2024": 2024,
+        "census-acs5-b19061-county-2024": 2024,
         "cms-aca-effectuated-enrollment-2022": 2022,
         "cms-aca-oep-state-level": 2024,
         "cms-aca-oep-state-level-2022": 2022,
         "cms-aca-oep-state-level-2025": 2025,
+        "ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3": 2026,
+        "ed-fsa-portfolio-by-age-fy2026-q2": 2026,
+        "ed-fsa-portfolio-by-debt-size-fy2026-q2": 2026,
+        "ed-fsa-portfolio-by-loan-type-fy2026-q3": 2026,
+        "ed-fsa-portfolio-by-location-fy2026-q2": 2026,
+        "ed-fsa-portfolio-summary-fy2026-q3": 2026,
         "jct-obbba-revenue-estimates-2025": 2026,
         "jct-tax-expenditures-2024": 2024,
     }
