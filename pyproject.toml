@@ -26,6 +26,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    "markdown-it-py>=3.0.0",  # Doc-table tests read Markdown as GitHub does
     "pytest>=8.0.0,<9",
     "ruff>=0.5.0",
 ]
@@ -58,5 +59,6 @@ target-version = "py311"
 
 [dependency-groups]
 dev = [
+    "markdown-it-py>=3.0.0",
     "pytest>=8.0.0,<9",
 ]
