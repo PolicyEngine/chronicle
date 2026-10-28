@@ -465,10 +465,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # 20,954 workbook cells, which replace its four curated headlines.
         # PolicyEngine/microcosm#1381's GSGB 2025 package adds 1,024 survey
         # facts for people in calendar 2025, at existing keys.
-        # PolicyEngine/microcosm#1415's HMRC annual savings statistics add 3,439
-        # person facts: 3,397 from the ISA tables (9.4, 9.6 and 9.7 to 9.12), 40
+        # PolicyEngine/microcosm#1415's HMRC annual savings statistics add 3,272
+        # person facts: 3,230 from the ISA tables (9.4, 9.6 and 9.7 to 9.12), 40
         # from Lifetime ISA Table 1a and 2 from the cash ISA limit impact note.
-        "fact_count": 1657446,
+        "fact_count": 1657279,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -499,10 +499,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # export: 5,244 NRS + 5,406 UC + 12 DfI overlap groups are retired.
         # Independent census cuts and the older-only combined Metro/Glider
         # journey series remain publisher facts with their original provenance.
-        # PolicyEngine/microcosm#1415 adds 145: the ISA tables publish the same
-        # subscriber and holder totals in more than one table (9.7 to 9.12), and
-        # the copies agree.
-        "semantic_duplicate_key_count": 2469,
+        # PolicyEngine/microcosm#1415 adds none: totals the ISA tables print in
+        # more than one of Tables 9.7 to 9.12 are ported once.
+        "semantic_duplicate_key_count": 2324,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
@@ -562,7 +561,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1657446
+    assert row_count == 1657279
     assert provenance_classes <= {
         "administrative",
         "census",
@@ -597,7 +596,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1657446
+    assert coverage["fact_count"] == 1657279
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -621,7 +620,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "gambling_commission": 2459,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 36680,
+        "hmrc": 36513,
         "ici": 12,
         "ird": 4362,
         "irs_soi": 43963,
@@ -2183,7 +2182,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         2020: 36,
         2021: 36,
         2022: 38,
-        2023: 3014,
+        2023: 2847,
         2024: 36,
         2025: 5,
     }.items():
@@ -2244,12 +2243,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # and the EFO sheet 3.7 SDLT lines (35), and moves table 4.9's DWP lines (84)
     # to the geography DWP counts them over: +51. chronicle#381 adds 1,555:
     # OBR's 181 excise lines and HMRC's 1,374 alcohol, tobacco and betting and
-    # gaming facts.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 33507
+    # gaming facts. PolicyEngine/microcosm#1415's HMRC annual savings statistics
+    # add 2,993: all but Table 9.9 and 9.12's area rows.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 36500
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
-    # 2025's England participation rows add 40.
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 6808
+    # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
+    # England rows add 20 (PolicyEngine/microcosm#1415).
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 6828
     # Great Britain gains HBAI's FYE 1995-2002 rows (32), Move to UC (80), the
     # table 4.9 lines DWP counts over Great Britain (56) and BUS04 (2): +170.
     # chronicle#381's 1,435 Gambling Commission facts, the National Lottery's
@@ -2259,7 +2260,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28).
     assert coverage["counts"]["by_geography"]["country:K04000001"] == 1176
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
-    assert len(coverage["counts"]["by_geography"]) == 102616
+    # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope.
+    assert len(coverage["counts"]["by_geography"]) == 102617
     for region in (
         "auckland",
         "bay-of-plenty",
@@ -2287,7 +2289,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # +352 (HMRC stamp-tax transactions). chronicle#381: institutional sectors
     # +2,097 (OBR and HMRC clearances, HMRC production and the Gambling
     # Commission's figures) and people +893 (OBR and HMRC receipts and levies,
-    # and Machine Games Duty liabilities). GSGB 2025 adds 1,024 people.
+    # and Machine Games Duty liabilities). GSGB 2025 adds 1,024 people, and
+    # PolicyEngine/microcosm#1415's HMRC annual savings statistics 3,272.
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 274367,
@@ -2297,7 +2300,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 676320,
         "institutional_sector": 8806,
         "pension_plan": 2,
-        "person": 593323,
+        "person": 596595,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
