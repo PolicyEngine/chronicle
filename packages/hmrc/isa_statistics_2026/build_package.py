@@ -99,7 +99,9 @@ TABLES_9_7_TO_9_12 = (
     "HMRC estimates Tables 9.7 to 9.12 from a sample of individuals' ISA accounts "
     "matched to the Survey of Personal Incomes and calibrated to the totals in "
     "Tables 9.4 and 9.6; income, age, sex and region come from the Survey of Personal "
-    "Incomes. Innovative Finance ISA holders are not included."
+    "Incomes. Innovative Finance ISA holders are not included. Cells these tables print "
+    "more than once are ported once: holder totals from Tables 9.10 to 9.12, and the "
+    "all-sexes, all-ages and United Kingdom totals from Tables 9.7 and 9.10."
 )
 
 # ---------------------------------------------------------------- parsing
@@ -1510,6 +1512,93 @@ def table_9_12(grid: dict) -> list[dict]:
     ]
 
 
+# ------------------------------------------------------- restated cells
+
+
+def restated_cells(by_id: dict[str, dict]) -> list[tuple[tuple, tuple]]:
+    """(left out, ported) pairs of cells, each as (record set, row, measure).
+
+    Tables 9.7 to 9.12 print some cells more than once. Each is ported once, as
+    chronicle#391 did for GSGB's restated row, and every copy is asserted equal:
+    - Tables 9.7 to 9.9's 'All ISA Holders' columns restate Tables 9.10 to 9.12's
+      'Total' columns row for row, so holder totals come from the holder tables;
+    - the all-sexes, all-ages rows of Tables 9.8 and 9.11 and the United Kingdom rows
+      of Tables 9.9 and 9.12 restate the 'All ranges' rows of Tables 9.7 and 9.10.
+    """
+    table = f"{ISA_PREFIX}.table"
+    pairs = []
+    holder_columns = [
+        *((f"{table}9_7.ty2023.{t}.holders", f"{table}9_10.ty2023.{t}") for t in ISA_TYPES),
+        *((f"{table}9_8.ty2023.{s}.holders", f"{table}9_11.ty2023.{s}") for s, _ in SEXES),
+        (f"{table}9_9.ty2023.holders", f"{table}9_12.ty2023"),
+    ]
+    for left_out, ported in holder_columns:
+        for row in by_id[left_out]["rows"]:
+            row_id = row["value_id"]
+            pairs.append(((left_out, row_id, "all_holders"), (ported, row_id, "all_holders")))
+    for subscribers, holders, total in (
+        (f"{table}9_8.ty2023.all.subscribers", f"{table}9_8.ty2023.all.holders", "all"),
+        (f"{table}9_9.ty2023.subscribers", f"{table}9_9.ty2023.holders", "K02000001"),
+    ):
+        for isa_type in ISA_TYPES:
+            pairs.append(
+                (
+                    (subscribers, total, f"{isa_type}_subscribers"),
+                    (f"{table}9_7.ty2023.{isa_type}.subscribers", "all", "all_subscriptions"),
+                )
+            )
+        pairs.append(
+            (
+                (holders, total, "no_further_subscription"),
+                (f"{table}9_7.ty2023.all.holders", "all", "no_further_subscription"),
+            )
+        )
+    for left_out, total in ((f"{table}9_11.ty2023.all", "all"), (f"{table}9_12.ty2023", "K02000001")):
+        for measure in by_id[left_out]["measures"]:
+            measure_id = measure["measure_id"]
+            pairs.append(((left_out, total, measure_id), (f"{table}9_10.ty2023.all", "all", measure_id)))
+    return pairs
+
+
+def port_restated_cells_once(record_sets: list[dict], sheets: dict) -> list[dict]:
+    """Assert each restated copy equals the cell ported, then drop the copies."""
+    by_id = {record_set["record_set_id"]: record_set for record_set in record_sets}
+
+    def cell(record_set_id: str, row_id: str, measure_id: str) -> object:
+        record_set = by_id[record_set_id]
+        (row,) = [row for row in record_set["rows"] if row["value_id"] == row_id]
+        (measure,) = [m for m in record_set["measures"] if m["measure_id"] == measure_id]
+        value = sheets[record_set["sheet_name"]].get((row["row_number"], measure["column"]))
+        assert is_number(value), (record_set_id, row_id, measure_id, value)
+        return value
+
+    left_out: dict[str, set[tuple[str, str]]] = {}
+    for copy, ported in restated_cells(by_id):
+        assert cell(*copy) == cell(*ported), (copy, ported)
+        left_out.setdefault(copy[0], set()).add(copy[1:])
+    for record_set_id, cells in left_out.items():
+        record_set = by_id[record_set_id]
+        rows = [row["value_id"] for row in record_set["rows"]]
+        measures = [measure["measure_id"] for measure in record_set["measures"]]
+        # A restated column goes as a measure and a restated row as a row; nothing else.
+        gone_measures = {m for m in measures if all((r, m) in cells for r in rows)}
+        gone_rows = {
+            r for r in rows if all((r, m) in cells for m in measures if m not in gone_measures)
+        }
+        assert cells == {
+            (r, m) for r in rows for m in measures if r in gone_rows or m in gone_measures
+        }, record_set_id
+        record_set["rows"] = [r for r in record_set["rows"] if r["value_id"] not in gone_rows]
+        record_set["measures"] = [
+            m for m in record_set["measures"] if m["measure_id"] not in gone_measures
+        ]
+        assert record_set["rows"] and record_set["measures"], record_set_id
+        for items in (record_set["rows"], record_set["measures"]):
+            for ordinal, item in enumerate(items):
+                item["ordinal"] = ordinal
+    return record_sets
+
+
 # ------------------------------------------------------------- packages
 
 ISA_HEADER = """\
@@ -1535,6 +1624,13 @@ ISA_HEADER = """\
 # and they exclude Innovative Finance ISA holders. In Table 9.7's 'all' and 'cash and
 # stocks and shares' blocks the subscription band is the combined amount. Chronicle
 # reconciles none of these tables with each other.
+#
+# Cells Tables 9.7 to 9.12 print more than once are ported once, and build_package.py
+# asserts every copy equal (as chronicle#391 did for GSGB's restated row). Tables 9.7 to
+# 9.9's 'All ISA Holders' columns restate Tables 9.10 to 9.12's 'Total' columns, so
+# holder totals come from the holder tables. The all-sexes, all-ages rows of Tables 9.8
+# and 9.11 and the United Kingdom rows of Tables 9.9 and 9.12 restate the 'All ranges'
+# rows of Tables 9.7 and 9.10, so those totals come from Tables 9.7 and 9.10.
 #
 """
 
@@ -1666,6 +1762,7 @@ def isa_package() -> str:
         + table_9_11(sheets["9_11ISA_market_value_by_age_sex"])
         + table_9_12(sheets["9_12ISA_market_values_by_region"])
     )
+    record_sets = port_restated_cells_once(record_sets, sheets)
     payload = {
         "schema_version": "ledger.source_package.v1",
         "package_id": ISA_PACKAGE_ID,

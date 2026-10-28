@@ -18,7 +18,10 @@ import pytest
 import yaml
 
 from chronicle.bundle import UK_BUNDLE_SOURCES
-from chronicle.consumer_contract import validate_consumer_fact_contract
+from chronicle.consumer_contract import (
+    build_semantic_fact_key,
+    validate_consumer_fact_contract,
+)
 from chronicle.core import validate_facts
 from chronicle.source_package import (
     SOURCE_PACKAGE_ALIASES,
@@ -58,7 +61,7 @@ def _value(facts: dict, record_set: str, row: str, measure: str) -> float:
 @pytest.mark.parametrize(
     ("package_dir", "package_id", "record_sets", "facts"),
     [
-        (ISA, "hmrc-isa-statistics-2026", 73, 3397),
+        (ISA, "hmrc-isa-statistics-2026", 73, 3230),
         (LISA, "hmrc-lisa-statistics-2026", 8, 40),
         (NOTE, "hmrc-cash-isa-limit-reduction-2026", 1, 2),
     ],
@@ -114,7 +117,10 @@ def test_provenance_and_units_by_table(isa_facts):
     # Table 9.4: four lines a year to 2015-16, five in 2016-17 (Innovative Finance ISAs
     # begin) and six from 2017-18 (Lifetime ISAs begin). Table 9.6: 19 lines a year,
     # less the exchange-traded shares line before 2013-14 and the three Innovative
-    # Finance lines before 2016-17.
+    # Finance lines before 2016-17. Tables 9.7 to 9.12 less the 167 restated cells:
+    # Tables 9.7 to 9.9's 'All ISA Holders' columns (48, 66 and 15), and the
+    # all-sexes, all-ages and United Kingdom rows of Tables 9.8, 9.9 (5 each, after
+    # that column), 9.11 and 9.12 (14 each).
     by_table = Counter()
     for record_id, fact in isa_facts.items():
         table = record_id.split(".")[2]
@@ -128,22 +134,22 @@ def test_provenance_and_units_by_table(isa_facts):
         ("table9_4", "administrative", "hmrc.isa_amount_subscribed"): 85,
         ("table9_6", "administrative", "hmrc.isa_market_value"): 249,
         ("table9_7", "survey_aggregate", "hmrc.isa_subscribers"): 576,
-        ("table9_7", "survey_aggregate", "hmrc.isa_holders"): 96,
-        ("table9_8", "survey_aggregate", "hmrc.isa_subscribers"): 264,
-        ("table9_8", "survey_aggregate", "hmrc.isa_holders"): 132,
-        ("table9_9", "survey_aggregate", "hmrc.isa_subscribers"): 60,
-        ("table9_9", "survey_aggregate", "hmrc.isa_holders"): 30,
+        ("table9_7", "survey_aggregate", "hmrc.isa_holders"): 48,
+        ("table9_8", "survey_aggregate", "hmrc.isa_subscribers"): 260,
+        ("table9_8", "survey_aggregate", "hmrc.isa_holders"): 65,
+        ("table9_9", "survey_aggregate", "hmrc.isa_subscribers"): 56,
+        ("table9_9", "survey_aggregate", "hmrc.isa_holders"): 14,
         ("table9_10", "survey_aggregate", "hmrc.isa_holders"): 624,
         ("table9_10", "survey_aggregate", "hmrc.isa_mean_market_value_per_holder"): 48,
-        ("table9_11", "survey_aggregate", "hmrc.isa_holders"): 858,
-        ("table9_11", "survey_aggregate", "hmrc.isa_mean_market_value_per_holder"): 66,
-        ("table9_12", "survey_aggregate", "hmrc.isa_holders"): 195,
-        ("table9_12", "survey_aggregate", "hmrc.isa_mean_market_value_per_holder"): 15,
+        ("table9_11", "survey_aggregate", "hmrc.isa_holders"): 845,
+        ("table9_11", "survey_aggregate", "hmrc.isa_mean_market_value_per_holder"): 65,
+        ("table9_12", "survey_aggregate", "hmrc.isa_holders"): 182,
+        ("table9_12", "survey_aggregate", "hmrc.isa_mean_market_value_per_holder"): 14,
         ("table9_12", "model_output", "hmrc.isa_holders_share_of_adults"): 14,
     }
     # Tables 9.7 to 9.12 count people under '(thousands)' headings: unscaled.
     assert _value(isa_facts, "table9_7.ty2023.all.subscribers", "all", "all_subscriptions") == 13054561
-    assert _value(isa_facts, "table9_7.ty2023.all.holders", "all", "all_holders") == 23025972
+    assert _value(isa_facts, "table9_10.ty2023.all", "all", "all_holders") == 23025972
     # Table 9.4 is in thousands of accounts and GBP million.
     assert _value(isa_facts, "table9_4.accounts.ty2023", "cash", "accounts") == 9939000
     assert _value(isa_facts, "table9_4.amounts.ty2024", "lifetime", "amounts") == 2818000000
@@ -184,12 +190,13 @@ def test_table_9_7_matches_the_workbook_by_label(isa_facts, isa_sheets):
                 elif header.startswith("No Further Subscription"):
                     key = (f"{record_set}.holders", "no_further_subscription")
                 elif header.startswith("All ISA Holders"):
-                    key = (f"{record_set}.holders", "all_holders")
+                    # Restates Table 9.10's 'Total' column, which is ported.
+                    key = (f"table9_10.ty2023.{isa_type}", "all_holders")
                 else:
                     key = (f"{record_set}.subscribers", _money_id("subscription", header))
                 assert _value(isa_facts, key[0], row, key[1]) == sheet.iloc[start + offset, column]
                 checked += 1
-    assert checked == 4 * 12 * 14 == sum(
+    assert checked == 4 * 12 * 14 == 4 * 12 + sum(
         1 for record_id in isa_facts if record_id.startswith(f"{PREFIX}.table9_7.")
     )
 
@@ -217,7 +224,7 @@ def test_table_9_7_blocks_and_holders_add_up(isa_facts):
         for isa_type in ("all", *TYPES):
             record_set = f"table9_7.ty2023.{isa_type}"
             subscribed = _value(isa_facts, f"{record_set}.subscribers", row, "all_subscriptions")
-            held = _value(isa_facts, f"{record_set}.holders", row, "all_holders")
+            held = _value(isa_facts, f"table9_10.ty2023.{isa_type}", row, "all_holders")
             idle = _value(isa_facts, f"{record_set}.holders", row, "no_further_subscription")
             assert abs(subscribed + idle - held) <= 2, (isa_type, row)
     # The four blocks partition the 13.05 million subscribers, 28.8% at GBP 20,000.
@@ -226,21 +233,95 @@ def test_table_9_7_blocks_and_holders_add_up(isa_facts):
     assert round(full / total, 3) == 0.288
 
 
-def test_tables_9_8_and_9_9_restate_table_9_7(isa_facts):
+def _row(sheet: pd.DataFrame, label: str, column: int = 0) -> int:
+    labels = sheet.iloc[:, column].astype(str).str.strip()
+    (row,) = labels.index[labels == label]
+    return row
+
+
+def _column(sheet: pd.DataFrame, header_row: int, text: str) -> int:
+    (column,) = [i for i, h in enumerate(sheet.iloc[header_row]) if str(h).startswith(text)]
+    return column
+
+
+def test_restated_cells_are_ported_once(isa_facts, isa_sheets):
+    """Tables 9.7 to 9.12 print some totals more than once. Each is one fact, and the
+    workbook's other copies, found by label, equal it."""
+    keys = Counter(build_semantic_fact_key(fact) for fact in isa_facts.values())
+    assert max(keys.values()) == 1
+    t98 = isa_sheets["9_8_ISA_subs_by_age_sex"]
+    t99 = isa_sheets["9_9_ISA_subs_by_country_region"]
+    t911 = isa_sheets["9_11ISA_market_value_by_age_sex"]
+    t912 = isa_sheets["9_12ISA_market_values_by_region"]
+    # Table 9.8's all-sexes 'Total' row and Table 9.9's United Kingdom row restate
+    # Table 9.7's 'All ranges' rows and Table 9.10's holders.
+    national = [
+        *(
+            _value(isa_facts, f"table9_7.ty2023.{t}.subscribers", "all", "all_subscriptions")
+            for t in (*TYPES, "all")
+        ),
+        _value(isa_facts, "table9_7.ty2023.all.holders", "all", "no_further_subscription"),
+        _value(isa_facts, "table9_10.ty2023.all", "all", "all_holders"),
+    ]
+    assert list(t98.iloc[_row(t98, "Total"), 1:7]) == national
+    assert list(t99.iloc[_row(t99, "United Kingdom", 1), 2:8]) == national
+    # Table 9.11's all-sexes 'Total' row and Table 9.12's United Kingdom row restate
+    # Table 9.10's 'All ranges' row for all ISA types.
+    for sheet, header_row, row in (
+        (t911, _row(t911, "Market Value"), _row(t911, "Total")),
+        (t912, _row(t912, "Area Code"), _row(t912, "United Kingdom", 1)),
+    ):
+        checked = 0
+        for column, header in enumerate(sheet.iloc[header_row].astype(str)):
+            if header.startswith("£"):
+                measure = _money_id("market_value", header)
+            elif header.startswith("Total"):
+                measure = "all_holders"
+            elif header.startswith("Average"):
+                measure = "average_market_value"
+            else:
+                continue
+            ported = _value(isa_facts, "table9_10.ty2023.all", "all", measure)
+            assert sheet.iloc[row, column] == ported, header
+            checked += 1
+        assert checked == 14
+    # Tables 9.8 and 9.9's 'All ISA Holders' columns restate Tables 9.11 and 9.12's
+    # 'Total' columns row for row (Table 9.7's is checked by label above).
+    for left, left_header, right, right_header, label_column, count in (
+        (t98, "Type of ISA", t911, "Market Value", 0, 3 * 22),
+        (t99, "Area Code", t912, "Area Code", 1, 15),
+    ):
+        start = _row(left, left_header)
+        held = _column(left, start, "All ISA Holders")
+        total = _column(right, _row(right, right_header), "Total")
+        rows = [
+            (row, _row(right, label.strip(), label_column))
+            for row, label in left.iloc[start + 1 :, label_column].astype(str).items()
+            if pd.notna(left.iloc[row, held])
+        ]
+        assert len(rows) == count
+        assert all(left.iloc[a, held] == right.iloc[b, total] for a, b in rows)
+    # The copies carry no fact; Table 9.12's United Kingdom share of adults stays.
+    for record_id in (
+        "table9_7.ty2023.cash_only.holders.all.all_holders",
+        "table9_8.ty2023.male.holders.age_under_24.all_holders",
+        "table9_8.ty2023.all.subscribers.all.all_subscribers",
+        "table9_8.ty2023.all.holders.all.no_further_subscription",
+        "table9_9.ty2023.subscribers.K02000001.cash_only_subscribers",
+        "table9_9.ty2023.holders.E12000001.all_holders",
+        "table9_11.ty2023.all.all.market_value_1_to_2499",
+        "table9_12.ty2023.K02000001.average_market_value",
+    ):
+        assert f"{PREFIX}.{record_id}" not in isa_facts, record_id
+    assert f"{PREFIX}.table9_12.ty2023.share_of_adults.K02000001.share_of_adults" in isa_facts
+
+
+def test_tables_9_8_and_9_9_add_up_to_table_9_7(isa_facts):
     for isa_type in TYPES:
-        expected = _value(isa_facts, f"table9_7.ty2023.{isa_type}.subscribers", "all", "all_subscriptions")
-        persons = _value(isa_facts, "table9_8.ty2023.all.subscribers", "all", f"{isa_type}_subscribers")
+        persons = _value(isa_facts, f"table9_7.ty2023.{isa_type}.subscribers", "all", "all_subscriptions")
         male = _value(isa_facts, "table9_8.ty2023.male.subscribers", "all", f"{isa_type}_subscribers")
         female = _value(isa_facts, "table9_8.ty2023.female.subscribers", "all", f"{isa_type}_subscribers")
-        uk = _value(isa_facts, "table9_9.ty2023.subscribers", "K02000001", f"{isa_type}_subscribers")
-        assert persons == expected == uk
         assert abs(male + female - persons) <= 2
-    holders = _value(isa_facts, "table9_7.ty2023.all.holders", "all", "all_holders")
-    assert _value(isa_facts, "table9_8.ty2023.all.holders", "all", "all_holders") == holders
-    assert _value(isa_facts, "table9_9.ty2023.holders", "K02000001", "all_holders") == holders
-    for table in ("table9_10.ty2023.all", "table9_11.ty2023.all", "table9_12.ty2023"):
-        row = "K02000001" if table.startswith("table9_12") else "all"
-        assert _value(isa_facts, table, row, "all_holders") == holders
     regions = sum(
         _value(isa_facts, "table9_9.ty2023.subscribers", f"E1200000{i}", "all_subscribers")
         for i in range(1, 10)
@@ -251,7 +332,7 @@ def test_tables_9_8_and_9_9_restate_table_9_7(isa_facts):
         _value(isa_facts, "table9_9.ty2023.subscribers", code, "all_subscribers")
         for code in ("W92000004", "S92000003", "N92000002", "overseas_and_unknown")
     )
-    uk = _value(isa_facts, "table9_9.ty2023.subscribers", "K02000001", "all_subscribers")
+    uk = _value(isa_facts, "table9_7.ty2023.all.subscribers", "all", "all_subscriptions")
     assert abs(countries - uk) <= 5
 
 
@@ -262,9 +343,10 @@ def test_age_bands_cover_the_published_rows(isa_facts):
         if fact.source_record_id.startswith(f"{PREFIX}.table9_8.ty2023.all.subscribers.")
         and fact.source_record_id.endswith(".all_subscribers")
     ]
-    assert len(persons) == 22
-    bands = sum(fact.value for fact in persons if fact.filters["age_band"] != "all")
-    total = next(fact.value for fact in persons if fact.filters["age_band"] == "all")
+    # The all-ages row restates Table 9.7's total, which is ported from Table 9.7.
+    assert len(persons) == 21
+    bands = sum(fact.value for fact in persons)
+    total = _value(isa_facts, "table9_7.ty2023.all.subscribers", "all", "all_subscriptions")
     assert abs(bands - total) <= 21
     under_24 = next(fact for fact in persons if fact.filters["age_band"] == "age_under_24")
     assert [(c.variable, c.operator, c.value) for c in under_24.constraints if c.variable == "age"] == [
