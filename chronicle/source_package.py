@@ -598,6 +598,11 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-cgt-residential-property-2026": Path("hmrc/cgt_residential_property_2026"),
     "hmrc-cgt-size-of-gain-2026": Path("hmrc/cgt_size_of_gain_2026"),
     "hmrc-cgt-statistics-2026": Path("hmrc/cgt_statistics_2026"),
+    # PolicyEngine/microcosm#1415
+    "hmrc-cash-isa-limit-reduction-2026": Path("hmrc/cash_isa_limit_reduction_2026"),
+    "hmrc-isa-statistics-2026": Path("hmrc/isa_statistics_2026"),
+    "hmrc-lisa-statistics-2026": Path("hmrc/lisa_statistics_2026"),
+    # end PolicyEngine/microcosm#1415
     "hmrc-spi-income-by-area-2023-24": Path("hmrc/spi_income_by_area_2023_24"),
     "hmrc-salary-sacrifice-relief-2024-25": Path(
         "hmrc/salary_sacrifice_relief_2024_25"

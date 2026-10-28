@@ -1,0 +1,151 @@
+# HMRC, Cash Individual Savings Account (ISA) limit reduction: tax information and impact
+# note (published 17 September 2026), archived HTML on the html_tables_and_text
+# document-numbers lane, for PolicyEngine/microcosm#1415. Written by
+# packages/hmrc/isa_statistics_2026/build_package.py from the pinned page.
+#
+# One sentence, two facts: in 2022-23, 78% of cash ISA subscribers aged under 65
+# subscribed less than GBP 12,000 to a cash ISA and 22% subscribed over GBP 12,000. The
+# note names no data source, so the shares carry provenance_class model_output (a policy
+# paper's estimate). The sentence does not place a subscription of exactly GBP 12,000,
+# and does not say whether a subscriber who also paid into a stocks and shares ISA is
+# counted on the cash amount alone. The page's other '22%' (the flat-rate charge on
+# interest on cash held in non-cash ISAs) is a rate, not this share, and is not ported.
+# Budget 2026 (28 October 2026) announced that the GBP 12,000 limit will not go ahead.
+#
+schema_version: ledger.source_package.v1
+package_id: hmrc-cash-isa-limit-reduction-2026
+label: 'HMRC cash ISA limit reduction impact note: shares of cash ISA subscribers aged under 65 either
+  side of GBP 12,000, 2022-23'
+dimension_labels:
+  cash_isa_subscription_band: Cash ISA subscription relative to GBP 12,000
+  isa_type: ISA type
+dimension_value_labels:
+  cash_isa_subscription_band:
+    under_12000: Less than GBP 12,000
+    over_12000: Over GBP 12,000
+  isa_type:
+    cash: Cash ISA
+artifact:
+  source_name: hmrc
+  source_table: 'Cash Individual Savings Account (ISA) limit reduction: tax information and impact note'
+  resource_package: db
+  resource_directory: data/hmrc/cash_isa_limit_reduction_2026
+  manifest: manifest.yaml
+  vintage: tiin_2026_09
+  extracted_at: '2026-10-28'
+  extraction_method: HTML table and document-text number parse of the archived impact note
+  parser: html_tables_and_text
+  artifact_year: 2026
+record_sets:
+- record_set_id: hmrc.cash_isa_limit_reduction_2026.cash_subscribers_under_65.ty2022
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: hmrc.cash_isa_limit_reduction_2026.cash_subscribers_under_65.ty2022.v1
+  source_record_id_prefix: hmrc.cash_isa_limit_reduction_2026.cash_subscribers_under_65.ty2022
+  sheet_name: document_numbers
+  period_type: tax_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-04-06'
+    end_date: '2023-04-05'
+    basis: tax
+    source_period_label: 2022 to 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: cash_isa_subscriber
+  domain: individual_savings_accounts
+  groupby_dimension: cash_isa_subscription_band
+  shared_filters:
+    isa_type: cash
+  shared_constraints:
+  - variable: isa_type
+    operator: ==
+    value: cash
+    label: ISA subscribed to
+  - variable: age
+    operator: <
+    value: 65
+    unit: years
+    label: Aged under 65
+  rows:
+  - value_id: under_12000
+    label: Less than GBP 12,000
+    ordinal: 0
+    row_number: 41
+    expected_row_header_column: D
+    expected_row_header: '78'
+    table_record_kind: detail
+    filters:
+      cash_isa_subscription_band: under_12000
+    constraints:
+    - variable: cash_isa_subscription_band
+      operator: ==
+      value: under_12000
+      label: Cash ISA subscription band
+    - variable: cash_isa_subscription_amount
+      operator: <
+      value: 12000
+      unit: gbp
+      label: Cash ISA subscription relative to GBP 12,000
+    guard_cells:
+    - column: A
+      row: 41
+      expected_value: 91
+      label: HTML element index
+    - column: C
+      row: 41
+      expected_value: In 2022 to 2023, 78% of cash ISA subscribers aged under 65 subscribed less than
+        £12,000 to a cash ISA and 22% subscribed over £12,000.
+      label: paragraph text
+  - value_id: over_12000
+    label: Over GBP 12,000
+    ordinal: 1
+    row_number: 44
+    expected_row_header_column: D
+    expected_row_header: '22'
+    table_record_kind: detail
+    filters:
+      cash_isa_subscription_band: over_12000
+    constraints:
+    - variable: cash_isa_subscription_band
+      operator: ==
+      value: over_12000
+      label: Cash ISA subscription band
+    - variable: cash_isa_subscription_amount
+      operator: '>'
+      value: 12000
+      unit: gbp
+      label: Cash ISA subscription relative to GBP 12,000
+    guard_cells:
+    - column: A
+      row: 44
+      expected_value: 91
+      label: HTML element index
+    - column: C
+      row: 44
+      expected_value: In 2022 to 2023, 78% of cash ISA subscribers aged under 65 subscribed less than
+        £12,000 to a cash ISA and 22% subscribed over £12,000.
+      label: paragraph text
+  measures:
+  - measure_id: share_of_cash_subscribers
+    label: Share of cash ISA subscribers aged under 65
+    ordinal: 0
+    column: E
+    source_column_id: share_of_cash_subscribers
+    expected_column_header_row: 1
+    expected_column_header: numeric_value
+    concept: hmrc.cash_isa_subscribers_share
+    source_concept: hmrc.cash_isa_subscribers_share
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/publications/reduction-in-the-cash-individual-savings-account-isa-limit/cash-individual-savings-account-isa-limit-reduction
+    concept_evidence_notes: 'HMRC impact note, impact on individuals: In 2022 to 2023, 78% of cash ISA
+      subscribers aged under 65 subscribed less than £12,000 to a cash ISA and 22% subscribed over £12,000.
+      The note names no data source.'
+    unit: percent
+    aggregation: share
+    value_scale: 1
+    expected_cell_type: number

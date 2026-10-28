@@ -1,0 +1,24 @@
+source_id: hmrc
+package_id: hmrc-cash-isa-limit-reduction-2026
+dataset: hmrc_hmrc-cash-isa-limit-reduction-2026
+source_page: https://www.gov.uk/government/publications/reduction-in-the-cash-individual-savings-account-isa-limit
+table: 'Cash Individual Savings Account (ISA) limit reduction: tax information and
+  impact note'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: HM Revenue and Customs, Cash Individual Savings Account (ISA) limit reduction: tax information and impact note (17 September 2026). Contains public sector information licensed under the Open Government Licence v3.0.'
+license_evidence: 'The page (https://www.gov.uk/government/publications/reduction-in-the-cash-individual-savings-account-isa-limit/cash-individual-savings-account-isa-limit-reduction) states that the publication is licensed under the terms of the Open Government Licence v3.0 except where otherwise stated.'
+license_verified_at: '2026-10-28'
+files:
+  2026:
+    filename: cash-individual-savings-account-isa-limit-reduction.html
+    source_url: https://www.gov.uk/government/publications/reduction-in-the-cash-individual-savings-account-isa-limit/cash-individual-savings-account-isa-limit-reduction
+    sha256: 3a27fd6017afd85a1167e3acb3687d6312ea32c07f1101535f888279bd2c6212
+    size_bytes: 103157
+    fetched_at: '2026-10-28T19:45:11+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-cash-isa-limit-reduction-2026/2026/3a27fd6017afd85a1167e3acb3687d6312ea32c07f1101535f888279bd2c6212/cash-individual-savings-account-isa-limit-reduction.html
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-cash-isa-limit-reduction-2026/2026/3a27fd6017afd85a1167e3acb3687d6312ea32c07f1101535f888279bd2c6212/cash-individual-savings-account-isa-limit-reduction.html
