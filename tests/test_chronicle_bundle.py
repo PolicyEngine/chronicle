@@ -145,6 +145,9 @@ def test_build_bundle_dir_uk_suite_uses_curated_sources(tmp_path, monkeypatch):
     assert "hmrc-cgt-residential-property-2026" in UK_BUNDLE_SOURCES
     assert "hmrc-cgt-badr-ir-2026" in UK_BUNDLE_SOURCES
     assert "hmrc-cgt-carried-interest-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-isa-statistics-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-lisa-statistics-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-cash-isa-limit-reduction-2026" in UK_BUNDLE_SOURCES
     assert tuple(captured["sources"]) == UK_BUNDLE_SOURCES
     assert captured["output_dir"] == tmp_path / "bundle"
 
@@ -462,13 +465,17 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # 20,954 workbook cells, which replace its four curated headlines.
         # PolicyEngine/microcosm#1381's GSGB 2025 package adds 1,024 survey
         # facts for people in calendar 2025, at existing keys.
-        "fact_count": 1654007,
+        # PolicyEngine/microcosm#1415's HMRC annual savings statistics add 3,439
+        # person facts: 3,397 from the ISA tables (9.4, 9.6 and 9.7 to 9.12), 40
+        # from Lifetime ISA Table 1a and 2 from the cash ISA limit impact note.
+        "fact_count": 1657446,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
         # Ireland districts of DESNZ's 2009-2014 rows, DESNZ's Northern Ireland
         # unallocated row and HMRC's England and Northern Ireland scope.
-        "geography_count": 102616,
+        # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope.
+        "geography_count": 102617,
         # And 12 period keys: HBAI's FYE 1995 and FYE 1996 (fiscal_year 1994,
         # 1995) and gas_year 2015 to 2024, the period type chronicle#356 adds.
         # chronicle#381 adds 12 more: HMRC's betting and gaming receipts from
@@ -492,7 +499,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # export: 5,244 NRS + 5,406 UC + 12 DfI overlap groups are retired.
         # Independent census cuts and the older-only combined Metro/Glider
         # journey series remain publisher facts with their original provenance.
-        "semantic_duplicate_key_count": 2324,
+        # PolicyEngine/microcosm#1415 adds 145: the ISA tables publish the same
+        # subscriber and holder totals in more than one table (9.7 to 9.12), and
+        # the copies agree.
+        "semantic_duplicate_key_count": 2469,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
@@ -504,8 +514,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
         # all-claims UC area packages. chronicle#381 adds four and replaces the
         # 30 June Consumer Trends package with the 30 September one. GSGB 2025
-        # (PolicyEngine/microcosm#1381) adds one.
-        "source_package_count": 420,
+        # (PolicyEngine/microcosm#1381) adds one. PolicyEngine/microcosm#1415
+        # adds three.
+        "source_package_count": 423,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -551,14 +562,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1654007
+    assert row_count == 1657446
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 420
+    assert source_packages["source_package_count"] == 423
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -586,7 +597,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1654007
+    assert coverage["fact_count"] == 1657446
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -610,7 +621,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "gambling_commission": 2459,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 33241,
+        "hmrc": 36680,
         "ici": 12,
         "ird": 4362,
         "irs_soi": 43963,
@@ -652,7 +663,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 362
+    assert len(table_counts) == 365
     assert (
         table_counts[
             "ostbelgien_kindergeld:Kindergeld in Ostbelgien, Aktualisierung "
@@ -2153,6 +2164,31 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     expected_period_counts["calendar_year:2025"] += 42
     # B2e: Ostbelgien's Kindergeld figures for 2025.
     expected_period_counts["calendar_year:2025"] += 35
+    # PolicyEngine/microcosm#1415: ISA Table 9.4 for 2008-09 to 2024-25, Table 9.6
+    # for 2011-12 to 2024-25 and Tables 9.7 to 9.12 for 2023-24; Lifetime ISA Table 1a
+    # for 2018-19 to 2025-26; the impact note's two 2022-23 shares.
+    for year, count in {
+        2008: 8,
+        2009: 8,
+        2010: 8,
+        2011: 23,
+        2012: 23,
+        2013: 24,
+        2014: 24,
+        2015: 24,
+        2016: 29,
+        2017: 31,
+        2018: 36,
+        2019: 36,
+        2020: 36,
+        2021: 36,
+        2022: 38,
+        2023: 3014,
+        2024: 36,
+        2025: 5,
+    }.items():
+        key = f"tax_year:{year}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2382,6 +2418,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc-cgt-residential-property-2026",
         "hmrc-cgt-size-of-gain-2026",
         "hmrc-cgt-statistics-2026",
+        "hmrc-isa-statistics-2026",
+        "hmrc-lisa-statistics-2026",
+        "hmrc-cash-isa-limit-reduction-2026",
     ):
         assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
     for source in (
