@@ -401,6 +401,48 @@ def test_table_9_6_lines_sum_to_their_components(isa_facts):
     assert rows[("stocks_and_shares", "cash_on_deposit")] == 22398e6
 
 
+HELP_TO_BUY = (
+    "'Help to Buy: ISAs are included within these statistics under cash subscriptions "
+    "and market values, but the information is not separated out.'"
+)
+
+
+def test_notes_roles_and_universes(isa_facts):
+    """Help to Buy ISAs are inside cash (methodology section 3.4) from 2015-16, when the
+    scheme opened; Table 9.4 counts accounts; each '(thousands)' note cites the
+    commentary's count for its measure; Table 9.12's share is of adults."""
+    by_concept = Counter()
+    for record_id, fact in isa_facts.items():
+        table = record_id.split(".")[2]
+        concept = fact.measure.concept
+        notes = fact.measure.concept_evidence_notes
+        by_concept[(concept, fact.entity.role)] += 1
+        if table in ("table9_4", "table9_6"):
+            assert (HELP_TO_BUY in notes) == (fact.period.value >= 2015), record_id
+        else:
+            assert HELP_TO_BUY in notes, record_id
+        assert "13.05 million" not in notes
+        if concept == "hmrc.isa_subscribers":
+            assert "15 million Adult ISA accounts subscribed to and 23 million" in notes
+        elif concept == "hmrc.isa_holders":
+            assert "gives 23 million Adult ISA holders in 2023 to 2024" in notes
+            assert "individuals subscribing" not in notes
+        elif concept == "hmrc.isa_mean_market_value_per_holder":
+            assert "'(thousands)'" not in notes
+        elif concept == "hmrc.isa_holders_share_of_adults":
+            ages = [(c.variable, c.operator, c.value) for c in fact.constraints if c.variable == "age"]
+            assert ages == [("age", ">=", 18)]
+    assert by_concept == {
+        ("hmrc.isa_accounts_subscribed", "isa_account"): 85,
+        ("hmrc.isa_amount_subscribed", "isa_account"): 85,
+        ("hmrc.isa_market_value", "isa_holder"): 249,
+        ("hmrc.isa_subscribers", "isa_subscriber"): 892,
+        ("hmrc.isa_holders", "isa_holder"): 1778,
+        ("hmrc.isa_mean_market_value_per_holder", "isa_holder"): 127,
+        ("hmrc.isa_holders_share_of_adults", "isa_holder"): 14,
+    }
+
+
 def test_lifetime_isa_table_1a():
     facts = _facts(LISA)
     assert len(facts) == 40
@@ -427,7 +469,13 @@ def test_impact_note_shares():
     shares = {fact.filters["cash_isa_subscription_band"]: fact for fact in facts.values()}
     assert shares["under_12000"].value + shares["over_12000"].value == 100
     assert shares["over_12000"].value == 22
-    for fact in shares.values():
+    for band, fact in shares.items():
         assert fact.provenance_class == "model_output"
         assert fact.period.value == 2022
-        assert ("age", "<", 65) in {(c.variable, c.operator, c.value) for c in fact.constraints}
+        # The sentence places no subscription of exactly GBP 12,000, so each row
+        # carries its band and no amount bound.
+        assert {(c.variable, c.operator, c.value) for c in fact.constraints} == {
+            ("isa_type", "==", "cash"),
+            ("age", "<", 65),
+            ("cash_isa_subscription_band", "==", band),
+        }

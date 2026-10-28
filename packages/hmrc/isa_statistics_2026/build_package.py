@@ -90,18 +90,35 @@ SURVEY = (
     "Survey of Personal Incomes matched to ISA managers' returns of individual "
     "accounts (ISACOMM100)"
 )
-THOUSANDS_HEADING = (
+# HMRC's commentary gives no count of subscribers: its 2023 to 2024 counts are the
+# accounts subscribed to (section 1.1) and the holders (section 1.4).
+THOUSANDS_SUBSCRIBERS = (
     "The column headings say '(thousands)', but the cells are counts of individuals: "
-    "only that reading matches HMRC's commentary (13.05 million subscribers in "
-    "2023 to 2024), so value_scale is 1."
+    "only that reading fits HMRC's commentary, which gives 15 million Adult ISA "
+    "accounts subscribed to and 23 million Adult ISA holders in 2023 to 2024 "
+    "(sections 1.1 and 1.4), so value_scale is 1."
 )
+THOUSANDS_HOLDERS = (
+    "The column headings say '(thousands)', but the cells are counts of individuals: "
+    "only that reading matches HMRC's commentary, which gives 23 million Adult ISA "
+    "holders in 2023 to 2024 (section 1.4), so value_scale is 1."
+)
+HELP_TO_BUY = (
+    "HMRC's background and methodology note, section 3.4: 'Help to Buy: ISAs are "
+    "included within these statistics under cash subscriptions and market values, but "
+    "the information is not separated out.'"
+)
+# The same section dates the scheme's launch to 1 December 2015, in the 2015 to 2016
+# tax year, so Tables 9.4 and 9.6 carry the sentence from that year on.
+HELP_TO_BUY_OPENED = 2015
 TABLES_9_7_TO_9_12 = (
     "HMRC estimates Tables 9.7 to 9.12 from a sample of individuals' ISA accounts "
     "matched to the Survey of Personal Incomes and calibrated to the totals in "
     "Tables 9.4 and 9.6; income, age, sex and region come from the Survey of Personal "
-    "Incomes. Innovative Finance ISA holders are not included. Cells these tables print "
-    "more than once are ported once: holder totals from Tables 9.10 to 9.12, and the "
-    "all-sexes, all-ages and United Kingdom totals from Tables 9.7 and 9.10."
+    "Incomes. Innovative Finance ISA holders are not included. " + HELP_TO_BUY + " Cells "
+    "these tables print more than once are ported once: holder totals from Tables 9.10 "
+    "to 9.12, and the all-sexes, all-ages and United Kingdom totals from Tables 9.7 and "
+    "9.10."
 )
 
 # ---------------------------------------------------------------- parsing
@@ -925,6 +942,7 @@ def table_9_4(grid: dict) -> list[dict]:
                 "is the sum of the cash, stocks and shares, Innovative Finance and "
                 "Lifetime ISA rows; the stocks and shares insurance component row is "
                 "not added into it. " + limit_note
+                + (" " + HELP_TO_BUY if opening >= HELP_TO_BUY_OPENED else "")
             )
             provisional = (
                 "HMRC marks 2024 to 2025 as provisional." if opening == 2024 else None
@@ -936,7 +954,8 @@ def table_9_4(grid: dict) -> list[dict]:
                     period=opening,
                     coverage=coverage_tax_year(opening, str(year_label).strip(), provisional),
                     provenance="administrative",
-                    entity_role="isa_subscriber",
+                    # The table counts accounts, not people (methodology section 5.1).
+                    entity_role="isa_account",
                     groupby="isa_component",
                     rows=rows,
                     measures=[
@@ -1059,6 +1078,7 @@ def table_9_6(grid: dict) -> list[dict]:
             f"{year_label}, as at the end of the tax year. " + note_text(grid, 3) + " "
             + policy_note + " " + tessa_note + " " + lisa_note + " " + revision_note
             + " Junior ISA lines are not ported."
+            + (" " + HELP_TO_BUY if opening >= HELP_TO_BUY_OPENED else "")
         )
         record_sets.append(
             record_set(
@@ -1093,12 +1113,23 @@ def table_9_6(grid: dict) -> list[dict]:
     return record_sets
 
 
+LIFETIME_UNSTATED = "HMRC does not say how Lifetime ISAs are classed in these tables."
+
+
 def subscriber_notes(table: str, extra: str = "") -> str:
     return (
         f"Table {table}, individuals subscribing to Adult ISAs in the 2023 to 2024 tax "
-        "year (6 April 2023 to 5 April 2024). " + THOUSANDS_HEADING + " "
-        + TABLES_9_7_TO_9_12 + " HMRC does not say how Lifetime ISAs are classed in "
-        "these tables." + (" " + extra if extra else "")
+        "year (6 April 2023 to 5 April 2024). " + THOUSANDS_SUBSCRIBERS + " "
+        + TABLES_9_7_TO_9_12 + " " + LIFETIME_UNSTATED + (" " + extra if extra else "")
+    )
+
+
+def no_further_notes(table: str, extra: str = "") -> str:
+    """Notes for Tables 9.7 to 9.9's holders who made no further subscription."""
+    return (
+        f"Table {table}, individuals holding Adult ISAs at the end of the 2023 to 2024 "
+        "tax year (5 April 2024). " + THOUSANDS_HOLDERS + " " + TABLES_9_7_TO_9_12 + " "
+        + LIFETIME_UNSTATED + " " + HOLDER_NOTE + (" " + extra if extra else "")
     )
 
 
@@ -1163,8 +1194,7 @@ def table_9_7(grid: dict) -> list[dict]:
                 groupby="isa_income_band",
                 rows=income_rows(grid, title_row + 1, guards),
                 measures=holder_status_measures(
-                    title_row, letters[12], letters[13],
-                    subscriber_notes("9.7", HOLDER_NOTE),
+                    title_row, letters[12], letters[13], no_further_notes("9.7")
                 ),
                 shared=shared,
             )
@@ -1184,12 +1214,12 @@ def table_9_8(grid: dict) -> list[dict]:
     )
     for letter, header in zip(letters, headers):
         expect(grid, header_row, letter, header)
-    notes = subscriber_notes(
-        "9.8",
+    age_note = (
         "HMRC does not say at what date age is measured. Before 6 April 2024, 16 and "
         "17 year olds could subscribe to adult cash ISAs, so the youngest band may "
-        "include them.",
+        "include them."
     )
+    notes = subscriber_notes("9.8", age_note)
     record_sets = []
     for block, (sex, prefix) in enumerate(SEXES):
         first_row = header_row + 1 + block * (len(AGE_LABELS) + 1)
@@ -1244,8 +1274,7 @@ def table_9_8(grid: dict) -> list[dict]:
             )
         )
         holder_measures = holder_status_measures(
-            header_row, letters[4], letters[5],
-            subscriber_notes("9.8", HOLDER_NOTE),
+            header_row, letters[4], letters[5], no_further_notes("9.8", age_note)
         )
         for item in holder_measures:
             item["filters"] = {"isa_type": "all", **item["filters"]}
@@ -1280,12 +1309,12 @@ def table_9_9(grid: dict) -> list[dict]:
     )
     for letter, header in zip(letters, headers):
         expect(grid, header_row, letter, header)
-    notes = subscriber_notes(
-        "9.9",
+    region_note = (
         "Region and country come from the Survey of Personal Incomes. HMRC publishes "
         "the countries under the codes W99999999, S99999999 and N99999999 and leaves "
-        "England's total and the overseas and unknown row without a code.",
+        "England's total and the overseas and unknown row without a code."
     )
+    notes = subscriber_notes("9.9", region_note)
     subscriber_measures = []
     for ordinal, (isa_type, header) in enumerate(TYPE_COLUMNS_9_8):
         filters, constraints = category("isa_type", isa_type, "ISA type")
@@ -1321,7 +1350,7 @@ def table_9_9(grid: dict) -> list[dict]:
         )
     )
     holder_measures = holder_status_measures(
-        header_row, letters[4], letters[5], subscriber_notes("9.9", HOLDER_NOTE)
+        header_row, letters[4], letters[5], no_further_notes("9.9", region_note)
     )
     for item in holder_measures:
         item["filters"] = {"isa_type": "all", **item["filters"]}
@@ -1354,10 +1383,12 @@ def table_9_9(grid: dict) -> list[dict]:
     ]
 
 
-def holder_notes(table: str, extra: str = "") -> str:
+def holder_notes(table: str, extra: str = "", *, counts: bool = True) -> str:
+    """Notes for Tables 9.10 to 9.12; averages are in GBP, not under '(thousands)'."""
     return (
         f"Table {table}, individuals holding Adult ISAs as at the end of the 2023 to 2024 "
-        "tax year, by market value. " + THOUSANDS_HEADING + " " + TABLES_9_7_TO_9_12
+        "tax year, by market value. " + (THOUSANDS_HOLDERS + " " if counts else "")
+        + TABLES_9_7_TO_9_12
         + " The total number of ISA holders is not reported by ISA managers; HMRC "
         "estimates it from average market values of ISAs for a sample of individuals "
         "combined with reported aggregate ISA market values (Table 9.6)."
@@ -1395,7 +1426,10 @@ def table_9_10(grid: dict) -> list[dict]:
                 groupby="isa_income_band",
                 rows=income_rows(grid, title_row + 1, guards),
                 measures=market_value_measures(
-                    title_row, "B", holder_notes("9.10"), holder_notes("9.10", AVERAGE_NOTE)
+                    title_row,
+                    "B",
+                    holder_notes("9.10"),
+                    holder_notes("9.10", AVERAGE_NOTE, counts=False),
                 ),
                 shared=category("isa_type", isa_type, "ISA type"),
             )
@@ -1429,7 +1463,7 @@ def table_9_11(grid: dict) -> list[dict]:
                 measures=market_value_measures(
                     header_row, "B",
                     holder_notes("9.11", "All Adult ISA types."),
-                    holder_notes("9.11", AVERAGE_NOTE),
+                    holder_notes("9.11", AVERAGE_NOTE, counts=False),
                 ),
                 shared=category("sex", sex, "Sex"),
             )
@@ -1462,7 +1496,7 @@ def table_9_12(grid: dict) -> list[dict]:
     )
     england_row = header_row + 1
     measures = market_value_measures(
-        header_row, "C", notes, holder_notes("9.12", AVERAGE_NOTE)
+        header_row, "C", notes, holder_notes("9.12", AVERAGE_NOTE, counts=False)
     )
     # Table 9.12 puts the share of adults between the total and the average.
     measures[-1]["column"] = letters[14]
@@ -1479,7 +1513,9 @@ def table_9_12(grid: dict) -> list[dict]:
         notes=(
             "Table 9.12, ISA holders at the end of the 2023 to 2024 tax year as a share of "
             "all individuals aged 18 or over, stored as the published fraction. "
-            + population_note + " " + adults_note
+            + population_note + " " + adults_note + " The age >= 18 constraint is that "
+            "denominator; HMRC does not say whether holders aged 16 or 17 are in the "
+            "numerator. " + HELP_TO_BUY
         ),
         aggregation="share",
         filters={"isa_type": "all"},
@@ -1508,6 +1544,7 @@ def table_9_12(grid: dict) -> list[dict]:
             groupby="geography",
             rows=region_rows(grid, england_row, skip=("hmrc:overseas_and_unknown",)),
             measures=[share_measure],
+            shared=({}, [constraint("age", ">=", 18, "Aged 18 or over", "years")]),
         ),
     ]
 
@@ -1614,16 +1651,19 @@ ISA_HEADER = """\
 # ported cells) and the Junior ISA rows of Tables 9.4 and 9.6.
 #
 # Tables 9.7 to 9.12 put '(thousands)' in their column headings, but the cells are counts
-# of individuals: only that reading matches HMRC's commentary (13.05 million subscribers
-# and 23.0 million holders in 2023-24), so those measures carry value_scale 1. Table 9.4
+# of individuals: only that reading fits HMRC's commentary (15 million accounts subscribed
+# to and 23 million holders in 2023-24), so those measures carry value_scale 1. Table 9.4
 # counts accounts, not individuals, in thousands, with amounts in GBP million, as its
-# own note says. HMRC estimates Tables 9.7 to 9.12 from a sample of individuals' accounts
-# matched to the Survey of Personal Incomes and calibrated to the totals in Tables 9.4
-# and 9.6. Table 9.6 says Lifetime ISA market values are inside the cash and stocks and
-# shares totals; the notes to Tables 9.7 to 9.12 do not say how Lifetime ISAs are classed,
-# and they exclude Innovative Finance ISA holders. In Table 9.7's 'all' and 'cash and
-# stocks and shares' blocks the subscription band is the combined amount. Chronicle
-# reconciles none of these tables with each other.
+# own note says, so its role is isa_account. HMRC estimates Tables 9.7 to 9.12 from a
+# sample of individuals' accounts matched to the Survey of Personal Incomes and
+# calibrated to the totals in Tables 9.4 and 9.6. Table 9.6 says Lifetime ISA market
+# values are inside the cash and stocks and shares totals; the notes to Tables 9.7 to
+# 9.12 do not say how Lifetime ISAs are classed, and they exclude Innovative Finance ISA
+# holders. HMRC's methodology (section 3.4) puts Help to Buy ISAs inside cash
+# subscriptions and market values. In Table 9.7's 'all' and 'cash and stocks and shares'
+# blocks the subscription band is the combined amount. Table 9.12's share of adults
+# carries an age >= 18 constraint, its denominator. Chronicle reconciles none of these
+# tables with each other.
 #
 # Cells Tables 9.7 to 9.12 print more than once are ported once, and build_package.py
 # asserts every copy equal (as chronicle#391 did for GSGB's restated row). Tables 9.7 to
@@ -1658,10 +1698,11 @@ NOTE_HEADER = """\
 # subscribed less than GBP 12,000 to a cash ISA and 22% subscribed over GBP 12,000. The
 # note names no data source, so the shares carry provenance_class model_output (a policy
 # paper's estimate). The sentence does not place a subscription of exactly GBP 12,000,
-# and does not say whether a subscriber who also paid into a stocks and shares ISA is
-# counted on the cash amount alone. The page's other '22%' (the flat-rate charge on
-# interest on cash held in non-cash ISAs) is a rate, not this share, and is not ported.
-# Budget 2026 (28 October 2026) announced that the GBP 12,000 limit will not go ahead.
+# so each row carries its band alone, with no amount bound. Nor does it say whether a
+# subscriber who also paid into a stocks and shares ISA is counted on the cash amount
+# alone. The page's other '22%' (the flat-rate charge on interest on cash held in
+# non-cash ISAs) is a rate, not this share, and is not ported. Budget 2026 (28 October
+# 2026) announced that the GBP 12,000 limit will not go ahead.
 #
 """
 
@@ -1934,18 +1975,18 @@ def note_package() -> str:
     shared_filters, shared_constraints = category("isa_type", "cash", "ISA subscribed to")
     shared_constraints.append(constraint("age", "<", 65, "Aged under 65", "years"))
     entries = []
-    for ordinal, (number, value_id, label, operator) in enumerate(
+    # Each row carries its band alone. Amount bounds of '<' and '>' GBP 12,000 would
+    # leave a subscription of exactly GBP 12,000 in neither row, though the shares sum
+    # to 100, and the sentence does not say which row holds it.
+    for ordinal, (number, value_id, label) in enumerate(
         (
-            ("78", "under_12000", "Less than GBP 12,000", "<"),
-            ("22", "over_12000", "Over GBP 12,000", ">"),
+            ("78", "under_12000", "Less than GBP 12,000"),
+            ("22", "over_12000", "Over GBP 12,000"),
         )
     ):
         row = by_number[number]
         assert rows[row][5] == int(number)
         filters, constraints = category("cash_isa_subscription_band", value_id, "Cash ISA subscription band")
-        constraints.append(
-            constraint("cash_isa_subscription_amount", operator, 12000, "Cash ISA subscription relative to GBP 12,000", "gbp")
-        )
         entries.append(
             row_entry(
                 value_id=value_id,

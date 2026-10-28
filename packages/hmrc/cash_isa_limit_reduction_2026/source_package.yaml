@@ -7,10 +7,11 @@
 # subscribed less than GBP 12,000 to a cash ISA and 22% subscribed over GBP 12,000. The
 # note names no data source, so the shares carry provenance_class model_output (a policy
 # paper's estimate). The sentence does not place a subscription of exactly GBP 12,000,
-# and does not say whether a subscriber who also paid into a stocks and shares ISA is
-# counted on the cash amount alone. The page's other '22%' (the flat-rate charge on
-# interest on cash held in non-cash ISAs) is a rate, not this share, and is not ported.
-# Budget 2026 (28 October 2026) announced that the GBP 12,000 limit will not go ahead.
+# so each row carries its band alone, with no amount bound. Nor does it say whether a
+# subscriber who also paid into a stocks and shares ISA is counted on the cash amount
+# alone. The page's other '22%' (the flat-rate charge on interest on cash held in
+# non-cash ISAs) is a rate, not this share, and is not ported. Budget 2026 (28 October
+# 2026) announced that the GBP 12,000 limit will not go ahead.
 #
 schema_version: ledger.source_package.v1
 package_id: hmrc-cash-isa-limit-reduction-2026
@@ -85,11 +86,6 @@ record_sets:
       operator: ==
       value: under_12000
       label: Cash ISA subscription band
-    - variable: cash_isa_subscription_amount
-      operator: <
-      value: 12000
-      unit: gbp
-      label: Cash ISA subscription relative to GBP 12,000
     guard_cells:
     - column: A
       row: 41
@@ -114,11 +110,6 @@ record_sets:
       operator: ==
       value: over_12000
       label: Cash ISA subscription band
-    - variable: cash_isa_subscription_amount
-      operator: '>'
-      value: 12000
-      unit: gbp
-      label: Cash ISA subscription relative to GBP 12,000
     guard_cells:
     - column: A
       row: 44
