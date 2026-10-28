@@ -354,6 +354,45 @@ def test_age_bands_cover_the_published_rows(isa_facts):
     ]
 
 
+def test_the_docs_arithmetic_on_tables_9_4_and_9_7(isa_facts):
+    """The two caveats the docs page states from the cells (not stored as facts)."""
+
+    def subscribers(isa_type: str, measure: str = "all_subscriptions") -> float:
+        return _value(isa_facts, f"table9_7.ty2023.{isa_type}.subscribers", "all", measure)
+
+    def at_floors(isa_type: str) -> float:
+        """Subscribers in each band times the band's floor ('subscription_2001_to_4000')."""
+        prefix = f"{PREFIX}.table9_7.ty2023.{isa_type}.subscribers.all.subscription_"
+        bands = {
+            int(record_id.removeprefix(prefix).split("_")[0]): fact.value
+            for record_id, fact in isa_facts.items()
+            if record_id.startswith(prefix)
+        }
+        assert len(bands) == 11
+        return sum(floor * count for floor, count in bands.items())
+
+    accounts = {
+        component: _value(isa_facts, "table9_4.accounts.ty2023", component, "accounts")
+        for component in ("cash", "stocks_and_shares", "lifetime")
+    }
+    amounts = {
+        component: _value(isa_facts, "table9_4.amounts.ty2023", component, "amounts")
+        for component in ("cash", "stocks_and_shares", "all")
+    }
+    # Table 9.7's bands at their floors against Table 9.4's amounts subscribed.
+    assert round(at_floors("all") / 1e9, 1) == 114.3
+    assert round(at_floors("cash_only") / 1e9, 1) == 78.1
+    assert (amounts["cash"], amounts["stocks_and_shares"]) == (69498e6, 31070e6)
+    assert at_floors("cash_only") > amounts["cash"]
+    assert at_floors("all") > amounts["all"] == 102995e6
+    # Lifetime ISAs: the cash and stocks and shares people match Table 9.4's accounts.
+    cash, shares, both = (subscribers(t) for t in TYPES)
+    assert cash + shares + both == subscribers("all") == 13054561
+    assert round(cash + both, -3) == accounts["cash"] == 9939000
+    assert round(shares + both, -3) == accounts["stocks_and_shares"] == 4091000
+    assert accounts["lifetime"] == 964000
+
+
 def test_table_9_4_components_sum_and_match_the_workbook(isa_facts, isa_sheets):
     sheet = isa_sheets["9_4_ISA_subscriptions"]
     labels = sheet.iloc[:, 0].astype(str).str.strip()

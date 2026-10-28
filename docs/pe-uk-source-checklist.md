@@ -301,10 +301,10 @@ Not ported:
 Published sources for
 [microcosm#1415](https://github.com/PolicyEngine/microcosm/issues/1415), which imputes
 yearly ISA subscriptions per adult by type. uk-data has no ISA target. Three packages add
-3,439 facts; field contracts and caveats are in
+3,272 facts; field contracts and caveats are in
 [`docs/data-sources/uk-hmrc-annual-savings-statistics-2026.md`](data-sources/uk-hmrc-annual-savings-statistics-2026.md).
 
-- **ISA tables, September 2026** (`hmrc-isa-statistics-2026`, 3,397 facts):
+- **ISA tables, September 2026** (`hmrc-isa-statistics-2026`, 3,230 facts):
   - Table 9.4's accounts and amounts subscribed by component, 2008-09 to 2024-25;
   - Table 9.6's market values by type of investment, 2011-12 to 2024-25;
   - Tables 9.7 to 9.12's 2023-24 individuals subscribing and holding, by income, age,
