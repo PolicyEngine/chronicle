@@ -468,7 +468,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # PolicyEngine/microcosm#1415's HMRC annual savings statistics add 3,272
         # person facts: 3,230 from the ISA tables (9.4, 9.6 and 9.7 to 9.12), 40
         # from Lifetime ISA Table 1a and 2 from the cash ISA limit impact note.
-        "fact_count": 1657279,
+        # PolicyEngine/microcosm#1418 adds SPI 2023-24 Table 3.10 to the SPI
+        # bands package: 159 tax year 2023 facts for UK individuals with a
+        # self-employment source, at existing keys (15 rows of 10 measures and
+        # the GBP 0 to GBP 1 band's 9, its self-employment amount suppressed).
+        "fact_count": 1657438,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -561,7 +565,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1657279
+    assert row_count == 1657438
     assert provenance_classes <= {
         "administrative",
         "census",
@@ -596,7 +600,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1657279
+    assert coverage["fact_count"] == 1657438
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -620,7 +624,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "gambling_commission": 2459,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 36513,
+        "hmrc": 36672,
         "ici": 12,
         "ird": 4362,
         "irs_soi": 43963,
@@ -2188,6 +2192,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }.items():
         key = f"tax_year:{year}"
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # PolicyEngine/microcosm#1418: SPI 2023-24 Table 3.10.
+    expected_period_counts["tax_year:2023"] += 159
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2244,8 +2250,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # to the geography DWP counts them over: +51. chronicle#381 adds 1,555:
     # OBR's 181 excise lines and HMRC's 1,374 alcohol, tobacco and betting and
     # gaming facts. PolicyEngine/microcosm#1415's HMRC annual savings statistics
-    # add 2,993: all but Table 9.9 and 9.12's area rows.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 36500
+    # add 2,993: all but Table 9.9 and 9.12's area rows. SPI 2023-24 Table 3.10
+    # adds 159 (PolicyEngine/microcosm#1418).
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 36659
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
@@ -2289,8 +2296,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # +352 (HMRC stamp-tax transactions). chronicle#381: institutional sectors
     # +2,097 (OBR and HMRC clearances, HMRC production and the Gambling
     # Commission's figures) and people +893 (OBR and HMRC receipts and levies,
-    # and Machine Games Duty liabilities). GSGB 2025 adds 1,024 people, and
-    # PolicyEngine/microcosm#1415's HMRC annual savings statistics 3,272.
+    # and Machine Games Duty liabilities). GSGB 2025 adds 1,024 people,
+    # PolicyEngine/microcosm#1415's HMRC annual savings statistics 3,272 and SPI
+    # 2023-24 Table 3.10 159 (PolicyEngine/microcosm#1418).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 274367,
@@ -2300,7 +2308,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 676320,
         "institutional_sector": 8806,
         "pension_plan": 2,
-        "person": 596595,
+        "person": 596754,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
