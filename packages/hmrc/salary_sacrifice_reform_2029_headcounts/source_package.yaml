@@ -41,7 +41,12 @@ dimension_labels:
   'hmrc.salary_sacrifice_employer_arrangement': 'Employer salary sacrifice arrangement for pension contributions'
 dimension_value_labels:
   'salary_sacrifice_threshold_position':
-    'all': 'Employees using salary sacrifice to make pension contributions'
+    # Chronicle's register gives this label, its own wording (chronicle#376):
+    # the rows' texts for this value, "Employees using salary sacrifice to make
+    # pension contributions" and "National Insurance contributions forgone
+    # through salary sacrifice for pensions", name the measure, and they stay
+    # in the rows.
+    'all': 'All threshold positions'
     'within_2000': 'Employees fully protected by the GBP 2,000 threshold'
   'salary_sacrifice_employer_arrangement':
     'operates': 'Operates salary sacrifice arrangements for pension contributions'

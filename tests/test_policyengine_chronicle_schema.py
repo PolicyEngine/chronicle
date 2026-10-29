@@ -31,11 +31,13 @@ _V1 = SCHEMA_IDS["consumer_fact"].ledger
 _V2 = SCHEMA_IDS["consumer_fact"].chronicle
 _V3 = "chronicle.consumer_fact.v3"
 _V4 = "chronicle.consumer_fact.v4"
+_V5 = "chronicle.consumer_fact.v5"
 _SCHEMA_FILES = {
     _V1: "consumer_fact.v1.schema.json",
     _V2: "consumer_fact.v2.schema.json",
     _V3: "consumer_fact.v3.schema.json",
     _V4: "consumer_fact.v4.schema.json",
+    _V5: "consumer_fact.v5.schema.json",
 }
 _FROZEN_SCHEMA_SHA256 = {
     _V1: "72ad3149564f8aab3e9bb6de5ea25950c8e19a3e8402e2cdcfc52d250bc8ee82",
@@ -43,6 +45,8 @@ _FROZEN_SCHEMA_SHA256 = {
     _V3: "bdb51e2a8115634633ba7448c4005930fd9c0bfbade5e1b079b6bc24da485d3d",
     # chronicle#356 adds gas_year to period.type's vocabulary description.
     _V4: "d953306d6f01fbc64db4372d0262d3012ee590269f8a25b276b18dca0626c6a0",
+    # chronicle#376: v4 plus the source package's own wording of a value.
+    _V5: "acd33a091cd8d192be5d264e3e94c13e00afb6fd1972e57d4576ac55a54f6970",
 }
 
 _TOP_LEVEL_KEY_DOMAINS = {
@@ -88,11 +92,13 @@ def _chronicle_epoch_row(row):
 def _v2_row(index=0):
     """A fixture row restated as a ``chronicle.consumer_fact.v2`` row.
 
-    v2 carries the labels and knows nothing of the publisher's geography name.
+    v2 carries the labels and knows nothing of the publisher's geography name
+    or of a package's own value wording (v5).
     """
     row = _fixture_row(index)
     row["schema_version"] = _V2
     row.get("geography", {}).pop("name", None)
+    row.pop("package_dimension_value_labels", None)
     return row
 
 
@@ -106,7 +112,7 @@ def _v1_row(index=0):
     return row
 
 
-@pytest.mark.parametrize("schema_version", [_V1, _V2, _V3, _V4])
+@pytest.mark.parametrize("schema_version", [_V1, _V2, _V3, _V4, _V5])
 def test_packaged_schema_is_byte_identical_to_docs_schema(schema_version):
     filename = _SCHEMA_FILES[schema_version]
     docs_bytes = (_REPO_ROOT / "docs" / "schemas" / filename).read_bytes()
@@ -125,11 +131,58 @@ def test_packaged_schema_is_byte_identical_to_docs_schema(schema_version):
     )
 
 
-def test_emitted_schema_is_the_v4_contract():
-    assert CONSUMER_FACT_SCHEMA_SHA256 == _FROZEN_SCHEMA_SHA256[_V4]
+def test_emitted_schema_is_the_v5_contract():
+    assert CONSUMER_FACT_SCHEMA_SHA256 == _FROZEN_SCHEMA_SHA256[_V5]
     assert dict(CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION) == _FROZEN_SCHEMA_SHA256
-    assert consumer_fact_schema() == consumer_fact_schema(_V4)
-    assert tuple(CONSUMER_FACT_ROW_CONTRACTS) == (_V1, _V2, _V3, _V4)
+    assert consumer_fact_schema() == consumer_fact_schema(_V5)
+    assert tuple(CONSUMER_FACT_ROW_CONTRACTS) == (_V1, _V2, _V3, _V4, _V5)
+
+
+def test_v5_schema_is_v4_plus_the_packages_own_value_wording():
+    v4 = copy.deepcopy(consumer_fact_schema(_V4))
+    v5 = copy.deepcopy(consumer_fact_schema(_V5))
+
+    assert v5["properties"]["schema_version"] == {"const": _V5}
+    assert v5["required"] == v4["required"]
+    assert set(v5["properties"]) - set(v4["properties"]) == {
+        "package_dimension_value_labels"
+    }
+    package_wording = v5["properties"]["package_dimension_value_labels"]
+    assert package_wording["type"] == "object"
+    assert package_wording["additionalProperties"] == {
+        "type": "object",
+        "additionalProperties": {"$ref": "#/$defs/label"},
+    }
+    for schema in (v4, v5):
+        for key in ("$id", "title", "description"):
+            schema.pop(key, None)
+        schema["properties"].pop("schema_version")
+        schema["properties"].pop("package_dimension_value_labels", None)
+        schema["properties"]["dimension_value_labels"].pop("description")
+    assert v5 == v4
+
+
+def test_v5_describes_the_package_wording_as_unchecked_text_chronicle_may_write():
+    """The field holds a package's own wording, which is often Chronicle's text.
+
+    Statbel's "65_plus", Census B01001's "Female 20 years" and "female",
+    Eurostat's "First income decile cut-point" and the Belgian country-total
+    phrases are text Chronicle wrote (the chronicle#377 source-fidelity
+    review), so the contract must not call the field the publisher's text.
+    """
+    v5_text = (_REPO_ROOT / "docs" / "schemas" / _SCHEMA_FILES[_V5]).read_text()
+    description = consumer_fact_schema(_V5)["properties"][
+        "package_dimension_value_labels"
+    ]["description"]
+
+    assert "publisher_dimension_value_labels" not in v5_text
+    assert "the publisher's row or column text" not in v5_text
+    assert "not checked against the publisher's file" in description
+    assert "text Chronicle wrote" in description
+    assert "lineage.source_cell_keys" in description
+    # A groupby value whose axis is also a filter with another value (Eurostat
+    # quant_inc: filter D1, row d1) is keyed by its groupby value id.
+    assert "layout.groupby_value_id" in description
 
 
 def test_v4_schema_is_v3_plus_the_publishers_own_geography_name():
@@ -200,12 +253,12 @@ def test_valid_fixture_rows_pass_validation():
     ]
 
     assert len(rows) == 3
-    assert {row["schema_version"] for row in rows} == {_V4}
+    assert {row["schema_version"] for row in rows} == {_V5}
     for line_number, row in enumerate(rows, start=1):
         validate_consumer_fact_row(row, line_number, _SAMPLE_PATH)
 
 
-@pytest.mark.parametrize("schema_version", [_V2, _V3, _V4])
+@pytest.mark.parametrize("schema_version", [_V2, _V3, _V4, _V5])
 def test_a_v1_row_validates_as_v1_and_restamped_under_each_successor(schema_version):
     row = _v1_row()
 
@@ -263,8 +316,8 @@ def test_all_chronicle_epoch_identifiers_pass_without_mutating_row():
     assert row == original
     normalized = normalize_consumer_fact_row_epochs(row, 2, _SAMPLE_PATH)
     # The row contract is not an epoch alias: a row keeps the contract it
-    # declares, here the v4 one the fixture was published under.
-    assert normalized["schema_version"] == _V4
+    # declares, here the v5 one the fixture was published under.
+    assert normalized["schema_version"] == _V5
     for field_name, domain_name in _TOP_LEVEL_KEY_DOMAINS.items():
         assert normalized[field_name].startswith(HASH_DOMAINS[domain_name].ledger + ":")
     assert normalized["concept_alignment"]["concept_alignment_key"].startswith(

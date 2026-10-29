@@ -109,7 +109,9 @@ The values:
   markers dropped.
   - B.9's row 6 reads "Tickets National Lottery draws bought in person", where B.10's
     reads "Tickets for National Lottery draws bought in person".
-  - Both are kept, so the bundle reports a groupby-label warning for that row.
+  - Both are kept in the rows. Chronicle's label register gives the value B.10's
+    wording, and B.9's facts keep their row's text in
+    `package_dimension_value_labels` (chronicle#376).
   - B.2 and B.4's rows are named by area, on a `gambling_commission.gsgb_area` axis.
 - **Left out:**
   - weighted bases;

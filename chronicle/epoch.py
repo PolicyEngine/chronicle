@@ -164,18 +164,21 @@ SCHEMA_IDS: Mapping[str, EpochPair] = MappingProxyType(
 # The consumer-fact row contracts Chronicle has emitted, oldest first. Each is a
 # superset of the one before it, so a row restamped with a later id stays valid:
 # v2 (chronicle#261) is v1 plus optional dimension and value labels, v3
-# (chronicle#266) is v2 plus the publisher's name for the fact's geography, and
-# v4 (chronicle#281) is v3 with that name resolved to one spelling per
-# identifier where Chronicle's register carries it, the publisher's own text
-# moving to an optional geography.publisher_name. The pair above is the Ledger
-# rename table, not this contract history, so only v1 and v2 name a naming
-# epoch. The row contract and the hash-key domains move independently:
+# (chronicle#266) is v2 plus the publisher's name for the fact's geography, v4
+# (chronicle#281) is v3 with that name resolved to one spelling per identifier
+# where Chronicle's register carries it, the publisher's own text moving to an
+# optional geography.publisher_name, and v5 (chronicle#376) is v4 with one
+# label per dimension value where Chronicle's register lists it, the package's
+# own wording moving to an optional package_dimension_value_labels. The pair
+# above is the Ledger rename table, not this contract history, so only v1 and
+# v2 name a naming epoch. The row contract and the hash-key domains move independently:
 # EMIT_EPOCH still keeps every key Ledger-named.
 CONSUMER_FACT_ROW_CONTRACTS: tuple[str, ...] = (
     SCHEMA_IDS["consumer_fact"].ledger,
     SCHEMA_IDS["consumer_fact"].chronicle,
     "chronicle.consumer_fact.v3",
     "chronicle.consumer_fact.v4",
+    "chronicle.consumer_fact.v5",
 )
 CONSUMER_FACT_EMIT_SCHEMA_VERSION = CONSUMER_FACT_ROW_CONTRACTS[-1]
 

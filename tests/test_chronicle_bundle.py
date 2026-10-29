@@ -543,7 +543,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # prints it, where the older Eurostat packages carry the bare code 'A'.
         # GSGB 2025 adds one: B.9 writes "Tickets National Lottery draws bought in
         # person" where B.10 writes "Tickets for ...", both kept as published.
-        "warning_count": 133,
+        # chronicle#376 removes 41: every dimension value two packages emit
+        # takes its label from chronicle/dimension_values/canonical_labels.json,
+        # so the 17 values two packages labelled differently and the 24 values
+        # one package's rows labelled two ways now carry one label each (freq=A
+        # 'Annual', and B.10's wording for GSGB's row), and a value labelled
+        # two ways is an error rather than a warning.
+        "warning_count": 92,
     }
     row_count = 0
     provenance_classes = set()
@@ -2309,8 +2315,6 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
-        "conflicting_groupby_value_label": 24,
-        "conflicting_value_label_across_packages": 17,
         "duplicate_semantic_fact_key": 1,
     }
     assert [
@@ -2350,29 +2354,19 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         for warning in geography_names
         if warning["key"].startswith("local_authority:")
     ) == ["local_authority:nz-ta-018", "local_authority:nz-ta-027"]
-    assert sorted(
-        warning["key"]
-        for warning in summary["warnings"]
-        if warning["code"] == "conflicting_value_label_across_packages"
-    ) == [
-        "age=85_plus",
-        "age=age_20",
-        "age=age_21",
-        "age_band=30 to 39",
-        "age_band=40 to 49",
-        "freq=A",
-        "household_type=couple_3_plus_children_households",
-        "measure=country_total",
-        "ons.household_type=couple_3_plus_children_households",
-        "person.age_band=65_plus",
-        "property_type=detached",
-        "property_type=semi_detached",
-        "property_type=terraced",
-        "sex=female",
-        "sex=male",
-        "us:statutes/26/62#adjusted_gross_income=all",
-        "us:statutes/26/62#adjusted_gross_income=under_1",
-    ]
+    # One label per dimension value (chronicle#376): nothing about value labels
+    # is left as a warning, and the bundle reports no value label error.
+    assert [
+        issue["key"]
+        for issue in (*summary["errors"], *summary["warnings"])
+        if issue["code"]
+        in {
+            "conflicting_value_label",
+            "conflicting_value_label_across_packages",
+            "conflicting_groupby_value_label",
+            "conflicting_dimension_value_label",
+        }
+    ] == []
     # E12000003 is the case chronicle#281 was opened on: six packages wrote
     # "Yorkshire and The Humber" and five "Yorkshire and the Humber". The
     # register carries the identifier, so the export names it once and the

@@ -35,9 +35,10 @@ dimension_labels:
   property_type: Property Type
 dimension_value_labels:
   property_type:
-    detached: Detached houses
-    semi_detached: Semi-detached houses
-    terraced: Terraced houses
+    # Chronicle's register gives these three labels (chronicle#376).
+    detached: Detached
+    semi_detached: Semi detached
+    terraced: Terraced
     flat_maisonette: Flats/maisonettes
 artifact:
   source_name: ons
