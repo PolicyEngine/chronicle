@@ -148,6 +148,11 @@ def test_build_bundle_dir_uk_suite_uses_curated_sources(tmp_path, monkeypatch):
     assert "hmrc-isa-statistics-2026" in UK_BUNDLE_SOURCES
     assert "hmrc-lisa-statistics-2026" in UK_BUNDLE_SOURCES
     assert "hmrc-cash-isa-limit-reduction-2026" in UK_BUNDLE_SOURCES
+    # chronicle#393: the October 2026 EFO sits beside the March 2026 vintage.
+    for kind in ("receipts", "expenditure", "economy", "aggregates"):
+        assert f"obr-efo-{kind}-march-2026" in UK_BUNDLE_SOURCES
+        assert f"obr-efo-{kind}-october-2026" in UK_BUNDLE_SOURCES
+    assert "obr-efo-policy-october-2026" in UK_BUNDLE_SOURCES
     assert tuple(captured["sources"]) == UK_BUNDLE_SOURCES
     assert captured["output_dir"] == tmp_path / "bundle"
 
@@ -468,7 +473,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # PolicyEngine/microcosm#1415's HMRC annual savings statistics add 3,272
         # person facts: 3,230 from the ISA tables (9.4, 9.6 and 9.7 to 9.12), 40
         # from Lifetime ISA Table 1a and 2 from the cash ISA limit impact note.
-        "fact_count": 1657279,
+        # PolicyEngine/microcosm#1418 adds SPI 2023-24 Table 3.10 to the SPI
+        # bands package: 159 tax year 2023 facts for UK individuals with a
+        # self-employment source, at existing keys (15 rows of 10 measures and
+        # the GBP 0 to GBP 1 band's 9, its self-employment amount suppressed).
+        # chronicle#393's OBR October 2026 EFO packages add 4,317: receipts
+        # 1,551, expenditure 165, economy 56, aggregates 25 and policy 2,520.
+        "fact_count": 1661755,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -480,8 +491,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # 1995) and gas_year 2015 to 2024, the period type chronicle#356 adds.
         # chronicle#381 adds 12 more: HMRC's betting and gaming receipts from
         # 1986-87 and tobacco from 1990-91 (fiscal_year 1986 to 1993), and
-        # tobacco's calendar years 1991 to 1994.
-        "period_count": 553,
+        # tobacco's calendar years 1991 to 1994. chronicle#393 adds fiscal_year
+        # 2031: 2031-32 is the October 2026 EFO's new forecast year, and no
+        # other package carries it.
+        "period_count": 554,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -501,7 +514,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # journey series remain publisher facts with their original provenance.
         # PolicyEngine/microcosm#1415 adds none: totals the ISA tables print in
         # more than one of Tables 9.7 to 9.12 are ported once.
-        "semantic_duplicate_key_count": 2324,
+        # chronicle#393 adds 363: the October 2026 EFO's projections of the March
+        # 2026 packages' lines for the years both vintages forecast, kept as
+        # published beside the March package so a consumer picks a vintage by
+        # package.
+        "semantic_duplicate_key_count": 2687,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
@@ -514,8 +531,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # all-claims UC area packages. chronicle#381 adds four and replaces the
         # 30 June Consumer Trends package with the 30 September one. GSGB 2025
         # (PolicyEngine/microcosm#1381) adds one. PolicyEngine/microcosm#1415
-        # adds three.
-        "source_package_count": 423,
+        # adds three, and chronicle#393 the five OBR October 2026 EFO packages.
+        "source_package_count": 428,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -561,14 +578,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1657279
+    assert row_count == 1661755
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 423
+    assert source_packages["source_package_count"] == 428
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -596,7 +613,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1657279
+    assert coverage["fact_count"] == 1661755
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -620,7 +637,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "gambling_commission": 2459,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 36513,
+        "hmrc": 36672,
         "ici": 12,
         "ird": 4362,
         "irs_soi": 43963,
@@ -635,7 +652,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "nisra": 29227,
         "nithc": 8,
         "nrs": 359094,
-        "obr": 648,
+        "obr": 4965,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
         "ons": 347184,
@@ -662,7 +679,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9567,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 365
+    assert len(table_counts) == 370
     assert (
         table_counts[
             "ostbelgien_kindergeld:Kindergeld in Ostbelgien, Aktualisierung "
@@ -2188,6 +2205,30 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }.items():
         key = f"tax_year:{year}"
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # PolicyEngine/microcosm#1418: SPI 2023-24 Table 3.10.
+    expected_period_counts["tax_year:2023"] += 159
+    # chronicle#393: the OBR October 2026 EFO packages, by fiscal and calendar year.
+    for key, count in {
+        "calendar_year:2024": 1,
+        "calendar_year:2025": 13,
+        "calendar_year:2026": 13,
+        "calendar_year:2027": 13,
+        "calendar_year:2028": 13,
+        "calendar_year:2029": 13,
+        "calendar_year:2030": 13,
+        "calendar_year:2031": 13,
+        "fiscal_year:2022": 17,
+        "fiscal_year:2023": 22,
+        "fiscal_year:2024": 31,
+        "fiscal_year:2025": 209,
+        "fiscal_year:2026": 657,
+        "fiscal_year:2027": 657,
+        "fiscal_year:2028": 658,
+        "fiscal_year:2029": 658,
+        "fiscal_year:2030": 658,
+        "fiscal_year:2031": 658,
+    }.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2244,8 +2285,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # to the geography DWP counts them over: +51. chronicle#381 adds 1,555:
     # OBR's 181 excise lines and HMRC's 1,374 alcohol, tobacco and betting and
     # gaming facts. PolicyEngine/microcosm#1415's HMRC annual savings statistics
-    # add 2,993: all but Table 9.9 and 9.12's area rows.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 36500
+    # add 2,993: all but Table 9.9 and 9.12's area rows. SPI 2023-24 Table 3.10
+    # adds 159 (PolicyEngine/microcosm#1418). chronicle#393's OBR October 2026
+    # EFO packages add 4,219: all but the DWP and Northern Ireland lines of
+    # expenditure table 5.9.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 40878
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
@@ -2255,10 +2299,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # table 4.9 lines DWP counts over Great Britain (56) and BUS04 (2): +170.
     # chronicle#381's 1,435 Gambling Commission facts, the National Lottery's
     # included, as the publication describes them. GSGB 2025's Great Britain
-    # tables (B.1, B.3, B.9 and B.13) add 544.
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 23550
-    # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28).
-    assert coverage["counts"]["by_geography"]["country:K04000001"] == 1176
+    # tables (B.1, B.3, B.9 and B.13) add 544. The October 2026 EFO's table 5.9
+    # DWP lines add 56 (chronicle#393).
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 23606
+    # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28),
+    # and the October 2026 EFO's table 5.9 the same four lines (28, chronicle#393).
+    assert coverage["counts"]["by_geography"]["country:K04000001"] == 1204
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
     # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope.
     assert len(coverage["counts"]["by_geography"]) == 102617
@@ -2289,24 +2335,28 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # +352 (HMRC stamp-tax transactions). chronicle#381: institutional sectors
     # +2,097 (OBR and HMRC clearances, HMRC production and the Gambling
     # Commission's figures) and people +893 (OBR and HMRC receipts and levies,
-    # and Machine Games Duty liabilities). GSGB 2025 adds 1,024 people, and
-    # PolicyEngine/microcosm#1415's HMRC annual savings statistics 3,272.
+    # and Machine Games Duty liabilities). GSGB 2025 adds 1,024 people,
+    # PolicyEngine/microcosm#1415's HMRC annual savings statistics 3,272 and SPI
+    # 2023-24 Table 3.10 159 (PolicyEngine/microcosm#1418). chronicle#393's
+    # OBR October 2026 EFO packages: government +2,601 (policy costings,
+    # aggregates and the economy forecasts), people +1,547, institutional
+    # sectors +113 and firms +56 (corporation tax credits).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 274367,
         "family": 1700,
-        "firm": 1440,
-        "government": 4148,
+        "firm": 1496,
+        "government": 6749,
         "household": 676320,
-        "institutional_sector": 8806,
+        "institutional_sector": 8919,
         "pension_plan": 2,
-        "person": 596595,
+        "person": 598301,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2687
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
         "conflicting_groupby_value_label": 24,
@@ -2424,6 +2474,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc-isa-statistics-2026",
         "hmrc-lisa-statistics-2026",
         "hmrc-cash-isa-limit-reduction-2026",
+        "obr-efo-receipts-october-2026",
+        "obr-efo-expenditure-october-2026",
+        "obr-efo-economy-october-2026",
+        "obr-efo-aggregates-october-2026",
+        "obr-efo-policy-october-2026",
     ):
         assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
     for source in (

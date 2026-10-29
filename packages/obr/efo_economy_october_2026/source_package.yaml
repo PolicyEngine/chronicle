@@ -1,0 +1,2693 @@
+# OBR Economic and fiscal outlook, October 2026 (published with the Budget on 28 October
+# 2026), for PolicyEngine/chronicle#393. Written by
+# scripts/build_obr_efo_october_2026.py from the pinned workbook; edit that, not this.
+# Values are as the tables print them, with value_scale for the stated unit. Fiscal-year
+# periods store the opening year (2025-26 -> 2025). Each year column's assertion follows
+# the band above it: 'Outturn' (and 'Estimate', 'Estimated Outurn') gives observation
+# and 'Forecast' gives source_projection; a table with no band is all forecast. In
+# October, 2025-26 is outturn, where in March it was a forecast, and 2031-32 is a new
+# forecast year.
+#
+# The March 2026 package's lines (package obr-efo-economy-march-2026), under the
+# obr.efo_2026_10 prefix with their line ids, display labels and concepts, so a consumer
+# changes vintage by package. Each is found by its table's title and its row's label;
+# the row numbers and the October table number ride on each record set and its notes.
+#
+# October drops, renames or splits none of the March package's rows.
+#
+# Economy. The March lines for calendar 2025 to 2031, plus two series
+# PolicyEngine/policyengine-uk#2638's interest projection reads: table 1.9's deposit
+# rate (obr.deposit_rate) and table 1.11's household financial assets
+# (obr.household_financial_assets, ONS NNML). Calendar 2025 is outturn and 2026 onwards
+# forecast; the tables mark no forecast start.
+#
+schema_version: ledger.source_package.v1
+package_id: obr-efo-economy-october-2026
+label: 'OBR EFO October 2026 detailed forecast tables: economy'
+dimension_labels:
+  obr.efo_line: EFO table line
+artifact:
+  source_name: obr
+  source_table: 'EFO October 2026 detailed forecast tables: economy'
+  resource_package: db
+  resource_directory: data/obr/efo_economy_october_2026
+  manifest: manifest.yaml
+  vintage: efo_october_2026
+  extracted_at: '2026-10-29'
+  extraction_method: xlsx whole-workbook used-range cell parse
+  parser: xlsx_used_range
+  artifact_year: 2026
+record_sets:
+- record_set_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2025
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2025.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2025
+  sheet_name: '1.4'
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions
+    ordinal: 0
+    row_number: 118
+    expected_row_header_column: B
+    expected_row_header: 2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.4 Nominal GDP (£ billion, non-seasonally adjusted)
+      label: table title
+  measures:
+  - measure_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions, 2025
+    ordinal: 0
+    column: C
+    source_column_id: nominal_gdp_nsa
+    concept: obr.nominal_gdp_nsa
+    source_concept: obr.efo_economy.nominal_gdp_nsa
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.4 (''Nominal GDP (£
+      billion, non-seasonally adjusted)''), column C, calendar-year row; GBP billion. Calendar 2025 is
+      stamped outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27,
+      is presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: observation
+- record_set_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2026
+  sheet_name: '1.4'
+  period_type: calendar_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions
+    ordinal: 0
+    row_number: 119
+    expected_row_header_column: B
+    expected_row_header: 2026
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.4 Nominal GDP (£ billion, non-seasonally adjusted)
+      label: table title
+  measures:
+  - measure_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions, 2026
+    ordinal: 0
+    column: C
+    source_column_id: nominal_gdp_nsa
+    concept: obr.nominal_gdp_nsa
+    source_concept: obr.efo_economy.nominal_gdp_nsa
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.4 (''Nominal GDP (£
+      billion, non-seasonally adjusted)''), column C, calendar-year row; GBP billion. Calendar 2025 is
+      stamped outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27,
+      is presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2027
+  sheet_name: '1.4'
+  period_type: calendar_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions
+    ordinal: 0
+    row_number: 120
+    expected_row_header_column: B
+    expected_row_header: 2027
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.4 Nominal GDP (£ billion, non-seasonally adjusted)
+      label: table title
+  measures:
+  - measure_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions, 2027
+    ordinal: 0
+    column: C
+    source_column_id: nominal_gdp_nsa
+    concept: obr.nominal_gdp_nsa
+    source_concept: obr.efo_economy.nominal_gdp_nsa
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.4 (''Nominal GDP (£
+      billion, non-seasonally adjusted)''), column C, calendar-year row; GBP billion. Calendar 2025 is
+      stamped outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27,
+      is presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2028
+  sheet_name: '1.4'
+  period_type: calendar_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions
+    ordinal: 0
+    row_number: 121
+    expected_row_header_column: B
+    expected_row_header: 2028
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.4 Nominal GDP (£ billion, non-seasonally adjusted)
+      label: table title
+  measures:
+  - measure_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions, 2028
+    ordinal: 0
+    column: C
+    source_column_id: nominal_gdp_nsa
+    concept: obr.nominal_gdp_nsa
+    source_concept: obr.efo_economy.nominal_gdp_nsa
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.4 (''Nominal GDP (£
+      billion, non-seasonally adjusted)''), column C, calendar-year row; GBP billion. Calendar 2025 is
+      stamped outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27,
+      is presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2029
+  sheet_name: '1.4'
+  period_type: calendar_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions
+    ordinal: 0
+    row_number: 122
+    expected_row_header_column: B
+    expected_row_header: 2029
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.4 Nominal GDP (£ billion, non-seasonally adjusted)
+      label: table title
+  measures:
+  - measure_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions, 2029
+    ordinal: 0
+    column: C
+    source_column_id: nominal_gdp_nsa
+    concept: obr.nominal_gdp_nsa
+    source_concept: obr.efo_economy.nominal_gdp_nsa
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.4 (''Nominal GDP (£
+      billion, non-seasonally adjusted)''), column C, calendar-year row; GBP billion. Calendar 2025 is
+      stamped outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27,
+      is presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2030
+  sheet_name: '1.4'
+  period_type: calendar_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions
+    ordinal: 0
+    row_number: 123
+    expected_row_header_column: B
+    expected_row_header: 2030
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.4 Nominal GDP (£ billion, non-seasonally adjusted)
+      label: table title
+  measures:
+  - measure_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions, 2030
+    ordinal: 0
+    column: C
+    source_column_id: nominal_gdp_nsa
+    concept: obr.nominal_gdp_nsa
+    source_concept: obr.efo_economy.nominal_gdp_nsa
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.4 (''Nominal GDP (£
+      billion, non-seasonally adjusted)''), column C, calendar-year row; GBP billion. Calendar 2025 is
+      stamped outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27,
+      is presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.nominal_gdp_nsa.cy2031
+  sheet_name: '1.4'
+  period_type: calendar_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions
+    ordinal: 0
+    row_number: 124
+    expected_row_header_column: B
+    expected_row_header: 2031
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.4 Nominal GDP (£ billion, non-seasonally adjusted)
+      label: table title
+  measures:
+  - measure_id: nominal_gdp_nsa
+    label: Nominal GDP NSA, billions, 2031
+    ordinal: 0
+    column: C
+    source_column_id: nominal_gdp_nsa
+    concept: obr.nominal_gdp_nsa
+    source_concept: obr.efo_economy.nominal_gdp_nsa
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.4 (''Nominal GDP (£
+      billion, non-seasonally adjusted)''), column C, calendar-year row; GBP billion. Calendar 2025 is
+      stamped outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27,
+      is presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.employment_16_plus.cy2025
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.employment_16_plus.cy2025.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.employment_16_plus.cy2025
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: employment_16_plus
+    label: Employment (16+, millions)
+    ordinal: 0
+    row_number: 118
+    expected_row_header_column: B
+    expected_row_header: 2025
+    table_record_kind: total
+  measures:
+  - measure_id: employment_16_plus
+    label: Employment (16+, millions), 2025
+    ordinal: 0
+    column: C
+    source_column_id: employment_16_plus
+    concept: obr.employment_16_plus
+    source_concept: obr.efo_economy.employment_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column C, calendar-year row; millions of people. Calendar 2025 is stamped outturn and 2026 onwards
+      forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast
+      because its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 3
+    expected_column_header: Employment (16+, millions)
+  assertion: observation
+- record_set_id: obr.efo_2026_10.economy.employment_16_plus.cy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.employment_16_plus.cy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.employment_16_plus.cy2026
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: employment_16_plus
+    label: Employment (16+, millions)
+    ordinal: 0
+    row_number: 119
+    expected_row_header_column: B
+    expected_row_header: 2026
+    table_record_kind: total
+  measures:
+  - measure_id: employment_16_plus
+    label: Employment (16+, millions), 2026
+    ordinal: 0
+    column: C
+    source_column_id: employment_16_plus
+    concept: obr.employment_16_plus
+    source_concept: obr.efo_economy.employment_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column C, calendar-year row; millions of people. Calendar 2025 is stamped outturn and 2026 onwards
+      forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast
+      because its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 3
+    expected_column_header: Employment (16+, millions)
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.employment_16_plus.cy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.employment_16_plus.cy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.employment_16_plus.cy2027
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: employment_16_plus
+    label: Employment (16+, millions)
+    ordinal: 0
+    row_number: 120
+    expected_row_header_column: B
+    expected_row_header: 2027
+    table_record_kind: total
+  measures:
+  - measure_id: employment_16_plus
+    label: Employment (16+, millions), 2027
+    ordinal: 0
+    column: C
+    source_column_id: employment_16_plus
+    concept: obr.employment_16_plus
+    source_concept: obr.efo_economy.employment_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column C, calendar-year row; millions of people. Calendar 2025 is stamped outturn and 2026 onwards
+      forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast
+      because its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 3
+    expected_column_header: Employment (16+, millions)
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.employment_16_plus.cy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.employment_16_plus.cy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.employment_16_plus.cy2028
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: employment_16_plus
+    label: Employment (16+, millions)
+    ordinal: 0
+    row_number: 121
+    expected_row_header_column: B
+    expected_row_header: 2028
+    table_record_kind: total
+  measures:
+  - measure_id: employment_16_plus
+    label: Employment (16+, millions), 2028
+    ordinal: 0
+    column: C
+    source_column_id: employment_16_plus
+    concept: obr.employment_16_plus
+    source_concept: obr.efo_economy.employment_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column C, calendar-year row; millions of people. Calendar 2025 is stamped outturn and 2026 onwards
+      forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast
+      because its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 3
+    expected_column_header: Employment (16+, millions)
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.employment_16_plus.cy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.employment_16_plus.cy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.employment_16_plus.cy2029
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: employment_16_plus
+    label: Employment (16+, millions)
+    ordinal: 0
+    row_number: 122
+    expected_row_header_column: B
+    expected_row_header: 2029
+    table_record_kind: total
+  measures:
+  - measure_id: employment_16_plus
+    label: Employment (16+, millions), 2029
+    ordinal: 0
+    column: C
+    source_column_id: employment_16_plus
+    concept: obr.employment_16_plus
+    source_concept: obr.efo_economy.employment_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column C, calendar-year row; millions of people. Calendar 2025 is stamped outturn and 2026 onwards
+      forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast
+      because its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 3
+    expected_column_header: Employment (16+, millions)
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.employment_16_plus.cy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.employment_16_plus.cy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.employment_16_plus.cy2030
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: employment_16_plus
+    label: Employment (16+, millions)
+    ordinal: 0
+    row_number: 123
+    expected_row_header_column: B
+    expected_row_header: 2030
+    table_record_kind: total
+  measures:
+  - measure_id: employment_16_plus
+    label: Employment (16+, millions), 2030
+    ordinal: 0
+    column: C
+    source_column_id: employment_16_plus
+    concept: obr.employment_16_plus
+    source_concept: obr.efo_economy.employment_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column C, calendar-year row; millions of people. Calendar 2025 is stamped outturn and 2026 onwards
+      forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast
+      because its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 3
+    expected_column_header: Employment (16+, millions)
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.employment_16_plus.cy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.employment_16_plus.cy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.employment_16_plus.cy2031
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: employment_16_plus
+    label: Employment (16+, millions)
+    ordinal: 0
+    row_number: 124
+    expected_row_header_column: B
+    expected_row_header: 2031
+    table_record_kind: total
+  measures:
+  - measure_id: employment_16_plus
+    label: Employment (16+, millions), 2031
+    ordinal: 0
+    column: C
+    source_column_id: employment_16_plus
+    concept: obr.employment_16_plus
+    source_concept: obr.efo_economy.employment_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column C, calendar-year row; millions of people. Calendar 2025 is stamped outturn and 2026 onwards
+      forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast
+      because its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+    expected_column_header_row: 3
+    expected_column_header: Employment (16+, millions)
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2025
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2025.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2025
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent)
+    ordinal: 0
+    row_number: 118
+    expected_row_header_column: B
+    expected_row_header: 2025
+    table_record_kind: total
+  measures:
+  - measure_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent), 2025
+    ordinal: 0
+    column: G
+    source_column_id: ilo_unemployment_rate_16_plus
+    concept: obr.ilo_unemployment_rate_16_plus
+    source_concept: obr.efo_economy.ilo_unemployment_rate_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column G, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: "ILO unemployment rate \n(16+, per cent)"
+  assertion: observation
+- record_set_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2026
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent)
+    ordinal: 0
+    row_number: 119
+    expected_row_header_column: B
+    expected_row_header: 2026
+    table_record_kind: total
+  measures:
+  - measure_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent), 2026
+    ordinal: 0
+    column: G
+    source_column_id: ilo_unemployment_rate_16_plus
+    concept: obr.ilo_unemployment_rate_16_plus
+    source_concept: obr.efo_economy.ilo_unemployment_rate_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column G, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: "ILO unemployment rate \n(16+, per cent)"
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2027
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent)
+    ordinal: 0
+    row_number: 120
+    expected_row_header_column: B
+    expected_row_header: 2027
+    table_record_kind: total
+  measures:
+  - measure_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent), 2027
+    ordinal: 0
+    column: G
+    source_column_id: ilo_unemployment_rate_16_plus
+    concept: obr.ilo_unemployment_rate_16_plus
+    source_concept: obr.efo_economy.ilo_unemployment_rate_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column G, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: "ILO unemployment rate \n(16+, per cent)"
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2028
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent)
+    ordinal: 0
+    row_number: 121
+    expected_row_header_column: B
+    expected_row_header: 2028
+    table_record_kind: total
+  measures:
+  - measure_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent), 2028
+    ordinal: 0
+    column: G
+    source_column_id: ilo_unemployment_rate_16_plus
+    concept: obr.ilo_unemployment_rate_16_plus
+    source_concept: obr.efo_economy.ilo_unemployment_rate_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column G, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: "ILO unemployment rate \n(16+, per cent)"
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2029
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent)
+    ordinal: 0
+    row_number: 122
+    expected_row_header_column: B
+    expected_row_header: 2029
+    table_record_kind: total
+  measures:
+  - measure_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent), 2029
+    ordinal: 0
+    column: G
+    source_column_id: ilo_unemployment_rate_16_plus
+    concept: obr.ilo_unemployment_rate_16_plus
+    source_concept: obr.efo_economy.ilo_unemployment_rate_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column G, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: "ILO unemployment rate \n(16+, per cent)"
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2030
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent)
+    ordinal: 0
+    row_number: 123
+    expected_row_header_column: B
+    expected_row_header: 2030
+    table_record_kind: total
+  measures:
+  - measure_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent), 2030
+    ordinal: 0
+    column: G
+    source_column_id: ilo_unemployment_rate_16_plus
+    concept: obr.ilo_unemployment_rate_16_plus
+    source_concept: obr.efo_economy.ilo_unemployment_rate_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column G, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: "ILO unemployment rate \n(16+, per cent)"
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.ilo_unemployment_rate_16_plus.cy2031
+  sheet_name: '1.6'
+  period_type: calendar_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent)
+    ordinal: 0
+    row_number: 124
+    expected_row_header_column: B
+    expected_row_header: 2031
+    table_record_kind: total
+  measures:
+  - measure_id: ilo_unemployment_rate_16_plus
+    label: ILO unemployment rate (16+, per cent), 2031
+    ordinal: 0
+    column: G
+    source_column_id: ilo_unemployment_rate_16_plus
+    concept: obr.ilo_unemployment_rate_16_plus
+    source_concept: obr.efo_economy.ilo_unemployment_rate_16_plus
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.6 (''Labour market''),
+      column G, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: "ILO unemployment rate \n(16+, per cent)"
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.rpi_inflation.cy2025
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.rpi_inflation.cy2025.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.rpi_inflation.cy2025
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: rpi_inflation
+    label: RPI year-on-year growth
+    ordinal: 0
+    row_number: 119
+    expected_row_header_column: B
+    expected_row_header: 2025
+    table_record_kind: total
+  measures:
+  - measure_id: rpi_inflation
+    label: RPI year-on-year growth, 2025
+    ordinal: 0
+    column: C
+    source_column_id: rpi_inflation
+    concept: obr.rpi_inflation
+    source_concept: obr.efo_economy.rpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: RPI
+  assertion: observation
+- record_set_id: obr.efo_2026_10.economy.rpi_inflation.cy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.rpi_inflation.cy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.rpi_inflation.cy2026
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: rpi_inflation
+    label: RPI year-on-year growth
+    ordinal: 0
+    row_number: 120
+    expected_row_header_column: B
+    expected_row_header: 2026
+    table_record_kind: total
+  measures:
+  - measure_id: rpi_inflation
+    label: RPI year-on-year growth, 2026
+    ordinal: 0
+    column: C
+    source_column_id: rpi_inflation
+    concept: obr.rpi_inflation
+    source_concept: obr.efo_economy.rpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: RPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.rpi_inflation.cy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.rpi_inflation.cy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.rpi_inflation.cy2027
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: rpi_inflation
+    label: RPI year-on-year growth
+    ordinal: 0
+    row_number: 121
+    expected_row_header_column: B
+    expected_row_header: 2027
+    table_record_kind: total
+  measures:
+  - measure_id: rpi_inflation
+    label: RPI year-on-year growth, 2027
+    ordinal: 0
+    column: C
+    source_column_id: rpi_inflation
+    concept: obr.rpi_inflation
+    source_concept: obr.efo_economy.rpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: RPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.rpi_inflation.cy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.rpi_inflation.cy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.rpi_inflation.cy2028
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: rpi_inflation
+    label: RPI year-on-year growth
+    ordinal: 0
+    row_number: 122
+    expected_row_header_column: B
+    expected_row_header: 2028
+    table_record_kind: total
+  measures:
+  - measure_id: rpi_inflation
+    label: RPI year-on-year growth, 2028
+    ordinal: 0
+    column: C
+    source_column_id: rpi_inflation
+    concept: obr.rpi_inflation
+    source_concept: obr.efo_economy.rpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: RPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.rpi_inflation.cy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.rpi_inflation.cy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.rpi_inflation.cy2029
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: rpi_inflation
+    label: RPI year-on-year growth
+    ordinal: 0
+    row_number: 123
+    expected_row_header_column: B
+    expected_row_header: 2029
+    table_record_kind: total
+  measures:
+  - measure_id: rpi_inflation
+    label: RPI year-on-year growth, 2029
+    ordinal: 0
+    column: C
+    source_column_id: rpi_inflation
+    concept: obr.rpi_inflation
+    source_concept: obr.efo_economy.rpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: RPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.rpi_inflation.cy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.rpi_inflation.cy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.rpi_inflation.cy2030
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: rpi_inflation
+    label: RPI year-on-year growth
+    ordinal: 0
+    row_number: 124
+    expected_row_header_column: B
+    expected_row_header: 2030
+    table_record_kind: total
+  measures:
+  - measure_id: rpi_inflation
+    label: RPI year-on-year growth, 2030
+    ordinal: 0
+    column: C
+    source_column_id: rpi_inflation
+    concept: obr.rpi_inflation
+    source_concept: obr.efo_economy.rpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: RPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.rpi_inflation.cy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.rpi_inflation.cy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.rpi_inflation.cy2031
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: rpi_inflation
+    label: RPI year-on-year growth
+    ordinal: 0
+    row_number: 125
+    expected_row_header_column: B
+    expected_row_header: 2031
+    table_record_kind: total
+  measures:
+  - measure_id: rpi_inflation
+    label: RPI year-on-year growth, 2031
+    ordinal: 0
+    column: C
+    source_column_id: rpi_inflation
+    concept: obr.rpi_inflation
+    source_concept: obr.efo_economy.rpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: RPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.cpi_inflation.cy2025
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.cpi_inflation.cy2025.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.cpi_inflation.cy2025
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: cpi_inflation
+    label: CPI year-on-year growth
+    ordinal: 0
+    row_number: 119
+    expected_row_header_column: B
+    expected_row_header: 2025
+    table_record_kind: total
+  measures:
+  - measure_id: cpi_inflation
+    label: CPI year-on-year growth, 2025
+    ordinal: 0
+    column: E
+    source_column_id: cpi_inflation
+    concept: obr.cpi_inflation
+    source_concept: obr.efo_economy.cpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column E, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: CPI
+  assertion: observation
+- record_set_id: obr.efo_2026_10.economy.cpi_inflation.cy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.cpi_inflation.cy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.cpi_inflation.cy2026
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: cpi_inflation
+    label: CPI year-on-year growth
+    ordinal: 0
+    row_number: 120
+    expected_row_header_column: B
+    expected_row_header: 2026
+    table_record_kind: total
+  measures:
+  - measure_id: cpi_inflation
+    label: CPI year-on-year growth, 2026
+    ordinal: 0
+    column: E
+    source_column_id: cpi_inflation
+    concept: obr.cpi_inflation
+    source_concept: obr.efo_economy.cpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column E, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: CPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.cpi_inflation.cy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.cpi_inflation.cy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.cpi_inflation.cy2027
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: cpi_inflation
+    label: CPI year-on-year growth
+    ordinal: 0
+    row_number: 121
+    expected_row_header_column: B
+    expected_row_header: 2027
+    table_record_kind: total
+  measures:
+  - measure_id: cpi_inflation
+    label: CPI year-on-year growth, 2027
+    ordinal: 0
+    column: E
+    source_column_id: cpi_inflation
+    concept: obr.cpi_inflation
+    source_concept: obr.efo_economy.cpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column E, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: CPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.cpi_inflation.cy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.cpi_inflation.cy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.cpi_inflation.cy2028
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: cpi_inflation
+    label: CPI year-on-year growth
+    ordinal: 0
+    row_number: 122
+    expected_row_header_column: B
+    expected_row_header: 2028
+    table_record_kind: total
+  measures:
+  - measure_id: cpi_inflation
+    label: CPI year-on-year growth, 2028
+    ordinal: 0
+    column: E
+    source_column_id: cpi_inflation
+    concept: obr.cpi_inflation
+    source_concept: obr.efo_economy.cpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column E, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: CPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.cpi_inflation.cy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.cpi_inflation.cy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.cpi_inflation.cy2029
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: cpi_inflation
+    label: CPI year-on-year growth
+    ordinal: 0
+    row_number: 123
+    expected_row_header_column: B
+    expected_row_header: 2029
+    table_record_kind: total
+  measures:
+  - measure_id: cpi_inflation
+    label: CPI year-on-year growth, 2029
+    ordinal: 0
+    column: E
+    source_column_id: cpi_inflation
+    concept: obr.cpi_inflation
+    source_concept: obr.efo_economy.cpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column E, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: CPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.cpi_inflation.cy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.cpi_inflation.cy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.cpi_inflation.cy2030
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: cpi_inflation
+    label: CPI year-on-year growth
+    ordinal: 0
+    row_number: 124
+    expected_row_header_column: B
+    expected_row_header: 2030
+    table_record_kind: total
+  measures:
+  - measure_id: cpi_inflation
+    label: CPI year-on-year growth, 2030
+    ordinal: 0
+    column: E
+    source_column_id: cpi_inflation
+    concept: obr.cpi_inflation
+    source_concept: obr.efo_economy.cpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column E, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: CPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.cpi_inflation.cy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.cpi_inflation.cy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.cpi_inflation.cy2031
+  sheet_name: '1.7'
+  period_type: calendar_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: cpi_inflation
+    label: CPI year-on-year growth
+    ordinal: 0
+    row_number: 125
+    expected_row_header_column: B
+    expected_row_header: 2031
+    table_record_kind: total
+  measures:
+  - measure_id: cpi_inflation
+    label: CPI year-on-year growth, 2031
+    ordinal: 0
+    column: E
+    source_column_id: cpi_inflation
+    concept: obr.cpi_inflation
+    source_concept: obr.efo_economy.cpi_inflation
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.7 (''Inflation''),
+      column E, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026 onwards forecast:
+      the EFO''s foreword says the current fiscal year, 2026-27, is presented as an OBR forecast because
+      its outturn is incomplete, and the workbook marks no forecast start on the tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: CPI
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.bank_rate.cy2025
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.bank_rate.cy2025.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.bank_rate.cy2025
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: bank_rate
+    label: Bank Rate
+    ordinal: 0
+    row_number: 118
+    expected_row_header_column: B
+    expected_row_header: 2025
+    table_record_kind: total
+  measures:
+  - measure_id: bank_rate
+    label: Bank Rate, 2025
+    ordinal: 0
+    column: C
+    source_column_id: bank_rate
+    concept: obr.bank_rate
+    source_concept: obr.efo_economy.bank_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026
+      onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an
+      OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on the
+      tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: Bank Rate
+  assertion: observation
+- record_set_id: obr.efo_2026_10.economy.bank_rate.cy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.bank_rate.cy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.bank_rate.cy2026
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: bank_rate
+    label: Bank Rate
+    ordinal: 0
+    row_number: 119
+    expected_row_header_column: B
+    expected_row_header: 2026
+    table_record_kind: total
+  measures:
+  - measure_id: bank_rate
+    label: Bank Rate, 2026
+    ordinal: 0
+    column: C
+    source_column_id: bank_rate
+    concept: obr.bank_rate
+    source_concept: obr.efo_economy.bank_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026
+      onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an
+      OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on the
+      tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: Bank Rate
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.bank_rate.cy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.bank_rate.cy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.bank_rate.cy2027
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: bank_rate
+    label: Bank Rate
+    ordinal: 0
+    row_number: 120
+    expected_row_header_column: B
+    expected_row_header: 2027
+    table_record_kind: total
+  measures:
+  - measure_id: bank_rate
+    label: Bank Rate, 2027
+    ordinal: 0
+    column: C
+    source_column_id: bank_rate
+    concept: obr.bank_rate
+    source_concept: obr.efo_economy.bank_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026
+      onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an
+      OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on the
+      tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: Bank Rate
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.bank_rate.cy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.bank_rate.cy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.bank_rate.cy2028
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: bank_rate
+    label: Bank Rate
+    ordinal: 0
+    row_number: 121
+    expected_row_header_column: B
+    expected_row_header: 2028
+    table_record_kind: total
+  measures:
+  - measure_id: bank_rate
+    label: Bank Rate, 2028
+    ordinal: 0
+    column: C
+    source_column_id: bank_rate
+    concept: obr.bank_rate
+    source_concept: obr.efo_economy.bank_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026
+      onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an
+      OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on the
+      tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: Bank Rate
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.bank_rate.cy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.bank_rate.cy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.bank_rate.cy2029
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: bank_rate
+    label: Bank Rate
+    ordinal: 0
+    row_number: 122
+    expected_row_header_column: B
+    expected_row_header: 2029
+    table_record_kind: total
+  measures:
+  - measure_id: bank_rate
+    label: Bank Rate, 2029
+    ordinal: 0
+    column: C
+    source_column_id: bank_rate
+    concept: obr.bank_rate
+    source_concept: obr.efo_economy.bank_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026
+      onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an
+      OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on the
+      tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: Bank Rate
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.bank_rate.cy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.bank_rate.cy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.bank_rate.cy2030
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: bank_rate
+    label: Bank Rate
+    ordinal: 0
+    row_number: 123
+    expected_row_header_column: B
+    expected_row_header: 2030
+    table_record_kind: total
+  measures:
+  - measure_id: bank_rate
+    label: Bank Rate, 2030
+    ordinal: 0
+    column: C
+    source_column_id: bank_rate
+    concept: obr.bank_rate
+    source_concept: obr.efo_economy.bank_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026
+      onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an
+      OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on the
+      tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: Bank Rate
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.bank_rate.cy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.bank_rate.cy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.bank_rate.cy2031
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: bank_rate
+    label: Bank Rate
+    ordinal: 0
+    row_number: 124
+    expected_row_header_column: B
+    expected_row_header: 2031
+    table_record_kind: total
+  measures:
+  - measure_id: bank_rate
+    label: Bank Rate, 2031
+    ordinal: 0
+    column: C
+    source_column_id: bank_rate
+    concept: obr.bank_rate
+    source_concept: obr.efo_economy.bank_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column C, calendar-year row; per cent. Calendar 2025 is stamped outturn and 2026
+      onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented as an
+      OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on the
+      tables.'
+    unit: percent
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 3
+    expected_column_header: Bank Rate
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.deposit_rate.cy2025
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.deposit_rate.cy2025.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.deposit_rate.cy2025
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: deposit_rate
+    label: Deposit rate, per cent
+    ordinal: 0
+    row_number: 118
+    expected_row_header_column: B
+    expected_row_header: 2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.9 Market-derived assumptions
+      label: table title
+    - column: F
+      row: 3
+      expected_value: Deposit rate
+      label: column header
+  measures:
+  - measure_id: deposit_rate
+    label: Deposit rate, per cent, 2025
+    ordinal: 0
+    column: F
+    source_column_id: deposit_rate
+    concept: obr.deposit_rate
+    source_concept: obr.efo_economy.deposit_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column F (''Deposit rate''), calendar-year row; per cent. Calendar 2025 is stamped
+      outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is
+      presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: percent
+    aggregation: rate
+    expected_cell_type: number
+  assertion: observation
+- record_set_id: obr.efo_2026_10.economy.deposit_rate.cy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.deposit_rate.cy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.deposit_rate.cy2026
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: deposit_rate
+    label: Deposit rate, per cent
+    ordinal: 0
+    row_number: 119
+    expected_row_header_column: B
+    expected_row_header: 2026
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.9 Market-derived assumptions
+      label: table title
+    - column: F
+      row: 3
+      expected_value: Deposit rate
+      label: column header
+  measures:
+  - measure_id: deposit_rate
+    label: Deposit rate, per cent, 2026
+    ordinal: 0
+    column: F
+    source_column_id: deposit_rate
+    concept: obr.deposit_rate
+    source_concept: obr.efo_economy.deposit_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column F (''Deposit rate''), calendar-year row; per cent. Calendar 2025 is stamped
+      outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is
+      presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: percent
+    aggregation: rate
+    expected_cell_type: number
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.deposit_rate.cy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.deposit_rate.cy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.deposit_rate.cy2027
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: deposit_rate
+    label: Deposit rate, per cent
+    ordinal: 0
+    row_number: 120
+    expected_row_header_column: B
+    expected_row_header: 2027
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.9 Market-derived assumptions
+      label: table title
+    - column: F
+      row: 3
+      expected_value: Deposit rate
+      label: column header
+  measures:
+  - measure_id: deposit_rate
+    label: Deposit rate, per cent, 2027
+    ordinal: 0
+    column: F
+    source_column_id: deposit_rate
+    concept: obr.deposit_rate
+    source_concept: obr.efo_economy.deposit_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column F (''Deposit rate''), calendar-year row; per cent. Calendar 2025 is stamped
+      outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is
+      presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: percent
+    aggregation: rate
+    expected_cell_type: number
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.deposit_rate.cy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.deposit_rate.cy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.deposit_rate.cy2028
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: deposit_rate
+    label: Deposit rate, per cent
+    ordinal: 0
+    row_number: 121
+    expected_row_header_column: B
+    expected_row_header: 2028
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.9 Market-derived assumptions
+      label: table title
+    - column: F
+      row: 3
+      expected_value: Deposit rate
+      label: column header
+  measures:
+  - measure_id: deposit_rate
+    label: Deposit rate, per cent, 2028
+    ordinal: 0
+    column: F
+    source_column_id: deposit_rate
+    concept: obr.deposit_rate
+    source_concept: obr.efo_economy.deposit_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column F (''Deposit rate''), calendar-year row; per cent. Calendar 2025 is stamped
+      outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is
+      presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: percent
+    aggregation: rate
+    expected_cell_type: number
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.deposit_rate.cy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.deposit_rate.cy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.deposit_rate.cy2029
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: deposit_rate
+    label: Deposit rate, per cent
+    ordinal: 0
+    row_number: 122
+    expected_row_header_column: B
+    expected_row_header: 2029
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.9 Market-derived assumptions
+      label: table title
+    - column: F
+      row: 3
+      expected_value: Deposit rate
+      label: column header
+  measures:
+  - measure_id: deposit_rate
+    label: Deposit rate, per cent, 2029
+    ordinal: 0
+    column: F
+    source_column_id: deposit_rate
+    concept: obr.deposit_rate
+    source_concept: obr.efo_economy.deposit_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column F (''Deposit rate''), calendar-year row; per cent. Calendar 2025 is stamped
+      outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is
+      presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: percent
+    aggregation: rate
+    expected_cell_type: number
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.deposit_rate.cy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.deposit_rate.cy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.deposit_rate.cy2030
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: deposit_rate
+    label: Deposit rate, per cent
+    ordinal: 0
+    row_number: 123
+    expected_row_header_column: B
+    expected_row_header: 2030
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.9 Market-derived assumptions
+      label: table title
+    - column: F
+      row: 3
+      expected_value: Deposit rate
+      label: column header
+  measures:
+  - measure_id: deposit_rate
+    label: Deposit rate, per cent, 2030
+    ordinal: 0
+    column: F
+    source_column_id: deposit_rate
+    concept: obr.deposit_rate
+    source_concept: obr.efo_economy.deposit_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column F (''Deposit rate''), calendar-year row; per cent. Calendar 2025 is stamped
+      outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is
+      presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: percent
+    aggregation: rate
+    expected_cell_type: number
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.deposit_rate.cy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.deposit_rate.cy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.deposit_rate.cy2031
+  sheet_name: '1.9'
+  period_type: calendar_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: deposit_rate
+    label: Deposit rate, per cent
+    ordinal: 0
+    row_number: 124
+    expected_row_header_column: B
+    expected_row_header: 2031
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.9 Market-derived assumptions
+      label: table title
+    - column: F
+      row: 3
+      expected_value: Deposit rate
+      label: column header
+  measures:
+  - measure_id: deposit_rate
+    label: Deposit rate, per cent, 2031
+    ordinal: 0
+    column: F
+    source_column_id: deposit_rate
+    concept: obr.deposit_rate
+    source_concept: obr.efo_economy.deposit_rate
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.9 (''Market-derived
+      assumptions''), column F (''Deposit rate''), calendar-year row; per cent. Calendar 2025 is stamped
+      outturn and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is
+      presented as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast
+      start on the tables.'
+    unit: percent
+    aggregation: rate
+    expected_cell_type: number
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.household_financial_assets.cy2025
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.household_financial_assets.cy2025.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.household_financial_assets.cy2025
+  sheet_name: '1.11'
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: household_financial_assets
+    label: Household financial assets, GBP billion
+    ordinal: 0
+    row_number: 99
+    expected_row_header_column: B
+    expected_row_header: 2025
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.11 Household balance sheet, PNFC balance sheet, and bank lending
+      label: table title
+    - column: D
+      row: 4
+      expected_value: Financial assets (£bn)
+      label: column header
+  measures:
+  - measure_id: household_financial_assets
+    label: Household financial assets, GBP billion, 2025
+    ordinal: 0
+    column: D
+    source_column_id: household_financial_assets
+    concept: obr.household_financial_assets
+    source_concept: obr.efo_economy.household_financial_assets
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.11 (''Household balance
+      sheet, PNFC balance sheet, and bank lending''), column D (''Financial assets (£bn)''), calendar-year
+      row; GBP billion, in the table''s households block (row 3, ''Households''). The table defines the
+      series as household financial assets (ONS Economic Accounts, identifier: NNML); it does not say
+      whether a calendar-year row is the year-end or the average stock. Calendar 2025 is stamped outturn
+      and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented
+      as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on
+      the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: observation
+- record_set_id: obr.efo_2026_10.economy.household_financial_assets.cy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.household_financial_assets.cy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.household_financial_assets.cy2026
+  sheet_name: '1.11'
+  period_type: calendar_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: household_financial_assets
+    label: Household financial assets, GBP billion
+    ordinal: 0
+    row_number: 100
+    expected_row_header_column: B
+    expected_row_header: 2026
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.11 Household balance sheet, PNFC balance sheet, and bank lending
+      label: table title
+    - column: D
+      row: 4
+      expected_value: Financial assets (£bn)
+      label: column header
+  measures:
+  - measure_id: household_financial_assets
+    label: Household financial assets, GBP billion, 2026
+    ordinal: 0
+    column: D
+    source_column_id: household_financial_assets
+    concept: obr.household_financial_assets
+    source_concept: obr.efo_economy.household_financial_assets
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.11 (''Household balance
+      sheet, PNFC balance sheet, and bank lending''), column D (''Financial assets (£bn)''), calendar-year
+      row; GBP billion, in the table''s households block (row 3, ''Households''). The table defines the
+      series as household financial assets (ONS Economic Accounts, identifier: NNML); it does not say
+      whether a calendar-year row is the year-end or the average stock. Calendar 2025 is stamped outturn
+      and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented
+      as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on
+      the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.household_financial_assets.cy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.household_financial_assets.cy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.household_financial_assets.cy2027
+  sheet_name: '1.11'
+  period_type: calendar_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: household_financial_assets
+    label: Household financial assets, GBP billion
+    ordinal: 0
+    row_number: 101
+    expected_row_header_column: B
+    expected_row_header: 2027
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.11 Household balance sheet, PNFC balance sheet, and bank lending
+      label: table title
+    - column: D
+      row: 4
+      expected_value: Financial assets (£bn)
+      label: column header
+  measures:
+  - measure_id: household_financial_assets
+    label: Household financial assets, GBP billion, 2027
+    ordinal: 0
+    column: D
+    source_column_id: household_financial_assets
+    concept: obr.household_financial_assets
+    source_concept: obr.efo_economy.household_financial_assets
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.11 (''Household balance
+      sheet, PNFC balance sheet, and bank lending''), column D (''Financial assets (£bn)''), calendar-year
+      row; GBP billion, in the table''s households block (row 3, ''Households''). The table defines the
+      series as household financial assets (ONS Economic Accounts, identifier: NNML); it does not say
+      whether a calendar-year row is the year-end or the average stock. Calendar 2025 is stamped outturn
+      and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented
+      as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on
+      the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.household_financial_assets.cy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.household_financial_assets.cy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.household_financial_assets.cy2028
+  sheet_name: '1.11'
+  period_type: calendar_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: household_financial_assets
+    label: Household financial assets, GBP billion
+    ordinal: 0
+    row_number: 102
+    expected_row_header_column: B
+    expected_row_header: 2028
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.11 Household balance sheet, PNFC balance sheet, and bank lending
+      label: table title
+    - column: D
+      row: 4
+      expected_value: Financial assets (£bn)
+      label: column header
+  measures:
+  - measure_id: household_financial_assets
+    label: Household financial assets, GBP billion, 2028
+    ordinal: 0
+    column: D
+    source_column_id: household_financial_assets
+    concept: obr.household_financial_assets
+    source_concept: obr.efo_economy.household_financial_assets
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.11 (''Household balance
+      sheet, PNFC balance sheet, and bank lending''), column D (''Financial assets (£bn)''), calendar-year
+      row; GBP billion, in the table''s households block (row 3, ''Households''). The table defines the
+      series as household financial assets (ONS Economic Accounts, identifier: NNML); it does not say
+      whether a calendar-year row is the year-end or the average stock. Calendar 2025 is stamped outturn
+      and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented
+      as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on
+      the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.household_financial_assets.cy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.household_financial_assets.cy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.household_financial_assets.cy2029
+  sheet_name: '1.11'
+  period_type: calendar_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: household_financial_assets
+    label: Household financial assets, GBP billion
+    ordinal: 0
+    row_number: 103
+    expected_row_header_column: B
+    expected_row_header: 2029
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.11 Household balance sheet, PNFC balance sheet, and bank lending
+      label: table title
+    - column: D
+      row: 4
+      expected_value: Financial assets (£bn)
+      label: column header
+  measures:
+  - measure_id: household_financial_assets
+    label: Household financial assets, GBP billion, 2029
+    ordinal: 0
+    column: D
+    source_column_id: household_financial_assets
+    concept: obr.household_financial_assets
+    source_concept: obr.efo_economy.household_financial_assets
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.11 (''Household balance
+      sheet, PNFC balance sheet, and bank lending''), column D (''Financial assets (£bn)''), calendar-year
+      row; GBP billion, in the table''s households block (row 3, ''Households''). The table defines the
+      series as household financial assets (ONS Economic Accounts, identifier: NNML); it does not say
+      whether a calendar-year row is the year-end or the average stock. Calendar 2025 is stamped outturn
+      and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented
+      as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on
+      the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.household_financial_assets.cy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.household_financial_assets.cy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.household_financial_assets.cy2030
+  sheet_name: '1.11'
+  period_type: calendar_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: household_financial_assets
+    label: Household financial assets, GBP billion
+    ordinal: 0
+    row_number: 104
+    expected_row_header_column: B
+    expected_row_header: 2030
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.11 Household balance sheet, PNFC balance sheet, and bank lending
+      label: table title
+    - column: D
+      row: 4
+      expected_value: Financial assets (£bn)
+      label: column header
+  measures:
+  - measure_id: household_financial_assets
+    label: Household financial assets, GBP billion, 2030
+    ordinal: 0
+    column: D
+    source_column_id: household_financial_assets
+    concept: obr.household_financial_assets
+    source_concept: obr.efo_economy.household_financial_assets
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.11 (''Household balance
+      sheet, PNFC balance sheet, and bank lending''), column D (''Financial assets (£bn)''), calendar-year
+      row; GBP billion, in the table''s households block (row 3, ''Households''). The table defines the
+      series as household financial assets (ONS Economic Accounts, identifier: NNML); it does not say
+      whether a calendar-year row is the year-end or the average stock. Calendar 2025 is stamped outturn
+      and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented
+      as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on
+      the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.economy.household_financial_assets.cy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.economy.household_financial_assets.cy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.economy.household_financial_assets.cy2031
+  sheet_name: '1.11'
+  period_type: calendar_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: household_financial_assets
+    label: Household financial assets, GBP billion
+    ordinal: 0
+    row_number: 105
+    expected_row_header_column: B
+    expected_row_header: 2031
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 1.11 Household balance sheet, PNFC balance sheet, and bank lending
+      label: table title
+    - column: D
+      row: 4
+      expected_value: Financial assets (£bn)
+      label: column header
+  measures:
+  - measure_id: household_financial_assets
+    label: Household financial assets, GBP billion, 2031
+    ordinal: 0
+    column: D
+    source_column_id: household_financial_assets
+    concept: obr.household_financial_assets
+    source_concept: obr.efo_economy.household_financial_assets
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-economy/
+    concept_evidence_notes: 'OBR EFO October 2026 detailed forecast tables, table 1.11 (''Household balance
+      sheet, PNFC balance sheet, and bank lending''), column D (''Financial assets (£bn)''), calendar-year
+      row; GBP billion, in the table''s households block (row 3, ''Households''). The table defines the
+      series as household financial assets (ONS Economic Accounts, identifier: NNML); it does not say
+      whether a calendar-year row is the year-end or the average stock. Calendar 2025 is stamped outturn
+      and 2026 onwards forecast: the EFO''s foreword says the current fiscal year, 2026-27, is presented
+      as an OBR forecast because its outturn is incomplete, and the workbook marks no forecast start on
+      the tables.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+  assertion: source_projection

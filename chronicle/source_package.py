@@ -1053,6 +1053,12 @@ SOURCE_PACKAGE_ALIASES = {
     "obr-efo-expenditure-march-2026": Path("obr/efo_expenditure_march_2026"),
     "obr-efo-economy-march-2026": Path("obr/efo_economy_march_2026"),
     "obr-efo-aggregates-march-2026": Path("obr/efo_aggregates_march_2026"),
+    # PolicyEngine/chronicle#393: the October 2026 EFO, beside the March vintage.
+    "obr-efo-receipts-october-2026": Path("obr/efo_receipts_october_2026"),
+    "obr-efo-expenditure-october-2026": Path("obr/efo_expenditure_october_2026"),
+    "obr-efo-economy-october-2026": Path("obr/efo_economy_october_2026"),
+    "obr-efo-aggregates-october-2026": Path("obr/efo_aggregates_october_2026"),
+    "obr-efo-policy-october-2026": Path("obr/efo_policy_october_2026"),
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"
     ),

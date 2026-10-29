@@ -1,7 +1,8 @@
-# SPI 2023-24 Tables 3.3 to 3.8, the band-grain sheets of the collated
-# workbook: 13 total-income bands carrying income types, total income, tax,
-# deductions and reliefs, in counts (thousands, 1e3) and amounts (GBP million,
-# 1e6). Means, average rates and percentage-distribution columns are derived
+# SPI 2023-24 Tables 3.3 to 3.8 and 3.10, the band-grain sheets of the
+# collated workbook: 13 total-income bands carrying income types, total income,
+# tax, deductions and reliefs, in counts (thousands, 1e3) and amounts (GBP
+# million, 1e6), and Table 3.10's self-employment income bands (last paragraph
+# below). Means, average rates and percentage-distribution columns are derived
 # from the ported pairs and are not facts here. tax_year period 2023 (opening
 # year; uk-data maps to 2024). Band lower bounds are numeric ODS cells, so
 # numeric row-header guards work here. uk-data's 1.9x property-income scale
@@ -10,10 +11,10 @@
 # (hmrc_income.py); Table 3.11's region cut of the same workbook is the
 # hmrc-spi-income-by-region-2023-24 package.
 #
-# Every sheet covers UK taxpayers only - individuals with some liability to
-# tax - so the counts are taxpayers, not adults, and the lowest band can hold
-# taxpayers with no Personal Allowance entitlement (Table 3.3 note 2). The
-# 'All ranges' rows are ported as table_record_kind: total.
+# Every sheet but Table 3.10 covers UK taxpayers only - individuals with some
+# liability to tax - so the counts are taxpayers, not adults, and the lowest
+# band can hold taxpayers with no Personal Allowance entitlement (Table 3.3
+# note 2). The 'All ranges' rows are ported as table_record_kind: total.
 #
 # A band is both of its edges. Every banded row these record sets add carries
 # total_income_upper_bound beside total_income_lower_bound - the next band its
@@ -52,10 +53,31 @@
 # and the evidence on the measure, not a second concept. Table 3.7's 'Other
 # income' [Note 6] pair is a different thing: the trust, estate, foreign and
 # other taxable income residual, which keeps hmrc.spi_other_income_*.
+#
+# Table 3.10 bands by self-employment income instead, from HMRC's GBP 0 to
+# GBP 1 range to GBP 100 000 and over, in counts (thousands) and amounts (GBP
+# million), and it is not taxpayers only: it counts every individual with a
+# self-employment source, taxpayer or not (its scope line; Table 3.6 note 6).
+# Its facts carry entity_role individual_with_self_employment_source and their
+# own axis, hmrc.self_employment_income_band, with
+# self_employment_income_lower_bound and self_employment_income_upper_bound,
+# so none shares a key with a taxpayer fact: its 5 340 thousand individuals
+# over all ranges are not Table 3.6's 3 670 thousand self-employed taxpayers.
+# The GBP 0 to GBP 1 band holds individuals with a loss, or with profits
+# wholly offset by capital allowances or losses brought forward, whose
+# self-employment income is counted at nil, and those whose profits are not
+# known (note 2). HMRC suppresses that band's self-employment amount, so the
+# band is its own subset record set carrying every other measure. 'Total
+# income' is the SPI's income before tax, carried with an exact relation as on
+# Table 3.11, and the single 'Pension income' column keeps Table 3.11's
+# concept. The table is ported for the counts and amounts of small trading
+# incomes - the GBP 1 to GBP 500 and GBP 500 to GBP 1 000 bands - that
+# PolicyEngine/microcosm#1418 needs.
 schema_version: ledger.source_package.v1
 package_id: hmrc-spi-income-bands-2023-24
 label: 'HMRC Survey of Personal Incomes 2023-24: income, tax, deductions and reliefs by
-  range of total income (Tables 3.3 to 3.8)'
+  range of total income (Tables 3.3 to 3.8), and income of individuals with self-employment
+  sources by range of self-employment income (Table 3.10)'
 dimension_labels:
   'hmrc.total_income_band': 'Total income band'
   'hmrc.total_income_band_by_sex': 'Total income band by sex'
@@ -68,6 +90,9 @@ dimension_labels:
   'sex': 'Sex'
   'marginal_rate': 'Marginal rate payable'
   'largest_income_source': 'Largest source of income'
+  'hmrc.self_employment_income_band': 'Self-employment income band'
+  'self_employment_income_lower_bound': 'Self-employment income lower bound (GBP)'
+  'self_employment_income_upper_bound': 'Self-employment income upper bound (GBP)'
 dimension_value_labels:
   'sex':
     'all': 'All'
@@ -5862,6 +5887,715 @@ record_sets:
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
     concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_8, column: Total deductions and
       reliefs (Amount); taxpayers in thousands, amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_10
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_10.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_10
+  sheet_name: Table_3_10
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: individual_with_self_employment_source
+  domain: personal_incomes
+  groupby_dimension: hmrc.self_employment_income_band
+  rows:
+  - value_id: band_1_500
+    label: Self-employment income from GBP 1 to GBP 500
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: 1
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 1
+      self_employment_income_upper_bound: 500
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 1
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 500
+      label: self_employment_income_upper_bound
+  - value_id: band_500_1000
+    label: Self-employment income from GBP 500 to GBP 1 000
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: 500
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 500
+      self_employment_income_upper_bound: 1000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 500
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 1000
+      label: self_employment_income_upper_bound
+  - value_id: band_1000_2000
+    label: Self-employment income from GBP 1 000 to GBP 2 000
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: 1000
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 1000
+      self_employment_income_upper_bound: 2000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 1000
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 2000
+      label: self_employment_income_upper_bound
+  - value_id: band_2000_3000
+    label: Self-employment income from GBP 2 000 to GBP 3 000
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 2000
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 2000
+      self_employment_income_upper_bound: 3000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 2000
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 3000
+      label: self_employment_income_upper_bound
+  - value_id: band_3000_4000
+    label: Self-employment income from GBP 3 000 to GBP 4 000
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: 3000
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 3000
+      self_employment_income_upper_bound: 4000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 3000
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 4000
+      label: self_employment_income_upper_bound
+  - value_id: band_4000_5000
+    label: Self-employment income from GBP 4 000 to GBP 5 000
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: 4000
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 4000
+      self_employment_income_upper_bound: 5000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 4000
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 5000
+      label: self_employment_income_upper_bound
+  - value_id: band_5000_7500
+    label: Self-employment income from GBP 5 000 to GBP 7 500
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 5000
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 5000
+      self_employment_income_upper_bound: 7500
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 5000
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 7500
+      label: self_employment_income_upper_bound
+  - value_id: band_7500_10000
+    label: Self-employment income from GBP 7 500 to GBP 10 000
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 7500
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 7500
+      self_employment_income_upper_bound: 10000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 7500
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 10000
+      label: self_employment_income_upper_bound
+  - value_id: band_10000_15000
+    label: Self-employment income from GBP 10 000 to GBP 15 000
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 10000
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 10000
+      self_employment_income_upper_bound: 15000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 10000
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 15000
+      label: self_employment_income_upper_bound
+  - value_id: band_15000_20000
+    label: Self-employment income from GBP 15 000 to GBP 20 000
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 15000
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 15000
+      self_employment_income_upper_bound: 20000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 15000
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 20000
+      label: self_employment_income_upper_bound
+  - value_id: band_20000_30000
+    label: Self-employment income from GBP 20 000 to GBP 30 000
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 20000
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 20000
+      self_employment_income_upper_bound: 30000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 20000
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 30000
+      label: self_employment_income_upper_bound
+  - value_id: band_30000_50000
+    label: Self-employment income from GBP 30 000 to GBP 50 000
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: 30000
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 30000
+      self_employment_income_upper_bound: 50000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 30000
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 50000
+      label: self_employment_income_upper_bound
+  - value_id: band_50000_100000
+    label: Self-employment income from GBP 50 000 to GBP 100 000
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: 50000
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 50000
+      self_employment_income_upper_bound: 100000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 50000
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 100000
+      label: self_employment_income_upper_bound
+  - value_id: band_100000_plus
+    label: Self-employment income of GBP 100 000 and over
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: 100000
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 100000
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 100000
+      label: self_employment_income_lower_bound
+  - value_id: all_ranges
+    label: All ranges of self-employment income
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: All ranges
+    table_record_kind: total
+    filters: {}
+  measures:
+  - measure_id: self_employment_count
+    label: Self-employment income (count)
+    ordinal: 0
+    column: B
+    source_column_id: self_employment_count
+    expected_column_header_row: 5
+    expected_column_header: Self-employment income (Number of individuals)
+    concept: hmrc.spi_self_employment_income_count
+    source_concept: hmrc.spi_self_employment_income_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Self-employment
+      income (Number of individuals); self-employment income as the notes to Table 3.6 define
+      it (note 1a); individuals with a self-employment source, taxpayers or not, in thousands;
+      amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: self_employment_amount
+    label: Self-employment income (amount)
+    ordinal: 1
+    column: C
+    source_column_id: self_employment_amount
+    expected_column_header_row: 5
+    expected_column_header: Self-employment income (Amount)
+    concept: hmrc.spi_self_employment_income_amount
+    source_concept: hmrc.spi_self_employment_income_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Self-employment
+      income (Amount); self-employment income as the notes to Table 3.6 define it (note 1a); losses
+      and profits wholly offset are counted at nil (note 2); individuals with a self-employment
+      source, taxpayers or not, in thousands; amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: employment_count
+    label: Employment income (count)
+    ordinal: 2
+    column: D
+    source_column_id: employment_count
+    expected_column_header_row: 5
+    expected_column_header: Employment income (Number of individuals)
+    concept: hmrc.spi_employment_income_count
+    source_concept: hmrc.spi_table_3_10_employment_income_count
+    concept_relation: broad_match
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Employment income
+      (Number of individuals); income assessed under the Income Tax (Earnings and Pensions) Act
+      2003 and other miscellaneous income (note 4); individuals with a self-employment source,
+      taxpayers or not, in thousands; amounts GBP million. Table 3.6''s employment income is narrower: ''all pay from employment, from taxable benefits and from Incapacity Benefit, contribution-based Employment and Support Allowance or Job Seeker''s allowance'' (its note 6). So this column keeps a source concept of its own and maps to Table 3.6''s as a broad match.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: employment_amount
+    label: Employment income (amount)
+    ordinal: 3
+    column: E
+    source_column_id: employment_amount
+    expected_column_header_row: 5
+    expected_column_header: Employment income (Amounts)
+    concept: hmrc.spi_employment_income_amount
+    source_concept: hmrc.spi_table_3_10_employment_income_amount
+    concept_relation: broad_match
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Employment income
+      (Amounts); income assessed under the Income Tax (Earnings and Pensions) Act 2003 and other
+      miscellaneous income (note 4); individuals with a self-employment source, taxpayers or not,
+      in thousands; amounts GBP million. Table 3.6''s employment income is narrower: ''all pay from employment, from taxable benefits and from Incapacity Benefit, contribution-based Employment and Support Allowance or Job Seeker''s allowance'' (its note 6). So this column keeps a source concept of its own and maps to Table 3.6''s as a broad match.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: pension_count
+    label: Pension income (count)
+    ordinal: 4
+    column: F
+    source_column_id: pension_count
+    expected_column_header_row: 5
+    expected_column_header: Pension income (Number of individuals)
+    concept: hmrc.spi_pension_income_count
+    source_concept: hmrc.spi_pension_income_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Pension income (Number
+      of individuals); state and other pensions in one column, as on Table 3.11; individuals with
+      a self-employment source, taxpayers or not, in thousands; amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: pension_amount
+    label: Pension income (amount)
+    ordinal: 5
+    column: G
+    source_column_id: pension_amount
+    expected_column_header_row: 5
+    expected_column_header: Pension income (Amounts)
+    concept: hmrc.spi_pension_income_amount
+    source_concept: hmrc.spi_pension_income_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Pension income (Amounts);
+      state and other pensions in one column, as on Table 3.11; individuals with a self-employment
+      source, taxpayers or not, in thousands; amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: property_interest_dividend_other_income_count
+    label: Property, interest, dividend and other income (count)
+    ordinal: 6
+    column: H
+    source_column_id: property_interest_dividend_other_income_count
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Number of individuals)
+    concept: hmrc.spi_property_interest_dividend_other_income_count
+    source_concept: hmrc.spi_property_interest_dividend_other_income_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Property, interest,
+      dividend and other income (Number of individuals); the notes to Table 3.7 apply (note 5);
+      individuals with a self-employment source, taxpayers or not, in thousands; amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: property_interest_dividend_other_income_amount
+    label: Property, interest, dividend and other income (amount)
+    ordinal: 7
+    column: I
+    source_column_id: property_interest_dividend_other_income_amount
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Amounts)
+    concept: hmrc.spi_property_interest_dividend_other_income_amount
+    source_concept: hmrc.spi_property_interest_dividend_other_income_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Property, interest,
+      dividend and other income (Amounts); the notes to Table 3.7 apply (note 5); individuals
+      with a self-employment source, taxpayers or not, in thousands; amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_income_count
+    label: Total income before tax (count)
+    ordinal: 8
+    column: J
+    source_column_id: total_income_count
+    expected_column_header_row: 5
+    expected_column_header: Total income (Number of individuals)
+    concept: hmrc.spi_total_income_before_tax_count
+    source_concept: hmrc.spi_table_3_10_total_income_count
+    concept_relation: exact
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Total income (Number
+      of individuals). The SPI''s ''total income'' is income before tax: Table 3.10''s four income
+      columns are the parts Table 3.5 sums to ''Total income before tax'' (profit, employment
+      and pension income, and property, interest, dividend and other income), and they add to
+      its ''Total income'' to rounding (118 000 + 42 500 + 11 800 + 24 500 against GBP 197 000
+      million over all ranges). Individuals with a self-employment source, taxpayers or not, in
+      thousands; amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_income_amount
+    label: Total income before tax (amount)
+    ordinal: 9
+    column: K
+    source_column_id: total_income_amount
+    expected_column_header_row: 5
+    expected_column_header: Total income (Amounts)
+    concept: hmrc.spi_total_income_before_tax_amount
+    source_concept: hmrc.spi_table_3_10_total_income_amount
+    concept_relation: exact
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Total income (Amounts).
+      The SPI''s ''total income'' is income before tax: Table 3.10''s four income columns are
+      the parts Table 3.5 sums to ''Total income before tax'' (profit, employment and pension
+      income, and property, interest, dividend and other income), and they add to its ''Total
+      income'' to rounding (118 000 + 42 500 + 11 800 + 24 500 against GBP 197 000 million over
+      all ranges). Individuals with a self-employment source, taxpayers or not, in thousands;
+      amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.spi_2324.table_3_10.subset_1
+  provenance_class: survey_aggregate
+  survey_instrument: Survey of Personal Incomes
+  record_set_spec_id: hmrc.spi_2324.table_3_10.subset_1.v1
+  source_record_id_prefix: hmrc.spi_2324.table_3_10.subset_1
+  sheet_name: Table_3_10
+  period_type: tax_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: individual_with_self_employment_source
+  domain: personal_incomes
+  groupby_dimension: hmrc.self_employment_income_band
+  rows:
+  - value_id: band_0_1
+    label: 'Self-employment income of GBP 0 to GBP 1: nil (a loss, or profits wholly offset by
+      capital allowances or losses brought forward) or not known'
+    ordinal: 0
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: 0
+    table_record_kind: detail
+    filters:
+      self_employment_income_lower_bound: 0
+      self_employment_income_upper_bound: 1
+    constraints:
+    - variable: self_employment_income_lower_bound
+      operator: ==
+      value: 0
+      label: self_employment_income_lower_bound
+    - variable: self_employment_income_upper_bound
+      operator: ==
+      value: 1
+      label: self_employment_income_upper_bound
+  measures:
+  - measure_id: self_employment_count
+    label: Self-employment income (count)
+    ordinal: 0
+    column: B
+    source_column_id: self_employment_count
+    expected_column_header_row: 5
+    expected_column_header: Self-employment income (Number of individuals)
+    concept: hmrc.spi_self_employment_income_count
+    source_concept: hmrc.spi_self_employment_income_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Self-employment
+      income (Number of individuals); self-employment income as the notes to Table 3.6 define
+      it (note 1a); individuals with a self-employment source, taxpayers or not, in thousands;
+      amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: employment_count
+    label: Employment income (count)
+    ordinal: 1
+    column: D
+    source_column_id: employment_count
+    expected_column_header_row: 5
+    expected_column_header: Employment income (Number of individuals)
+    concept: hmrc.spi_employment_income_count
+    source_concept: hmrc.spi_table_3_10_employment_income_count
+    concept_relation: broad_match
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Employment income
+      (Number of individuals); income assessed under the Income Tax (Earnings and Pensions) Act
+      2003 and other miscellaneous income (note 4); individuals with a self-employment source,
+      taxpayers or not, in thousands; amounts GBP million. Table 3.6''s employment income is narrower: ''all pay from employment, from taxable benefits and from Incapacity Benefit, contribution-based Employment and Support Allowance or Job Seeker''s allowance'' (its note 6). So this column keeps a source concept of its own and maps to Table 3.6''s as a broad match.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: employment_amount
+    label: Employment income (amount)
+    ordinal: 2
+    column: E
+    source_column_id: employment_amount
+    expected_column_header_row: 5
+    expected_column_header: Employment income (Amounts)
+    concept: hmrc.spi_employment_income_amount
+    source_concept: hmrc.spi_table_3_10_employment_income_amount
+    concept_relation: broad_match
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Employment income
+      (Amounts); income assessed under the Income Tax (Earnings and Pensions) Act 2003 and other
+      miscellaneous income (note 4); individuals with a self-employment source, taxpayers or not,
+      in thousands; amounts GBP million. Table 3.6''s employment income is narrower: ''all pay from employment, from taxable benefits and from Incapacity Benefit, contribution-based Employment and Support Allowance or Job Seeker''s allowance'' (its note 6). So this column keeps a source concept of its own and maps to Table 3.6''s as a broad match.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: pension_count
+    label: Pension income (count)
+    ordinal: 3
+    column: F
+    source_column_id: pension_count
+    expected_column_header_row: 5
+    expected_column_header: Pension income (Number of individuals)
+    concept: hmrc.spi_pension_income_count
+    source_concept: hmrc.spi_pension_income_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Pension income (Number
+      of individuals); state and other pensions in one column, as on Table 3.11; individuals with
+      a self-employment source, taxpayers or not, in thousands; amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: pension_amount
+    label: Pension income (amount)
+    ordinal: 4
+    column: G
+    source_column_id: pension_amount
+    expected_column_header_row: 5
+    expected_column_header: Pension income (Amounts)
+    concept: hmrc.spi_pension_income_amount
+    source_concept: hmrc.spi_pension_income_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Pension income (Amounts);
+      state and other pensions in one column, as on Table 3.11; individuals with a self-employment
+      source, taxpayers or not, in thousands; amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: property_interest_dividend_other_income_count
+    label: Property, interest, dividend and other income (count)
+    ordinal: 5
+    column: H
+    source_column_id: property_interest_dividend_other_income_count
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Number of individuals)
+    concept: hmrc.spi_property_interest_dividend_other_income_count
+    source_concept: hmrc.spi_property_interest_dividend_other_income_count
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Property, interest,
+      dividend and other income (Number of individuals); the notes to Table 3.7 apply (note 5);
+      individuals with a self-employment source, taxpayers or not, in thousands; amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: property_interest_dividend_other_income_amount
+    label: Property, interest, dividend and other income (amount)
+    ordinal: 6
+    column: I
+    source_column_id: property_interest_dividend_other_income_amount
+    expected_column_header_row: 5
+    expected_column_header: Property, interest, dividend and other income (Amounts)
+    concept: hmrc.spi_property_interest_dividend_other_income_amount
+    source_concept: hmrc.spi_property_interest_dividend_other_income_amount
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Property, interest,
+      dividend and other income (Amounts); the notes to Table 3.7 apply (note 5); individuals
+      with a self-employment source, taxpayers or not, in thousands; amounts GBP million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_income_count
+    label: Total income before tax (count)
+    ordinal: 7
+    column: J
+    source_column_id: total_income_count
+    expected_column_header_row: 5
+    expected_column_header: Total income (Number of individuals)
+    concept: hmrc.spi_total_income_before_tax_count
+    source_concept: hmrc.spi_table_3_10_total_income_count
+    concept_relation: exact
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Total income (Number
+      of individuals). The SPI''s ''total income'' is income before tax: Table 3.10''s four income
+      columns are the parts Table 3.5 sums to ''Total income before tax'' (profit, employment
+      and pension income, and property, interest, dividend and other income), and they add to
+      its ''Total income'' to rounding (118 000 + 42 500 + 11 800 + 24 500 against GBP 197 000
+      million over all ranges). Individuals with a self-employment source, taxpayers or not, in
+      thousands; amounts GBP million.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_income_amount
+    label: Total income before tax (amount)
+    ordinal: 8
+    column: K
+    source_column_id: total_income_amount
+    expected_column_header_row: 5
+    expected_column_header: Total income (Amounts)
+    concept: hmrc.spi_total_income_before_tax_amount
+    source_concept: hmrc.spi_table_3_10_total_income_amount
+    concept_relation: exact
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
+    concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Total income (Amounts).
+      The SPI''s ''total income'' is income before tax: Table 3.10''s four income columns are
+      the parts Table 3.5 sums to ''Total income before tax'' (profit, employment and pension
+      income, and property, interest, dividend and other income), and they add to its ''Total
+      income'' to rounding (118 000 + 42 500 + 11 800 + 24 500 against GBP 197 000 million over
+      all ranges). Individuals with a self-employment source, taxpayers or not, in thousands;
+      amounts GBP million.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
