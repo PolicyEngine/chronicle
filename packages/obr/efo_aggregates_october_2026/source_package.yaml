@@ -1,0 +1,1105 @@
+# OBR Economic and fiscal outlook, October 2026 (published with the Budget on 28 October
+# 2026), for PolicyEngine/chronicle#393. Written by
+# scripts/build_obr_efo_october_2026.py from the pinned workbook; edit that, not this.
+# Values are as the tables print them, with value_scale for the stated unit. Fiscal-year
+# periods store the opening year (2025-26 -> 2025). Each year column's assertion follows
+# the band above it: 'Outturn' (and 'Estimate', 'Estimated Outurn') gives observation
+# and 'Forecast' gives source_projection; a table with no band is all forecast. In
+# October, 2025-26 is outturn, where in March it was a forecast, and 2031-32 is a new
+# forecast year.
+#
+# The March 2026 package's lines (package obr-efo-aggregates-march-2026), under the
+# obr.efo_2026_10 prefix with their line ids, display labels and concepts, so a consumer
+# changes vintage by package. Each is found by its table's title and its row's label;
+# the row numbers and the October table number ride on each record set and its notes.
+#
+# October drops, renames or splits none of the March package's rows.
+#
+# Aggregates. Tables 6.1, 6.2 and 6.5 print only forecast years, now 2026-27 to 2031-32;
+# table 6.13 has 2025-26 as outturn.
+#
+schema_version: ledger.source_package.v1
+package_id: obr-efo-aggregates-october-2026
+label: 'OBR EFO October 2026 fiscal supplementary tables: aggregates'
+dimension_labels:
+  obr.efo_line: EFO table line
+artifact:
+  source_name: obr
+  source_table: 'EFO October 2026 fiscal supplementary tables: aggregates'
+  resource_package: db
+  resource_directory: data/obr/efo_aggregates_october_2026
+  manifest: manifest.yaml
+  vintage: efo_october_2026
+  extracted_at: '2026-10-29'
+  extraction_method: xlsx whole-workbook used-range cell parse
+  parser: xlsx_used_range
+  artifact_year: 2026
+record_sets:
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2026
+  sheet_name: '6.2'
+  period_type: fiscal_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_current_receipts
+    label: 'Current Receipts '
+    ordinal: 0
+    row_number: 77
+    expected_row_header_column: B
+    expected_row_header: 'Current Receipts '
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_current_receipts
+    label: Current Receipts , FY2026-27
+    ordinal: 0
+    column: D
+    source_column_id: public_sector_current_receipts
+    concept: obr.public_sector_current_receipts
+    source_concept: obr.efo_aggregates.public_sector_current_receipts
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.2, row 77 ('Current
+      Receipts'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2026-27
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2027
+  sheet_name: '6.2'
+  period_type: fiscal_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_current_receipts
+    label: 'Current Receipts '
+    ordinal: 0
+    row_number: 77
+    expected_row_header_column: B
+    expected_row_header: 'Current Receipts '
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_current_receipts
+    label: Current Receipts , FY2027-28
+    ordinal: 0
+    column: E
+    source_column_id: public_sector_current_receipts
+    concept: obr.public_sector_current_receipts
+    source_concept: obr.efo_aggregates.public_sector_current_receipts
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.2, row 77 ('Current
+      Receipts'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2027-28
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2028
+  sheet_name: '6.2'
+  period_type: fiscal_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_current_receipts
+    label: 'Current Receipts '
+    ordinal: 0
+    row_number: 77
+    expected_row_header_column: B
+    expected_row_header: 'Current Receipts '
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_current_receipts
+    label: Current Receipts , FY2028-29
+    ordinal: 0
+    column: F
+    source_column_id: public_sector_current_receipts
+    concept: obr.public_sector_current_receipts
+    source_concept: obr.efo_aggregates.public_sector_current_receipts
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.2, row 77 ('Current
+      Receipts'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2028-29
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2029
+  sheet_name: '6.2'
+  period_type: fiscal_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_current_receipts
+    label: 'Current Receipts '
+    ordinal: 0
+    row_number: 77
+    expected_row_header_column: B
+    expected_row_header: 'Current Receipts '
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_current_receipts
+    label: Current Receipts , FY2029-30
+    ordinal: 0
+    column: G
+    source_column_id: public_sector_current_receipts
+    concept: obr.public_sector_current_receipts
+    source_concept: obr.efo_aggregates.public_sector_current_receipts
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.2, row 77 ('Current
+      Receipts'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2029-30
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2030
+  sheet_name: '6.2'
+  period_type: fiscal_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_current_receipts
+    label: 'Current Receipts '
+    ordinal: 0
+    row_number: 77
+    expected_row_header_column: B
+    expected_row_header: 'Current Receipts '
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_current_receipts
+    label: Current Receipts , FY2030-31
+    ordinal: 0
+    column: H
+    source_column_id: public_sector_current_receipts
+    concept: obr.public_sector_current_receipts
+    source_concept: obr.efo_aggregates.public_sector_current_receipts
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.2, row 77 ('Current
+      Receipts'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2030-31
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_current_receipts.fy2031
+  sheet_name: '6.2'
+  period_type: fiscal_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_current_receipts
+    label: 'Current Receipts '
+    ordinal: 0
+    row_number: 77
+    expected_row_header_column: B
+    expected_row_header: 'Current Receipts '
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_current_receipts
+    label: Current Receipts , FY2031-32
+    ordinal: 0
+    column: I
+    source_column_id: public_sector_current_receipts
+    concept: obr.public_sector_current_receipts
+    source_concept: obr.efo_aggregates.public_sector_current_receipts
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.2, row 77 ('Current
+      Receipts'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2031-32
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2026
+  sheet_name: '6.1'
+  period_type: fiscal_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: total_managed_expenditure
+    label: Total Managed Expenditure1
+    ordinal: 0
+    row_number: 100
+    expected_row_header_column: B
+    expected_row_header: Total Managed Expenditure1
+    table_record_kind: total
+  measures:
+  - measure_id: total_managed_expenditure
+    label: Total Managed Expenditure1, FY2026-27
+    ordinal: 0
+    column: D
+    source_column_id: total_managed_expenditure
+    concept: obr.total_managed_expenditure
+    source_concept: obr.efo_aggregates.total_managed_expenditure
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.1, row 100 ('Total
+      Managed Expenditure1'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2026-27
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2027
+  sheet_name: '6.1'
+  period_type: fiscal_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: total_managed_expenditure
+    label: Total Managed Expenditure1
+    ordinal: 0
+    row_number: 100
+    expected_row_header_column: B
+    expected_row_header: Total Managed Expenditure1
+    table_record_kind: total
+  measures:
+  - measure_id: total_managed_expenditure
+    label: Total Managed Expenditure1, FY2027-28
+    ordinal: 0
+    column: E
+    source_column_id: total_managed_expenditure
+    concept: obr.total_managed_expenditure
+    source_concept: obr.efo_aggregates.total_managed_expenditure
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.1, row 100 ('Total
+      Managed Expenditure1'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2027-28
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2028
+  sheet_name: '6.1'
+  period_type: fiscal_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: total_managed_expenditure
+    label: Total Managed Expenditure1
+    ordinal: 0
+    row_number: 100
+    expected_row_header_column: B
+    expected_row_header: Total Managed Expenditure1
+    table_record_kind: total
+  measures:
+  - measure_id: total_managed_expenditure
+    label: Total Managed Expenditure1, FY2028-29
+    ordinal: 0
+    column: F
+    source_column_id: total_managed_expenditure
+    concept: obr.total_managed_expenditure
+    source_concept: obr.efo_aggregates.total_managed_expenditure
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.1, row 100 ('Total
+      Managed Expenditure1'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2028-29
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2029
+  sheet_name: '6.1'
+  period_type: fiscal_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: total_managed_expenditure
+    label: Total Managed Expenditure1
+    ordinal: 0
+    row_number: 100
+    expected_row_header_column: B
+    expected_row_header: Total Managed Expenditure1
+    table_record_kind: total
+  measures:
+  - measure_id: total_managed_expenditure
+    label: Total Managed Expenditure1, FY2029-30
+    ordinal: 0
+    column: G
+    source_column_id: total_managed_expenditure
+    concept: obr.total_managed_expenditure
+    source_concept: obr.efo_aggregates.total_managed_expenditure
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.1, row 100 ('Total
+      Managed Expenditure1'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2029-30
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2030
+  sheet_name: '6.1'
+  period_type: fiscal_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: total_managed_expenditure
+    label: Total Managed Expenditure1
+    ordinal: 0
+    row_number: 100
+    expected_row_header_column: B
+    expected_row_header: Total Managed Expenditure1
+    table_record_kind: total
+  measures:
+  - measure_id: total_managed_expenditure
+    label: Total Managed Expenditure1, FY2030-31
+    ordinal: 0
+    column: H
+    source_column_id: total_managed_expenditure
+    concept: obr.total_managed_expenditure
+    source_concept: obr.efo_aggregates.total_managed_expenditure
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.1, row 100 ('Total
+      Managed Expenditure1'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2030-31
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.total_managed_expenditure.fy2031
+  sheet_name: '6.1'
+  period_type: fiscal_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: total_managed_expenditure
+    label: Total Managed Expenditure1
+    ordinal: 0
+    row_number: 100
+    expected_row_header_column: B
+    expected_row_header: Total Managed Expenditure1
+    table_record_kind: total
+  measures:
+  - measure_id: total_managed_expenditure
+    label: Total Managed Expenditure1, FY2031-32
+    ordinal: 0
+    column: I
+    source_column_id: total_managed_expenditure
+    concept: obr.total_managed_expenditure
+    source_concept: obr.efo_aggregates.total_managed_expenditure
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.1, row 100 ('Total
+      Managed Expenditure1'), GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2031-32
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2026
+  sheet_name: '6.5'
+  period_type: fiscal_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_borrowing
+    label: Net borrowing
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Net borrowing
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_borrowing
+    label: Net borrowing, FY2026-27
+    ordinal: 0
+    column: C
+    source_column_id: public_sector_net_borrowing
+    concept: obr.public_sector_net_borrowing
+    source_concept: obr.efo_aggregates.public_sector_net_borrowing
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.5, row 14 ('Net borrowing'),
+      GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2026-27
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2027
+  sheet_name: '6.5'
+  period_type: fiscal_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_borrowing
+    label: Net borrowing
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Net borrowing
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_borrowing
+    label: Net borrowing, FY2027-28
+    ordinal: 0
+    column: D
+    source_column_id: public_sector_net_borrowing
+    concept: obr.public_sector_net_borrowing
+    source_concept: obr.efo_aggregates.public_sector_net_borrowing
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.5, row 14 ('Net borrowing'),
+      GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2027-28
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2028
+  sheet_name: '6.5'
+  period_type: fiscal_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_borrowing
+    label: Net borrowing
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Net borrowing
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_borrowing
+    label: Net borrowing, FY2028-29
+    ordinal: 0
+    column: E
+    source_column_id: public_sector_net_borrowing
+    concept: obr.public_sector_net_borrowing
+    source_concept: obr.efo_aggregates.public_sector_net_borrowing
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.5, row 14 ('Net borrowing'),
+      GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2028-29
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2029
+  sheet_name: '6.5'
+  period_type: fiscal_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_borrowing
+    label: Net borrowing
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Net borrowing
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_borrowing
+    label: Net borrowing, FY2029-30
+    ordinal: 0
+    column: F
+    source_column_id: public_sector_net_borrowing
+    concept: obr.public_sector_net_borrowing
+    source_concept: obr.efo_aggregates.public_sector_net_borrowing
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.5, row 14 ('Net borrowing'),
+      GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2029-30
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2030
+  sheet_name: '6.5'
+  period_type: fiscal_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_borrowing
+    label: Net borrowing
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Net borrowing
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_borrowing
+    label: Net borrowing, FY2030-31
+    ordinal: 0
+    column: G
+    source_column_id: public_sector_net_borrowing
+    concept: obr.public_sector_net_borrowing
+    source_concept: obr.efo_aggregates.public_sector_net_borrowing
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.5, row 14 ('Net borrowing'),
+      GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2030-31
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_borrowing.fy2031
+  sheet_name: '6.5'
+  period_type: fiscal_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_borrowing
+    label: Net borrowing
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Net borrowing
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_borrowing
+    label: Net borrowing, FY2031-32
+    ordinal: 0
+    column: H
+    source_column_id: public_sector_net_borrowing
+    concept: obr.public_sector_net_borrowing
+    source_concept: obr.efo_aggregates.public_sector_net_borrowing
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.5, row 14 ('Net borrowing'),
+      GBP billion.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000000
+    expected_column_header_row: 4
+    expected_column_header: 2031-32
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2025
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2025.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2025
+  sheet_name: '6.13'
+  period_type: fiscal_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP
+    ordinal: 0
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: "Public sector net debt\n (PSND)(d+g)"
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP, FY2025-26
+    ordinal: 0
+    column: C
+    source_column_id: public_sector_net_debt_percent_gdp
+    concept: obr.public_sector_net_debt_percent_gdp
+    source_concept: obr.efo_aggregates.public_sector_net_debt
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.13, row 31 ('Public
+      sector net debt (PSND)(d+g)'), per cent of GDP.
+    unit: percent_of_gdp
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 2025-26
+  assertion: observation
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2026
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2026.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2026
+  sheet_name: '6.13'
+  period_type: fiscal_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP
+    ordinal: 0
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: "Public sector net debt\n (PSND)(d+g)"
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP, FY2026-27
+    ordinal: 0
+    column: D
+    source_column_id: public_sector_net_debt_percent_gdp
+    concept: obr.public_sector_net_debt_percent_gdp
+    source_concept: obr.efo_aggregates.public_sector_net_debt
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.13, row 31 ('Public
+      sector net debt (PSND)(d+g)'), per cent of GDP.
+    unit: percent_of_gdp
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 2026-27
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2027
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2027.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2027
+  sheet_name: '6.13'
+  period_type: fiscal_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP
+    ordinal: 0
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: "Public sector net debt\n (PSND)(d+g)"
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP, FY2027-28
+    ordinal: 0
+    column: E
+    source_column_id: public_sector_net_debt_percent_gdp
+    concept: obr.public_sector_net_debt_percent_gdp
+    source_concept: obr.efo_aggregates.public_sector_net_debt
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.13, row 31 ('Public
+      sector net debt (PSND)(d+g)'), per cent of GDP.
+    unit: percent_of_gdp
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 2027-28
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2028
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2028.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2028
+  sheet_name: '6.13'
+  period_type: fiscal_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP
+    ordinal: 0
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: "Public sector net debt\n (PSND)(d+g)"
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP, FY2028-29
+    ordinal: 0
+    column: F
+    source_column_id: public_sector_net_debt_percent_gdp
+    concept: obr.public_sector_net_debt_percent_gdp
+    source_concept: obr.efo_aggregates.public_sector_net_debt
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.13, row 31 ('Public
+      sector net debt (PSND)(d+g)'), per cent of GDP.
+    unit: percent_of_gdp
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 2028-29
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2029
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2029.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2029
+  sheet_name: '6.13'
+  period_type: fiscal_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP
+    ordinal: 0
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: "Public sector net debt\n (PSND)(d+g)"
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP, FY2029-30
+    ordinal: 0
+    column: G
+    source_column_id: public_sector_net_debt_percent_gdp
+    concept: obr.public_sector_net_debt_percent_gdp
+    source_concept: obr.efo_aggregates.public_sector_net_debt
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.13, row 31 ('Public
+      sector net debt (PSND)(d+g)'), per cent of GDP.
+    unit: percent_of_gdp
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 2029-30
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2030
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2030.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2030
+  sheet_name: '6.13'
+  period_type: fiscal_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP
+    ordinal: 0
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: "Public sector net debt\n (PSND)(d+g)"
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP, FY2030-31
+    ordinal: 0
+    column: H
+    source_column_id: public_sector_net_debt_percent_gdp
+    concept: obr.public_sector_net_debt_percent_gdp
+    source_concept: obr.efo_aggregates.public_sector_net_debt
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.13, row 31 ('Public
+      sector net debt (PSND)(d+g)'), per cent of GDP.
+    unit: percent_of_gdp
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 2030-31
+  assertion: source_projection
+- record_set_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2031
+  provenance_class: model_output
+  record_set_spec_id: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2031.v1
+  source_record_id_prefix: obr.efo_2026_10.aggregates.public_sector_net_debt_percent_gdp.fy2031
+  sheet_name: '6.13'
+  period_type: fiscal_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP
+    ordinal: 0
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: "Public sector net debt\n (PSND)(d+g)"
+    table_record_kind: total
+  measures:
+  - measure_id: public_sector_net_debt_percent_gdp
+    label: Public sector net debt (PSND), per cent of GDP, FY2031-32
+    ordinal: 0
+    column: I
+    source_column_id: public_sector_net_debt_percent_gdp
+    concept: obr.public_sector_net_debt_percent_gdp
+    source_concept: obr.efo_aggregates.public_sector_net_debt
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    concept_evidence_notes: OBR EFO October 2026 detailed forecast tables, table 6.13, row 31 ('Public
+      sector net debt (PSND)(d+g)'), per cent of GDP.
+    unit: percent_of_gdp
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 2031-32
+  assertion: source_projection

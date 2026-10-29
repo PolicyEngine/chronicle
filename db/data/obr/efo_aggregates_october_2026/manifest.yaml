@@ -1,0 +1,23 @@
+source_id: obr
+package_id: obr-efo-aggregates-october-2026
+dataset: obr_obr-efo-aggregates-october-2026
+source_page: https://obr.uk/efo/economic-and-fiscal-outlook-october-2026/
+table: 'EFO October 2026 detailed forecast tables: aggregates'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for Budget Responsibility, Economic and fiscal outlook - October 2026, detailed forecast tables: aggregates. Contains public sector information licensed under the Open Government Licence v3.0.'
+license_evidence: 'The OBR copyright page (https://obr.uk/legal-pages/copyright/) states: ''You may use and re-use the information featured on this website (not including logos) free of charge in any format or medium, under the terms of the Open Government Licence.'''
+license_verified_at: '2026-10-29'
+files:
+  2026:
+    filename: efo_aggregates.xlsx
+    source_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-aggregates/
+    sha256: 3ffa3f1e63667b2ae9fb9626dc1da881673227d43aeeb52f8c3db168a5c75d6b
+    size_bytes: 218000
+    fetched_at: '2026-10-29T01:43:12+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/obr/obr-efo-aggregates-october-2026/2026/3ffa3f1e63667b2ae9fb9626dc1da881673227d43aeeb52f8c3db168a5c75d6b/efo_aggregates.xlsx
+        uri: r2://ledger-raw/raw/uk/obr/obr-efo-aggregates-october-2026/2026/3ffa3f1e63667b2ae9fb9626dc1da881673227d43aeeb52f8c3db168a5c75d6b/efo_aggregates.xlsx
