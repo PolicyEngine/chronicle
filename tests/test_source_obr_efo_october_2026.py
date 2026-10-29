@@ -66,7 +66,7 @@ def _cell(frame: pd.DataFrame, label: str, year: str, *, label_column: int = 1) 
 @pytest.mark.parametrize(
     ("kind", "record_sets", "count"),
     [
-        ("receipts", 1611, 1611),
+        ("receipts", 1551, 1551),
         ("expenditure", 165, 165),
         ("economy", 56, 56),
         ("aggregates", 25, 25),
@@ -216,16 +216,64 @@ def test_restated_rows_and_tables_left_out(facts):
     payload = yaml.safe_load(path.read_text(encoding="utf-8"))
     sheets = Counter(record_set["sheet_name"] for record_set in payload["record_sets"])
     assert set(sheets) == {f"4.{n}" for n in range(1, 23)} - {"4.9", "4.19"}
+    # Rows that restate another table's row are ported once (the build asserts the
+    # copies equal): tables 4.22 and 4.21 against 4.20, 4.8 and 4.2, and table
+    # 4.1's betting and gaming row against table 4.10 from 2026-27.
+    for line in (
+        "fiscally_neutral_receipts.contracts_for_difference",
+        "fiscally_neutral_receipts.renewables_obligation",
+        "fiscally_neutral_receipts.capacity_markets",
+        "fiscally_neutral_receipts.green_gas_levy",
+        "fiscally_neutral_receipts.warm_homes_discount",
+        "fiscally_neutral_receipts.vat_refunds",
+        "fiscally_neutral_receipts.extended_producer_responsibility",
+        "fiscally_neutral_receipts.community_infrastructure_levy",
+        "contracts_for_difference_drivers.c_d_e_f_forecast_gbp_million",
+    ):
+        assert not any(f".receipts.{line}." in r for r in record_sets), line
+    betting = sorted(
+        r for r in record_sets if ".other_hmrc_taxes.betting_and_gaming_taxes." in r
+    )
+    assert betting == [f"{OCTOBER}.receipts.other_hmrc_taxes.betting_and_gaming_taxes.fy2025"]
     # Table 4.22 prints '£ million' over GBP billion cells.
-    vat_refunds = next(
+    total = next(
         fact.value
         for fact in facts["receipts"].values()
         if fact.layout.record_set_id
-        == f"{OCTOBER}.receipts.fiscally_neutral_receipts.vat_refunds.fy2026"
+        == f"{OCTOBER}.receipts.fiscally_neutral_receipts.total_fiscally_neutral_receipts.fy2026"
     )
-    assert vat_refunds == pytest.approx(
-        _cell(_sheet("receipts", "4.8"), "VAT refunds", "2026-27") * 1e9
+    assert total == pytest.approx(
+        _cell(_sheet("receipts", "4.22"), "Total fiscally neutral receipts", "2026-27") * 1e9
     )
+
+
+def test_cash_and_accrued_taxes_share_a_concept(facts):
+    """Table 4.1 (accrued) and table 4.8 (cash) print the same taxes: each pair shares
+    a concept and differs in accounting_basis, as chronicle#381's excise duties do."""
+    by_concept: dict[str, dict[str, set]] = {}
+    for fact in facts["receipts"].values():
+        if fact.measure.concept_relation != "exact":
+            continue
+        basis = fact.filters["accounting_basis"]
+        entry = by_concept.setdefault(fact.measure.concept, {})
+        entry.setdefault(basis, set()).add(fact.measure.source_concept)
+        label = fact.layout.groupby_value_label
+        assert label.endswith("(accrued)" if basis == "accrual" else "(cash)"), label
+    assert by_concept["obr.diverted_profits_tax"] == {
+        "accrual": {"obr.other_hmrc_taxes.diverted_profits_tax"},
+        "cash": {"obr.cash_receipts.diverted_profits_tax"},
+    }
+    assert len([c for c, bases in by_concept.items() if set(bases) == {"accrual", "cash"}]) == 8
+    # Table 4.1's accrued vaping tax and 2025-26 betting and gaming join the March
+    # lines' concepts, whose cash lines come from table 4.8.
+    assert set(by_concept["obr.vaping_tax"]) == {"accrual"}
+    assert set(by_concept["obr.betting_and_gaming_duties"]) == {"accrual"}
+    tobacco = next(
+        fact
+        for fact in facts["receipts"].values()
+        if fact.layout.record_set_id == f"{OCTOBER}.receipts.tobacco_duties.fy2025"
+    )
+    assert tobacco.layout.measure_label == "Tobacco duties, cash basis, FY2025-26"
 
 
 def test_sample_values_by_label(facts):

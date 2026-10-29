@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import math
 import hashlib
 import re
 import sys
@@ -514,6 +515,9 @@ def port_fiscal_line(kind: str, line: MarchLine, grid: dict, sheet: str) -> list
         move_guards(row_entry, grid)
         (measure,) = record_set["measures"]
         display = row_entry["label"]
+        basis = record_set.get("shared_filters", {}).get("accounting_basis")
+        if basis is not None:
+            display += ", accrued basis" if basis == "accrual" else ", cash basis"
         measure.update(
             {
                 "label": f"{display}, FY{fy_label(opening)}",
@@ -639,6 +643,7 @@ class Table:
     calendar_header_row: int | None = None
     note: str = ""
     left_out: dict = field(default_factory=dict)
+    left_out_from_year: dict = field(default_factory=dict)
     row_units: dict = field(default_factory=dict)
     row_prefix: dict = field(default_factory=dict)
     calendar_rows: dict = field(default_factory=dict)
@@ -650,8 +655,23 @@ CASH_NOTE_4_8 = (
     "rather than an accrued basis."
 )
 RECEIPTS_TABLES = (
-    Table("4.1", "other_hmrc_taxes", (3, "C", "£ billion"), GBP_BN, RECEIPTS, "accrual",
-          (17, "B", "Note: All taxes are on an accrued basis.")),
+    Table(
+        "4.1",
+        "other_hmrc_taxes",
+        (3, "C", "£ billion"),
+        GBP_BN,
+        RECEIPTS,
+        "accrual",
+        (17, "B", "Note: All taxes are on an accrued basis."),
+        left_out_from_year={
+            7: (
+                2026,
+                "From 2026-27 the row restates table 4.10's accrued total (line "
+                "betting_and_gaming_duties_accrued), so only 2025-26, which table 4.10 "
+                "does not print, is kept.",
+            ),
+        },
+    ),
     Table("4.2", "other_taxes", (3, "C", "£ billion"), GBP_BN, RECEIPTS),
     Table("4.3", "other_receipts", (3, "C", "£ billion"), GBP_BN, RECEIPTS),
     Table("4.4", "income_tax_and_nics", (3, "C", "£ billion"), GBP_BN, RECEIPTS),
@@ -756,6 +776,12 @@ RECEIPTS_TABLES = (
             11: GBP_M,
         },
         note="The table states each row's unit in its label.",
+        left_out={
+            11: (
+                "'(c * d + e + f) Forecast (£ million)' restates table 4.20's 'Contracts "
+                "for difference' line (row 7), in GBP million"
+            ),
+        },
     ),
     Table(
         "4.22",
@@ -769,8 +795,52 @@ RECEIPTS_TABLES = (
             "every year this table covers, and 'Council tax' is about £54 billion; so "
             "value_scale is 1e9, with the cell kept as a guard."
         ),
+        left_out={
+            10: "'Contracts for difference' restates table 4.20's row 7",
+            11: "'Renewables obligation' restates table 4.20's row 6",
+            12: "'Capacity markets' restates table 4.20's 'Capacity market1' (row 8)",
+            13: "'Green gas levy' restates table 4.20's row 9",
+            14: "'Warm homes discount' restates table 4.20's 'Warm home discount' (row 10)",
+            17: "'VAT refunds' restates table 4.8's row 55",
+            18: (
+                "'Extended producer responsibility' restates table 4.2's 'Extended "
+                "producer responsibility Fees' (row 25)"
+            ),
+            19: "'Community infrastructure levy' restates table 4.2's row 13",
+        },
     ),
 )
+# Taxes table 4.1 prints on an accrued basis and table 4.8 on a cash basis. Each pair
+# shares one concept, with the basis as a constraint, as chronicle#381's excise duties
+# do; the source concepts stay the tables' own. (sheet, row) -> (label, concept).
+SHARED_TAX_CONCEPTS = {
+    ("4.1", 6): ("Customs duties", "obr.customs_duties"),
+    ("4.8", 37): ("Customs Duties", "obr.customs_duties"),
+    ("4.1", 7): ("Betting and gaming taxes", "obr.betting_and_gaming_duties"),
+    ("4.1", 8): ("Landfill tax", "obr.landfill_tax"),
+    ("4.8", 34): ("Landfill tax", "obr.landfill_tax"),
+    ("4.1", 9): ("Aggregates levy", "obr.aggregates_levy"),
+    ("4.8", 35): ("Aggregates levy", "obr.aggregates_levy"),
+    ("4.1", 10): ("Soft drink industry levy", "obr.soft_drinks_industry_levy"),
+    ("4.8", 43): ("Soft drinks industry levy", "obr.soft_drinks_industry_levy"),
+    ("4.1", 11): ("Diverted profits tax", "obr.diverted_profits_tax"),
+    ("4.8", 41): ("Diverted profits tax", "obr.diverted_profits_tax"),
+    ("4.1", 12): ("Plastic packaging tax", "obr.plastic_packaging_tax"),
+    ("4.8", 44): ("Plastic Packaging tax ", "obr.plastic_packaging_tax"),
+    ("4.1", 13): ("Residential property developer tax", "obr.residential_property_developer_tax"),
+    ("4.8", 45): ("Residential property developer tax", "obr.residential_property_developer_tax"),
+    ("4.1", 14): ("Carbon border adjustment mechanism", "obr.carbon_border_adjustment_mechanism"),
+    ("4.8", 49): ("Carbon border adjustment mechanism", "obr.carbon_border_adjustment_mechanism"),
+    ("4.1", 15): ("Vaping tax", "obr.vaping_tax"),
+}
+SHARED_TAX_NOTE = (
+    "Tables 4.1 (accrued) and 4.8 (cash) both print this tax, so the two lines share "
+    "this concept and differ in accounting_basis, as chronicle#381's excise duties do"
+)
+MARCH_LINE_PAIRS = {
+    ("4.1", 7): "betting_and_gaming_duties",
+    ("4.1", 15): "vaping_tax",
+}
 # Whole tables of the receipts workbook left out, and why.
 RECEIPTS_LEFT_OUT = {
     "4.9": (
@@ -824,6 +894,34 @@ def check_restatements(grids: dict) -> None:
     assert neutral[(17, "B")] == "VAT refunds" and cash[(55, "B")] == "VAT refunds"
     for index in range(6):
         assert neutral[(17, "CDEFGH"[index])] == cash[(55, "EFGHIJ"[index])], index
+    # Tables 4.22 and 4.21 restate tables 4.20 and 4.2 for 2026-27 to 2031-32.
+    levies, other = grids["4.20"], grids["4.2"]
+    drivers = grids["4.21"]
+    assert neutral[(5, "C")] == drivers[(4, "C")] == "2026-27"
+    assert levies[(5, "D")] == other[(5, "D")] == "2026-27"
+    for left_row, kept, kept_row in (
+        (10, levies, 7),
+        (11, levies, 6),
+        (12, levies, 8),
+        (13, levies, 9),
+        (14, levies, 10),
+        (18, other, 25),
+        (19, other, 13),
+    ):
+        for index in range(6):
+            # Equal to the last binary digit or two: 4.22's CfD row differs by 1e-16.
+            left = neutral.get((left_row, "CDEFGH"[index]))
+            kept_value = kept[(kept_row, "DEFGHI"[index])]
+            assert is_number(left) and math.isclose(left, kept_value, rel_tol=1e-12), (
+                left_row,
+                kept_row,
+                index,
+            )
+    assert collapse(drivers[(11, "B")]) == "(c * d + e + f) Forecast (£ million)"
+    assert levies[(7, "B")] == "Contracts for difference"
+    for index in range(6):
+        left = drivers[(11, "CDEFGH"[index])]
+        assert math.isclose(left, levies[(7, "DEFGHI"[index])] * 1000, rel_tol=1e-9), index
 
 
 def row_label(grid: dict, row: int) -> tuple[str, str] | None:
@@ -890,9 +988,16 @@ def receipts_rows(table: Table, grid: dict, used_rows: set[int]) -> list[dict]:
             key = f"{table.row_prefix[row]}_{key}"
         line_id = f"{table.key}.{key}"
         concept = f"obr.{table.key}.{key}"
+        canonical, relation = concept, "source_label"
+        if (table.sheet, row) in SHARED_TAX_CONCEPTS:
+            expected, canonical = SHARED_TAX_CONCEPTS[(table.sheet, row)]
+            assert label == expected, (table.sheet, row, label)
+            relation = "exact"
         basis = table.basis
         if table.basis_before_row is not None and row >= table.basis_before_row:
             basis = None
+        if basis is not None:
+            display += " (accrued)" if basis == "accrual" else " (cash)"
         if row in table.calendar_rows:
             calendar_header = table.calendar_rows[row]
             found_years = sorted(
@@ -915,6 +1020,15 @@ def receipts_rows(table: Table, grid: dict, used_rows: set[int]) -> list[dict]:
         if column == "C":
             note += f" An 'of which' of '{collapse(parent)}'."
         note += footnote_for(label, footnotes)
+        if relation == "exact":
+            note += f" {SHARED_TAX_NOTE} ({canonical})."
+            if (table.sheet, row) in MARCH_LINE_PAIRS:
+                note += (
+                    " Table 4.8's cash line is the March line "
+                    f"{MARCH_LINE_PAIRS[(table.sheet, row)]}."
+                )
+        if row in table.left_out_from_year:
+            note += " " + table.left_out_from_year[row][1]
         if table.note:
             note += " " + table.note
         for extra in notes:
@@ -932,6 +1046,8 @@ def receipts_rows(table: Table, grid: dict, used_rows: set[int]) -> list[dict]:
             if value is None:
                 continue
             assert is_number(value), (table.sheet, row, year_column, value)
+            if row in table.left_out_from_year and opening >= table.left_out_from_year[row][0]:
+                continue
             label_text = fy_label(opening) if prefix == "fy" else opening
             record_set = {
                 **record_ids("receipts", line_id, prefix, opening),
@@ -983,9 +1099,9 @@ def receipts_rows(table: Table, grid: dict, used_rows: set[int]) -> list[dict]:
                 "source_column_id": unit.measure_id,
                 "expected_column_header_row": row_header_row,
                 "expected_column_header": label_text,
-                "concept": concept,
+                "concept": canonical,
                 "source_concept": concept,
-                "concept_relation": "source_label",
+                "concept_relation": relation,
                 "concept_authority": "obr",
                 "concept_evidence_url": download_url("receipts"),
                 "concept_evidence_notes": note,
