@@ -491,8 +491,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # 1995) and gas_year 2015 to 2024, the period type chronicle#356 adds.
         # chronicle#381 adds 12 more: HMRC's betting and gaming receipts from
         # 1986-87 and tobacco from 1990-91 (fiscal_year 1986 to 1993), and
-        # tobacco's calendar years 1991 to 1994.
-        "period_count": 553,
+        # tobacco's calendar years 1991 to 1994. chronicle#393 adds fiscal_year
+        # 2031: 2031-32 is the October 2026 EFO's new forecast year, and no
+        # other package carries it.
+        "period_count": 554,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
