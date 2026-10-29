@@ -315,6 +315,22 @@ yearly ISA subscriptions per adult by type. uk-data has no ISA target. Three pac
   facts): the shares of cash ISA subscribers aged under 65 either side of GBP 12,000 in
   2022-23.
 
+## Beyond parity — OBR EFO October 2026 (chronicle#393)
+
+The October 2026 Economic and fiscal outlook, published with the Budget on 28 October 2026,
+as a vintage beside the March 2026 packages: five packages and 4,377 facts. Field
+contracts and caveats are in
+[`docs/data-sources/uk-obr-efo-october-2026.md`](data-sources/uk-obr-efo-october-2026.md).
+
+- **Receipts** (`obr-efo-receipts-october-2026`, 1,611 facts): the March package's 41 lines
+  and every other row of tables 4.1 to 4.22 except 4.9 and 4.19, Table 4.5's savings
+  income included.
+- **Expenditure, economy and aggregates** (`obr-efo-expenditure-october-2026`,
+  `obr-efo-economy-october-2026`, `obr-efo-aggregates-october-2026`: 165, 56 and 25 facts):
+  the March packages' lines, plus the deposit rate and household financial assets.
+- **Policy** (`obr-efo-policy-october-2026`, 2,520 facts): Table 1.1's costing of each
+  policy decision by head and category, 2026-27 to 2031-32.
+
 ## Consumer contracts
 
 The UK national, local-geography, and firms selection contracts now live in
