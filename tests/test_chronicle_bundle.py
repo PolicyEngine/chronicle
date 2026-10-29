@@ -477,9 +477,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # bands package: 159 tax year 2023 facts for UK individuals with a
         # self-employment source, at existing keys (15 rows of 10 measures and
         # the GBP 0 to GBP 1 band's 9, its self-employment amount suppressed).
-        # chronicle#393's OBR October 2026 EFO packages add 4,377: receipts
-        # 1,611, expenditure 165, economy 56, aggregates 25 and policy 2,520.
-        "fact_count": 1661815,
+        # chronicle#393's OBR October 2026 EFO packages add 4,317: receipts
+        # 1,551, expenditure 165, economy 56, aggregates 25 and policy 2,520.
+        "fact_count": 1661755,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -578,7 +578,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1661815
+    assert row_count == 1661755
     assert provenance_classes <= {
         "administrative",
         "census",
@@ -613,7 +613,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1661815
+    assert coverage["fact_count"] == 1661755
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -652,7 +652,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "nisra": 29227,
         "nithc": 8,
         "nrs": 359094,
-        "obr": 5025,
+        "obr": 4965,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
         "ons": 347184,
@@ -2221,12 +2221,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fiscal_year:2023": 22,
         "fiscal_year:2024": 31,
         "fiscal_year:2025": 209,
-        "fiscal_year:2026": 667,
-        "fiscal_year:2027": 667,
-        "fiscal_year:2028": 668,
-        "fiscal_year:2029": 668,
-        "fiscal_year:2030": 668,
-        "fiscal_year:2031": 668,
+        "fiscal_year:2026": 657,
+        "fiscal_year:2027": 657,
+        "fiscal_year:2028": 658,
+        "fiscal_year:2029": 658,
+        "fiscal_year:2030": 658,
+        "fiscal_year:2031": 658,
     }.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
@@ -2287,9 +2287,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # gaming facts. PolicyEngine/microcosm#1415's HMRC annual savings statistics
     # add 2,993: all but Table 9.9 and 9.12's area rows. SPI 2023-24 Table 3.10
     # adds 159 (PolicyEngine/microcosm#1418). chronicle#393's OBR October 2026
-    # EFO packages add 4,279: all but the DWP and Northern Ireland lines of
+    # EFO packages add 4,219: all but the DWP and Northern Ireland lines of
     # expenditure table 5.9.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 40938
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 40878
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
@@ -2339,8 +2339,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # PolicyEngine/microcosm#1415's HMRC annual savings statistics 3,272 and SPI
     # 2023-24 Table 3.10 159 (PolicyEngine/microcosm#1418). chronicle#393's
     # OBR October 2026 EFO packages: government +2,601 (policy costings,
-    # aggregates and the economy forecasts), people +1,601, institutional
-    # sectors +119 and firms +56 (corporation tax credits).
+    # aggregates and the economy forecasts), people +1,547, institutional
+    # sectors +113 and firms +56 (corporation tax credits).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 274367,
@@ -2348,9 +2348,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "firm": 1496,
         "government": 6749,
         "household": 676320,
-        "institutional_sector": 8925,
+        "institutional_sector": 8919,
         "pension_plan": 2,
-        "person": 598355,
+        "person": 598301,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
