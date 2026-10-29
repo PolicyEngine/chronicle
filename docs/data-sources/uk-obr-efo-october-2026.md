@@ -19,7 +19,7 @@ so they were fetched with a browser on 29 October 2026; each manifest pins the b
 
 | Package | File | Bytes | Facts |
 |---|---|---|---|
-| `obr-efo-receipts-october-2026` | detailed forecast tables: receipts | 214,092 | 1,611 |
+| `obr-efo-receipts-october-2026` | detailed forecast tables: receipts | 214,092 | 1,551 |
 | `obr-efo-expenditure-october-2026` | detailed forecast tables: expenditure | 280,700 | 165 |
 | `obr-efo-economy-october-2026` | detailed forecast tables: economy | 518,472 | 56 |
 | `obr-efo-aggregates-october-2026` | detailed forecast tables: aggregates | 218,000 | 25 |
@@ -65,19 +65,31 @@ The manifests carry each file's canonical R2 key; `chronicle publish-raw` upload
   0.65% (×1.358). The note says the numbers are pre-measures.
 - **Gambling.** Table 4.8's cash betting and gaming duties, table 4.10's accrued
   breakdown by duty (machine games duty included; the table now starts in 2026-27, its
-  first forecast year), table 4.1's accrued 'Betting and gaming taxes' (which table 4.10's
-  total equals in every year it covers), and table 4.2's levies.
+  first forecast year), table 4.1's accrued 'Betting and gaming taxes' for 2025-26 (from
+  2026-27 it restates table 4.10's total) under the same concept, and table 4.2's levies.
 - **Northern Ireland domestic rates** are carried both places the OBR shows them, each with
   its own table and row: receipts table 4.2 row 6 ('Northern Ireland domestic rates',
   under other taxes) and expenditure table 5.1 row 16 ('NI domestic rates', inside net
   council tax receipts). Their values differ; the OBR calls neither regional or district.
-- **Restated rows.** Table 4.7's 'Total SDLT' and ATED rows restate table 4.8's rows 24 and
-  25 and are left out, as the March package left out sheet 3.7's total. Other tables
-  restate lines under their own concepts (table 4.22's VAT refunds equal table 4.8's), so no
-  semantic key repeats; the build asserts each equality the notes cite.
-- **Table 4.22** prints '£ million', but its cells are GBP billion: its VAT refunds equal
-  table 4.8's £ billion line in every year. Its rows carry `value_scale` 1e9, with the cell
-  kept as a guard.
+- **Restated rows are ported once**, as the March package left out sheet 3.7's total. The
+  build asserts each copy equal to the row kept:
+  - table 4.7's 'Total SDLT' and ATED rows (table 4.8's rows 24 and 25);
+  - table 4.22's VAT refunds, community infrastructure levy, extended producer
+    responsibility and five environmental levies (tables 4.8, 4.2 and 4.20);
+  - table 4.21's '(c * d + e + f) Forecast' row (table 4.20's contracts for difference, in
+    GBP million);
+  - table 4.1's 'Betting and gaming taxes' from 2026-27 (table 4.10's total).
+- **Cash and accrued taxes.** Tables 4.1 (accrued) and 4.8 (cash) print eight of the same
+  taxes: customs duties, landfill tax, aggregates levy, the soft drinks levy, diverted
+  profits tax, plastic packaging tax, RPDT and CBAM. Each pair shares one concept
+  (`obr.customs_duties`, ...) with `concept_relation: exact` and differs in
+  `accounting_basis`, as chronicle#381's excise duties do; each keeps its table's source
+  concept. Table 4.1's vaping tax joins the March line's `obr.vaping_tax`. Diverted profits
+  tax prints the same values on both bases. Row labels say '(cash)' or '(accrued)', and
+  the March lines' measure labels name their basis.
+- **Table 4.22** prints '£ million', but its cells are GBP billion: the build checks that
+  its VAT refunds equal table 4.8's £ billion line in every year. Its rows carry
+  `value_scale` 1e9, with the cell kept as a guard.
 
 ## Expenditure, economy and aggregates
 
@@ -127,6 +139,12 @@ Re-pin the UK feed to the merge commit first. Then select the October vintage by
 - the March lines under `obr.efo_2026_10.<kind>.<line id>.fy<year>`, with the March
   concepts;
 - Table 4.5's savings income from `obr-efo-receipts-october-2026`, as above.
+
+**No 2024-25.** Every one of the 33 lines Microcosm selects runs from 2025-26 (outturn) to
+2031-32 in October; the tables no longer print 2024-25. So the calendar-2025 window (three
+twelfths of 2024-25 and nine of 2025-26) can't be built from the October package alone. Its
+2024-25 part has to come from the March package's 2024-25 outturn
+(`obr.efo_2026_03.<kind>.<line id>.fy2024`, an `observation` there) or from ONS.
 
 Both vintages forecast the March lines for 2026-27 to 2030-31 (receipts and expenditure)
 and 2026 to 2029 (economy and aggregates), so the bundle reports their 363 shared semantic

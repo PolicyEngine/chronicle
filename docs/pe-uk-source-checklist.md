@@ -318,11 +318,11 @@ yearly ISA subscriptions per adult by type. uk-data has no ISA target. Three pac
 ## Beyond parity — OBR EFO October 2026 (chronicle#393)
 
 The October 2026 Economic and fiscal outlook, published with the Budget on 28 October 2026,
-as a vintage beside the March 2026 packages: five packages and 4,377 facts. Field
+as a vintage beside the March 2026 packages: five packages and 4,317 facts. Field
 contracts and caveats are in
 [`docs/data-sources/uk-obr-efo-october-2026.md`](data-sources/uk-obr-efo-october-2026.md).
 
-- **Receipts** (`obr-efo-receipts-october-2026`, 1,611 facts): the March package's 41 lines
+- **Receipts** (`obr-efo-receipts-october-2026`, 1,551 facts): the March package's 41 lines
   and every other row of tables 4.1 to 4.22 except 4.9 and 4.19, Table 4.5's savings
   income included.
 - **Expenditure, economy and aggregates** (`obr-efo-expenditure-october-2026`,
