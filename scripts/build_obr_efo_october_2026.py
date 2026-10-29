@@ -1604,9 +1604,17 @@ beyond the March lines takes the line id '<table key>.<row label>' and the conce
 cash_receipts, self_employed_income_growth, ...); the sub-rows of table 4.8's 'of which'
 blocks, printed in column C, prefix their parent. Table 4.5's 'Savings income' row is
 obr.self_employed_income_growth.savings_income, a percentage change on a year earlier
-from 2024-25, all under the table's 'Forecast' band. Two rows restate rows kept and are
-left out, as the March package left out sheet 3.7's total: table 4.7's 'Total SDLT' and
-its ATED row (table 4.8 rows 24 and 25). Table 4.22 prints '£ million' over GBP billion
+from 2024-25, all under the table's 'Forecast' band. Rows that restate a row kept are
+left out, as the March package left out sheet 3.7's total, and the build asserts each
+copy equal (each table's left_out in the build script): table 4.7's 'Total SDLT' and
+ATED rows (table 4.8 rows 24 and 25); table 4.22's VAT refunds, community
+infrastructure levy, extended producer responsibility and five environmental levies
+(tables 4.8, 4.2 and 4.20); table 4.21's '(c * d + e + f) Forecast' row (table 4.20's
+contracts for difference); and, from 2026-27, table 4.1's 'Betting and gaming taxes'
+(table 4.10's total). Tables 4.1 (accrued) and 4.8 (cash) print eight of the same
+taxes: each pair shares one concept, with an exact relation, and differs in
+accounting_basis (SHARED_TAX_CONCEPTS); table 4.1's vaping tax and 2025-26 betting and
+gaming take the March lines' concepts. Table 4.22 prints '£ million' over GBP billion
 cells (its VAT refunds equal table 4.8's in every year), so its rows carry value_scale
 1e9. Table 4.10 now starts in 2026-27, its first forecast year. Northern Ireland
 domestic rates are carried in both places the OBR shows them: this package's table 4.2
