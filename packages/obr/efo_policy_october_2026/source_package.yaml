@@ -48,7 +48,7 @@ dimension_value_labels:
       2030-31'
     measure_8: 'Universal Credit: Extend the £2,500 surplus earnings threshold for one year from 1 April
       2027'
-    measure_9: 'Early Years: Fund increased access to books for children aged 0 to 5 '
+    measure_9: 'Early Years: Fund increased access to books for children aged 0 to 5'
     measure_10: 'Tariff Suspension Packages: Suspend tariffs on 135 food products from 21 June 2026 until
       31 December 2028; 101 food products and kerosene for heating oil from 26 November 2026 until 31
       December 2028; and fertiliser from 26 November 2026 until 31 December 2027'
@@ -70,7 +70,7 @@ dimension_value_labels:
     measure_18: 'Red Diesel: Reduce duty rates by 3.7p-per-litre from 15 June 2026 to 1 July 2027'
     measure_19: 'Alcohol Duty: Increase the generosity of Small Producer Relief from 1 February 2027'
     measure_20: 'Good Growth Funds: Seed funding for Mayors and local leaders in England and £1.5bn finance
-      for Mayoral Strategic Authorities with a mechanism for subsidised lending (resource impacts of subsidy) '
+      for Mayoral Strategic Authorities with a mechanism for subsidised lending (resource impacts of subsidy)'
     measure_21: 'Business Rates Retention: Devolve a share of business rates income and growth to Mayoral
       Strategic Authorities from April 2027'
     measure_22: 'Youth Employment and Skills: Expand local apprenticeship services to all current mayors'
@@ -111,7 +111,7 @@ dimension_value_labels:
     measure_40: 'Defence Investment Plan (DIP): Commitment to further savings made at announcement on
       30 June 2026'
     measure_41: 'Defence Investment Plan: Reallocate capital spending to fully fund the Defence Investment
-      Plan '
+      Plan'
     measure_42: 'Defence: Reinvest defence and security administration savings into frontline defence
       and national security'
     measure_43: 'Ukraine: Emergency winter support for air defence'
@@ -125,7 +125,7 @@ dimension_value_labels:
     measure_48: 'Welfare Reform: Remove benefit entitlements from serious offenders hospitalised in Great
       Britain from 6 April 2027'
     measure_49: 'Distributions: Modernise the distributions framework from 6 April 2028'
-    measure_50: 'Advance Corporation Tax (ACT): Abolish Advance Corporation Tax from 1 April 2031 '
+    measure_50: 'Advance Corporation Tax (ACT): Abolish Advance Corporation Tax from 1 April 2031'
     measure_51: 'Cross-Border Services: Restrict the reverse charge on supplies of services from overseas
       to VAT-registered businesses from 1 April 2027'
     measure_52: 'Pension Tax Allowance: Remove the income tax liability for pensioners with total income
@@ -145,10 +145,10 @@ dimension_value_labels:
       £50 million liable for VAT on the full value of their fares from 2 January 2028'
     measure_60: 'Business Asset Disposal Relief (BADR): Reduce the lifetime limit to £500,000 from 6 April
       2027'
-    measure_61: "\tProperty Income: Increase tax rates on property income by 2ppts at the basic, higher\
-      \ and additional rate from 6 April 2027"
-    measure_62: "\tSavings Income: Increase tax rates on savings income by 2ppts at the basic, higher\
-      \ and additional rate from 6 April 2027"
+    measure_61: 'Property Income: Increase tax rates on property income by 2ppts at the basic, higher
+      and additional rate from 6 April 2027'
+    measure_62: 'Savings Income: Increase tax rates on savings income by 2ppts at the basic, higher and
+      additional rate from 6 April 2027'
     measure_63: 'Future Civil Service: Reduce administration budgets by 20% by 2029-30 compared to 16%
       reduction in Spending Review 2025 plans'
     measure_64: 'Future Civil Service: Reinvest part of the administration budget savings in a new AI
@@ -163,7 +163,7 @@ dimension_value_labels:
       1 January 2027'
     measure_69: 'Electricity Generator Levy: Increase the rate from 45% to 55% until 31 March 2028'
     measure_70: 'Industrial Electricity: Fund the British Industrial Competitiveness Scheme starting from
-      1 April 2027, including a backdated payment for eligible businesses '
+      1 April 2027, including a backdated payment for eligible businesses'
     measure_71: 'Carbon Price Support (CPS): Remove the CPS rates to reduce energy bills from 1 April
       2028'
     measure_72: 'Spring 2026 Youth Employment and Skills Package: Expand Youth Guarantee and apprenticeship
@@ -171,7 +171,7 @@ dimension_value_labels:
     measure_73: 'Skills: Re-establish the Union Learning Fund in England'
     measure_74: 'Investment for Growth: Support strategic technologies, local growth and key industries'
     measure_75: 'British Business Bank: Expand the Growth Guarantee Scheme to support £6.5 billion of
-      additional SME lending across this Parliament '
+      additional SME lending across this Parliament'
     measure_76: 'Leeds City Fund: Establish the Leeds City Fund with 100% retention of business rates
       growth'
     measure_77: 'UK-India: Bring into force the Comprehensive Economic and Trade Agreement and Double
@@ -179,8 +179,8 @@ dimension_value_labels:
     measure_78: 'Steel Tariff: Change tariff rate and quotas on imported steel from 1 July 2026'
     measure_79: 'Stamp Taxes on Shares: Replace Stamp Duty and Stamp Duty Reserve Tax with the Securities
       Transfer Tax from late 2027'
-    measure_80: "\tBusiness Rates: Introduce 100% relief for eligible Electric Vehicle Charging Points\
-      \ (EVCPs) and electric vehicle-only forecourts for ten years from 1 April 2026"
+    measure_80: 'Business Rates: Introduce 100% relief for eligible Electric Vehicle Charging Points (EVCPs)
+      and electric vehicle-only forecourts for ten years from 1 April 2026'
     measure_81: 'Tackling Misogyny: Invest in grassroots misogyny prevention programmes'
     measure_82: 'Infected Blood Compensation Scheme: Implement the Inquiry''s Additional Report recommendations
       from 24 July 2026'
@@ -210,7 +210,7 @@ dimension_value_labels:
       benefits from 6 April 2026 to 6 April 2027, with remaining BiKs implemented from 6 April 2028'
     measure_95: 'Low Value Imports: Remove the £135 customs duty relief and introduce new customs arrangements
       from October 2028'
-    measure_96: 'Emissions Trading Scheme (ETS): Delay the inclusion of energy from waste in the ETS '
+    measure_96: 'Emissions Trading Scheme (ETS): Delay the inclusion of energy from waste in the ETS'
     measure_97: 'Corporation Tax: Spread the one-off impact of revenue recognition changes for qualifying
       gas distribution activities over five years for accounting periods ending on or after 31 December
       2026'

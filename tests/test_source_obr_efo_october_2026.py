@@ -276,6 +276,15 @@ def test_cash_and_accrued_taxes_share_a_concept(facts):
     assert tobacco.layout.measure_label == "Tobacco duties, cash basis, FY2025-26"
 
 
+def test_policy_measure_labels_are_trimmed():
+    path = ROOT / "packages/obr/efo_policy_october_2026/source_package.yaml"
+    labels = yaml.safe_load(path.read_text(encoding="utf-8"))["dimension_value_labels"]
+    measures = labels["policy_measure"]
+    assert len(measures) == 103
+    assert all(label == label.strip() for label in measures.values())
+    assert measures["measure_61"].startswith("Property Income:")
+
+
 def test_sample_values_by_label(facts):
     expenditure = facts["expenditure"]
     state_pension = next(

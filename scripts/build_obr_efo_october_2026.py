@@ -1426,7 +1426,7 @@ def policy_package() -> tuple[list[dict], dict]:
             "fiscally_neutral": "Fiscally neutral measures",
             "non_scorecard": "Non-scorecard measures",
         },
-        "policy_measure": {m["id"]: m["name"] for m in measures},
+        "policy_measure": {m["id"]: m["name"].strip() for m in measures},
     }
     return record_sets, labels
 
