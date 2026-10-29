@@ -6226,14 +6226,14 @@ record_sets:
     expected_column_header_row: 5
     expected_column_header: Employment income (Number of individuals)
     concept: hmrc.spi_employment_income_count
-    source_concept: hmrc.spi_employment_income_count
-    concept_relation: source_label
+    source_concept: hmrc.spi_table_3_10_employment_income_count
+    concept_relation: broad_match
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
     concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Employment income
       (Number of individuals); income assessed under the Income Tax (Earnings and Pensions) Act
       2003 and other miscellaneous income (note 4); individuals with a self-employment source,
-      taxpayers or not, in thousands; amounts GBP million.'
+      taxpayers or not, in thousands; amounts GBP million. Table 3.6''s employment income is narrower: ''all pay from employment, from taxable benefits and from Incapacity Benefit, contribution-based Employment and Support Allowance or Job Seeker''s allowance'' (its note 6). So this column keeps a source concept of its own and maps to Table 3.6''s as a broad match.'
     unit: count
     aggregation: sum
     value_scale: 1000
@@ -6246,14 +6246,14 @@ record_sets:
     expected_column_header_row: 5
     expected_column_header: Employment income (Amounts)
     concept: hmrc.spi_employment_income_amount
-    source_concept: hmrc.spi_employment_income_amount
-    concept_relation: source_label
+    source_concept: hmrc.spi_table_3_10_employment_income_amount
+    concept_relation: broad_match
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
     concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Employment income
       (Amounts); income assessed under the Income Tax (Earnings and Pensions) Act 2003 and other
       miscellaneous income (note 4); individuals with a self-employment source, taxpayers or not,
-      in thousands; amounts GBP million.'
+      in thousands; amounts GBP million. Table 3.6''s employment income is narrower: ''all pay from employment, from taxable benefits and from Incapacity Benefit, contribution-based Employment and Support Allowance or Job Seeker''s allowance'' (its note 6). So this column keeps a source concept of its own and maps to Table 3.6''s as a broad match.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
@@ -6446,14 +6446,14 @@ record_sets:
     expected_column_header_row: 5
     expected_column_header: Employment income (Number of individuals)
     concept: hmrc.spi_employment_income_count
-    source_concept: hmrc.spi_employment_income_count
-    concept_relation: source_label
+    source_concept: hmrc.spi_table_3_10_employment_income_count
+    concept_relation: broad_match
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
     concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Employment income
       (Number of individuals); income assessed under the Income Tax (Earnings and Pensions) Act
       2003 and other miscellaneous income (note 4); individuals with a self-employment source,
-      taxpayers or not, in thousands; amounts GBP million.'
+      taxpayers or not, in thousands; amounts GBP million. Table 3.6''s employment income is narrower: ''all pay from employment, from taxable benefits and from Incapacity Benefit, contribution-based Employment and Support Allowance or Job Seeker''s allowance'' (its note 6). So this column keeps a source concept of its own and maps to Table 3.6''s as a broad match.'
     unit: count
     aggregation: sum
     value_scale: 1000
@@ -6466,14 +6466,14 @@ record_sets:
     expected_column_header_row: 5
     expected_column_header: Employment income (Amounts)
     concept: hmrc.spi_employment_income_amount
-    source_concept: hmrc.spi_employment_income_amount
-    concept_relation: source_label
+    source_concept: hmrc.spi_table_3_10_employment_income_amount
+    concept_relation: broad_match
     concept_authority: hmrc
     concept_evidence_url: https://www.gov.uk/government/statistics/personal-incomes-statistics-for-the-tax-year-2023-to-2024
     concept_evidence_notes: 'SPI collated tables 2023-24, Table_3_10, column: Employment income
       (Amounts); income assessed under the Income Tax (Earnings and Pensions) Act 2003 and other
       miscellaneous income (note 4); individuals with a self-employment source, taxpayers or not,
-      in thousands; amounts GBP million.'
+      in thousands; amounts GBP million. Table 3.6''s employment income is narrower: ''all pay from employment, from taxable benefits and from Incapacity Benefit, contribution-based Employment and Support Allowance or Job Seeker''s allowance'' (its note 6). So this column keeps a source concept of its own and maps to Table 3.6''s as a broad match.'
     unit: gbp
     aggregation: sum
     value_scale: 1000000
