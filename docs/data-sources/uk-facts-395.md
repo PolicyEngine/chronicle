@@ -125,18 +125,21 @@ dates and no fiscal or calendar basis. No later report has been published yet.
 **The OBR's line, in both vintages.**
 
 - `obr-efo-receipts-march-2026` gains sheet 3.8 row 52, 'Vehicle excise duties', on the
-  cash basis the sheet states, 2024-25 (outturn, GBP 8.205 billion) to 2030-31: record
-  sets `obr.efo_2026_03.receipts.vehicle_excise_duties.fy<year>`, concept
+  cash basis the sheet states, for its 2024-25 outturn only (GBP 8.205 billion): record
+  set `obr.efo_2026_03.receipts.vehicle_excise_duties.fy2024`, concept
   `obr.vehicle_excise_duties`.
+  - October's tables start at 2025-26, so the calendar-2025 window's 2024-25 part comes
+    from March.
+  - Of two vintages' numbers for one line and year, Chronicle keeps the later. March's
+    forecasts for 2025-26 to 2030-31 are therefore not ported: October publishes those
+    years, 2025-26 as outturn. `OBR_OUTTURN_ONLY_LINES` in the build script records this.
+  - The other March lines' overlap with October predates this rule; chronicle#397 tracks
+    it.
 - The October package already carried the line as a table-scoped row
   (`obr.cash_receipts.vehicle_excise_duties`). With VED a March line, the October build
   carries it under the March line id and concept instead
-  (`obr.efo_2026_10.receipts.vehicle_excise_duties.fy<year>`), with the same cells,
-  values and assertions.
-- October's tables start at 2025-26, so the calendar-2025 window's 2024-25 part comes
-  from the March outturn. March's projections for 2026-27 to 2030-31 share semantic keys
-  with October's, as the other March lines do. March's 2025-26 projection and October's
-  2025-26 outturn differ in assertion.
+  (`obr.efo_2026_10.receipts.vehicle_excise_duties.fy<year>`, 2025-26 to 2031-32), with
+  the same cells, values and assertions. The two vintages share no key.
 
 **The split by payer.** The national accounts record VED paid by households and by
 businesses under different tax categories, and ONS publishes both:

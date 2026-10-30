@@ -479,14 +479,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the GBP 0 to GBP 1 band's 9, its self-employment amount suppressed).
         # chronicle#393's OBR October 2026 EFO packages add 4,317: receipts
         # 1,551, expenditure 165, economy 56, aggregates 25 and policy 2,520.
-        # chronicle#395 adds 302: LPS domestic rates paid (144), ONS's Northern
+        # chronicle#395 adds 296: LPS domestic rates paid (144), ONS's Northern
         # Ireland domestic rates (52), DfT BUS01 for Wales (57), the Childcare
         # Offer for Wales report (3), ONS vehicle duty by payer (16), ONS CPI gas
-        # weights (9) and indices (14), and the March EFO's VED line (7). October's
-        # VED line moves to the March concept fact for fact. No new geography,
-        # period or entity key; the March VED projections for 2026-27 to 2030-31
-        # share five semantic keys with October's.
-        "fact_count": 1662057,
+        # weights (9) and indices (14), and the March EFO's VED outturn for
+        # 2024-25 (1). October's VED line moves to the March concept fact for
+        # fact. No new geography, period or entity key, and no duplicate key: of
+        # two vintages' numbers Chronicle keeps the later (chronicle#397).
+        "fact_count": 1662051,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -525,7 +525,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # 2026 packages' lines for the years both vintages forecast, kept as
         # published beside the March package so a consumer picks a vintage by
         # package.
-        "semantic_duplicate_key_count": 2692,
+        "semantic_duplicate_key_count": 2687,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
@@ -585,7 +585,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1662057
+    assert row_count == 1662051
     assert provenance_classes <= {
         "administrative",
         "census",
@@ -620,7 +620,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1662057
+    assert coverage["fact_count"] == 1662051
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -659,7 +659,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "nisra": 29227,
         "nithc": 8,
         "nrs": 359094,
-        "obr": 4972,
+        "obr": 4966,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
         "ons": 347275,
@@ -1469,12 +1469,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fiscal_year:2022": 81,
         "fiscal_year:2023": 2496,
         "fiscal_year:2024": 2800,
-        "fiscal_year:2025": 3422,
-        "fiscal_year:2026": 3529,
-        "fiscal_year:2027": 35,
-        "fiscal_year:2028": 36,
-        "fiscal_year:2029": 36,
-        "fiscal_year:2030": 32,
+        "fiscal_year:2025": 3421,
+        "fiscal_year:2026": 3528,
+        "fiscal_year:2027": 34,
+        "fiscal_year:2028": 35,
+        "fiscal_year:2029": 35,
+        "fiscal_year:2030": 31,
         "month:2003-08": 7,
         "month:2004-08": 7,
         "month:2005-08": 7,
@@ -2295,9 +2295,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # add 2,993: all but Table 9.9 and 9.12's area rows. SPI 2023-24 Table 3.10
     # adds 159 (PolicyEngine/microcosm#1418). chronicle#393's OBR October 2026
     # EFO packages add 4,219: all but the DWP and Northern Ireland lines of
-    # expenditure table 5.9. chronicle#395 adds 46: ONS's vehicle duty (16) and
-    # CPI gas (23) series, and the March EFO's VED line (7).
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 40924
+    # expenditure table 5.9. chronicle#395 adds 40: ONS's vehicle duty (16) and
+    # CPI gas (23) series, and the March EFO's 2024-25 VED outturn (1).
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 40918
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
@@ -2350,7 +2350,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # aggregates and the economy forecasts), people +1,547, institutional
     # sectors +113 and firms +56 (corporation tax credits). chronicle#395:
     # households +227 (LPS, ONS NI domestic rates, CDDZ and the CPI series),
-    # people +67 (BUS01 for Wales, the Childcare Offer and the March VED line)
+    # people +61 (BUS01 for Wales, the Childcare Offer and the March VED line)
     # and firms +8 (EKED).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
@@ -2361,13 +2361,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 676547,
         "institutional_sector": 8919,
         "pension_plan": 2,
-        "person": 598368,
+        "person": 598362,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2692
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2687
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
         "conflicting_groupby_value_label": 24,

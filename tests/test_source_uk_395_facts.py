@@ -327,6 +327,8 @@ def test_gas_weights_add_up_and_indices_are_published_averages():
 
 
 def test_ved_is_one_concept_in_both_efo_vintages():
+    """Of two vintages' numbers for one line and year, Chronicle keeps the later: March
+    carries VED's 2024-25 outturn, which October lacks, and October the rest."""
     march = _facts_at("obr-efo-receipts-march-2026", 2026)
     october = _facts_at("obr-efo-receipts-october-2026", 2026)
     march_ved = {
@@ -339,7 +341,11 @@ def test_ved_is_one_concept_in_both_efo_vintages():
         for key, fact in october.items()
         if key.startswith("obr.efo_2026_10.receipts.vehicle_excise_duties.")
     }
-    assert len(march_ved) == 7 and len(october_ved) == 7
+    assert len(march_ved) == 1 and len(october_ved) == 7
+    assert {fact.period.value for fact in march_ved.values()} == {2024}
+    assert {fact.period.value for fact in october_ved.values()} == set(
+        range(2025, 2032)
+    )
     for fact in [*march_ved.values(), *october_ved.values()]:
         assert fact.measure.concept == "obr.vehicle_excise_duties"
         assert dict(fact.filters) == {"accounting_basis": "cash"}

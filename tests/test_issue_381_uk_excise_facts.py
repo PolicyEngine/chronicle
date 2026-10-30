@@ -112,7 +112,7 @@ def test_packages_are_registered_valid_and_labelled(alias, facts):
 def test_obr_excise_lines(receipts):
     _cells, built = receipts
     new = [f for f in built if f.period_coverage is not None]
-    assert len(built) == 286 and len(new) == 188
+    assert len(built) == 280 and len(new) == 182
     lines = Counter(f.layout.record_set_id.split(".")[3] for f in new)
     assert lines == {
         **{
@@ -124,7 +124,6 @@ def test_obr_excise_lines(receipts):
                 "beer_and_cider_duties",
                 "betting_and_gaming_duties",
                 "vaping_tax",
-                "vehicle_excise_duties",
                 "cigarette_clearances",
                 "non_cigarette_tobacco_clearances",
                 "hand_rolled_tobacco_clearances",
@@ -153,6 +152,8 @@ def test_obr_excise_lines(receipts):
                 "pool_betting_duty",
             )
         },
+        # chronicle#395: the 2024-25 outturn only; October 2026 carries the later years.
+        "vehicle_excise_duties": 1,
     }
 
     def line(name, year):

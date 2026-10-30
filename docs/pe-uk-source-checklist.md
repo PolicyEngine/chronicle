@@ -335,7 +335,8 @@ contracts and caveats are in
 
 Facts that rows of Microcosm's next policyengine-uk bump wait on
 ([microcosm#1095](https://github.com/PolicyEngine/microcosm/issues/1095)): eleven packages
-and 295 facts, plus the March EFO's VED line (7 facts). Field contracts and caveats are in
+and 295 facts, plus the March EFO's VED line (1 fact, its 2024-25 outturn). Field
+contracts and caveats are in
 [`docs/data-sources/uk-facts-395.md`](data-sources/uk-facts-395.md).
 
 - **Northern Ireland domestic rates.**
@@ -351,7 +352,8 @@ and 295 facts, plus the March EFO's VED line (7 facts). Field contracts and cave
   eligible population and the take-up rate in 2023-24
   (`welshgov-childcare-offer-report-2023-24`, 3 facts).
 - **Vehicle excise duty.**
-  - The OBR's line in both EFO vintages under `obr.vehicle_excise_duties`.
+  - The OBR's line in both EFO vintages under `obr.vehicle_excise_duties`: March for its
+    2024-25 outturn, October for 2025-26 on.
   - ONS's split, vehicle duty paid by households (CDDZ) and by businesses (EKED), 2018
     to 2025 (`ons-pusf-vehicle-duty-*-october-2026`, 16 facts).
 - **Gas in the CPI.** The CPI weights for 04.5.2 and its two classes, 2024 to 2026, and
