@@ -322,7 +322,7 @@ as a vintage beside the March 2026 packages: five packages and 4,317 facts. Fiel
 contracts and caveats are in
 [`docs/data-sources/uk-obr-efo-october-2026.md`](data-sources/uk-obr-efo-october-2026.md).
 
-- **Receipts** (`obr-efo-receipts-october-2026`, 1,551 facts): the March package's 41 lines
+- **Receipts** (`obr-efo-receipts-october-2026`, 1,551 facts): the March package's 42 lines
   and every other row of tables 4.1 to 4.22 except 4.9 and 4.19, Table 4.5's savings
   income included.
 - **Expenditure, economy and aggregates** (`obr-efo-expenditure-october-2026`,
@@ -330,6 +330,32 @@ contracts and caveats are in
   the March packages' lines, plus the deposit rate and household financial assets.
 - **Policy** (`obr-efo-policy-october-2026`, 2,520 facts): Table 1.1's costing of each
   policy decision by head and category, 2026-27 to 2031-32.
+
+## Beyond parity — facts for the next policyengine-uk bump (chronicle#395)
+
+Facts that rows of Microcosm's next policyengine-uk bump wait on
+([microcosm#1095](https://github.com/PolicyEngine/microcosm/issues/1095)): eleven packages
+and 295 facts, plus the March EFO's VED line (7 facts). Field contracts and caveats are in
+[`docs/data-sources/uk-facts-395.md`](data-sources/uk-facts-395.md).
+
+- **Northern Ireland domestic rates.**
+  - LPS's domestic rates paid and paying occupancies by district council, rating years
+    2020-21 to 2025-26 (`lps-domestic-rates-paid-2026`, 144 facts).
+  - ONS's regional and district domestic rates, 1999-00 to 2024-25
+    (`ons-crpsf-ni-domestic-rates-fye2025`, 52 facts).
+  - No source publishes domestic reliefs beside a domestic total.
+- **Wales's bus journeys.** DfT BUS01's Wales passenger and concessionary journeys
+  (`dft-bus01-wales-journeys-2025`, 57 facts). Passenger fare receipts are not published
+  for Wales.
+- **The Childcare Offer for Wales.** Report Table 4: children funded, the estimated
+  eligible population and the take-up rate in 2023-24
+  (`welshgov-childcare-offer-report-2023-24`, 3 facts).
+- **Vehicle excise duty.**
+  - The OBR's line in both EFO vintages under `obr.vehicle_excise_duties`.
+  - ONS's split, vehicle duty paid by households (CDDZ) and by businesses (EKED), 2018
+    to 2025 (`ons-pusf-vehicle-duty-*-october-2026`, 16 facts).
+- **Gas in the CPI.** The CPI weights for 04.5.2 and its two classes, 2024 to 2026, and
+  the two classes' indices (`ons-mm23-cpi-*-october-2026`, 23 facts).
 
 ## Consumer contracts
 

@@ -1,0 +1,27 @@
+source_id: ons
+package_id: ons-mm23-cpi-index-liquefied-hydrocarbons-october-2026
+dataset: ons_ons-mm23-cpi-index-liquefied-hydrocarbons-october-2026
+source_page: https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l7ea/mm23
+table: 'MM23 time series L7EA: CPI INDEX 04.5.2.2 Liquefied hydrocarbons (butane,
+  propane etc) 2015=100'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, time series L7EA (MM23), released
+  21 October 2026. Contains public sector information licensed under the Open Government
+  Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (time series page https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l7ea/mm23)'
+license_verified_at: '2026-10-30'
+files:
+  2026:
+    filename: l7ea.csv
+    source_url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/inflationandpriceindices/timeseries/l7ea/mm23
+    sha256: 9682ce4db97575a2417698d05f1142e87d5071e504e8d48afa997e267bfa2989
+    size_bytes: 3889
+    fetched_at: '2026-10-30T11:38:46+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-mm23-cpi-index-liquefied-hydrocarbons-october-2026/2026/9682ce4db97575a2417698d05f1142e87d5071e504e8d48afa997e267bfa2989/l7ea.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-mm23-cpi-index-liquefied-hydrocarbons-october-2026/2026/9682ce4db97575a2417698d05f1142e87d5071e504e8d48afa997e267bfa2989/l7ea.csv

@@ -479,7 +479,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the GBP 0 to GBP 1 band's 9, its self-employment amount suppressed).
         # chronicle#393's OBR October 2026 EFO packages add 4,317: receipts
         # 1,551, expenditure 165, economy 56, aggregates 25 and policy 2,520.
-        "fact_count": 1661755,
+        # chronicle#395 adds 302: LPS domestic rates paid (144), ONS's Northern
+        # Ireland domestic rates (52), DfT BUS01 for Wales (57), the Childcare
+        # Offer for Wales report (3), ONS vehicle duty by payer (16), ONS CPI gas
+        # weights (9) and indices (14), and the March EFO's VED line (7). October's
+        # VED line moves to the March concept fact for fact. No new geography,
+        # period or entity key; the March VED projections for 2026-27 to 2030-31
+        # share five semantic keys with October's.
+        "fact_count": 1662057,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -518,7 +525,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # 2026 packages' lines for the years both vintages forecast, kept as
         # published beside the March package so a consumer picks a vintage by
         # package.
-        "semantic_duplicate_key_count": 2687,
+        "semantic_duplicate_key_count": 2692,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
@@ -532,7 +539,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # 30 June Consumer Trends package with the 30 September one. GSGB 2025
         # (PolicyEngine/microcosm#1381) adds one. PolicyEngine/microcosm#1415
         # adds three, and chronicle#393 the five OBR October 2026 EFO packages.
-        "source_package_count": 428,
+        "source_package_count": 439,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -578,14 +585,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1661755
+    assert row_count == 1662057
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 428
+    assert source_packages["source_package_count"] == 439
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -613,7 +620,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1661755
+    assert coverage["fact_count"] == 1662057
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -629,7 +636,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dfe": 770,
         "dfc_ni": 1700,
         "dfi_ni": 33,
-        "dft": 2777,
+        "dft": 2834,
         "dwp": 234078,
         "eurostat": 262,
         "federal_reserve": 1,
@@ -644,7 +651,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
-        "lps": 72,
+        "lps": 216,
         "mbie": 5663,
         "mhclg": 118542,
         "msd": 139,
@@ -652,10 +659,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "nisra": 29227,
         "nithc": 8,
         "nrs": 359094,
-        "obr": 4965,
+        "obr": 4972,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 347184,
+        "ons": 347275,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
@@ -676,10 +683,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "stats_nz": 2058,
         "usda_snap": 852,
         "voa": 3001,
-        "welshgov": 9567,
+        "welshgov": 9570,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 370
+    assert len(table_counts) == 381
     assert (
         table_counts[
             "ostbelgien_kindergeld:Kindergeld in Ostbelgien, Aktualisierung "
@@ -1385,7 +1392,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "academic_year:2020": 6,
         "academic_year:2021": 6,
         "academic_year:2022": 6,
-        "academic_year:2023": 6,
+        "academic_year:2023": 9,
         "academic_year:2024": 26,
         "academic_year:2025": 20,
         "academic_year:2026": 20,
@@ -1419,15 +1426,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "calendar_year:2015": 74,
         "calendar_year:2016": 72,
         "calendar_year:2017": 72,
-        "calendar_year:2018": 176,
-        "calendar_year:2019": 175,
-        "calendar_year:2020": 175,
-        "calendar_year:2021": 4196,
-        "calendar_year:2022": 2223,
-        "calendar_year:2023": 6445,
-        "calendar_year:2024": 34038,
-        "calendar_year:2025": 4661,
-        "calendar_year:2026": 341,
+        "calendar_year:2018": 178,
+        "calendar_year:2019": 177,
+        "calendar_year:2020": 177,
+        "calendar_year:2021": 4198,
+        "calendar_year:2022": 2225,
+        "calendar_year:2023": 6449,
+        "calendar_year:2024": 34045,
+        "calendar_year:2025": 4668,
+        "calendar_year:2026": 344,
         "calendar_year:2027": 320,
         "calendar_year:2028": 320,
         "calendar_year:2029": 320,
@@ -1436,38 +1443,38 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fiscal_year:1996": 33,
         "fiscal_year:1997": 33,
         "fiscal_year:1998": 33,
-        "fiscal_year:1999": 41,
-        "fiscal_year:2000": 41,
-        "fiscal_year:2001": 41,
-        "fiscal_year:2002": 41,
-        "fiscal_year:2003": 41,
-        "fiscal_year:2004": 41,
-        "fiscal_year:2005": 41,
-        "fiscal_year:2006": 41,
-        "fiscal_year:2007": 41,
-        "fiscal_year:2008": 41,
-        "fiscal_year:2009": 41,
-        "fiscal_year:2010": 41,
-        "fiscal_year:2011": 41,
-        "fiscal_year:2012": 41,
-        "fiscal_year:2013": 41,
-        "fiscal_year:2014": 41,
-        "fiscal_year:2015": 41,
-        "fiscal_year:2016": 41,
-        "fiscal_year:2017": 41,
-        "fiscal_year:2018": 41,
-        "fiscal_year:2019": 41,
-        "fiscal_year:2020": 44,
-        "fiscal_year:2021": 52,
-        "fiscal_year:2022": 52,
-        "fiscal_year:2023": 2467,
-        "fiscal_year:2024": 2770,
-        "fiscal_year:2025": 3394,
-        "fiscal_year:2026": 3528,
-        "fiscal_year:2027": 34,
-        "fiscal_year:2028": 35,
-        "fiscal_year:2029": 35,
-        "fiscal_year:2030": 31,
+        "fiscal_year:1999": 43,
+        "fiscal_year:2000": 43,
+        "fiscal_year:2001": 43,
+        "fiscal_year:2002": 43,
+        "fiscal_year:2003": 43,
+        "fiscal_year:2004": 43,
+        "fiscal_year:2005": 44,
+        "fiscal_year:2006": 44,
+        "fiscal_year:2007": 44,
+        "fiscal_year:2008": 46,
+        "fiscal_year:2009": 46,
+        "fiscal_year:2010": 46,
+        "fiscal_year:2011": 46,
+        "fiscal_year:2012": 46,
+        "fiscal_year:2013": 46,
+        "fiscal_year:2014": 46,
+        "fiscal_year:2015": 46,
+        "fiscal_year:2016": 46,
+        "fiscal_year:2017": 46,
+        "fiscal_year:2018": 46,
+        "fiscal_year:2019": 46,
+        "fiscal_year:2020": 73,
+        "fiscal_year:2021": 81,
+        "fiscal_year:2022": 81,
+        "fiscal_year:2023": 2496,
+        "fiscal_year:2024": 2800,
+        "fiscal_year:2025": 3422,
+        "fiscal_year:2026": 3529,
+        "fiscal_year:2027": 35,
+        "fiscal_year:2028": 36,
+        "fiscal_year:2029": 36,
+        "fiscal_year:2030": 32,
         "month:2003-08": 7,
         "month:2004-08": 7,
         "month:2005-08": 7,
@@ -1518,7 +1525,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "month:2022-10": 4,
         "month:2022-11": 4,
         "month:2022-12": 4,
-        "month:2023-01": 435,
+        "month:2023-01": 437,
         "month:2023-02": 434,
         "month:2023-03": 442,
         "month:2023-04": 508,
@@ -1530,7 +1537,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "month:2023-10": 39118,
         "month:2023-11": 508,
         "month:2023-12": 522,
-        "month:2024-01": 503,
+        "month:2024-01": 505,
         "month:2024-02": 502,
         "month:2024-03": 510,
         "month:2024-04": 508,
@@ -1542,7 +1549,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "month:2024-10": 39224,
         "month:2024-11": 614,
         "month:2024-12": 892,
-        "month:2025-01": 610,
+        "month:2025-01": 612,
         "month:2025-02": 608,
         "month:2025-03": 738,
         "month:2025-04": 805,
@@ -1554,7 +1561,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "month:2025-10": 39371,
         "month:2025-11": 776,
         "month:2025-12": 1025,
-        "month:2026-01": 553,
+        "month:2026-01": 555,
         "month:2026-02": 557,
         "month:2026-03": 498,
         "month:2026-04": 490,
@@ -2288,8 +2295,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # add 2,993: all but Table 9.9 and 9.12's area rows. SPI 2023-24 Table 3.10
     # adds 159 (PolicyEngine/microcosm#1418). chronicle#393's OBR October 2026
     # EFO packages add 4,219: all but the DWP and Northern Ireland lines of
-    # expenditure table 5.9.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 40878
+    # expenditure table 5.9. chronicle#395 adds 46: ONS's vehicle duty (16) and
+    # CPI gas (23) series, and the March EFO's VED line (7).
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 40924
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
@@ -2340,23 +2348,26 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # 2023-24 Table 3.10 159 (PolicyEngine/microcosm#1418). chronicle#393's
     # OBR October 2026 EFO packages: government +2,601 (policy costings,
     # aggregates and the economy forecasts), people +1,547, institutional
-    # sectors +113 and firms +56 (corporation tax credits).
+    # sectors +113 and firms +56 (corporation tax credits). chronicle#395:
+    # households +227 (LPS, ONS NI domestic rates, CDDZ and the CPI series),
+    # people +67 (BUS01 for Wales, the Childcare Offer and the March VED line)
+    # and firms +8 (EKED).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 274367,
         "family": 1700,
-        "firm": 1496,
+        "firm": 1504,
         "government": 6749,
-        "household": 676320,
+        "household": 676547,
         "institutional_sector": 8919,
         "pension_plan": 2,
-        "person": 598301,
+        "person": 598368,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2687
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2692
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
         "conflicting_groupby_value_label": 24,

@@ -1,0 +1,4563 @@
+# DfT BUS01 (revised 24 March 2026) for Wales, for PolicyEngine/chronicle#395 item 2.
+# Written by scripts/build_uk_395_packages.py. It reads the workbook dft-bus01-passenger-
+# journeys-2025 already pins (data/dft/bus01_passenger_journeys_2025), whose England
+# package leaves the devolved and Great Britain columns out of its declared scope.
+#
+# BUS01a passenger journeys on local bus services in Wales (column R), years ending March
+# 2005 to 2025, and BUS01c concessionary passenger journeys in Wales (column P), years
+# ending March 2008 to 2025, for both of the table's Type values: 'Elderly/Disabled
+# journeys' and 'Total concessionary journeys' (which includes youth schemes, BUS01 note
+# 4). Fare-paying journeys are not published; the package derives no difference. The
+# record sets mirror the England package's: the same concepts, journey categories, period
+# stamps (the year ending March, by its closing year) and guards.
+schema_version: ledger.source_package.v1
+package_id: dft-bus01-wales-journeys-2025
+label: DfT BUS01 local bus passenger and concessionary journeys in Wales, years ending March 2005 to 2025
+dimension_labels:
+  dft.bus_area: Local bus statistics area
+dimension_value_labels:
+  journey_category:
+    elderly_disabled_concessionary: Elderly/Disabled journeys
+    total_concessionary: Total concessionary journeys
+artifact:
+  source_name: dft
+  source_table: BUS01a passenger journeys and BUS01c concessionary passenger journeys, Wales
+  resource_package: db
+  resource_directory: data/dft/bus01_passenger_journeys_2025
+  manifest: manifest.yaml
+  vintage: bus_statistics_2025_revised_2026_03_24
+  extracted_at: '2026-10-30'
+  extraction_method: ODS whole-workbook used-range cell parse
+  parser: ods_used_range
+  artifact_year: 2025
+record_sets:
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2005
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2005.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2005
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2005
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2005
+    start_date: '2004-04-01'
+    end_date: '2005-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 9
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2005
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2005
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2006
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2006.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2006
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2006
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2006
+    start_date: '2005-04-01'
+    end_date: '2006-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 10
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2006
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2006
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2007
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2007.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2007
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2007
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2007
+    start_date: '2006-04-01'
+    end_date: '2007-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 11
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2007
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2007
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2008
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2008.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2008
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2008
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2008
+    start_date: '2007-04-01'
+    end_date: '2008-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 12
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2008
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2009
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2009.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2009
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2009
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2009
+    start_date: '2008-04-01'
+    end_date: '2009-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 13
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2009
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2009
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2010
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2010.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2010
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2010
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2010
+    start_date: '2009-04-01'
+    end_date: '2010-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 14
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2010
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2010
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2011
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2011.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2011
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2011
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2011
+    start_date: '2010-04-01'
+    end_date: '2011-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 15
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2011
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2011
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2012
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2012.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2012
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2012
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2012
+    start_date: '2011-04-01'
+    end_date: '2012-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 16
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2012
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2012
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2013
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2013.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2013
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2013
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2013
+    start_date: '2012-04-01'
+    end_date: '2013-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 17
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2013
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2013
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2014
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2014.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2014
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2014
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2014
+    start_date: '2013-04-01'
+    end_date: '2014-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 18
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2014
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2014
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2015
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2015.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2015
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2015
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2015
+    start_date: '2014-04-01'
+    end_date: '2015-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 19
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2015
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2015
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2016
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2016.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2016
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2016
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2016
+    start_date: '2015-04-01'
+    end_date: '2016-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 20
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2016
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2016
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2017
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2017.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2017
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2017
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2017
+    start_date: '2016-04-01'
+    end_date: '2017-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 21
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2017
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2017
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2018
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2018.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2018
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2018
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2018
+    start_date: '2017-04-01'
+    end_date: '2018-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 22
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2018
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2018
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2019
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2019.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2019
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2019
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2019
+    start_date: '2018-04-01'
+    end_date: '2019-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 23
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2019
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2019
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2020.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2020
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2020
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2020
+    start_date: '2019-04-01'
+    end_date: '2020-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 24
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2020
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2020
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2021.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2021
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2021
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2021
+    start_date: '2020-04-01'
+    end_date: '2021-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 25
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2021
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2021
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2022.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2022
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2022
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2022
+    start_date: '2021-04-01'
+    end_date: '2022-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 26
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2022
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2022
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2023.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2023
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2023
+    start_date: '2022-04-01'
+    end_date: '2023-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 27
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2024.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2024
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2024
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 28
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01a.passenger_journeys.fy2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01a.passenger_journeys.fy2025.v1
+  source_record_id_prefix: dft.bus01.wales.bus01a.passenger_journeys.fy2025
+  sheet_name: BUS01a
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2025
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 29
+    column: R
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: fiscal-year closing year
+    - column: A
+      row: 4
+      expected_value: Table BUS01a
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Passenger journeys
+    ordinal: 0
+    column: R
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01a Passenger journeys (millions).
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2008
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2008.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2008
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2008
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2008
+    start_date: '2007-04-01'
+    end_date: '2008-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 9
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2008
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2009
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2009.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2009
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2009
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2009
+    start_date: '2008-04-01'
+    end_date: '2009-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 10
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2009
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2009
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2010
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2010.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2010
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2010
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2010
+    start_date: '2009-04-01'
+    end_date: '2010-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 11
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2010
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2010
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2011
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2011.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2011
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2011
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2011
+    start_date: '2010-04-01'
+    end_date: '2011-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 12
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2011
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2011
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2012
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2012.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2012
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2012
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2012
+    start_date: '2011-04-01'
+    end_date: '2012-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 13
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2012
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2012
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2013
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2013.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2013
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2013
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2013
+    start_date: '2012-04-01'
+    end_date: '2013-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 14
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2013
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2013
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2014
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2014.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2014
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2014
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2014
+    start_date: '2013-04-01'
+    end_date: '2014-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 15
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2014
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2014
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2015
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2015.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2015
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2015
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2015
+    start_date: '2014-04-01'
+    end_date: '2015-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 16
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2015
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2015
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2016
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2016.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2016
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2016
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2016
+    start_date: '2015-04-01'
+    end_date: '2016-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 17
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2016
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2016
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2017
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2017.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2017
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2017
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2017
+    start_date: '2016-04-01'
+    end_date: '2017-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 18
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2017
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2017
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2018
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2018.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2018
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2018
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2018
+    start_date: '2017-04-01'
+    end_date: '2018-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 19
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2018
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2018
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2019
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2019.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2019
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2019
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2019
+    start_date: '2018-04-01'
+    end_date: '2019-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 20
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2019
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2019
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2020.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2020
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2020
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2020
+    start_date: '2019-04-01'
+    end_date: '2020-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 21
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2020
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2020
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2021.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2021
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2021
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2021
+    start_date: '2020-04-01'
+    end_date: '2021-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 22
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2021
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2021
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2022.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2022
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2022
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2022
+    start_date: '2021-04-01'
+    end_date: '2022-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 23
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2022
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2022
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2023.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2023
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2023
+    start_date: '2022-04-01'
+    end_date: '2023-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 24
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2024.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2024
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2024
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 25
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2025.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.elderly_disabled_concessionary.fy2025
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2025
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: elderly_disabled_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: elderly_disabled_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 26
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Elderly/Disabled journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2008
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2008.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2008
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2008
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2008
+    start_date: '2007-04-01'
+    end_date: '2008-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 27
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2008
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2008
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2009
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2009.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2009
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2009
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2009
+    start_date: '2008-04-01'
+    end_date: '2009-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 28
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2009
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2009
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2010
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2010.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2010
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2010
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2010
+    start_date: '2009-04-01'
+    end_date: '2010-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 29
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2010
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2010
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2011
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2011.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2011
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2011
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2011
+    start_date: '2010-04-01'
+    end_date: '2011-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 30
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2011
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2011
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2012
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2012.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2012
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2012
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2012
+    start_date: '2011-04-01'
+    end_date: '2012-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 31
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2012
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2012
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2013
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2013.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2013
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2013
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2013
+    start_date: '2012-04-01'
+    end_date: '2013-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 32
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2013
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2013
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2014
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2014.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2014
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2014
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2014
+    start_date: '2013-04-01'
+    end_date: '2014-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 33
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2014
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2014
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2015
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2015.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2015
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2015
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2015
+    start_date: '2014-04-01'
+    end_date: '2015-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 34
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2015
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2015
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2016
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2016.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2016
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2016
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2016
+    start_date: '2015-04-01'
+    end_date: '2016-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 35
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2016
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2016
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2017
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2017.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2017
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2017
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2017
+    start_date: '2016-04-01'
+    end_date: '2017-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 36
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2017
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2017
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2018
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2018.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2018
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2018
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2018
+    start_date: '2017-04-01'
+    end_date: '2018-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 37
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2018
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2018
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2019
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2019.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2019
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2019
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2019
+    start_date: '2018-04-01'
+    end_date: '2019-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 38
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2019
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2019
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2020.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2020
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2020
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2020
+    start_date: '2019-04-01'
+    end_date: '2020-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 39
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2020
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2020
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2021.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2021
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2021
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2021
+    start_date: '2020-04-01'
+    end_date: '2021-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 40
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2021
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2021
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2022.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2022
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2022
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2022
+    start_date: '2021-04-01'
+    end_date: '2022-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 41
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2022
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2022
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2023.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2023
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2023
+    start_date: '2022-04-01'
+    end_date: '2023-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 42
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2023
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2023
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2024.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2024
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2024
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 43
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2024
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2024
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus01.wales.bus01c.total_concessionary.fy2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: dft.bus01.wales.bus01c.total_concessionary.fy2025.v1
+  source_record_id_prefix: dft.bus01.wales.bus01c.total_concessionary.fy2025
+  sheet_name: BUS01c
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2025
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    notes: DfT labels the reporting year by its March closing year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: bus_passenger
+  domain: local_bus_travel
+  groupby_dimension: dft.bus_area
+  shared_filters:
+    journey_category: total_concessionary
+  shared_constraints:
+  - variable: journey_category
+    operator: ==
+    value: total_concessionary
+    label: Journey Category
+  rows:
+  - value_id: wales
+    label: Wales
+    ordinal: 0
+    row_number: 44
+    column: P
+    source_column_id: wales
+    expected_row_header_column: A
+    expected_row_header: 2025
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    geography_id: W92000004
+    geography_level: country
+    geography_name: Wales
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 2025
+      label: fiscal-year closing year
+    - column: B
+      expected_value: Total concessionary journeys
+      label: BUS01c Type value
+    - column: A
+      row: 4
+      expected_value: Table BUS01c
+      label: table identity
+    - column: A
+      row: 7
+      expected_value: Passenger journeys (millions)
+      label: published unit heading
+    - column: A
+      row: 8
+      expected_value: Year ending March
+      label: fiscal-year heading
+    - column: B
+      row: 8
+      expected_value: Type
+      label: Type column heading
+  measures:
+  - measure_id: passenger_journeys
+    label: Concessionary passenger journeys
+    ordinal: 0
+    column: P
+    source_column_id: passenger_journeys
+    concept: dft.local_bus_passenger_journeys
+    source_concept: dft.local_bus_passenger_journeys
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: BUS01c Passenger journeys (millions), distinguished by the publisher Type
+      column.
+    unit: count
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number

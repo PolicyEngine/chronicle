@@ -1,0 +1,29 @@
+source_id: lps
+package_id: lps-domestic-rates-paid-2026
+dataset: lps_lps-domestic-rates-paid-2026
+source_page: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+table: 'Rates paid by District Council and Sector: Domestic Rates collected by District
+  Council'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Land & Property Services, Rates paid by District Council and
+  Sector (OpenDataNI, resources updated 8 May 2026). Contains public sector information
+  licensed under the Open Government Licence v3.0.'
+license_evidence: 'OpenDataNI''s CKAN record for the dataset (api/3/action/package_show?id=30535a44-0a05-4bff-98cf-001301a6b4d6)
+  sets license_id ''notspecified'' (''License not specified''). nidirect''s Open data
+  page (https://www.nidirect.gov.uk/articles/open-data) states: ''All data published
+  on the OpenDataNI portal falls under the Open Government Licence (OGL).'''
+license_verified_at: '2026-10-30'
+files:
+  2026:
+    filename: domestic-rates-collected-by-district-council.csv
+    source_url: https://admin.opendatani.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/resource/2b20b332-1b9d-4260-8b4f-54a1d50b7844/download/domestic-rates-collected-by-district-council.csv
+    sha256: b8d7d649e2b9bf16a3d308754a123543a6eea48c9f7557f9bd592bfd49ca51ac
+    size_bytes: 2787
+    fetched_at: '2026-10-30T11:39:40+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/lps/lps-domestic-rates-paid-2026/2026/b8d7d649e2b9bf16a3d308754a123543a6eea48c9f7557f9bd592bfd49ca51ac/domestic-rates-collected-by-district-council.csv
+        uri: r2://ledger-raw/raw/lps/lps-domestic-rates-paid-2026/2026/b8d7d649e2b9bf16a3d308754a123543a6eea48c9f7557f9bd592bfd49ca51ac/domestic-rates-collected-by-district-council.csv

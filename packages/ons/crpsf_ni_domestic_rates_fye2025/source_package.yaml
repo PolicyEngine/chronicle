@@ -1,0 +1,3464 @@
+# ONS, Country and regional public sector finances revenue tables, financial year ending
+# 2025 (published 26 May 2026), for PolicyEngine/chronicle#395 item 1. Written by
+# scripts/build_uk_395_packages.py. Only the 'Northern Ireland' worksheet is parsed.
+#
+# Its two domestic rates rows, 'Northern Ireland Regional Domestic Rates' (row 51) and
+# 'Northern Ireland District Domestic Rates' (row 52), in every published financial year,
+# 1999 to 2000 through 2024 to 2025: GBP million, financial years April to March, as the
+# sheet states. The regional rate is Northern Ireland Executive revenue and the district
+# rate the councils'; together they are the domestic bill, which LPS levies as one. Each
+# row is its own concept; the package derives no total. The sheet's non-domestic rows (38
+# and 47) are not asked for and are not ported.
+schema_version: ledger.source_package.v1
+package_id: ons-crpsf-ni-domestic-rates-fye2025
+label: 'ONS country and regional public sector finances: Northern Ireland regional and district domestic
+  rates, 1999-00 to 2024-25'
+dimension_labels:
+  ons.crpsf_revenue_line: Country and regional public sector finances revenue line
+artifact:
+  source_name: ons
+  source_table: 'Country and regional public sector finances revenue tables, financial year ending 2025:
+    Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland'
+  resource_package: db
+  resource_directory: data/ons/crpsf_ni_domestic_rates_fye2025
+  manifest: manifest.yaml
+  vintage: crpsf_fye2025_2026_05_26
+  extracted_at: '2026-10-30'
+  extraction_method: xlsx used-range cell parse of the Northern Ireland worksheet
+  parser: xlsx_used_range
+  artifact_year: 2025
+  sheets:
+  - Northern Ireland
+record_sets:
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy1999
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy1999.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy1999
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 1999
+  period_coverage:
+    start_date: '1999-04-01'
+    end_date: '2000-03-31'
+    basis: fiscal
+    source_period_label: 1999 to 2000
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 1999 to 2000
+    ordinal: 0
+    column: B
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 1999 to 2000
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '1999
+      to 2000'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2000
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2000.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2000
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2000
+  period_coverage:
+    start_date: '2000-04-01'
+    end_date: '2001-03-31'
+    basis: fiscal
+    source_period_label: 2000 to 2001
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2000 to 2001
+    ordinal: 0
+    column: C
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2000 to 2001
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2000
+      to 2001'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2001
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2001.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2001
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2001
+  period_coverage:
+    start_date: '2001-04-01'
+    end_date: '2002-03-31'
+    basis: fiscal
+    source_period_label: 2001 to 2002
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2001 to 2002
+    ordinal: 0
+    column: D
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2001 to 2002
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2001
+      to 2002'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2002
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2002.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2002
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2002
+  period_coverage:
+    start_date: '2002-04-01'
+    end_date: '2003-03-31'
+    basis: fiscal
+    source_period_label: 2002 to 2003
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2002 to 2003
+    ordinal: 0
+    column: E
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2002 to 2003
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2002
+      to 2003'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2003
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2003.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2003
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2003
+  period_coverage:
+    start_date: '2003-04-01'
+    end_date: '2004-03-31'
+    basis: fiscal
+    source_period_label: 2003 to 2004
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2003 to 2004
+    ordinal: 0
+    column: F
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2003 to 2004
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2003
+      to 2004'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2004
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2004.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2004
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2004
+  period_coverage:
+    start_date: '2004-04-01'
+    end_date: '2005-03-31'
+    basis: fiscal
+    source_period_label: 2004 to 2005
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2004 to 2005
+    ordinal: 0
+    column: G
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2004 to 2005
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2004
+      to 2005'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2005
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2005.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2005
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2005
+  period_coverage:
+    start_date: '2005-04-01'
+    end_date: '2006-03-31'
+    basis: fiscal
+    source_period_label: 2005 to 2006
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2005 to 2006
+    ordinal: 0
+    column: H
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2005 to 2006
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2005
+      to 2006'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2006
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2006.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2006
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2006
+  period_coverage:
+    start_date: '2006-04-01'
+    end_date: '2007-03-31'
+    basis: fiscal
+    source_period_label: 2006 to 2007
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2006 to 2007
+    ordinal: 0
+    column: I
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2006 to 2007
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2006
+      to 2007'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2007
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2007.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2007
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2007
+  period_coverage:
+    start_date: '2007-04-01'
+    end_date: '2008-03-31'
+    basis: fiscal
+    source_period_label: 2007 to 2008
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2007 to 2008
+    ordinal: 0
+    column: J
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2007 to 2008
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2007
+      to 2008'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2008
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2008.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2008
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2008
+  period_coverage:
+    start_date: '2008-04-01'
+    end_date: '2009-03-31'
+    basis: fiscal
+    source_period_label: 2008 to 2009
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2008 to 2009
+    ordinal: 0
+    column: K
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2008 to 2009
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2008
+      to 2009'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2009
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2009.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2009
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2009
+  period_coverage:
+    start_date: '2009-04-01'
+    end_date: '2010-03-31'
+    basis: fiscal
+    source_period_label: 2009 to 2010
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2009 to 2010
+    ordinal: 0
+    column: L
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2009 to 2010
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2009
+      to 2010'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2010
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2010.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2010
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2010
+  period_coverage:
+    start_date: '2010-04-01'
+    end_date: '2011-03-31'
+    basis: fiscal
+    source_period_label: 2010 to 2011
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2010 to 2011
+    ordinal: 0
+    column: M
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2010 to 2011
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2010
+      to 2011'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2011
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2011.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2011
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2011
+  period_coverage:
+    start_date: '2011-04-01'
+    end_date: '2012-03-31'
+    basis: fiscal
+    source_period_label: 2011 to 2012
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2011 to 2012
+    ordinal: 0
+    column: N
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2011 to 2012
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2011
+      to 2012'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2012
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2012.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2012
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2012
+  period_coverage:
+    start_date: '2012-04-01'
+    end_date: '2013-03-31'
+    basis: fiscal
+    source_period_label: 2012 to 2013
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2012 to 2013
+    ordinal: 0
+    column: O
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2012 to 2013
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2012
+      to 2013'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2013
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2013.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2013
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2013
+  period_coverage:
+    start_date: '2013-04-01'
+    end_date: '2014-03-31'
+    basis: fiscal
+    source_period_label: 2013 to 2014
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2013 to 2014
+    ordinal: 0
+    column: P
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2013 to 2014
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2013
+      to 2014'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2014
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2014.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2014
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2014
+  period_coverage:
+    start_date: '2014-04-01'
+    end_date: '2015-03-31'
+    basis: fiscal
+    source_period_label: 2014 to 2015
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2014 to 2015
+    ordinal: 0
+    column: Q
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2014 to 2015
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2014
+      to 2015'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2015
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2015.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2015
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2015
+  period_coverage:
+    start_date: '2015-04-01'
+    end_date: '2016-03-31'
+    basis: fiscal
+    source_period_label: 2015 to 2016
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2015 to 2016
+    ordinal: 0
+    column: R
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2015 to 2016
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2015
+      to 2016'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2016
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2016.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2016
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2016
+  period_coverage:
+    start_date: '2016-04-01'
+    end_date: '2017-03-31'
+    basis: fiscal
+    source_period_label: 2016 to 2017
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2016 to 2017
+    ordinal: 0
+    column: S
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2016 to 2017
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2016
+      to 2017'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2017
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2017.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2017
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2017
+  period_coverage:
+    start_date: '2017-04-01'
+    end_date: '2018-03-31'
+    basis: fiscal
+    source_period_label: 2017 to 2018
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2017 to 2018
+    ordinal: 0
+    column: T
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2017 to 2018
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2017
+      to 2018'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2018
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2018.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2018
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2018
+  period_coverage:
+    start_date: '2018-04-01'
+    end_date: '2019-03-31'
+    basis: fiscal
+    source_period_label: 2018 to 2019
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2018 to 2019
+    ordinal: 0
+    column: U
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2018 to 2019
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2018
+      to 2019'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2019
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2019.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2019
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2019
+  period_coverage:
+    start_date: '2019-04-01'
+    end_date: '2020-03-31'
+    basis: fiscal
+    source_period_label: 2019 to 2020
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2019 to 2020
+    ordinal: 0
+    column: V
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2019 to 2020
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2019
+      to 2020'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2020.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2020
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2020
+  period_coverage:
+    start_date: '2020-04-01'
+    end_date: '2021-03-31'
+    basis: fiscal
+    source_period_label: 2020 to 2021
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2020 to 2021
+    ordinal: 0
+    column: W
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2020 to 2021
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2020
+      to 2021'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2021.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2021
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2021
+  period_coverage:
+    start_date: '2021-04-01'
+    end_date: '2022-03-31'
+    basis: fiscal
+    source_period_label: 2021 to 2022
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2021 to 2022
+    ordinal: 0
+    column: X
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2021 to 2022
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2021
+      to 2022'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2022.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2022
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-04-01'
+    end_date: '2023-03-31'
+    basis: fiscal
+    source_period_label: 2022 to 2023
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2022 to 2023
+    ordinal: 0
+    column: Y
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2022 to 2023
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2022
+      to 2023'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2023.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2023
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023 to 2024
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2023 to 2024
+    ordinal: 0
+    column: Z
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2023 to 2024
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2023
+      to 2024'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2024.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_regional_domestic_rates.fy2024
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024 to 2025
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_regional_domestic_rates
+    label: Northern Ireland Regional Domestic Rates
+    ordinal: 0
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland Regional Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland Regional Domestic Rates, 2024 to 2025
+    ordinal: 0
+    column: AA
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2024 to 2025
+    concept: ons.northern_ireland_regional_domestic_rates
+    source_concept: ons.northern_ireland_regional_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 51 ('Northern Ireland Regional Domestic Rates'), column '2024
+      to 2025'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy1999
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy1999.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy1999
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 1999
+  period_coverage:
+    start_date: '1999-04-01'
+    end_date: '2000-03-31'
+    basis: fiscal
+    source_period_label: 1999 to 2000
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 1999 to 2000
+    ordinal: 0
+    column: B
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 1999 to 2000
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '1999
+      to 2000'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2000
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2000.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2000
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2000
+  period_coverage:
+    start_date: '2000-04-01'
+    end_date: '2001-03-31'
+    basis: fiscal
+    source_period_label: 2000 to 2001
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2000 to 2001
+    ordinal: 0
+    column: C
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2000 to 2001
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2000
+      to 2001'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2001
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2001.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2001
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2001
+  period_coverage:
+    start_date: '2001-04-01'
+    end_date: '2002-03-31'
+    basis: fiscal
+    source_period_label: 2001 to 2002
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2001 to 2002
+    ordinal: 0
+    column: D
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2001 to 2002
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2001
+      to 2002'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2002
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2002.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2002
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2002
+  period_coverage:
+    start_date: '2002-04-01'
+    end_date: '2003-03-31'
+    basis: fiscal
+    source_period_label: 2002 to 2003
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2002 to 2003
+    ordinal: 0
+    column: E
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2002 to 2003
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2002
+      to 2003'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2003
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2003.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2003
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2003
+  period_coverage:
+    start_date: '2003-04-01'
+    end_date: '2004-03-31'
+    basis: fiscal
+    source_period_label: 2003 to 2004
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2003 to 2004
+    ordinal: 0
+    column: F
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2003 to 2004
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2003
+      to 2004'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2004
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2004.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2004
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2004
+  period_coverage:
+    start_date: '2004-04-01'
+    end_date: '2005-03-31'
+    basis: fiscal
+    source_period_label: 2004 to 2005
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2004 to 2005
+    ordinal: 0
+    column: G
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2004 to 2005
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2004
+      to 2005'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2005
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2005.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2005
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2005
+  period_coverage:
+    start_date: '2005-04-01'
+    end_date: '2006-03-31'
+    basis: fiscal
+    source_period_label: 2005 to 2006
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2005 to 2006
+    ordinal: 0
+    column: H
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2005 to 2006
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2005
+      to 2006'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2006
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2006.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2006
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2006
+  period_coverage:
+    start_date: '2006-04-01'
+    end_date: '2007-03-31'
+    basis: fiscal
+    source_period_label: 2006 to 2007
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2006 to 2007
+    ordinal: 0
+    column: I
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2006 to 2007
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2006
+      to 2007'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2007
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2007.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2007
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2007
+  period_coverage:
+    start_date: '2007-04-01'
+    end_date: '2008-03-31'
+    basis: fiscal
+    source_period_label: 2007 to 2008
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2007 to 2008
+    ordinal: 0
+    column: J
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2007 to 2008
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2007
+      to 2008'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2008
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2008.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2008
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2008
+  period_coverage:
+    start_date: '2008-04-01'
+    end_date: '2009-03-31'
+    basis: fiscal
+    source_period_label: 2008 to 2009
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2008 to 2009
+    ordinal: 0
+    column: K
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2008 to 2009
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2008
+      to 2009'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2009
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2009.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2009
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2009
+  period_coverage:
+    start_date: '2009-04-01'
+    end_date: '2010-03-31'
+    basis: fiscal
+    source_period_label: 2009 to 2010
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2009 to 2010
+    ordinal: 0
+    column: L
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2009 to 2010
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2009
+      to 2010'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2010
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2010.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2010
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2010
+  period_coverage:
+    start_date: '2010-04-01'
+    end_date: '2011-03-31'
+    basis: fiscal
+    source_period_label: 2010 to 2011
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2010 to 2011
+    ordinal: 0
+    column: M
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2010 to 2011
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2010
+      to 2011'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2011
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2011.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2011
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2011
+  period_coverage:
+    start_date: '2011-04-01'
+    end_date: '2012-03-31'
+    basis: fiscal
+    source_period_label: 2011 to 2012
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2011 to 2012
+    ordinal: 0
+    column: N
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2011 to 2012
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2011
+      to 2012'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2012
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2012.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2012
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2012
+  period_coverage:
+    start_date: '2012-04-01'
+    end_date: '2013-03-31'
+    basis: fiscal
+    source_period_label: 2012 to 2013
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2012 to 2013
+    ordinal: 0
+    column: O
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2012 to 2013
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2012
+      to 2013'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2013
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2013.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2013
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2013
+  period_coverage:
+    start_date: '2013-04-01'
+    end_date: '2014-03-31'
+    basis: fiscal
+    source_period_label: 2013 to 2014
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2013 to 2014
+    ordinal: 0
+    column: P
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2013 to 2014
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2013
+      to 2014'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2014
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2014.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2014
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2014
+  period_coverage:
+    start_date: '2014-04-01'
+    end_date: '2015-03-31'
+    basis: fiscal
+    source_period_label: 2014 to 2015
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2014 to 2015
+    ordinal: 0
+    column: Q
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2014 to 2015
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2014
+      to 2015'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2015
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2015.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2015
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2015
+  period_coverage:
+    start_date: '2015-04-01'
+    end_date: '2016-03-31'
+    basis: fiscal
+    source_period_label: 2015 to 2016
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2015 to 2016
+    ordinal: 0
+    column: R
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2015 to 2016
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2015
+      to 2016'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2016
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2016.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2016
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2016
+  period_coverage:
+    start_date: '2016-04-01'
+    end_date: '2017-03-31'
+    basis: fiscal
+    source_period_label: 2016 to 2017
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2016 to 2017
+    ordinal: 0
+    column: S
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2016 to 2017
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2016
+      to 2017'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2017
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2017.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2017
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2017
+  period_coverage:
+    start_date: '2017-04-01'
+    end_date: '2018-03-31'
+    basis: fiscal
+    source_period_label: 2017 to 2018
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2017 to 2018
+    ordinal: 0
+    column: T
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2017 to 2018
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2017
+      to 2018'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2018
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2018.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2018
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2018
+  period_coverage:
+    start_date: '2018-04-01'
+    end_date: '2019-03-31'
+    basis: fiscal
+    source_period_label: 2018 to 2019
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2018 to 2019
+    ordinal: 0
+    column: U
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2018 to 2019
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2018
+      to 2019'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2019
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2019.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2019
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2019
+  period_coverage:
+    start_date: '2019-04-01'
+    end_date: '2020-03-31'
+    basis: fiscal
+    source_period_label: 2019 to 2020
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2019 to 2020
+    ordinal: 0
+    column: V
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2019 to 2020
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2019
+      to 2020'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2020.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2020
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2020
+  period_coverage:
+    start_date: '2020-04-01'
+    end_date: '2021-03-31'
+    basis: fiscal
+    source_period_label: 2020 to 2021
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2020 to 2021
+    ordinal: 0
+    column: W
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2020 to 2021
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2020
+      to 2021'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2021.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2021
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2021
+  period_coverage:
+    start_date: '2021-04-01'
+    end_date: '2022-03-31'
+    basis: fiscal
+    source_period_label: 2021 to 2022
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2021 to 2022
+    ordinal: 0
+    column: X
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2021 to 2022
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2021
+      to 2022'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2022.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2022
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-04-01'
+    end_date: '2023-03-31'
+    basis: fiscal
+    source_period_label: 2022 to 2023
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2022 to 2023
+    ordinal: 0
+    column: Y
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2022 to 2023
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2022
+      to 2023'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2023.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2023
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023 to 2024
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2023 to 2024
+    ordinal: 0
+    column: Z
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2023 to 2024
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2023
+      to 2024'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.crpsf_fye2025.ni_district_domestic_rates.fy2024.v1
+  source_record_id_prefix: ons.crpsf_fye2025.ni_district_domestic_rates.fy2024
+  sheet_name: Northern Ireland
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024 to 2025
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer
+  domain: public_sector_finances
+  groupby_dimension: ons.crpsf_revenue_line
+  rows:
+  - value_id: ni_district_domestic_rates
+    label: Northern Ireland District Domestic Rates
+    ordinal: 0
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland District Domestic Rates
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Total Public Sector (PS) Current Receipts excluding PS Banks for Northern Ireland
+      label: sheet title
+    - column: A
+      row: 2
+      expected_value: This worksheet contains one table. Some cells refer to notes which can be found
+        on the notes worksheet tab. All numeric values equate to £ millions. The table is measured on
+        a financial year basis - starting in April and ending the following March.
+      label: unit and period statement
+    - column: A
+      row: 3
+      expected_value: £ million
+      label: unit cell
+  measures:
+  - measure_id: amount
+    label: Northern Ireland District Domestic Rates, 2024 to 2025
+    ordinal: 0
+    column: AA
+    source_column_id: amount
+    expected_column_header_row: 3
+    expected_column_header: 2024 to 2025
+    concept: ons.northern_ireland_district_domestic_rates
+    source_concept: ons.northern_ireland_district_domestic_rates
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+    concept_evidence_notes: ONS country and regional public sector finances, financial year ending 2025,
+      worksheet 'Northern Ireland', row 52 ('Northern Ireland District Domestic Rates'), column '2024
+      to 2025'. This worksheet contains one table. Some cells refer to notes which can be found on the
+      notes worksheet tab. All numeric values equate to £ millions. The table is measured on a financial
+      year basis - starting in April and ending the following March.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
