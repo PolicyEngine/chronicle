@@ -20,6 +20,7 @@ import yaml
 from chronicle.bundle import UK_BUNDLE_SOURCES
 from chronicle.consumer_contract import (
     build_semantic_fact_key,
+    build_universe_constraint_set_key,
     validate_consumer_fact_contract,
 )
 from chronicle.core import validate_facts
@@ -122,8 +123,8 @@ def test_manifests_pin_bytes_licence_and_r2(kind):
 
 @pytest.mark.parametrize("kind", ("receipts", "expenditure", "economy", "aggregates"))
 def test_every_march_line_keeps_its_line_id_and_concept(facts, kind):
-    """A consumer changes vintage by package: the October package carries each March
-    line under the same line id and concept."""
+    """The October package carries each March line under the same line id and
+    concept; since chronicle#397 the years both vintages publish are October's only."""
     march = load_source_package(f"obr-efo-{kind}-march-2026").build_facts(2026)
 
     def lines(prefix: str, built) -> dict[str, set[str]]:
@@ -140,10 +141,10 @@ def test_every_march_line_keeps_its_line_id_and_concept(facts, kind):
     october_lines = lines(f"{OCTOBER}.{kind}.", facts[kind].values())
     for line, concepts in march_lines.items():
         assert october_lines.get(line) == concepts, line
-    # chronicle#397: a line October prints in every year it has left the March
+    # chronicle#397: a line October prints in every year March had left the March
     # package; the build keeps its March record set, and October its id and concept.
     generator = runpy.run_path(str(ROOT / "scripts/build_obr_efo_october_2026.py"))
-    for text in generator["LINES_LEFT_IN_OCTOBER_ONLY"].get(kind, ()):
+    for text, _before in generator["LINES_LEFT_IN_OCTOBER_ONLY"].get(kind, ()):
         (record_set,) = yaml.safe_load(text)
         line = re.sub(
             r"\.(fy|cy)\d{4}$",
@@ -157,13 +158,30 @@ def test_every_march_line_keeps_its_line_id_and_concept(facts, kind):
 # chronicle#397: of two vintages' numbers for one line and year, Chronicle keeps the
 # later. What the March 2026 packages keep, by line: every line's 2024-25 outturn
 # (calendar 2024 for the economy), except the lines October starts in 2026-27, which
-# keep their 2025-26 forecast.
+# keep their 2025-26 forecast. Sheet 3.10's total is not one of them: October prints
+# its 2025-26 as table 4.1's 'Betting and gaming taxes'.
 MARCH_KEEPS = {
-    "receipts": (42, {2024: 34, 2025: 8}),
+    "receipts": (41, {2024: 34, 2025: 7}),
     "expenditure": (23, {2024: 23}),
     "economy": (6, {2024: 6}),
     "aggregates": (4, {2024: 1, 2025: 3}),
 }
+
+
+def _line_year(fact) -> tuple:
+    """A fact's line and year, whatever its id; the assertion is left out, so a March
+    forecast meets October's outturn for the same year."""
+    return (
+        fact.measure.concept,
+        fact.measure.unit,
+        fact.period.type,
+        fact.period.value,
+        fact.geography.level,
+        fact.geography.id,
+        fact.entity.name,
+        fact.entity.role,
+        build_universe_constraint_set_key(fact),
+    )
 
 
 @pytest.mark.parametrize("kind", ("receipts", "expenditure", "economy", "aggregates"))
@@ -176,6 +194,13 @@ def test_march_keeps_only_the_line_years_october_does_not_publish(facts, kind):
         for record_set in record_sets
         if record_set.replace("obr.efo_2026_03.", f"{OCTOBER}.", 1) in october
     }
+    # Nor under another id: October's table 4.1 prints sheet 3.10's 2025-26 total.
+    october_line_years = {_line_year(fact) for fact in facts[kind].values()}
+    assert not [
+        fact.layout.record_set_id
+        for fact in march
+        if _line_year(fact) in october_line_years
+    ]
     count, years = MARCH_KEEPS[kind]
     assert len(march) == len(record_sets) == count
     assert Counter(fact.period.value for fact in march) == years

@@ -488,10 +488,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # fact. No new geography, period or entity key, and no duplicate key: of
         # two vintages' numbers Chronicle keeps the later (chronicle#397).
         # PolicyEngine/uk-autumn-budget-dashboard-2026#316's HMRC benefits in kind
-        # statistics add 544 person facts. chronicle#397 drops the 426 March 2026
+        # statistics add 544 person facts. chronicle#397 drops the 427 March 2026
         # EFO facts whose line and year the October 2026 packages also publish:
-        # receipts 238, expenditure 141, economy 30, aggregates 17.
-        "fact_count": 1662949,
+        # receipts 239, expenditure 141, economy 30, aggregates 17.
+        "fact_count": 1662948,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -594,7 +594,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1662949
+    assert row_count == 1662948
     assert provenance_classes <= {
         "administrative",
         "census",
@@ -629,7 +629,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1662949
+    assert coverage["fact_count"] == 1662948
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -668,7 +668,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "nisra": 29227,
         "nithc": 8,
         "nrs": 359094,
-        "obr": 4540,
+        "obr": 4539,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
         "ons": 347275,
@@ -2281,7 +2281,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "calendar_year:2027": 6,
         "calendar_year:2028": 6,
         "calendar_year:2029": 6,
-        "fiscal_year:2025": 57,
+        "fiscal_year:2025": 58,
         "fiscal_year:2026": 68,
         "fiscal_year:2027": 68,
         "fiscal_year:2028": 69,
@@ -2352,8 +2352,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # CPI gas (23) series, and the March EFO's 2024-25 VED outturn (1). HMRC's
     # benefits in kind statistics add 505 (all but Table 4's regions;
     # PolicyEngine/uk-autumn-budget-dashboard-2026#316), and chronicle#397 drops
-    # 342 March 2026 EFO facts.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 41081
+    # 343 March 2026 EFO facts.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 41080
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
@@ -2413,7 +2413,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # Lone Pensioner Allowance), dwellings +360 (Disabled Person's Allowance) and
     # firms +8 (EKED). HMRC's benefits in kind statistics add 544 people
     # (PolicyEngine/uk-autumn-budget-dashboard-2026#316).
-    # chronicle#397's March 2026 EFO drop: people -337, government -47 and
+    # chronicle#397's March 2026 EFO drop: people -338, government -47 and
     # institutional sectors -42.
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
@@ -2424,7 +2424,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 676547,
         "institutional_sector": 8877,
         "pension_plan": 2,
-        "person": 598989,
+        "person": 598988,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,

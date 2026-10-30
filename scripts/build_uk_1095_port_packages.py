@@ -597,15 +597,36 @@ OBR_OCTOBER_RECEIPTS_YAML = (
 )
 
 
-def obr_october_line_years() -> set[tuple[str, int]]:
-    """The (line id, fiscal year) pairs the October 2026 receipts package publishes.
+def obr_line_year(record_set: dict) -> tuple:
+    """A record set's line and year, whatever its id: concept, unit, universe,
+    geography, entity and period."""
+    (measure,) = record_set["measures"]
+    constraints = sorted(
+        (item["variable"], item["operator"], str(item["value"]))
+        for item in record_set.get("shared_constraints", [])
+    )
+    return (
+        measure["concept"],
+        measure["unit"],
+        tuple(constraints),
+        record_set["domain"],
+        record_set["geography_id"],
+        record_set["entity"],
+        record_set["entity_role"],
+        record_set["period_type"],
+        record_set["period"],
+    )
+
+
+def obr_october_line_years() -> set[tuple]:
+    """The lines and years the October 2026 receipts package publishes.
 
     chronicle#397: where two vintages publish a number for the same line and year,
-    Chronicle keeps the later one, so the March package carries a line only in the
-    years October lacks."""
-    text = OBR_OCTOBER_RECEIPTS_YAML.read_text(encoding="utf-8")
-    pattern = r"^- record_set_id: obr\.efo_2026_10\.receipts\.(.+)\.fy(\d{4})$"
-    return {(line, int(year)) for line, year in re.findall(pattern, text, re.MULTILINE)}
+    Chronicle keeps the later one, so the March package leaves out every record set
+    October has a number for, whatever line id October gives it: table 4.1's
+    'Betting and gaming taxes' carries sheet 3.10's 2025-26 total."""
+    payload = yaml.safe_load(OBR_OCTOBER_RECEIPTS_YAML.read_text(encoding="utf-8"))
+    return {obr_line_year(record_set) for record_set in payload["record_sets"]}
 
 
 OBR_3_7_MARKER = (
@@ -674,14 +695,10 @@ def obr_3_7_blocks() -> str:
     blocks = []
     for row, header, line, display, note in OBR_3_7_LINES:
         assert grid[(row, "B")] == header, (row, grid[(row, "B")])
-        # Each line keeps the years October does not print, so its October line
-        # (scripts/build_obr_efo_october_2026.py) still finds it here.
-        assert any((line, opening) not in october for opening, _ in years), line
+        kept = 0
         for opening, column in years:
             label = f"{opening}-{str(opening + 1)[2:]}"
             assert isinstance(grid[(row, column)], (int, float)), (row, column)
-            if (line, opening) in october:
-                continue
             record_set_id = f"obr.efo_2026_03.receipts.{line}.fy{opening}"
             notes = (
                 f"OBR EFO March 2026 detailed forecast tables, sheet 3.7 ('Property transactions "
@@ -740,6 +757,9 @@ def obr_3_7_blocks() -> str:
                     }
                 ],
             }
+            if obr_line_year(record) in october:
+                continue
+            kept += 1
             blocks.append(
                 yaml.dump(
                     [record],
@@ -749,6 +769,9 @@ def obr_3_7_blocks() -> str:
                     width=100,
                 )
             )
+        # Each line keeps a year October does not print, so the October build
+        # (scripts/build_obr_efo_october_2026.py) still finds it here.
+        assert kept, line
     return OBR_3_7_MARKER + "".join(blocks)
 
 

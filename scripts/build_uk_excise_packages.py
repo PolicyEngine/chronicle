@@ -106,15 +106,42 @@ OBR_OCTOBER_RECEIPTS_YAML = (
 )
 
 
-def obr_october_line_years() -> set[tuple[str, int]]:
-    """The (line id, fiscal year) pairs the October 2026 receipts package publishes.
+# Lines October prints in every year March had, so none stays here; the October build
+# keeps their March record set (LINES_LEFT_IN_OCTOBER_ONLY in
+# scripts/build_obr_efo_october_2026.py).
+OBR_LINES_IN_OCTOBER_ONLY = {"betting_and_gaming_duties_accrued"}
+
+
+def obr_line_year(record_set: dict) -> tuple:
+    """A record set's line and year, whatever its id: concept, unit, universe,
+    geography, entity and period."""
+    (measure,) = record_set["measures"]
+    constraints = sorted(
+        (item["variable"], item["operator"], str(item["value"]))
+        for item in record_set.get("shared_constraints", [])
+    )
+    return (
+        measure["concept"],
+        measure["unit"],
+        tuple(constraints),
+        record_set["domain"],
+        record_set["geography_id"],
+        record_set["entity"],
+        record_set["entity_role"],
+        record_set["period_type"],
+        record_set["period"],
+    )
+
+
+def obr_october_line_years() -> set[tuple]:
+    """The lines and years the October 2026 receipts package publishes.
 
     chronicle#397: where two vintages publish a number for the same line and year,
-    Chronicle keeps the later one, so the March package carries a line only in the
-    years October lacks."""
-    text = OBR_OCTOBER_RECEIPTS_YAML.read_text(encoding="utf-8")
-    pattern = r"^- record_set_id: obr\.efo_2026_10\.receipts\.(.+)\.fy(\d{4})$"
-    return {(line, int(year)) for line, year in re.findall(pattern, text, re.MULTILINE)}
+    Chronicle keeps the later one, so the March package leaves out every record set
+    October has a number for, whatever line id October gives it: table 4.1's
+    'Betting and gaming taxes' carries sheet 3.10's 2025-26 total."""
+    payload = yaml.safe_load(OBR_OCTOBER_RECEIPTS_YAML.read_text(encoding="utf-8"))
+    return {obr_line_year(record_set) for record_set in payload["record_sets"]}
 
 
 OBR_EXCISE_MARKER = (
@@ -131,11 +158,10 @@ OBR_EXCISE_HEADER = """#
 # scripts/build_uk_excise_packages.py before the sheet 3.7 block: sheet 3.8's tobacco,
 # spirits, wine, beer and cider, and betting and gaming duties, vaping tax and (for
 # chronicle#395) vehicle excise duties, on the cash basis the sheet's title and note
-# state, VED for its 2024-25 outturn only, since the October 2026 package carries the
-# later years; sheet 3.10's betting and gaming duties
-# and the seven duties it breaks them into, forecast years only; sheet 3.11's tobacco
-# clearances; sheet 3.12's alcohol clearances and its accrued alcohol receipts; and
-# sheet 3.2's Camelot payments to the National Lottery Distribution Fund, horserace
+# state; the seven duties sheet 3.10 breaks betting and gaming duties into, forecast
+# years only (since chronicle#397 its total is the October package's); sheet 3.11's
+# tobacco clearances; sheet 3.12's alcohol clearances and its accrued alcohol receipts;
+# and sheet 3.2's Camelot payments to the National Lottery Distribution Fund, horserace
 # betting levy and statutory gaming levy. Sheet 3.10 states no basis: its total equals
 # sheet 3.1's 'Betting and gaming taxes' row, which that sheet's note puts on an accrued
 # basis, in every year, so its lines are stamped accrual. These lines carry
@@ -708,13 +734,15 @@ def obr_excise_blocks() -> str:
         kept = 0
         for opening, column in years:
             assert isinstance(grid[(row, column)], (int, float)), (line[0], row, column)
-            if (line_id, opening) in october:
+            record = obr_excise_record(table, line, opening, column)
+            if obr_line_year(record) in october:
                 continue
-            blocks.append(dump([obr_excise_record(table, line, opening, column)]))
+            blocks.append(dump([record]))
             kept += 1
-        # Each line keeps the years October does not print, so its October line
-        # (scripts/build_obr_efo_october_2026.py) still finds it here.
-        assert kept, line_id
+        # Each line keeps a year October does not print, so the October build
+        # (scripts/build_obr_efo_october_2026.py) still finds it here, unless that
+        # build keeps the line's March record set itself.
+        assert bool(kept) != (line_id in OBR_LINES_IN_OCTOBER_ONLY), line_id
     return OBR_EXCISE_MARKER + "".join(blocks)
 
 

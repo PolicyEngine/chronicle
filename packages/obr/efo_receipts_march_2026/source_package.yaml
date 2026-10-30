@@ -10,11 +10,14 @@
 # year, Chronicle keeps the later one. The October 2026 EFO
 # (obr-efo-receipts-october-2026) prints this package's lines from 2025-26 to 2031-32,
 # and sheet 3.10's from 2026-27, so this package keeps only what October lacks: each
-# line's 2024-25 outturn and, for sheet 3.10's betting and gaming duties and the seven
-# duties it breaks them into, the 2025-26 forecast. Every line keeps its line id and
-# concept, and scripts/build_obr_efo_october_2026.py reads its lines from here;
-# scripts/build_uk_excise_packages.py and scripts/build_uk_1095_port_packages.py leave
-# out the years the October package publishes.
+# line's 2024-25 outturn and, for the seven duties sheet 3.10 breaks betting and gaming
+# duties into, the 2025-26 forecast. Sheet 3.10's own 2025-26 total goes too: October
+# prints it as table 4.1's 'Betting and gaming taxes', the same concept and accrued
+# basis under another line id, so scripts/build_obr_efo_october_2026.py keeps that
+# line's March record set itself. Every other line keeps its line id and concept here,
+# and the October build reads its lines from here; scripts/build_uk_excise_packages.py
+# and scripts/build_uk_1095_port_packages.py leave out every line and year the October
+# package publishes, matched on concept, basis, geography, entity and period.
 #
 # Sheet 3.7 (chronicle#357 item 2), appended by scripts/build_uk_1095_port_packages.py
 # at the end of the file: 'Property transactions taxes: Receipts by sector', the EFO's
@@ -30,11 +33,10 @@
 # scripts/build_uk_excise_packages.py before the sheet 3.7 block: sheet 3.8's tobacco,
 # spirits, wine, beer and cider, and betting and gaming duties, vaping tax and (for
 # chronicle#395) vehicle excise duties, on the cash basis the sheet's title and note
-# state, VED for its 2024-25 outturn only, since the October 2026 package carries the
-# later years; sheet 3.10's betting and gaming duties
-# and the seven duties it breaks them into, forecast years only; sheet 3.11's tobacco
-# clearances; sheet 3.12's alcohol clearances and its accrued alcohol receipts; and
-# sheet 3.2's Camelot payments to the National Lottery Distribution Fund, horserace
+# state; the seven duties sheet 3.10 breaks betting and gaming duties into, forecast
+# years only (since chronicle#397 its total is the October package's); sheet 3.11's
+# tobacco clearances; sheet 3.12's alcohol clearances and its accrued alcohol receipts;
+# and sheet 3.2's Camelot payments to the National Lottery Distribution Fund, horserace
 # betting levy and statutory gaming levy. Sheet 3.10 states no basis: its total equals
 # sheet 3.1's 'Betting and gaming taxes' row, which that sheet's note puts on an accrued
 # basis, in every year, so its lines are stamped accrual. These lines carry
@@ -923,69 +925,6 @@ record_sets:
   - variable: accounting_basis
     operator: ==
     value: cash
-    label: Accounting basis
-- record_set_id: obr.efo_2026_03.receipts.betting_and_gaming_duties_accrued.fy2025
-  provenance_class: model_output
-  assertion: source_projection
-  record_set_spec_id: obr.efo_2026_03.receipts.betting_and_gaming_duties_accrued.fy2025.v1
-  source_record_id_prefix: obr.efo_2026_03.receipts.betting_and_gaming_duties_accrued.fy2025
-  sheet_name: '3.10'
-  period_type: fiscal_year
-  period: 2025
-  period_coverage:
-    start_date: '2025-04-01'
-    end_date: '2026-03-31'
-    basis: fiscal
-    source_period_label: 2025-26
-    accounting_basis: accrual
-  geography_id: K02000001
-  geography_level: country
-  geography_name: United Kingdom
-  geography_vintage: current
-  entity: person
-  entity_role: resident_population
-  domain: public_sector_finances
-  groupby_dimension: obr.efo_line
-  rows:
-  - value_id: betting_and_gaming_duties_accrued
-    label: Betting and gaming duties (accrued)
-    ordinal: 0
-    row_number: 6
-    expected_row_header_column: B
-    expected_row_header: Betting and gaming duties
-    table_record_kind: total
-    guard_cells:
-    - column: B
-      row: 2
-      expected_value: 3.10 Betting and gaming duties forecast breakdown
-      label: sheet title
-  measures:
-  - measure_id: amount
-    label: Betting and gaming duties (accrued), FY2025-26
-    ordinal: 0
-    column: C
-    source_column_id: amount
-    expected_column_header_row: 5
-    expected_column_header: 2025-26
-    concept: obr.betting_and_gaming_duties
-    source_concept: obr.betting_and_gaming_duties
-    concept_relation: source_label
-    concept_authority: obr
-    concept_evidence_url: https://obr.uk/download/march-2026-economic-and-fiscal-outlook-detailed-forecast-tables-receipts/
-    concept_evidence_notes: OBR EFO March 2026 detailed forecast tables, sheet 3.10 ('Betting and gaming
-      duties forecast breakdown'), row 6 ('Betting and gaming duties'), GBP billion. Sheet 3.10 states
-      no basis; this row equals sheet 3.1's accrued 'Betting and gaming taxes' row (row 7) in every year,
-      not sheet 3.8's cash row 36, so it is stamped accrual.
-    unit: gbp
-    aggregation: sum
-    value_scale: 1000000000
-    expected_cell_type: number
-  shared_filters:
-    accounting_basis: accrual
-  shared_constraints:
-  - variable: accounting_basis
-    operator: ==
-    value: accrual
     label: Accounting basis
 - record_set_id: obr.efo_2026_03.receipts.remote_gaming_duty.fy2025
   provenance_class: model_output

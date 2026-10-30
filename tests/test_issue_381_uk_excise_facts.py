@@ -125,9 +125,11 @@ def test_obr_excise_lines(receipts):
     _cells, built = receipts
     new = [f for f in built if f.period_coverage is not None]
     # chronicle#397: each line keeps only the year the October 2026 EFO does not
-    # print, its 2024-25 outturn, or 2025-26 for sheet 3.10, which October's table
-    # 4.10 starts in 2026-27. Vehicle excise duties (chronicle#395) keep 2024-25.
-    assert len(built) == 42 and len(new) == 28
+    # print, its 2024-25 outturn, or 2025-26 for sheet 3.10's seven duties, which
+    # October's table 4.10 starts in 2026-27. Sheet 3.10's total keeps no year:
+    # October prints its 2025-26 as table 4.1's 'Betting and gaming taxes'. Vehicle
+    # excise duties (chronicle#395) keep 2024-25.
+    assert len(built) == 41 and len(new) == 27
     lines = {f.layout.record_set_id.split(".")[3]: f.period.value for f in new}
     assert len(lines) == len(new)
     assert lines == {
@@ -155,7 +157,7 @@ def test_obr_excise_lines(receipts):
                 "statutory_gaming_levy",
             )
         },
-        **{line: 2025 for line in SHEET_3_10_LINES},
+        **{line: 2025 for line in SHEET_3_10_LINES[1:]},
         # chronicle#395: the 2024-25 outturn only; October 2026 carries the later years.
         "vehicle_excise_duties": 2024,
     }
@@ -196,7 +198,7 @@ def test_obr_excise_lines(receipts):
     sheet_3_10 = [
         f for f in new if f.layout.record_set_id.split(".")[3] in SHEET_3_10_LINES
     ]
-    assert len(sheet_3_10) == 8
+    assert len(sheet_3_10) == 7
     assert {f.assertion for f in sheet_3_10} == {"source_projection"}
     assert line("non_cigarette_tobacco_clearances", 2024).value == pytest.approx(
         line("hand_rolled_tobacco_clearances", 2024).value
@@ -216,17 +218,22 @@ def test_obr_sheet_3_10_is_accrued(receipts):
     }
     assert sheet_3_8["B36"] == "Betting and gaming duties"
     assert sheet_3_8["E5"] == "2025-26"
+    sheet_3_10 = {
+        cell.address: cell.raw_value for cell in cells if cell.sheet_name == "3.10"
+    }
+    assert sheet_3_10["B6"] == "Betting and gaming duties"
+    assert sheet_3_10["C5"] == "2025-26"
     duties = SHEET_3_10_LINES[1:]
     by_id = {f.layout.record_set_id: f for f in built}
-    # chronicle#397 keeps 2025-26 only: October's table 4.10 starts in 2026-27.
-    total = by_id[f"{OBR_PREFIX}betting_and_gaming_duties_accrued.fy2025"]
-    assert total.value == pytest.approx(sheet_3_1["D7"] * 1e9)
-    # Sheet 3.8's cash line for 2025-26 is the October package's now.
-    assert total.value != pytest.approx(sheet_3_8["E36"] * 1e9)
-    assert total.filters == {"accounting_basis": "accrual"}
-    assert sum(
-        by_id[f"{OBR_PREFIX}{duty}.fy2025"].value for duty in duties
-    ) == pytest.approx(total.value)
+    # chronicle#397 keeps the seven duties' 2025-26 only: October's table 4.10 starts
+    # in 2026-27, and its table 4.1 prints the 2025-26 total, so March's total goes.
+    assert f"{OBR_PREFIX}betting_and_gaming_duties_accrued.fy2025" not in by_id
+    # The total is sheet 3.1's accrued line, not sheet 3.8's cash one.
+    assert sheet_3_10["C6"] == pytest.approx(sheet_3_1["D7"])
+    assert sheet_3_10["C6"] != pytest.approx(sheet_3_8["E36"])
+    kept = [by_id[f"{OBR_PREFIX}{duty}.fy2025"] for duty in duties]
+    assert all(f.filters == {"accounting_basis": "accrual"} for f in kept)
+    assert sum(f.value for f in kept) == pytest.approx(sheet_3_10["C6"] * 1e9)
 
 
 def test_alcohol_bulletin_clearances_by_product_and_breakdown(facts):
