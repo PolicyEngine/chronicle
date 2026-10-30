@@ -315,6 +315,29 @@ yearly ISA subscriptions per adult by type. uk-data has no ISA target. Three pac
   facts): the shares of cash ISA subscribers aged under 65 either side of GBP 12,000 in
   2022-23.
 
+## Beyond parity — HMRC benefits in kind statistics (PolicyEngine/uk-autumn-budget-dashboard-2026#316)
+
+Budget 2026 raises company car tax by one percentage point in every band from 2030-31,
+and policyengine-uk 2.165.0 (PolicyEngine/policyengine-uk#2750) models the company car and
+car fuel benefits. Microcosm fills those inputs and measures them against HMRC's tables.
+uk-data has no company car target. One package adds 544 facts; its field contracts and
+caveats are in the header of `packages/hmrc/benefits_in_kind_july_2026/source_package.yaml`,
+which `build_package.py` in the same directory writes.
+
+- **Benefits in kind statistics, July 2026, Tables 1 to 4**
+  (`hmrc-benefits-in-kind-july-2026`, 544 facts):
+  - Table 1's car and car fuel benefit recipients, taxable value, average taxable value,
+    and Income Tax and Class 1A NIC liabilities, 2011-12 to 2024-25;
+  - Tables 2A and 2C's car benefit recipients by CO2 emission band and by fuel type,
+    2011-12 to 2024-25, each year in the bands it prints, and Table 2E's average CO2
+    emissions of company cars;
+  - Tables 3A, 3B and 4's 2024-25 recipients, taxable value and average taxable value by
+    range of total income and by region, grossed by HMRC from the Survey of Personal
+    Incomes cases matched to the P11D and RTI records (`survey_aggregate`).
+- Not ported: Tables 2B and 2D (Tables 2A and 2C as whole-percent shares), the 'All' rows
+  of Tables 3A, 3B and 4 (their recipients and taxable value print the same as Table 1's,
+  and their averages would share Table 1's keys), and Table 5 (a separate workbook).
+
 ## Beyond parity — OBR EFO October 2026 (chronicle#393)
 
 The October 2026 Economic and fiscal outlook, published with the Budget on 28 October 2026,

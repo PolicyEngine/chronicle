@@ -1,0 +1,18 @@
+source_id: hmrc
+package_id: hmrc-benefits-in-kind-july-2026
+dataset: hmrc_hmrc-benefits-in-kind-july-2026
+source_page: https://www.gov.uk/government/statistics/benefits-in-kind-statistics-july-2026
+table: 'Benefits in kind statistics: July 2026, Tables 1 to 4: company car benefit
+  and company car fuel benefit'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: HM Revenue and Customs, Benefits in kind statistics: July 2026. Contains public sector information licensed under the Open Government Licence v3.0.'
+license_evidence: 'The GOV.UK publication page (https://www.gov.uk/government/statistics/benefits-in-kind-statistics-july-2026) states that all content is available under the Open Government Licence v3.0, except where otherwise stated. The workbook states no other terms: its Contents and Notes sheets carry no licence or copyright line.'
+license_verified_at: '2026-10-30'
+files:
+  2026:
+    filename: 2026_Tables_1_to_4.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a50881e9e9c95844ae64c70/2026_Tables_1_to_4.ods
+    sha256: a0ee56173ad12b784c3b986652f904c1229e165f5b27454b44ac9144cd98c678
+    size_bytes: 42963
+    fetched_at: '2026-10-30T13:36:48+00:00'
