@@ -1,9 +1,9 @@
 {
   "comment": "Canonical series catalog. One row per (concept, geography level/id/vintage, entity) identity. UUID authority is the append-only ledger/series_uuid_registry.jsonl (digest below): a uuid is minted once, inherited from the registry on every regeneration, and changes only through explicit, chained supersede/retire/revive/succeeds events recorded there (live bindings and rows stay in bijection). Consumers reference series by uuid or concept only. Regenerate with scripts/build_series_catalog.py; verify with --check. Aliases are curated identity statements (plus observed spellings of the same identity) and inherit only within one (geography, entity) slice; aliases listed in ambiguous_aliases match multiple rows and never drive inheritance. source_concepts are publisher labels — provenance, never identity. Cross-spelling and cross-vintage merges are manual curation: delete the absorbed row, alias its concept on the survivor, regenerate with --allow-remint.",
   "generator_version": 3,
-  "observations_sha256": "290d40eedd8f1452f6e6f9a87ae4aed74d1946d2f56fcb4e869a107a6e5a30d0",
-  "observation_rows": 251,
-  "current_assertion_rows": 245,
+  "observations_sha256": "99e515f1cd114fa60f22785d8c42e4e91360cedb53e8c4182ecebb960dd82635",
+  "observation_rows": 253,
+  "current_assertion_rows": 247,
   "docket_seed_sha256": "5914192517350e0166045afd9064a515ea312acbea1844d9cb594cc9f525dbb9",
   "entity_folds_sha256": "f7496541139308e97c65c8681dd9f44829d46df25eede0d4e639203049667b58",
   "uuid_registry_sha256": "84661b6ad1d7806c936a4114471e14b055bf5b5beaf252aa71e37b2ec699f699",
@@ -94,7 +94,8 @@
       "fed.g19.consumer_credit_total_annual_rate"
     ],
     "2026_08": [
-      "abs.cpi.all_groups.yoy"
+      "abs.cpi.all_groups.yoy",
+      "statcan.gdp_by_industry.monthly_growth"
     ],
     "2026_09": [
       "statcan.cpi.allitems.yoy"
@@ -103,6 +104,9 @@
       "bls.eci.private_wages_salaries_qoq",
       "bls.eci.total_compensation_private_industry_qoq",
       "bls.productivity.nonfarm_unit_labor_costs_qoq_prelim"
+    ],
+    "2026_q3": [
+      "bls.eci.private_wages_salaries_qoq"
     ],
     "after_june_2026": [
       "bank_of_canada.overnight_rate",
@@ -1945,7 +1949,8 @@
         "bls_eci"
       ],
       "aliases": [
-        "bls.eci.private_wages_salaries_qoq.2026_q2"
+        "bls.eci.private_wages_salaries_qoq.2026_q2",
+        "bls.eci.private_wages_salaries_qoq.2026_q3"
       ],
       "source_concepts": [
         "ECIWAG"
@@ -1954,8 +1959,8 @@
         "bls.eci.private_wages_salaries_qoq.{P}.first_print"
       ],
       "first_observed_period": "2026-04",
-      "last_observed_period": "2026-04",
-      "observation_count": 1
+      "last_observed_period": "2026-07",
+      "observation_count": 2
     },
     {
       "uuid": "2820e965-4c7b-40d2-b5b8-e03792cf3fbf",
@@ -6557,6 +6562,7 @@
       "uuid": "166d1a5a-b627-4d1f-9f79-682f28692dd5",
       "concept": "statcan.gdp_by_industry.monthly_growth",
       "family_patterns": [
+        "statcan.gdp_by_industry.monthly_growth",
         "statcan.gdp_by_industry.monthly_growth.{P}"
       ],
       "status": "observed",
@@ -6585,8 +6591,8 @@
         "statcan.gdp_by_industry.monthly_growth.{P}.first_print"
       ],
       "first_observed_period": "2026-04",
-      "last_observed_period": "2026-04",
-      "observation_count": 1
+      "last_observed_period": "2026-08",
+      "observation_count": 2
     },
     {
       "uuid": "552c1dda-abe3-4f6c-86fb-473f455b5e15",
