@@ -1,0 +1,228 @@
+# Welsh Government, Report of the Childcare Offer for Wales: September 2023 to August 2024
+# (social research 99/2025, 15 October 2025), archived PDF on the pdf_text_numbers lane,
+# for PolicyEngine/chronicle#395 item 3. Written by scripts/build_uk_395_packages.py.
+#
+# Table 4's three figures, for the Offer year September 2023 to August 2024: children in
+# Offer-funded childcare (21,283; the Offer's monitoring information), the estimated
+# eligible population under the current eligibility criteria (36,600; Welsh Government
+# analysis of the ONS Annual Population Survey 2023, so calendar-2023 survey data behind a
+# fact for the 2023-24 Offer year) and the estimated take-up rate (58%). The report
+# publishes the rate rounded; the package stores the published figures and derives none.
+# The Offer year runs September to August, so the facts are academic-year periods stamped
+# by their opening year, with dates and no fiscal or calendar basis. No later report is
+# published yet.
+schema_version: ledger.source_package.v1
+package_id: welshgov-childcare-offer-report-2023-24
+label: 'Welsh Government Childcare Offer for Wales report, Table 4: children funded, estimated eligible
+  population and estimated take-up, 2023-24'
+dimension_labels:
+  welshgov.childcare_offer_table_4_line: Childcare Offer report Table 4 line
+artifact:
+  source_name: welshgov
+  source_table: 'Report of the Childcare Offer for Wales: September 2023 to August 2024, Table 4'
+  resource_package: db
+  resource_directory: data/welshgov/childcare_offer_report_2023_24
+  manifest: manifest.yaml
+  vintage: childcare_offer_report_2025_10_15
+  extracted_at: '2026-10-30'
+  extraction_method: pypdf text-line number extraction from the full publisher PDF
+  parser: pdf_text_numbers
+  artifact_year: 2025
+record_sets:
+- record_set_id: welshgov.childcare_offer_report_2023_24.table_4.children_in_offer_funded_childcare.ay2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: welshgov.childcare_offer_report_2023_24.table_4.children_in_offer_funded_childcare.ay2023.v1
+  source_record_id_prefix: welshgov.childcare_offer_report_2023_24.table_4.children_in_offer_funded_childcare.ay2023
+  sheet_name: document_numbers
+  period_type: academic_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-09-01'
+    end_date: '2024-08-31'
+    source_period_label: September 2023 to August 2024 (2023-24)
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: child_in_offer_funded_childcare
+  domain: childcare
+  groupby_dimension: welshgov.childcare_offer_table_4_line
+  rows:
+  - value_id: children_in_offer_funded_childcare
+    label: Children in Offer-funded childcare this year
+    ordinal: 0
+    row_number: 438
+    expected_row_header_column: C
+    expected_row_header: Children in Offer-funded childcare this year 21,283
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 18
+      label: PDF page number
+    - column: B
+      expected_value: 16
+      label: PDF extracted line number
+    - column: D
+      expected_value: 21,283
+      label: source number text
+    - column: C
+      row: 436
+      expected_value: Table 4. Estimated take-up rate of the Childcare Offer for Wales, 2023-24
+      label: table title line
+  measures:
+  - measure_id: children_in_offer_funded_childcare
+    label: Children in Offer-funded childcare this year
+    ordinal: 0
+    column: E
+    source_column_id: children_in_offer_funded_childcare
+    expected_column_header_row: 1
+    expected_column_header: numeric_value
+    concept: welshgov.childcare_offer.children_in_offer_funded_childcare
+    source_concept: welshgov.childcare_offer.children_in_offer_funded_childcare
+    concept_relation: source_label
+    concept_authority: welshgov
+    concept_evidence_url: https://www.gov.wales/report-childcare-offer-wales-september-2023-august-2024
+    concept_evidence_notes: 'Welsh Government, Report of the Childcare Offer for Wales: September 2023
+      to August 2024 (social research 99/2025), ''Table 4. Estimated take-up rate of the Childcare Offer
+      for Wales, 2023-24''. Paragraph 2.2: ''To consider the reach of the Offer, we estimate a ''take-up
+      rate''. This is estimated using a modelled estimate of the eligible population.'' Paragraph 2.3:
+      ''Based on current eligibility criteria, we estimate that 58% of eligible children accessed the
+      Offer in 2023-24.'' Table 4''s sources: ''Childcare Offer for Wales monitoring data, Welsh Government
+      analysis of the ONS Annual Population Survey 2023''. Line: ''Children in Offer-funded childcare
+      this year 21,283''.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: welshgov.childcare_offer_report_2023_24.table_4.estimated_eligible_population.ay2023
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: welshgov.childcare_offer_report_2023_24.table_4.estimated_eligible_population.ay2023.v1
+  source_record_id_prefix: welshgov.childcare_offer_report_2023_24.table_4.estimated_eligible_population.ay2023
+  sheet_name: document_numbers
+  period_type: academic_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-09-01'
+    end_date: '2024-08-31'
+    source_period_label: September 2023 to August 2024 (2023-24)
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: child_eligible_for_childcare_offer
+  domain: childcare
+  groupby_dimension: welshgov.childcare_offer_table_4_line
+  rows:
+  - value_id: estimated_eligible_population
+    label: Estimated eligible population for this year
+    ordinal: 0
+    row_number: 439
+    expected_row_header_column: C
+    expected_row_header: Estimated eligible population for this year 36,600
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 18
+      label: PDF page number
+    - column: B
+      expected_value: 17
+      label: PDF extracted line number
+    - column: D
+      expected_value: 36,600
+      label: source number text
+    - column: C
+      row: 436
+      expected_value: Table 4. Estimated take-up rate of the Childcare Offer for Wales, 2023-24
+      label: table title line
+  measures:
+  - measure_id: estimated_eligible_population
+    label: Estimated eligible population for this year
+    ordinal: 0
+    column: E
+    source_column_id: estimated_eligible_population
+    expected_column_header_row: 1
+    expected_column_header: numeric_value
+    concept: welshgov.childcare_offer.estimated_eligible_population
+    source_concept: welshgov.childcare_offer.estimated_eligible_population
+    concept_relation: source_label
+    concept_authority: welshgov
+    concept_evidence_url: https://www.gov.wales/report-childcare-offer-wales-september-2023-august-2024
+    concept_evidence_notes: 'Welsh Government, Report of the Childcare Offer for Wales: September 2023
+      to August 2024 (social research 99/2025), ''Table 4. Estimated take-up rate of the Childcare Offer
+      for Wales, 2023-24''. Paragraph 2.2: ''To consider the reach of the Offer, we estimate a ''take-up
+      rate''. This is estimated using a modelled estimate of the eligible population.'' Paragraph 2.3:
+      ''Based on current eligibility criteria, we estimate that 58% of eligible children accessed the
+      Offer in 2023-24.'' Table 4''s sources: ''Childcare Offer for Wales monitoring data, Welsh Government
+      analysis of the ONS Annual Population Survey 2023''. Line: ''Estimated eligible population for this
+      year 36,600''.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: welshgov.childcare_offer_report_2023_24.table_4.estimated_take_up_rate.ay2023
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: welshgov.childcare_offer_report_2023_24.table_4.estimated_take_up_rate.ay2023.v1
+  source_record_id_prefix: welshgov.childcare_offer_report_2023_24.table_4.estimated_take_up_rate.ay2023
+  sheet_name: document_numbers
+  period_type: academic_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-09-01'
+    end_date: '2024-08-31'
+    source_period_label: September 2023 to August 2024 (2023-24)
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: person
+  entity_role: child_eligible_for_childcare_offer
+  domain: childcare
+  groupby_dimension: welshgov.childcare_offer_table_4_line
+  rows:
+  - value_id: estimated_take_up_rate
+    label: Estimated take-up rate
+    ordinal: 0
+    row_number: 440
+    expected_row_header_column: C
+    expected_row_header: Estimated take-up rate 58%
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 18
+      label: PDF page number
+    - column: B
+      expected_value: 18
+      label: PDF extracted line number
+    - column: D
+      expected_value: '58'
+      label: source number text
+    - column: C
+      row: 436
+      expected_value: Table 4. Estimated take-up rate of the Childcare Offer for Wales, 2023-24
+      label: table title line
+  measures:
+  - measure_id: estimated_take_up_rate
+    label: Estimated take-up rate
+    ordinal: 0
+    column: E
+    source_column_id: estimated_take_up_rate
+    expected_column_header_row: 1
+    expected_column_header: numeric_value
+    concept: welshgov.childcare_offer.estimated_take_up_rate
+    source_concept: welshgov.childcare_offer.estimated_take_up_rate
+    concept_relation: source_label
+    concept_authority: welshgov
+    concept_evidence_url: https://www.gov.wales/report-childcare-offer-wales-september-2023-august-2024
+    concept_evidence_notes: 'Welsh Government, Report of the Childcare Offer for Wales: September 2023
+      to August 2024 (social research 99/2025), ''Table 4. Estimated take-up rate of the Childcare Offer
+      for Wales, 2023-24''. Paragraph 2.2: ''To consider the reach of the Offer, we estimate a ''take-up
+      rate''. This is estimated using a modelled estimate of the eligible population.'' Paragraph 2.3:
+      ''Based on current eligibility criteria, we estimate that 58% of eligible children accessed the
+      Offer in 2023-24.'' Table 4''s sources: ''Childcare Offer for Wales monitoring data, Welsh Government
+      analysis of the ONS Annual Population Survey 2023''. Line: ''Estimated take-up rate 58%''.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number

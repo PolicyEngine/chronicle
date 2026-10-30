@@ -1059,6 +1059,41 @@ SOURCE_PACKAGE_ALIASES = {
     "obr-efo-economy-october-2026": Path("obr/efo_economy_october_2026"),
     "obr-efo-aggregates-october-2026": Path("obr/efo_aggregates_october_2026"),
     "obr-efo-policy-october-2026": Path("obr/efo_policy_october_2026"),
+    # PolicyEngine/chronicle#395
+    "lps-domestic-rates-paid-2026": Path("lps/domestic_rates_paid_2026"),
+    "lps-lone-pensioner-allowance-ye-2024": Path(
+        "lps/lone_pensioner_allowance_ye_2024"
+    ),
+    "lps-disabled-persons-allowance-ye-2024": Path(
+        "lps/disabled_persons_allowance_ye_2024"
+    ),
+    "ons-crpsf-ni-domestic-rates-fye2025": Path("ons/crpsf_ni_domestic_rates_fye2025"),
+    "dft-bus01-wales-journeys-2025": Path("dft/bus01_wales_journeys_2025"),
+    "welshgov-childcare-offer-report-2023-24": Path(
+        "welshgov/childcare_offer_report_2023_24"
+    ),
+    "ons-pusf-vehicle-duty-households-october-2026": Path(
+        "ons/pusf_vehicle_duty_households_october_2026"
+    ),
+    "ons-pusf-vehicle-duty-businesses-october-2026": Path(
+        "ons/pusf_vehicle_duty_businesses_october_2026"
+    ),
+    "ons-mm23-cpi-weight-gas-october-2026": Path(
+        "ons/mm23_cpi_weight_gas_october_2026"
+    ),
+    "ons-mm23-cpi-weight-natural-gas-october-2026": Path(
+        "ons/mm23_cpi_weight_natural_gas_october_2026"
+    ),
+    "ons-mm23-cpi-weight-liquefied-hydrocarbons-october-2026": Path(
+        "ons/mm23_cpi_weight_liquefied_hydrocarbons_october_2026"
+    ),
+    "ons-mm23-cpi-index-natural-gas-october-2026": Path(
+        "ons/mm23_cpi_index_natural_gas_october_2026"
+    ),
+    "ons-mm23-cpi-index-liquefied-hydrocarbons-october-2026": Path(
+        "ons/mm23_cpi_index_liquefied_hydrocarbons_october_2026"
+    ),
+    # end PolicyEngine/chronicle#395
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"
     ),

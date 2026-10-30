@@ -1,0 +1,1232 @@
+# Land & Property Services, 'Rates paid by District Council and Sector' (OpenDataNI,
+# resources updated 8 May 2026), its 'Domestic Rates collected by District Council' CSV,
+# for PolicyEngine/chronicle#395 item 1. Written by scripts/build_uk_395_packages.py.
+#
+# Domestic rates paid against ratepayer accounts as at 31 March of each rating year, and
+# the number of domestic occupancies that made a payment within the rating year, for the
+# 11 district councils and Northern Ireland, rating years 2020-21 to 2025-26. A domestic
+# bill is the regional and the district rate together, levied as one bill, less the
+# reliefs applied to it. The CSV publishes the amount paid, not the amount levied; it
+# gives no relief as a separate figure and does not say whether credits such as rate
+# rebate count as payments. The CSV prints amounts as '£' text with thousands separators
+# and counts with separators (the 2025-26 counts with a trailing space); the delimited
+# parser reads both as numbers. Each rating year is a fiscal-year period (April to March),
+# stamped by its opening year.
+schema_version: ledger.source_package.v1
+package_id: lps-domestic-rates-paid-2026
+label: LPS domestic rates paid and paying domestic occupancies by district council, rating years 2020-21
+  to 2025-26
+dimension_labels:
+  lps.district_council: District Council
+artifact:
+  source_name: lps
+  source_table: 'Rates paid by District Council and Sector: Domestic Rates collected by District Council'
+  resource_package: db
+  resource_directory: data/lps/domestic_rates_paid_2026
+  manifest: manifest.yaml
+  vintage: opendatani_2026_05_08
+  extracted_at: '2026-10-30'
+  extraction_method: delimited text full-row parse of the publisher CSV
+  parser: delimited_text_full_rows
+  artifact_year: 2026
+record_sets:
+- record_set_id: lps.domestic_rates_paid_2026.fy2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: lps.domestic_rates_paid_2026.fy2020.v1
+  source_record_id_prefix: lps.domestic_rates_paid_2026.fy2020
+  sheet_name: domestic-rates-collected-by-district-council
+  period_type: fiscal_year
+  period: 2020
+  period_coverage:
+    start_date: '2020-04-01'
+    end_date: '2021-03-31'
+    basis: fiscal
+    source_period_label: 2020-21 rating year
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer_occupancy
+  domain: domestic_rates
+  groupby_dimension: lps.district_council
+  rows:
+  - value_id: antrim_and_newtownabbey
+    label: Antrim and Newtownabbey
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: A
+    expected_row_header: Antrim and Newtownabbey
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: ards_and_north_down
+    label: Ards and North Down
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: A
+    expected_row_header: Ards and North Down
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: armagh_city_banbridge_and_craigavon
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: A
+    expected_row_header: Armagh City, Banbridge and Craigavon
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: belfast
+    label: Belfast
+    ordinal: 3
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Belfast
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: causeway_coast_and_glens
+    label: Causeway Coast and Glens
+    ordinal: 4
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Causeway Coast and Glens
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: derry_city_and_strabane
+    label: Derry City and Strabane
+    ordinal: 5
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Derry City and Strabane
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: fermanagh_and_omagh
+    label: Fermanagh and Omagh
+    ordinal: 6
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Fermanagh and Omagh
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: lisburn_and_castlereagh
+    label: Lisburn and Castlereagh
+    ordinal: 7
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Lisburn and Castlereagh
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_and_east_antrim
+    label: Mid and East Antrim
+    ordinal: 8
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Mid and East Antrim
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_ulster
+    label: Mid Ulster
+    ordinal: 9
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Mid Ulster
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: newry_mourne_and_down
+    label: Newry, Mourne and Down
+    ordinal: 10
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Newry, Mourne and Down
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 11
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: occupancies_with_payment
+    label: Domestic occupancies with a rates payment made in the 2020-21 rating year
+    ordinal: 0
+    column: B
+    source_column_id: occupancies_with_payment
+    expected_column_header_row: 1
+    expected_column_header: Number of Domestic occupancies with a rates payment made in 2020-21 rating
+      year
+    concept: lps.domestic_occupancies_with_rates_payment
+    source_concept: lps.domestic_occupancies_with_rates_payment
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: domestic_rates_paid
+    label: Domestic rates paid as at 31 March 2021
+    ordinal: 1
+    column: C
+    source_column_id: domestic_rates_paid
+    expected_column_header_row: 1
+    expected_column_header: Domestic Rates paid as at 31st March 2021
+    concept: lps.domestic_rates_paid
+    source_concept: lps.domestic_rates_paid
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: lps.domestic_rates_paid_2026.fy2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: lps.domestic_rates_paid_2026.fy2021.v1
+  source_record_id_prefix: lps.domestic_rates_paid_2026.fy2021
+  sheet_name: domestic-rates-collected-by-district-council
+  period_type: fiscal_year
+  period: 2021
+  period_coverage:
+    start_date: '2021-04-01'
+    end_date: '2022-03-31'
+    basis: fiscal
+    source_period_label: 2021-22 rating year
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer_occupancy
+  domain: domestic_rates
+  groupby_dimension: lps.district_council
+  rows:
+  - value_id: antrim_and_newtownabbey
+    label: Antrim and Newtownabbey
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: A
+    expected_row_header: Antrim and Newtownabbey
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: ards_and_north_down
+    label: Ards and North Down
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: A
+    expected_row_header: Ards and North Down
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: armagh_city_banbridge_and_craigavon
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: A
+    expected_row_header: Armagh City, Banbridge and Craigavon
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: belfast
+    label: Belfast
+    ordinal: 3
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Belfast
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: causeway_coast_and_glens
+    label: Causeway Coast and Glens
+    ordinal: 4
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Causeway Coast and Glens
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: derry_city_and_strabane
+    label: Derry City and Strabane
+    ordinal: 5
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Derry City and Strabane
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: fermanagh_and_omagh
+    label: Fermanagh and Omagh
+    ordinal: 6
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Fermanagh and Omagh
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: lisburn_and_castlereagh
+    label: Lisburn and Castlereagh
+    ordinal: 7
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Lisburn and Castlereagh
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_and_east_antrim
+    label: Mid and East Antrim
+    ordinal: 8
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Mid and East Antrim
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_ulster
+    label: Mid Ulster
+    ordinal: 9
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Mid Ulster
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: newry_mourne_and_down
+    label: Newry, Mourne and Down
+    ordinal: 10
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Newry, Mourne and Down
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 11
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: occupancies_with_payment
+    label: Domestic occupancies with a rates payment made in the 2021-22 rating year
+    ordinal: 0
+    column: D
+    source_column_id: occupancies_with_payment
+    expected_column_header_row: 1
+    expected_column_header: Number of Domestic occupancies with a rates payment made in 2021-22 rating
+      year
+    concept: lps.domestic_occupancies_with_rates_payment
+    source_concept: lps.domestic_occupancies_with_rates_payment
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: domestic_rates_paid
+    label: Domestic rates paid as at 31 March 2022
+    ordinal: 1
+    column: E
+    source_column_id: domestic_rates_paid
+    expected_column_header_row: 1
+    expected_column_header: Domestic Rates paid as at 31st March 2022
+    concept: lps.domestic_rates_paid
+    source_concept: lps.domestic_rates_paid
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: lps.domestic_rates_paid_2026.fy2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: lps.domestic_rates_paid_2026.fy2022.v1
+  source_record_id_prefix: lps.domestic_rates_paid_2026.fy2022
+  sheet_name: domestic-rates-collected-by-district-council
+  period_type: fiscal_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-04-01'
+    end_date: '2023-03-31'
+    basis: fiscal
+    source_period_label: 2022-23 rating year
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer_occupancy
+  domain: domestic_rates
+  groupby_dimension: lps.district_council
+  rows:
+  - value_id: antrim_and_newtownabbey
+    label: Antrim and Newtownabbey
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: A
+    expected_row_header: Antrim and Newtownabbey
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: ards_and_north_down
+    label: Ards and North Down
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: A
+    expected_row_header: Ards and North Down
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: armagh_city_banbridge_and_craigavon
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: A
+    expected_row_header: Armagh City, Banbridge and Craigavon
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: belfast
+    label: Belfast
+    ordinal: 3
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Belfast
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: causeway_coast_and_glens
+    label: Causeway Coast and Glens
+    ordinal: 4
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Causeway Coast and Glens
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: derry_city_and_strabane
+    label: Derry City and Strabane
+    ordinal: 5
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Derry City and Strabane
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: fermanagh_and_omagh
+    label: Fermanagh and Omagh
+    ordinal: 6
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Fermanagh and Omagh
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: lisburn_and_castlereagh
+    label: Lisburn and Castlereagh
+    ordinal: 7
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Lisburn and Castlereagh
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_and_east_antrim
+    label: Mid and East Antrim
+    ordinal: 8
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Mid and East Antrim
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_ulster
+    label: Mid Ulster
+    ordinal: 9
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Mid Ulster
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: newry_mourne_and_down
+    label: Newry, Mourne and Down
+    ordinal: 10
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Newry, Mourne and Down
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 11
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: occupancies_with_payment
+    label: Domestic occupancies with a rates payment made in the 2022-23 rating year
+    ordinal: 0
+    column: F
+    source_column_id: occupancies_with_payment
+    expected_column_header_row: 1
+    expected_column_header: Number of Domestic occupancies with a rates payment made in 2022-23 rating
+      year
+    concept: lps.domestic_occupancies_with_rates_payment
+    source_concept: lps.domestic_occupancies_with_rates_payment
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: domestic_rates_paid
+    label: Domestic rates paid as at 31 March 2023
+    ordinal: 1
+    column: G
+    source_column_id: domestic_rates_paid
+    expected_column_header_row: 1
+    expected_column_header: Domestic Rates paid as at 31st March 2023
+    concept: lps.domestic_rates_paid
+    source_concept: lps.domestic_rates_paid
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: lps.domestic_rates_paid_2026.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: lps.domestic_rates_paid_2026.fy2023.v1
+  source_record_id_prefix: lps.domestic_rates_paid_2026.fy2023
+  sheet_name: domestic-rates-collected-by-district-council
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24 rating year
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer_occupancy
+  domain: domestic_rates
+  groupby_dimension: lps.district_council
+  rows:
+  - value_id: antrim_and_newtownabbey
+    label: Antrim and Newtownabbey
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: A
+    expected_row_header: Antrim and Newtownabbey
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: ards_and_north_down
+    label: Ards and North Down
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: A
+    expected_row_header: Ards and North Down
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: armagh_city_banbridge_and_craigavon
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: A
+    expected_row_header: Armagh City, Banbridge and Craigavon
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: belfast
+    label: Belfast
+    ordinal: 3
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Belfast
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: causeway_coast_and_glens
+    label: Causeway Coast and Glens
+    ordinal: 4
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Causeway Coast and Glens
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: derry_city_and_strabane
+    label: Derry City and Strabane
+    ordinal: 5
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Derry City and Strabane
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: fermanagh_and_omagh
+    label: Fermanagh and Omagh
+    ordinal: 6
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Fermanagh and Omagh
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: lisburn_and_castlereagh
+    label: Lisburn and Castlereagh
+    ordinal: 7
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Lisburn and Castlereagh
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_and_east_antrim
+    label: Mid and East Antrim
+    ordinal: 8
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Mid and East Antrim
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_ulster
+    label: Mid Ulster
+    ordinal: 9
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Mid Ulster
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: newry_mourne_and_down
+    label: Newry, Mourne and Down
+    ordinal: 10
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Newry, Mourne and Down
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 11
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: occupancies_with_payment
+    label: Domestic occupancies with a rates payment made in the 2023-24 rating year
+    ordinal: 0
+    column: H
+    source_column_id: occupancies_with_payment
+    expected_column_header_row: 1
+    expected_column_header: Number of Domestic occupancies with a rates payment made in 2023-24 rating
+      year
+    concept: lps.domestic_occupancies_with_rates_payment
+    source_concept: lps.domestic_occupancies_with_rates_payment
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: domestic_rates_paid
+    label: Domestic rates paid as at 31 March 2024
+    ordinal: 1
+    column: I
+    source_column_id: domestic_rates_paid
+    expected_column_header_row: 1
+    expected_column_header: Domestic Rates paid as at 31st March 2024
+    concept: lps.domestic_rates_paid
+    source_concept: lps.domestic_rates_paid
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: lps.domestic_rates_paid_2026.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: lps.domestic_rates_paid_2026.fy2024.v1
+  source_record_id_prefix: lps.domestic_rates_paid_2026.fy2024
+  sheet_name: domestic-rates-collected-by-district-council
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25 rating year
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer_occupancy
+  domain: domestic_rates
+  groupby_dimension: lps.district_council
+  rows:
+  - value_id: antrim_and_newtownabbey
+    label: Antrim and Newtownabbey
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: A
+    expected_row_header: Antrim and Newtownabbey
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: ards_and_north_down
+    label: Ards and North Down
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: A
+    expected_row_header: Ards and North Down
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: armagh_city_banbridge_and_craigavon
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: A
+    expected_row_header: Armagh City, Banbridge and Craigavon
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: belfast
+    label: Belfast
+    ordinal: 3
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Belfast
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: causeway_coast_and_glens
+    label: Causeway Coast and Glens
+    ordinal: 4
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Causeway Coast and Glens
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: derry_city_and_strabane
+    label: Derry City and Strabane
+    ordinal: 5
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Derry City and Strabane
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: fermanagh_and_omagh
+    label: Fermanagh and Omagh
+    ordinal: 6
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Fermanagh and Omagh
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: lisburn_and_castlereagh
+    label: Lisburn and Castlereagh
+    ordinal: 7
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Lisburn and Castlereagh
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_and_east_antrim
+    label: Mid and East Antrim
+    ordinal: 8
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Mid and East Antrim
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_ulster
+    label: Mid Ulster
+    ordinal: 9
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Mid Ulster
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: newry_mourne_and_down
+    label: Newry, Mourne and Down
+    ordinal: 10
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Newry, Mourne and Down
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 11
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: occupancies_with_payment
+    label: Domestic occupancies with a rates payment made in the 2024-25 rating year
+    ordinal: 0
+    column: J
+    source_column_id: occupancies_with_payment
+    expected_column_header_row: 1
+    expected_column_header: Number of Domestic occupancies with a rates payment made in 2024-25 rating
+      year
+    concept: lps.domestic_occupancies_with_rates_payment
+    source_concept: lps.domestic_occupancies_with_rates_payment
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: domestic_rates_paid
+    label: Domestic rates paid as at 31 March 2025
+    ordinal: 1
+    column: K
+    source_column_id: domestic_rates_paid
+    expected_column_header_row: 1
+    expected_column_header: Domestic Rates paid as at 31st March 2025
+    concept: lps.domestic_rates_paid
+    source_concept: lps.domestic_rates_paid
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: lps.domestic_rates_paid_2026.fy2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: lps.domestic_rates_paid_2026.fy2025.v1
+  source_record_id_prefix: lps.domestic_rates_paid_2026.fy2025
+  sheet_name: domestic-rates-collected-by-district-council
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2026-03-31'
+    basis: fiscal
+    source_period_label: 2025-26 rating year
+  geography_id: N92000002
+  geography_level: country
+  geography_name: Northern Ireland
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_ratepayer_occupancy
+  domain: domestic_rates
+  groupby_dimension: lps.district_council
+  rows:
+  - value_id: antrim_and_newtownabbey
+    label: Antrim and Newtownabbey
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: A
+    expected_row_header: Antrim and Newtownabbey
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: ards_and_north_down
+    label: Ards and North Down
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: A
+    expected_row_header: Ards and North Down
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: armagh_city_banbridge_and_craigavon
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: A
+    expected_row_header: Armagh City, Banbridge and Craigavon
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: belfast
+    label: Belfast
+    ordinal: 3
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Belfast
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: causeway_coast_and_glens
+    label: Causeway Coast and Glens
+    ordinal: 4
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Causeway Coast and Glens
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: derry_city_and_strabane
+    label: Derry City and Strabane
+    ordinal: 5
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Derry City and Strabane
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: fermanagh_and_omagh
+    label: Fermanagh and Omagh
+    ordinal: 6
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Fermanagh and Omagh
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: lisburn_and_castlereagh
+    label: Lisburn and Castlereagh
+    ordinal: 7
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Lisburn and Castlereagh
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_and_east_antrim
+    label: Mid and East Antrim
+    ordinal: 8
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Mid and East Antrim
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: mid_ulster
+    label: Mid Ulster
+    ordinal: 9
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Mid Ulster
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: newry_mourne_and_down
+    label: Newry, Mourne and Down
+    ordinal: 10
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Newry, Mourne and Down
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 11
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: total
+  measures:
+  - measure_id: occupancies_with_payment
+    label: Domestic occupancies with a rates payment made in the 2025-26 rating year
+    ordinal: 0
+    column: L
+    source_column_id: occupancies_with_payment
+    expected_column_header_row: 1
+    expected_column_header: Number of Domestic occupancies with a rates payment made in 2025-26 rating
+      year
+    concept: lps.domestic_occupancies_with_rates_payment
+    source_concept: lps.domestic_occupancies_with_rates_payment
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: domestic_rates_paid
+    label: Domestic rates paid as at 31 March 2026
+    ordinal: 1
+    column: M
+    source_column_id: domestic_rates_paid
+    expected_column_header_row: 1
+    expected_column_header: Domestic Rates paid as at 31st March 2026
+    concept: lps.domestic_rates_paid
+    source_concept: lps.domestic_rates_paid
+    concept_relation: source_label
+    concept_authority: lps
+    concept_evidence_url: https://www.data.gov.uk/dataset/30535a44-0a05-4bff-98cf-001301a6b4d6/rates-paid-by-district-council-and-sector
+    concept_evidence_notes: 'LPS, Rates paid by District Council and Sector (OpenDataNI): ''amounts of
+      rates paid against ratepayer accounts as at 31st March each year, as recorded on the Land & Property
+      (LPS) rating system''; the number of occupancies (''a liable person, persons, business or organisation
+      at a property at a given time'') ''that made a payment (value greater than £0) within the rating
+      year'', including occupancies paid in full and those with a balance left at the end of the year.
+      ''The totals included in the tables are not adjusted for receipts at year end which have been paid
+      by ratepayers, but not yet allocated to a particular rate account.'''
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number

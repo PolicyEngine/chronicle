@@ -45,8 +45,8 @@ The manifests carry each file's canonical R2 key; `chronicle publish-raw` upload
 
 ## Receipts: the whole workbook
 
-- **The March lines** (41): income tax and NICs (table 4.4), the cash receipts lines
-  (4.8), betting and gaming (4.10), tobacco and alcohol clearances (4.11, 4.12), the levies
+- **The March lines** (42): income tax and NICs (table 4.4), the cash receipts lines
+  (4.8, vehicle excise duties among them since chronicle#395), betting and gaming (4.10), tobacco and alcohol clearances (4.11, 4.12), the levies
   (4.2) and SDLT by sector (4.7).
 - **Every other row** of tables 4.1 to 4.22, except two tables:
   - 4.9 (air passenger duty passengers by band) states no unit;

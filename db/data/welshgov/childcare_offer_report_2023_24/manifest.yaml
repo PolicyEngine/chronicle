@@ -1,0 +1,27 @@
+source_id: welshgov
+package_id: welshgov-childcare-offer-report-2023-24
+dataset: welshgov_welshgov-childcare-offer-report-2023-24
+source_page: https://www.gov.wales/report-childcare-offer-wales-september-2023-august-2024
+table: 'Report of the Childcare Offer for Wales: September 2023 to August 2024 (social
+  research 99/2025)'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Welsh Government, Report of the Childcare Offer for Wales: September
+  2023 to August 2024 (15 October 2025). Contains public sector information licensed
+  under the Open Government Licence v3.0.'
+license_evidence: 'gov.wales pages state: ''All content is available under the Open
+  Government Licence v3.0, except where otherwise stated.'' (report page https://www.gov.wales/report-childcare-offer-wales-september-2023-august-2024)'
+license_verified_at: '2026-10-30'
+files:
+  2025:
+    filename: report-of-the-childcare-offer-for-wales-from-september-2023-to-august-2024.pdf
+    source_url: https://www.gov.wales/sites/default/files/statistics-and-research/2025-10/report-of-the-childcare-offer-for-wales-from-september-2023-to-august-2024.pdf
+    sha256: 3b2b86329b713667d37980506ae28726afcd3a4e27f43e57ecd46122d751595d
+    size_bytes: 832481
+    fetched_at: '2026-10-30T11:38:59+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/welshgov/welshgov-childcare-offer-report-2023-24/2025/3b2b86329b713667d37980506ae28726afcd3a4e27f43e57ecd46122d751595d/report-of-the-childcare-offer-for-wales-from-september-2023-to-august-2024.pdf
+        uri: r2://ledger-raw/raw/uk/welshgov/welshgov-childcare-offer-report-2023-24/2025/3b2b86329b713667d37980506ae28726afcd3a4e27f43e57ecd46122d751595d/report-of-the-childcare-offer-for-wales-from-september-2023-to-august-2024.pdf

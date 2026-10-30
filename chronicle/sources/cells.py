@@ -1096,7 +1096,7 @@ def _delimited_scalar(value: str) -> Scalar:
         return None
     if "_" in stripped:
         return stripped
-    numeric = stripped.replace("$", "").replace(",", "")
+    numeric = stripped.replace("$", "").replace("£", "").replace(",", "")
     if numeric.lstrip("-").isdigit():
         return int(numeric)
     try:

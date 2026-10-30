@@ -32,7 +32,11 @@ in the package's existing shape. Unlike the earlier lines, these carry `period_c
 
 - **Sheet 3.8** (cash basis, as its title and note state), rows 27 to 30, 36 and 48:
   tobacco, spirits, wine, and beer and cider duties, betting and gaming duties and vaping
-  tax, 2024-25 (outturn) to 2030-31. Vaping tax is zero before it starts.
+  tax, 2024-25 (outturn) to 2030-31. Vaping tax is zero before it starts. Row 52, vehicle
+  excise duties (`obr.vehicle_excise_duties`), was added for chronicle#395, so that the
+  October 2026 package carries VED under the same line id and concept. March carries only
+  its 2024-25 outturn: October publishes the later years, and of two vintages' numbers for
+  one line and year Chronicle keeps the later.
 - **Sheet 3.10**, rows 6 and 8 to 14: betting and gaming duties and the seven duties they
   break into, 2025-26 to 2030-31, all forecast. The sheet states no basis. Its total equals
   sheet 3.1's "Betting and gaming taxes" (row 7), which sheet 3.1's note puts on an accrued

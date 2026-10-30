@@ -1595,7 +1595,7 @@ row numbers and the October table number ride on each record set and its notes.
 
 RECEIPTS_HEADER = """
 
-Receipts. The March 2026 package's 41 lines (receipts tables 3.x are now 4.x, with the
+Receipts. The March 2026 package's 42 lines (receipts tables 3.x are now 4.x, with the
 same titles and rows), then every other row of the workbook's tables, except tables 4.9
 and 4.19 (RECEIPTS_LEFT_OUT in the build script: 4.9 states no unit for its passenger
 numbers; 4.19 prints '£ billion' over thresholds in pounds and flags no outturn). A row
