@@ -29,12 +29,22 @@ The manifests carry each file's canonical R2 key; `chronicle publish-raw` upload
 
 ## Conventions
 
-- **The vintage.** Record-set ids start `obr.efo_2026_10.`. The March 2026 packages stay in
-  the bundle under `obr.efo_2026_03.`, so a consumer picks a vintage by package.
+- **The vintage.** Record-set ids start `obr.efo_2026_10.`. Where both vintages publish a
+  number for the same line and year, Chronicle keeps October's
+  ([chronicle#397](https://github.com/PolicyEngine/chronicle/issues/397)). The March 2026
+  packages, under `obr.efo_2026_03.`, keep only the 75 line-years October lacks:
+  - every line's 2024-25 outturn (calendar 2024 for the economy lines);
+  - the 2025-26 forecasts of the lines October starts in 2026-27: sheet 3.10's betting
+    and gaming duties and the seven duties it breaks them into (October's table 4.10),
+    and the aggregates' public sector current receipts, total managed expenditure and net
+    borrowing.
 - **March lines.** Every line of the four March packages keeps its line id, display label
   and concept. Its October table is found by title, since the chapters moved by one:
   receipts tables 3.x are now 4.x and expenditure tables 4.x are now 5.x. Its row is found
-  by label. Each record set carries its October table and row.
+  by label. Each record set carries its October table and row. The high-value council tax
+  surcharge has no 2024-25 value, so it left the March package; the build keeps its March
+  record set (`LINES_LEFT_IN_OCTOBER_ONLY`), and its October line keeps the March line id
+  and concept.
 - **Outturn and forecast.** Each year column's assertion follows the band above it.
   'Outturn' (and 'Estimate', 'Estimated Outurn') gives `observation`, and 'Forecast' gives
   `source_projection`; a table with no band is all forecast. 2025-26 is outturn in October
@@ -146,8 +156,12 @@ twelfths of 2024-25 and nine of 2025-26) can't be built from the October package
 2024-25 part has to come from the March package's 2024-25 outturn
 (`obr.efo_2026_03.<kind>.<line id>.fy2024`, an `observation` there) or from ONS.
 
-Both vintages forecast the March lines for 2026-27 to 2030-31 (receipts and expenditure)
-and 2026 to 2029 (economy and aggregates), so the bundle reports their 363 shared semantic
-keys as duplicates; a target binds one vintage. Aligning fiscal years with the calendar-2025
-window, and choosing between the two Northern Ireland domestic rates placements, are the
-consumer's decisions.
+**One number per line and year** (chronicle#397). The March packages no longer carry the
+years October publishes, so the bundle has no shared semantic keys between the vintages
+(363 before) and a consumer never has two numbers to choose between: 2025-26 comes from
+October, as outturn, except for the lines October starts in 2026-27, whose 2025-26
+forecast stays in March. A feed re-pinned past chronicle#397 loses March's 2025-26 to
+2030-31 rows, so re-pin to it with or after the engine lock that moves to this vintage
+(PolicyEngine/policyengine-uk#2717, PolicyEngine/microcosm#1095). Aligning fiscal years
+with the calendar-2025 window, and choosing between the two Northern Ireland domestic rates
+placements, are the consumer's decisions.

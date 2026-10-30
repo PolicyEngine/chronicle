@@ -1,4 +1,4 @@
-"""OBR EFO March 2026 Table 4.1 council tax block, carried in full.
+"""OBR EFO Table 4.1 (March 2026) and 5.1 (October 2026) council tax block.
 
 Row 19 'Total net council tax receipts' (concept obr.council_tax_total) equals
 row 15 'Total council tax receipts' (England + Scotland + Wales) plus NI
@@ -6,6 +6,9 @@ domestic rates, the council tax accruals adjustment and, from 2028-29, the
 high-value council tax surcharge. The decomposition rows let a consumer bind a
 household council tax liability to the GB cash-receipts total instead of the
 UK total that carries components with no household counterpart.
+
+Since chronicle#397 the March package keeps only 2024-25, the year the October
+package does not print; October carries 2025-26 to 2031-32.
 """
 
 from __future__ import annotations
@@ -26,30 +29,8 @@ def _by_concept_period(facts):
     return table
 
 
-def test_obr_table_4_1_council_tax_decomposition_rows():
-    package = load_source_package("obr-efo-expenditure-march-2026")
-    facts = package.build_facts(2026)
-    table = _by_concept_period(facts)
-
-    receipts_years = {period for concept, period in table if concept == RECEIPTS_GB}
-    accruals_years = {period for concept, period in table if concept == ACCRUALS}
-    surcharge_years = {period for concept, period in table if concept == SURCHARGE}
-    assert receipts_years == set(range(2024, 2031))
-    assert accruals_years == set(range(2024, 2031))
-    # The publisher prints the surcharge from 2028-29 only; blank cells emit no facts.
-    assert surcharge_years == {2028, 2029, 2030}
-
-    # FY2025-26: GBP 49.569bn GB receipts, GBP 0.862bn accruals adjustment.
-    assert table[(RECEIPTS_GB, 2025)].value == pytest.approx(49_569_234_862.02, abs=0.01)
-    assert table[(ACCRUALS, 2025)].value == pytest.approx(861_928_964.29, abs=0.01)
-    assert table[(SURCHARGE, 2028)].value == 454_292_600
-    assert table[(RECEIPTS_GB, 2024)].assertion == "observation"
-    assert table[(RECEIPTS_GB, 2025)].assertion == "source_projection"
-    assert {table[(RECEIPTS_GB, y)].geography.id for y in range(2024, 2031)} == {
-        "K02000001"
-    }
-
-    for year in range(2024, 2031):
+def _assert_decomposition(table, years):
+    for year in years:
         nations = sum(
             table[(concept, year)].value
             for concept in (
@@ -70,6 +51,42 @@ def test_obr_table_4_1_council_tax_decomposition_rows():
         assert table[("obr.council_tax_total", year)].value == pytest.approx(
             components, rel=1e-9
         )
-    # chronicle#357 adds table 4.9's two Northern Ireland rows for each of the
-    # seven years.
-    assert len(facts) == 164
+
+
+def _years(table, concept):
+    return {period for key, period in table if key == concept}
+
+
+def test_obr_table_4_1_council_tax_decomposition_rows():
+    facts = load_source_package("obr-efo-expenditure-march-2026").build_facts(2026)
+    table = _by_concept_period(facts)
+
+    assert _years(table, RECEIPTS_GB) == {2024}
+    assert _years(table, ACCRUALS) == {2024}
+    # The surcharge is forecast from 2028-29, so October alone carries it.
+    assert _years(table, SURCHARGE) == set()
+    # FY2024-25 outturn: GBP 46.389bn GB receipts, GBP 0.807bn accruals adjustment.
+    assert table[(RECEIPTS_GB, 2024)].value == pytest.approx(46_389_308_000, abs=0.01)
+    assert table[(ACCRUALS, 2024)].value == pytest.approx(806_635_170.18, abs=0.01)
+    assert table[(RECEIPTS_GB, 2024)].assertion == "observation"
+    assert table[(RECEIPTS_GB, 2024)].geography.id == "K02000001"
+    _assert_decomposition(table, [2024])
+    # chronicle#357 adds table 4.9's two Northern Ireland rows; chronicle#397 keeps
+    # each of the 23 lines' 2024-25 outturn.
+    assert len(facts) == 23
+
+
+def test_obr_table_5_1_council_tax_decomposition_rows_in_october():
+    table = _by_concept_period(
+        load_source_package("obr-efo-expenditure-october-2026").build_facts(2026)
+    )
+
+    years = set(range(2025, 2032))
+    assert _years(table, RECEIPTS_GB) == years
+    assert _years(table, ACCRUALS) == years
+    # The publisher prints the surcharge from 2028-29 only; blank cells emit no facts.
+    assert _years(table, SURCHARGE) == {2028, 2029, 2030, 2031}
+    assert table[(SURCHARGE, 2028)].value == 397_292_600
+    assert table[(RECEIPTS_GB, 2025)].assertion == "observation"
+    assert table[(RECEIPTS_GB, 2026)].assertion == "source_projection"
+    _assert_decomposition(table, sorted(years))

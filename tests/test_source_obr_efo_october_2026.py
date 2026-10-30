@@ -140,6 +140,65 @@ def test_every_march_line_keeps_its_line_id_and_concept(facts, kind):
     october_lines = lines(f"{OCTOBER}.{kind}.", facts[kind].values())
     for line, concepts in march_lines.items():
         assert october_lines.get(line) == concepts, line
+    # chronicle#397: a line October prints in every year it has left the March
+    # package; the build keeps its March record set, and October its id and concept.
+    generator = runpy.run_path(str(ROOT / "scripts/build_obr_efo_october_2026.py"))
+    for text in generator["LINES_LEFT_IN_OCTOBER_ONLY"].get(kind, ()):
+        (record_set,) = yaml.safe_load(text)
+        line = re.sub(
+            r"\.(fy|cy)\d{4}$",
+            "",
+            record_set["record_set_id"].removeprefix(f"obr.efo_2026_03.{kind}."),
+        )
+        assert line not in march_lines, line
+        assert october_lines[line] == {record_set["measures"][0]["concept"]}, line
+
+
+# chronicle#397: of two vintages' numbers for one line and year, Chronicle keeps the
+# later. What the March 2026 packages keep, by line: every line's 2024-25 outturn
+# (calendar 2024 for the economy), except the lines October starts in 2026-27, which
+# keep their 2025-26 forecast.
+MARCH_KEEPS = {
+    "receipts": (42, {2024: 34, 2025: 8}),
+    "expenditure": (23, {2024: 23}),
+    "economy": (6, {2024: 6}),
+    "aggregates": (4, {2024: 1, 2025: 3}),
+}
+
+
+@pytest.mark.parametrize("kind", ("receipts", "expenditure", "economy", "aggregates"))
+def test_march_keeps_only_the_line_years_october_does_not_publish(facts, kind):
+    march = load_source_package(f"obr-efo-{kind}-march-2026").build_facts(2026)
+    october = {fact.layout.record_set_id for fact in facts[kind].values()}
+    record_sets = {fact.layout.record_set_id for fact in march}
+    assert not {
+        record_set
+        for record_set in record_sets
+        if record_set.replace("obr.efo_2026_03.", f"{OCTOBER}.", 1) in october
+    }
+    count, years = MARCH_KEEPS[kind]
+    assert len(march) == len(record_sets) == count
+    assert Counter(fact.period.value for fact in march) == years
+    lines = Counter(
+        re.sub(r"\.(fy|cy)\d{4}$", "", record_set) for record_set in record_sets
+    )
+    assert set(lines.values()) == {1}
+    # The later years are October's now, each line under the same line id.
+    assert {
+        line.replace("obr.efo_2026_03.", f"{OCTOBER}.", 1) for line in lines
+    } <= {re.sub(r"\.(fy|cy)\d{4}$", "", record_set) for record_set in october}
+    if kind == "aggregates":
+        forecasts = {
+            fact.measure.concept for fact in march if fact.period.value == 2025
+        }
+        assert forecasts == {
+            "obr.public_sector_current_receipts",
+            "obr.total_managed_expenditure",
+            "obr.public_sector_net_borrowing",
+        }
+        assert {fact.assertion for fact in march if fact.period.value == 2025} == {
+            "source_projection"
+        }
 
 
 def test_outturn_and_forecast_follow_the_tables(facts):

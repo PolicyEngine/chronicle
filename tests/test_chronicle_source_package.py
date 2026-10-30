@@ -4305,13 +4305,14 @@ def test_kff_marketplace_effectuated_enrollment_builds_2024_state_facts():
 def test_obr_efo_economy_package_validates_macro_series_counts():
     report = validate_source_package("obr-efo-economy-march-2026", year=2026)
 
+    # chronicle#397: calendar 2024 only; the October 2026 EFO carries 2025 on.
     assert report.valid
     assert report.counts == {
-        "record_set_count": 36,
-        "row_count": 36,
-        "measure_count": 36,
-        "source_record_count": 36,
-        "source_region_count": 36,
+        "record_set_count": 6,
+        "row_count": 6,
+        "measure_count": 6,
+        "source_record_count": 6,
+        "source_region_count": 6,
     }
 
 
@@ -4323,37 +4324,40 @@ def test_obr_efo_economy_package_builds_cell_faithful_macro_facts():
 
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
-    assert len(facts) == 36
+    assert len(facts) == 6
 
     nominal_gdp_2024 = values_by_record[
         "obr.efo_2026_03.economy.nominal_gdp_nsa.cy2024.nominal_gdp_nsa.nominal_gdp_nsa"
     ]
-    cpi_2025 = values_by_record[
-        "obr.efo_2026_03.economy.cpi_inflation.cy2025.cpi_inflation.cpi_inflation"
+    cpi_2024 = values_by_record[
+        "obr.efo_2026_03.economy.cpi_inflation.cy2024.cpi_inflation.cpi_inflation"
     ]
-    bank_rate_2029 = values_by_record[
-        "obr.efo_2026_03.economy.bank_rate.cy2029.bank_rate.bank_rate"
+    bank_rate_2024 = values_by_record[
+        "obr.efo_2026_03.economy.bank_rate.cy2024.bank_rate.bank_rate"
     ]
 
+    assert {fact.period.value for fact in facts} == {2024}
     assert nominal_gdp_2024.value == 2_890_664_000_000
     assert nominal_gdp_2024.period.type == "calendar_year"
     assert nominal_gdp_2024.assertion == "observation"
     assert nominal_gdp_2024.measure.concept == "obr.nominal_gdp_nsa"
-    assert cpi_2025.value == pytest.approx(3.3730368724933735)
-    assert cpi_2025.assertion == "source_projection"
-    assert bank_rate_2029.value == pytest.approx(3.741552661678499)
+    assert cpi_2024.value == pytest.approx(2.5301927741606)
+    assert cpi_2024.assertion == "observation"
+    assert bank_rate_2024.value == pytest.approx(5.111)
 
 
 def test_obr_efo_aggregates_package_validates_fiscal_series_counts():
     report = validate_source_package("obr-efo-aggregates-march-2026", year=2026)
 
+    # chronicle#397: net debt's 2024-25 and the other three lines' 2025-26, the
+    # years the October 2026 EFO does not print.
     assert report.valid
     assert report.counts == {
-        "record_set_count": 21,
-        "row_count": 21,
-        "measure_count": 21,
-        "source_record_count": 21,
-        "source_region_count": 21,
+        "record_set_count": 4,
+        "row_count": 4,
+        "measure_count": 4,
+        "source_record_count": 4,
+        "source_region_count": 4,
     }
 
 
@@ -4365,7 +4369,7 @@ def test_obr_efo_aggregates_package_builds_cell_faithful_fiscal_facts():
 
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
-    assert len(facts) == 21
+    assert len(facts) == 4
 
     psnb_2025 = values_by_record[
         "obr.efo_2026_03.aggregates.public_sector_net_borrowing.fy2025."

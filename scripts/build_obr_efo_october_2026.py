@@ -391,11 +391,77 @@ class MarchLine:
     header_column: str
 
 
+# chronicle#397: of two vintages' numbers for one line and year, Chronicle keeps the
+# later, so the March packages carry only the line-years October does not print. A
+# March line October prints in every year it has leaves its March package, and its first
+# March record set is kept here instead, so its October line keeps the March line id,
+# label and concept. The high-value council tax surcharge has no 2024-25 value; it was
+# the last line of the March expenditure package.
+LINES_LEFT_IN_OCTOBER_ONLY = {
+    "expenditure": (
+        """\
+- record_set_id: obr.efo_2026_03.expenditure.council_tax_high_value_surcharge.fy2028
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.efo_2026_03.expenditure.council_tax_high_value_surcharge.fy2028.v1
+  source_record_id_prefix: obr.efo_2026_03.expenditure.council_tax_high_value_surcharge.fy2028
+  sheet_name: '4.1'
+  period_type: fiscal_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: council_tax_high_value_surcharge
+    label: High-value Council tax surcharge
+    ordinal: 0
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: High-value Council tax surcharge
+    table_record_kind: total
+  measures:
+  - measure_id: amount
+    label: High-value Council tax surcharge, FY2028-29
+    ordinal: 0
+    column: G
+    source_column_id: amount
+    expected_column_header_row: 5
+    expected_column_header: 2028-29
+    concept: obr.council_tax_high_value_surcharge
+    source_concept: obr.council_tax_high_value_surcharge
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/march-2026-economic-and-fiscal-outlook-detailed-forecast-tables-expenditure/
+    concept_evidence_notes: 'OBR EFO March 2026 detailed forecast tables, sheet 4.1, row 18
+      (''High-value Council tax surcharge''): the surcharge on high-value properties forecast
+      from 2028-29, a component of row 19 (''Total net council tax receipts''), GBP billion.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000
+    expected_cell_type: number
+""",
+    ),
+}
+
+
 def march_lines(kind: str) -> list[MarchLine]:
     path = PACKAGES / f"efo_{kind}_march_2026" / "source_package.yaml"
     payload = yaml.safe_load(path.read_text(encoding="utf-8"))
+    record_sets = list(payload["record_sets"])
+    for text in LINES_LEFT_IN_OCTOBER_ONLY.get(kind, ()):
+        (record_set,) = yaml.safe_load(text)
+        line_id = LINE_YEAR.sub("", record_set["record_set_id"])
+        assert not any(
+            LINE_YEAR.sub("", other["record_set_id"]) == line_id for other in record_sets
+        ), line_id
+        record_sets.append(record_set)
     lines: dict[str, MarchLine] = {}
-    for record_set in payload["record_sets"]:
+    for record_set in record_sets:
         line_id = LINE_YEAR.sub("", record_set["record_set_id"]).removeprefix(
             f"{MARCH}.{kind}."
         )
