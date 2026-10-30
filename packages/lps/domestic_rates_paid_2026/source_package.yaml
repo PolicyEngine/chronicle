@@ -5,12 +5,13 @@
 # Domestic rates paid against ratepayer accounts as at 31 March of each rating year, and
 # the number of domestic occupancies that made a payment within the rating year, for the
 # 11 district councils and Northern Ireland, rating years 2020-21 to 2025-26. A domestic
-# bill is the regional and the district rate together, levied as one bill net of the
-# reliefs credited to the account; the CSV publishes the amount paid, not the amount
-# levied, and gives no relief as a separate figure. The CSV prints amounts as '£' text
-# with thousands separators and counts with separators (the 2025-26 counts with a trailing
-# space); the delimited parser reads both as numbers. Each rating year is a fiscal-year
-# period (April to March), stamped by its opening year.
+# bill is the regional and the district rate together, levied as one bill, less the
+# reliefs applied to it. The CSV publishes the amount paid, not the amount levied; it
+# gives no relief as a separate figure and does not say whether credits such as rate
+# rebate count as payments. The CSV prints amounts as '£' text with thousands separators
+# and counts with separators (the 2025-26 counts with a trailing space); the delimited
+# parser reads both as numbers. Each rating year is a fiscal-year period (April to March),
+# stamped by its opening year.
 schema_version: ledger.source_package.v1
 package_id: lps-domestic-rates-paid-2026
 label: LPS domestic rates paid and paying domestic occupancies by district council, rating years 2020-21

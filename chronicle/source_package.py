@@ -1061,6 +1061,12 @@ SOURCE_PACKAGE_ALIASES = {
     "obr-efo-policy-october-2026": Path("obr/efo_policy_october_2026"),
     # PolicyEngine/chronicle#395
     "lps-domestic-rates-paid-2026": Path("lps/domestic_rates_paid_2026"),
+    "lps-lone-pensioner-allowance-ye-2024": Path(
+        "lps/lone_pensioner_allowance_ye_2024"
+    ),
+    "lps-disabled-persons-allowance-ye-2024": Path(
+        "lps/disabled_persons_allowance_ye_2024"
+    ),
     "ons-crpsf-ni-domestic-rates-fye2025": Path("ons/crpsf_ni_domestic_rates_fye2025"),
     "dft-bus01-wales-journeys-2025": Path("dft/bus01_wales_journeys_2025"),
     "welshgov-childcare-offer-report-2023-24": Path(

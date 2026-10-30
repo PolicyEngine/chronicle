@@ -4,12 +4,13 @@
 #
 # Table 4's three figures, for the Offer year September 2023 to August 2024: children in
 # Offer-funded childcare (21,283; the Offer's monitoring information), the estimated
-# eligible population under the current eligibility criteria (36,600; modelled from the
-# ONS Annual Population Survey) and the estimated take-up rate (58%). The report publishes
-# the rate rounded; the package stores the published figures and derives none. The Offer
-# year runs September to August, so the facts are academic-year periods stamped by their
-# opening year, with dates and no fiscal or calendar basis. No later report is published
-# yet.
+# eligible population under the current eligibility criteria (36,600; Welsh Government
+# analysis of the ONS Annual Population Survey 2023, so calendar-2023 survey data behind a
+# fact for the 2023-24 Offer year) and the estimated take-up rate (58%). The report
+# publishes the rate rounded; the package stores the published figures and derives none.
+# The Offer year runs September to August, so the facts are academic-year periods stamped
+# by their opening year, with dates and no fiscal or calendar basis. No later report is
+# published yet.
 schema_version: ledger.source_package.v1
 package_id: welshgov-childcare-offer-report-2023-24
 label: 'Welsh Government Childcare Offer for Wales report, Table 4: children funded, estimated eligible
@@ -88,7 +89,9 @@ record_sets:
       for Wales, 2023-24''. Paragraph 2.2: ''To consider the reach of the Offer, we estimate a ''take-up
       rate''. This is estimated using a modelled estimate of the eligible population.'' Paragraph 2.3:
       ''Based on current eligibility criteria, we estimate that 58% of eligible children accessed the
-      Offer in 2023-24.'' Line: ''Children in Offer-funded childcare this year 21,283''.'
+      Offer in 2023-24.'' Table 4''s sources: ''Childcare Offer for Wales monitoring data, Welsh Government
+      analysis of the ONS Annual Population Survey 2023''. Line: ''Children in Offer-funded childcare
+      this year 21,283''.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -152,7 +155,9 @@ record_sets:
       for Wales, 2023-24''. Paragraph 2.2: ''To consider the reach of the Offer, we estimate a ''take-up
       rate''. This is estimated using a modelled estimate of the eligible population.'' Paragraph 2.3:
       ''Based on current eligibility criteria, we estimate that 58% of eligible children accessed the
-      Offer in 2023-24.'' Line: ''Estimated eligible population for this year 36,600''.'
+      Offer in 2023-24.'' Table 4''s sources: ''Childcare Offer for Wales monitoring data, Welsh Government
+      analysis of the ONS Annual Population Survey 2023''. Line: ''Estimated eligible population for this
+      year 36,600''.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -216,7 +221,8 @@ record_sets:
       for Wales, 2023-24''. Paragraph 2.2: ''To consider the reach of the Offer, we estimate a ''take-up
       rate''. This is estimated using a modelled estimate of the eligible population.'' Paragraph 2.3:
       ''Based on current eligibility criteria, we estimate that 58% of eligible children accessed the
-      Offer in 2023-24.'' Line: ''Estimated take-up rate 58%''.'
+      Offer in 2023-24.'' Table 4''s sources: ''Childcare Offer for Wales monitoring data, Welsh Government
+      analysis of the ONS Annual Population Survey 2023''. Line: ''Estimated take-up rate 58%''.'
     unit: percent
     aggregation: share
     expected_cell_type: number

@@ -38,6 +38,8 @@ DATA = ROOT / "db/data"
 # package id -> (artifact year, record sets, facts)
 PACKAGES = {
     "lps-domestic-rates-paid-2026": (2026, 6, 144),
+    "lps-lone-pensioner-allowance-ye-2024": (2024, 90, 420),
+    "lps-disabled-persons-allowance-ye-2024": (2024, 30, 360),
     "ons-crpsf-ni-domestic-rates-fye2025": (2025, 52, 52),
     "dft-bus01-wales-journeys-2025": (2025, 57, 57),
     "welshgov-childcare-offer-report-2023-24": (2025, 3, 3),
@@ -173,6 +175,83 @@ def test_lps_facts_are_the_csv_cells():
             "lps.domestic_rates_paid_2026.fy2024.northern_ireland.domestic_rates_paid"
         ].value
         == 889543160
+    )
+
+
+def test_relief_statistics_are_the_workbook_cells():
+    """LPS's Lone Pensioner and Disabled Person's Allowance tables, re-read with openpyxl:
+    the councils' counts and amounts, Northern Ireland's, and LPA's amounts by tenure."""
+    for code, package_id, tables in (
+        (
+            "lpa",
+            "lps-lone-pensioner-allowance-ye-2024",
+            (("Table 1.1", "people_awarded", "cy"), ("Table 1.2 ", "net_amount", "fy")),
+        ),
+        (
+            "dpa",
+            "lps-disabled-persons-allowance-ye-2024",
+            (
+                ("Table 1.1", "properties_awarded", "cy"),
+                ("Table 1.2", "net_amount", "fy"),
+            ),
+        ),
+    ):
+        directory = SOURCE_PACKAGE_ALIASES[package_id]
+        workbook = load_workbook(
+            DATA / directory / f"lps-{code}-ye-2024.XLSX", data_only=True
+        )
+        facts = _facts(package_id)
+        for sheet_name, measure_id, stamp in tables:
+            sheet = workbook[sheet_name]
+            header = next(
+                row
+                for row in range(1, 8)
+                if sheet.cell(row, 1).value == "District Council"
+            )
+            table = f"table_{sheet_name.strip().split()[-1].replace('.', '_')}"
+            checked = 0
+            for row in range(header + 1, sheet.max_row + 1):
+                name = sheet.cell(row, 1).value
+                # Council and Northern Ireland rows hold numbers; title, note and
+                # source rows do not.
+                if not isinstance(sheet.cell(row, 2).value, (int, float)):
+                    continue
+                value_id = name.lower().replace(",", "").replace(" ", "_")
+                for column in range(2, 17):
+                    year_end = sheet.cell(header, column).value.year
+                    period = year_end if stamp == "cy" else year_end - 1
+                    key = f"lps.{code}_ye_2024.{table}.{stamp}{period}.{value_id}.{measure_id}"
+                    assert facts[key].value == pytest.approx(
+                        sheet.cell(row, column).value
+                    )
+                    checked += 1
+            assert checked == 12 * 15, (package_id, sheet_name)
+    facts = _facts("lps-lone-pensioner-allowance-ye-2024")
+    table_1_5 = {
+        tenure: facts[
+            f"lps.lpa_ye_2024.table_1_5.{tenure}.fy2023.northern_ireland.net_amount"
+        ]
+        for tenure in ("private_rented_sector", "nihe", "housing_association", "all")
+    }
+    assert table_1_5["all"].value == pytest.approx(9_241_619.46)
+    assert dict(table_1_5["nihe"].filters) == {"lpa_tenure": "nihe"}
+    owners = facts["lps.lpa_ye_2024.table_1_2.fy2023.northern_ireland.net_amount"]
+    assert dict(owners.filters) == {"lpa_tenure": "owner_occupier"}
+    # The publisher's total is the four tenures' sum, to the penny.
+    parts = owners.value + sum(
+        table_1_5[tenure].value
+        for tenure in ("private_rented_sector", "nihe", "housing_association")
+    )
+    assert parts == pytest.approx(table_1_5["all"].value, abs=0.01)
+    dpa = _facts("lps-disabled-persons-allowance-ye-2024")
+    assert dpa[
+        "lps.dpa_ye_2024.table_1_2.fy2023.northern_ireland.net_amount"
+    ].value == pytest.approx(4_687_742.79)
+    assert (
+        dpa[
+            "lps.dpa_ye_2024.table_1_1.cy2024.northern_ireland.properties_awarded"
+        ].value
+        == 12295
     )
 
 

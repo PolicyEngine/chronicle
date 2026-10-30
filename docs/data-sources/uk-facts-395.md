@@ -8,7 +8,7 @@ Wales take-up and, in two comments, the OBR's vehicle excise duty (VED) line wit
 by payer, and bottled gas's share of household spending on gas. Everything here is a
 published aggregate; no microdata is involved.
 
-`scripts/build_uk_395_packages.py` regenerates the eleven new packages from the pinned
+`scripts/build_uk_395_packages.py` regenerates the thirteen new packages from the pinned
 bytes. The OBR's VED line is written into the March 2026 receipts package by
 `scripts/build_uk_excise_packages.py` and carried to October by
 `scripts/build_obr_efo_october_2026.py`.
@@ -20,6 +20,8 @@ All are committed and stored in R2, under the Open Government Licence v3.0.
 | Package | File | Publisher, date | sha256 |
 |---|---|---|---|
 | `lps-domestic-rates-paid-2026` | `domestic-rates-collected-by-district-council.csv` | Land & Property Services on OpenDataNI, resources updated 8 May 2026 | `b8d7d649…` |
+| `lps-lone-pensioner-allowance-ye-2024` | `lps-lpa-ye-2024.XLSX` | Land & Property Services, Lone Pensioner Allowance statistics to year end 2024, 29 May 2024 | `f2ea22b1…` |
+| `lps-disabled-persons-allowance-ye-2024` | `lps-dpa-ye-2024.XLSX` | Land & Property Services, Disabled Person's Allowance statistics to year end 2024, 29 May 2024 | `41b5aaa7…` |
 | `ons-crpsf-ni-domestic-rates-fye2025` | `crpsffye2025totalpublicsectorcurrentreceipts.xlsx` | ONS, country and regional public sector finances, 26 May 2026 | `9dbadf3d…` |
 | `dft-bus01-wales-journeys-2025` | the `bus01.ods` that `dft-bus01-passenger-journeys-2025` pins | DfT, revised 24 March 2026 | (shared) |
 | `welshgov-childcare-offer-report-2023-24` | `report-of-the-childcare-offer-for-wales-from-september-2023-to-august-2024.pdf` | Welsh Government, 15 October 2025 | `3b2b8632…` |
@@ -54,10 +56,10 @@ domestic receipts, and both are ported:
   - Councils carry their LGD 2014 codes (`N09000001` to `N09000011`); the total row is
     `N92000002`.
   - What "paid" means, from the dataset's notes: the amount paid against the year's
-    accounts by 31 March, including accounts with a balance left; reliefs credited to an
-    account reduce what is due, but the CSV publishes none separately, and its totals are
-    "not adjusted for receipts at year end which have been paid by ratepayers, but not yet
-    allocated to a particular rate account".
+    accounts by 31 March, including accounts with a balance left. Its totals are "not
+    adjusted for receipts at year end which have been paid by ratepayers, but not yet
+    allocated to a particular rate account". The CSV publishes no relief separately, and
+    does not say whether credits such as rate rebate count as payments.
   - 2024-25: GBP 889,543,160 from 817,423 occupancies; 2025-26: GBP 947,888,579. The
     councils' counts sum to Northern Ireland's; their amounts sum to within GBP 2 of it,
     as published.
@@ -71,11 +73,43 @@ domestic receipts, and both are ported:
   - 2024-25: GBP 498 million regional and GBP 441 million district. The rows equal the
     'United Kingdom' worksheet's in every year.
 
-**Reliefs.** LPS's Trust Statement (the Rate Levy Accruals Account) lists reliefs by type
-(Disabled Persons Allowance, Lone Pensioner Allowance, domestic rate relief, rate rebate
-and others), but its rate revenue is not split between domestic and non-domestic
-property, and the latest edition found is for 2022-23 (laid in November 2023). It is not
-ported.
+**How the two relate.**
+- They are different measures, and neither package derives anything from the other.
+- LPS's figure is the amount paid against the rating year's accounts by 31 March, so
+  arrears are left out. Reliefs applied to a bill reduce what is due. The dataset does
+  not say whether credits such as rate rebate count as payments.
+- The ONS workbook does not state whether its rows are accrued or cash, or gross or net of
+  reliefs and rebates.
+- Together, the ONS rows for 2024-25 (GBP 498 million and GBP 441 million) exceed LPS's
+  GBP 889.5 million paid.
+
+**Reliefs.** Two domestic reliefs are published with their own statistics, and both are
+ported:
+
+- **`lps-lone-pensioner-allowance-ye-2024`** (420 facts). Lone Pensioner Allowance, a 20%
+  rates reduction for ratepayers aged 70 or over who live alone.
+  - Owner occupiers with a current award at 31 March 2010 to 2024 (nil awards included),
+    and the net amount payable to them over each financial year, by council and for
+    Northern Ireland (Tables 1.1 and 1.2).
+  - Northern Ireland's net amounts for private renters, NIHE and housing association
+    tenants and all tenures (Table 1.5): GBP 9,241,619 in 2023-24.
+  - Every amount shares `lps.lone_pensioner_allowance_net_amount` and carries its tenure
+    as `lpa_tenure`.
+- **`lps-disabled-persons-allowance-ye-2024`** (360 facts). Disabled Person's Allowance,
+  a 25% reduction for a property adapted for a disabled resident: properties with a
+  current award and the net amount awarded over each financial year, by council and for
+  Northern Ireland (Tables 1.1 and 1.2). GBP 4,687,743 in 2023-24.
+- Counts are stamped by the calendar year of the 31 March they are current on, and
+  amounts by the financial year's opening year.
+- Both editions end at 2023-24, and no 2024-25 edition is published yet. Tables that
+  restate the ported rows (LPA 1.3 and 1.4, DPA 1.3) are not ported again; the build
+  asserts each copy equal.
+
+Rate rebate, and the housing benefit rate relief it replaces, have no published series
+by year. LPS's Trust Statement (the Rate Levy Accruals Account) lists reliefs by type, but
+its rate revenue is not split between domestic and non-domestic property, and the latest
+edition found is for 2022-23 (laid in November 2023). It is not ported. So the sources
+give the reliefs above, not the whole bill net of reliefs.
 
 ## 2. Wales: local bus journeys, and no published fare receipts
 
@@ -92,6 +126,12 @@ The record sets mirror the England package's: concept `dft.local_bus_passenger_j
 `journey_category` filters, and the year ending March stamped by its closing year. In the
 year ending March 2025, Wales had 71.7 million local bus journeys, of which 32.3 million
 were concessionary. The package derives no fare-paying count.
+
+`welshgov-bus-statistics-2024-25` carries the same journeys, as the Welsh Government
+publishes them rounded, under its own concept (`welshgov.bus.passenger_journeys`) and
+stamped by opening year. This package's `fiscal_year` 2025 is that package's
+`fiscal_year` 2024 (2024-25), and likewise a year back. Join the two on their coverage
+dates, not their period values.
 
 **Passenger fare receipts for Wales are not published.**
 
@@ -113,8 +153,10 @@ September 2023 to August 2024:
 
 - children in Offer-funded childcare, 21,283: the Offer's monitoring information, so
   `administrative`;
-- the estimated eligible population under current eligibility criteria, 36,600: modelled
-  from the ONS Annual Population Survey, so `model_output`;
+- the estimated eligible population under current eligibility criteria, 36,600:
+  "Welsh Government analysis of the ONS Annual Population Survey 2023", Table 4's source
+  line says, so `model_output`. It rests on calendar-2023 survey data, while the fact is
+  stamped for the 2023-24 Offer year;
 - the estimated take-up rate, 58%, also `model_output`.
 
 The Offer year runs September to August. The facts are `academic_year` 2023 with those
@@ -152,7 +194,9 @@ businesses under different tax categories, and ONS publishes both:
 
 Each carries calendar years 2018 to 2025 (GBP million). In 2025, households paid GBP 5,535
 million and businesses GBP 3,501 million. The series' quarters and months are not ported,
-and no total is derived.
+and no total is derived. The series' metadata state no accounting basis, while the OBR's
+line is on a cash basis: use the split for the shares of households and businesses, not
+as levels against the OBR line.
 
 ## 5. Bottled gas's share of household spending on gas (comment of 29 October)
 

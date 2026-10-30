@@ -6,7 +6,9 @@
 # quarters and months are not ported. CDDZ (households, 'Other taxes') and EKED
 # (businesses, 'Taxes on production') are the national accounts' split of vehicle excise
 # duty, which the OBR forecasts as one total. The package derives no total and no
-# financial year.
+# financial year. The series' metadata state no accounting basis, while the OBR's VED line
+# is on a cash basis: use the split for the households' and businesses' shares, not as
+# levels against the OBR line.
 schema_version: ledger.source_package.v1
 package_id: ons-pusf-vehicle-duty-households-october-2026
 label: 'ONS PUSF CDDZ: vehicle duty paid by households, calendar years 2018 to 2025'

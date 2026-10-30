@@ -8,7 +8,11 @@
 # sheet states. The regional rate is Northern Ireland Executive revenue and the district
 # rate the councils'; together they are the domestic bill, which LPS levies as one. Each
 # row is its own concept; the package derives no total. The sheet's non-domestic rows (38
-# and 47) are not asked for and are not ported.
+# and 47) are not asked for and are not ported. The workbook does not state whether these
+# rows are accrued or cash, or gross or net of reliefs and rebates, so they are not the
+# same measure as lps-domestic-rates-paid-2026, which is cash paid against the year's
+# accounts (2024-25: GBP 498 million and GBP 441 million here, GBP 889.5 million paid
+# there).
 schema_version: ledger.source_package.v1
 package_id: ons-crpsf-ni-domestic-rates-fye2025
 label: 'ONS country and regional public sector finances: Northern Ireland regional and district domestic

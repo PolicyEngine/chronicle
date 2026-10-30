@@ -479,14 +479,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the GBP 0 to GBP 1 band's 9, its self-employment amount suppressed).
         # chronicle#393's OBR October 2026 EFO packages add 4,317: receipts
         # 1,551, expenditure 165, economy 56, aggregates 25 and policy 2,520.
-        # chronicle#395 adds 296: LPS domestic rates paid (144), ONS's Northern
-        # Ireland domestic rates (52), DfT BUS01 for Wales (57), the Childcare
+        # chronicle#395 adds 1,076: LPS domestic rates paid (144) and its Lone
+        # Pensioner (420) and Disabled Person's Allowance (360) statistics, ONS's
+        # Northern Ireland domestic rates (52), DfT BUS01 for Wales (57), the Childcare
         # Offer for Wales report (3), ONS vehicle duty by payer (16), ONS CPI gas
         # weights (9) and indices (14), and the March EFO's VED outturn for
         # 2024-25 (1). October's VED line moves to the March concept fact for
         # fact. No new geography, period or entity key, and no duplicate key: of
         # two vintages' numbers Chronicle keeps the later (chronicle#397).
-        "fact_count": 1662051,
+        "fact_count": 1662831,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -539,7 +540,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # 30 June Consumer Trends package with the 30 September one. GSGB 2025
         # (PolicyEngine/microcosm#1381) adds one. PolicyEngine/microcosm#1415
         # adds three, and chronicle#393 the five OBR October 2026 EFO packages.
-        "source_package_count": 439,
+        "source_package_count": 441,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -585,14 +586,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1662051
+    assert row_count == 1662831
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 439
+    assert source_packages["source_package_count"] == 441
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -620,7 +621,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1662051
+    assert coverage["fact_count"] == 1662831
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -651,7 +652,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
-        "lps": 216,
+        "lps": 996,
         "mbie": 5663,
         "mhclg": 118542,
         "msd": 139,
@@ -686,7 +687,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9570,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 381
+    assert len(table_counts) == 383
     assert (
         table_counts[
             "ostbelgien_kindergeld:Kindergeld in Ostbelgien, Aktualisierung "
@@ -1418,21 +1419,21 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "calendar_year:2007": 39,
         "calendar_year:2008": 39,
         "calendar_year:2009": 39,
-        "calendar_year:2010": 39,
-        "calendar_year:2011": 39,
-        "calendar_year:2012": 39,
-        "calendar_year:2013": 72,
-        "calendar_year:2014": 72,
-        "calendar_year:2015": 74,
-        "calendar_year:2016": 72,
-        "calendar_year:2017": 72,
-        "calendar_year:2018": 178,
-        "calendar_year:2019": 177,
-        "calendar_year:2020": 177,
-        "calendar_year:2021": 4198,
-        "calendar_year:2022": 2225,
-        "calendar_year:2023": 6449,
-        "calendar_year:2024": 34045,
+        "calendar_year:2010": 63,
+        "calendar_year:2011": 63,
+        "calendar_year:2012": 63,
+        "calendar_year:2013": 96,
+        "calendar_year:2014": 96,
+        "calendar_year:2015": 98,
+        "calendar_year:2016": 96,
+        "calendar_year:2017": 96,
+        "calendar_year:2018": 202,
+        "calendar_year:2019": 201,
+        "calendar_year:2020": 201,
+        "calendar_year:2021": 4222,
+        "calendar_year:2022": 2249,
+        "calendar_year:2023": 6473,
+        "calendar_year:2024": 34069,
         "calendar_year:2025": 4668,
         "calendar_year:2026": 344,
         "calendar_year:2027": 320,
@@ -1453,21 +1454,21 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fiscal_year:2006": 44,
         "fiscal_year:2007": 44,
         "fiscal_year:2008": 46,
-        "fiscal_year:2009": 46,
-        "fiscal_year:2010": 46,
-        "fiscal_year:2011": 46,
-        "fiscal_year:2012": 46,
-        "fiscal_year:2013": 46,
-        "fiscal_year:2014": 46,
-        "fiscal_year:2015": 46,
-        "fiscal_year:2016": 46,
-        "fiscal_year:2017": 46,
-        "fiscal_year:2018": 46,
-        "fiscal_year:2019": 46,
-        "fiscal_year:2020": 73,
-        "fiscal_year:2021": 81,
-        "fiscal_year:2022": 81,
-        "fiscal_year:2023": 2496,
+        "fiscal_year:2009": 74,
+        "fiscal_year:2010": 74,
+        "fiscal_year:2011": 74,
+        "fiscal_year:2012": 74,
+        "fiscal_year:2013": 74,
+        "fiscal_year:2014": 74,
+        "fiscal_year:2015": 74,
+        "fiscal_year:2016": 74,
+        "fiscal_year:2017": 74,
+        "fiscal_year:2018": 74,
+        "fiscal_year:2019": 74,
+        "fiscal_year:2020": 101,
+        "fiscal_year:2021": 109,
+        "fiscal_year:2022": 109,
+        "fiscal_year:2023": 2524,
         "fiscal_year:2024": 2800,
         "fiscal_year:2025": 3421,
         "fiscal_year:2026": 3528,
@@ -2350,18 +2351,19 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # aggregates and the economy forecasts), people +1,547, institutional
     # sectors +113 and firms +56 (corporation tax credits). chronicle#395:
     # households +227 (LPS, ONS NI domestic rates, CDDZ and the CPI series),
-    # people +61 (BUS01 for Wales, the Childcare Offer and the March VED line)
-    # and firms +8 (EKED).
+    # people +481 (BUS01 for Wales, the Childcare Offer, the March VED line and
+    # Lone Pensioner Allowance), dwellings +360 (Disabled Person's Allowance) and
+    # firms +8 (EKED).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
-        "dwelling": 274367,
+        "dwelling": 274727,
         "family": 1700,
         "firm": 1504,
         "government": 6749,
         "household": 676547,
         "institutional_sector": 8919,
         "pension_plan": 2,
-        "person": 598362,
+        "person": 598782,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,

@@ -10,6 +10,12 @@
 # 4). Fare-paying journeys are not published; the package derives no difference. The
 # record sets mirror the England package's: the same concepts, journey categories, period
 # stamps (the year ending March, by its closing year) and guards.
+#
+# welshgov-bus-statistics-2024-25 carries the same journeys, as the Welsh Government
+# publishes them rounded, under its own concept and stamped by opening year. This
+# package's fiscal_year 2025 (the year ending March 2025, 71.7 million) is that package's
+# fiscal_year 2024 (2024-25), and likewise for 2023 and 2022. Join the two on their
+# coverage dates, not their period values.
 schema_version: ledger.source_package.v1
 package_id: dft-bus01-wales-journeys-2025
 label: DfT BUS01 local bus passenger and concessionary journeys in Wales, years ending March 2005 to 2025

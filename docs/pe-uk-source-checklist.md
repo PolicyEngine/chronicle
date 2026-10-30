@@ -334,8 +334,8 @@ contracts and caveats are in
 ## Beyond parity — facts for the next policyengine-uk bump (chronicle#395)
 
 Facts that rows of Microcosm's next policyengine-uk bump wait on
-([microcosm#1095](https://github.com/PolicyEngine/microcosm/issues/1095)): eleven packages
-and 295 facts, plus the March EFO's VED line (1 fact, its 2024-25 outturn). Field
+([microcosm#1095](https://github.com/PolicyEngine/microcosm/issues/1095)): thirteen packages
+and 1,075 facts, plus the March EFO's VED line (1 fact, its 2024-25 outturn). Field
 contracts and caveats are in
 [`docs/data-sources/uk-facts-395.md`](data-sources/uk-facts-395.md).
 
@@ -344,7 +344,11 @@ contracts and caveats are in
     2020-21 to 2025-26 (`lps-domestic-rates-paid-2026`, 144 facts).
   - ONS's regional and district domestic rates, 1999-00 to 2024-25
     (`ons-crpsf-ni-domestic-rates-fye2025`, 52 facts).
-  - No source publishes domestic reliefs beside a domestic total.
+  - LPS's Lone Pensioner Allowance and Disabled Person's Allowance statistics: awards and
+    net amounts by council, 2009-10 to 2023-24
+    (`lps-lone-pensioner-allowance-ye-2024`, 420 facts;
+    `lps-disabled-persons-allowance-ye-2024`, 360 facts). Rate rebate has no published
+    series.
 - **Wales's bus journeys.** DfT BUS01's Wales passenger and concessionary journeys
   (`dft-bus01-wales-journeys-2025`, 57 facts). Passenger fare receipts are not published
   for Wales.

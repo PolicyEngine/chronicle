@@ -4,11 +4,15 @@ Run from the repository root:
 
     uv run python scripts/build_uk_395_packages.py
 
+``--check`` compares the generated YAML with the committed files instead of writing.
 Each package is written from its pinned artifact, read with Chronicle's own parsers, so
 every row number, column and guard cell below is one the package parser sees.
 
 - ``lps-domestic-rates-paid-2026``: Land & Property Services' domestic rates paid and
   paying occupancies by district council, rating years 2020-21 to 2025-26 (item 1).
+- ``lps-lone-pensioner-allowance-ye-2024`` and ``lps-disabled-persons-allowance-ye-2024``:
+  LPS's statistics of the two domestic reliefs, awards and net amounts by council,
+  2009-10 to 2023-24 (item 1).
 - ``ons-crpsf-ni-domestic-rates-fye2025``: ONS country and regional public sector
   finances, Northern Ireland's regional and district domestic rates, 1999-00 to 2024-25
   (item 1).
@@ -29,6 +33,7 @@ scripts/build_obr_efo_october_2026.py.
 
 from __future__ import annotations
 
+import argparse
 import textwrap
 from dataclasses import dataclass
 from pathlib import Path
@@ -84,6 +89,14 @@ NI_COUNCILS = {
     "Mid Ulster": "N09000009",
     "Newry, Mourne and Down": "N09000010",
     "Ards and North Down": "N09000011",
+}
+
+
+# Labels of the constraints that pair with a record set's shared filters; the England
+# BUS01 package labels journey_category the same way.
+FILTER_LABELS = {
+    "journey_category": "Journey Category",
+    "lpa_tenure": "Lone Pensioner Allowance tenure",
 }
 
 
@@ -224,7 +237,7 @@ def record_set(
                 "variable": key,
                 "operator": "==",
                 "value": value,
-                "label": "Journey Category",
+                "label": FILTER_LABELS[key],
             }
             for key, value in shared_filters.items()
         ]
@@ -325,46 +338,54 @@ for {ISSUE} item 1. Written by scripts/build_uk_395_packages.py.
 Domestic rates paid against ratepayer accounts as at 31 March of each rating year, and
 the number of domestic occupancies that made a payment within the rating year, for the
 11 district councils and Northern Ireland, rating years 2020-21 to 2025-26. A domestic
-bill is the regional and the district rate together, levied as one bill net of the
-reliefs credited to the account; the CSV publishes the amount paid, not the amount
-levied, and gives no relief as a separate figure. The CSV prints amounts as '£' text
+bill is the regional and the district rate together, levied as one bill, less the
+reliefs applied to it. The CSV publishes the amount paid, not the amount levied; it
+gives no relief as a separate figure and does not say whether credits such as rate
+rebate count as payments. The CSV prints amounts as '£' text
 with thousands separators and counts with separators (the 2025-26 counts with a trailing
 space); the delimited parser reads both as numbers. Each rating year is a fiscal-year
 period (April to March), stamped by its opening year.
 """
 
 
+def council_row(name: str, row: int, ordinal: int) -> dict:
+    """A district council's row, or Northern Ireland's, with its geography."""
+    if name == "Northern Ireland":
+        geography = dict(NORTHERN_IRELAND)
+    else:
+        geography = {
+            "geography_id": NI_COUNCILS[name],
+            "geography_level": "local_authority",
+            "geography_name": name,
+            "geography_vintage": "lgd_2014",
+        }
+    return {
+        "value_id": slug(name),
+        "label": name,
+        "ordinal": ordinal,
+        "row_number": row,
+        "expected_row_header_column": "A",
+        "expected_row_header": name,
+        **geography,
+        "table_record_kind": "total",
+    }
+
+
+def check_council_rows(rows: list[dict]) -> None:
+    assert [row["label"] for row in rows][-1] == "Northern Ireland"
+    assert sorted(row["label"] for row in rows[:-1]) == sorted(NI_COUNCILS)
+
+
 def build_lps() -> str:
     sheet, grid = csv_grid(LPS_DIRECTORY)
     headers = {grid[(1, column)]: column for (row, column) in grid if row == 1}
     assert grid[(1, "A")] == "District Council"
-    rows = []
     data_rows = sorted({row for (row, column) in grid if row > 1})
-    for ordinal, row in enumerate(data_rows):
-        name = grid[(row, "A")]
-        if name == "Northern Ireland":
-            geography = dict(NORTHERN_IRELAND)
-        else:
-            geography = {
-                "geography_id": NI_COUNCILS[name],
-                "geography_level": "local_authority",
-                "geography_name": name,
-                "geography_vintage": "lgd_2014",
-            }
-        rows.append(
-            {
-                "value_id": slug(name),
-                "label": name,
-                "ordinal": ordinal,
-                "row_number": row,
-                "expected_row_header_column": "A",
-                "expected_row_header": name,
-                **geography,
-                "table_record_kind": "total",
-            }
-        )
-    assert [row["label"] for row in rows][-1] == "Northern Ireland"
-    assert {row["label"] for row in rows[:-1]} == set(NI_COUNCILS)
+    rows = [
+        council_row(grid[(row, "A")], row, ordinal)
+        for ordinal, row in enumerate(data_rows)
+    ]
+    check_council_rows(rows)
     record_sets = []
     for opening in range(2020, 2026):
         label = f"{opening}-{(opening + 1) % 100:02d}"
@@ -438,6 +459,447 @@ def build_lps() -> str:
     return render(LPS_HEADER, payload)
 
 
+# ------------------------------------- 1b. LPS's Lone Pensioner and Disabled Person's Allowances
+
+ALLOWANCES_URL = (
+    "https://www.finance-ni.gov.uk/publications/"
+    "lone-pensioner-and-disabled-person-allowance-statistics"
+)
+LPA_DIRECTORY = "lps/lone_pensioner_allowance_ye_2024"
+DPA_DIRECTORY = "lps/disabled_persons_allowance_ye_2024"
+LPA_SHEETS = ("Table 1.1", "Table 1.2 ", "Table 1.3", "Table 1.4", "Table 1.5")
+DPA_SHEETS = ("Table 1.1", "Table 1.2", "Table 1.3")
+# Table 1.5's columns beyond owner occupiers (column B, Table 1.2's Northern Ireland row).
+LPA_TENURES = (
+    (
+        "C",
+        "Net Amount of LPA awarded (Private Rented Sector)",
+        "private_rented_sector",
+        "Private Rented Sector",
+    ),
+    ("D", "Net Amount of LPA awarded (NIHE)", "nihe", "NIHE"),
+    (
+        "E",
+        "Net Amount of LPA awarded (Housing Association)",
+        "housing_association",
+        "Housing Association",
+    ),
+    ("F", "Total Net amount of LPA awarded in Northern Ireland", "all", "All tenures"),
+)
+LPA_COUNT_NOTES = (
+    "LPS, Lone Pensioner Allowance statistics to year end 2024 (29 May 2024), Table 1.1: "
+    "'The number of people are those that have a current award for Lone Pensioner "
+    "Allowance at year end.' 'Nil awards have been included in the number of people "
+    "awarded Lone Pensioner Allowance.' Owner occupiers: LPS processes their applications "
+    "and NIHE those of ratepayers who rent."
+)
+LPA_AMOUNT_NOTES = (
+    "LPS, Lone Pensioner Allowance statistics to year end 2024 (29 May 2024), Tables 1.2 "
+    "and 1.5: 'The Net Amount of Lone Pensioner Allowance is the amount payable for all "
+    "persons that have an entitlement to Lone Pensioner Allowance over the course of the "
+    "financial year.' 'The Net Amount of LPA Awarded by NIHE are for invoiced amounts that "
+    "have been posted to the LPS system during the financial year.'"
+)
+DPA_COUNT_NOTES = (
+    "LPS, Disabled Person's Allowance statistics to year end 2024 (29 May 2024), Table "
+    "1.1: 'The number of properties are those that have a current award for Disabled "
+    "Person's Allowance at year-end.' The statistics count properties, not people, as more "
+    "than one disabled person could live in a property."
+)
+DPA_AMOUNT_NOTES = (
+    "LPS, Disabled Person's Allowance statistics to year end 2024 (29 May 2024), Table "
+    "1.2: 'The Net Amount of Disabled Person's Allowance is the amount awarded for all "
+    "properties that have an entitlement to Disabled Person's Allowance over the course of "
+    "the financial year.'"
+)
+LPA_HEADER = f"""
+Land & Property Services, Lone Pensioner Allowance statistics to year end 2024 (published
+29 May 2024), for {ISSUE} item 1. Written by scripts/build_uk_395_packages.py.
+
+Lone Pensioner Allowance is a 20% reduction in the rates of ratepayers aged 70 or over
+who live alone. LPS processes owner occupiers' applications and NIHE those of
+ratepayers who rent. Table 1.1: owner occupiers with a current award at year-end 31
+March 2010 to 2024, nil awards included. Table 1.2: the net amount payable to owner
+occupiers over each financial year. Both are by district council, under today's council
+names for every year as the notes say, and for Northern Ireland. Table 1.5: Northern
+Ireland's net amounts for the private rented sector, NIHE and housing association
+tenants, and for all tenures.
+
+Every amount shares one concept and carries its tenure as lpa_tenure. Table 1.5's
+owner-occupier column restates Table 1.2's Northern Ireland row, Table 1.3 restates the
+Northern Ireland rows of Tables 1.1 and 1.2, and Table 1.4 restates Table 1.5's renting
+columns: none is ported again, and the build asserts each copy equal. Counts are stamped
+by the calendar year of the 31 March they are current on, and amounts by the financial
+year's opening year. No 2024-25 edition is published yet.
+"""
+DPA_HEADER = f"""
+Land & Property Services, Disabled Person's Allowance statistics to year end 2024
+(published 29 May 2024), for {ISSUE} item 1. Written by scripts/build_uk_395_packages.py.
+
+Disabled Person's Allowance is a 25% reduction in rates, not means tested, where a
+person with a disability lives in a property adapted for their needs. Table 1.1:
+properties with a current award at year-end 31 March 2010 to 2024. Table 1.2: the net
+amount awarded over each financial year. Both are by district council, under today's
+council names for every year as the notes say, and for Northern Ireland.
+
+Table 1.3 restates the Northern Ireland rows of Tables 1.1 and 1.2: it is not ported
+again, and the build asserts it equal. Counts are stamped by the calendar year of the
+31 March they are current on, and amounts by the financial year's opening year. No
+2024-25 edition is published yet.
+"""
+
+
+def xlsx_grid(
+    directory: str, sheets: tuple[str, ...]
+) -> dict[tuple[str, int, str], object]:
+    filename, path = manifest_file(directory)
+    cells = source_cells_from_xlsx(path.read_bytes(), metadata(filename), sheets=sheets)
+    return grid_of(cells)
+
+
+def year_end(text: object) -> int:
+    """A year-end header such as '2024-03-31T00:00:00', as its calendar year."""
+    assert isinstance(text, str) and text.endswith("-03-31T00:00:00"), text
+    return int(text[:4])
+
+
+def year_end_period(year: int, kind: str) -> dict:
+    """Counts are awards current on 31 March, stamped by that calendar year. Amounts are
+    payable over the financial year that ends then, stamped by its opening year."""
+    if kind == "count":
+        return {
+            "period_type": "calendar_year",
+            "period": year,
+            "period_coverage": {
+                "start_date": f"{year}-03-31",
+                "end_date": f"{year}-03-31",
+                "basis": "calendar",
+                "source_period_label": f"current awards at year-end 31 March {year}",
+            },
+        }
+    return {
+        "period_type": "fiscal_year",
+        "period": year - 1,
+        "period_coverage": fiscal_coverage(
+            year - 1, f"{year - 1}-{year % 100:02d}, year-end 31 March {year}"
+        ),
+    }
+
+
+def council_table(grid: dict, sheet: str) -> tuple[int, list[dict], dict[int, str]]:
+    """A council-by-year table's header row, its rows and its year-end columns."""
+    (header_row,) = [
+        row
+        for (name, row, column), value in grid.items()
+        if name == sheet and column == "A" and value == "District Council"
+    ]
+    found = sorted(
+        (row, value)
+        for (name, row, column), value in grid.items()
+        if name == sheet
+        and column == "A"
+        and row > header_row
+        and value in {*NI_COUNCILS, "Northern Ireland"}
+    )
+    rows = [
+        council_row(label, row, ordinal) for ordinal, (row, label) in enumerate(found)
+    ]
+    check_council_rows(rows)
+    rows[-1]["guard_cells"] = [
+        {
+            "column": "A",
+            "row": 1,
+            "expected_value": grid[(sheet, 1, "A")],
+            "label": "table title",
+        }
+    ]
+    years = {}
+    for index in range(2, 17):
+        column = get_column_letter(index)
+        years[year_end(grid[(sheet, header_row, column)])] = column
+    assert sorted(years) == list(range(2010, 2025)), sorted(years)
+    return header_row, rows, years
+
+
+def council_record_sets(
+    grid: dict,
+    sheet: str,
+    *,
+    prefix: str,
+    kind: str,
+    measure_id: str,
+    measure_label: str,
+    concept: str,
+    unit: str,
+    entity: str,
+    entity_role: str,
+    notes: str,
+    shared_filters: dict | None = None,
+) -> list[dict]:
+    header_row, rows, years = council_table(grid, sheet)
+    record_sets = []
+    for year, column in years.items():
+        period = year_end_period(year, kind)
+        stamp = "cy" if kind == "count" else "fy"
+        record_sets.append(
+            record_set(
+                f"{prefix}.{stamp}{period['period']}",
+                provenance_class="administrative",
+                sheet_name=sheet,
+                **period,
+                geography=NORTHERN_IRELAND,
+                entity=entity,
+                entity_role=entity_role,
+                domain="domestic_rates",
+                groupby_dimension="lps.district_council",
+                shared_filters=shared_filters,
+                rows=rows,
+                measures=[
+                    measure(
+                        measure_id,
+                        f"{measure_label}, year-end 31 March {year}",
+                        column,
+                        concept=concept,
+                        source_concept=concept,
+                        authority="lps",
+                        evidence_url=ALLOWANCES_URL,
+                        notes=notes,
+                        unit=unit,
+                        aggregation="sum",
+                        header=grid[(sheet, header_row, column)],
+                        header_row=header_row,
+                    )
+                ],
+            )
+        )
+    return record_sets
+
+
+def northern_ireland_cells(grid: dict, sheet: str) -> dict[int, object]:
+    """A council table's Northern Ireland row, by year end."""
+    header_row, rows, years = council_table(grid, sheet)
+    row = rows[-1]["row_number"]
+    return {year: grid[(sheet, row, column)] for year, column in years.items()}
+
+
+def restates(copy: object, value: object) -> bool:
+    """A restated cell equals its source, up to the float noise between two cells that
+    print the same pennies (DPA's 2017-18 amount is 3374738.57 in one table and
+    3374738.5700000003 in the other)."""
+    return abs(float(copy) - float(value)) < 1e-4
+
+
+def year_rows(grid: dict, sheet: str) -> dict[int, int]:
+    """A Northern Ireland table's year-end rows (rows 6 to 20)."""
+    assert grid[(sheet, 5, "A")] == "Year-end"
+    rows = {year_end(grid[(sheet, row, "A")]): row for row in range(6, 21)}
+    assert sorted(rows) == list(range(2010, 2025)), sorted(rows)
+    return rows
+
+
+def allowance_payload(
+    package_id: str, label: str, directory: str, table: str, sheets: list[str]
+) -> dict:
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": package_id,
+        "label": label,
+        "dimension_labels": {"lps.district_council": "District Council"},
+    }
+    if package_id.startswith("lps-lone-pensioner"):
+        payload["dimension_labels"]["lpa_tenure"] = FILTER_LABELS["lpa_tenure"]
+        payload["dimension_value_labels"] = {
+            "lpa_tenure": {
+                "owner_occupier": "Owner occupier",
+                **{value: text for _c, _h, value, text in LPA_TENURES},
+            }
+        }
+    payload["artifact"] = artifact(
+        "lps",
+        table,
+        directory,
+        "lps_allowance_statistics_2024_05_29",
+        "xlsx_used_range",
+        "xlsx used-range cell parse of the declared tables",
+        2024,
+        sheets=sheets,
+    )
+    return payload
+
+
+def build_lpa() -> str:
+    grid = xlsx_grid(LPA_DIRECTORY, LPA_SHEETS)
+    assert str(grid[("Table 1.1", 1, "A")]).startswith(
+        "Table 1.1  Number of people1,2 (owner occupier)"
+    )
+    assert str(grid[("Table 1.2 ", 1, "A")]).startswith(
+        "Table 1.2  Net Amount1 of Lone Pensioner Allowance (owner occupier)"
+    )
+    people = northern_ireland_cells(grid, "Table 1.1")
+    owners = northern_ireland_cells(grid, "Table 1.2 ")
+    totals = year_rows(grid, "Table 1.5")
+    # The tables that restate rows ported here, each asserted equal to its copy.
+    for year, row in year_rows(grid, "Table 1.3").items():
+        assert restates(grid[("Table 1.3", row, "B")], people[year]), year
+        assert restates(grid[("Table 1.3", row, "C")], owners[year]), year
+    for year, row in year_rows(grid, "Table 1.4").items():
+        for source, copy in (("B", "C"), ("C", "D"), ("D", "E")):
+            assert restates(
+                grid[("Table 1.4", row, source)],
+                grid[("Table 1.5", totals[year], copy)],
+            ), year
+    for year, row in totals.items():
+        assert restates(grid[("Table 1.5", row, "B")], owners[year]), year
+    owner = {"lpa_tenure": "owner_occupier"}
+    record_sets = council_record_sets(
+        grid,
+        "Table 1.1",
+        prefix="lps.lpa_ye_2024.table_1_1",
+        kind="count",
+        measure_id="people_awarded",
+        measure_label="Owner occupiers with a current Lone Pensioner Allowance award",
+        concept="lps.lone_pensioner_allowance_recipients",
+        unit="count",
+        entity="person",
+        entity_role="lone_pensioner_allowance_recipient",
+        notes=LPA_COUNT_NOTES,
+        shared_filters=owner,
+    )
+    record_sets += council_record_sets(
+        grid,
+        "Table 1.2 ",
+        prefix="lps.lpa_ye_2024.table_1_2",
+        kind="amount",
+        measure_id="net_amount",
+        measure_label="Net amount of Lone Pensioner Allowance awarded to owner occupiers",
+        concept="lps.lone_pensioner_allowance_net_amount",
+        unit="gbp",
+        entity="person",
+        entity_role="lone_pensioner_allowance_recipient",
+        notes=LPA_AMOUNT_NOTES,
+        shared_filters=owner,
+    )
+    title = grid[("Table 1.5", 1, "A")]
+    assert str(title).startswith(
+        "Table 1.5  Total Net Amount1,2 of Lone Pensioner Allowance"
+    )
+    for year, row in totals.items():
+        period = year_end_period(year, "amount")
+        for column, header, tenure, _text in LPA_TENURES:
+            assert grid[("Table 1.5", 5, column)] == header
+            record_sets.append(
+                record_set(
+                    f"lps.lpa_ye_2024.table_1_5.{tenure}.fy{period['period']}",
+                    provenance_class="administrative",
+                    sheet_name="Table 1.5",
+                    **period,
+                    geography=NORTHERN_IRELAND,
+                    entity="person",
+                    entity_role="lone_pensioner_allowance_recipient",
+                    domain="domestic_rates",
+                    groupby_dimension="lps.district_council",
+                    shared_filters={"lpa_tenure": tenure},
+                    rows=[
+                        {
+                            "value_id": "northern_ireland",
+                            "label": "Northern Ireland",
+                            "ordinal": 0,
+                            "row_number": row,
+                            "expected_row_header_column": "A",
+                            "expected_row_header": grid[("Table 1.5", row, "A")],
+                            **NORTHERN_IRELAND,
+                            "table_record_kind": "total",
+                            "guard_cells": [
+                                {
+                                    "column": "A",
+                                    "row": 1,
+                                    "expected_value": title,
+                                    "label": "table title",
+                                }
+                            ],
+                        }
+                    ],
+                    measures=[
+                        measure(
+                            "net_amount",
+                            f"{header}, year-end 31 March {year}",
+                            column,
+                            concept="lps.lone_pensioner_allowance_net_amount",
+                            source_concept="lps.lone_pensioner_allowance_net_amount",
+                            authority="lps",
+                            evidence_url=ALLOWANCES_URL,
+                            notes=LPA_AMOUNT_NOTES,
+                            unit="gbp",
+                            aggregation="sum",
+                            header=header,
+                            header_row=5,
+                        )
+                    ],
+                )
+            )
+    payload = allowance_payload(
+        "lps-lone-pensioner-allowance-ye-2024",
+        "LPS Lone Pensioner Allowance: owner occupiers awarded and net amounts by district "
+        "council, and Northern Ireland's net amounts by tenure, 2009-10 to 2023-24",
+        LPA_DIRECTORY,
+        "Lone Pensioner Allowance statistics to year end 2024, Tables 1.1, 1.2 and 1.5",
+        ["Table 1.1", "Table 1.2 ", "Table 1.5"],
+    )
+    payload["record_sets"] = record_sets
+    return render(LPA_HEADER, payload)
+
+
+def build_dpa() -> str:
+    grid = xlsx_grid(DPA_DIRECTORY, DPA_SHEETS)
+    assert str(grid[("Table 1.1", 1, "A")]).startswith(
+        "Table 1.1  Number of Properties1"
+    )
+    assert str(grid[("Table 1.2", 1, "A")]).startswith(
+        "Table 1.2  Net Amount1 of Disabled Person's Allowance"
+    )
+    properties = northern_ireland_cells(grid, "Table 1.1")
+    amounts = northern_ireland_cells(grid, "Table 1.2")
+    for year, row in year_rows(grid, "Table 1.3").items():
+        assert restates(grid[("Table 1.3", row, "B")], properties[year]), year
+        assert restates(grid[("Table 1.3", row, "C")], amounts[year]), year
+    record_sets = council_record_sets(
+        grid,
+        "Table 1.1",
+        prefix="lps.dpa_ye_2024.table_1_1",
+        kind="count",
+        measure_id="properties_awarded",
+        measure_label="Properties with a current Disabled Person's Allowance award",
+        concept="lps.disabled_persons_allowance_properties",
+        unit="count",
+        entity="dwelling",
+        entity_role="disabled_persons_allowance_property",
+        notes=DPA_COUNT_NOTES,
+    )
+    record_sets += council_record_sets(
+        grid,
+        "Table 1.2",
+        prefix="lps.dpa_ye_2024.table_1_2",
+        kind="amount",
+        measure_id="net_amount",
+        measure_label="Net amount of Disabled Person's Allowance awarded",
+        concept="lps.disabled_persons_allowance_net_amount",
+        unit="gbp",
+        entity="dwelling",
+        entity_role="disabled_persons_allowance_property",
+        notes=DPA_AMOUNT_NOTES,
+    )
+    payload = allowance_payload(
+        "lps-disabled-persons-allowance-ye-2024",
+        "LPS Disabled Person's Allowance: properties awarded and net amounts by district "
+        "council, 2009-10 to 2023-24",
+        DPA_DIRECTORY,
+        "Disabled Person's Allowance statistics to year end 2024, Tables 1.1 and 1.2",
+        ["Table 1.1", "Table 1.2"],
+    )
+    payload["record_sets"] = record_sets
+    return render(DPA_HEADER, payload)
+
+
 # ---------------------------------------------------- 2. ONS CRPSF, NI domestic rates
 
 CRPSF_DIRECTORY = "ons/crpsf_ni_domestic_rates_fye2025"
@@ -464,7 +926,11 @@ Its two domestic rates rows, 'Northern Ireland Regional Domestic Rates' (row 51)
 sheet states. The regional rate is Northern Ireland Executive revenue and the district
 rate the councils'; together they are the domestic bill, which LPS levies as one. Each
 row is its own concept; the package derives no total. The sheet's non-domestic rows (38
-and 47) are not asked for and are not ported.
+and 47) are not asked for and are not ported. The workbook does not state whether these
+rows are accrued or cash, or gross or net of reliefs and rebates, so they are not the
+same measure as lps-domestic-rates-paid-2026, which is cash paid against the year's
+accounts (2024-25: GBP 498 million and GBP 441 million here, GBP 889.5 million paid
+there).
 """
 
 
@@ -606,6 +1072,12 @@ journeys' and 'Total concessionary journeys' (which includes youth schemes, BUS0
 4). Fare-paying journeys are not published; the package derives no difference. The
 record sets mirror the England package's: the same concepts, journey categories, period
 stamps (the year ending March, by its closing year) and guards.
+
+welshgov-bus-statistics-2024-25 carries the same journeys, as the Welsh Government
+publishes them rounded, under its own concept and stamped by opening year. This
+package's fiscal_year 2025 (the year ending March 2025, 71.7 million) is that package's
+fiscal_year 2024 (2024-25), and likewise for 2023 and 2022. Join the two on their
+coverage dates, not their period values.
 """
 
 
@@ -850,7 +1322,9 @@ CHILDCARE_NOTES = (
     "Offer for Wales, 2023-24'. Paragraph 2.2: 'To consider the reach of the Offer, we "
     "estimate a 'take-up rate'. This is estimated using a modelled estimate of the "
     "eligible population.' Paragraph 2.3: 'Based on current eligibility criteria, we "
-    "estimate that 58% of eligible children accessed the Offer in 2023-24.'"
+    "estimate that 58% of eligible children accessed the Offer in 2023-24.' Table 4's "
+    "sources: 'Childcare Offer for Wales monitoring data, Welsh Government analysis of the "
+    "ONS Annual Population Survey 2023'."
 )
 CHILDCARE_HEADER = f"""
 Welsh Government, Report of the Childcare Offer for Wales: September 2023 to August 2024
@@ -859,8 +1333,9 @@ for {ISSUE} item 3. Written by scripts/build_uk_395_packages.py.
 
 Table 4's three figures, for the Offer year September 2023 to August 2024: children in
 Offer-funded childcare (21,283; the Offer's monitoring information), the estimated
-eligible population under the current eligibility criteria (36,600; modelled from the
-ONS Annual Population Survey) and the estimated take-up rate (58%). The report publishes
+eligible population under the current eligibility criteria (36,600; Welsh Government
+analysis of the ONS Annual Population Survey 2023, so calendar-2023 survey data behind a
+fact for the 2023-24 Offer year) and the estimated take-up rate (58%). The report publishes
 the rate rounded; the package stores the published figures and derives none. The Offer
 year runs September to August, so the facts are academic-year periods stamped by their
 opening year, with dates and no fiscal or calendar basis. No later report is published
@@ -1034,7 +1509,9 @@ Annual calendar-year observations, 2018 to 2025, as the series publishes them; i
 quarters and months are not ported. CDDZ (households, 'Other taxes') and EKED
 (businesses, 'Taxes on production') are the national accounts' split of vehicle excise
 duty, which the OBR forecasts as one total. The package derives no total and no
-financial year.
+financial year. The series' metadata state no accounting basis, while the OBR's VED line
+is on a cash basis: use the split for the households' and businesses' shares, not as
+levels against the OBR line.
 """
 WEIGHT_NOTE = """
 The weights for weight years 2024 to 2026, as published. ONS states the weights in parts
@@ -1337,6 +1814,8 @@ def build_series(series: Series) -> str:
 
 BUILDERS = {
     LPS_DIRECTORY: build_lps,
+    LPA_DIRECTORY: build_lpa,
+    DPA_DIRECTORY: build_dpa,
     CRPSF_DIRECTORY: build_crpsf,
     "dft/bus01_wales_journeys_2025": build_bus01_wales,
     CHILDCARE_DIRECTORY: build_childcare,
@@ -1347,10 +1826,27 @@ BUILDERS = {
 }
 
 
-def main() -> None:
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Compare the generated YAML with the committed files instead of writing.",
+    )
+    args = parser.parse_args()
+    stale = []
     for directory, build in BUILDERS.items():
-        write(directory, build())
+        text = build()
+        path = PACKAGES / directory / "source_package.yaml"
+        if args.check:
+            if not path.exists() or path.read_text(encoding="utf-8") != text:
+                stale.append(directory)
+        else:
+            write(directory, text)
+    for directory in stale:
+        print(f"stale: packages/{directory}/source_package.yaml")
+    return 1 if stale else 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
