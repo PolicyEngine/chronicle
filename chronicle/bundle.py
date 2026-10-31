@@ -138,6 +138,7 @@ UK_BUNDLE_SOURCES = (
     "gambling-commission-gsgb-annual-report-2025",
     "gambling-commission-industry-statistics-fy2025-26",
     "hmrc-alcohol-bulletin-july-2026",
+    "hmrc-benefits-in-kind-july-2026",
     "hmrc-betting-gaming-statistics-july-2026",
     "hmrc-cash-isa-limit-reduction-2026",
     "hmrc-cgt-age-2026",

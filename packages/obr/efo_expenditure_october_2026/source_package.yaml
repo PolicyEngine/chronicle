@@ -9,9 +9,11 @@
 # forecast year.
 #
 # The March 2026 package's lines (package obr-efo-expenditure-march-2026), under the
-# obr.efo_2026_10 prefix with their line ids, display labels and concepts, so a consumer
-# changes vintage by package. Each is found by its table's title and its row's label;
-# the row numbers and the October table number ride on each record set and its notes.
+# obr.efo_2026_10 prefix with their line ids, display labels and concepts. Each is found
+# by its table's title and its row's label; the row numbers and the October table number
+# ride on each record set and its notes. Where both vintages publish a line and year,
+# Chronicle keeps this package's number (chronicle#397), so the March package keeps only
+# the years October does not print.
 #
 # Rows October renames against March: council_tax_england: row label 'England council
 # tax receipts' (March table 4.1) is now 'England council tax receipts1' (table 5.1);

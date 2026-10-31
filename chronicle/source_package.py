@@ -603,6 +603,8 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-isa-statistics-2026": Path("hmrc/isa_statistics_2026"),
     "hmrc-lisa-statistics-2026": Path("hmrc/lisa_statistics_2026"),
     # end PolicyEngine/microcosm#1415
+    # PolicyEngine/uk-autumn-budget-dashboard-2026#316
+    "hmrc-benefits-in-kind-july-2026": Path("hmrc/benefits_in_kind_july_2026"),
     "hmrc-spi-income-by-area-2023-24": Path("hmrc/spi_income_by_area_2023_24"),
     "hmrc-salary-sacrifice-relief-2024-25": Path(
         "hmrc/salary_sacrifice_relief_2024_25"

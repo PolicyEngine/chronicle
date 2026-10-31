@@ -29,6 +29,11 @@ Each fact's `source_record_id` is `{record_set_id}.{row value}.{measure_id}`.
 The archived `efo_receipts.xlsx` (sha256 `f65b6cb7…`); no new download. Record sets are
 `obr.efo_2026_03.receipts.<line>.fy<opening year>`, one concept per line (`obr.<line>`),
 in the package's existing shape. Unlike the earlier lines, these carry `period_coverage`.
+Since [chronicle#397](https://github.com/PolicyEngine/chronicle/issues/397) the package
+keeps only the years the October 2026 EFO does not print: 2024-25 for these lines, and
+2025-26 for sheet 3.10's seven duties. `obr-efo-receipts-october-2026` carries the later
+years under the same line ids, and sheet 3.10's 2025-26 total as table 4.1's 'Betting
+and gaming taxes'.
 
 - **Sheet 3.8** (cash basis, as its title and note state), rows 27 to 30, 36 and 48:
   tobacco, spirits, wine, and beer and cider duties, betting and gaming duties and vaping

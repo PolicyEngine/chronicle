@@ -9,9 +9,11 @@
 # forecast year.
 #
 # The March 2026 package's lines (package obr-efo-aggregates-march-2026), under the
-# obr.efo_2026_10 prefix with their line ids, display labels and concepts, so a consumer
-# changes vintage by package. Each is found by its table's title and its row's label;
-# the row numbers and the October table number ride on each record set and its notes.
+# obr.efo_2026_10 prefix with their line ids, display labels and concepts. Each is found
+# by its table's title and its row's label; the row numbers and the October table number
+# ride on each record set and its notes. Where both vintages publish a line and year,
+# Chronicle keeps this package's number (chronicle#397), so the March package keeps only
+# the years October does not print.
 #
 # October drops, renames or splits none of the March package's rows.
 #

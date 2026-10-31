@@ -13,10 +13,11 @@ for the Economic and fiscal outlook the OBR published with the Budget on 28 Octo
 - ``obr-efo-policy-october-2026``: Table 1.1, the costing of each policy decision.
 
 A March 2026 line keeps its line id, its display label and its concept under the
-``obr.efo_2026_10`` prefix, so a consumer changes vintage by package. Its October table
-is found by title (the chapters moved: receipts tables 3.x became 4.x and expenditure
-4.x became 5.x) and its row by label, and every match is asserted, so a re-run against
-different bytes fails rather than drifting.
+``obr.efo_2026_10`` prefix. Where both vintages publish a line and year, Chronicle keeps
+October's (PolicyEngine/chronicle#397), so the March packages keep only the years October
+does not print. A March line's October table is found by title (the chapters moved:
+receipts tables 3.x became 4.x and expenditure 4.x became 5.x) and its row by label, and
+every match is asserted, so a re-run against different bytes fails rather than drifting.
 
 Usage::
 
@@ -391,11 +392,154 @@ class MarchLine:
     header_column: str
 
 
+# chronicle#397: of two vintages' numbers for one line and year, Chronicle keeps the
+# later, so the March packages carry only the line-years October does not print. A
+# March line October prints in every year March had leaves its March package, and its
+# first March record set is kept here instead, with the line it preceded (None: it was
+# the last), so its October line keeps the March line id, label, concept and place.
+# - Sheet 3.10's betting and gaming total: its one March year, 2025-26, is October's
+#   table 4.1 'Betting and gaming taxes', the same concept and basis under another id.
+# - The high-value council tax surcharge: forecast from 2028-29, no 2024-25 value.
+LINES_LEFT_IN_OCTOBER_ONLY = {
+    "receipts": (
+        (
+            """\
+- record_set_id: obr.efo_2026_03.receipts.betting_and_gaming_duties_accrued.fy2025
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.efo_2026_03.receipts.betting_and_gaming_duties_accrued.fy2025.v1
+  source_record_id_prefix: obr.efo_2026_03.receipts.betting_and_gaming_duties_accrued.fy2025
+  sheet_name: '3.10'
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2026-03-31'
+    basis: fiscal
+    source_period_label: 2025-26
+    accounting_basis: accrual
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: betting_and_gaming_duties_accrued
+    label: Betting and gaming duties (accrued)
+    ordinal: 0
+    row_number: 6
+    expected_row_header_column: B
+    expected_row_header: Betting and gaming duties
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 3.10 Betting and gaming duties forecast breakdown
+      label: sheet title
+  measures:
+  - measure_id: amount
+    label: Betting and gaming duties (accrued), FY2025-26
+    ordinal: 0
+    column: C
+    source_column_id: amount
+    expected_column_header_row: 5
+    expected_column_header: 2025-26
+    concept: obr.betting_and_gaming_duties
+    source_concept: obr.betting_and_gaming_duties
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/march-2026-economic-and-fiscal-outlook-detailed-forecast-tables-receipts/
+    concept_evidence_notes: OBR EFO March 2026 detailed forecast tables, sheet 3.10 ('Betting and gaming
+      duties forecast breakdown'), row 6 ('Betting and gaming duties'), GBP billion. Sheet 3.10 states
+      no basis; this row equals sheet 3.1's accrued 'Betting and gaming taxes' row (row 7) in every year,
+      not sheet 3.8's cash row 36, so it is stamped accrual.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000
+    expected_cell_type: number
+  shared_filters:
+    accounting_basis: accrual
+  shared_constraints:
+  - variable: accounting_basis
+    operator: ==
+    value: accrual
+    label: Accounting basis
+""",
+            "remote_gaming_duty",
+        ),
+    ),
+    "expenditure": (
+        (
+            """\
+- record_set_id: obr.efo_2026_03.expenditure.council_tax_high_value_surcharge.fy2028
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.efo_2026_03.expenditure.council_tax_high_value_surcharge.fy2028.v1
+  source_record_id_prefix: obr.efo_2026_03.expenditure.council_tax_high_value_surcharge.fy2028
+  sheet_name: '4.1'
+  period_type: fiscal_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: public_sector_finances
+  groupby_dimension: obr.efo_line
+  rows:
+  - value_id: council_tax_high_value_surcharge
+    label: High-value Council tax surcharge
+    ordinal: 0
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: High-value Council tax surcharge
+    table_record_kind: total
+  measures:
+  - measure_id: amount
+    label: High-value Council tax surcharge, FY2028-29
+    ordinal: 0
+    column: G
+    source_column_id: amount
+    expected_column_header_row: 5
+    expected_column_header: 2028-29
+    concept: obr.council_tax_high_value_surcharge
+    source_concept: obr.council_tax_high_value_surcharge
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/download/march-2026-economic-and-fiscal-outlook-detailed-forecast-tables-expenditure/
+    concept_evidence_notes: 'OBR EFO March 2026 detailed forecast tables, sheet 4.1, row 18
+      (''High-value Council tax surcharge''): the surcharge on high-value properties forecast
+      from 2028-29, a component of row 19 (''Total net council tax receipts''), GBP billion.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000
+    expected_cell_type: number
+""",
+            None,
+        ),
+    ),
+}
+
+
 def march_lines(kind: str) -> list[MarchLine]:
     path = PACKAGES / f"efo_{kind}_march_2026" / "source_package.yaml"
     payload = yaml.safe_load(path.read_text(encoding="utf-8"))
+    record_sets = list(payload["record_sets"])
+    for text, before in LINES_LEFT_IN_OCTOBER_ONLY.get(kind, ()):
+        (record_set,) = yaml.safe_load(text)
+        line_id = LINE_YEAR.sub("", record_set["record_set_id"])
+        line_ids = [LINE_YEAR.sub("", other["record_set_id"]) for other in record_sets]
+        assert line_id not in line_ids, line_id
+        if before is None:
+            record_sets.append(record_set)
+        else:
+            record_sets.insert(line_ids.index(f"{MARCH}.{kind}.{before}"), record_set)
     lines: dict[str, MarchLine] = {}
-    for record_set in payload["record_sets"]:
+    for record_set in record_sets:
         line_id = LINE_YEAR.sub("", record_set["record_set_id"]).removeprefix(
             f"{MARCH}.{kind}."
         )
@@ -1582,9 +1726,11 @@ def march_header(kind: str, changes: list[str]) -> str:
     text = COMMON_HEADER + f"""
 
 The March 2026 package's lines (package obr-efo-{kind}-march-2026), under the
-obr.efo_2026_10 prefix with their line ids, display labels and concepts, so a consumer
-changes vintage by package. Each is found by its table's title and its row's label; the
-row numbers and the October table number ride on each record set and its notes.
+obr.efo_2026_10 prefix with their line ids, display labels and concepts. Each is found
+by its table's title and its row's label; the row numbers and the October table number
+ride on each record set and its notes. Where both vintages publish a line and year,
+Chronicle keeps this package's number (chronicle#397), so the March package keeps only
+the years October does not print.
 """
     if changes:
         text += "\n\nRows October renames against March: " + "; ".join(changes) + "."
