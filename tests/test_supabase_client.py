@@ -93,20 +93,6 @@ class TestSupabaseQueries:
         client = MagicMock()
         return client
 
-    def test_query_sources_returns_list(self, mock_client):
-        """Querying sources returns a list."""
-        from db.supabase_client import query_sources
-
-        mock_client.table.return_value.select.return_value.execute.return_value.data = [
-            {"id": "123", "jurisdiction": "us", "institution": "irs", "dataset": "soi"}
-        ]
-
-        with patch("db.supabase_client.get_supabase_client", return_value=mock_client):
-            sources = query_sources()
-            assert isinstance(sources, list)
-            assert len(sources) == 1
-            assert sources[0]["jurisdiction"] == "us"
-
     def test_query_targets_filters_by_jurisdiction(self, mock_client):
         """Querying targets filters by jurisdiction."""
         from db.supabase_client import query_targets

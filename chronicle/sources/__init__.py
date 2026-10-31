@@ -40,7 +40,6 @@ from .specs import (
     source_regions_from_record_set_spec,
 )
 from db.schema import SourceArtifact, SourceColumn, SourceRow, SourceTable
-from db.supabase_client import query_sources
 
 __all__ = [
     "CellSelectorSpec",
@@ -70,7 +69,6 @@ __all__ = [
     "decode_delimited_text",
     "load_source_cells_jsonl",
     "load_offline_fetch_manifest",
-    "query_sources",
     "resolve_cell_selector",
     "resolve_source_record",
     "save_source_cells_jsonl",
