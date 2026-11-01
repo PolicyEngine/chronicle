@@ -9,17 +9,25 @@ makes such drift loud.
 
 from __future__ import annotations
 
+import re
+
 import pytest
 from pathlib import Path
+from types import SimpleNamespace
 
 import chronicle.bundle
 from chronicle.bundle import (
+    BE_BUNDLE_SOURCE_PREFIXES,
+    BE_BUNDLE_SOURCES,
     NZ_BUNDLE_SOURCE_PREFIXES,
     NZ_BUNDLE_SOURCES,
     UK_BUNDLE_SOURCE_PREFIXES,
     UK_BUNDLE_SOURCES,
+    assert_be_bundle_sources_match_aliases,
     assert_nz_bundle_sources_match_aliases,
     assert_uk_bundle_sources_match_aliases,
+    be_bundle_sources_from_aliases,
+    be_eurostat_bundle_sources_from_packages,
     build_bundle,
     nz_bundle_sources_from_aliases,
 )
@@ -64,6 +72,48 @@ NZ_CENSUS_MEMBERS = tuple(
     alias
     for root in NZ_CENSUS_ROOTS
     for alias in (root, *(f"{root}-rc-{code}" for code in NZ_CENSUS_REGION_CODES))
+)
+# Belgian publishers: Statbel, the Federal Planning Bureau (fpb and bfp), the
+# National Bank, ONEM/RVA, ONSS and RSZ, Opgroeien, Ostbelgien, the Federal
+# Pensions Service and SPF Finances.
+BE_PUBLISHER_DIRECTORIES = (
+    "bfp",
+    "fpb",
+    "nbb",
+    "onem_rva",
+    "onss",
+    "opgroeien",
+    "ostbelgien",
+    "rsz",
+    "sfpd",
+    "spf_finances",
+    "statbel",
+)
+# Every package now under packages/eurostat/ covers Belgium: seven report for
+# the country BE (four of them for Germany and France too) and one reads the
+# euro's US dollar rate.
+BE_EUROSTAT_MEMBERS = (
+    "eurostat-ert-bil-eur-a-usd",
+    "eurostat-gov-10a-taxag",
+    "eurostat-gov-10a-taxag-2025",
+    "eurostat-ilc-di01",
+    "eurostat-ilc-li02",
+    "eurostat-nasa-10-nf-tr",
+    "eurostat-spr-exp-func",
+    "eurostat-spr-exp-func-2024",
+)
+# Packages that declare a Belgian geography but stay out of the BE suite.
+BE_PACKAGES_OUTSIDE_THE_SUITE = {
+    # JRC's EUROMOD-BE baseline statistics are a comparison statistic; decision
+    # d1822, on moving the package out of Chronicle, is open.
+    "jrc-euromod-be-baseline-statistics-2025",
+}
+# A Belgian country or NUTS geography id (BE, BE1, BE21, ...) or the commune
+# level, quoted or bare, in block or flow YAML, with or without a comment.
+BELGIAN_GEOGRAPHY_DECLARATION = re.compile(
+    rb"geography_id:[ \t]*['\"]?BE[0-9A-Z]{0,3}['\"]?[ \t]*(?:#.*)?(?:\r?$|[,}])"
+    rb"|geography_level:[ \t]*['\"]?commune['\"]?[ \t]*(?:#.*)?(?:\r?$|[,}])",
+    re.MULTILINE,
 )
 
 
@@ -284,6 +334,385 @@ def test_nz_bundle_members_use_year_independent_declarations():
     no ``*_by_year`` mapping selects and labels the same cells at every year.
     """
     for alias in NZ_BUNDLE_SOURCES:
+        package = load_source_package(alias)
+        assert package.artifact.artifact_year is not None, alias
+        assert not _declarations_depend_on_year(package), alias
+
+
+def _compiled_geographies(alias):
+    """Each ``(level, id)`` a package's compiled record-set rows report for."""
+    package = load_source_package(alias)
+    return {
+        (
+            row.geography_level or spec.geography_level,
+            row.geography_id or spec.geography_id,
+        )
+        for spec in package.build_source_record_set_specs(
+            package.artifact.artifact_year
+        )
+        for row in spec.rows
+    }
+
+
+def _covers_belgium(level, geography_id):
+    """Belgium, a Belgian NUTS region, or a euro exchange-rate series."""
+    return (
+        (level, geography_id) == ("country", "BE")
+        or (level.startswith("nuts") and geography_id.startswith("BE"))
+        or (
+            level == "statistical_scope"
+            and geography_id.startswith("eurostat:ert_bil_eur_")
+        )
+    )
+
+
+def _plant_eurostat_package(monkeypatch, alias, record_set_geography, *rows):
+    """Plant an alias under packages/eurostat/ with one record set.
+
+    ``record_set_geography`` is the record set's ``(level, id)``. Each of
+    ``rows`` is a row's own ``(level, id)``, or None for a row that keeps the
+    record set's.
+    """
+    level, geography_id = record_set_geography
+    package = SimpleNamespace(
+        record_sets=(
+            SimpleNamespace(
+                payload={
+                    "geography_level": level,
+                    "geography_id": geography_id,
+                    "rows": [
+                        {"value_id": f"row_{index}"}
+                        if row is None
+                        else {
+                            "value_id": f"row_{index}",
+                            "geography_level": row[0],
+                            "geography_id": row[1],
+                        }
+                        for index, row in enumerate(rows)
+                    ],
+                }
+            ),
+        )
+    )
+    monkeypatch.setitem(
+        SOURCE_PACKAGE_ALIASES, alias, Path("eurostat") / alias.replace("-", "_")
+    )
+    load = chronicle.bundle.load_source_package
+    monkeypatch.setattr(
+        chronicle.bundle,
+        "load_source_package",
+        lambda source: package if source == alias else load(source),
+    )
+
+
+def test_be_bundle_sources_match_belgian_aliases():
+    """The BE suite is every Belgian-publisher alias plus Eurostat's Belgian ones."""
+    expected = tuple(
+        sorted(
+            (
+                *(
+                    alias
+                    for alias, path in SOURCE_PACKAGE_ALIASES.items()
+                    if path.parts and path.parts[0] in BE_PUBLISHER_DIRECTORIES
+                ),
+                *BE_EUROSTAT_MEMBERS,
+            )
+        )
+    )
+
+    assert BE_BUNDLE_SOURCE_PREFIXES == BE_PUBLISHER_DIRECTORIES
+    assert len(BE_BUNDLE_SOURCES) == 26
+    assert BE_BUNDLE_SOURCES == expected == be_bundle_sources_from_aliases()
+    assert be_eurostat_bundle_sources_from_packages() == BE_EUROSTAT_MEMBERS
+    assert_be_bundle_sources_match_aliases()
+
+
+def test_be_bundle_sources_cover_every_belgian_publisher_package_on_disk():
+    """Every source_package.yaml under a Belgian publisher, at any depth, is a member."""
+    root = source_package_root()
+    on_disk = {
+        manifest.parent.relative_to(root)
+        for prefix in BE_BUNDLE_SOURCE_PREFIXES
+        for manifest in (root / prefix).rglob("source_package.yaml")
+    }
+    members = {SOURCE_PACKAGE_ALIASES[alias] for alias in BE_BUNDLE_SOURCES}
+
+    assert len(on_disk) == 18
+    assert on_disk == {path for path in members if path.parts[0] != "eurostat"}
+
+
+def test_every_package_declaring_a_belgian_geography_is_in_the_be_suite():
+    """A Belgian package under a new publisher directory cannot slip past the guard.
+
+    The guard sees only the Belgian publisher directories and packages/eurostat/,
+    so this sweeps every package for a Belgian country or NUTS geography, or the
+    commune level, which only Belgian packages use. It reads raw YAML text so
+    the sweep stays cheap.
+    """
+    root = source_package_root()
+    declaring = {
+        alias
+        for alias, path in SOURCE_PACKAGE_ALIASES.items()
+        if BELGIAN_GEOGRAPHY_DECLARATION.search(
+            (root / path / "source_package.yaml").read_bytes()
+        )
+    }
+
+    assert declaring - set(BE_BUNDLE_SOURCES) == BE_PACKAGES_OUTSIDE_THE_SUITE
+    # Ostbelgien reports for its community and the euro rate has no country.
+    assert set(BE_BUNDLE_SOURCES) - declaring == {
+        "eurostat-ert-bil-eur-a-usd",
+        "ostbelgien-kindergeld-2025",
+    }
+
+
+def test_be_bundle_eurostat_members_follow_their_compiled_geographies():
+    """packages/eurostat/ is not Belgian-only: a package joins when it covers Belgium.
+
+    The guard reads row geographies from the YAML declarations; this recomputes
+    them from the compiled record-set specs, so the two readings must agree.
+    """
+    eurostat = sorted(
+        alias
+        for alias, path in SOURCE_PACKAGE_ALIASES.items()
+        if path.parts[0] == "eurostat"
+    )
+    for alias in eurostat:
+        covers_belgium = any(
+            _covers_belgium(*geography) for geography in _compiled_geographies(alias)
+        )
+        assert (alias in BE_BUNDLE_SOURCES) is covers_belgium, alias
+    assert _compiled_geographies("eurostat-ert-bil-eur-a-usd") == {
+        ("statistical_scope", "eurostat:ert_bil_eur_a:USD")
+    }
+    assert _compiled_geographies("eurostat-ilc-li02") == {
+        ("country", "BE"),
+        ("country", "DE"),
+        ("country", "FR"),
+    }
+
+
+def test_be_bundle_leaves_out_the_jrc_euromod_comparison_package():
+    """JRC EUROMOD-BE is Belgian but a comparison statistic (decision d1822 open)."""
+    alias = "jrc-euromod-be-baseline-statistics-2025"
+
+    assert SOURCE_PACKAGE_ALIASES[alias] == Path(
+        "jrc/euromod_be_baseline_statistics_2025"
+    )
+    assert ("country", "BE") in _compiled_geographies(alias)
+    assert alias not in BE_BUNDLE_SOURCES
+    assert alias not in be_bundle_sources_from_aliases()
+    assert "jrc" not in BE_BUNDLE_SOURCE_PREFIXES
+
+
+def test_be_bundle_suite_is_disjoint_from_nz_and_uk():
+    for prefixes in (NZ_BUNDLE_SOURCE_PREFIXES, UK_BUNDLE_SOURCE_PREFIXES):
+        assert not set(BE_BUNDLE_SOURCE_PREFIXES) & set(prefixes)
+        assert "eurostat" not in prefixes
+    for roster in (NZ_BUNDLE_SOURCES, UK_BUNDLE_SOURCES):
+        assert not set(BE_BUNDLE_SOURCES) & set(roster)
+
+
+def test_be_bundle_drift_message_names_both_directions(monkeypatch):
+    monkeypatch.setattr(
+        chronicle.bundle,
+        "BE_BUNDLE_SOURCES",
+        (*BE_BUNDLE_SOURCES[1:], "zz-planted-be-package"),
+    )
+
+    with pytest.raises(ValueError) as excinfo:
+        assert_be_bundle_sources_match_aliases()
+
+    assert str(excinfo.value) == (
+        "BE_BUNDLE_SOURCES drifted from Belgian SOURCE_PACKAGE_ALIASES: "
+        "missing=['bfp-economic-outlook-2026-06'], "
+        "extra=['zz-planted-be-package']"
+    )
+
+
+@pytest.mark.parametrize(
+    "roster,missing,extra",
+    [
+        pytest.param(
+            tuple(
+                alias
+                for alias in BE_BUNDLE_SOURCES
+                if alias != "statbel-fiscal-income-distribution-2023"
+            ),
+            ["statbel-fiscal-income-distribution-2023"],
+            [],
+            id="drop-statbel-package",
+        ),
+        pytest.param(
+            tuple(
+                alias
+                for alias in BE_BUNDLE_SOURCES
+                if alias != "eurostat-gov-10a-taxag-2025"
+            ),
+            ["eurostat-gov-10a-taxag-2025"],
+            [],
+            id="drop-eurostat-package",
+        ),
+        pytest.param(
+            tuple(sorted((*BE_BUNDLE_SOURCES, "statbel-no-such-package"))),
+            [],
+            ["statbel-no-such-package"],
+            id="add-entry-with-no-package",
+        ),
+        pytest.param(
+            tuple(
+                sorted((*BE_BUNDLE_SOURCES, "jrc-euromod-be-baseline-statistics-2025"))
+            ),
+            [],
+            ["jrc-euromod-be-baseline-statistics-2025"],
+            id="add-jrc-comparison-package",
+        ),
+        pytest.param(
+            tuple(sorted((*BE_BUNDLE_SOURCES, "ons-mye-2025-uk"))),
+            [],
+            ["ons-mye-2025-uk"],
+            id="add-uk-package",
+        ),
+    ],
+)
+def test_be_bundle_drift_guard_rejects_a_changed_roster(
+    monkeypatch, roster, missing, extra
+):
+    monkeypatch.setattr(chronicle.bundle, "BE_BUNDLE_SOURCES", roster)
+
+    with pytest.raises(ValueError) as excinfo:
+        assert_be_bundle_sources_match_aliases()
+
+    assert str(excinfo.value) == (
+        "BE_BUNDLE_SOURCES drifted from Belgian SOURCE_PACKAGE_ALIASES: "
+        f"missing={missing}, extra={extra}"
+    )
+
+
+@pytest.mark.parametrize(
+    "alias,path",
+    [
+        pytest.param("statbel-planted-package", Path("statbel/planted"), id="statbel"),
+        pytest.param("rsz-planted-package", Path("rsz/planted"), id="rsz"),
+        pytest.param(
+            "ostbelgien-planted-package",
+            Path("ostbelgien/kindergeld_2025/planted"),
+            id="nested-ostbelgien",
+        ),
+    ],
+)
+def test_be_bundle_drift_guard_rejects_a_new_belgian_alias(monkeypatch, alias, path):
+    """A Belgian-publisher package outside the tuple fails the guard."""
+    monkeypatch.setitem(SOURCE_PACKAGE_ALIASES, alias, path)
+
+    with pytest.raises(ValueError, match=rf"missing=\['{alias}'\], extra=\[\]$"):
+        assert_be_bundle_sources_match_aliases()
+
+
+def test_be_bundle_drift_guard_rejects_a_dropped_belgian_alias(monkeypatch):
+    """A tuple entry whose package is gone fails the guard."""
+    monkeypatch.delitem(SOURCE_PACKAGE_ALIASES, "ostbelgien-kindergeld-2025")
+
+    with pytest.raises(
+        ValueError, match=r"missing=\[\], extra=\['ostbelgien-kindergeld-2025'\]$"
+    ):
+        assert_be_bundle_sources_match_aliases()
+
+
+@pytest.mark.parametrize(
+    "record_set_geography,rows",
+    [
+        pytest.param(
+            ("country", "BE"),
+            (None, ("country", "FR")),
+            id="belgium-and-france",
+        ),
+        pytest.param(("country", "DE"), (("nuts1", "BE1"),), id="belgian-nuts1-row"),
+        pytest.param(("nuts2", "BE21"), (None,), id="belgian-nuts2-region"),
+        pytest.param(
+            ("statistical_scope", "eurostat:ert_bil_eur_a:GBP"),
+            (None,),
+            id="annual-euro-rate",
+        ),
+        pytest.param(
+            ("statistical_scope", "eurostat:ert_bil_eur_m:USD"),
+            (None,),
+            id="monthly-euro-rate",
+        ),
+    ],
+)
+def test_be_bundle_drift_guard_rejects_a_new_eurostat_package_for_belgium(
+    monkeypatch, record_set_geography, rows
+):
+    """A Eurostat package that covers Belgium fails the guard until it joins."""
+    _plant_eurostat_package(
+        monkeypatch, "eurostat-planted-belgian", record_set_geography, *rows
+    )
+
+    with pytest.raises(
+        ValueError, match=r"missing=\['eurostat-planted-belgian'\], extra=\[\]$"
+    ):
+        assert_be_bundle_sources_match_aliases()
+
+
+@pytest.mark.parametrize(
+    "record_set_geography,rows",
+    [
+        pytest.param(("country", "FR"), (("country", "FR"), None), id="france-only"),
+        pytest.param(
+            ("country", "BE"),
+            (("country", "DE"), ("country", "FR")),
+            id="rows-override-belgium",
+        ),
+        pytest.param(("nuts2", "DE21"), (None,), id="german-nuts2-region"),
+        pytest.param(
+            ("statistical_scope", "eurostat:other_dataset:USD"),
+            (None,),
+            id="other-statistical-scope",
+        ),
+    ],
+)
+def test_be_bundle_drift_guard_ignores_a_eurostat_package_without_belgium(
+    monkeypatch, record_set_geography, rows
+):
+    """The narrower Eurostat guard: other member states' packages stay out."""
+    _plant_eurostat_package(
+        monkeypatch, "eurostat-planted-elsewhere", record_set_geography, *rows
+    )
+
+    assert "eurostat-planted-elsewhere" not in be_bundle_sources_from_aliases()
+    assert_be_bundle_sources_match_aliases()
+
+
+def test_be_bundle_drift_guard_rejects_a_member_that_stops_covering_belgium(
+    monkeypatch,
+):
+    monkeypatch.delitem(SOURCE_PACKAGE_ALIASES, "eurostat-nasa-10-nf-tr")
+    _plant_eurostat_package(
+        monkeypatch, "eurostat-nasa-10-nf-tr", ("country", "DE"), None
+    )
+
+    with pytest.raises(
+        ValueError, match=r"missing=\[\], extra=\['eurostat-nasa-10-nf-tr'\]$"
+    ):
+        assert_be_bundle_sources_match_aliases()
+
+
+def test_be_bundle_drift_guard_names_an_unreadable_eurostat_package(monkeypatch):
+    monkeypatch.setitem(SOURCE_PACKAGE_ALIASES, "eurostat-gone", Path("eurostat/gone"))
+
+    with pytest.raises(
+        ValueError,
+        match=r"^BE bundle drift guard could not read Eurostat package eurostat-gone: ",
+    ) as excinfo:
+        assert_be_bundle_sources_match_aliases()
+
+    assert isinstance(excinfo.value.__cause__, FileNotFoundError)
+
+
+def test_be_bundle_members_use_year_independent_declarations():
+    """``--year`` is inert for the BE suite, as for NZ."""
+    for alias in BE_BUNDLE_SOURCES:
         package = load_source_package(alias)
         assert package.artifact.artifact_year is not None, alias
         assert not _declarations_depend_on_year(package), alias

@@ -11,6 +11,7 @@ import pytest
 
 import chronicle.bundle
 from chronicle.bundle import (
+    BE_BUNDLE_SOURCES,
     BUNDLE_COVERAGE_SCHEMA_VERSION,
     BUNDLE_SCHEMA_VERSION,
     BUNDLE_SOURCES_SCHEMA_VERSION,
@@ -216,9 +217,36 @@ def test_build_bundle_dir_nz_suite_uses_curated_sources(tmp_path, fake_build_bun
     assert not set(call["sources"]) & set(UK_BUNDLE_SOURCES)
 
 
+def test_build_bundle_dir_be_suite_uses_curated_sources(tmp_path, fake_build_bundle):
+    report = build_bundle_dir(tmp_path / "bundle", year=2023, suite="be")
+
+    assert report.valid
+    [call] = fake_build_bundle
+    assert tuple(call["sources"]) == BE_BUNDLE_SOURCES
+    assert call["output_dir"] == tmp_path / "bundle"
+    assert call["year"] == 2023
+    for alias in (
+        "statbel-fiscal-income-distribution-2023",
+        "statbel-population-structure-commune-2025",
+        "fpb-economic-outlook-2026-2031-june-2026",
+        "rsz-employment-daily-wage-class-2023-2026",
+        "sfpd-pension-amount-bands-2025",
+        "spf-finances-municipal-tax-rate-ay2026",
+        "nbb-national-accounts-household-disposable-income-2024",
+        "eurostat-ert-bil-eur-a-usd",
+        "eurostat-gov-10a-taxag-2025",
+    ):
+        assert alias in call["sources"]
+    # A comparison statistic: the suite leaves it out while decision d1822 is open.
+    assert "jrc-euromod-be-baseline-statistics-2025" not in call["sources"]
+    assert not set(call["sources"]) & set(NZ_BUNDLE_SOURCES)
+    assert not set(call["sources"]) & set(UK_BUNDLE_SOURCES)
+
+
 @pytest.mark.parametrize(
     "suite,roster",
     [
+        pytest.param("be", BE_BUNDLE_SOURCES, id="be"),
         pytest.param("nz", NZ_BUNDLE_SOURCES, id="nz"),
         pytest.param("uk", UK_BUNDLE_SOURCES, id="uk"),
     ],
@@ -236,7 +264,7 @@ def test_build_bundle_cli_builds_each_curated_suite(
     assert call["year"] == 2023
 
 
-@pytest.mark.parametrize("suite", ["nz", "uk"])
+@pytest.mark.parametrize("suite", ["be", "nz", "uk"])
 def test_build_bundle_dir_refuses_a_suite_with_explicit_sources(
     tmp_path, fake_build_bundle, suite
 ):
@@ -252,7 +280,7 @@ def test_build_bundle_dir_refuses_a_suite_with_explicit_sources(
     assert fake_build_bundle == []
 
 
-@pytest.mark.parametrize("suite", ["nz", "uk"])
+@pytest.mark.parametrize("suite", ["be", "nz", "uk"])
 def test_build_bundle_cli_refuses_a_suite_with_explicit_sources(
     tmp_path, fake_build_bundle, suite
 ):
@@ -291,6 +319,29 @@ def test_build_bundle_dir_nz_suite_refuses_a_drifted_roster(
         r"missing=\['stats-nz-census-2023-family-type-rc-12'\], extra=\[\]$",
     ):
         build_bundle_dir(tmp_path / "bundle", year=2023, suite="nz")
+
+    assert fake_build_bundle == []
+
+
+def test_build_bundle_dir_be_suite_refuses_a_drifted_roster(
+    tmp_path, fake_build_bundle, monkeypatch
+):
+    monkeypatch.setattr(
+        chronicle.bundle,
+        "BE_BUNDLE_SOURCES",
+        tuple(
+            alias
+            for alias in BE_BUNDLE_SOURCES
+            if alias != "eurostat-ert-bil-eur-a-usd"
+        ),
+    )
+
+    with pytest.raises(
+        ValueError,
+        match=r"^BE_BUNDLE_SOURCES drifted .*"
+        r"missing=\['eurostat-ert-bil-eur-a-usd'\], extra=\[\]$",
+    ):
+        build_bundle_dir(tmp_path / "bundle", year=2023, suite="be")
 
     assert fake_build_bundle == []
 

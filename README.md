@@ -327,6 +327,31 @@ year-independent declarations, so one build at any `--year` emits its facts with
 the publisher's own calendar, tax, fiscal-year or monthly period. `--suite`
 cannot be combined with `--source`.
 
+The Belgian feed builds from the curated BE suite:
+
+```bash
+uv run chronicle build-bundle --suite be --out /tmp/chronicle-be --replace
+uv run chronicle build-consumer-artifact --facts /tmp/chronicle-be --out /tmp/chronicle-be-artifact --replace
+```
+
+`BE_BUNDLE_SOURCES` in `chronicle/bundle.py` lists every package under the
+Belgian publisher directories (`packages/bfp`, `fpb`, `nbb`, `onem_rva`, `onss`,
+`opgroeien`, `ostbelgien`, `rsz`, `sfpd`, `spf_finances` and `statbel`) and the
+Eurostat packages that cover Belgium. Eurostat publishes for every member
+state, so a Eurostat package joins only when one of its rows reports for
+Belgium or a Belgian NUTS region, or it reads a euro exchange-rate series
+(`ert_bil_eur_*`). The drift guard fails when someone adds or drops an alias
+under those directories, or a Eurostat package that covers Belgium, without
+updating the suite. A test also sweeps every package for a Belgian country or
+NUTS geography or the commune level, so a package under a new publisher
+directory that reports for Belgium, a Belgian region or a commune fails it
+unless the test names that package out. The sweep cannot see a package scoped
+only by a `statistical_scope` id, as Ostbelgien's is. The test names out one
+package, the JRC EUROMOD-BE comparison statistics, while decision d1822 is
+open. Four multi-country Eurostat members also carry German and French rows,
+which consumers select out. `--year` is inert for `--suite be`: every member
+pins its `artifact_year` and uses year-independent declarations.
+
 Builds without an Axiom CLI still pass when the source package is otherwise
 valid, but `agent_acceptance.json` warns with
 `concept_alignment_validation_skipped`. For strict agent review, require every
