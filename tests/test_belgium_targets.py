@@ -704,13 +704,15 @@ def test_fpb_annex_has_requested_table_counts_and_vintage_boundary():
         "source_record_count": 1000,
         "source_region_count": 1000,
     }
-    assert Counter(fact.measure.source_concept for fact in facts) == {
-        "fpb.economic_outlook_2026_2031.t01.published_cell": 40,
-        "fpb.economic_outlook_2026_2031.t06.published_cell": 30,
-        "fpb.economic_outlook_2026_2031.t07.published_cell": 100,
-        "fpb.economic_outlook_2026_2031.t11.published_cell": 210,
-        "fpb.economic_outlook_2026_2031.t17.published_cell": 70,
-        "fpb.economic_outlook_2026_2031.t24.published_cell": 550,
+    # Source concepts name the table and row; row grain is pinned in
+    # test_source_fpb_row_source_concept.
+    assert Counter(fact.measure.source_concept.rsplit(".", 1)[0] for fact in facts) == {
+        "fpb.economic_outlook_2026_2031.t01": 40,
+        "fpb.economic_outlook_2026_2031.t06": 30,
+        "fpb.economic_outlook_2026_2031.t07": 100,
+        "fpb.economic_outlook_2026_2031.t11": 210,
+        "fpb.economic_outlook_2026_2031.t17": 70,
+        "fpb.economic_outlook_2026_2031.t24": 550,
     }
     assert Counter((fact.period.value, fact.assertion) for fact in facts) == {
         **{(year, "observation"): 100 for year in range(2022, 2026)},
