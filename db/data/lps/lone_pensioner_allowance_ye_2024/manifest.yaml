@@ -1,0 +1,26 @@
+source_id: lps
+package_id: lps-lone-pensioner-allowance-ye-2024
+dataset: lps_lps-lone-pensioner-allowance-ye-2024
+source_page: https://www.finance-ni.gov.uk/publications/lone-pensioner-and-disabled-person-allowance-statistics
+table: Lone Pensioners Allowance (LPA) statistics to year end 2024
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Land & Property Services, Lone Pensioners Allowance (LPA) statistics
+  to year end 2024 (Published: 29 May 2024). Contains public sector information licensed
+  under the Open Government Licence v3.0.'
+license_evidence: 'The workbook''s Cover Sheet states: ''Contains public sector information
+  licensed under the Open Government Licence v3.0.'''
+license_verified_at: '2026-10-30'
+files:
+  2024:
+    filename: lps-lpa-ye-2024.XLSX
+    source_url: https://www.finance-ni.gov.uk/sites/default/files/publications/dfp/lps-lpa-ye-2024.XLSX
+    sha256: f2ea22b184f91a861df839b627e7153d5bb9780b16cdf9377d4b2eea1e915b47
+    size_bytes: 169338
+    fetched_at: '2026-10-30T13:45:51+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/lps/lps-lone-pensioner-allowance-ye-2024/2024/f2ea22b184f91a861df839b627e7153d5bb9780b16cdf9377d4b2eea1e915b47/lps-lpa-ye-2024.XLSX
+        uri: r2://ledger-raw/raw/lps/lps-lone-pensioner-allowance-ye-2024/2024/f2ea22b184f91a861df839b627e7153d5bb9780b16cdf9377d4b2eea1e915b47/lps-lpa-ye-2024.XLSX

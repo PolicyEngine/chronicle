@@ -607,6 +607,13 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-cgt-residential-property-2026": Path("hmrc/cgt_residential_property_2026"),
     "hmrc-cgt-size-of-gain-2026": Path("hmrc/cgt_size_of_gain_2026"),
     "hmrc-cgt-statistics-2026": Path("hmrc/cgt_statistics_2026"),
+    # PolicyEngine/microcosm#1415
+    "hmrc-cash-isa-limit-reduction-2026": Path("hmrc/cash_isa_limit_reduction_2026"),
+    "hmrc-isa-statistics-2026": Path("hmrc/isa_statistics_2026"),
+    "hmrc-lisa-statistics-2026": Path("hmrc/lisa_statistics_2026"),
+    # end PolicyEngine/microcosm#1415
+    # PolicyEngine/uk-autumn-budget-dashboard-2026#316
+    "hmrc-benefits-in-kind-july-2026": Path("hmrc/benefits_in_kind_july_2026"),
     "hmrc-spi-income-by-area-2023-24": Path("hmrc/spi_income_by_area_2023_24"),
     "hmrc-salary-sacrifice-relief-2024-25": Path(
         "hmrc/salary_sacrifice_relief_2024_25"
@@ -1057,6 +1064,47 @@ SOURCE_PACKAGE_ALIASES = {
     "obr-efo-expenditure-march-2026": Path("obr/efo_expenditure_march_2026"),
     "obr-efo-economy-march-2026": Path("obr/efo_economy_march_2026"),
     "obr-efo-aggregates-march-2026": Path("obr/efo_aggregates_march_2026"),
+    # PolicyEngine/chronicle#393: the October 2026 EFO, beside the March vintage.
+    "obr-efo-receipts-october-2026": Path("obr/efo_receipts_october_2026"),
+    "obr-efo-expenditure-october-2026": Path("obr/efo_expenditure_october_2026"),
+    "obr-efo-economy-october-2026": Path("obr/efo_economy_october_2026"),
+    "obr-efo-aggregates-october-2026": Path("obr/efo_aggregates_october_2026"),
+    "obr-efo-policy-october-2026": Path("obr/efo_policy_october_2026"),
+    # PolicyEngine/chronicle#395
+    "lps-domestic-rates-paid-2026": Path("lps/domestic_rates_paid_2026"),
+    "lps-lone-pensioner-allowance-ye-2024": Path(
+        "lps/lone_pensioner_allowance_ye_2024"
+    ),
+    "lps-disabled-persons-allowance-ye-2024": Path(
+        "lps/disabled_persons_allowance_ye_2024"
+    ),
+    "ons-crpsf-ni-domestic-rates-fye2025": Path("ons/crpsf_ni_domestic_rates_fye2025"),
+    "dft-bus01-wales-journeys-2025": Path("dft/bus01_wales_journeys_2025"),
+    "welshgov-childcare-offer-report-2023-24": Path(
+        "welshgov/childcare_offer_report_2023_24"
+    ),
+    "ons-pusf-vehicle-duty-households-october-2026": Path(
+        "ons/pusf_vehicle_duty_households_october_2026"
+    ),
+    "ons-pusf-vehicle-duty-businesses-october-2026": Path(
+        "ons/pusf_vehicle_duty_businesses_october_2026"
+    ),
+    "ons-mm23-cpi-weight-gas-october-2026": Path(
+        "ons/mm23_cpi_weight_gas_october_2026"
+    ),
+    "ons-mm23-cpi-weight-natural-gas-october-2026": Path(
+        "ons/mm23_cpi_weight_natural_gas_october_2026"
+    ),
+    "ons-mm23-cpi-weight-liquefied-hydrocarbons-october-2026": Path(
+        "ons/mm23_cpi_weight_liquefied_hydrocarbons_october_2026"
+    ),
+    "ons-mm23-cpi-index-natural-gas-october-2026": Path(
+        "ons/mm23_cpi_index_natural_gas_october_2026"
+    ),
+    "ons-mm23-cpi-index-liquefied-hydrocarbons-october-2026": Path(
+        "ons/mm23_cpi_index_liquefied_hydrocarbons_october_2026"
+    ),
+    # end PolicyEngine/chronicle#395
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"
     ),

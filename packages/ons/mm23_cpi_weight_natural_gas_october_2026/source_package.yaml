@@ -1,0 +1,204 @@
+# ONS consumer price inflation time series L89X (MM23), 'CPI WEIGHTS 04.5.2.1 Natural gas
+# and town gas', released 21 October 2026, for PolicyEngine/chronicle#395 (comment of 29
+# October, bottled gas).
+#
+# The weights for weight years 2024 to 2026, as published. ONS states the weights in parts
+# per thousand of the CPI basket: CJXB's series metadata says so, and L89X and L89Y, whose
+# metadata leave the unit blank, are CJXB's two classes (L89X + L89Y equals CJXB in each
+# of these years). ONS bases the weights for index year Y on household spending in year
+# Y-2, price-updated to January of Y ('Consumer price inflation, updating weights: 2026');
+# the package stores the weights as published and undoes nothing.
+schema_version: ledger.source_package.v1
+package_id: ons-mm23-cpi-weight-natural-gas-october-2026
+label: 'ONS MM23 L89X: CPI weight for COICOP 04.5.2.1 Natural gas and town gas, weight years 2024 to 2026'
+dimension_labels:
+  ons.mm23_series: Consumer price inflation (MM23) series
+artifact:
+  source_name: ons
+  source_table: 'MM23 time series L89X: CPI WEIGHTS 04.5.2.1 Natural gas and town gas'
+  resource_package: db
+  resource_directory: data/ons/mm23_cpi_weight_natural_gas_october_2026
+  manifest: manifest.yaml
+  vintage: mm23_2026_10_21
+  extracted_at: '2026-10-30'
+  extraction_method: delimited text full-row parse of the ONS time series CSV
+  parser: delimited_text_full_rows
+  artifact_year: 2026
+record_sets:
+- record_set_id: ons.mm23_l89x.cy2024
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.mm23_l89x.cy2024.v1
+  source_record_id_prefix: ons.mm23_l89x.cy2024
+  sheet_name: l89x
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: cpi_household_expenditure
+  domain: consumer_prices
+  groupby_dimension: ons.mm23_series
+  rows:
+  - value_id: l89x
+    label: CPI WEIGHTS 04.5.2.1 Natural gas and town gas
+    ordinal: 0
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: 2024
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: CDID
+      label: series identifier heading
+    - column: B
+      row: 2
+      expected_value: L89X
+      label: series identifier
+    - column: B
+      row: 3
+      expected_value: MM23
+      label: source dataset
+    - column: B
+      row: 6
+      expected_value: 21-10-2026
+      label: release date
+  measures:
+  - measure_id: value
+    label: CPI weight, 04.5.2.1 Natural gas and town gas, 2024
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: CPI WEIGHTS 04.5.2.1 Natural gas and town gas
+    concept: ons.cpi_weight_04_5_2_1_natural_gas_and_town_gas
+    source_concept: ons.mm23_l89x
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l89x/mm23
+    concept_evidence_notes: ONS time series L89X (MM23), 'CPI WEIGHTS 04.5.2.1 Natural gas and town gas',
+      released 21 October 2026; the row labelled '2024'.
+    unit: parts_per_thousand
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: ons.mm23_l89x.cy2025
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.mm23_l89x.cy2025.v1
+  source_record_id_prefix: ons.mm23_l89x.cy2025
+  sheet_name: l89x
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: cpi_household_expenditure
+  domain: consumer_prices
+  groupby_dimension: ons.mm23_series
+  rows:
+  - value_id: l89x
+    label: CPI WEIGHTS 04.5.2.1 Natural gas and town gas
+    ordinal: 0
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: 2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: CDID
+      label: series identifier heading
+    - column: B
+      row: 2
+      expected_value: L89X
+      label: series identifier
+    - column: B
+      row: 3
+      expected_value: MM23
+      label: source dataset
+    - column: B
+      row: 6
+      expected_value: 21-10-2026
+      label: release date
+  measures:
+  - measure_id: value
+    label: CPI weight, 04.5.2.1 Natural gas and town gas, 2025
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: CPI WEIGHTS 04.5.2.1 Natural gas and town gas
+    concept: ons.cpi_weight_04_5_2_1_natural_gas_and_town_gas
+    source_concept: ons.mm23_l89x
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l89x/mm23
+    concept_evidence_notes: ONS time series L89X (MM23), 'CPI WEIGHTS 04.5.2.1 Natural gas and town gas',
+      released 21 October 2026; the row labelled '2025'.
+    unit: parts_per_thousand
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: ons.mm23_l89x.cy2026
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.mm23_l89x.cy2026.v1
+  source_record_id_prefix: ons.mm23_l89x.cy2026
+  sheet_name: l89x
+  period_type: calendar_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: cpi_household_expenditure
+  domain: consumer_prices
+  groupby_dimension: ons.mm23_series
+  rows:
+  - value_id: l89x
+    label: CPI WEIGHTS 04.5.2.1 Natural gas and town gas
+    ordinal: 0
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: 2026
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: CDID
+      label: series identifier heading
+    - column: B
+      row: 2
+      expected_value: L89X
+      label: series identifier
+    - column: B
+      row: 3
+      expected_value: MM23
+      label: source dataset
+    - column: B
+      row: 6
+      expected_value: 21-10-2026
+      label: release date
+  measures:
+  - measure_id: value
+    label: CPI weight, 04.5.2.1 Natural gas and town gas, 2026
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: CPI WEIGHTS 04.5.2.1 Natural gas and town gas
+    concept: ons.cpi_weight_04_5_2_1_natural_gas_and_town_gas
+    source_concept: ons.mm23_l89x
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l89x/mm23
+    concept_evidence_notes: ONS time series L89X (MM23), 'CPI WEIGHTS 04.5.2.1 Natural gas and town gas',
+      released 21 October 2026; the row labelled '2026'.
+    unit: parts_per_thousand
+    aggregation: share
+    expected_cell_type: number

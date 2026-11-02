@@ -62,7 +62,7 @@ cannot be obtained. Nothing in uk-data is absent from this table.
 | uk-data family (module) | targets | status | Chronicle package(s) | PR | source reuse / notes |
 |---|---|---|---|---|---|
 | Region×age population ([`ons_demographics.py`](https://github.com/PolicyEngine/policyengine-uk-data/blob/ebf733c/policyengine_uk_data/targets/sources/ons_demographics.py)) | 142 `ons/{region}_age_{band}` | **ported** | `ons-mye-2023-uk-countries`, `ons-mye-2023-england-regions`, `ons-mye-2024-uk`, `ons-uk-population-projections-2024` | [#137](https://github.com/PolicyEngine/chronicle/pull/137) | **Replaced.** uk-data reads a committed `demographics.csv` with no artifact lineage (the SNPP has no stable machine-readable URL). Chronicle packages the publisher MYE workbooks ([mid-2023 UK](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatesforukenglandandwalesscotlandandnorthernireland), [mid-2023 E&W regions](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/estimatesofthepopulationforenglandandwales), mid-2024 UK) and the [2024-based NPP principal](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationprojections/datasets/z1zippedpopulationprojectionsdatafilesuk) at single year of age; the fixture's 10-year bands (proven exhaustive, `_age_80_89` = 80+) are a populace-side mapping. |
-| OBR EFO receipts + expenditure ([`obr.py`](https://github.com/PolicyEngine/policyengine-uk-data/blob/ebf733c/policyengine_uk_data/targets/sources/obr.py)) | ~28 realized `obr/*` | **ported** | `obr-efo-receipts-march-2026`, `obr-efo-expenditure-march-2026` (213 facts, FY2024–30; the expenditure package carries the whole Table 4.1 council tax block, including the GB receipts total, the accruals adjustment and the high-value surcharge rows) | [#139](https://github.com/PolicyEngine/chronicle/pull/139) | **Same bytes.** uk-data commits the March-2026 EFO workbooks under `storage/obr_efo/` (obr.uk 403s CI); the Chronicle artifacts are sha256-identical to them (`f65b6cb7…`, `700bfd70…`), double-fetched from [obr.uk](https://obr.uk/efo/economic-and-fiscal-outlook-march-2026/) on a residential connection. |
+| OBR EFO receipts + expenditure ([`obr.py`](https://github.com/PolicyEngine/policyengine-uk-data/blob/ebf733c/policyengine_uk_data/targets/sources/obr.py)) | ~28 realized `obr/*` | **ported** | `obr-efo-receipts-march-2026`, `obr-efo-expenditure-march-2026` (FY2024–30 until [chronicle#397](https://github.com/PolicyEngine/chronicle/issues/397), which leaves them FY2024-25, and FY2025-26 for sheet 3.10's seven duties; the years after are in `obr-efo-receipts-october-2026` and `obr-efo-expenditure-october-2026`, which carry the whole council tax block, including the GB receipts total, the accruals adjustment and the high-value surcharge rows) | [#139](https://github.com/PolicyEngine/chronicle/pull/139) | **Same bytes.** uk-data commits the March-2026 EFO workbooks under `storage/obr_efo/` (obr.uk 403s CI); the Chronicle artifacts are sha256-identical to them (`f65b6cb7…`, `700bfd70…`), double-fetched from [obr.uk](https://obr.uk/efo/economic-and-fiscal-outlook-march-2026/) on a residential connection. |
 | ONS savings interest ([`ons_savings.py`](https://github.com/PolicyEngine/policyengine-uk-data/blob/ebf733c/policyengine_uk_data/targets/sources/ons_savings.py)) | 1 `ons/savings_interest_income` | **ported** | `ons-savings-interest-income` (8 facts, 2018–2025) | [#139](https://github.com/PolicyEngine/chronicle/pull/139) | **Same series, pinned snapshot.** Both read the [HAXV/UKEA series](https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/haxv/ukea); uk-data downloads at runtime and flat-fills the last actual through 2029 (**excluded, computed**); Chronicle pins the 2026-06-30 CSV release bytes. |
 | Household types ([`ons_households.py`](https://github.com/PolicyEngine/policyengine-uk-data/blob/ebf733c/policyengine_uk_data/targets/sources/ons_households.py)) | household-type counts | **ported** | `ons-families-households-2025` (816 facts: Table 7 households by type, Table 5 household size, and, from [#235](https://github.com/PolicyEngine/chronicle/issues/235), Tables 1 and 3 families by family type and presence of children / number of dependent children with the published CI± half-widths and CV-category guards, UK, 2018–2025); `ons-households-by-type-country-2025` (1 fact, Scotland 2025 couple households with 3+ dependent children) | [#139](https://github.com/PolicyEngine/chronicle/pull/139), [#196](https://github.com/PolicyEngine/chronicle/issues/196) | **Same UK artifact plus country worksheet add-on.** The UK row uses `familiesandhouseholdsuk2025.xlsx` from [Families and households](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/families/datasets/familiesandhouseholdsfamiliesandhouseholds). The #196 add-on pins [Households by type of household and family, regions and GB constituent countries](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/families/datasets/householdsbytypeofhouseholdandfamilyregionsofenglandandgbconstituentcountries) and ports Scotland worksheet cell `B21`: 57 thousand couple households with 3+ dependent children in 2025 (`survey_aggregate`, LFS). |
 | Salary-sacrifice relief ([`hmrc_salary_sacrifice.py`](https://github.com/PolicyEngine/policyengine-uk-data/blob/ebf733c/policyengine_uk_data/targets/sources/hmrc_salary_sacrifice.py)) | 3 `hmrc/salary_sacrifice_*`; #196 gross contribution base | **ported; contribution base has no publisher measure** | `hmrc-salary-sacrifice-relief-2024-25` (85 facts, TY2024-25), `hmrc-pension-contribution-relief-2023-24` (85 facts, TY2023-24) | [#139](https://github.com/PolicyEngine/chronicle/pull/139), [#196](https://github.com/PolicyEngine/chronicle/issues/196), [#302](https://github.com/PolicyEngine/chronicle/issues/302) | **Updated — uk-data's asset is dead; its archived copy is ported.** uk-data pins `media/687a294e…/Tables_6_1_and_6_2.csv`, which now returns `{"status":"gone"}` (its runtime download silently drops the targets). Chronicle packages the current asset from [Private pension statistics](https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics) (updated 2026-07-30), every Table 6.1/6.2 row since [#302](https://github.com/PolicyEngine/chronicle/issues/302). uk-data's asset is the July 2025 edition (tax year 2023-24); its [UK Government Web Archive capture](https://webarchive.nationalarchives.gov.uk/ukgwa/20250731165355/https://assets.publishing.service.gov.uk/media/687a294e312ee8a5f0806b6d/Tables_6_1_and_6_2.csv) is `hmrc-pension-contribution-relief-2023-24`, so the rows uk-data reads are Chronicle facts at the publisher's 2023-24 (uk-data keys them at 2024). uk-data's ×1.03 growth uprating and #196's £24.72bn salary-sacrifice contribution base are **excluded (computed / no publisher measure)**; the current HMRC table prints relief values, not gross contributions. |
@@ -296,6 +296,99 @@ Not ported:
   uprating; about two million published cells do not belong in the bundle as
   facts.
 
+## Beyond parity — HMRC annual savings statistics (PolicyEngine/microcosm#1415)
+
+Published sources for
+[microcosm#1415](https://github.com/PolicyEngine/microcosm/issues/1415), which imputes
+yearly ISA subscriptions per adult by type. uk-data has no ISA target. Three packages add
+3,272 facts; field contracts and caveats are in
+[`docs/data-sources/uk-hmrc-annual-savings-statistics-2026.md`](data-sources/uk-hmrc-annual-savings-statistics-2026.md).
+
+- **ISA tables, September 2026** (`hmrc-isa-statistics-2026`, 3,230 facts):
+  - Table 9.4's accounts and amounts subscribed by component, 2008-09 to 2024-25;
+  - Table 9.6's market values by type of investment, 2011-12 to 2024-25;
+  - Tables 9.7 to 9.12's 2023-24 individuals subscribing and holding, by income, age,
+    sex, region, subscription band and market value.
+- **Lifetime ISA tables, September 2026** (`hmrc-lisa-statistics-2026`, 40 facts): Table
+  1a's yearly house-purchase and unauthorised withdrawals, 2018-19 to 2025-26.
+- **Cash ISA limit reduction impact note** (`hmrc-cash-isa-limit-reduction-2026`, 2
+  facts): the shares of cash ISA subscribers aged under 65 either side of GBP 12,000 in
+  2022-23.
+
+## Beyond parity — HMRC benefits in kind statistics (PolicyEngine/uk-autumn-budget-dashboard-2026#316)
+
+Budget 2026 raises company car tax by one percentage point in every band from 2030-31,
+and policyengine-uk 2.165.0 (PolicyEngine/policyengine-uk#2750) models the company car and
+car fuel benefits. Microcosm fills those inputs and measures them against HMRC's tables.
+uk-data has no company car target. One package adds 544 facts; its field contracts and
+caveats are in the header of `packages/hmrc/benefits_in_kind_july_2026/source_package.yaml`,
+which `build_package.py` in the same directory writes.
+
+- **Benefits in kind statistics, July 2026, Tables 1 to 4**
+  (`hmrc-benefits-in-kind-july-2026`, 544 facts):
+  - Table 1's car and car fuel benefit recipients, taxable value, average taxable value,
+    and Income Tax and Class 1A NIC liabilities, 2011-12 to 2024-25;
+  - Tables 2A and 2C's car benefit recipients by CO2 emission band and by fuel type,
+    2011-12 to 2024-25, each year in the bands it prints, and Table 2E's average CO2
+    emissions of company cars;
+  - Tables 3A, 3B and 4's 2024-25 recipients, taxable value and average taxable value by
+    range of total income and by region, grossed by HMRC from the Survey of Personal
+    Incomes cases matched to the P11D and RTI records (`survey_aggregate`).
+- Not ported: Tables 2B and 2D (Tables 2A and 2C as whole-percent shares), the 'All' rows
+  of Tables 3A, 3B and 4 (their recipients and taxable value print the same as Table 1's,
+  and their averages would share Table 1's keys), and Table 5 (a separate workbook).
+
+## Beyond parity — OBR EFO October 2026 (chronicle#393)
+
+The October 2026 Economic and fiscal outlook, published with the Budget on 28 October 2026,
+as a vintage beside the March 2026 packages: five packages and 4,317 facts. Where both
+vintages publish a number for the same line and year, Chronicle keeps October's: since
+chronicle#397 the March packages keep only the 74 line-years October lacks (each line's
+2024-25 outturn, and 2025-26 for the lines October starts in 2026-27). Field contracts and
+caveats are in
+[`docs/data-sources/uk-obr-efo-october-2026.md`](data-sources/uk-obr-efo-october-2026.md).
+
+- **Receipts** (`obr-efo-receipts-october-2026`, 1,551 facts): the March package's 42 lines
+  and every other row of tables 4.1 to 4.22 except 4.9 and 4.19, Table 4.5's savings
+  income included.
+- **Expenditure, economy and aggregates** (`obr-efo-expenditure-october-2026`,
+  `obr-efo-economy-october-2026`, `obr-efo-aggregates-october-2026`: 165, 56 and 25 facts):
+  the March packages' lines, plus the deposit rate and household financial assets.
+- **Policy** (`obr-efo-policy-october-2026`, 2,520 facts): Table 1.1's costing of each
+  policy decision by head and category, 2026-27 to 2031-32.
+
+## Beyond parity — facts for the next policyengine-uk bump (chronicle#395)
+
+Facts that rows of Microcosm's next policyengine-uk bump wait on
+([microcosm#1095](https://github.com/PolicyEngine/microcosm/issues/1095)): thirteen packages
+and 1,075 facts, plus the March EFO's VED line (1 fact, its 2024-25 outturn). Field
+contracts and caveats are in
+[`docs/data-sources/uk-facts-395.md`](data-sources/uk-facts-395.md).
+
+- **Northern Ireland domestic rates.**
+  - LPS's domestic rates paid and paying occupancies by district council, rating years
+    2020-21 to 2025-26 (`lps-domestic-rates-paid-2026`, 144 facts).
+  - ONS's regional and district domestic rates, 1999-00 to 2024-25
+    (`ons-crpsf-ni-domestic-rates-fye2025`, 52 facts).
+  - LPS's Lone Pensioner Allowance and Disabled Person's Allowance statistics: awards and
+    net amounts by council, 2009-10 to 2023-24
+    (`lps-lone-pensioner-allowance-ye-2024`, 420 facts;
+    `lps-disabled-persons-allowance-ye-2024`, 360 facts). Rate rebate has no published
+    series.
+- **Wales's bus journeys.** DfT BUS01's Wales passenger and concessionary journeys
+  (`dft-bus01-wales-journeys-2025`, 57 facts). Passenger fare receipts are not published
+  for Wales.
+- **The Childcare Offer for Wales.** Report Table 4: children funded, the estimated
+  eligible population and the take-up rate in 2023-24
+  (`welshgov-childcare-offer-report-2023-24`, 3 facts).
+- **Vehicle excise duty.**
+  - The OBR's line in both EFO vintages under `obr.vehicle_excise_duties`: March for its
+    2024-25 outturn, October for 2025-26 on.
+  - ONS's split, vehicle duty paid by households (CDDZ) and by businesses (EKED), 2018
+    to 2025 (`ons-pusf-vehicle-duty-*-october-2026`, 16 facts).
+- **Gas in the CPI.** The CPI weights for 04.5.2 and its two classes, 2024 to 2026, and
+  the two classes' indices (`ons-mm23-cpi-*-october-2026`, 23 facts).
+
 ## Consumer contracts
 
 The UK national, local-geography, and firms selection contracts now live in
@@ -307,17 +400,17 @@ select.
 
 | ETL series | Chronicle package concept | new package | gap |
 |---|---|---|---|
-| `db/etl_obr.py` `gdp` (2024-2029) | `obr.nominal_gdp_nsa` (calendar-year nominal GDP, GBP) | `obr-efo-economy-march-2026` | None for 2024-2029. Source table 1.4 publishes calendar-year nominal GDP in GBP billion; Chronicle stores the published level with `value_scale`. |
-| `db/etl_obr.py` `total_receipts` (2024-2029) | `obr.public_sector_current_receipts` (fiscal-year public sector current receipts, GBP) | `obr-efo-aggregates-march-2026` | FY2024-25 remains a gap in the staged aggregates workbook: sheet 6.2 starts the public-sector current-receipts row at FY2025-26. FY2025-26 through FY2029-30 are ported. |
-| `db/etl_obr.py` `total_managed_expenditure` (2024-2029) | `obr.total_managed_expenditure` (fiscal-year TME, GBP) | `obr-efo-aggregates-march-2026` | FY2024-25 remains a gap in the staged aggregates workbook: sheet 6.1 starts the TME row at FY2025-26. FY2025-26 through FY2029-30 are ported. |
-| `db/etl_obr.py` `public_sector_net_borrowing` (2024-2029) | `obr.public_sector_net_borrowing` (fiscal-year net borrowing, GBP) | `obr-efo-aggregates-march-2026` | FY2024-25 remains a gap in the staged aggregates workbook: sheet 6.5 starts the net-borrowing row at FY2025-26. FY2025-26 through FY2029-30 are ported. |
-| `db/etl_obr.py` `public_sector_net_debt` (2024-2029) | `obr.public_sector_net_debt_percent_gdp` (fiscal-year PSND, percent of GDP) | `obr-efo-aggregates-march-2026` | The staged aggregates workbook publishes PSND directly as percent of GDP in sheet 6.13, not as a GBP amount. The old ETL's GBP amount remains a gap because converting percent of GDP to GBP would be Chronicle-computed. |
+| `db/etl_obr.py` `gdp` (2024-2029) | `obr.nominal_gdp_nsa` (calendar-year nominal GDP, GBP) | `obr-efo-economy-march-2026` (2024), `obr-efo-economy-october-2026` (2025-2031) | None for 2024-2029. Source table 1.4 publishes calendar-year nominal GDP in GBP billion; Chronicle stores the published level with `value_scale`. Since chronicle#397 the March package keeps 2024 and October carries the later years. |
+| `db/etl_obr.py` `total_receipts` (2024-2029) | `obr.public_sector_current_receipts` (fiscal-year public sector current receipts, GBP) | `obr-efo-aggregates-march-2026` (FY2025-26), `obr-efo-aggregates-october-2026` (FY2026-27 on) | FY2024-25 remains a gap in the staged aggregates workbook: sheet 6.2 starts the public-sector current-receipts row at FY2025-26. FY2025-26 through FY2029-30 are ported, FY2026-27 on from October since chronicle#397. |
+| `db/etl_obr.py` `total_managed_expenditure` (2024-2029) | `obr.total_managed_expenditure` (fiscal-year TME, GBP) | `obr-efo-aggregates-march-2026` (FY2025-26), `obr-efo-aggregates-october-2026` (FY2026-27 on) | FY2024-25 remains a gap in the staged aggregates workbook: sheet 6.1 starts the TME row at FY2025-26. FY2025-26 through FY2029-30 are ported, FY2026-27 on from October since chronicle#397. |
+| `db/etl_obr.py` `public_sector_net_borrowing` (2024-2029) | `obr.public_sector_net_borrowing` (fiscal-year net borrowing, GBP) | `obr-efo-aggregates-march-2026` (FY2025-26), `obr-efo-aggregates-october-2026` (FY2026-27 on) | FY2024-25 remains a gap in the staged aggregates workbook: sheet 6.5 starts the net-borrowing row at FY2025-26. FY2025-26 through FY2029-30 are ported, FY2026-27 on from October since chronicle#397. |
+| `db/etl_obr.py` `public_sector_net_debt` (2024-2029) | `obr.public_sector_net_debt_percent_gdp` (fiscal-year PSND, percent of GDP) | `obr-efo-aggregates-march-2026` (FY2024-25), `obr-efo-aggregates-october-2026` (FY2025-26 on) | The staged aggregates workbook publishes PSND directly as percent of GDP in sheet 6.13, not as a GBP amount. The old ETL's GBP amount remains a gap because converting percent of GDP to GBP would be Chronicle-computed. |
 | `db/etl_obr.py` `real_gdp_growth` (2024-2029) | — | — | Gap: the staged economy workbook publishes real GDP levels in sheet 1.1; annual real GDP growth would be derived from those levels and is therefore not a Chronicle fact. |
-| `db/etl_obr.py` `unemployment_rate` (2024-2029) | `obr.ilo_unemployment_rate_16_plus` | `obr-efo-economy-march-2026` | None for 2024-2029. Source table 1.6 publishes calendar-year ILO unemployment rate, 16+, percent. |
-| `db/etl_obr.py` `cpi_inflation` (2024-2029) | `obr.cpi_inflation` | `obr-efo-economy-march-2026` | None for 2024-2029. Source table 1.7 publishes CPI year-on-year growth. |
-| `db/etl_obr.py` `rpi_inflation` (2024-2029) | `obr.rpi_inflation` | `obr-efo-economy-march-2026` | None for 2024-2029. Source table 1.7 publishes RPI year-on-year growth. |
-| `db/etl_obr.py` `bank_rate` (2024-2029) | `obr.bank_rate` | `obr-efo-economy-march-2026` | None for 2024-2029. Source table 1.9 publishes the Bank Rate conditioning assumption. |
-| `db/etl_obr.py` `employment` (2024-2029) | `obr.employment_16_plus` | `obr-efo-economy-march-2026` | None for 2024-2029. Source table 1.6 publishes calendar-year employment, 16+, in millions; Chronicle stores the published level with `value_scale`. |
+| `db/etl_obr.py` `unemployment_rate` (2024-2029) | `obr.ilo_unemployment_rate_16_plus` | `obr-efo-economy-march-2026` (2024), `obr-efo-economy-october-2026` (2025-2031) | None for 2024-2029 (the later years from October since chronicle#397). Source table 1.6 publishes calendar-year ILO unemployment rate, 16+, percent. |
+| `db/etl_obr.py` `cpi_inflation` (2024-2029) | `obr.cpi_inflation` | `obr-efo-economy-march-2026` (2024), `obr-efo-economy-october-2026` (2025-2031) | None for 2024-2029 (the later years from October since chronicle#397). Source table 1.7 publishes CPI year-on-year growth. |
+| `db/etl_obr.py` `rpi_inflation` (2024-2029) | `obr.rpi_inflation` | `obr-efo-economy-march-2026` (2024), `obr-efo-economy-october-2026` (2025-2031) | None for 2024-2029 (the later years from October since chronicle#397). Source table 1.7 publishes RPI year-on-year growth. |
+| `db/etl_obr.py` `bank_rate` (2024-2029) | `obr.bank_rate` | `obr-efo-economy-march-2026` (2024), `obr-efo-economy-october-2026` (2025-2031) | None for 2024-2029 (the later years from October since chronicle#397). Source table 1.9 publishes the Bank Rate conditioning assumption. |
+| `db/etl_obr.py` `employment` (2024-2029) | `obr.employment_16_plus` | `obr-efo-economy-march-2026` (2024), `obr-efo-economy-october-2026` (2025-2031) | None for 2024-2029 (the later years from October since chronicle#397). Source table 1.6 publishes calendar-year employment, 16+, in millions; Chronicle stores the published level with `value_scale`. |
 | `db/etl_ons.py` `population_total` (2024-2034) | `ons.mid_year_population_estimate` for 2024; `ons.projected_population_principal` for 2024-based projections | existing `ons-mye-2024-uk`; existing `ons-uk-population-projections-2024` | None for 2024-2034 at fact level. The packages publish single-age/sex rows; broad totals are consumer rollups, not separate Chronicle-computed facts. |
 | `db/etl_ons.py` `population_age_0_15` (2024-2034) | `ons.mid_year_population_estimate` for 2024; `ons.projected_population_principal` for 2024-based projections | existing `ons-mye-2024-uk`; existing `ons-uk-population-projections-2024` | None for 2024-2034 at fact level. The broad band is a consumer rollup from source-published single-age rows. |
 | `db/etl_ons.py` `population_age_16_64` (2024-2034) | `ons.mid_year_population_estimate` for 2024; `ons.projected_population_principal` for 2024-based projections | existing `ons-mye-2024-uk`; existing `ons-uk-population-projections-2024` | None for 2024-2034 at fact level. The broad band is a consumer rollup from source-published single-age rows. |

@@ -180,15 +180,20 @@ def test_obr_sheet_3_7_property_type_lines():
         ]
         return fact.value
 
+    # chronicle#397: only the 2024-25 outturn, which the October 2026 EFO does not
+    # print, stays in the March package.
+    assert {
+        fact.period.value
+        for fact in facts
+        if fact.layout.record_set_id.startswith("obr.efo_2026_03.receipts.sdlt")
+    } == {2024}
     # Outturn 2024-25 equals HMRC's all-buyer totals (Tables 8a and 8b).
     assert value("sdlt_residential", 2024) == pytest.approx(10.38e9)
     assert value("sdlt_non_residential", 2024) == pytest.approx(3.505e9)
-    # The two property types make up sheet 3.8's SDLT line in every year.
-    for year in range(2024, 2031):
-        total = value("sdlt", year)
-        assert value("sdlt_residential", year) + value(
-            "sdlt_non_residential", year
-        ) == pytest.approx(total, rel=1e-9)
+    # The two property types make up sheet 3.8's SDLT line.
+    assert value("sdlt_residential", 2024) + value(
+        "sdlt_non_residential", 2024
+    ) == pytest.approx(value("sdlt", 2024), rel=1e-9)
 
 
 EXPENDITURE_STAMPS = {
@@ -215,7 +220,8 @@ def test_obr_table_4_9_lines_carry_dwp_geography():
     table = [
         f for f in facts if f.layout.record_set_id.split(".")[3] in EXPENDITURE_STAMPS
     ]
-    assert len(table) == len(EXPENDITURE_STAMPS) * 7
+    # chronicle#397: 2024-25 only; the October 2026 EFO carries the later years.
+    assert len(table) == len(EXPENDITURE_STAMPS)
     for fact in table:
         line = fact.layout.record_set_id.split(".")[3]
         assert fact.geography.id == EXPENDITURE_STAMPS[line], (line, fact.geography.id)
@@ -234,8 +240,8 @@ def test_obr_table_4_9_lines_carry_dwp_geography():
     assert by_line[("ni_social_security_in_welfare_cap", 2024)] == pytest.approx(
         5_709_140_000
     )
-    assert by_line[("ni_social_security_outside_welfare_cap", 2030)] == pytest.approx(
-        5_493_620_000
+    assert by_line[("ni_social_security_outside_welfare_cap", 2024)] == pytest.approx(
+        3_999_748_000
     )
     assert by_line[("carers_allowance", 2024)] == pytest.approx(4_239_907_876.11)
     # Table 4.1 and 4.19 lines keep the United Kingdom.

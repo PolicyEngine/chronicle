@@ -710,6 +710,21 @@ The US off-year bundle behavior is unchanged and out of scope here.
 `--year` is inert for it as well: each NZ package pins its `artifact_year` and
 uses year-independent declarations.
 
+`--suite be` builds the curated Belgian suite: every package under
+`packages/bfp`, `fpb`, `nbb`, `onem_rva`, `onss`, `opgroeien`, `ostbelgien`,
+`rsz`, `sfpd`, `spf_finances` and `statbel`, plus each Eurostat package whose
+rows report for Belgium or a Belgian NUTS region, or which reads a euro
+exchange-rate series (`ert_bil_eur_*`). `packages/eurostat/` can hold
+packages that cover only other member states, and those stay out of the suite
+and its drift guard. A new package under those directories, or a new Eurostat
+package for Belgium, fails the guard until someone adds it to
+`BE_BUNDLE_SOURCES`. `tests/test_source_package_alias_drift.py` also sweeps
+every package for a Belgian country or NUTS geography or the commune level, so
+a package under another publisher directory that reports for Belgium, a
+Belgian region or a commune fails it unless the test names that package out
+with a reason. The sweep cannot see a package scoped only by a
+`statistical_scope` id, as Ostbelgien's is. `--year` is inert here too.
+
 The first agent-facing gate is now
 `/tmp/chronicle-suite/reports/agent_acceptance.json`; it summarizes whether raw
 artifacts have R2 pointers, the full source document was parsed, facts have

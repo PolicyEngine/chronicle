@@ -18,7 +18,9 @@ from chronicle.epoch import canonicalize_key, schema_id
 from chronicle.source_package import (
     ARTIFACT_YEAR_RESTAMP_CODE,
     SOURCE_PACKAGE_ALIASES,
+    SourcePackage,
     assert_alias_map_covers_packages,
+    load_source_package,
     validate_source_package,
 )
 from chronicle.suite import BuildSuiteReport, build_source_suite
@@ -82,6 +84,7 @@ UK_BUNDLE_SOURCES = (
     "dfi-ni-public-transport-statistics-2024-25",
     "dfi-ni-public-transport-statistics-2025-26",
     "dft-bus01-passenger-journeys-2025",
+    "dft-bus01-wales-journeys-2025",
     "dft-bus0415-fares-index-2026",
     "dft-bus04i-operating-revenue-2025",
     "dft-bus05i-revenue-support-2025",
@@ -141,7 +144,9 @@ UK_BUNDLE_SOURCES = (
     "gambling-commission-gsgb-annual-report-2025",
     "gambling-commission-industry-statistics-fy2025-26",
     "hmrc-alcohol-bulletin-july-2026",
+    "hmrc-benefits-in-kind-july-2026",
     "hmrc-betting-gaming-statistics-july-2026",
+    "hmrc-cash-isa-limit-reduction-2026",
     "hmrc-cgt-age-2026",
     "hmrc-cgt-asset-type-2026",
     "hmrc-cgt-badr-ir-2026",
@@ -154,6 +159,8 @@ UK_BUNDLE_SOURCES = (
     "hmrc-child-benefit-august-2025",
     "hmrc-hydrocarbon-oils-quantities-june-2026",
     "hmrc-income-tax-liabilities-july-2026",
+    "hmrc-isa-statistics-2026",
+    "hmrc-lisa-statistics-2026",
     "hmrc-pension-contribution-relief-2023-24",
     "hmrc-property-rental-income-2026",
     "hmrc-salary-sacrifice-reform-2029-headcounts",
@@ -171,7 +178,10 @@ UK_BUNDLE_SOURCES = (
     "isc-annual-census-2024",
     "isc-annual-census-2025",
     "isc-annual-census-2026",
+    "lps-disabled-persons-allowance-ye-2024",
+    "lps-domestic-rates-paid-2026",
     "lps-housing-stock-lgd-2026",
+    "lps-lone-pensioner-allowance-ye-2024",
     "mhclg-council-tax-collection-england-2025-26",
     "mhclg-council-tax-levels-england-2026-27",
     "mhclg-council-tax-levels-england-summary-2025-26",
@@ -208,9 +218,14 @@ UK_BUNDLE_SOURCES = (
     "nrs-mye-2025-council-area",
     "nrs-pcon24-population-by-age-2024-revised-2026",
     "obr-efo-aggregates-march-2026",
+    "obr-efo-aggregates-october-2026",
     "obr-efo-economy-march-2026",
+    "obr-efo-economy-october-2026",
     "obr-efo-expenditure-march-2026",
+    "obr-efo-expenditure-october-2026",
+    "obr-efo-policy-october-2026",
     "obr-efo-receipts-march-2026",
+    "obr-efo-receipts-october-2026",
     "obr-fuel-duty-receipts-by-vehicle-april-2024",
     "obr-hvcts-costing-april-2026",
     "obr-salary-sacrifice-costing-february-2026",
@@ -262,6 +277,7 @@ UK_BUNDLE_SOURCES = (
     "ons-census2021-ur-hh-age101-sex-ctry",
     "ons-census2021-ur-hh-age101-sex-rgn",
     "ons-consumer-trends-current-price-september-2026",
+    "ons-crpsf-ni-domestic-rates-fye2025",
     "ons-employee-workplace-pensions-summary-2024",
     "ons-families-households-2025",
     "ons-household-projections-2022-based",
@@ -270,6 +286,11 @@ UK_BUNDLE_SOURCES = (
     "ons-hpssa-pcon24-year-ending-march-2026",
     "ons-lad-population-by-age-2024",
     "ons-lad-population-by-age-2025",
+    "ons-mm23-cpi-index-liquefied-hydrocarbons-october-2026",
+    "ons-mm23-cpi-index-natural-gas-october-2026",
+    "ons-mm23-cpi-weight-gas-october-2026",
+    "ons-mm23-cpi-weight-liquefied-hydrocarbons-october-2026",
+    "ons-mm23-cpi-weight-natural-gas-october-2026",
     "ons-mye-2023-england-regions",
     "ons-mye-2023-uk-countries",
     "ons-mye-2024-uk",
@@ -283,6 +304,8 @@ UK_BUNDLE_SOURCES = (
     "ons-pipr-rents-by-area-june-2026",
     "ons-public-sector-employment-2026",
     "ons-public-sector-employment-june-2026",
+    "ons-pusf-vehicle-duty-businesses-october-2026",
+    "ons-pusf-vehicle-duty-households-october-2026",
     "ons-savings-interest-income",
     "ons-small-area-income-msoa-fye2023",
     "ons-subnational-dwellings-by-tenure-2024",
@@ -317,6 +340,7 @@ UK_BUNDLE_SOURCES = (
     "voa-council-tax-bands-2025",
     "voa-council-tax-stock-by-lad-2025",
     "welshgov-bus-statistics-2024-25",
+    "welshgov-childcare-offer-report-2023-24",
     "welshgov-council-tax-collection-2024-25",
     "welshgov-council-tax-collection-2025-26",
     "welshgov-council-tax-dwellings-2023-24-to-2026-27",
@@ -415,7 +439,74 @@ NZ_BUNDLE_SOURCES = (
     "treasury-estimates-of-appropriations-2026-27",
     "treasury-prefu26-economic-assumptions",
 )
-BUNDLE_SUITES = ("nz", "uk")
+# Every package under these publisher directories is a Belgian package: Statbel,
+# the Federal Planning Bureau (fpb, and bfp for its French initials), the
+# National Bank of Belgium, ONEM/RVA, ONSS and RSZ (the social security office's
+# French and Dutch initials), Opgroeien, Ostbelgien, the Federal Pensions
+# Service (sfpd) and SPF Finances. None of these names another country.
+BE_BUNDLE_SOURCE_PREFIXES = (
+    "bfp",
+    "fpb",
+    "nbb",
+    "onem_rva",
+    "onss",
+    "opgroeien",
+    "ostbelgien",
+    "rsz",
+    "sfpd",
+    "spf_finances",
+    "statbel",
+)
+# Eurostat publishes for every EU member state, so packages/eurostat/ is not
+# Belgian-only and its prefix cannot stand for membership. A Eurostat package
+# joins the BE suite when its declarations cover Belgium: a row reports for the
+# country BE or a Belgian NUTS region (BE1, BE21, ...), or the package reads a
+# euro exchange-rate series (ert_bil_eur_*), which has no country axis and is
+# Belgium's currency. A Eurostat package that covers only other countries
+# stays out.
+BE_EUROSTAT_SOURCE_PREFIX = "eurostat"
+BE_EUROSTAT_EURO_RATE_SCOPE_PREFIX = "eurostat:ert_bil_eur_"
+# The curated Belgian suite (`build-bundle --suite be`). Each member pins one
+# artifact_year and declares nothing by year, so --year does not change what it
+# builds; facts keep the publishers' own periods.
+#
+# Chronicle builds whole packages. Four multi-country Eurostat members
+# (gov_10a_taxag, ilc_di01, ilc_li02 and spr_exp_func) also carry German and
+# French rows, which consumers leave out by geography.
+#
+# jrc-euromod-be-baseline-statistics-2025 is not a member. JRC's EUROMOD-BE
+# baseline statistics are a comparison statistic, and decision d1822, on moving
+# that package out of Chronicle to the scorecard that uses it, is still open.
+# packages/jrc/ is outside the prefixes above, so the drift guard leaves it out.
+BE_BUNDLE_SOURCES = (
+    "bfp-economic-outlook-2026-06",
+    "eurostat-ert-bil-eur-a-usd",
+    "eurostat-gov-10a-taxag",
+    "eurostat-gov-10a-taxag-2025",
+    "eurostat-ilc-di01",
+    "eurostat-ilc-li02",
+    "eurostat-nasa-10-nf-tr",
+    "eurostat-spr-exp-func",
+    "eurostat-spr-exp-func-2024",
+    "fpb-economic-outlook-2026-2031-june-2026",
+    "nbb-national-accounts-household-disposable-income-2024",
+    "onem-rva-unemployment-2024",
+    "onss-contributions-2024",
+    "opgroeien-groeipakket-caseload-2025",
+    "ostbelgien-kindergeld-2025",
+    "rsz-annual-wages-key-figures-2020-2025",
+    "rsz-employment-daily-wage-class-2023-2026",
+    "sfpd-legal-pension-caseload-2025",
+    "sfpd-pension-amount-bands-2025",
+    "spf-finances-municipal-tax-rate-ay2026",
+    "spf-finances-pit-2023",
+    "statbel-fiscal-income-2023-nis-2025",
+    "statbel-fiscal-income-distribution-2023",
+    "statbel-population-structure-2025",
+    "statbel-population-structure-2026",
+    "statbel-population-structure-commune-2025",
+)
+BUNDLE_SUITES = ("be", "nz", "uk")
 
 _KEY_DOMAINS = {
     "aggregate_fact_key": "aggregate_fact",
@@ -444,13 +535,16 @@ def _assert_suite_matches_aliases(
     country: str,
     sources: tuple[str, ...],
     expected: tuple[str, ...],
+    *,
+    expected_from: str | None = None,
 ) -> None:
     if sources != expected:
         missing = sorted(set(expected) - set(sources))
         extra = sorted(set(sources) - set(expected))
+        expected_from = expected_from or f"{country}-prefixed SOURCE_PACKAGE_ALIASES"
         raise ValueError(
-            f"{country}_BUNDLE_SOURCES drifted from {country}-prefixed "
-            f"SOURCE_PACKAGE_ALIASES: missing={missing}, extra={extra}"
+            f"{country}_BUNDLE_SOURCES drifted from {expected_from}: "
+            f"missing={missing}, extra={extra}"
         )
 
 
@@ -488,8 +582,84 @@ def assert_nz_bundle_sources_match_aliases() -> None:
     )
 
 
+def _declared_geographies(package: SourcePackage) -> set[tuple[Any, Any]]:
+    """Return each ``(level, id)`` a package's rows report for.
+
+    A row's own geography overrides its record set's, as it does in the facts.
+    Read from the declarations, so the artifact is never parsed.
+    """
+    geographies = set()
+    for record_set in package.record_sets:
+        payload = record_set.payload
+        for row in payload.get("rows") or ():
+            geographies.add(
+                (
+                    row.get("geography_level") or payload.get("geography_level"),
+                    row.get("geography_id") or payload.get("geography_id"),
+                )
+            )
+    return geographies
+
+
+def _covers_belgium(level: Any, geography_id: Any) -> bool:
+    """Whether a geography is Belgium, a Belgian NUTS region or the euro's rate."""
+    level, geography_id = str(level), str(geography_id)
+    if level == "country":
+        return geography_id == "BE"
+    if level.startswith("nuts"):
+        return geography_id.startswith("BE")
+    return level == "statistical_scope" and geography_id.startswith(
+        BE_EUROSTAT_EURO_RATE_SCOPE_PREFIX
+    )
+
+
+def be_eurostat_bundle_sources_from_packages() -> tuple[str, ...]:
+    """Return the Eurostat aliases whose packages cover Belgium."""
+    members = []
+    for alias in _prefixed_aliases((BE_EUROSTAT_SOURCE_PREFIX,)):
+        try:
+            geographies = _declared_geographies(load_source_package(alias))
+        except Exception as exc:
+            raise ValueError(
+                f"BE bundle drift guard could not read Eurostat package {alias}: {exc}"
+            ) from exc
+        if any(_covers_belgium(*geography) for geography in geographies):
+            members.append(alias)
+    return tuple(members)
+
+
+def be_bundle_sources_from_aliases() -> tuple[str, ...]:
+    """Return the Belgian aliases implied by the packages themselves.
+
+    Every alias under a Belgian publisher directory counts. Eurostat aliases
+    count only when their packages cover Belgium, since packages/eurostat/ can
+    hold packages that cover only other member states.
+    """
+    return tuple(
+        sorted(
+            (
+                *_prefixed_aliases(BE_BUNDLE_SOURCE_PREFIXES),
+                *be_eurostat_bundle_sources_from_packages(),
+            )
+        )
+    )
+
+
+def assert_be_bundle_sources_match_aliases() -> None:
+    """Fail loudly if the curated BE suite omits or adds a Belgian alias."""
+    _assert_suite_matches_aliases(
+        "BE",
+        BE_BUNDLE_SOURCES,
+        be_bundle_sources_from_aliases(),
+        expected_from="Belgian SOURCE_PACKAGE_ALIASES",
+    )
+
+
 def bundle_suite_sources(suite: str) -> tuple[str, ...]:
-    """Return a curated suite's sources once they match its prefixed aliases."""
+    """Return a curated suite's sources once they pass its drift guard."""
+    if suite == "be":
+        assert_be_bundle_sources_match_aliases()
+        return BE_BUNDLE_SOURCES
     if suite == "uk":
         assert_uk_bundle_sources_match_aliases()
         return UK_BUNDLE_SOURCES
