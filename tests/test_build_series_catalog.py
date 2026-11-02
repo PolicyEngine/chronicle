@@ -3910,6 +3910,7 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
         bsc.DOCKET_SEED,
         bsc.ExistingCatalog(bsc.CATALOG),
         bsc.UuidRegistry.load(bsc.UUID_REGISTRY),
+        entity_folds_path=bsc.ENTITY_FOLDS,
     )
     assert not plan["mints"] and not plan["supersedes"] and not plan["dropped"]
     occupations = [
