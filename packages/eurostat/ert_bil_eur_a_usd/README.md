@@ -17,7 +17,10 @@ There is no country or institutional-sector axis in the response. The harness
 represents this market rate with statistical scope `eurostat:ert_bil_eur_a:USD`
 and entity `institutional_sector`, role `currency_market`; these are technical
 representations, not additional publisher dimensions. The measurement basis
-is `administrative` and the assertion is `observation`.
+is `administrative` and the assertion is `observation`. Each record set
+declares `period_coverage` with basis `calendar`: it runs from 1 January to
+31 December of the published year and carries that year as its source period
+label. Coverage is provenance and changes no fact key.
 
 The capture was retrieved on 2026-10-23; Eurostat's dataset update timestamp
 is `2026-07-08T11:00:00+0200`. The manifest pins the 4,488 original bytes with

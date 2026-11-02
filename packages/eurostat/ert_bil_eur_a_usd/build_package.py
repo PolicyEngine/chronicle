@@ -91,6 +91,18 @@ def generate() -> dict[Path, str]:
                 "sheet_name": "ert_bil_eur_a",
                 "period_type": "calendar_year",
                 "period": int(year),
+                "period_coverage": {
+                    "start_date": f"{year}-01-01",
+                    "end_date": f"{year}-12-31",
+                    "basis": "calendar",
+                    "source_period_label": year,
+                    "notes": (
+                        "Eurostat's published annual average (freq=A 'Annual', "
+                        f"statinfo=AVG 'Average') for time period {year} "
+                        f"(JSON-stat time={year}). Chronicle reads the published "
+                        "value and computes no average."
+                    ),
+                },
                 "geography_id": "eurostat:ert_bil_eur_a:USD",
                 "geography_level": "statistical_scope",
                 "geography_name": "Euro/ECU exchange rate against the US dollar",
