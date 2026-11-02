@@ -3295,6 +3295,7 @@
       "Male": "Male"
     },
     "accounting_basis": {
+      "accrual": "Accrued basis",
       "cash": "Cash basis"
     },
     "administering_entity": {
@@ -7247,6 +7248,11 @@
       "nics_relief_employee": "Class 1 primary (employee) NICs relief",
       "nics_relief_employer": "Class 1 secondary (employer) NICs relief"
     },
+    "hmrc.tax_year": {
+      "tax_year_2023": "Tax year 2023 to 2024",
+      "tax_year_2024": "Tax year 2024 to 2025",
+      "tax_year_2025": "Tax year 2025 to 2026"
+    },
     "hmrc.total_income_band": {
       "all_ranges": "All ranges of total income",
       "band_100000_150000": "Total income from GBP 100 000 to GBP 150 000",
@@ -7337,10 +7343,26 @@
       "pupils_at_isc_schools": "Pupils at ISC member schools"
     },
     "journey_category": {
-      "concessionary": "Concessionary passenger journeys"
+      "concessionary": "Concessionary passenger journeys",
+      "elderly_disabled_concessionary": "Elderly/Disabled journeys",
+      "total_concessionary": "Total concessionary journeys"
     },
     "low_income_threshold": {
       "below_60pct_contemporary_median": "Below 60% of the same year's median income"
+    },
+    "lps.district_council": {
+      "antrim_and_newtownabbey": "Antrim and Newtownabbey",
+      "ards_and_north_down": "Ards and North Down",
+      "armagh_city_banbridge_and_craigavon": "Armagh City, Banbridge and Craigavon",
+      "belfast": "Belfast",
+      "causeway_coast_and_glens": "Causeway Coast and Glens",
+      "derry_city_and_strabane": "Derry City and Strabane",
+      "fermanagh_and_omagh": "Fermanagh and Omagh",
+      "lisburn_and_castlereagh": "Lisburn and Castlereagh",
+      "mid_and_east_antrim": "Mid and East Antrim",
+      "mid_ulster": "Mid Ulster",
+      "newry_mourne_and_down": "Newry, Mourne and Down",
+      "northern_ireland": "Northern Ireland"
     },
     "marginal_rate": {
       "additional": "Additional rate",
@@ -7427,6 +7449,82 @@
     },
     "nz_census_2023.weekly_rent_statistic": {
       "median": "Median weekly rent paid by households"
+    },
+    "obr.efo_line": {
+      "attendance_allowance": "Attendance allowance",
+      "bank_rate": "Bank Rate",
+      "beer_and_cider_clearances": "Beer and cider clearances",
+      "beer_and_cider_duties": "Beer and cider duties",
+      "beer_and_cider_duties_accrued": "Beer and cider duties (accrued)",
+      "betting_and_gaming_duties": "Betting and gaming duties",
+      "bingo_duty": "Bingo duty",
+      "camelot_payments_to_national_lottery_distribution_fund": "Camelot payments to National Lottery Distribution Fund",
+      "capital_gains_tax": "Capital gains tax",
+      "carers_allowance": "Carer's allowance",
+      "child_benefit": "Child benefit",
+      "cigarette_clearances": "Cigarette clearances",
+      "council_tax_accruals_adjustment": "Council tax accruals adjustment",
+      "council_tax_england": "England council tax receipts",
+      "council_tax_receipts_england_scotland_wales": "Total council tax receipts",
+      "council_tax_scotland": "Scotland council tax receipts",
+      "council_tax_total": "Total net council tax receipts1",
+      "council_tax_wales": "Wales council tax receipts",
+      "cpi_inflation": "CPI year-on-year growth",
+      "dla_and_pip": "Disability living allowance and personal independence payments",
+      "domestic_rates": "NI domestic rates",
+      "employment_16_plus": "Employment (16+, millions)",
+      "fuel_duties": "Fuel duties",
+      "gaming_duty": "Gaming duty",
+      "general_betting_duty": "General betting duty",
+      "hand_rolled_tobacco_clearances": "Hand rolled tobacco clearances",
+      "horserace_betting_levy": "Horserace betting levy",
+      "housing_benefit": "Housing benefit (not on JSA)1",
+      "ilo_unemployment_rate_16_plus": "ILO unemployment rate (16+, per cent)",
+      "incapacity_benefits": "Incapacity benefits2",
+      "income_tax": "Income tax (gross of tax credits)",
+      "jobseekers_allowance": "Jobseeker's allowance",
+      "lottery_duty": "Lottery duty",
+      "machine_games_duty": "Machine games duty",
+      "ni_employee": "Class 1 Employee NICs",
+      "ni_employer": "Class 1 Employer NICs",
+      "ni_self_employed": "Class 4 and Class 2 Self employed NICs",
+      "ni_social_security_in_welfare_cap": "NI social security in welfare cap",
+      "ni_social_security_outside_welfare_cap": "NI social security outside welfare cap",
+      "ni_total": "National insurance contributions",
+      "nominal_gdp_nsa": "Nominal GDP NSA, billions",
+      "non_cigarette_tobacco_clearances": "Non-cigarette tobacco clearances",
+      "other_tobacco_products_clearances": "Other tobacco products clearances",
+      "pension_credit": "Pension credit",
+      "pool_betting_duty": "Pool betting duty",
+      "public_sector_current_receipts": "Current Receipts",
+      "public_sector_net_borrowing": "Net borrowing",
+      "public_sector_net_debt_percent_gdp": "Public sector net debt (PSND), per cent of GDP",
+      "remote_gaming_duty": "Remote gaming duty",
+      "rpi_inflation": "RPI year-on-year growth",
+      "sdlt": "Stamp duty land tax",
+      "sdlt_non_residential": "SDLT from non-residential property",
+      "sdlt_residential": "SDLT from residential property",
+      "sdlt_residential_higher_rates_additional_dwellings": "SDLT from residential property: higher rates on additional dwellings",
+      "sdlt_residential_main_rates": "SDLT from residential property: main rates",
+      "sdlt_residential_non_uk_resident_surcharge": "SDLT from residential property: non-UK resident surcharge",
+      "spirits_clearances": "Spirits clearances",
+      "spirits_duties": "Spirits duties",
+      "spirits_duties_accrued": "Spirits duties (accrued)",
+      "state_pension": "State pension",
+      "statutory_gaming_levy": "Statutory gaming levy",
+      "statutory_maternity_pay": "Statutory maternity pay",
+      "tobacco_duties": "Tobacco duties",
+      "total_managed_expenditure": "Total Managed Expenditure1",
+      "tv_licence_fee": "BBC licence fee receipts",
+      "universal_credit_in_cap": "Universal credit",
+      "universal_credit_outside_cap": "Universal credit",
+      "vaping_tax": "Vaping tax",
+      "vat": "Value added tax",
+      "vehicle_excise_duties": "Vehicle excise duties",
+      "wine_clearances": "Wine clearances",
+      "wine_duties": "Wine duties",
+      "wine_duties_accrued": "Wine duties (accrued)",
+      "winter_fuel_payment": "Winter fuel payment"
     },
     "ons.ashe_age_pension_type": {
       "16_to_21__all_pension_types": "Aged 16 to 21, all employee jobs with a pension",
@@ -7788,6 +7886,7 @@
     "published_unit": {
       "gbp_million": "£ million",
       "million_sticks": "Million sticks",
+      "thousand_hectolitres_of_alcohol": "Thousand hectolitres of alcohol",
       "thousand_kilograms": "Thousand kilograms"
     },
     "quant_inc": {
