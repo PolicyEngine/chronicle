@@ -13,6 +13,7 @@ import hashlib
 import json
 import subprocess
 import sys
+from decimal import Decimal
 from pathlib import Path
 
 from arch.core import (
@@ -26,6 +27,8 @@ from arch.core import (
     validate_facts,
 )
 
+from arch.store import fact_from_mapping, fact_to_mapping
+
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER_PATH = ROOT / "ledger" / "official_observations.jsonl"
 PREFIX_PATH = ROOT / "ledger" / "immutable_prefix.json"
@@ -37,6 +40,19 @@ from check_thesis_facts_append import (  # noqa: E402
     effective_current_rows,
     expected_assertion_version_id,
 )
+
+
+# What each scaled unit measures, and the power of ten one of it holds. Thesis's
+# scripts/ledger_units.py writes rows from the same table.
+BASE_UNITS = {
+    "thousands": ("count", 3),
+    "millions": ("count", 6),
+    "usd_millions": ("usd", 6),
+    "usd_billions": ("usd", 9),
+    "billions USD": ("usd", 9),
+    "gbp_billions": ("gbp", 9),
+    "million_cubic_feet": ("cubic_feet", 6),
+}
 
 
 def _prefix_manifest() -> dict:
@@ -144,6 +160,134 @@ def test_rows_carry_no_unknown_top_level_fields():
     for number, row in enumerate(_read_ledger_facts(), start=1):
         unknown = set(row) - known
         assert not unknown, f"line {number} has unknown fields: {sorted(unknown)}"
+
+
+def _recorded_pair_problems(rows: list[dict]) -> list[str]:
+    """Rows whose recorded pair does not state the value they store, exactly."""
+    problems = []
+    for number, row in enumerate(rows, start=1):
+        source = row["source"]
+        if "recorded_value" not in source and "recorded_unit" not in source:
+            continue
+        unit = source.get("recorded_unit")
+        recorded = source.get("recorded_value")
+        if unit not in BASE_UNITS or not isinstance(recorded, (int, float)):
+            problems.append(f"line {number} records {recorded!r} {unit!r}")
+            continue
+        base, power = BASE_UNITS[unit]
+        if row["measure"]["unit"] != base:
+            problems.append(f"line {number} stores {row['measure']['unit']!r}, not {base!r}")
+        elif Decimal(repr(row["value"])) != Decimal(repr(recorded)).scaleb(power):
+            problems.append(f"line {number} stores {row['value']!r}, not {recorded!r} {unit}")
+    return problems
+
+
+def _unit_restatement_problems(rows: list[dict]) -> list[str]:
+    """Restatements that do not repeat the recorded pair of the row they name."""
+    problems = []
+    by_id: dict[str, dict] = {}
+    for number, row in enumerate(rows, start=1):
+        version = row.get("assertionVersion") or {}
+        if version.get("relation") == "unit_restatement":
+            prior = by_id.get(version.get("supersedes"))
+            if prior is None:
+                problems.append(f"line {number} restates a row no earlier line holds")
+            elif prior["measure"]["unit"] not in BASE_UNITS:
+                problems.append(f"line {number} restates a row with no scale word")
+            elif (row["source"].get("recorded_value"), row["source"].get("recorded_unit")) != (
+                prior["value"],
+                prior["measure"]["unit"],
+            ):
+                problems.append(f"line {number} changes what the row it restates says")
+        elif "relation" in version:
+            problems.append(f"line {number} has relation {version['relation']!r}")
+        by_id[version.get("id") or expected_assertion_version_id(row)] = row
+    return problems
+
+
+def test_recorded_pairs_state_the_stored_values():
+    rows = _read_ledger_facts()
+    assert _recorded_pair_problems(rows) == []
+    assert _unit_restatement_problems(rows) == []
+
+
+def _scaled_row() -> dict:
+    return {
+        "value": 7.716,
+        "measure": {"unit": "millions"},
+        "source": {},
+        "assertionVersion": {"id": "av2:prior", "supersedes": None},
+    }
+
+
+def _restatement(**changes) -> dict:
+    return {
+        "value": 7716000,
+        "measure": {"unit": "count"},
+        "source": {"recorded_value": 7.716, "recorded_unit": "millions"},
+        "assertionVersion": {
+            "id": "av2:restated",
+            "supersedes": "av2:prior",
+            "relation": "unit_restatement",
+        },
+        **changes,
+    }
+
+
+def test_a_sound_restatement_passes_both_checks():
+    rows = [_scaled_row(), _restatement()]
+    assert _recorded_pair_problems(rows) == []
+    assert _unit_restatement_problems(rows) == []
+
+
+def test_recorded_pair_checks_refuse_a_changed_quantity():
+    for changes, problem in (
+        ({"value": 7716001}, "stores 7716001"),
+        ({"measure": {"unit": "usd"}}, "stores 'usd'"),
+        (
+            {"source": {"recorded_value": 7.716, "recorded_unit": "thousands"}},
+            "stores 7716000, not 7.716 thousands",
+        ),
+        ({"source": {"recorded_value": 7.716}}, "records 7.716 None"),
+        ({"source": {"recorded_value": "7.716", "recorded_unit": "millions"}}, "records '7.716'"),
+    ):
+        problems = _recorded_pair_problems([_restatement(**changes)])
+        assert len(problems) == 1 and problem in problems[0]
+
+
+def test_restatement_checks_refuse_a_row_that_changes_the_prior_pair():
+    changed = _restatement(
+        value=7717000,
+        source={"recorded_value": 7.717, "recorded_unit": "millions"},
+    )
+    assert _recorded_pair_problems([_scaled_row(), changed]) == []
+    assert "changes what the row" in _unit_restatement_problems([_scaled_row(), changed])[0]
+
+
+def test_restatement_checks_refuse_a_row_with_no_scaled_prior():
+    plain = {**_scaled_row(), "measure": {"unit": "percent"}}
+    assert "no scale word" in _unit_restatement_problems([plain, _restatement()])[0]
+    assert "no earlier line" in _unit_restatement_problems([_restatement()])[0]
+
+
+def test_restatement_checks_refuse_an_unknown_relation():
+    other = _restatement(
+        assertionVersion={"id": "av2:x", "supersedes": None, "relation": "other"}
+    )
+    assert "relation 'other'" in _unit_restatement_problems([other])[0]
+
+
+def test_a_recorded_pair_survives_the_fact_store():
+    row = _read_ledger_facts()[0]
+    plain = _to_aggregate_fact(row)
+    assert "recorded_value" not in fact_to_mapping(plain)["source"]
+    assert "recorded_unit" not in fact_to_mapping(plain)["source"]
+    assert fact_from_mapping(fact_to_mapping(plain)) == plain
+
+    source = {**row["source"], "recorded_value": 7.716, "recorded_unit": "millions"}
+    paired = _to_aggregate_fact({**row, "source": source})
+    assert fact_to_mapping(paired)["source"]["recorded_value"] == 7.716
+    assert fact_from_mapping(fact_to_mapping(paired)) == paired
 
 
 def _git(repo: Path, *arguments: str) -> str:

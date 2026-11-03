@@ -148,6 +148,11 @@ class SourceProvenance:
     raw_r2_bucket: str | None = None
     raw_r2_key: str | None = None
     raw_r2_uri: str | None = None
+    # The pair a row stored in base units was recorded as, such as 7.716 in
+    # millions for a value of 7716000 in count. A row in a unit with no scale
+    # word holds neither.
+    recorded_value: float | None = None
+    recorded_unit: str | None = None
 
 
 @dataclass(frozen=True)
