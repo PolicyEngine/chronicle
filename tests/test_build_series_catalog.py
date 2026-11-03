@@ -22,7 +22,7 @@ import tempfile
 import uuid
 
 import pytest
-from hypothesis import HealthCheck, assume, given, settings
+from hypothesis import HealthCheck, assume, find, given, settings
 from hypothesis import event as hypothesis_event
 from hypothesis import strategies as st
 
@@ -3912,7 +3912,22 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
         bsc.UuidRegistry.load(bsc.UUID_REGISTRY),
         entity_folds_path=bsc.ENTITY_FOLDS,
     )
-    assert not plan["mints"] and not plan["supersedes"] and not plan["dropped"]
+    # No identity moves: no lineage is minted, superseded, retired, revived
+    # or dropped, and every series matches the committed catalog apart from
+    # its unit.
+    for kind in (
+        "mints", "supersedes", "dropped", "retire_pending", "revives",
+        "enrich_retires",
+    ):
+        assert not plan[kind], (kind, plan[kind])
+    committed = {
+        series["uuid"]: {k: v for k, v in series.items() if k != "unit"}
+        for series in json.loads(bsc.CATALOG.read_text(encoding="utf-8"))["series"]
+    }
+    assert {
+        series["uuid"]: {k: v for k, v in series.items() if k != "unit"}
+        for series in catalog["series"]
+    } == committed
     occupations = [
         series for series in catalog["series"]
         if series["concept"].startswith(
@@ -4081,7 +4096,11 @@ def _mutated_journals(draw, max_mutations: int, kinds=MUTATIONS):
     rows = copy.deepcopy(rows)
     kinds = draw(st.lists(st.sampled_from(kinds), max_size=max_mutations))
     for kind in kinds:
+        before = json.dumps(rows, sort_keys=True)
         rows, prefix = _mutate(draw, kind, rows, prefix)
+        # A mutation whose precondition fails changes nothing.
+        changed = json.dumps(rows, sort_keys=True) != before
+        hypothesis_event(f"mutation {kind}: {'applied' if changed else 'no-op'}")
     return rows, prefix
 
 
@@ -4108,7 +4127,39 @@ def test_generator_refuses_iff_the_gate_does_for_that_reason(journal) -> None:
     # accepts every journal the gate accepts or refuses for its own rules.
     rows, prefix = journal
     refusal = _gate_refusal(rows, prefix)
-    assert _generator_refusal(rows) == _gate_reason(rows, refusal), refusal
+    reason = _generator_refusal(rows)
+    hypothesis_event(f"generator refusal: {reason}")
+    assert reason == _gate_reason(rows, refusal), refusal
+
+
+# Each class the property above compares: every generator reason, a journal
+# both accept, and one only the gate refuses, for its own rules.
+JOURNAL_CLASSES = {
+    **{
+        reason: lambda journal, reason=reason: (
+            _generator_refusal(journal[0]) == reason
+        )
+        for reason in GENERATOR_REASONS.values()
+    },
+    "accepted": lambda journal: _gate_refusal(*journal) is None,
+    "gate only": lambda journal: (
+        _gate_refusal(*journal) is not None
+        and _generator_refusal(journal[0]) is None
+    ),
+}
+
+
+@pytest.mark.parametrize("name", sorted(JOURNAL_CLASSES))
+def test_the_mutation_strategy_reaches_every_class(name: str) -> None:
+    # A strategy that never produced a class would leave the property above
+    # passing without ever comparing the two refusals there.
+    find(
+        _mutated_journals(max_mutations=1),
+        JOURNAL_CLASSES[name],
+        settings=settings(
+            max_examples=400, deadline=None, derandomize=True, database=None
+        ),
+    )
 
 
 @PROPERTY_SETTINGS
@@ -4785,22 +4836,26 @@ def test_a_folded_rows_own_entity_is_still_validated(
         bsc.main(argv)
 
 
+@pytest.mark.parametrize("versioned", [True, False])
 def test_a_correction_superseding_an_absorbed_row_regenerates(
-    tmp_path: pathlib.Path,
+    tmp_path: pathlib.Path, versioned: bool
 ) -> None:
-    # A versioned absorbed row corrected by an appended superseding row, with
-    # its own entity or the survivor's, keeps one lineage and no registry
-    # event. (Superseding a pre-versioning row is refused by the builder
-    # whatever the folds say; that is a separate, pre-existing limitation.)
+    # An absorbed row corrected by an appended superseding row, with its own
+    # entity or the survivor's, keeps one lineage and no registry event. The
+    # absorbed row may predate assertion versioning, as the seven
+    # hand-recorded May 2026 prefix rows do; a correction then names its
+    # content address.
     rows = _drift_rows()
-    rows[0]["assertionVersion"] = {"id": "av-test:hand-may", "supersedes": None}
+    if versioned:
+        rows[0]["assertionVersion"] = {"id": "av-test:hand-may", "supersedes": None}
+    original = _address(rows[0])
     argv, survivor, absorbed = _folded_repo(tmp_path, rows)
     registry_bytes = (tmp_path / "registry.jsonl").read_bytes()
     for entity, version in ((HAND_ENTITY, "av-test:fix-1"), (ECONOMY, "av-test:fix-2")):
         correction = json.loads(json.dumps(rows[0]))
         correction["value"] = 4.4
         correction["entity"] = dict(entity)
-        previous = "av-test:hand-may" if version.endswith("1") else "av-test:fix-1"
+        previous = original if version.endswith("1") else "av-test:fix-1"
         correction["assertionVersion"] = {"id": version, "supersedes": previous}
         with (tmp_path / "obs.jsonl").open("a", encoding="utf-8") as journal:
             journal.write(json.dumps(correction) + "\n")

@@ -69,11 +69,12 @@ through a name held in another slice. Marking all seven folds undone on the
 committed artifacts reproduces the pre-fold catalog exactly, apart from the
 seed and registry digests (seven `revived` lines, no other event).
 
-One limitation is older than the folds: the builder refuses a correction
-that supersedes a row written before assertion versioning (every row of the
-immutable prefix, including the seven hand-recorded May 2026 rows), while
-the append gate accepts it. PolicyEngine/chronicle#306 addresses that. A
-correction that supersedes a versioned absorbed row regenerates cleanly.
+A correction may supersede a row written before assertion versioning (every
+row of the immutable prefix, including the seven hand-recorded May 2026
+rows) by naming its content address, as the append gate allows. The builder
+reads such a row's id the same way (PolicyEngine/chronicle#306), so a
+correction of a versioned or a pre-versioning absorbed row regenerates
+cleanly.
 
 ## Initial claims cadence metadata
 
