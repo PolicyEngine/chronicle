@@ -179,7 +179,7 @@ GUARD_CASES = tuple(
 # _guard_index unions guard addresses across record sets, so it can't see one
 # record set drop a guard that another record set still declares, or that
 # doubles as a row header (September's C13 is also 2024-Q3's). Each record set
-# must declare its vintage's anchors and its own year block's label.
+# must declare exactly its vintage's anchors and its own year block's label.
 VINTAGE_ANCHORS = {
     JUNE_2025: ("A13",),
     JUNE_2026: ("A13",),
