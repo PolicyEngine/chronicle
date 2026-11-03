@@ -776,9 +776,19 @@ def test_binding_pair_presence_and_shape_are_enforced(
 )
 def test_full_file_check_alone_rejects_joint_manifest_and_file_rewrite(tmp_path):
     lines = _read_lines()
-    rewritten = json.loads(lines[0])
+    rows = [json.loads(line) for line in lines]
+    named = {(row.get("assertionVersion") or {}).get("supersedes") for row in rows}
+    # A row that no later row names: this mode does catch a rewrite that breaks
+    # a supersede link, whatever the manifest says.
+    target = next(
+        index
+        for index, row in enumerate(rows)
+        if "assertionVersion" not in row
+        and expected_assertion_version_id(row) not in named
+    )
+    rewritten = rows[target]
     rewritten["value"] += 1
-    lines[0] = _json_line(rewritten)
+    lines[target] = _json_line(rewritten)
     manifest = _rehash_manifest(lines)
     _write_checker_fixture(tmp_path, "\n".join(lines) + "\n", manifest)
     _init_fixture_repo(tmp_path)

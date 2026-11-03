@@ -26,7 +26,6 @@ from arch.core import (
     SourceProvenance,
     validate_facts,
 )
-
 from arch.store import fact_from_mapping, fact_to_mapping
 
 ROOT = Path(__file__).resolve().parents[1]

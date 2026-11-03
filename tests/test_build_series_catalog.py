@@ -947,10 +947,12 @@ def test_reviewed_stripped_segments_fixture_is_wellformed() -> None:
         for line in bsc.OBSERVATIONS.read_text(encoding="utf-8").splitlines()
         if "week_2026-06-13" in line or "week_2026_06_13" in line
     ]
-    assert len(rows) == 1
-    assert rows[0]["source_record_id"].endswith(".week_2026-06-13")
-    assert rows[0]["measure"]["concept"].endswith(".week_2026_06_13")
-    assert rows[0]["period"] == {"type": "month", "value": "2026-06"}
+    # One observation, though a later row may restate it in another unit.
+    assert len({row["source_record_id"] for row in rows}) == 1
+    for row in rows:
+        assert row["source_record_id"].endswith(".week_2026-06-13")
+        assert row["measure"]["concept"].endswith(".week_2026_06_13")
+        assert row["period"] == {"type": "month", "value": "2026-06"}
 
 
 def test_strips_match_an_independent_replay() -> None:
