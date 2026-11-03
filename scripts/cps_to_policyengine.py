@@ -7,12 +7,11 @@ Maps CPS survey variables to statute input variables used by policyengine-us.
 
 Usage:
     python cps_to_policyengine.py --year 2024 --output microsim_2024.parquet
-    python cps_to_policyengine.py --year 2024 --calibrate --output microsim_2024_calibrated.parquet
 
 Output format:
     - Person-level records with unique IDs
     - All income components mapped to statute variables
-    - Weights (original and optionally calibrated)
+    - Original survey weights
     - Relationship data for qualifying child determination
 """
 
@@ -256,7 +255,6 @@ def transform_weights(df: pd.DataFrame) -> pd.DataFrame:
 def convert_cps_to_policyengine(
     year: int,
     output_path: Optional[Path] = None,
-    calibrate: bool = False,
     cache_dir: Optional[Path] = None,
 ) -> pd.DataFrame:
     """
@@ -265,7 +263,6 @@ def convert_cps_to_policyengine(
     Args:
         year: Tax year (e.g., 2024)
         output_path: Path to save output parquet
-        calibrate: Apply entropy calibration to IRS SOI targets
         cache_dir: Override default cache directory
 
     Returns:
@@ -298,10 +295,6 @@ def convert_cps_to_policyengine(
     result = result[result["weight"] > 0].copy()
     print(f"  {len(result):,} records with positive weights")
 
-    # Apply calibration if requested
-    if calibrate:
-        result = apply_calibration(result, year)
-
     # Add metadata columns
     result["year"] = year
     result["source"] = "cps-asec"
@@ -318,35 +311,6 @@ def convert_cps_to_policyengine(
     print(f"Saved {len(result):,} records to {output_path}")
 
     return result
-
-
-def apply_calibration(df: pd.DataFrame, year: int) -> pd.DataFrame:
-    """Apply entropy calibration to match IRS SOI targets."""
-    try:
-        from micro.us.calibrate import calibrate_weights
-        print("Applying entropy calibration to IRS SOI targets...")
-
-        # Calibration expects specific column names
-        df_cal = df.copy()
-        if "adjusted_gross_income" not in df_cal.columns:
-            print("  Warning: AGI not found, skipping calibration")
-            return df
-
-        result = calibrate_weights(df_cal, verbose=True)
-
-        if result.success:
-            df["original_weight"] = df["weight"]
-            df["weight"] = result.calibrated_weights
-            df["weight_adjustment"] = result.adjustment_factors
-            print(f"  Calibration successful (KL div: {result.kl_divergence:.2f})")
-        else:
-            print(f"  Calibration failed: {result.message}")
-
-        return df
-
-    except ImportError:
-        print("  Warning: Calibration module not found, skipping")
-        return df
 
 
 def generate_summary(df: pd.DataFrame, year: int) -> dict:
@@ -413,11 +377,6 @@ def main():
         help="Output parquet path"
     )
     parser.add_argument(
-        "--calibrate",
-        action="store_true",
-        help="Apply entropy calibration to IRS SOI targets"
-    )
-    parser.add_argument(
         "--cache-dir",
         type=str,
         help="Override raw CPS cache directory"
@@ -436,7 +395,6 @@ def main():
     df = convert_cps_to_policyengine(
         year=args.year,
         output_path=output_path,
-        calibrate=args.calibrate,
         cache_dir=cache_dir,
     )
 

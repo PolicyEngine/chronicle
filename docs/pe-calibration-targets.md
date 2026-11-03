@@ -156,17 +156,14 @@ PolicyEngine-US-Data uses a three-table schema:
 
 ## Comparison: Arch vs PolicyEngine
 
-### Currently Implemented in Arch
-
-| Category | Source | ETL File | Status |
-|----------|--------|----------|--------|
-| **IRS SOI** | IRS Table 1.1 | `etl_soi.py` | Basic (national totals, AGI brackets, filing status) |
-| **IRS SOI State** | IRS Historic Table 2 | `etl_soi_state.py` | Partial (5 states, limited years) |
-| **SNAP** | USDA FNS | `etl_snap.py` | Basic (national + 10 states) |
-| **Census** | Population Estimates | `etl_census.py` | Basic (population, households, age groups) |
-| **CBO** | Budget Outlook | `etl_cbo.py` | Macro projections only |
-| **SSA** | Trustee Report | `etl_ssa.py` | Basic |
-| **BLS** | Employment | `etl_bls.py` | Basic |
+> **Historical.** This comparison, the gap list, the target counts and the
+> recommendations below describe Arch's retired ETL-based target store. The
+> `db/etl_*.py` loaders it compared (`etl_soi.py`, `etl_soi_state.py`,
+> `etl_snap.py`, `etl_census.py`, `etl_cbo.py`, `etl_ssa.py`, `etl_bls.py` and
+> the rest) were removed with that store; see the README section "Retired
+> legacy target tables". Source-backed facts now come from the source packages
+> that `arch build-bundle` assembles, and its `coverage.json` reports what they
+> cover.
 
 ### Gaps vs PolicyEngine
 

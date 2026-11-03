@@ -23,5 +23,4 @@ __all__ = [
     "store",
     "sources",
     "suite",
-    "targets",
 ]

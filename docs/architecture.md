@@ -44,7 +44,6 @@ sources/
 |--------|---------|----------------|
 | `arch` | Source metadata and lineage | sources, files, content, fetch_log |
 | `indices` | Source time series | series, values (CPI, wage growth) |
-| `targets` | Target inputs | strata, constraints, targets |
 | `microdata` | Intermediate microdata | cps_asec, acs_pums, synthetic |
 | `microplex` | Final calibrated data | households, persons, tax_units |
 
@@ -55,13 +54,13 @@ New code should use the `arch` namespace:
 ```python
 from arch.sources import SourceFile, SourceReference, query_sources
 from arch.facts import SourceFact
-from arch.targets import Target, query_targets
 from arch.microdata import query_cps_asec
 from arch.normalization import convert_units
 ```
 
-The `db` package contains the current SQLModel persistence and loader
-implementation behind the public `arch` namespace.
+The `db` package holds the local source-artifact store and the Supabase client
+behind the public `arch` namespace. The legacy `targets` / `strata` /
+`stratum_constraints` tables and their loaders were retired (see the README).
 
 Jurisdiction source packages should use short import namespaces and published
 distribution names with a PolicyEngine prefix:
@@ -146,8 +145,8 @@ The `arch.normalization` package owns low-assumption representation helpers:
 
 ```python
 from arch.facts import SourceFact
-from arch.targets import DataSource, Jurisdiction, TargetType
-from arch.normalization import as_target, convert_units
+from arch.normalization import convert_units
+from db.schema import DataSource, Jurisdiction
 
 snap_households = SourceFact(
     name="snap_households",
@@ -158,11 +157,7 @@ snap_households = SourceFact(
     jurisdiction=Jurisdiction.US,
 )
 
-target_input = as_target(
-    convert_units(snap_households, 1000, "count"),
-    target_type=TargetType.COUNT,
-    stratum_name="US SNAP Households",
-)
+normalized = convert_units(snap_households, 1000, "count")
 ```
 
 Projection facts from official sources such as CBO, OBR, and ONS can be loaded
@@ -187,19 +182,10 @@ fact and its provenance are identified.
 
 ## Calibration Pipeline
 
-### 1. Target Inputs (from `targets.*` schema)
+### 1. Source facts (from the consumer bundle)
 
-Target inputs define source-backed aggregates that Microplex may use:
-
-```sql
--- targets.strata: Population subgroups
-INSERT INTO targets.strata (name, jurisdiction, constraints)
-VALUES ('CA adults 18-64', 'us', '[{"variable": "age", "operator": ">=", "value": "18"}, ...]');
-
--- targets.targets: Source-backed aggregate values
-INSERT INTO targets.targets (stratum_id, variable, value, period)
-VALUES (1, 'eitc_recipients', 2500000, 2023);
-```
+`arch build-bundle` writes the source-backed facts to `consumer_facts.jsonl`.
+Arch has no separate target table; target selection starts from those facts.
 
 ### 2. Variable Mapping
 
@@ -214,7 +200,7 @@ sets:
 
 ```python
 target_set = microplex.targets.compose(
-    inputs=arch_targets,
+    inputs=arch_facts,
     target_year=2024,
     reconciliation="scale_states_to_national",
     aging="apply_published_growth_factor",
@@ -320,17 +306,6 @@ indexing_rule eitc_inflation:
   base_year: 2015
   rounding: 10
 ```
-
-### targets.* (Target Inputs)
-
-```sql
-targets.strata           -- population subgroups with constraints
-targets.constraints      -- variable, operator, value per stratum
-targets.targets          -- stratum_id, variable, value, period, source
-```
-
-Targets in Arch are source-backed inputs. Active, aged, reconciled calibration
-target sets belong to Microplex Targets.
 
 ### microdata.* (Intermediate)
 

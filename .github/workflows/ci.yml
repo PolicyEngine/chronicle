@@ -130,42 +130,23 @@ jobs:
           arch
           tests/test_arch_bundle.py
           db/cli.py
-          db/etl_snap.py
-          db/etl_aca_enrollment.py
-          db/etl_medicaid.py
-          db/etl_ssi.py
           db/pe_source_inventory.py
           db/schema.py
           db/supabase_client.py
           db/source_files.py
           micro/us/census/download_cps.py
           micro/us/entities.py
-          micro/us/hierarchy_validation.py
-          micro/us/hierarchical_pipeline.py
-          micro/us/pipeline.py
           micro/us/policyengine.py
-          micro/us/targets.py
-          micro/us/validation_dashboard.py
-          calibration/constraints.py
-          calibration/targets.py
           scripts/build_series_catalog.py
           tests/test_build_series_catalog.py
           tests/test_arch_facts.py
           tests/test_arch_namespace.py
           tests/test_arch_normalization.py
-          tests/test_etl_snap.py
-          tests/test_etl_soi.py
-          tests/test_etl_aca_enrollment.py
-          tests/test_etl_medicaid.py
-          tests/test_etl_ssi.py
+          tests/test_legacy_targets_retired.py
           tests/test_source_files.py
           tests/test_microplex_entities.py
-          tests/test_microplex_hierarchy_validation.py
-          tests/test_microplex_target_adapter.py
-          tests/test_microplex_pipeline.py
           tests/test_microplex_policyengine.py
           tests/test_download_cps.py
-          tests/test_hierarchical_pipeline.py
           tests/test_supabase_client.py
           tests/test_policyengine_ledger.py
           tests/test_release_chain.py
@@ -182,31 +163,21 @@ jobs:
           tests/test_arch_facts.py
           tests/test_arch_namespace.py
           tests/test_arch_normalization.py
-          tests/test_etl_snap.py
-          tests/test_etl_soi.py
-          tests/test_etl_aca_enrollment.py
-          tests/test_etl_medicaid.py
-          tests/test_etl_ssi.py
+          tests/test_legacy_targets_retired.py
           tests/test_source_files.py
-          tests/test_calibration.py
           tests/test_microplex_entities.py
-          tests/test_microplex_hierarchy_validation.py
-          tests/test_microplex_target_adapter.py
-          tests/test_microplex_pipeline.py
           tests/test_microplex_policyengine.py
           tests/test_download_cps.py
-          tests/test_hierarchical_pipeline.py
           tests/test_supabase_client.py
           tests/test_policyengine_ledger.py
           tests/test_release_chain.py
           tests/test_thesis_append_adversarial.py
           -q
 
-      - name: Build target input database
+      - name: Smoke-test the source-artifact database CLI
         run: |
-          uv run arch --db /tmp/arch-targets-ci.db init
-          uv run arch --db /tmp/arch-targets-ci.db load all
-          uv run arch --db /tmp/arch-targets-ci.db stats
+          uv run arch --db /tmp/arch-source-ci.db init
+          uv run arch --db /tmp/arch-source-ci.db source-stats
 
       - name: Build wheel
         run: |
@@ -220,18 +191,28 @@ jobs:
           uv pip install --python /tmp/arch-wheel-smoke/bin/python "$wheel_path"
           cd /tmp
           /tmp/arch-wheel-smoke/bin/python - <<'PY'
+          import importlib.util
+
           import arch
-          import arch.targets
-          from micro.us.district import DistrictMicroplex
-          from micro.us.pipeline import run_pipeline
-          from micro.us.targets import load_microplex_targets
+          from arch.jurisdictions.us.soi import AGI_BRACKETS
+          from arch.normalization import convert_units
+          from micro.us.entities import build_microplex_entities
           from microplex import ConditionalMAF
 
           assert arch.__name__ == "arch"
-          assert DistrictMicroplex is not None
-          assert run_pipeline is not None
-          assert load_microplex_targets is not None
+          assert len(AGI_BRACKETS) == 19
+          assert convert_units is not None
+          assert build_microplex_entities is not None
           assert ConditionalMAF is not None
+          # The legacy target store is not shipped.
+          for retired in (
+              "arch.targets",
+              "calibration",
+              "db.etl_soi",
+              "micro.us.pipeline",
+              "micro.us.targets",
+          ):
+              assert importlib.util.find_spec(retired) is None, retired
           PY
           /tmp/arch-wheel-smoke/bin/arch --help >/dev/null
 

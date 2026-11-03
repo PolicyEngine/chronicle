@@ -332,20 +332,13 @@ Microsoft Excel files; complete report as PDF
 
 ---
 
-## ETL Roadmap
+## ETL Roadmap (historical)
 
-### Currently Implemented
-
-**`etl_soi_state.py`**: Basic state-level loader for Historic Table 2
-
-Variables loaded:
-- `tax_unit_count` (number of returns)
-- `adjusted_gross_income` (total AGI)
-- `income_tax_liability` (total tax)
-
-States covered: Top 5 by population (CA, TX, FL, NY, PA)
-
-Years: 2020-2021
+The state loader this roadmap planned around, `db/etl_soi_state.py`, was
+removed with the legacy target store. The audit in PolicyEngine/chronicle#348
+found that it presented invented values as IRS figures. The phases below, and
+the strata design under Implementation Notes, are kept as planning context
+only; nothing on this branch implements them.
 
 ### Phase 1: Expand State Coverage (Priority: High)
 

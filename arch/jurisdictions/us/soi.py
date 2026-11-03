@@ -25,7 +25,6 @@ from arch.sources.specs import (
     SourceRecordSetSpec,
     SourceRecordSpec,
 )
-from db.etl_soi import AGI_BRACKETS, TABLE_1_1_AGI_LABEL_TO_BRACKET
 
 SOI_TABLE_1_1_SOURCE_NAME = "irs_soi"
 SOI_TABLE_1_1_SOURCE_TABLE = "Publication 1304 Table 1.1"
@@ -49,6 +48,51 @@ AGI_CONCEPT_EVIDENCE_NOTES = (
     "treats the SOI AGI column as exactly adopting that legal concept for the "
     "tax-year source record."
 )
+
+# AGI bracket definitions (lower, upper) in dollars.
+AGI_BRACKETS = {
+    "under_1": (float("-inf"), 1),
+    "1_to_5k": (1, 5_000),
+    "5k_to_10k": (5_000, 10_000),
+    "10k_to_15k": (10_000, 15_000),
+    "15k_to_20k": (15_000, 20_000),
+    "20k_to_25k": (20_000, 25_000),
+    "25k_to_30k": (25_000, 30_000),
+    "30k_to_40k": (30_000, 40_000),
+    "40k_to_50k": (40_000, 50_000),
+    "50k_to_75k": (50_000, 75_000),
+    "75k_to_100k": (75_000, 100_000),
+    "100k_to_200k": (100_000, 200_000),
+    "200k_to_500k": (200_000, 500_000),
+    "500k_to_1m": (500_000, 1_000_000),
+    "1m_to_1_5m": (1_000_000, 1_500_000),
+    "1_5m_to_2m": (1_500_000, 2_000_000),
+    "2m_to_5m": (2_000_000, 5_000_000),
+    "5m_to_10m": (5_000_000, 10_000_000),
+    "10m_plus": (10_000_000, float("inf")),
+}
+
+TABLE_1_1_AGI_LABEL_TO_BRACKET = {
+    "No adjusted gross income": "under_1",
+    "$1 under $5,000": "1_to_5k",
+    "$5,000 under $10,000": "5k_to_10k",
+    "$10,000 under $15,000": "10k_to_15k",
+    "$15,000 under $20,000": "15k_to_20k",
+    "$20,000 under $25,000": "20k_to_25k",
+    "$25,000 under $30,000": "25k_to_30k",
+    "$30,000 under $40,000": "30k_to_40k",
+    "$40,000 under $50,000": "40k_to_50k",
+    "$50,000 under $75,000": "50k_to_75k",
+    "$75,000 under $100,000": "75k_to_100k",
+    "$100,000 under $200,000": "100k_to_200k",
+    "$200,000 under $500,000": "200k_to_500k",
+    "$500,000 under $1,000,000": "500k_to_1m",
+    "$1,000,000 under $1,500,000": "1m_to_1_5m",
+    "$1,500,000 under $2,000,000": "1_5m_to_2m",
+    "$2,000,000 under $5,000,000": "2m_to_5m",
+    "$5,000,000 under $10,000,000": "5m_to_10m",
+    "$10,000,000 or more": "10m_plus",
+}
 
 
 def build_soi_table_1_1_facts(year: int = 2023) -> list[AggregateFact]:
