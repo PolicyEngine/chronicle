@@ -176,6 +176,25 @@ GUARD_CASES = tuple(
     for vintage, guards in EXPECTED_GUARDS.items()
     for address in guards
 )
+# _guard_index unions guard addresses across record sets, so it can't see one
+# record set drop a guard that another record set still declares, or that
+# doubles as a row header (September's C13 is also 2024-Q3's). Each record set
+# must declare its vintage's anchors and its own year block's label.
+VINTAGE_ANCHORS = {
+    JUNE_2025: ("A13",),
+    JUNE_2026: ("A13",),
+    SEPTEMBER_2026: ("A13", "C13"),
+}
+YEAR_LABEL_ROWS = {
+    vintage: tuple(
+        sorted(
+            int(address[1:])
+            for address in guards
+            if address[0] == "A" and int(address[1:]) >= 13
+        )
+    )
+    for vintage, guards in EXPECTED_GUARDS.items()
+}
 
 
 @lru_cache
@@ -532,6 +551,26 @@ def test_qes_every_required_guard_is_declared(vintage):
     assert {
         address: str(item[1]) for address, item in _guard_index(vintage).items()
     } == EXPECTED_GUARDS[vintage]
+
+
+@pytest.mark.parametrize("vintage", ALIASES)
+def test_qes_each_record_set_declares_its_vintage_and_year_anchors(vintage):
+    for spec in _specs(vintage):
+        selector = spec.selector
+        row = int(selector.expected_row_header_address[1:])
+        year_row = max(r for r in YEAR_LABEL_ROWS[vintage] if r <= row)
+        expected = {
+            address: EXPECTED_GUARDS[vintage][address]
+            for address in (*VINTAGE_ANCHORS[vintage], f"A{year_row}")
+        }
+        declared = {
+            item.address: str(item.expected_value)
+            for item in selector.guard_cells
+            if item.address[0] in "AC" and int(item.address[1:]) >= 13
+        }
+        assert declared == expected, (
+            f"{selector.expected_row_header_address}: declared {declared!r}"
+        )
 
 
 @pytest.mark.parametrize(("vintage", "address"), GUARD_CASES)
