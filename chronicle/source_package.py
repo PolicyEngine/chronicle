@@ -9,6 +9,7 @@ from importlib.resources import files
 from io import BytesIO
 from pathlib import Path
 import re
+import time
 from typing import Any
 from urllib.parse import unquote, urlparse
 from zipfile import ZipFile
@@ -47,11 +48,13 @@ from chronicle.sources.rows import (
     SourceRow,
     source_cells_from_source_rows,
     source_rows_from_census_acs_s0101_age_json,
+    source_rows_from_census_acs_s1501_attainment_json,
     source_rows_from_census_acs_s2201_snap_json,
     source_rows_from_census_b01001_female_age_json,
     source_rows_from_cdc_vsrr_live_births_json,
     source_rows_from_json_table,
     source_rows_from_statxplore_table,
+    source_rows_from_ons_census_observations_json,
     source_rows_from_ees_permalink_table_html,
     source_rows_from_json_stat_2,
     source_rows_from_kff_state_indicator_gdocs_html,
@@ -59,6 +62,7 @@ from chronicle.sources.rows import (
     source_rows_from_delimited_text,
     source_rows_from_xlsx_table,
     statxplore_field_labels,
+    ons_census_observation_labels,
 )
 from chronicle.sources.specs import (
     SourceRecord,
@@ -239,8 +243,17 @@ SOURCE_PACKAGE_ALIASES = {
     "stats-nz-census-2023-households-by-region-rc-99": Path(
         "stats_nz/census_2023_households_by_region/rc_99"
     ),
+    "stats-nz-qes-average-weekly-earnings-june-2025": Path(
+        "stats_nz/qes_average_weekly_earnings_june_2025"
+    ),
+    "stats-nz-qes-average-weekly-earnings-june-2026": Path(
+        "stats_nz/qes_average_weekly_earnings_june_2026"
+    ),
     "stats-nz-subnational-population-estimates-2025": Path(
         "stats_nz/subnational_population_estimates_2025"
+    ),
+    "stats-nz-subnational-population-ta-2025": Path(
+        "stats_nz/subnational_population_ta_2025"
     ),
     "ons-mye-2025-uk": Path("ons/mye_2025_uk"),
     "ons-mye-2024-uk-revised-2026": Path("ons/mye_2024_uk_revised_2026"),
@@ -319,14 +332,16 @@ SOURCE_PACKAGE_ALIASES = {
     "ons-census2021-rm120-lad-residence2-sex2": Path(
         "ons/census2021_rm120_lad_residence2_sex2"
     ),
-    "dwp-uc-households-by-constituency-january-2025-may-2026": Path(
-        "dwp/uc_households_by_constituency_january_2025_may_2026"
+    # chronicle#339: the area series with Payment Indicator replace the all-claims
+    # extracts of 7 October 2026.
+    "dwp-uc-households-by-constituency-payment-indicator-january-2025-may-2026": Path(
+        "dwp/uc_households_by_constituency_payment_indicator_january_2025_may_2026"
     ),
-    "dwp-uc-households-by-constituency-children-january-2025-may-2026": Path(
-        "dwp/uc_households_by_constituency_children_january_2025_may_2026"
+    "dwp-uc-households-by-constituency-children-payment-indicator-january-2025-may-2026": Path(
+        "dwp/uc_households_by_constituency_children_payment_indicator_january_2025_may_2026"
     ),
-    "dwp-uc-households-by-local-authority-january-2025-may-2026": Path(
-        "dwp/uc_households_by_local_authority_january_2025_may_2026"
+    "dwp-uc-households-by-local-authority-payment-indicator-january-2025-may-2026": Path(
+        "dwp/uc_households_by_local_authority_payment_indicator_january_2025_may_2026"
     ),
     "welshgov-household-estimates-mid2024": Path(
         "welshgov/household_estimates_mid2024"
@@ -494,6 +509,86 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/employee_workplace_pensions_summary_2024"
     ),
     # end chronicle#302
+    # chronicle#343: high-value housing facts for the UK local calibration (the
+    # Price Paid, UK HPI and NSPL releases are raw-only registrations, not packages).
+    "obr-hvcts-costing-april-2026": Path("obr/hvcts_costing_april_2026"),
+    "ons-hpssa-pcon24-year-ending-march-2026": Path(
+        "ons/hpssa_pcon24_year_ending_march_2026"
+    ),
+    # end chronicle#343
+    # chronicle#357: facts for Microcosm's ports of the policyengine-uk-data wave
+    # (microcosm#1095).
+    "hmrc-stamp-tax-statistics-2024-25": Path("hmrc/stamp_tax_statistics_2024_25"),
+    "dwp-hbai-summary-fye2025": Path("dwp/hbai_summary_fye2025"),
+    "dwp-hbai-uncertainty-fye2025": Path("dwp/hbai_uncertainty_fye2025"),
+    "dwp-mtuc-households-legacy-benefit-move-status-july-2022-june-2026": Path(
+        "dwp/mtuc_households_legacy_benefit_move_status_july_2022_june_2026"
+    ),
+    # end chronicle#357
+    # chronicle#356: Northern Ireland and small-area domestic energy, and DfT bus
+    # operating revenue by country (the MSOA energy workbooks and the rural-urban
+    # lookups are raw-only registrations, not packages).
+    "desnz-subnational-electricity-consumption-northern-ireland-2024": Path(
+        "desnz/subnational_electricity_consumption_northern_ireland_2024"
+    ),
+    "desnz-subnational-gas-consumption-northern-ireland-2024": Path(
+        "desnz/subnational_gas_consumption_northern_ireland_2024"
+    ),
+    "desnz-lsoa-domestic-gas-consumption-2024": Path(
+        "desnz/lsoa_domestic_gas_consumption_2024"
+    ),
+    "desnz-lsoa-domestic-electricity-consumption-2024": Path(
+        "desnz/lsoa_domestic_electricity_consumption_2024"
+    ),
+    "dft-bus04i-operating-revenue-2025": Path("dft/bus04i_operating_revenue_2025"),
+    # end chronicle#356
+    # chronicle#358: census residence type by age, with 90 and over split out
+    # where the publisher allows (Scotland publishes nothing above 85 and over).
+    "ons-census2021-ur-hh-age101-sex-ctry": Path(
+        "ons/census2021_ur_hh_age101_sex_ctry"
+    ),
+    "ons-census2021-ur-hh-age101-sex-rgn": Path("ons/census2021_ur_hh_age101_sex_rgn"),
+    "ons-census2021-ur-hh-age101-persons-ctry": Path(
+        "ons/census2021_ur_hh_age101_persons_ctry"
+    ),
+    "ons-census2021-ur-hh-age101-persons-rgn": Path(
+        "ons/census2021_ur_hh_age101_persons_rgn"
+    ),
+    "ons-census2021-ur-ce-age101-sex-ctry": Path(
+        "ons/census2021_ur_ce_age101_sex_ctry"
+    ),
+    "ons-census2021-ur-ce-age101-sex-rgn": Path("ons/census2021_ur_ce_age101_sex_rgn"),
+    "ons-census2021-ur-ce-age101-persons-ctry": Path(
+        "ons/census2021_ur_ce_age101_persons_ctry"
+    ),
+    "ons-census2021-ur-ce-age101-persons-rgn": Path(
+        "ons/census2021_ur_ce_age101_persons_rgn"
+    ),
+    "nisra-census2021-residence-type-age-sex-ni": Path(
+        "nisra/census2021_residence_type_age_sex_ni"
+    ),
+    "nisra-census2021-residence-type-age-sex-lgd14": Path(
+        "nisra/census2021_residence_type_age_sex_lgd14"
+    ),
+    "nisra-census2021-residence-type-age-sex-parlcon24": Path(
+        "nisra/census2021_residence_type_age_sex_parlcon24"
+    ),
+    "nisra-census2021-residence-type-age-persons-ni": Path(
+        "nisra/census2021_residence_type_age_persons_ni"
+    ),
+    "nisra-census2021-residence-type-age-persons-lgd14": Path(
+        "nisra/census2021_residence_type_age_persons_lgd14"
+    ),
+    "nisra-census2021-residence-type-age-persons-parlcon24": Path(
+        "nisra/census2021_residence_type_age_persons_parlcon24"
+    ),
+    "nrs-census2022-uv101a-scotland": Path("nrs/census2022_uv101a_scotland"),
+    # end chronicle#358
+    # chronicle#326: Scottish Census 2022 tenure by output area for BRMA rent targets.
+    "nrs-census2022-uv404-tenure-output-area": Path(
+        "nrs/census2022_uv404_tenure_output_area"
+    ),
+    # end chronicle#326
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),
@@ -503,6 +598,13 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-cgt-residential-property-2026": Path("hmrc/cgt_residential_property_2026"),
     "hmrc-cgt-size-of-gain-2026": Path("hmrc/cgt_size_of_gain_2026"),
     "hmrc-cgt-statistics-2026": Path("hmrc/cgt_statistics_2026"),
+    # PolicyEngine/microcosm#1415
+    "hmrc-cash-isa-limit-reduction-2026": Path("hmrc/cash_isa_limit_reduction_2026"),
+    "hmrc-isa-statistics-2026": Path("hmrc/isa_statistics_2026"),
+    "hmrc-lisa-statistics-2026": Path("hmrc/lisa_statistics_2026"),
+    # end PolicyEngine/microcosm#1415
+    # PolicyEngine/uk-autumn-budget-dashboard-2026#316
+    "hmrc-benefits-in-kind-july-2026": Path("hmrc/benefits_in_kind_july_2026"),
     "hmrc-spi-income-by-area-2023-24": Path("hmrc/spi_income_by_area_2023_24"),
     "hmrc-salary-sacrifice-relief-2024-25": Path(
         "hmrc/salary_sacrifice_relief_2024_25"
@@ -533,6 +635,9 @@ SOURCE_PACKAGE_ALIASES = {
     "msd-annual-report-benefit-expenses-2025": Path(
         "msd/annual_report_benefit_expenses_2025"
     ),
+    "treasury-prefu26-economic-assumptions": Path(
+        "treasury/prefu26_economic_assumptions"
+    ),
     "treasury-an24-01-fiscal-totals": Path("treasury/an24_01_fiscal_totals"),
     "treasury-estimates-of-appropriations-2026-27": Path(
         "treasury/estimates_of_appropriations_2026_27"
@@ -554,13 +659,25 @@ SOURCE_PACKAGE_ALIASES = {
     "mhclg-ehs-weekly-housing-costs-2023-24": Path(
         "mhclg/ehs_weekly_housing_costs_2023_24"
     ),
+    "rsz-employment-daily-wage-class-2023-2026": Path(
+        "rsz/employment_daily_wage_class_2023_2026"
+    ),
+    "rsz-annual-wages-key-figures-2020-2025": Path(
+        "rsz/annual_wages_key_figures_2020_2025"
+    ),
     "statbel-population-structure-2025": Path("statbel/population_structure_2025"),
+    "statbel-population-structure-commune-2025": Path(
+        "statbel/population_structure_commune_2025"
+    ),
     "statbel-population-structure-2026": Path("statbel/population_structure_2026"),
     "statbel-fiscal-income-2023-nis-2025": Path("statbel/fiscal_income_2023_nis_2025"),
     "statbel-fiscal-income-distribution-2023": Path(
         "statbel/fiscal_income_distribution_2023"
     ),
     "spf-finances-pit-2023": Path("spf_finances/pit_2023"),
+    "spf-finances-municipal-tax-rate-ay2026": Path(
+        "spf_finances/municipal_tax_rate_ay2026"
+    ),
     "onss-contributions-2024": Path("onss/contributions_2024"),
     "onem-rva-unemployment-2024": Path("onem_rva/unemployment_2024"),
     "nbb-national-accounts-household-disposable-income-2024": Path(
@@ -570,7 +687,9 @@ SOURCE_PACKAGE_ALIASES = {
         "jrc/euromod_be_baseline_statistics_2025"
     ),
     "sfpd-legal-pension-caseload-2025": Path("sfpd/legal_pension_caseload_2025"),
+    "sfpd-pension-amount-bands-2025": Path("sfpd/pension_amount_bands_2025"),
     "opgroeien-groeipakket-caseload-2025": Path("opgroeien/groeipakket_caseload_2025"),
+    "ostbelgien-kindergeld-2025": Path("ostbelgien/kindergeld_2025"),
     "bfp-economic-outlook-2026-06": Path("bfp/economic_outlook_2026_06"),
     "fpb-economic-outlook-2026-2031-june-2026": Path(
         "fpb/economic_outlook_2026_2031_june_2026"
@@ -704,6 +823,11 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "census-acs-s0101-national-age-2024": Path("census/acs_s0101_national_2024"),
     "census-acs-s0101-state-age-2024": Path("census/acs_s0101_state_2024"),
+    "census-acs-s1501-state-attainment-2024": Path("census/acs_s1501_state_2024"),
+    **{
+        f"census-acs5-{table}-county-2024": Path(f"census/acs5_{table}_county_2024")
+        for table in ("b01003", "b11001", "b19001", "b19013", "b19025", "b19051", "b19061")
+    },
     "census-acs-s2201-congressional-district-snap-2024": Path(
         "census/acs_s2201_district_2024"
     ),
@@ -805,6 +929,26 @@ SOURCE_PACKAGE_ALIASES = {
     "hmrc-hydrocarbon-oils-quantities-june-2026": Path(
         "hmrc/hydrocarbon_oils_quantities_june_2026"
     ),
+    "hmrc-alcohol-bulletin-july-2026": Path("hmrc/alcohol_bulletin_july_2026"),
+    "hmrc-tobacco-bulletin-july-2026": Path("hmrc/tobacco_bulletin_july_2026"),
+    "hmrc-betting-gaming-statistics-july-2026": Path(
+        "hmrc/betting_gaming_statistics_july_2026"
+    ),
+    "ed-fsa-portfolio-summary-fy2026-q3": Path("ed_fsa/portfolio_summary_fy2026_q3"),
+    "ed-fsa-portfolio-by-location-fy2026-q2": Path(
+        "ed_fsa/portfolio_by_location_fy2026_q2"
+    ),
+    "ed-fsa-portfolio-by-age-fy2026-q2": Path("ed_fsa/portfolio_by_age_fy2026_q2"),
+    "ed-fsa-portfolio-by-debt-size-fy2026-q2": Path(
+        "ed_fsa/portfolio_by_debt_size_fy2026_q2"
+    ),
+    "ed-fsa-portfolio-by-loan-type-fy2026-q3": Path(
+        "ed_fsa/portfolio_by_loan_type_fy2026_q3"
+    ),
+    "ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3": Path(
+        "ed_fsa/dl_portfolio_by_repayment_plan_fy2026_q3"
+    ),
+    "eurostat-ert-bil-eur-a-usd": Path("eurostat/ert_bil_eur_a_usd"),
     "eurostat-gov-10a-taxag": Path("eurostat/gov_10a_taxag"),
     "eurostat-gov-10a-taxag-2025": Path("eurostat/gov_10a_taxag_2025"),
     "eurostat-spr-exp-func": Path("eurostat/spr_exp_func"),
@@ -836,8 +980,14 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/subnational_dwellings_by_tenure_2024"
     ),
     "ons-pipr-rents-by-area-june-2026": Path("ons/pipr_rents_by_area_june_2026"),
-    "ons-consumer-trends-current-price-2026": Path(
-        "ons/consumer_trends_current_price_2026"
+    "ons-consumer-trends-current-price-september-2026": Path(
+        "ons/consumer_trends_current_price_september_2026"
+    ),
+    "gambling-commission-industry-statistics-fy2025-26": Path(
+        "gambling_commission/industry_statistics_fy2025_26"
+    ),
+    "gambling-commission-gsgb-annual-report-2025": Path(
+        "gambling_commission/gsgb_annual_report_2025"
     ),
     "nrs-census2022-households-ukpc24": Path("nrs/census2022_households_ukpc24"),
     "nrs-census2022-uv113-household-composition-country": Path(
@@ -905,6 +1055,47 @@ SOURCE_PACKAGE_ALIASES = {
     "obr-efo-expenditure-march-2026": Path("obr/efo_expenditure_march_2026"),
     "obr-efo-economy-march-2026": Path("obr/efo_economy_march_2026"),
     "obr-efo-aggregates-march-2026": Path("obr/efo_aggregates_march_2026"),
+    # PolicyEngine/chronicle#393: the October 2026 EFO, beside the March vintage.
+    "obr-efo-receipts-october-2026": Path("obr/efo_receipts_october_2026"),
+    "obr-efo-expenditure-october-2026": Path("obr/efo_expenditure_october_2026"),
+    "obr-efo-economy-october-2026": Path("obr/efo_economy_october_2026"),
+    "obr-efo-aggregates-october-2026": Path("obr/efo_aggregates_october_2026"),
+    "obr-efo-policy-october-2026": Path("obr/efo_policy_october_2026"),
+    # PolicyEngine/chronicle#395
+    "lps-domestic-rates-paid-2026": Path("lps/domestic_rates_paid_2026"),
+    "lps-lone-pensioner-allowance-ye-2024": Path(
+        "lps/lone_pensioner_allowance_ye_2024"
+    ),
+    "lps-disabled-persons-allowance-ye-2024": Path(
+        "lps/disabled_persons_allowance_ye_2024"
+    ),
+    "ons-crpsf-ni-domestic-rates-fye2025": Path("ons/crpsf_ni_domestic_rates_fye2025"),
+    "dft-bus01-wales-journeys-2025": Path("dft/bus01_wales_journeys_2025"),
+    "welshgov-childcare-offer-report-2023-24": Path(
+        "welshgov/childcare_offer_report_2023_24"
+    ),
+    "ons-pusf-vehicle-duty-households-october-2026": Path(
+        "ons/pusf_vehicle_duty_households_october_2026"
+    ),
+    "ons-pusf-vehicle-duty-businesses-october-2026": Path(
+        "ons/pusf_vehicle_duty_businesses_october_2026"
+    ),
+    "ons-mm23-cpi-weight-gas-october-2026": Path(
+        "ons/mm23_cpi_weight_gas_october_2026"
+    ),
+    "ons-mm23-cpi-weight-natural-gas-october-2026": Path(
+        "ons/mm23_cpi_weight_natural_gas_october_2026"
+    ),
+    "ons-mm23-cpi-weight-liquefied-hydrocarbons-october-2026": Path(
+        "ons/mm23_cpi_weight_liquefied_hydrocarbons_october_2026"
+    ),
+    "ons-mm23-cpi-index-natural-gas-october-2026": Path(
+        "ons/mm23_cpi_index_natural_gas_october_2026"
+    ),
+    "ons-mm23-cpi-index-liquefied-hydrocarbons-october-2026": Path(
+        "ons/mm23_cpi_index_liquefied_hydrocarbons_october_2026"
+    ),
+    # end PolicyEngine/chronicle#395
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"
     ),
@@ -1006,6 +1197,12 @@ class SourceArtifactSpec:
                 artifact,
                 sheet_name=self._sheet_name(filename, year=year),
             )
+        if self.parser == "ons_census_observations_json_rows":
+            return source_rows_from_ons_census_observations_json(
+                content,
+                artifact,
+                sheet_name=self._sheet_name(filename, year=year),
+            )
         if self.parser == "json_stat_2_full_rows":
             return source_rows_from_json_stat_2(
                 content,
@@ -1020,6 +1217,12 @@ class SourceArtifactSpec:
             )
         if self.parser == "census_acs_s2201_snap_json_rows":
             return source_rows_from_census_acs_s2201_snap_json(
+                content,
+                artifact,
+                sheet_name=self._sheet_name(filename, year=year),
+            )
+        if self.parser == "census_acs_s1501_attainment_json_rows":
+            return source_rows_from_census_acs_s1501_attainment_json(
                 content,
                 artifact,
                 sheet_name=self._sheet_name(filename, year=year),
@@ -1059,9 +1262,12 @@ class SourceArtifactSpec:
     def source_column_labels(self, year: int) -> dict[str, str]:
         """Return the publisher's labels for parsed source-row columns.
 
-        Only Stat-Xplore responses carry them: each field's label, keyed by the
-        column the parser names after it.
+        Only Stat-Xplore and ONS census-observations responses carry them: each
+        field's or dimension's label, keyed by the column the parser names after it.
         """
+        if self.parser == "ons_census_observations_json_rows":
+            content, _filename, _source_url, _raw_r2 = self._artifact_content(year)
+            return ons_census_observation_labels(content)
         if self.parser != "statxplore_table_json_rows":
             return {}
         content, _filename, _source_url, _raw_r2 = self._artifact_content(year)
@@ -1086,6 +1292,10 @@ class SourceArtifactSpec:
             return source_cells_from_xls(content, artifact)
         if self.parser == "xlsx_used_range":
             return source_cells_from_xlsx(content, artifact, sheets=self.sheets)
+        if self.parser == "xlsx_read_only_used_range":
+            return source_cells_from_xlsx(
+                content, artifact, sheets=self.sheets, read_only=True
+            )
         if self.parser == "zip_xlsx_used_range":
             member_content, member_name = self._archive_member_content(
                 content,
@@ -1112,6 +1322,25 @@ class SourceArtifactSpec:
             )
             member_sha256 = hashlib.sha256(member_content).hexdigest()
             return source_cells_from_xls(
+                member_content,
+                replace(
+                    artifact,
+                    source_file=f"{filename}!{member_name}",
+                    sha256=member_sha256,
+                    size_bytes=len(member_content),
+                    extraction_method=(
+                        f"{artifact.extraction_method}; ZIP member {member_name} "
+                        f"from outer SHA-256 {artifact.sha256}"
+                    ),
+                ),
+            )
+        if self.parser == "zip_ods_used_range":
+            member_content, member_name = self._archive_member_content(
+                content,
+                suffixes=(".ods",),
+            )
+            member_sha256 = hashlib.sha256(member_content).hexdigest()
+            return source_cells_from_ods(
                 member_content,
                 replace(
                     artifact,
@@ -1294,6 +1523,26 @@ class SourceArtifactSpec:
                     for row in self.selected_rows
                 ),
             )
+        if self.parser == "census_acs_s1501_attainment_json_rows":
+            rows = (
+                source_rows
+                if source_rows is not None
+                else source_rows_from_census_acs_s1501_attainment_json(
+                    content,
+                    artifact,
+                    sheet_name=self._sheet_name(filename, year=year),
+                )
+            )
+            return source_cells_from_source_rows(
+                rows,
+                selected_rows=tuple(
+                    {
+                        key: str(_render_value(value, year=year))
+                        for key, value in row.items()
+                    }
+                    for row in self.selected_rows
+                ),
+            )
         if self.parser == "cdc_vsrr_live_births_json_rows":
             rows = (
                 source_rows
@@ -1382,6 +1631,26 @@ class SourceArtifactSpec:
                     content,
                     artifact,
                     sheet_name=self.sheet_name or "api_response",
+                )
+            )
+            return source_cells_from_source_rows(
+                rows,
+                selected_rows=tuple(
+                    {
+                        key: str(_render_value(value, year=year))
+                        for key, value in row.items()
+                    }
+                    for row in self.selected_rows
+                ),
+            )
+        if self.parser == "ons_census_observations_json_rows":
+            rows = (
+                source_rows
+                if source_rows is not None
+                else source_rows_from_ons_census_observations_json(
+                    content,
+                    artifact,
+                    sheet_name=self.sheet_name or "observations",
                 )
             )
             return source_cells_from_source_rows(
@@ -3293,6 +3562,58 @@ def _year_mapping(files_by_year: dict[Any, Any], year: int) -> dict[str, str]:
     raise ValueError(f"No source artifact for year {year}")
 
 
+#: Pauses, in seconds, between retries of a publisher download that failed in
+#: transport or with a 5xx answer; a 4xx answer is final.
+SOURCE_ARTIFACT_FETCH_RETRY_PAUSES = (5, 20, 60)
+
+
+def read_registered_artifact(manifest_path: str | Path, file_key: int | str) -> bytes:
+    """Return one registered artifact's bytes the way a package build reads them.
+
+    The file beside its manifest when it is committed, else the source-artifact
+    cache, else (only with LEDGER_SOURCE_ARTIFACT_FETCH=1) a download from the
+    manifest's ``source_url``; every route is checked against the pinned sha256.
+    Package builders read artifacts stored in R2 only (``storage.local: false``)
+    through it rather than from ``db/data``.
+    """
+    manifest_path = Path(manifest_path)
+    with manifest_path.open("r", encoding="utf-8") as handle:
+        manifest = safe_load_yaml(handle)
+    spec = _year_mapping(manifest["files"], int(file_key))
+    content = _read_source_artifact_content(
+        manifest_path.parent / spec["filename"], spec
+    )
+    expected_sha = spec.get("sha256")
+    if expected_sha:
+        _validate_source_artifact_sha(
+            content,
+            expected_sha=str(expected_sha),
+            filename=str(spec["filename"]),
+        )
+    return content
+
+
+def r2_only_package_artifacts(data_root: str | Path) -> list[tuple[Path, Any]]:
+    """List ``(manifest path, file key)`` for each R2-only artifact a package reads.
+
+    These are manifest files stored in R2 only (``storage.local: false``) under a
+    registration that builds facts; raw-only registrations, which no build reads,
+    are left out. CI fetches them before its tests, and tests that need one skip
+    when it is neither committed nor cached and fetching is off.
+    """
+    found: list[tuple[Path, Any]] = []
+    for manifest_path in sorted(Path(data_root).glob("**/manifest.yaml")):
+        with manifest_path.open("r", encoding="utf-8") as handle:
+            manifest = safe_load_yaml(handle)
+        if manifest.get("registration_kind") == "raw_only":
+            continue
+        for file_key, spec in (manifest.get("files") or {}).items():
+            storage = spec.get("storage") if isinstance(spec, dict) else None
+            if isinstance(storage, dict) and storage.get("local") is False:
+                found.append((manifest_path, file_key))
+    return found
+
+
 def _read_source_artifact_content(
     artifact_path: Any,
     spec: dict[str, Any],
@@ -3347,9 +3668,18 @@ def _fetch_source_artifact_content(source_url: str) -> bytes:
         return Path(source_url).read_bytes()
     if parsed.scheme not in {"http", "https"}:
         raise ValueError(f"Unsupported source artifact URL scheme: {parsed.scheme}")
-    response = httpx.get(source_url, follow_redirects=True, timeout=60)
-    response.raise_for_status()
-    return response.content
+    for pause in (*SOURCE_ARTIFACT_FETCH_RETRY_PAUSES, None):
+        try:
+            response = httpx.get(source_url, follow_redirects=True, timeout=60)
+        except httpx.TransportError:
+            if pause is None:
+                raise
+        else:
+            if response.status_code < 500 or pause is None:
+                response.raise_for_status()
+                return response.content
+        time.sleep(pause)
+    raise AssertionError("unreachable")
 
 
 def _validate_source_artifact_sha(

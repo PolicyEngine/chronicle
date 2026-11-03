@@ -18,7 +18,7 @@ from chronicle.dimension_labels import dimension_label_issues
 from chronicle.source_package import SOURCE_PACKAGE_ALIASES, load_source_package
 from chronicle.sources.cells import build_source_cell_key, validate_source_cells
 
-ONS = "ons-consumer-trends-current-price-2026"
+ONS = "ons-consumer-trends-current-price-september-2026"
 ROAD_FUEL = "desnz-road-transport-fuel-consumption-2024"
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -59,18 +59,23 @@ def test_consumption_facts_preserve_lineage_and_consumer_contract(
     assert {fact.assertion for fact in facts} == {"observation"}
 
 
-def test_ons_uses_the_existing_preserved_vintage(ons_data):
-    path = ROOT / "db/data/ons/consumer_trends_current_price_2026/cpnsa.xlsx"
+def test_ons_uses_the_current_preserved_vintage(ons_data):
+    # The 30 September 2026 release; the 30 June workbook stays archived.
+    path = ROOT / "db/data/ons/consumer_trends_current_price_september_2026/cpnsa.xlsx"
     assert hashlib.sha256(path.read_bytes()).hexdigest() == (
+        "982307e5fd2a790bf2821df8d920ed708cef55f04dd5d64a2ca2b618674cf7df"
+    )
+    june = ROOT / "db/data/ons/consumer_trends_current_price_2026/cpnsa.xlsx"
+    assert hashlib.sha256(june.read_bytes()).hexdigest() == (
         "109e53de0c09d30327ae2053a0487cee159fe44135884707c9000c252438143c"
     )
     # 166 columns across 0CN and 01CN-12CN, in 31 periods, plus three
     # annual TOURCN series in six years. Published [x] cells remain facts.
     assert len(ons_data[1]) == 166 * 31 + 3 * 6
     assert {fact.source.vintage for fact in ons_data[1]} == {
-        "2026_06_30_release_2026_q1"
+        "2026_09_30_release_2026_q2"
     }
-    assert {fact.source.extracted_at for fact in ons_data[1]} == {"2026-09-09"}
+    assert {fact.source.extracted_at for fact in ons_data[1]} == {"2026-10-23"}
 
 
 def test_ons_coicop_identifiers_and_constraints_are_strings(ons_data):
@@ -159,15 +164,15 @@ def test_ons_national_domestic_and_signed_tourism_are_distinct(ons_data):
         if fact.period.type == "calendar_year" and fact.period.value == 2024
     }
     # 0CN B36 and D36; TOURCN C36 and D36, £ million as published.
-    assert annual["0CN", "NAT0"].value == 1_699_387_000_000
+    assert annual["0CN", "NAT0"].value == 1_708_930_000_000
     assert annual["0CN", "NAT0"].filters["consumption_concept"] == "national"
-    assert annual["0CN", "0"].value == 1_685_220_000_000
+    assert annual["0CN", "0"].value == 1_692_413_000_000
     assert annual["0CN", "0"].filters["consumption_concept"] == "domestic"
-    assert annual["TOURCN", "TOUR1"].value == -64_709_000_000
+    assert annual["TOURCN", "TOUR1"].value == -64_637_000_000
     assert annual["TOURCN", "TOUR1"].filters["tourism_flow"] == (
         "non_residents_spending_in_uk"
     )
-    assert annual["TOURCN", "TOUR2"].value == 78_876_000_000
+    assert annual["TOURCN", "TOUR2"].value == 81_154_000_000
     assert annual["TOURCN", "TOUR2"].filters["tourism_flow"] == (
         "residents_spending_abroad"
     )
@@ -208,8 +213,8 @@ def test_ons_unavailable_cells_keep_published_markers_and_addresses(ons_data):
 
 def test_ons_legacy_energy_fact_identity_and_value_are_preserved(ons_data):
     facts = {fact.source_record_id: fact for fact in ons_data[1]}
-    fact = facts["ons.consumer_trends.04cn.cy2020.coicop_04_5.expenditure"]
-    assert fact.value == 31_805_000_000
+    fact = facts["ons.consumer_trends_2026_09.04cn.cy2020.coicop_04_5.expenditure"]
+    assert fact.value == 34_492_000_000
     assert (
         fact.measure.concept == "ons.household_expenditure.electricity_gas_other_fuels"
     )

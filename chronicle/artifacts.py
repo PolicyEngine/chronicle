@@ -38,9 +38,12 @@ R2_COUNTRY_PUBLISHERS = {
     "nz": frozenset({"ird", "mbie", "msd", "stats_nz", "treasury"}),
     "uk": frozenset(
         {
+            "defra",
             "desnz",
             "dft",
             "dwp",
+            "gambling_commission",
+            "hmlr",
             "hmrc",
             "isc",
             "mhclg",
@@ -162,10 +165,11 @@ class ArtifactInventoryEntry:
     source_url: str | None
     r2: dict[str, Any] | None
     errors: tuple[str, ...]
+    r2_only: bool = False
 
     @property
     def valid(self) -> bool:
-        """Whether this artifact is locally available and checksum-valid."""
+        """Whether this artifact is checksum-valid, or R2-only and absent."""
         return not self.errors
 
     def to_dict(self) -> dict[str, Any]:
@@ -182,6 +186,7 @@ class ArtifactInventoryEntry:
             "size_bytes": self.size_bytes,
             "source_url": self.source_url,
             "r2": self.r2,
+            "r2_only": self.r2_only,
             "errors": list(self.errors),
         }
 
@@ -226,11 +231,14 @@ class RawArtifactPublishEntry:
     r2_location: ArtifactStorageLocation | None
     upload: ArtifactCommandResult | None
     errors: tuple[str, ...] = ()
+    skipped: bool = False
 
     @property
     def valid(self) -> bool:
-        """Whether this raw artifact uploaded and was registered."""
-        return not self.errors and self.upload is not None and self.upload.ok
+        """Whether this raw artifact uploaded, or is R2-only and absent here."""
+        if self.errors:
+            return False
+        return self.skipped or (self.upload is not None and self.upload.ok)
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable entry."""
@@ -246,6 +254,7 @@ class RawArtifactPublishEntry:
             "size_bytes": self.size_bytes,
             "r2_location": (self.r2_location.to_dict() if self.r2_location else None),
             "upload": self.upload.to_dict() if self.upload else None,
+            "skipped": self.skipped,
             "errors": list(self.errors),
         }
 
@@ -270,7 +279,10 @@ class RawArtifactPublishReport:
         return {
             "manifest_count": len(manifest_paths),
             "artifact_count": len(self.entries),
-            "uploaded_count": sum(1 for entry in self.entries if entry.valid),
+            "uploaded_count": sum(
+                1 for entry in self.entries if entry.valid and not entry.skipped
+            ),
+            "skipped_count": sum(1 for entry in self.entries if entry.skipped),
             "failed_count": sum(1 for entry in self.entries if not entry.valid),
             "r2_link_count": sum(
                 1 for entry in self.entries if entry.r2_location is not None
@@ -1134,6 +1146,7 @@ def inventory_source_artifacts(
                 "manifest_count": 0,
                 "artifact_count": 0,
                 "missing_count": 0,
+                "r2_only_count": 0,
                 "checksum_mismatch_count": 0,
                 "r2_link_count": 0,
             },
@@ -1158,7 +1171,11 @@ def inventory_source_artifacts(
     counts = {
         "manifest_count": len(manifests),
         "artifact_count": len(entries),
-        "missing_count": sum(1 for entry in entries if not entry.exists),
+        # R2-only entries are absent by design, so they never count as missing.
+        "missing_count": sum(
+            1 for entry in entries if not entry.exists and not entry.r2_only
+        ),
+        "r2_only_count": sum(1 for entry in entries if entry.r2_only),
         "checksum_mismatch_count": sum(
             1 for entry in entries if "checksum_mismatch" in entry.errors
         ),
@@ -1490,6 +1507,27 @@ def _upload_r2_object(
     return _run_command(command)
 
 
+def _r2_only_storage(spec: dict[str, Any]) -> tuple[bool, list[str]]:
+    """Return whether a file entry keeps its bytes in R2 only, and any issues.
+
+    ``storage.local: false`` declares bytes that are never committed: R2 holds
+    them and ``verify-raw`` checks them, so a checkout without them is complete.
+    The entry must name the R2 object it relies on.
+    """
+    storage = spec.get("storage")
+    if not isinstance(storage, dict) or "local" not in storage:
+        return False, []
+    local = storage["local"]
+    if not isinstance(local, bool):
+        return False, ["malformed_storage_local"]
+    if local:
+        return False, []
+    r2 = storage.get("r2")
+    if not isinstance(r2, dict) or not r2.get("key"):
+        return True, ["r2_only_without_r2_location"]
+    return True, []
+
+
 def _publish_raw_manifest_entry(
     manifest_path: Path,
     source_id: str,
@@ -1510,6 +1548,31 @@ def _publish_raw_manifest_entry(
     sha256_expected = spec.get("sha256")
     sha256_actual = None
     size_bytes = None
+    r2_only, r2_only_errors = _r2_only_storage(spec)
+    errors.extend(r2_only_errors)
+    if r2_only and filename and not errors and not artifact_path.exists():
+        # Nothing to upload from this checkout; verify-raw checks the object.
+        recorded_r2 = spec["storage"]["r2"]
+        return (
+            RawArtifactPublishEntry(
+                manifest_path=str(manifest_path),
+                source_id=source_id,
+                package_id=package_id,
+                year=str(year),
+                filename=filename,
+                local_path=str(artifact_path),
+                sha256=sha256_expected,
+                size_bytes=spec.get("size_bytes"),
+                r2_location=ArtifactStorageLocation(
+                    provider=str(recorded_r2.get("provider") or "r2"),
+                    bucket=str(recorded_r2.get("bucket") or r2_bucket),
+                    key=str(recorded_r2["key"]),
+                ),
+                upload=None,
+                skipped=True,
+            ),
+            None,
+        )
     if not filename:
         errors.append("missing_filename")
     elif not artifact_path.exists():
@@ -1630,10 +1693,14 @@ def _inventory_entry(
     sha256_expected = spec.get("sha256")
     sha256_actual = None
     size_bytes = None
+    r2_only, r2_only_errors = _r2_only_storage(spec)
+    errors.extend(r2_only_errors)
     if not filename:
         errors.append("missing_filename")
     elif not exists:
-        errors.append("missing_file")
+        # An R2-only entry is complete without local bytes; verify-raw checks it.
+        if not r2_only:
+            errors.append("missing_file")
     else:
         content = artifact_path.read_bytes()
         sha256_actual = hashlib.sha256(content).hexdigest()
@@ -1654,6 +1721,7 @@ def _inventory_entry(
         source_url=spec.get("source_url"),
         r2=r2,
         errors=tuple(errors),
+        r2_only=r2_only,
     )
 
 

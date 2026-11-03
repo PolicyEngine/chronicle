@@ -1,0 +1,25 @@
+source_id: scotgov
+package_id: scotgov-urban-rural-classification-2022-dz2022
+dataset: scotgov_scotgov-urban-rural-classification-2022-dz2022
+source_page: https://www.gov.scot/publications/scottish-government-urban-rural-classification-2022/
+table: 'Scottish Government Urban Rural Classification 2022: Data Zone 2022 lookup
+  (2-, 3-, 6- and 8-fold)'
+files:
+  2022:
+    filename: scottish_government_urban_rural_classification_2022_data_zone_2022_lookup.csv
+    source_url: https://www.gov.scot/binaries/content/documents/govscot/publications/statistics/2024/12/scottish-government-urban-rural-classification-2022/documents/scottish-government-urban-rural-classification-2022---data-zone-2022-lookup/scottish-government-urban-rural-classification-2022---data-zone-2022-lookup/govscot%3Adocument/Scottish%2BGovernment%2BUrban%2BRural%2BClassification%2B2022%2B-%2BData%2BZone%2B2022%2BLookup.csv
+    sha256: e70e5660f16302e72f6c364ccc03548de30c8c3a1f399e900e5886b7d4c51024
+    size_bytes: 836848
+    fetched_at: '2026-10-15T10:03:29+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-urban-rural-classification-2022-dz2022/2022/e70e5660f16302e72f6c364ccc03548de30c8c3a1f399e900e5886b7d4c51024/scottish_government_urban_rural_classification_2022_data_zone_2022_lookup.csv
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-urban-rural-classification-2022-dz2022/2022/e70e5660f16302e72f6c364ccc03548de30c8c3a1f399e900e5886b7d4c51024/scottish_government_urban_rural_classification_2022_data_zone_2022_lookup.csv
+registration_kind: raw_only
+provenance_notes: 'Scottish Government Urban Rural Classification 2022, Data Zone
+  2022 lookup (published 16 December 2024): 7,392 data zones with 2-, 3-, 6- and 8-fold
+  codes and names, assigned by population-weighted centroid. The file is not valid
+  UTF-8 (one 0xA0 byte in a data zone name). Licence: Open Government Licence v3.0.
+  Raw-only for chronicle#356 item 4.'

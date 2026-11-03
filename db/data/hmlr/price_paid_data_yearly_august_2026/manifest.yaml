@@ -1,0 +1,594 @@
+source_id: hmlr
+package_id: hmlr-price-paid-data-yearly-august-2026
+source_name: HM Land Registry Price Paid Data, August 2026 release, yearly files
+publisher: HM Land Registry
+source_page: https://www.gov.uk/government/statistical-data-sets/price-paid-data-yearly-file
+files:
+  1995:
+    filename: pp-1995.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-1995.csv
+    source_table: Price Paid Data yearly file 1995, August 2026 release
+    sha256: 9a3671663cf21518a8d29500760d131be0b1c2ceb06bcdc58b08ac5b23dd93e5
+    size_bytes: 139427399
+    fetched_at: '2026-10-12T13:01:39+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/1995/9a3671663cf21518a8d29500760d131be0b1c2ceb06bcdc58b08ac5b23dd93e5/pp-1995.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/1995/9a3671663cf21518a8d29500760d131be0b1c2ceb06bcdc58b08ac5b23dd93e5/pp-1995.csv
+  1996:
+    filename: pp-1996.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-1996.csv
+    source_table: Price Paid Data yearly file 1996, August 2026 release
+    sha256: 184730b4ab9fe2e96f8d039aeb3416b68b340c9be544853cebe497ed9eb9f7d2
+    size_bytes: 169672292
+    fetched_at: '2026-10-12T13:02:06+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/1996/184730b4ab9fe2e96f8d039aeb3416b68b340c9be544853cebe497ed9eb9f7d2/pp-1996.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/1996/184730b4ab9fe2e96f8d039aeb3416b68b340c9be544853cebe497ed9eb9f7d2/pp-1996.csv
+  1997:
+    filename: pp-1997.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-1997.csv
+    source_table: Price Paid Data yearly file 1997, August 2026 release
+    sha256: c8d7d481881034de7cf596050633a35b0925a5074153f7e4bb189692efae4d60
+    size_bytes: 192752518
+    fetched_at: '2026-10-12T13:02:38+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/1997/c8d7d481881034de7cf596050633a35b0925a5074153f7e4bb189692efae4d60/pp-1997.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/1997/c8d7d481881034de7cf596050633a35b0925a5074153f7e4bb189692efae4d60/pp-1997.csv
+  1998:
+    filename: pp-1998.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-1998.csv
+    source_table: Price Paid Data yearly file 1998, August 2026 release
+    sha256: a4a3b6c51521975ebab84161953fa1d5a588152526a7ce9213a23e7615cb7d3b
+    size_bytes: 185265661
+    fetched_at: '2026-10-12T13:03:08+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/1998/a4a3b6c51521975ebab84161953fa1d5a588152526a7ce9213a23e7615cb7d3b/pp-1998.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/1998/a4a3b6c51521975ebab84161953fa1d5a588152526a7ce9213a23e7615cb7d3b/pp-1998.csv
+  1999:
+    filename: pp-1999.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-1999.csv
+    source_table: Price Paid Data yearly file 1999, August 2026 release
+    sha256: 94244d50a2c82b8d9794bcd9029f316531f0adc0659925755c8699c3397eeb08
+    size_bytes: 204412596
+    fetched_at: '2026-10-12T13:03:41+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/1999/94244d50a2c82b8d9794bcd9029f316531f0adc0659925755c8699c3397eeb08/pp-1999.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/1999/94244d50a2c82b8d9794bcd9029f316531f0adc0659925755c8699c3397eeb08/pp-1999.csv
+  2000:
+    filename: pp-2000.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2000.csv
+    source_table: Price Paid Data yearly file 2000, August 2026 release
+    sha256: ffc2ece4fbaa492a222c4198f0f952f8b414ffc544f8449b53d8f0b6d160f212
+    size_bytes: 193403540
+    fetched_at: '2026-10-12T13:04:13+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2000/ffc2ece4fbaa492a222c4198f0f952f8b414ffc544f8449b53d8f0b6d160f212/pp-2000.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2000/ffc2ece4fbaa492a222c4198f0f952f8b414ffc544f8449b53d8f0b6d160f212/pp-2000.csv
+  2001:
+    filename: pp-2001.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2001.csv
+    source_table: Price Paid Data yearly file 2001, August 2026 release
+    sha256: ae0e0806857def483fcb4e811f650823eccf02b22b840472b149b6f9dbed11e4
+    size_bytes: 220264042
+    fetched_at: '2026-10-12T13:04:49+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2001/ae0e0806857def483fcb4e811f650823eccf02b22b840472b149b6f9dbed11e4/pp-2001.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2001/ae0e0806857def483fcb4e811f650823eccf02b22b840472b149b6f9dbed11e4/pp-2001.csv
+  2002:
+    filename: pp-2002.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2002.csv
+    source_table: Price Paid Data yearly file 2002, August 2026 release
+    sha256: a437468d27cc8f479ebdec76de547b931c46e29ab53fefb235bc56ccbc53f91e
+    size_bytes: 239344429
+    fetched_at: '2026-10-12T13:05:28+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2002/a437468d27cc8f479ebdec76de547b931c46e29ab53fefb235bc56ccbc53f91e/pp-2002.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2002/a437468d27cc8f479ebdec76de547b931c46e29ab53fefb235bc56ccbc53f91e/pp-2002.csv
+  2003:
+    filename: pp-2003.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2003.csv
+    source_table: Price Paid Data yearly file 2003, August 2026 release
+    sha256: 46e83d6a44102a8b58b483611eda76f1d55363a0d69657cf77dc370508557f79
+    size_bytes: 219039457
+    fetched_at: '2026-10-12T13:06:05+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2003/46e83d6a44102a8b58b483611eda76f1d55363a0d69657cf77dc370508557f79/pp-2003.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2003/46e83d6a44102a8b58b483611eda76f1d55363a0d69657cf77dc370508557f79/pp-2003.csv
+  2004:
+    filename: pp-2004.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2004.csv
+    source_table: Price Paid Data yearly file 2004, August 2026 release
+    sha256: 53b90da9915356241b924cde7728215a55ff7017579be01ea4870968b7a7e937
+    size_bytes: 218673956
+    fetched_at: '2026-10-12T13:06:42+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2004/53b90da9915356241b924cde7728215a55ff7017579be01ea4870968b7a7e937/pp-2004.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2004/53b90da9915356241b924cde7728215a55ff7017579be01ea4870968b7a7e937/pp-2004.csv
+  2005:
+    filename: pp-2005.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2005.csv
+    source_table: Price Paid Data yearly file 2005, August 2026 release
+    sha256: 0f4fa73bf0209ca82b6bae380002fe957423c835d11b816f8e18a8c50c51834f
+    size_bytes: 187585989
+    fetched_at: '2026-10-12T13:07:12+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2005/0f4fa73bf0209ca82b6bae380002fe957423c835d11b816f8e18a8c50c51834f/pp-2005.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2005/0f4fa73bf0209ca82b6bae380002fe957423c835d11b816f8e18a8c50c51834f/pp-2005.csv
+  2006:
+    filename: pp-2006.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2006.csv
+    source_table: Price Paid Data yearly file 2006, August 2026 release
+    sha256: d79b8d7687d4159b82d7c4a90d8e169e98c5f27b6357daf0adf5c5f7bb60a73f
+    size_bytes: 235220185
+    fetched_at: '2026-10-12T13:07:51+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2006/d79b8d7687d4159b82d7c4a90d8e169e98c5f27b6357daf0adf5c5f7bb60a73f/pp-2006.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2006/d79b8d7687d4159b82d7c4a90d8e169e98c5f27b6357daf0adf5c5f7bb60a73f/pp-2006.csv
+  2007:
+    filename: pp-2007.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2007.csv
+    source_table: Price Paid Data yearly file 2007, August 2026 release
+    sha256: c70508d262fbc5553a87e5975cb6fc599516d077f070cec8ead61b1e60b129fc
+    size_bytes: 226206473
+    fetched_at: '2026-10-12T13:08:28+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2007/c70508d262fbc5553a87e5975cb6fc599516d077f070cec8ead61b1e60b129fc/pp-2007.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2007/c70508d262fbc5553a87e5975cb6fc599516d077f070cec8ead61b1e60b129fc/pp-2007.csv
+  2008:
+    filename: pp-2008.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2008.csv
+    source_table: Price Paid Data yearly file 2008, August 2026 release
+    sha256: 2d6f26f928b37089576aded3c22fd39f5b8e732a438e325df577697c677da426
+    size_bytes: 115618842
+    fetched_at: '2026-10-12T13:08:46+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2008/2d6f26f928b37089576aded3c22fd39f5b8e732a438e325df577697c677da426/pp-2008.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2008/2d6f26f928b37089576aded3c22fd39f5b8e732a438e325df577697c677da426/pp-2008.csv
+  2009:
+    filename: pp-2009.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2009.csv
+    source_table: Price Paid Data yearly file 2009, August 2026 release
+    sha256: c90e30e37393ec3534e3e6207205babb2d0a07640bf620d84a2e380f79df3ddb
+    size_bytes: 108265538
+    fetched_at: '2026-10-12T13:09:05+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2009/c90e30e37393ec3534e3e6207205babb2d0a07640bf620d84a2e380f79df3ddb/pp-2009.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2009/c90e30e37393ec3534e3e6207205babb2d0a07640bf620d84a2e380f79df3ddb/pp-2009.csv
+  2010:
+    filename: pp-2010.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2010.csv
+    source_table: Price Paid Data yearly file 2010, August 2026 release
+    sha256: 0c328111c1adfa81836083bb3f421247107e3fe4c4d313c1bd47fd07ae9986b0
+    size_bytes: 114497684
+    fetched_at: '2026-10-12T13:09:23+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2010/0c328111c1adfa81836083bb3f421247107e3fe4c4d313c1bd47fd07ae9986b0/pp-2010.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2010/0c328111c1adfa81836083bb3f421247107e3fe4c4d313c1bd47fd07ae9986b0/pp-2010.csv
+  2011:
+    filename: pp-2011.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2011.csv
+    source_table: Price Paid Data yearly file 2011, August 2026 release
+    sha256: 4715e27c40fc2dfffb4ca40f45f5be105ff22dda13254d52002dba5e903e409b
+    size_bytes: 114100421
+    fetched_at: '2026-10-12T13:09:42+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2011/4715e27c40fc2dfffb4ca40f45f5be105ff22dda13254d52002dba5e903e409b/pp-2011.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2011/4715e27c40fc2dfffb4ca40f45f5be105ff22dda13254d52002dba5e903e409b/pp-2011.csv
+  2012:
+    filename: pp-2012.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2012.csv
+    source_table: Price Paid Data yearly file 2012, August 2026 release
+    sha256: 6df8570c7b6ecaed27a84d61eac29e189ca042057fae2f4a36ab66a3c46dfcb1
+    size_bytes: 115480992
+    fetched_at: '2026-10-12T13:10:01+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2012/6df8570c7b6ecaed27a84d61eac29e189ca042057fae2f4a36ab66a3c46dfcb1/pp-2012.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2012/6df8570c7b6ecaed27a84d61eac29e189ca042057fae2f4a36ab66a3c46dfcb1/pp-2012.csv
+  2013:
+    filename: pp-2013.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2013.csv
+    source_table: Price Paid Data yearly file 2013, August 2026 release
+    sha256: c111999510f6b047684d12090254a657f05be4d16201a072b0fef793bcfcc72b
+    size_bytes: 140174843
+    fetched_at: '2026-10-12T13:10:24+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2013/c111999510f6b047684d12090254a657f05be4d16201a072b0fef793bcfcc72b/pp-2013.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2013/c111999510f6b047684d12090254a657f05be4d16201a072b0fef793bcfcc72b/pp-2013.csv
+  2014:
+    filename: pp-2014.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2014.csv
+    source_table: Price Paid Data yearly file 2014, August 2026 release
+    sha256: 6001129f1e3019c75f79fa88c27e47bd24175822eefdcc78a012d9ce2addd237
+    size_bytes: 170482701
+    fetched_at: '2026-10-12T13:10:52+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2014/6001129f1e3019c75f79fa88c27e47bd24175822eefdcc78a012d9ce2addd237/pp-2014.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2014/6001129f1e3019c75f79fa88c27e47bd24175822eefdcc78a012d9ce2addd237/pp-2014.csv
+  2015:
+    filename: pp-2015.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2015.csv
+    source_table: Price Paid Data yearly file 2015, August 2026 release
+    sha256: b16108a0c074e863d80fd78331dbdb52d0f75079a2b38130692376e737e5078a
+    size_bytes: 175207909
+    fetched_at: '2026-10-12T13:11:20+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2015/b16108a0c074e863d80fd78331dbdb52d0f75079a2b38130692376e737e5078a/pp-2015.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2015/b16108a0c074e863d80fd78331dbdb52d0f75079a2b38130692376e737e5078a/pp-2015.csv
+  2016:
+    filename: pp-2016.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2016.csv
+    source_table: Price Paid Data yearly file 2016, August 2026 release
+    sha256: 3ddb83af8195fc199ac3eba08b26140fe39646784325fa52b41b4a6cfdbea517
+    size_bytes: 181646479
+    fetched_at: '2026-10-12T13:11:50+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2016/3ddb83af8195fc199ac3eba08b26140fe39646784325fa52b41b4a6cfdbea517/pp-2016.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2016/3ddb83af8195fc199ac3eba08b26140fe39646784325fa52b41b4a6cfdbea517/pp-2016.csv
+  2017:
+    filename: pp-2017.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2017.csv
+    source_table: Price Paid Data yearly file 2017, August 2026 release
+    sha256: e5eacbcfca377e074be4f0ec83efc604b24502e89753650a356a7c89df0ee291
+    size_bytes: 185355333
+    fetched_at: '2026-10-12T13:12:20+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2017/e5eacbcfca377e074be4f0ec83efc604b24502e89753650a356a7c89df0ee291/pp-2017.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2017/e5eacbcfca377e074be4f0ec83efc604b24502e89753650a356a7c89df0ee291/pp-2017.csv
+  2018:
+    filename: pp-2018.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2018.csv
+    source_table: Price Paid Data yearly file 2018, August 2026 release
+    sha256: 2e9fb3872f0800c86458ea62a2c999195a7b55b5da17b4a8a96705c122590b27
+    size_bytes: 180182279
+    fetched_at: '2026-10-12T13:12:49+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2018/2e9fb3872f0800c86458ea62a2c999195a7b55b5da17b4a8a96705c122590b27/pp-2018.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2018/2e9fb3872f0800c86458ea62a2c999195a7b55b5da17b4a8a96705c122590b27/pp-2018.csv
+  2019:
+    filename: pp-2019.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2019.csv
+    source_table: Price Paid Data yearly file 2019, August 2026 release
+    sha256: 94764797c69f02556f904a8dffb3efb962df3048f6eadd64b28e7a18fa2c2d39
+    size_bytes: 176115167
+    fetched_at: '2026-10-12T13:13:18+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2019/94764797c69f02556f904a8dffb3efb962df3048f6eadd64b28e7a18fa2c2d39/pp-2019.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2019/94764797c69f02556f904a8dffb3efb962df3048f6eadd64b28e7a18fa2c2d39/pp-2019.csv
+  2020:
+    filename: pp-2020.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2020.csv
+    source_table: Price Paid Data yearly file 2020, August 2026 release
+    sha256: ca172e2eec82097d12b577026811922b0256ba4eae2c28624c2ead6aa9c4803c
+    size_bytes: 156338463
+    fetched_at: '2026-10-12T13:13:44+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2020/ca172e2eec82097d12b577026811922b0256ba4eae2c28624c2ead6aa9c4803c/pp-2020.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2020/ca172e2eec82097d12b577026811922b0256ba4eae2c28624c2ead6aa9c4803c/pp-2020.csv
+  2021:
+    filename: pp-2021.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2021.csv
+    source_table: Price Paid Data yearly file 2021, August 2026 release
+    sha256: 04f6869b861bcebd0bee3eec00baccdbe19372b299190a161b33b476589a6bfc
+    size_bytes: 223312496
+    fetched_at: '2026-10-12T13:14:20+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2021/04f6869b861bcebd0bee3eec00baccdbe19372b299190a161b33b476589a6bfc/pp-2021.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2021/04f6869b861bcebd0bee3eec00baccdbe19372b299190a161b33b476589a6bfc/pp-2021.csv
+  2022:
+    filename: pp-2022.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2022.csv
+    source_table: Price Paid Data yearly file 2022, August 2026 release
+    sha256: e543dd53d6b2f8f47d95bed2956693c38c28ba2d0450c3df173ddce3eb80b84a
+    size_bytes: 187904681
+    fetched_at: '2026-10-12T13:14:51+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2022/e543dd53d6b2f8f47d95bed2956693c38c28ba2d0450c3df173ddce3eb80b84a/pp-2022.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2022/e543dd53d6b2f8f47d95bed2956693c38c28ba2d0450c3df173ddce3eb80b84a/pp-2022.csv
+  2023:
+    filename: pp-2023.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2023.csv
+    source_table: Price Paid Data yearly file 2023, August 2026 release
+    sha256: 0d87c096be0c46d358d2d0a9e426e3e9aff16c0ca9d514162b5e56f000d97a1d
+    size_bytes: 150366878
+    fetched_at: '2026-10-12T13:15:16+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2023/0d87c096be0c46d358d2d0a9e426e3e9aff16c0ca9d514162b5e56f000d97a1d/pp-2023.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2023/0d87c096be0c46d358d2d0a9e426e3e9aff16c0ca9d514162b5e56f000d97a1d/pp-2023.csv
+  2024:
+    filename: pp-2024.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2024.csv
+    source_table: Price Paid Data yearly file 2024, August 2026 release
+    sha256: afec0cff353cc4570cc02795b78dbd270b4e678b5a0a50bc3e082c883abb7707
+    size_bytes: 162424209
+    fetched_at: '2026-10-12T12:56:20+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2024/afec0cff353cc4570cc02795b78dbd270b4e678b5a0a50bc3e082c883abb7707/pp-2024.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2024/afec0cff353cc4570cc02795b78dbd270b4e678b5a0a50bc3e082c883abb7707/pp-2024.csv
+  2025:
+    filename: pp-2025.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2025.csv
+    source_table: Price Paid Data yearly file 2025, August 2026 release
+    sha256: 83540b18086e5748116c744d9e930ad210cafcbb01a5d7d41fcbd2464ba0b5fd
+    size_bytes: 169648191
+    fetched_at: '2026-10-12T13:15:43+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2025/83540b18086e5748116c744d9e930ad210cafcbb01a5d7d41fcbd2464ba0b5fd/pp-2025.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2025/83540b18086e5748116c744d9e930ad210cafcbb01a5d7d41fcbd2464ba0b5fd/pp-2025.csv
+  2026:
+    filename: pp-2026.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-2026.csv
+    source_table: Price Paid Data yearly file 2026, August 2026 release
+    sha256: 3ba529a2e622f38159bb9bdceb292b7311e1e7b770f0d3bc7bc4c7b3d80b9ad4
+    size_bytes: 67147774
+    fetched_at: '2026-10-12T13:15:54+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2026/3ba529a2e622f38159bb9bdceb292b7311e1e7b770f0d3bc7bc4c7b3d80b9ad4/pp-2026.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-yearly-august-2026/2026/3ba529a2e622f38159bb9bdceb292b7311e1e7b770f0d3bc7bc4c7b3d80b9ad4/pp-2026.csv
+registration_kind: raw_only
+provenance_notes: Published 29 September 2026 (objects last modified 28 September
+  2026). Each file holds every standard (A) and additional (B) price paid transaction
+  with a date of transfer in its year, as at this release, with the release's amendments
+  and deletions applied; together the 32 files are the release's single file (pp-complete.csv,
+  5,525,539,417 bytes, 31,610,742 rows), which is not registered because publish-raw
+  uploads through wrangler, whose object put refuses files above 300 MiB. CSV, 16
+  quoted fields, no header row; field contract in docs/data-sources/uk-high-value-housing.md.
+  Open Government Licence v3.0 with HM Land Registry's attribution statement; the
+  address fields are Royal Mail and Ordnance Survey address data that HM Land Registry
+  licenses for personal or non-commercial use and for residential property price information
+  services, so the bytes are archived in R2 and not committed to this public repository.

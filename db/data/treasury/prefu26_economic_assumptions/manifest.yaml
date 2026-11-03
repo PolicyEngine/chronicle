@@ -1,0 +1,28 @@
+source_id: treasury
+package_id: treasury-prefu26-economic-assumptions
+dataset: prefu26_economic_assumptions
+source_page: https://www.treasury.govt.nz/publications/efu/pre-election-economic-and-fiscal-update-2026
+table: PREFU 2026 Table 4.1 - Key economic assumptions for fiscal forecasts
+published_at: '2026-09-29'
+license: CC BY 4.0
+license_url: https://www.treasury.govt.nz/publications/efu/pre-election-economic-and-fiscal-update-2026
+attribution: The Crown (New Zealand Treasury); written attribution, no reproduction of emblems, logos
+  or Coat of Arms.
+license_evidence: Publication page (hub supplied); workbook Index!A13:A14 explicitly records CC BY 4.0
+  and Crown attribution.
+notes: Original workbook bytes copied from the hub staging receipt unchanged. Declared R2 object is uploaded
+  by the hub before merge. Index and Table 4.1 used ranges are parsed; other sheets remain in the preserved
+  workbook and emit no facts.
+files:
+  2026:
+    filename: prefu26-charts-data.xlsx
+    source_url: https://www.treasury.govt.nz/sites/default/files/2026-09/prefu26-charts-data.xlsx
+    sha256: e2486375dde515d0722f8c3022f481804bb014beb83c81b8bfc99bc9426544d9
+    size_bytes: 664670
+    fetched_at: '2026-10-22T07:57:29Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/treasury/treasury-prefu26-economic-assumptions/2026/e2486375dde515d0722f8c3022f481804bb014beb83c81b8bfc99bc9426544d9/prefu26-charts-data.xlsx
+        uri: r2://ledger-raw/raw/nz/treasury/treasury-prefu26-economic-assumptions/2026/e2486375dde515d0722f8c3022f481804bb014beb83c81b8bfc99bc9426544d9/prefu26-charts-data.xlsx

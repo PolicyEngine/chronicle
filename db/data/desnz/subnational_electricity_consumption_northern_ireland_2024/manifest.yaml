@@ -1,0 +1,19 @@
+source_id: desnz
+package_id: desnz-subnational-electricity-consumption-northern-ireland-2024
+dataset: desnz_desnz-subnational-electricity-consumption-northern-ireland-2024
+source_page: https://www.gov.uk/government/statistics/sub-national-electricity-consumption-statistics-in-northern-ireland
+table: Subnational electricity consumption statistics in Northern Ireland, 2009 to
+  2024
+files:
+  2025:
+    filename: Northern_Ireland_subnational_electricity_consumption_2009-2024.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/694298df143d960161547d7f/Northern_Ireland_subnational_electricity_consumption_2009-2024.xlsx
+    sha256: 2025e7461b1343e69aec1a9e7ee5a8635d6d8a1d7cb1624cb214caaf554aa1b7
+    size_bytes: 410107
+    fetched_at: '2026-10-15T10:01:05+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-subnational-electricity-consumption-northern-ireland-2024/2025/2025e7461b1343e69aec1a9e7ee5a8635d6d8a1d7cb1624cb214caaf554aa1b7/Northern_Ireland_subnational_electricity_consumption_2009-2024.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-subnational-electricity-consumption-northern-ireland-2024/2025/2025e7461b1343e69aec1a9e7ee5a8635d6d8a1d7cb1624cb214caaf554aa1b7/Northern_Ireland_subnational_electricity_consumption_2009-2024.xlsx

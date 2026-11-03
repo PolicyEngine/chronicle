@@ -41,7 +41,8 @@ _FROZEN_SCHEMA_SHA256 = {
     _V1: "72ad3149564f8aab3e9bb6de5ea25950c8e19a3e8402e2cdcfc52d250bc8ee82",
     _V2: "6a42e4a54b9758eaa1219489c318131429a3200fef6205e6700651d46bde068d",
     _V3: "bdb51e2a8115634633ba7448c4005930fd9c0bfbade5e1b079b6bc24da485d3d",
-    _V4: "cc9efb90e9c73913bc76a89e9df435a9ca6ff49942e63dc8d2bf183c65a70224",
+    # chronicle#356 adds gas_year to period.type's vocabulary description.
+    _V4: "d953306d6f01fbc64db4372d0262d3012ee590269f8a25b276b18dca0626c6a0",
 }
 
 _TOP_LEVEL_KEY_DOMAINS = {
@@ -148,6 +149,9 @@ def test_v4_schema_is_v3_plus_the_publishers_own_geography_name():
         schema["properties"].pop("schema_version")
         schema["properties"]["geography"]["properties"].pop("publisher_name", None)
         schema["properties"]["geography"]["properties"]["name"].pop("description")
+        # The emitted version's period-type description tracks the vocabulary
+        # (chronicle#356 adds gas_year); earlier versions keep their own.
+        schema["properties"]["period"]["properties"]["type"].pop("description")
     assert v4 == v3
 
 

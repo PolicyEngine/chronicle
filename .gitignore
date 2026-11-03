@@ -3,3 +3,20 @@ __pycache__/
 micro/us/*.parquet
 venv/
 *.parquet
+# Raw releases archived in R2 only (chronicle#343); each manifest pins the bytes.
+# Price Paid Data carries Royal Mail and OS address data licensed for
+# non-commercial use, so none of its bytes enter this public repository; the
+# NSPL zip is above GitHub's 100 MB file limit; and each monthly UK HPI full file
+# (35 MB) revises the last, so committing vintages would only grow history.
+db/data/hmlr/price_paid_data_*/pp-*.csv
+db/data/hmlr/uk_hpi_full_file_*/UK-HPI-full-file-*.csv
+db/data/ons/nspl_*/NSPL_*.zip
+# DESNZ's LSOA domestic energy workbooks (chronicle#356) are 50-56 MB each; their bytes
+# are archived in R2 and fetched by sha256 from the publisher when a build needs them
+# (LEDGER_SOURCE_ARTIFACT_FETCH=1 in CI).
+db/data/desnz/lsoa_domestic_*_consumption_2024/LSOA_domestic_*_2010-2024.xlsx
+# Raw-only registrations of chronicle#356 that no build parses and that are 9-15 MB:
+# the DESNZ MSOA workbooks and the ONS 2021 rural-urban workbook. R2 holds them.
+db/data/desnz/msoa_domestic_*_consumption_2010_2024/MSOA_domestic_*_2010-2024.xlsx
+db/data/ons/ruc2021_lookups_march_2026/260331rucallsupplementarytables.xlsx
+db/data/gambling_commission/gsgb_annual_report_*/GSGB_annual_report_*_data_tables.xlsx

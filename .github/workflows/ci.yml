@@ -29,11 +29,27 @@ jobs:
     # Kill a hung run instead of letting it hold a slot for GitHub's 360-minute
     # default. Successful runs on main-based branches took 76-147 min on Oct 7-8
     # (p50 137); the spread is runner speed, which varied 1.6x on one commit.
-    timeout-minutes: 210
+    # The bundle test alone took 84 min for 1.03M facts on Oct 14's fastest run.
+    # chronicle#356 and #339 grow the bundle by about 53%, which puts a slow
+    # runner near 210 min, so the limit is 300.
+    timeout-minutes: 300
+    # Source artifacts archived in R2 only (manifest storage.local: false), such
+    # as DESNZ's 50-56 MB LSOA energy workbooks (chronicle#356), are not in Git.
+    # A build that needs one fetches it from its manifest source_url, checks the
+    # pinned sha256 and caches it; the cache step below keeps it between runs.
+    env:
+      LEDGER_SOURCE_ARTIFACT_FETCH: "1"
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Cache R2-only source artifacts
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/policyengine-chronicle/source-artifacts
+          key: source-artifacts-${{ hashFiles('db/data/**/manifest.yaml') }}
+          restore-keys: source-artifacts-
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -45,6 +61,13 @@ jobs:
 
       - name: Install dependencies
         run: uv sync --locked --all-extras
+
+      # Fetch the R2-only artifacts packages read (DESNZ's LSOA workbooks) before
+      # any test, from their source_url with retries and sha256 checks, so a
+      # publisher outage or a replaced download fails here by name rather than
+      # part-way through a long build.
+      - name: Fetch R2-only source artifacts
+        run: uv run python scripts/fetch_r2_only_source_artifacts.py
 
       - name: Lint Chronicle surface
         run: >
@@ -58,10 +81,15 @@ jobs:
       - name: Test UK calibration source additions
         run: uv run pytest -q --durations=30 tests/test_chronicle_uk_national_2025.py
 
+      # GNU time reports the run's peak memory ("Maximum resident set size"): the
+      # merged bundle peaked near 15.6 GB in a local build, against the runner's
+      # 16 GB.
       - name: Test merged Chronicle bundles
-        run: >
-          uv run pytest -q --durations=30 tests/test_chronicle_bundle.py
-          --basetemp=/tmp/chronicle-bundle-ci
+        run: |
+          timer=""
+          if [ -x /usr/bin/time ]; then timer="/usr/bin/time -v"; fi
+          $timer uv run pytest -q --durations=30 tests/test_chronicle_bundle.py \
+            --basetemp=/tmp/chronicle-bundle-ci
 
       - name: Upload failed bundle reports
         if: failure()
@@ -79,10 +107,23 @@ jobs:
     name: Chronicle surface
     runs-on: ubuntu-latest
     timeout-minutes: 210
+    # Source artifacts archived in R2 only (manifest storage.local: false), such
+    # as DESNZ's 50-56 MB LSOA energy workbooks (chronicle#356), are not in Git.
+    # A build that needs one fetches it from its manifest source_url, checks the
+    # pinned sha256 and caches it; the cache step below keeps it between runs.
+    env:
+      LEDGER_SOURCE_ARTIFACT_FETCH: "1"
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Cache R2-only source artifacts
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/policyengine-chronicle/source-artifacts
+          key: source-artifacts-${{ hashFiles('db/data/**/manifest.yaml') }}
+          restore-keys: source-artifacts-
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -94,6 +135,13 @@ jobs:
 
       - name: Install dependencies
         run: uv sync --locked --all-extras
+
+      # Fetch the R2-only artifacts packages read (DESNZ's LSOA workbooks) before
+      # any test, from their source_url with retries and sha256 checks, so a
+      # publisher outage or a replaced download fails here by name rather than
+      # part-way through a long build.
+      - name: Fetch R2-only source artifacts
+        run: uv run python scripts/fetch_r2_only_source_artifacts.py
 
       - name: Test Chronicle surface
         # --durations lists the slowest tests so a slowdown is visible in the

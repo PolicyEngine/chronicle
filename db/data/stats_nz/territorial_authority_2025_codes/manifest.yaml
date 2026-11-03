@@ -1,0 +1,18 @@
+source_id: stats_nz
+package_id: territorial_authority_2025_codes
+dataset: stats_nz_territorial_authority_2025_codes
+source_page: https://services2.arcgis.com/vKb0s8tBIA3bdocZ/arcgis/rest/services/Territorial_Authority_2025/FeatureServer
+table: Territorial authority 2025 code and name attributes (1 January 2025 boundaries)
+files:
+  2025:
+    filename: territorial-authority-2025-codes.json
+    source_url: https://services2.arcgis.com/vKb0s8tBIA3bdocZ/arcgis/rest/services/Territorial_Authority_2025/FeatureServer/0/query?where=1%3D1&outFields=TA2025_V1_00%2CTA2025_V1_00_NAME%2CTA2025_V1_00_NAME_ASCII&returnGeometry=false&orderByFields=TA2025_V1_00&f=pjson
+    sha256: db033184db1f64bd4c53b0cf070cac3303815f20c9cc428e11389b91033dc225
+    size_bytes: 14315
+    fetched_at: '2026-10-13T16:42:27+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/territorial_authority_2025_codes/2025/db033184db1f64bd4c53b0cf070cac3303815f20c9cc428e11389b91033dc225/territorial-authority-2025-codes.json
+        uri: r2://ledger-raw/raw/nz/stats_nz/territorial_authority_2025_codes/2025/db033184db1f64bd4c53b0cf070cac3303815f20c9cc428e11389b91033dc225/territorial-authority-2025-codes.json
