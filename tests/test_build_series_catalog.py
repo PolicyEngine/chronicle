@@ -16,9 +16,11 @@ import json
 import pathlib
 import sys
 import tempfile
+import uuid
 
 import pytest
-from hypothesis import HealthCheck, given, settings
+from hypothesis import HealthCheck, assume, given, settings
+from hypothesis import event as hypothesis_event
 from hypothesis import strategies as st
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -39,6 +41,11 @@ REVIEWED_STRIPPED_FIXTURE = json.loads(
 )
 REVIEWED_STRIPS: dict[str, dict[str, dict[str, dict[str, list[str]]]]] = (
     REVIEWED_STRIPPED_FIXTURE["strips"]
+)
+# The reviewed identity anchor (see test_identity_uuid_map_matches_reviewed_
+# anchor and build_series_catalog.identity_anchor_problems).
+IDENTITY_ANCHOR_PATH = (
+    ROOT / "tests" / "fixtures" / "series_catalog" / "identity_anchor.json"
 )
 
 PERIOD_SEGMENTS = [
@@ -2014,7 +2021,7 @@ def test_mint_never_reuses_a_bound_uuid(tmp_path: pathlib.Path) -> None:
             },
         ]
     }
-    with pytest.raises(SystemExit, match="already binds"):
+    with pytest.raises(SystemExit, match=r"already knows \(first bound to"):
         _build(
             tmp_path,
             [_row("new.one"), _row("new.two")],
@@ -2296,27 +2303,18 @@ def test_identity_uuid_map_matches_reviewed_anchor() -> None:
     """The registry's introduction commit cannot be continuity-checked by
     the append-only gate (there is no prior registry to extend), so the
     identity->uuid map verified by the adversarial review of PR #128 is
-    pinned here. Changing any live binding — or adding or retiring one —
-    must edit this constant in the same diff, making wholesale remints
-    impossible to slip through as regeneration noise.
+    pinned in IDENTITY_ANCHOR_PATH. Changing any live binding — or adding or
+    retiring one — must move that pin in the same diff, making wholesale
+    remints impossible to slip through as regeneration noise.
 
-    Update the constant only alongside registry events that justify it.
+    Move the pin only alongside registry events that justify it: by hand,
+    with move null and a dated entry in the history below, or by the Thesis
+    resolver in its own append proposal, with a move record that
+    identity_anchor_problems re-derives (fresh-UUID mints and same-UUID
+    placeholder enrichments only).
     """
-    import hashlib
-
     catalog = json.loads(bsc.CATALOG.read_text(encoding="utf-8"))
-    lines = sorted(
-        json.dumps(
-            [
-                row["uuid"],
-                row["concept"],
-                bsc._geo_key(row.get("geography")),
-                bsc._entity_key(row.get("entity")),
-            ]
-        )
-        for row in catalog["series"]
-    )
-    digest = hashlib.sha256("\n".join(lines).encode()).hexdigest()
+    anchor = json.loads(IDENTITY_ANCHOR_PATH.read_text(encoding="utf-8"))
     # Updated 2026-08-05 alongside five registry events: two docket
     # placeholders enriched by their first observations (retire+succeeds,
     # UUIDs preserved: bls.jolts.hires_rate,
@@ -2422,8 +2420,363 @@ def test_identity_uuid_map_matches_reviewed_anchor() -> None:
     # d5634fc4 (fed.g17.industrial_production.total_index_mom
     # institutional_sector). No mint, no supersede; the other 221 live
     # bindings keep their UUIDs (228 -> 221).
-    assert digest == (
-        "56bb47bc6928206b1aad67e25a1ebe8a92ff4d02e53ec3923f540fefe7c57cad"
+    # Updated 2026-10-18 to the catalog at dd929cba (chronicle#361, manifest
+    # 0024-b2328c1685c09fd7) alongside its ten registry events: five
+    # geography-free docket placeholders enriched by their FY2026 first
+    # prints through retire+succeeds pairs that keep each UUID and take the
+    # observation's U.S. country (vintage current) geography and economy
+    # aggregate entity: usaspending.dod.new_prime_awards (8146ecb0),
+    # prime_award_transactions (82ff2d7f), prime_contract_obligations
+    # (11ea0d3d), small_business_contract_obligation_share (91e3b668) and
+    # unique_prime_contract_recipients (96d17026). Recomputed with this
+    # test's algorithm, 8c4a0f86 gives the previous pin exactly and the delta
+    # to dd929cba is those five tuples re-keyed with the same UUIDs. No mint,
+    # no supersede; the other 216 bindings are unchanged; 221 rows.
+    # Updated 2026-10-19 to the catalog at 61475bf8 (chronicle#369, Thesis
+    # resolver run 39198762190) alongside its ten registry events: five more
+    # country-level docket placeholders, whose retired identities carry
+    # vintage-null U.S. country geography and no entity, enriched by their
+    # FY2026 first prints through retire+succeeds pairs that keep each UUID
+    # and re-key to the observation's vintage-current geography and economy
+    # aggregate entity: usaspending.cdfi.assistance_transaction_obligations
+    # (69834e1f), dhs.title_vi.award_transaction_obligations (e64ea5db),
+    # dod.prime_award_obligations (a2649fd9), ntia.broadband_al11038_obligations
+    # (f37307e0) and usfs.minnesota_place_of_performance_obligations
+    # (720be189). Recomputed with this test's algorithm, 7adcc72f gives the
+    # previous pin exactly and the delta to 61475bf8 is those five tuples
+    # re-keyed with the same UUIDs. No mint, no supersede; the other 216
+    # bindings are unchanged; 221 rows.
+    # Moved 2026-10-19 from a literal here to IDENTITY_ANCHOR_PATH, unchanged
+    # (d5b88530...), so the Thesis resolver can pin the anchor its own
+    # first observations move in the same proposal, under a move record
+    # this test re-derives. Twice in three days (chronicle#361, #369) an
+    # append merged with this test red and held every other pull request
+    # into the branch until a curation PR (#363, #371) moved the literal.
+    # From here on, machine moves are recorded in the fixture and its git
+    # history; hand moves keep being explained here.
+    assert bsc.identity_anchor_problems(catalog["series"], anchor) == []
+
+
+# --- Machine moves of the identity anchor -----------------------------------
+
+_ANCHOR_CONCEPTS = ["a.series", "b.series", "c.series"]
+_ANCHOR_FULL_GEOS = [
+    {"level": "country", "id": "US", "vintage": "current"},
+    {"level": "country", "id": "US", "vintage": None},
+    {"level": "state", "id": "MN", "vintage": "current"},
+]
+_ANCHOR_ENTITIES = [
+    {"name": "economy", "role": "aggregate"},
+    {"name": "person", "role": "civilian_labor_force"},
+]
+_ANCHOR_MUTATIONS = [
+    "drop_event",
+    "wrong_origin",
+    "mint_reuses_uuid",
+    "remint_full_identity",
+    "enrich_full_identity",
+    "enrich_changes_concept",
+    "enrich_unadmitted_geography",
+    "mint_placeholder",
+    "unsorted_events",
+    "unknown_mover",
+    "stale_pin",
+    "repeated_row",
+    "mint_existing_identity",
+    "two_mints_one_identity",
+    "enrich_onto_bound_identity",
+]
+
+
+def _anchor_uuid(index: int) -> str:
+    return f"{index:08x}-0000-4000-8000-000000000000"
+
+
+def _admitted_geographies(placeholder: dict | None) -> list[dict]:
+    return [
+        geo for geo in _ANCHOR_FULL_GEOS
+        if placeholder is None
+        or (
+            (placeholder["level"], placeholder["id"]) == (geo["level"], geo["id"])
+            and placeholder["vintage"] in (None, geo["vintage"])
+        )
+    ]
+
+
+def _anchor_append(data: st.DataObject) -> tuple[list, list, list]:
+    """A prior catalog, the catalog one append makes of it, and the events
+    a machine move records for that append: placeholder enrichments under
+    the same UUID and concept, and mints of full identities under fresh
+    UUIDs."""
+    def key(concept, geography, entity) -> str:
+        return json.dumps(
+            [concept, bsc._geo_key(geography), bsc._entity_key(entity)]
+        )
+
+    # As in a real catalog, every (concept, geography, entity) is bound once.
+    prior, held = [], set()
+    for index in range(data.draw(st.integers(0, 6), label="rows")):
+        placeholder = data.draw(st.booleans(), label="placeholder")
+        row = {
+            "uuid": _anchor_uuid(index),
+            "concept": data.draw(st.sampled_from(_ANCHOR_CONCEPTS)),
+            "geography": data.draw(st.sampled_from(
+                [None, *_ANCHOR_FULL_GEOS] if placeholder
+                else _ANCHOR_FULL_GEOS
+            )),
+            "entity": None if placeholder else data.draw(
+                st.sampled_from(_ANCHOR_ENTITIES)
+            ),
+        }
+        if key(row["concept"], row["geography"], row["entity"]) in held:
+            continue
+        held.add(key(row["concept"], row["geography"], row["entity"]))
+        prior.append(row)
+    current = [dict(row) for row in prior]
+    events = []
+    for row in current:
+        options = [
+            (geography, entity)
+            for geography in _admitted_geographies(row["geography"])
+            for entity in _ANCHOR_ENTITIES
+            if key(row["concept"], geography, entity) not in held
+        ]
+        if row["entity"] is not None or not options or not data.draw(
+            st.booleans()
+        ):
+            continue
+        geography, entity = data.draw(st.sampled_from(options))
+        held.add(key(row["concept"], geography, entity))
+        events.append({
+            "event": "enrich", "uuid": row["uuid"], "concept": row["concept"],
+            "geography": geography, "entity": entity,
+            "placeholder_geography": row["geography"],
+        })
+        row["geography"], row["entity"] = geography, entity
+    for index in range(data.draw(st.integers(0, 3), label="mints")):
+        mint = {
+            "uuid": _anchor_uuid(100 + index),
+            "concept": data.draw(st.sampled_from(_ANCHOR_CONCEPTS)),
+            "geography": data.draw(st.sampled_from(_ANCHOR_FULL_GEOS)),
+            "entity": data.draw(st.sampled_from(_ANCHOR_ENTITIES)),
+        }
+        if key(mint["concept"], mint["geography"], mint["entity"]) in held:
+            continue
+        held.add(key(mint["concept"], mint["geography"], mint["entity"]))
+        current.append(mint)
+        events.append({"event": "mint", **mint})
+    events.sort(key=lambda event: (event["concept"], event["uuid"]))
+    return prior, current, events
+
+
+def _machine_anchor(prior: list, current: list, events: list) -> dict:
+    return {
+        "comment": "c",
+        "sha256": bsc.identity_anchor_digest(bsc.identity_anchor_lines(current)),
+        "move": {
+            "by": "thesis-resolver",
+            "run_url": "https://github.com/ThesisInstitute/thesis/actions/runs/1",
+            "from_sha256": bsc.identity_anchor_digest(
+                bsc.identity_anchor_lines(prior)
+            ),
+            "events": events,
+        },
+    }
+
+
+@settings(max_examples=300, deadline=None)
+@given(data=st.data())
+def test_a_machine_move_of_sanctioned_events_is_accepted(
+    data: st.DataObject,
+) -> None:
+    """Completeness: any append made only of fresh-UUID mints and
+    same-UUID placeholder enrichments can be recorded as a machine move
+    that identity_anchor_problems accepts, and recording no move at all
+    for it is refused (the pin moved)."""
+    prior, current, events = _anchor_append(data)
+    assume(events)
+    assert bsc.identity_anchor_problems(
+        current, _machine_anchor(prior, current, events)
+    ) == []
+    stale = {
+        "comment": "c",
+        "sha256": bsc.identity_anchor_digest(bsc.identity_anchor_lines(prior)),
+        "move": None,
+    }
+    assert bsc.identity_anchor_problems(current, stale)
+
+
+@pytest.mark.parametrize("mutation", _ANCHOR_MUTATIONS)
+@settings(
+    max_examples=120,
+    deadline=None,
+    suppress_health_check=[HealthCheck.filter_too_much],
+)
+@given(data=st.data())
+def test_a_machine_move_cannot_hide_any_other_binding_change(
+    mutation: str, data: st.DataObject,
+) -> None:
+    """Soundness: every way a recorded move can misstate its append — an
+    unrecorded change, a remint or reused UUID, an entity change on a full
+    identity, a concept change, an unadmitted geography, a placeholder
+    mint, a wrong origin, unsorted events, an unknown mover, a stale pin, a
+    repeated row, or a mint of an identity already bound — is reported.
+    Parametrized, so a mutation Hypothesis can never exercise fails."""
+    prior, current, events = _anchor_append(data)
+    enriched = [e for e in events if e["event"] == "enrich"]
+    mints = [e for e in events if e["event"] == "mint"]
+    full = [row for row in current if row["entity"] is not None
+            and row["uuid"] not in {e["uuid"] for e in events}]
+    placeholders = [row for row in current if row["entity"] is None]
+    if mutation == "drop_event":
+        assume(events)
+        dropped = data.draw(st.sampled_from(events))
+        events = [e for e in events if e is not dropped]
+    elif mutation == "wrong_origin":
+        assume(events)
+        prior = current
+    elif mutation == "mint_reuses_uuid":
+        assume(mints and prior)
+        mint = data.draw(st.sampled_from(mints))
+        reused = data.draw(st.sampled_from(prior))["uuid"]
+        for row in current:
+            if row["uuid"] == mint["uuid"] and row["concept"] == mint["concept"]:
+                row["uuid"] = reused
+        mint["uuid"] = reused
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "remint_full_identity":
+        assume(full)
+        row = data.draw(st.sampled_from(full))
+        row["uuid"] = _anchor_uuid(999)
+        events.append({"event": "mint", **{k: row[k] for k in (
+            "uuid", "concept", "geography", "entity")}})
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "enrich_full_identity":
+        assume(full)
+        row = data.draw(st.sampled_from(full))
+        old_geography = row["geography"]
+        row["entity"] = next(
+            e for e in _ANCHOR_ENTITIES if e != row["entity"]
+        )
+        events.append({
+            "event": "enrich", "uuid": row["uuid"], "concept": row["concept"],
+            "geography": row["geography"], "entity": row["entity"],
+            "placeholder_geography": old_geography,
+        })
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "enrich_changes_concept":
+        assume(enriched)
+        target = data.draw(st.sampled_from(enriched))
+        renamed = "z.renamed"
+        for row in current:
+            if row["uuid"] == target["uuid"]:
+                row["concept"] = renamed
+        target["concept"] = renamed
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "enrich_unadmitted_geography":
+        assume(enriched)
+        target = data.draw(st.sampled_from(enriched))
+        assume(target["placeholder_geography"] is not None)
+        unadmitted = [
+            geo for geo in _ANCHOR_FULL_GEOS
+            if geo not in _admitted_geographies(target["placeholder_geography"])
+        ]
+        assume(unadmitted)
+        geography = data.draw(st.sampled_from(unadmitted))
+        for row in current:
+            if row["uuid"] == target["uuid"]:
+                row["geography"] = geography
+        target["geography"] = geography
+    elif mutation == "mint_placeholder":
+        assume(mints)
+        mint = data.draw(st.sampled_from(mints))
+        for row in current:
+            if row["uuid"] == mint["uuid"]:
+                row["entity"] = None
+        mint["entity"] = None
+    elif mutation == "unsorted_events":
+        assume(len({(e["concept"], e["uuid"]) for e in events}) > 1)
+        events = list(reversed(events))
+    elif mutation == "unknown_mover":
+        assume(events)
+    elif mutation == "stale_pin":
+        assume(placeholders and events)
+    elif mutation == "repeated_row":
+        # A second copy of a mint's row: the digest (over the list) moves,
+        # the set the undo works on does not.
+        assume(mints)
+        row = data.draw(st.sampled_from(
+            [r for r in current if r["uuid"] in {m["uuid"] for m in mints}]
+        ))
+        current.append(dict(row))
+    elif mutation == "mint_existing_identity":
+        assume(full)
+        row = data.draw(st.sampled_from(full))
+        twin = {**row, "uuid": _anchor_uuid(998)}
+        current.append(twin)
+        events.append({"event": "mint", **{k: twin[k] for k in (
+            "uuid", "concept", "geography", "entity")}})
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "two_mints_one_identity":
+        # Both rows are minted in this move, so neither is in the prior
+        # catalog the mint-collision check reads.
+        assume(mints)
+        mint = data.draw(st.sampled_from(mints))
+        twin = {k: mint[k] for k in ("concept", "geography", "entity")}
+        twin["uuid"] = _anchor_uuid(997)
+        current.append(twin)
+        events.append({"event": "mint", **twin})
+        events.sort(key=lambda e: (e["concept"], e["uuid"]))
+    elif mutation == "enrich_onto_bound_identity":
+        # A placeholder enriched onto an identity another row already binds.
+        assume(enriched and full)
+        event = data.draw(st.sampled_from(enriched))
+        bound = data.draw(st.sampled_from(full))
+        assume(bound["concept"] == event["concept"])
+        assume(bound["geography"] in _admitted_geographies(
+            event["placeholder_geography"]))
+        for row in current:
+            if row["uuid"] == event["uuid"]:
+                row["geography"], row["entity"] = (
+                    bound["geography"], bound["entity"]
+                )
+        event["geography"], event["entity"] = bound["geography"], bound["entity"]
+    anchor = _machine_anchor(prior, current, events)
+    if mutation == "unknown_mover":
+        anchor["move"]["by"] = "someone-else"
+    if mutation == "stale_pin":
+        row = data.draw(st.sampled_from(placeholders))
+        row["entity"] = _ANCHOR_ENTITIES[0]
+        row["geography"] = _ANCHOR_FULL_GEOS[0]
+    hypothesis_event(mutation)
+    assert bsc.identity_anchor_problems(current, anchor), mutation
+
+
+def test_identity_anchor_fixture_shape_is_enforced() -> None:
+    """A fixture with extra or missing keys, a malformed pin, or a move
+    without events is reported rather than read leniently."""
+    series = [{"uuid": _anchor_uuid(0), "concept": "a.series",
+               "geography": _ANCHOR_FULL_GEOS[0],
+               "entity": _ANCHOR_ENTITIES[0]}]
+    pin = bsc.identity_anchor_digest(bsc.identity_anchor_lines(series))
+    good = {"comment": "c", "sha256": pin, "move": None}
+    assert bsc.identity_anchor_problems(series, good) == []
+    assert bsc.identity_anchor_problems(series, {**good, "extra": 1})
+    assert bsc.identity_anchor_problems(series, {**good, "sha256": pin.upper()})
+    no_events = {**good, "move": {
+        "by": "thesis-resolver", "run_url": None, "from_sha256": pin,
+        "events": [],
+    }}
+    assert bsc.identity_anchor_problems(series, no_events) == [
+        "identity anchor move records no events"
+    ]
+    bad_url = {**good, "move": {
+        "by": "thesis-resolver", "run_url": "http://example.com",
+        "from_sha256": pin, "events": [],
+    }}
+    assert (
+        "identity anchor move run_url is not a GitHub URL"
+        in bsc.identity_anchor_problems(series, bad_url)
     )
 
 
@@ -4424,3 +4777,958 @@ def test_entity_fold_invariants_hold_for_any_split(
     undone = json.loads((tmp_path / "catalog.json").read_text())
     assert _without_digests(undone) == _without_digests(before)
     assert bsc.main(argv + ["--check"]) == 0
+
+
+# --- chained placeholder enrichment (2026-10-16) ----------------------------
+#
+# A docket placeholder can be enriched more than once. The geography-free
+# placeholder becomes a geography-only one when its docket entry learns a
+# country, and that one becomes the observed identity when the first print
+# lands. Each hop is a retire + succeeds pair carrying one UUID. The guard is
+# the LIVE binding of the row's own key. uuid_owner records first ownership
+# and never moves, so it names the first hop's predecessor, never the
+# second's: requiring it (the guard before this fix) refused every second
+# hop. Thesis run 38962977031 hit exactly that on
+# usaspending.dod.prime_award_obligations.
+
+DOD = "usaspending.dod.prime_award_obligations"
+CHAIN_NOTE = "docket placeholder enriched by first observed identity"
+US_UNDECLARED = {"level": "country", "id": "0100000US", "vintage": None}
+U3 = "cccccccc-3333-4333-8333-333333333333"
+U4 = "eeeeeeee-5555-4555-8555-555555555555"
+
+
+def _key(fields: dict) -> tuple[str, str, str]:
+    return bsc.UuidRegistry.entry_key(fields)
+
+
+def _owner(registry: bsc.UuidRegistry, row_uuid: str):
+    return registry.uuid_owner.get(uuid.UUID(row_uuid).int)
+
+
+def _plan_events(plan: dict) -> list[dict]:
+    """Every registry event a plan stages, in main's order."""
+    return (
+        plan["enrich_retires"] + plan["mints"] + plan["revives"]
+        + plan["supersedes"] + plan["retire_pending"]
+    )
+
+
+def _event_kind(event: dict) -> str:
+    # Planned events carry absent markers as None; rendered lines omit them.
+    for marker in ("succeeds", "supersedes", "retired", "revived", "reclaimed"):
+        if event.get(marker) is not None:
+            return marker
+    return "mint"
+
+
+def _registry_lines(tmp_path: pathlib.Path) -> list[dict]:
+    return [
+        json.loads(line)
+        for line in (tmp_path / "registry.jsonl").read_text().splitlines()
+    ]
+
+
+def _dod_observation() -> dict:
+    """The FY2026 first print as Thesis records it (registered snapshot)."""
+    return _row(
+        f"{DOD}.fy2026",
+        rid=f"{DOD}.fy2026.registered_query_snapshot",
+        unit="billions USD",
+        period={"type": "year", "value": "2026"},
+    )
+
+
+def _dod_chain() -> list[dict]:
+    """Registry lines 196, 249 and 250 for a2649fd9, with U1 for the UUID."""
+    return [
+        _mint(DOD, U1),
+        dict(_mint(DOD, U1), retired=True, note=CHAIN_NOTE),
+        dict(
+            _mint(DOD, U1, geography=US_UNDECLARED),
+            succeeds={"concept": DOD, "geography": None, "entity": None},
+        ),
+    ]
+
+
+def _docket_row(concept: str, row_uuid: str, geography: dict | None) -> dict:
+    return {
+        "uuid": row_uuid,
+        "concept": concept,
+        "geography": geography,
+        "entity": None,
+        "aliases": [],
+        "status": "docket-only",
+    }
+
+
+def test_a_placeholder_enriched_once_is_enriched_again(
+    tmp_path: pathlib.Path,
+) -> None:
+    # Production repro (Thesis run 38962977031, 2026-10-16). The catalog
+    # still holds the geography-only placeholder docket-only; its first
+    # print must take the second hop instead of falling through to the
+    # UUID-reuse refusal.
+    registry = _registry(tmp_path, _dod_chain())
+    geo_key = _key({"concept": DOD, "geography": US_UNDECLARED, "entity": None})
+    # The trap: the live placeholder holds U1 without having first owned it.
+    assert registry.is_live(geo_key) and registry.binding(geo_key) == U1
+    assert _owner(registry, U1) != geo_key
+    existing = {
+        "series": [
+            _docket_row(DOD, U1, dict(bsc.COUNTRY_GEOGRAPHY["US"]))
+        ]
+    }
+    catalog, plan = _build(
+        tmp_path, [_dod_observation()], existing=existing,
+        registry_entries=_dod_chain(),
+    )
+    (row,) = catalog["series"]
+    assert (row["concept"], row["uuid"], row["status"]) == (DOD, U1, "observed")
+    assert row["entity"] == ECONOMY
+    # Exactly the pair the diagnosis's patched generator wrote (and that
+    # thesis#362's append guard admits): retire the geography-only
+    # placeholder, then succeed it at the observed identity, one UUID.
+    assert [
+        bsc.UuidRegistry.render_entry(e) for e in _plan_events(plan)
+    ] == [
+        bsc.UuidRegistry.render_entry(e)
+        for e in (
+            dict(_mint(DOD, U1, geography=US_UNDECLARED), retired=True,
+                 note=CHAIN_NOTE),
+            dict(
+                _mint(DOD, U1, geography=US_IDENTITY, entity=ECONOMY),
+                succeeds={"concept": DOD, "geography": US_UNDECLARED,
+                          "entity": None},
+            ),
+        )
+    ]
+    assert not plan["dropped"]
+    staged = registry.stage(_plan_events(plan))
+    observed_key = _key(row)
+    assert staged.is_live(observed_key) and staged.binding(observed_key) == U1
+    assert not staged.is_live(geo_key) and geo_key in staged.consumed
+    assert [k for k, e in staged.live_bindings() if e["uuid"] == U1] == [
+        observed_key
+    ]
+    assert bsc.registry_agreement_problems(catalog, staged) == []
+
+
+def test_placeholder_chain_keeps_one_uuid_through_main(
+    tmp_path: pathlib.Path,
+) -> None:
+    # The same chain end to end through main: the docket entry starts with
+    # no country, learns "US" (first hop, docket to docket), then its first
+    # print lands (second hop). Neither hop needs a ceremony flag, the UUID
+    # never changes, and --check passes after each.
+    entry = {"series": DOD, "cadence": "annual",
+             "extras": {"targetUnit": "billions USD"}}
+    bystander = _row("bls.cps.unemployment_rate")
+    argv = _repo(tmp_path, [bystander], seed={"series": [entry]})
+
+    def rows_by_concept() -> dict[str, dict]:
+        catalog = json.loads((tmp_path / "catalog.json").read_text())
+        return {r["concept"]: r for r in catalog["series"]}
+
+    assert bsc.main(argv) == 0
+    placeholder = rows_by_concept()[DOD]
+    assert placeholder["status"] == "docket-only"
+    assert placeholder["geography"] is None
+    lineage = placeholder["uuid"]
+    bystander_uuid = rows_by_concept()["bls.cps.unemployment_rate"]["uuid"]
+
+    entry["extras"]["country"] = "US"
+    (tmp_path / "seed.json").write_text(
+        json.dumps({"series": [entry]}), encoding="utf-8"
+    )
+    assert bsc.main(argv) == 0
+    country = rows_by_concept()[DOD]
+    assert (country["uuid"], country["status"]) == (lineage, "docket-only")
+    assert country["geography"] == bsc.COUNTRY_GEOGRAPHY["US"]
+    assert bsc.main(argv + ["--check"]) == 0
+
+    (tmp_path / "obs.jsonl").write_text(
+        "".join(json.dumps(r) + "\n" for r in [bystander, _dod_observation()]),
+        encoding="utf-8",
+    )
+    assert bsc.main(argv) == 0
+    observed = rows_by_concept()[DOD]
+    assert (observed["uuid"], observed["status"]) == (lineage, "observed")
+    assert observed["entity"] == ECONOMY
+    assert rows_by_concept()["bls.cps.unemployment_rate"]["uuid"] == (
+        bystander_uuid
+    )
+    assert bsc.main(argv + ["--check"]) == 0
+
+    events = _registry_lines(tmp_path)
+    assert [
+        (e["geography"], e["entity"], _event_kind(e))
+        for e in events
+        if e["concept"] == DOD
+    ] == [
+        (None, None, "mint"),
+        (None, None, "retired"),
+        (US_UNDECLARED, None, "succeeds"),
+        (US_UNDECLARED, None, "retired"),
+        (US_IDENTITY, ECONOMY, "succeeds"),
+    ]
+    assert {e["uuid"] for e in events if e["concept"] == DOD} == {lineage}
+    assert not any(
+        _event_kind(e) in ("supersedes", "reclaimed") for e in events
+    )
+    catalog_bytes = (tmp_path / "catalog.json").read_bytes()
+    registry_bytes = (tmp_path / "registry.jsonl").read_bytes()
+    assert bsc.main(argv) == 0
+    assert (tmp_path / "catalog.json").read_bytes() == catalog_bytes
+    assert (tmp_path / "registry.jsonl").read_bytes() == registry_bytes
+
+
+# Each stage is (docket entry declares a country, observation present).
+_CHAINS = (
+    ((False, False), (True, False)),
+    ((False, False), (False, True)),
+    ((True, False), (True, True)),
+    ((False, False), (True, False), (True, True)),
+)
+
+
+@settings(
+    max_examples=60,
+    deadline=None,
+    suppress_health_check=[HealthCheck.function_scoped_fixture],
+)
+@given(
+    chain=st.sampled_from(_CHAINS),
+    country=st.sampled_from(sorted(bsc.COUNTRY_GEOGRAPHY)),
+    vintage=st.sampled_from(["current", "2020", None]),
+    entity=st.sampled_from([ECONOMY, HAND_ENTITY]),
+)
+def test_any_placeholder_chain_keeps_one_uuid_and_passes_check(
+    tmp_path_factory: pytest.TempPathFactory,
+    chain: tuple,
+    country: str,
+    vintage: str | None,
+    entity: dict,
+) -> None:
+    """For every chain of placeholder enrichments the builder can reach
+    (geography-free -> country, geography-free -> observed, country ->
+    observed, and all three hops), in any country, at any observed
+    vintage and entity: every hop writes exactly one retire + succeeds
+    pair handing over the binding it retired, needs no ceremony flag,
+    keeps the lineage's one UUID, leaves exactly one live binding for it
+    (at the row's identity), leaves unrelated series untouched, passes
+    --check, and is byte-idempotent."""
+    tmp_path = tmp_path_factory.mktemp("chain")
+    concept = "agency.chain.series"
+    neighbour = {"series": "agency.chain.neighbour", "cadence": "monthly",
+                 "extras": {"country": "US", "targetUnit": "percent"}}
+    bystander = _row("bls.cps.unemployment_rate")
+    observation = _row(
+        concept,
+        geography={**bsc.COUNTRY_GEOGRAPHY[country], "vintage": vintage},
+        entity=entity,
+    )
+
+    def write_stage(stage: tuple[bool, bool]) -> None:
+        declares_country, observed = stage
+        extras = {"targetUnit": "percent"}
+        if declares_country:
+            extras["country"] = country
+        seed = {"series": [
+            {"series": concept, "cadence": "monthly", "extras": extras},
+            neighbour,
+        ]}
+        (tmp_path / "seed.json").write_text(json.dumps(seed), encoding="utf-8")
+        rows = [bystander] + ([observation] if observed else [])
+        (tmp_path / "obs.jsonl").write_text(
+            "".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8"
+        )
+
+    def catalog_rows() -> list[dict]:
+        return json.loads((tmp_path / "catalog.json").read_text())["series"]
+
+    argv = _repo(tmp_path, [])
+    write_stage(chain[0])
+    assert bsc.main(argv) == 0
+    (first,) = [r for r in catalog_rows() if r["concept"] == concept]
+    lineage = first["uuid"]
+    others = {
+        _key(r): r["uuid"] for r in catalog_rows() if r["concept"] != concept
+    }
+    for stage in chain[1:]:
+        before = len(_registry_lines(tmp_path))
+        write_stage(stage)
+        assert bsc.main(argv) == 0  # no --allow-remint
+        (row,) = [r for r in catalog_rows() if r["concept"] == concept]
+        assert row["uuid"] == lineage
+        assert row["status"] == ("observed" if stage[1] else "docket-only")
+        hop = _registry_lines(tmp_path)[before:]
+        assert [_event_kind(e) for e in hop] == ["retired", "succeeds"]
+        assert {e["uuid"] for e in hop} == {lineage}
+        assert _key(hop[1]["succeeds"]) == _key(hop[0])
+        assert _key(hop[1]) == _key(row)
+        assert {
+            _key(r): r["uuid"] for r in catalog_rows() if r["concept"] != concept
+        } == others
+        registry = bsc.UuidRegistry.load(tmp_path / "registry.jsonl")
+        assert [
+            k for k, e in registry.live_bindings() if e["uuid"] == lineage
+        ] == [_key(row)]
+        assert bsc.main(argv + ["--check"]) == 0
+        snapshot = (
+            (tmp_path / "catalog.json").read_bytes(),
+            (tmp_path / "registry.jsonl").read_bytes(),
+        )
+        assert bsc.main(argv) == 0
+        assert (
+            (tmp_path / "catalog.json").read_bytes(),
+            (tmp_path / "registry.jsonl").read_bytes(),
+        ) == snapshot
+    assert {
+        e["uuid"] for e in _registry_lines(tmp_path) if e["concept"] == concept
+    } == {lineage}
+
+
+def _stale_after_chain(scenario: str):
+    """(registry events, stale docket-only row, observed identity): the
+    DOD chain (geography-free -> geography-only, U1) and then whatever made
+    the committed catalog's row stale."""
+    chain = _dod_chain()
+    observed_economy = {"concept": DOD, "geography": US_IDENTITY,
+                        "entity": ECONOMY}
+    observed_hand = dict(observed_economy, entity=HAND_ENTITY)
+    geo_row = dict(bsc.COUNTRY_GEOGRAPHY["US"])
+    handed_on = chain + [
+        dict(_mint(DOD, U1, geography=US_UNDECLARED), retired=True,
+             note=CHAIN_NOTE),
+        dict(observed_economy, uuid=U1,
+             succeeds={"concept": DOD, "geography": US_UNDECLARED,
+                       "entity": None}),
+    ]
+    if scenario == "superseded":
+        # A curated remint moved the placeholder to U2; the row kept U1.
+        events = chain + [
+            dict(_mint(DOD, U2, geography=US_UNDECLARED), supersedes=U1,
+                 note="curated remint of the placeholder"),
+        ]
+        return events, _docket_row(DOD, U1, geo_row), observed_economy
+    if scenario == "retired":
+        # The docket entry was withdrawn (gated retire); the row lingers.
+        events = chain + [
+            dict(_mint(DOD, U1, geography=US_UNDECLARED), retired=True,
+                 note="docket entry withdrawn"),
+        ]
+        return events, _docket_row(DOD, U1, geo_row), observed_economy
+    if scenario == "handed over":
+        # The placeholder already took its second hop; the row predates it.
+        return handed_on, _docket_row(DOD, U1, geo_row), observed_hand
+    if scenario == "reclaimed":
+        # After the hand-over the observation was withdrawn and the
+        # placeholder re-established on a fresh UUID; the row kept U1.
+        events = handed_on + [
+            dict(observed_economy, uuid=U1, retired=True,
+                 note="observation withdrawn upstream"),
+            dict(_mint(DOD, U2, geography=US_UNDECLARED), reclaimed=True,
+                 note="placeholder re-established after handover"),
+        ]
+        return events, _docket_row(DOD, U1, geo_row), observed_hand
+    if scenario == "chain root":
+        # The row is the geography-free placeholder the first hop retired.
+        return chain, _docket_row(DOD, U1, None), observed_economy
+    if scenario == "another series' uuid":
+        # The row carries a UUID that another live series holds.
+        events = chain + [_mint("agency.other", U3)]
+        return events, _docket_row(DOD, U3, geo_row), observed_economy
+    raise AssertionError(scenario)
+
+
+@pytest.mark.parametrize(
+    "scenario",
+    ["superseded", "retired", "handed over", "reclaimed", "chain root",
+     "another series' uuid"],
+)
+def test_stale_rows_after_a_chain_are_still_refused(
+    tmp_path: pathlib.Path, scenario: str
+) -> None:
+    # The case the dropped owner check was written for: a catalog row that
+    # no longer carries its key's LIVE binding. With the owner check gone,
+    # the live-binding conditions alone must refuse each one at plan time
+    # with the ceremony diagnostic, and main must leave both artifacts
+    # byte-untouched.
+    events, stale_row, observed = _stale_after_chain(scenario)
+    registry = _registry(tmp_path, events)
+    stale_key = _key(stale_row)
+    assert not (
+        registry.is_live(stale_key)
+        and registry.binding(stale_key) == stale_row["uuid"]
+    )
+    observation = _row(
+        DOD, geography=dict(observed["geography"], name="United States"),
+        entity=observed["entity"],
+    )
+    with pytest.raises(SystemExit, match="explicit ceremony"):
+        _build(
+            tmp_path, [observation], existing={"series": [stale_row]},
+            registry_entries=events,
+        )
+    argv = _repo(tmp_path, [observation], seed={"series": []})
+    _registry(tmp_path, events)
+    (tmp_path / "catalog.json").write_text(
+        json.dumps({"series": [stale_row]}) + "\n", encoding="utf-8"
+    )
+    catalog_before = (tmp_path / "catalog.json").read_bytes()
+    registry_before = (tmp_path / "registry.jsonl").read_bytes()
+    with pytest.raises(SystemExit, match="explicit ceremony"):
+        bsc.main(argv)
+    assert (tmp_path / "catalog.json").read_bytes() == catalog_before
+    assert (tmp_path / "registry.jsonl").read_bytes() == registry_before
+
+
+def test_a_returned_placeholder_never_hands_over_twice(
+    tmp_path: pathlib.Path,
+) -> None:
+    # Independent-review counterexample (chronicle#360, 2026-10-18). A
+    # placeholder B hands U1 to its observed identity C. The observation is
+    # withdrawn and the docket loses its country (fresh placeholder A/U2),
+    # then the country returns and B takes U2 from A. B is live and bound
+    # to U2, but it is still consumed: it already handed over once, and the
+    # grammar never lets a predecessor hand over twice. When C's
+    # observation returns, the builder must refuse at plan time, naming the
+    # cause. Without the consumed check it planned retire(B/U2) + C
+    # succeeds B, which staging rejected. Base refused too (B never
+    # first-owned U2), but with a remint message that blamed a supersede
+    # nobody made. The diagnostic names the cause and prescribes nothing:
+    # the right curation depends on the lineage (a delta review showed that
+    # deleting the placeholder's row loses curated aliases held only there,
+    # and that a consumed observed identity reclaims rather than revives).
+    concept = "agency.lineage"
+    bystander = _row("bls.cps.unemployment_rate")
+    observed = _row(concept)
+
+    def stage(country: bool, rows: list[dict]) -> None:
+        extras = {"targetUnit": "percent"}
+        if country:
+            extras["country"] = "US"
+        seed = {"series": [
+            {"series": concept, "cadence": "monthly", "extras": extras},
+        ]}
+        (tmp_path / "seed.json").write_text(json.dumps(seed), encoding="utf-8")
+        (tmp_path / "obs.jsonl").write_text(
+            "".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8"
+        )
+
+    argv = _repo(tmp_path, [])
+    remint = ["--allow-remint", "--remint-note", "observation withdrawn"]
+    stage(True, [bystander])
+    assert bsc.main(argv) == 0  # mint B/U1
+    stage(True, [bystander, observed])
+    assert bsc.main(argv) == 0  # retire B, C succeeds B with U1
+    stage(False, [bystander])
+    assert bsc.main(argv + remint) == 0  # mint A/U2, retire C
+    stage(True, [bystander])
+    assert bsc.main(argv) == 0  # retire A, B succeeds A with U2
+    assert bsc.main(argv + ["--check"]) == 0
+    a_key = (concept, bsc._geo_key(None), bsc._entity_key(None))
+    b_key = (concept, bsc._geo_key(US_UNDECLARED), bsc._entity_key(None))
+    c_key = (concept, bsc._geo_key(US_IDENTITY), bsc._entity_key(ECONOMY))
+    assert [
+        (_key(e), _event_kind(e))
+        for e in _registry_lines(tmp_path)
+        if e["concept"] == concept
+    ] == [
+        (b_key, "mint"),
+        (b_key, "retired"),
+        (c_key, "succeeds"),
+        (a_key, "mint"),
+        (c_key, "retired"),
+        (a_key, "retired"),
+        (b_key, "succeeds"),
+    ]
+    registry = bsc.UuidRegistry.load(tmp_path / "registry.jsonl")
+    u2 = registry.binding(a_key)
+    assert registry.is_live(b_key) and registry.binding(b_key) == u2
+    assert b_key in registry.consumed  # the state the live binding misses
+
+    stage(True, [bystander, observed])
+    catalog_before = (tmp_path / "catalog.json").read_bytes()
+    registry_before = (tmp_path / "registry.jsonl").read_bytes()
+    for flags in ([], remint):
+        with pytest.raises(SystemExit, match="hands over at most once"):
+            bsc.main(argv + flags)
+        assert (tmp_path / "catalog.json").read_bytes() == catalog_before
+        assert (tmp_path / "registry.jsonl").read_bytes() == registry_before
+
+    # One curation that resolves this lineage (no curated aliases on B, and
+    # C has an unconsumed retired binding): delete B's catalog row and
+    # rerun with --allow-remint. C revives its own U1; B's U2 retires.
+    catalog = json.loads(catalog_before)
+    catalog["series"] = [
+        r for r in catalog["series"] if r["concept"] != concept
+    ]
+    (tmp_path / "catalog.json").write_text(
+        json.dumps(catalog, indent=2) + "\n", encoding="utf-8"
+    )
+    assert bsc.main(argv) == 1  # retiring B's live binding is gated
+    assert bsc.main(argv + remint) == 0
+    assert bsc.main(argv + ["--check"]) == 0
+    registry = bsc.UuidRegistry.load(tmp_path / "registry.jsonl")
+    u1 = registry.binding(c_key)
+    assert registry.is_live(c_key) and u1 != u2
+    assert not registry.is_live(b_key) and registry.binding(b_key) == u2
+    assert [
+        (_key(e), _event_kind(e))
+        for e in _registry_lines(tmp_path)[len(registry_before.splitlines()):]
+    ] == [(c_key, "revived"), (b_key, "retired")]
+    (row,) = [
+        r for r in json.loads((tmp_path / "catalog.json").read_text())["series"]
+        if r["concept"] == concept
+    ]
+    assert (row["uuid"], row["status"], _key(row)) == (u1, "observed", c_key)
+
+
+def test_a_docket_alias_never_plans_a_cross_concept_hop(
+    tmp_path: pathlib.Path,
+) -> None:
+    # Independent-review finding (chronicle#360, LOW, pre-existing): a
+    # docket entry naming a placeholder by its curated alias keys the
+    # docket row under the alias, so the planned succeeds crossed concepts
+    # and died only in staging replay. The builder now refuses at plan time
+    # naming the cause, and the remedy it names (call the docket entry by
+    # the placeholder's own concept) enriches cleanly.
+    existing = {"series": [
+        dict(_docket_row("agency.a", U1, None), aliases=["agency.b"]),
+    ]}
+    entry = {"series": "agency.b", "cadence": "monthly",
+             "extras": {"country": "US", "targetUnit": "percent"}}
+    with pytest.raises(SystemExit, match="never crosses concepts") as refused:
+        _build(
+            tmp_path, [], existing=existing,
+            registry_entries=[_mint("agency.a", U1)],
+            docket={"series": [entry]},
+        )
+    assert "name the docket entry 'agency.a'" in str(refused.value)
+    catalog, plan = _build(
+        tmp_path, [], existing=existing,
+        registry_entries=[_mint("agency.a", U1)],
+        docket={"series": [dict(entry, series="agency.a")]},
+    )
+    (row,) = catalog["series"]
+    assert (row["concept"], row["uuid"], row["status"]) == (
+        "agency.a", U1, "docket-only"
+    )
+    assert [_event_kind(e) for e in _plan_events(plan)] == [
+        "retired", "succeeds"
+    ]
+    staged = _registry(tmp_path, [_mint("agency.a", U1)]).stage(
+        _plan_events(plan)
+    )
+    assert bsc.registry_agreement_problems(catalog, staged) == []
+
+
+# A small identity universe for generated registry histories: two concepts
+# (so a row can carry another series' UUID), geographies at every
+# refinement level, three entities, and six UUIDs (so stale rows collide
+# with known values).
+_GEN_CONCEPT, _GEN_OTHER = "agency.lineage", "agency.elsewhere"
+_PLACEHOLDER_GEOS = (
+    None,
+    {"level": "country", "id": "0100000US", "vintage": None},
+    {"level": "country", "id": "0100000US", "vintage": "current"},
+    {"level": "country", "id": "0100000US", "vintage": "2020"},
+    {"level": "country", "id": "GB", "vintage": None},
+)
+_OBSERVED_GEOS = (
+    {"level": "country", "id": "0100000US", "vintage": "current"},
+    {"level": "country", "id": "0100000US", "vintage": "2020"},
+    {"level": "country", "id": "GB", "vintage": "current"},
+)
+_GEN_GEOS = _PLACEHOLDER_GEOS + _OBSERVED_GEOS[2:]
+_GEN_ENTITIES = (None, ECONOMY, HAND_ENTITY)
+_GEN_UUIDS = (
+    U1, U2, U3, U4,
+    "ffffffff-6666-4666-8666-666666666666",
+    "abababab-7777-4777-8777-777777777777",
+)
+_GEN_IDENTS = tuple(
+    {"concept": concept, "geography": geography, "entity": entity}
+    for concept in (_GEN_CONCEPT, _GEN_OTHER)
+    for geography in _GEN_GEOS
+    for entity in _GEN_ENTITIES
+)
+
+
+def _ident(entry: dict) -> dict:
+    return {key: entry[key] for key in ("concept", "geography", "entity")}
+
+
+def _refines(placeholder: dict | None, geography: dict | None) -> bool:
+    """Whether an enrichment hop from ``placeholder`` to ``geography`` is
+    plausible. Used only to steer generation toward chains; the registry
+    grammar alone decides what a history may contain."""
+    if placeholder is None:
+        return True
+    geography = geography or {}
+    return (placeholder["level"], placeholder["id"]) == (
+        geography.get("level"), geography.get("id")
+    ) and placeholder["vintage"] in (None, geography.get("vintage"))
+
+
+def _generated_registry(data: st.DataObject) -> bsc.UuidRegistry:
+    """A registry grown from random events that the grammar accepts.
+
+    Each step draws a move the current state allows: mint an unbound
+    identity on an unused UUID, retire a live binding, revive a retired
+    one, supersede or reclaim onto an unused UUID, take an enrichment hop
+    (retire an entity-less binding and succeed it at a refinement), or
+    return (mint a coarser placeholder and hop it onto a retired key that
+    already handed over).
+    The move is kept only if UuidRegistry accepts it, so every history is
+    one the grammar itself admits. Hops chain, so placeholders enriched
+    once, twice and three times occur alongside stale, superseded,
+    retired, handed-over and reclaimed keys, and keys that handed over and
+    then returned as a later hop's successor (live, but consumed)."""
+    registry = bsc.UuidRegistry(pathlib.Path("generated.jsonl"), b"")
+    for _ in range(data.draw(st.integers(1, 12), label="steps")):
+        held = list(registry.latest.values())
+        live = [e for e in held if not e.get("retired")]
+        retired = [e for e in held if e.get("retired")]
+        consumed = [e for e in retired if _key(e) in registry.consumed]
+        unbound = [i for i in _GEN_IDENTS if _key(i) not in registry.latest]
+        unused = [u for u in _GEN_UUIDS if _owner(registry, u) is None]
+        moves = []
+        if unbound and unused:
+            moves += ["mint", "mint"]
+        if live:
+            moves += ["retire"]
+        if live and unused:
+            moves += ["supersede"]
+        if retired:
+            moves += ["revive"]
+        if consumed and unused:
+            moves += ["reclaim"]
+        if any(e["entity"] is None for e in live):
+            moves += ["hop", "hop", "hop"]
+        # A consumed placeholder can take a lineage again as a later hop's
+        # successor (main writes this when a docket entry loses its
+        # country, which mints a fresh coarser placeholder, and regains
+        # it): mint a coarser placeholder and hop it straight onto the key.
+        returns = [
+            (coarser, entry)
+            for entry in consumed
+            if entry["entity"] is None
+            for coarser in unbound
+            if coarser["concept"] == entry["concept"]
+            and coarser["entity"] is None
+            and _key(coarser) != _key(entry)
+            and _refines(coarser["geography"], entry["geography"])
+        ]
+        if returns and unused:
+            moves += ["return", "return"]
+        if not moves:
+            break
+        move = data.draw(st.sampled_from(moves))
+        if move == "mint":
+            # Placeholders (entity-less) are minted twice as often.
+            pool = [i for i in unbound if i["entity"] is None] * 2 + unbound
+            events = [dict(data.draw(st.sampled_from(pool)),
+                           uuid=data.draw(st.sampled_from(unused)))]
+        elif move == "retire":
+            entry = data.draw(st.sampled_from(live))
+            events = [dict(_ident(entry), uuid=entry["uuid"], retired=True,
+                           note="generated retirement")]
+        elif move == "supersede":
+            entry = data.draw(st.sampled_from(live))
+            events = [dict(_ident(entry),
+                           uuid=data.draw(st.sampled_from(unused)),
+                           supersedes=entry["uuid"],
+                           note="generated curated remint")]
+        elif move == "revive":
+            entry = data.draw(st.sampled_from(retired))
+            events = [dict(_ident(entry), uuid=entry["uuid"], revived=True)]
+        elif move == "reclaim":
+            entry = data.draw(st.sampled_from(consumed))
+            events = [dict(_ident(entry),
+                           uuid=data.draw(st.sampled_from(unused)),
+                           reclaimed=True,
+                           note="generated reclaim after handover")]
+        elif move == "return":
+            coarser, entry = data.draw(st.sampled_from(returns))
+            fresh = data.draw(st.sampled_from(unused))
+            events = [
+                dict(coarser, uuid=fresh),
+                dict(coarser, uuid=fresh, retired=True, note=CHAIN_NOTE),
+                dict(_ident(entry), uuid=fresh, succeeds=coarser),
+            ]
+        else:
+            entry = data.draw(st.sampled_from(
+                [e for e in live if e["entity"] is None]
+            ))
+            targets = [
+                ident for ident in _GEN_IDENTS
+                if ident["concept"] == entry["concept"]
+                and _key(ident) != _key(entry)
+                and _refines(entry["geography"], ident["geography"])
+            ]
+            # Entity-less targets are weighted up so hops chain, and retired
+            # ones further still so lineages return onto keys that already
+            # handed over (live again, but consumed).
+            retired_keys = {_key(e) for e in retired}
+            target = data.draw(st.sampled_from(
+                [t for t in targets if _key(t) in retired_keys] * 6
+                + [t for t in targets if t["entity"] is None] * 3
+                + targets
+            ))
+            events = [
+                dict(_ident(entry), uuid=entry["uuid"], retired=True,
+                     note=CHAIN_NOTE),
+                dict(target, uuid=entry["uuid"], succeeds=_ident(entry)),
+            ]
+        try:
+            registry = registry.stage(events)
+        except SystemExit:
+            continue
+    return registry
+
+
+@settings(max_examples=400, deadline=None)
+@given(data=st.data())
+def test_a_live_binding_its_key_never_first_owned_came_by_succeeds(
+    data: st.DataObject,
+) -> None:
+    """Why the owner check was redundant where it was right. In every
+    history the grammar admits, a live binding (K, U) either has K as U's
+    first owner, or K's binding was established by a succeeds event. So
+    the conjunct uuid_owner[U] == K, on top of the live-binding
+    conditions, refused nothing but enrichment chains."""
+    registry = _generated_registry(data)
+    for key, entry in registry.live_bindings():
+        if _owner(registry, entry["uuid"]) == key:
+            continue
+        establishing = [
+            e for e in registry.entries
+            if _key(e) == key and _event_kind(e) not in ("retired", "revived")
+        ]
+        assert _event_kind(establishing[-1]) == "succeeds", (key, entry)
+
+
+@settings(
+    max_examples=400,
+    deadline=None,
+    suppress_health_check=[HealthCheck.function_scoped_fixture],
+)
+@given(data=st.data())
+def test_enrichment_is_planned_exactly_when_the_grammar_admits_it(
+    tmp_path_factory: pytest.TempPathFactory, data: st.DataObject
+) -> None:
+    """Differential: plan-time guard vs. the registry grammar.
+
+    For any history the grammar admits, any docket-only row (live, live
+    but already handed over, stale, superseded, retired, handed over,
+    reclaimed, the root of a chain, or carrying another series' UUID) and
+    any observation of its concept:
+
+    * completeness: the builder plans the retire + succeeds pair exactly
+      when UuidRegistry would accept that very pair (so no enrichment
+      chain is refused);
+    * soundness: everything the builder plans stages cleanly and agrees
+      with the catalog it built (so no stale row slips through);
+    * a refusal is a plan-time diagnostic, never a crash;
+    * when no enrichment is planned, the row takes its own key's binding
+      or a UUID new to the registry, never a UUID another key holds.
+    """
+    tmp_path = tmp_path_factory.mktemp("differential")
+    registry = _generated_registry(data)
+    (tmp_path / "registry.jsonl").write_bytes(registry.raw)
+    placeholders = [
+        e for e in registry.latest.values()
+        if e["concept"] == _GEN_CONCEPT and e["entity"] is None
+    ]
+    # Steer toward rows at keys the history holds, carrying their last
+    # binding: live ones (the chained case lives here), live ones that
+    # already handed over (consumed), and stale ones (retired, handed
+    # over). Any geography with any UUID stays possible.
+    live = [e for e in placeholders if not e.get("retired")]
+    candidates = (
+        [(e["geography"], e["uuid"]) for e in live] * 8
+        + [(e["geography"], e["uuid"]) for e in live
+           if _key(e) in registry.consumed] * 16
+        + [(e["geography"], e["uuid"]) for e in placeholders] * 2
+        + [(g, u) for g in _PLACEHOLDER_GEOS for u in _GEN_UUIDS]
+    )
+    geography, row_uuid = data.draw(st.sampled_from(candidates))
+    placeholder = {"concept": _GEN_CONCEPT, "geography": geography,
+                   "entity": None}
+    # Observations that refine the row's geography are weighted up; any
+    # observed geography stays possible (cross-country, vintage clash).
+    observed = {
+        "concept": _GEN_CONCEPT,
+        "geography": data.draw(st.sampled_from(
+            [g for g in _OBSERVED_GEOS if _refines(geography, g)] * 3
+            + list(_OBSERVED_GEOS)
+        )),
+        "entity": data.draw(st.sampled_from((ECONOMY, HAND_ENTITY))),
+    }
+    retire = dict(placeholder, uuid=row_uuid, retired=True, note=CHAIN_NOTE)
+    succeed = dict(observed, uuid=row_uuid, succeeds=placeholder)
+    try:
+        registry.stage([retire, succeed])
+        admitted = True
+    except SystemExit:
+        admitted = False
+    observation = _row(
+        _GEN_CONCEPT,
+        geography=dict(observed["geography"], name=None),
+        entity=observed["entity"],
+    )
+    try:
+        catalog, plan = _build(
+            tmp_path, [observation],
+            existing={"series": [_docket_row(_GEN_CONCEPT, row_uuid,
+                                             geography)]},
+        )
+    except SystemExit as exc:
+        assert not admitted, exc
+        assert any(
+            diagnostic in str(exc)
+            for diagnostic in (
+                "explicit ceremony",
+                "superseding UUIDs must be new",
+                "hands over at most once",
+            )
+        ), exc
+        return
+    hop = [e for e in plan["mints"] if "succeeds" in e]
+    assert bool(hop) == admitted
+    (row,) = catalog["series"]
+    if admitted:
+        assert row["uuid"] == row_uuid
+        assert [
+            bsc.UuidRegistry.render_entry(e)
+            for e in plan["enrich_retires"] + hop
+        ] == [bsc.UuidRegistry.render_entry(e) for e in (retire, succeed)]
+    else:
+        assert row["uuid"] == registry.binding(_key(observed)) or (
+            _owner(registry, row["uuid"]) is None
+        )
+    # main attaches the ceremony note to gated events before staging.
+    for event in plan["supersedes"] + plan["retire_pending"]:
+        event["note"] = "generated ceremony"
+    staged = registry.stage(_plan_events(plan))
+    assert bsc.registry_agreement_problems(catalog, staged) == []
+
+
+def test_a_malformed_event_kind_is_reported_not_raised() -> None:
+    series = [{"uuid": _anchor_uuid(0), "concept": "a.series",
+               "geography": _ANCHOR_FULL_GEOS[0], "entity": _ANCHOR_ENTITIES[0]}]
+    pin = bsc.identity_anchor_digest(bsc.identity_anchor_lines(series))
+    for kind in (["mint"], {"x": 1}, None, 3):
+        anchor = {"comment": "c", "sha256": pin, "move": {
+            "by": "thesis-resolver", "run_url": None, "from_sha256": pin,
+            "events": [{"event": kind}],
+        }}
+        assert any(
+            "malformed event" in problem
+            for problem in bsc.identity_anchor_problems(series, anchor)
+        ), kind
+
+
+def test_a_self_consistent_move_with_a_false_origin_is_caught_against_the_base(
+) -> None:
+    """The 2026-10-19 review's case: the base holds (u_old, a); the change
+    remints it as (u_new, a) and records one "mint u_new" whose from_sha256
+    is the current catalog minus u_new. identity_anchor_problems accepts the
+    record (it is consistent with itself); the base comparison does not."""
+    geo, ent = _ANCHOR_FULL_GEOS[0], _ANCHOR_ENTITIES[0]
+    base_rows = [{"uuid": _anchor_uuid(1), "concept": "a.series",
+                  "geography": geo, "entity": ent}]
+    current = [{"uuid": _anchor_uuid(2), "concept": "a.series",
+                "geography": geo, "entity": ent}]
+    forged = {
+        "comment": "c",
+        "sha256": bsc.identity_anchor_digest(bsc.identity_anchor_lines(current)),
+        "move": {
+            "by": "thesis-resolver", "run_url": None,
+            "from_sha256": bsc.identity_anchor_digest([]),
+            "events": [{"event": "mint", "uuid": _anchor_uuid(2),
+                        "concept": "a.series", "geography": geo,
+                        "entity": ent}],
+        },
+    }
+    assert bsc.identity_anchor_problems(current, forged) == []
+    base_anchor = {
+        "comment": "c",
+        "sha256": bsc.identity_anchor_digest(bsc.identity_anchor_lines(base_rows)),
+        "move": None,
+    }
+    problems = bsc.identity_anchor_continuity_problems(
+        base_anchor, forged, {_anchor_uuid(1)}
+    )
+    assert problems and "but the base pins" in problems[0]
+    # A mint of a UUID the base registry holds is a revive, never a mint.
+    revived = json.loads(json.dumps(forged))
+    revived["move"]["events"][0]["uuid"] = _anchor_uuid(1)
+    assert any(
+        "reuses a UUID the base registry already holds" in problem
+        for problem in bsc.identity_anchor_continuity_problems(
+            base_anchor, revived, {_anchor_uuid(1)}
+        )
+    )
+
+
+@settings(max_examples=300, deadline=None)
+@given(data=st.data())
+def test_a_machine_move_continues_the_base_exactly_when_it_starts_from_its_pin(
+    data: st.DataObject,
+) -> None:
+    prior, current, events = _anchor_append(data)
+    assume(events)
+    anchor = _machine_anchor(prior, current, events)
+    base_anchor = {"comment": "c", "sha256": anchor["move"]["from_sha256"],
+                   "move": None}
+    prior_uuids = {row["uuid"] for row in prior}
+    assert bsc.identity_anchor_continuity_problems(
+        base_anchor, anchor, prior_uuids
+    ) == []
+    # Any base pin other than the move's origin (and other than the new pin,
+    # which would mean the change leaves the pin alone) is not continued.
+    other = data.draw(st.sampled_from(["f" * 64, "0" * 64]))
+    assume(other not in (base_anchor["sha256"], anchor["sha256"]))
+    assert bsc.identity_anchor_continuity_problems(
+        {**base_anchor, "sha256": other}, anchor, prior_uuids
+    )
+    # With no base fixture at all, a machine move has nothing to continue.
+    assert bsc.identity_anchor_continuity_problems(None, anchor, prior_uuids)
+    # A pin the change leaves alone carries the base's record over.
+    assert bsc.identity_anchor_continuity_problems(anchor, anchor, prior_uuids) == []
+
+
+def test_the_anchor_continuity_cli(tmp_path: pathlib.Path) -> None:
+    geo, ent = _ANCHOR_FULL_GEOS[0], _ANCHOR_ENTITIES[0]
+    prior = [{"uuid": _anchor_uuid(1), "concept": "a.series",
+              "geography": None, "entity": None}]
+    current = [{"uuid": _anchor_uuid(1), "concept": "a.series",
+                "geography": geo, "entity": ent}]
+    events = [{"event": "enrich", "uuid": _anchor_uuid(1), "concept": "a.series",
+               "geography": geo, "entity": ent, "placeholder_geography": None}]
+    anchor = _machine_anchor(prior, current, events)
+    anchor_path = tmp_path / "anchor.json"
+    anchor_path.write_text(json.dumps(anchor))
+    base_path = tmp_path / "base-anchor.json"
+    registry_path = tmp_path / "base-registry.jsonl"
+    registry_path.write_text(json.dumps({"uuid": _anchor_uuid(1)}) + "\n")
+    argv = ["--verify-anchor-move-from", str(base_path), "--anchor",
+            str(anchor_path), "--anchor-base-registry", str(registry_path)]
+    base_path.write_text(json.dumps(
+        {"comment": "c", "sha256": anchor["move"]["from_sha256"], "move": None}
+    ))
+    assert bsc.main(argv) == 0
+    base_path.write_text(json.dumps(
+        {"comment": "c", "sha256": "e" * 64, "move": None}
+    ))
+    assert bsc.main(argv) == 1
+    base_path.write_text("")
+    assert bsc.main(argv) == 1
+    # No identity anchor fixture at all (a base before it): nothing to check.
+    missing = ["--verify-anchor-move-from", str(base_path), "--anchor",
+               str(tmp_path / "absent.json")]
+    assert bsc.main(missing) == 0
