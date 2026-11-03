@@ -8,7 +8,8 @@ selection. The manifest records the hub's fetch receipt: source URL, fetch time
 (2026-11-03T21:46:14Z), length (119,004 bytes) and SHA-256
 (`d6fb9a947185551292dd6e81a527d994615ae15053b800a11e364ddb915626f3`). The
 manifest's `raw/nz/stats_nz/...` key equals `chronicle.artifacts.build_r2_key`
-for this package. This change does not verify an R2 copy of the object.
+for this package. The hub published the object to that key and verified it
+by SHA-256 on 2026-11-03.
 [Release page](https://www.stats.govt.nz/information-releases/labour-market-statistics-september-2026-quarter/).
 
 ## Exact scope and vintage ownership
