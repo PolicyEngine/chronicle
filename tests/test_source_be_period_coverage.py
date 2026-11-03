@@ -70,8 +70,18 @@ def test_every_fact_covers_exactly_its_calendar_year(alias, year):
         assert coverage.end_date == f"{fact.period.value}-12-31"
         assert coverage.source_period_label == str(fact.period.value)
         assert coverage.accounting_basis is None
-        assert str(fact.period.value) in coverage.notes
+        assert _cites_its_own_column(alias, fact.period.value, coverage.notes), (
+            fact.source_record_id
+        )
     assert validate_facts(facts).valid
+
+
+def _cites_its_own_column(alias: str, year: int, notes: str) -> bool:
+    """The note names the period's own column, not just any mention of its year."""
+
+    if alias == FPB_OUTLOOK:
+        return notes.startswith(f"Column headed {year} in ")
+    return f"time period {year} (JSON-stat time={year})" in notes
 
 
 @pytest.mark.parametrize("alias", ALIASES)
@@ -117,7 +127,14 @@ def test_fpb_basis_follows_the_observation_projection_split():
         },
     }
     for fact in facts:
-        assert "2026-2031 projection period" in fact.period_coverage.notes
+        where = (
+            "in the FPB's own"
+            if fact.period.value in FPB_PROJECTED_YEARS
+            else "before the FPB's"
+        )
+        assert fact.period_coverage.notes.endswith(
+            f"; a year {where} 2026-2031 projection period."
+        ), fact.source_record_id
 
 
 def _with_table_source_concept(fact):
