@@ -190,27 +190,39 @@ jobs:
 
           assert policyengine_chronicle.__name__ == "policyengine_chronicle"
           # Every consumer-fact contract must ship inside the wheel: frozen v1,
-          # the v2 labels contract, the v3 geography-name contract, and the v4
-          # contract rows are emitted under.
+          # the v2 labels contract, the v3 geography-name contract, the v4
+          # geography-register contract, and the v5 contract rows are emitted
+          # under.
           assert (
               consumer_fact_schema("ledger.consumer_fact.v1")["title"]
               == "Ledger consumer fact contract row"
           )
           assert consumer_fact_schema()["title"] == "Chronicle consumer fact contract row"
           assert consumer_fact_schema()["properties"]["schema_version"] == {
-              "const": "chronicle.consumer_fact.v4"
+              "const": "chronicle.consumer_fact.v5"
           }
           assert set(CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION) == {
               "ledger.consumer_fact.v1",
               "chronicle.consumer_fact.v2",
               "chronicle.consumer_fact.v3",
               "chronicle.consumer_fact.v4",
+              "chronicle.consumer_fact.v5",
           }
           # v4 rows take their UK area names from the register, which the
           # export reads from package data, so the wheel must carry it.
           from chronicle.geography_names import canonical_geography_name
 
           assert canonical_geography_name("E06000001") == "Hartlepool"
+          # v5 rows take shared dimension value labels from the register, which
+          # facts read from package data at build time.
+          from chronicle.dimension_labels import canonical_value_label
+
+          assert (
+              canonical_value_label(
+                  "us:statutes/26/62#adjusted_gross_income", "under_1"
+              )
+              == "No adjusted gross income"
+          )
           assert len(CONSUMER_FACT_SCHEMA_SHA256) == 64
           PY
           /tmp/chronicle-wheel-smoke/bin/chronicle --help >/dev/null

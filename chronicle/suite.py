@@ -615,6 +615,58 @@ def _canonicalize_lineage_key(domain_name: str, key: Any) -> str:
         return key
 
 
+_VALUE_LABEL_CONFLICT_CODES = frozenset(
+    {"conflicting_dimension_value_label", "conflicting_groupby_value_label"}
+)
+
+
+def _value_label_acceptance_issues(
+    facts: Sequence[AggregateFact],
+) -> list[AgentAcceptanceIssue]:
+    """Refuse a value this package's facts label two ways (chronicle#376).
+
+    The facts already carry the label Chronicle's register gives every value
+    it lists, so this finds a value the register does not list whose rows,
+    source text or declarations word it two ways, before ``build-bundle``
+    would refuse it.
+    """
+
+    # Imported here: chronicle.dimension_labels imports chronicle.suite's
+    # source-row helpers lazily, and the suite imports the package loader.
+    from chronicle.dimension_labels import dimension_label_issues
+
+    rows = []
+    for fact in facts:
+        layout = fact.layout
+        rows.append(
+            {
+                "aggregate_fact_key": fact.source_record_id,
+                "dimensions": {
+                    key: value
+                    for key, value in fact.filters.items()
+                    if value is not None
+                },
+                "dimension_labels": fact.dimension_labels,
+                "dimension_value_labels": fact.dimension_value_labels,
+                "layout": (
+                    {
+                        "groupby_dimension": layout.groupby_dimension,
+                        "groupby_dimension_label": layout.groupby_dimension_label,
+                        "groupby_value_id": layout.groupby_value_id,
+                        "groupby_value_label": layout.groupby_value_label,
+                    }
+                    if layout
+                    else {}
+                ),
+            }
+        )
+    return [
+        AgentAcceptanceIssue(code="conflicting_value_label", message=issue.message)
+        for issue in dimension_label_issues(rows)
+        if issue.code in _VALUE_LABEL_CONFLICT_CODES
+    ]
+
+
 def build_agent_acceptance_report(
     facts: list[AggregateFact],
     rows: list[SourceRow],
@@ -863,6 +915,7 @@ def build_agent_acceptance_report(
             )
         )
 
+    errors.extend(_value_label_acceptance_issues(facts))
     checks = {
         "stage_reports_valid": stage_reports_valid,
         "raw_artifacts_have_r2": raw_r2_link_count == len(artifacts)

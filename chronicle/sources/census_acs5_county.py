@@ -17,6 +17,7 @@ from typing import Any
 from openpyxl.utils import get_column_letter
 import yaml
 
+from chronicle.dimension_labels import canonical_value_label
 from chronicle.epoch import schema_id
 from chronicle.yaml_io import safe_load
 
@@ -391,8 +392,13 @@ def build_package(table: str, root: Path = ROOT) -> dict[str, Any]:
             "B19001": "Income range",
             "B19051": "Earnings status",
         }[table]
+        # A value Chronicle's label register lists is declared with the
+        # register's label (chronicle#376): B19001's "Total" is income_range
+        # all, which the IRS SOI packages call "All income ranges". Census's
+        # own text stays in the measure labels and the source cells.
         values[category_dimension] = {
-            category: label for _, category, label in _categories(table)
+            category: canonical_value_label(category_dimension, category) or label
+            for _, category, label in _categories(table)
         }
     payload = {
         "schema_version": schema_id("source_package"),
