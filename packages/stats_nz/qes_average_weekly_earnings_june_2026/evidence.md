@@ -1,11 +1,12 @@
 # QES average weekly earnings: publisher-cell evidence
 
 Two packages preserve the unchanged Stats NZ June 2025 and June 2026 quarterly
-employment workbooks. Both use `xlsx_used_range` with no sheet restriction:
+employment workbooks; a third, September 2026, follows the same evidence (see
+the table below). All three use `xlsx_used_range` with no sheet restriction:
 every worksheet's rectangular used range is preserved before fact selection.
 Source URLs, receipt timestamps, lengths and SHA-256 hashes are in each manifest;
 the canonical `raw/nz/stats_nz/...` keys are generated with
-`chronicle.artifacts.build_r2_key`. The hub published both objects to those keys
+`chronicle.artifacts.build_r2_key`. The hub published both June objects to those keys
 on 2026-10-23 and verified each by streaming it back and matching its SHA-256.
 
 ## Exact scope and vintage ownership
@@ -19,12 +20,24 @@ equivalent employee, actual (not seasonally adjusted).
 | Package | Source rows | Published quarters | Facts |
 |---|---|---|---:|
 | `stats_nz/qes_average_weekly_earnings_june_2025` | Table 7 rows 13–16, P/T | June 2023–March 2024 | 8 |
-| `stats_nz/qes_average_weekly_earnings_june_2026` | Table 7 rows 13–21, P/T | June 2024–June 2026 | 18 |
+| `stats_nz/qes_average_weekly_earnings_june_2026` | Table 7 row 13, P/T | June 2024 | 2 |
+| `stats_nz/qes_average_weekly_earnings_september_2026` | Table 7 rows 13–21, P/T | September 2024–September 2026 | 18 |
 
-The June 2025 file also publishes June 2024–June 2025 in rows 17–21. All
-five overlapping quarters agree exactly in both P and T against June 2026
-rows 13–17 (ten comparisons, checked independently from workbook bytes).
-Those older-vintage overlap cells remain preserved but are not emitted. Each
+Each quarter and series comes from the newest vintage that publishes it. The
+June 2025 file also publishes June 2024–June 2025 in rows 17–21. All five
+overlapping quarters agree exactly in both P and T against June 2026 rows
+13–17 (ten comparisons, checked independently from workbook bytes).
+
+Since the September 2026 vintage (G8-x), September 2026 owns every quarter it
+publishes, under the same rule: the June 2026 package now emits only June 2024
+(row 13), the one quarter September 2026 does not publish. June 2026 rows
+14–21 (September 2024–June 2026) agree exactly in both P and T with September
+2026 rows 13–20 (16 comparisons), and June 2025 rows 18–21 agree exactly with
+September 2026 rows 13–16 (8 comparisons). The June 2026 workbook, manifest and
+preserved cells do not change. See the [September 2026
+evidence](../qes_average_weekly_earnings_september_2026/evidence.md).
+
+Older-vintage overlap cells remain preserved but are not emitted. Each
 quarter/series is emitted once. No reconciliation, source arithmetic, annual
 average, growth rate, aging factor or consumer target is constructed.
 

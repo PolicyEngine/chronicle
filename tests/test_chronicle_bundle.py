@@ -213,6 +213,7 @@ def test_build_bundle_dir_nz_suite_uses_curated_sources(tmp_path, fake_build_bun
     assert "treasury-prefu26-economic-assumptions" in call["sources"]
     assert "stats-nz-qes-average-weekly-earnings-june-2025" in call["sources"]
     assert "stats-nz-qes-average-weekly-earnings-june-2026" in call["sources"]
+    assert "stats-nz-qes-average-weekly-earnings-september-2026" in call["sources"]
     assert "stats-nz-census-2023-households-by-region-rc-99" in call["sources"]
     assert not set(call["sources"]) & set(UK_BUNDLE_SOURCES)
 
@@ -474,6 +475,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # Stats NZ QES people and +7 Treasury economic assumptions (government).
     # Three packages/tables; existing country:NZ, publishers, entities and
     # quarter/fiscal-year keys; no bundle warnings or duplicate keys.
+    # G8-x: single-source builds of June 2026 (18 -> 2 facts, 2024-Q2 only)
+    # and September 2026 (18 facts, 2024-Q3 to 2026-Q3) measure +2 person
+    # facts at country:NZ, one package and one table; quarter:2026-Q3,
+    # stats_nz, person and country:NZ already exist; no warnings or duplicates.
     # B2a: the Statbel commune package's source-only suite at build year 2025
     # measured 3,955 person facts, one package/table, and seven facts at each
     # of 565 existing commune keys. All retain their 1 January 2025 reference
@@ -511,7 +516,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # area facts by Payment Indicator replace the 91,902 all-claims ones;
         # Move to UC adds 80).
         # G8-d4 adds 17 CY2023 ERP cells to the existing Stats NZ package;
-        # G8-d3 adds 33 (26 QES levels, 7 PREFU26 earnings assumptions).
+        # G8-d3 adds 33 (26 QES levels, 7 PREFU26 earnings assumptions);
+        # G8-x adds 2 net (September 2026 QES emits 18, June 2026 drops 16).
         # chronicle#381 adds 2,990: 181 OBR excise lines, HMRC's alcohol (288),
         # tobacco (710) and betting and gaming (376) tables, and 1,435
         # Gambling Commission facts. Its 30 September Consumer Trends package
@@ -542,7 +548,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # statistics add 544 person facts. chronicle#397 drops the 427 March 2026
         # EFO facts whose line and year the October 2026 packages also publish:
         # receipts 239, expenditure 141, economy 30, aggregates 17.
-        "fact_count": 1662948,
+        "fact_count": 1662950,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -598,8 +604,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # (PolicyEngine/microcosm#1381) adds one. PolicyEngine/microcosm#1415
         # adds three, and chronicle#393 the five OBR October 2026 EFO packages.
         # PolicyEngine/uk-autumn-budget-dashboard-2026#316 adds HMRC's benefits in
-        # kind statistics.
-        "source_package_count": 442,
+        # kind statistics. G8-x adds the September 2026 QES vintage.
+        "source_package_count": 443,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -651,14 +657,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1662948
+    assert row_count == 1662950
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 442
+    assert source_packages["source_package_count"] == 443
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -686,7 +692,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1662948
+    assert coverage["fact_count"] == 1662950
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -746,13 +752,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "statbel_fiscal_income_distribution": 14600,
         "statbel_population_structure": 3991,
         "treasury": 146,
-        "stats_nz": 2058,
+        "stats_nz": 2060,
         "usda_snap": 852,
         "voa": 3001,
         "welshgov": 9570,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 384
+    assert len(table_counts) == 385
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -857,6 +863,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         table_counts[
             "stats_nz:Quarterly Employment Survey June 2026 quarter, "
+            "Table 7: Average weekly earnings for FTEs, by sector"
+        ]
+        == 2
+    )
+    assert (
+        table_counts[
+            "stats_nz:Quarterly Employment Survey September 2026 quarter, "
             "Table 7: Average weekly earnings for FTEs, by sector"
         ]
         == 18
@@ -2198,6 +2211,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             expected_period_counts[f"quarter:{year}-Q{quarter}"] += 2
     for fiscal_year in range(2024, 2031):
         expected_period_counts[f"fiscal_year:{fiscal_year}"] += 1
+    # G8-x: September 2026 QES adds 2026-Q3; its other quarters move from
+    # June 2026, so their counts do not change.
+    expected_period_counts["quarter:2026-Q3"] += 2
     # chronicle#381: OBR's excise lines (2024-25 to 2030-31); HMRC's alcohol
     # tables (2023 to 2025, financial and calendar years), tobacco tables (1990-91
     # to 2025-26 and 1991 to 2025) and betting and gaming tables (receipts by
@@ -2352,8 +2368,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # + 84 MBIE (#320) + 112 Treasury Budget 2026 expenses (B7 part 2)
     # + 1,413 Stats NZ household net worth + 16 B5 national census
     # + nine G8-d1 national weekly-rent facts + one G8-d4 ERP fact
-    # + 33 G8-d3 earnings facts = 6,165.
-    assert coverage["counts"]["by_geography"]["country:NZ"] == 6165
+    # + 33 G8-d3 earnings facts + 2 G8-x QES facts (2026-Q3) = 6,167.
+    assert coverage["counts"]["by_geography"]["country:NZ"] == 6167
     for regional_council in (*range(1, 10), *range(12, 19)):
         assert (
             coverage["counts"]["by_geography"][f"region:{regional_council:02d}"] == 31
@@ -2481,7 +2497,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 676547,
         "institutional_sector": 8877,
         "pension_plan": 2,
-        "person": 598988,
+        "person": 598990,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,

@@ -258,6 +258,9 @@ SOURCE_PACKAGE_ALIASES = {
     "stats-nz-qes-average-weekly-earnings-june-2026": Path(
         "stats_nz/qes_average_weekly_earnings_june_2026"
     ),
+    "stats-nz-qes-average-weekly-earnings-september-2026": Path(
+        "stats_nz/qes_average_weekly_earnings_september_2026"
+    ),
     "stats-nz-subnational-population-estimates-2025": Path(
         "stats_nz/subnational_population_estimates_2025"
     ),

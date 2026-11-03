@@ -433,6 +433,7 @@ NZ_BUNDLE_SOURCES = (
     "stats-nz-household-net-worth-2024",
     "stats-nz-qes-average-weekly-earnings-june-2025",
     "stats-nz-qes-average-weekly-earnings-june-2026",
+    "stats-nz-qes-average-weekly-earnings-september-2026",
     "stats-nz-subnational-population-estimates-2025",
     "stats-nz-subnational-population-ta-2025",
     "treasury-an24-01-fiscal-totals",
