@@ -1,0 +1,19 @@
+source_id: nrs
+package_id: nrs-census2022-uv101a-scotland
+dataset: nrs_nrs-census2022-uv101a-scotland
+source_page: https://statistics.ukdataservice.ac.uk/dataset/scotland-s-census-2022-uv101a-sex-and-age-residence-type
+table: 'Scotland''s Census 2022 UV101a: usual residents by sex, age (20 bands) and
+  residence type, Scotland'
+files:
+  2022:
+    filename: census2022_uv101a_sex_and_age_residence_type_scotland.csv
+    source_url: https://ukds-ckan.s3.eu-west-1.amazonaws.com/2022/NRS/UV101a/census_2022_UV101a_sex_and_age_residence_type_ctry.csv
+    sha256: 09513a623e106f7fc7a4b9d475bfdfc6c21bd58bb88eae02b2190e883eba8f36
+    size_bytes: 15226
+    fetched_at: '2026-10-15T10:35:32+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-census2022-uv101a-scotland/2022/09513a623e106f7fc7a4b9d475bfdfc6c21bd58bb88eae02b2190e883eba8f36/census2022_uv101a_sex_and_age_residence_type_scotland.csv
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-census2022-uv101a-scotland/2022/09513a623e106f7fc7a4b9d475bfdfc6c21bd58bb88eae02b2190e883eba8f36/census2022_uv101a_sex_and_age_residence_type_scotland.csv

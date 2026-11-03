@@ -190,19 +190,21 @@ def test_every_nz_suite_manifest_declares_its_default_canonical_raw_key():
             checked.append(manifest["source_id"])
 
     assert set(checked) == set(NZ_BUNDLE_SOURCE_PREFIXES)
-    assert checked.count("treasury") == 4
+    # G8-d3 adds PREFU 2026 (treasury/prefu26_economic_assumptions).
+    assert checked.count("treasury") == 5
 
 
 def test_all_desnz_manifests_use_canonical_uk_r2_keys_and_pinned_bytes():
     manifests = sorted(DESNZ_DATA_ROOT.glob("*/manifest.yaml"))
 
     # chronicle#322 adds the road-transport fuel-consumption workbook.
-    assert len(manifests) == 15
+    # chronicle#356 adds Northern Ireland's electricity and gas workbooks and the
+    # LSOA and MSOA domestic gas and electricity workbooks.
+    assert len(manifests) == 21
     for manifest_path in manifests:
         manifest = yaml.safe_load(manifest_path.read_text())
         for year, artifact in manifest["files"].items():
             local_path = manifest_path.parent / artifact["filename"]
-            payload = local_path.read_bytes()
             expected_key = build_r2_key(
                 source_id=manifest["source_id"],
                 package_id=manifest["package_id"],
@@ -212,8 +214,15 @@ def test_all_desnz_manifests_use_canonical_uk_r2_keys_and_pinned_bytes():
                 package_path=manifest_path,
             )
 
-            assert len(payload) == artifact["size_bytes"]
-            assert hashlib.sha256(payload).hexdigest() == artifact["sha256"]
+            # The LSOA and MSOA workbooks are R2-only: a fresh clone does not hold them.
+            if artifact["storage"].get("local") is False and not local_path.exists():
+                assert artifact["filename"].startswith(
+                    ("LSOA_domestic_", "MSOA_domestic_")
+                )
+            else:
+                payload = local_path.read_bytes()
+                assert len(payload) == artifact["size_bytes"]
+                assert hashlib.sha256(payload).hexdigest() == artifact["sha256"]
             assert artifact["storage"]["r2"] == {
                 "provider": "r2",
                 "bucket": "ledger-raw",
@@ -292,6 +301,7 @@ def test_fetch_source_artifact_writes_manifest_and_inventory(tmp_path):
         "manifest_count": 1,
         "missing_count": 0,
         "r2_link_count": 0,
+        "r2_only_count": 0,
     }
 
 
@@ -357,6 +367,7 @@ def test_publish_source_artifacts_uploads_manifest_entries(tmp_path):
         "failed_count": 0,
         "manifest_count": 1,
         "r2_link_count": 1,
+        "skipped_count": 0,
         "uploaded_count": 1,
     }
     assert storage["bucket"] == "ledger-raw"
@@ -522,6 +533,148 @@ def test_inventory_source_artifacts_catches_checksum_mismatch(tmp_path):
     assert not report.valid
     assert report.counts["checksum_mismatch_count"] == 1
     assert report.entries[0].errors == ("checksum_mismatch",)
+
+
+def _r2_only_manifest(output_dir: Path, *, storage: dict) -> Path:
+    """Write a one-file manifest whose bytes are declared to live in R2 only."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    manifest_path = output_dir / "manifest.yaml"
+    manifest_path.write_text(
+        yaml.safe_dump(
+            {
+                "source_id": "hmlr",
+                "package_id": "hmlr-r2-only",
+                "files": {
+                    2026: {
+                        "filename": "release.csv",
+                        "sha256": hashlib.sha256(b"r2 bytes").hexdigest(),
+                        "size_bytes": len(b"r2 bytes"),
+                        "storage": storage,
+                    }
+                },
+            },
+            sort_keys=False,
+        )
+    )
+    return manifest_path
+
+
+R2_ONLY_STORAGE = {
+    "local": False,
+    "r2": {
+        "provider": "r2",
+        "bucket": "ledger-raw",
+        "key": "raw/uk/hmlr/hmlr-r2-only/2026/digest/release.csv",
+        "uri": "r2://ledger-raw/raw/uk/hmlr/hmlr-r2-only/2026/digest/release.csv",
+    },
+}
+
+
+def test_inventory_accepts_absent_r2_only_bytes(tmp_path):
+    output_dir = tmp_path / "data" / "hmlr" / "release"
+    _r2_only_manifest(output_dir, storage=R2_ONLY_STORAGE)
+
+    report = inventory_source_artifacts(tmp_path / "data")
+
+    assert report.valid
+    assert report.counts["missing_count"] == 0
+    assert report.counts["r2_only_count"] == 1
+    (entry,) = report.entries
+    assert entry.r2_only and not entry.exists and entry.errors == ()
+
+
+def test_inventory_still_checks_r2_only_bytes_when_present(tmp_path):
+    output_dir = tmp_path / "data" / "hmlr" / "release"
+    _r2_only_manifest(output_dir, storage=R2_ONLY_STORAGE)
+    (output_dir / "release.csv").write_bytes(b"other bytes")
+
+    report = inventory_source_artifacts(tmp_path / "data")
+
+    assert not report.valid
+    assert report.entries[0].errors == ("checksum_mismatch",)
+
+
+@pytest.mark.parametrize(
+    ("storage", "error"),
+    [
+        ({"local": False}, "r2_only_without_r2_location"),
+        ({**R2_ONLY_STORAGE, "local": "no"}, "malformed_storage_local"),
+    ],
+)
+def test_inventory_rejects_malformed_r2_only_storage(tmp_path, storage, error):
+    output_dir = tmp_path / "data" / "hmlr" / "release"
+    _r2_only_manifest(output_dir, storage=storage)
+
+    report = inventory_source_artifacts(tmp_path / "data")
+
+    assert not report.valid
+    assert error in report.entries[0].errors
+
+
+def _logging_wrangler(tmp_path: Path) -> tuple[Path, Path]:
+    log = tmp_path / "wrangler.log"
+    wrangler = tmp_path / "wrangler"
+    wrangler.write_text(f"#!/bin/sh\nprintf '%s\\n' \"$*\" >> {log}\necho ok\n")
+    wrangler.chmod(0o755)
+    return wrangler, log
+
+
+def test_publish_raw_skips_absent_r2_only_bytes(tmp_path):
+    wrangler, log = _logging_wrangler(tmp_path)
+    output_dir = tmp_path / "data" / "hmlr" / "release"
+    manifest_path = _r2_only_manifest(output_dir, storage=R2_ONLY_STORAGE)
+    original_manifest = manifest_path.read_bytes()
+
+    report = publish_source_artifacts(tmp_path / "data", wrangler_command=str(wrangler))
+
+    assert report.valid
+    assert report.counts["skipped_count"] == 1
+    assert report.counts["uploaded_count"] == 0
+    assert report.entries[0].r2_location.key == R2_ONLY_STORAGE["r2"]["key"]
+    assert not log.exists()
+    assert manifest_path.read_bytes() == original_manifest
+
+
+def test_publish_raw_uploads_present_r2_only_bytes_and_keeps_the_marker(tmp_path):
+    wrangler, log = _logging_wrangler(tmp_path)
+    output_dir = tmp_path / "data" / "hmlr" / "release"
+    manifest_path = output_dir / "manifest.yaml"
+    key = build_r2_key(
+        source_id="hmlr",
+        package_id="hmlr-r2-only",
+        year=2026,
+        sha256=hashlib.sha256(b"r2 bytes").hexdigest(),
+        filename="release.csv",
+        package_path=manifest_path,
+    )
+    _r2_only_manifest(
+        output_dir,
+        storage={"local": False, "r2": {"bucket": "ledger-raw", "key": key}},
+    )
+    (output_dir / "release.csv").write_bytes(b"r2 bytes")
+
+    report = publish_source_artifacts(tmp_path / "data", wrangler_command=str(wrangler))
+    storage = yaml.safe_load(manifest_path.read_text())["files"][2026]["storage"]
+
+    assert report.valid
+    assert report.counts["uploaded_count"] == 1
+    assert report.counts["skipped_count"] == 0
+    assert f"ledger-raw/{key}" in log.read_text()
+    assert storage["local"] is False
+    assert storage["r2"]["key"] == key
+
+
+def test_publish_raw_refuses_r2_only_bytes_without_an_r2_location(tmp_path):
+    wrangler, log = _logging_wrangler(tmp_path)
+    output_dir = tmp_path / "data" / "hmlr" / "release"
+    _r2_only_manifest(output_dir, storage={"local": False})
+    (output_dir / "release.csv").write_bytes(b"r2 bytes")
+
+    report = publish_source_artifacts(tmp_path / "data", wrangler_command=str(wrangler))
+
+    assert not report.valid
+    assert report.entries[0].errors == ("r2_only_without_r2_location",)
+    assert not log.exists()
 
 
 def test_artifact_cli_commands_emit_json(tmp_path, capsys):

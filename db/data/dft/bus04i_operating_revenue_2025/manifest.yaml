@@ -1,0 +1,19 @@
+source_id: dft
+package_id: dft-bus04i-operating-revenue-2025
+dataset: dft_dft-bus04i-operating-revenue-2025
+source_page: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+table: 'BUS04i: estimated operating revenue for local bus services by country, current
+  prices'
+files:
+  2025:
+    filename: bus04i.ods
+    source_url: https://assets.publishing.service.gov.uk/media/69c11f9713101e9908704a43/bus04i.ods
+    sha256: 569d27b61f3df2059a701b3ae5c75ea074b692a16c38baf425e49792d5e9e2cc
+    size_bytes: 43095
+    fetched_at: '2026-10-15T10:01:13+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dft/dft-bus04i-operating-revenue-2025/2025/569d27b61f3df2059a701b3ae5c75ea074b692a16c38baf425e49792d5e9e2cc/bus04i.ods
+        uri: r2://ledger-raw/raw/uk/dft/dft-bus04i-operating-revenue-2025/2025/569d27b61f3df2059a701b3ae5c75ea074b692a16c38baf425e49792d5e9e2cc/bus04i.ods

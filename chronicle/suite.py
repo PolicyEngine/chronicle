@@ -1273,9 +1273,18 @@ def _wide_table_constraint_evidenced_by_source_column(
     source_column_dimensions: dict[str, Any],
     constraint: Any,
 ) -> bool:
-    return _declared_constraint_evidenced(
+    if _declared_constraint_evidenced(
         source_column_dimensions,
         constraint,
+    ):
+        return True
+    bound = {">=": "lower_bound", "<": "upper_bound"}.get(constraint.operator)
+    if bound is None:
+        return False
+    return _declared_dimension_evidences(
+        source_column_dimensions,
+        f"{constraint.variable}_{bound}",
+        constraint.value,
     )
 
 

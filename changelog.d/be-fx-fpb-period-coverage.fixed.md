@@ -1,0 +1,1 @@
+Declare calendar-year `period_coverage` on Eurostat's USD/EUR annual averages and on the FPB June 2026 outlook rows, with basis `projection_horizon` for FPB's 2026–2031 projections. No fact key or value changes; `layout.record_set_spec_hash` moves.

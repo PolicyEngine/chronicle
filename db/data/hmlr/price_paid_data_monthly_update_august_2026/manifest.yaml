@@ -1,0 +1,37 @@
+source_id: hmlr
+package_id: hmlr-price-paid-data-monthly-update-august-2026
+source_name: HM Land Registry Price Paid Data, August 2026 release, monthly change
+  file
+publisher: HM Land Registry
+source_page: https://www.gov.uk/government/statistical-data-sets/price-paid-data-august-2026
+files:
+  2026:
+    filename: pp-monthly-update-new-version.csv
+    source_url: https://price-paid-data.publicdata.landregistry.gov.uk/pp-monthly-update-new-version.csv
+    source_table: 'Price Paid Data: August 2026, current month (CSV)'
+    sha256: 5236cb389b294f3352027fb3d01bf6f6f367fb99658cbf9ba9ffeef3c3e07d43
+    size_bytes: 15840574
+    fetched_at: '2026-10-12T12:55:50+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: ppd_2026_08
+    vintages:
+    - ppd_2026_08
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-price-paid-data-monthly-update-august-2026/2026/5236cb389b294f3352027fb3d01bf6f6f367fb99658cbf9ba9ffeef3c3e07d43/pp-monthly-update-new-version.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-price-paid-data-monthly-update-august-2026/2026/5236cb389b294f3352027fb3d01bf6f6f367fb99658cbf9ba9ffeef3c3e07d43/pp-monthly-update-new-version.csv
+registration_kind: raw_only
+provenance_notes: 'Published 29 September 2026 (object last modified 28 September
+  2026). The release''s change file: transactions received in August 2026 and the
+  additions, changes and deletions it makes to earlier releases, one row each, record
+  status A, C or D in column 16 against the transaction unique identifier. Chronicle
+  archives the file and does not apply it; hmlr-price-paid-data-yearly-august-2026
+  is the same release as a snapshot, one file per year of transfer. Field contract:
+  docs/data-sources/uk-high-value-housing.md. Open Government Licence v3.0 with HM
+  Land Registry''s attribution statement; the address fields are Royal Mail and Ordnance
+  Survey address data that HM Land Registry licenses for personal or non-commercial
+  use and for residential property price information services, so the bytes are archived
+  in R2 and not committed to this public repository.'

@@ -1,0 +1,18 @@
+source_id: nisra
+package_id: nisra-census2021-residence-type-age-persons-ni
+dataset: nisra_nisra-census2021-residence-type-age-persons-ni
+source_page: https://build.nisra.gov.uk/en/custom/data?d=PEOPLE&v=UR_RESIDENCE_TYPE&v=AGE_SYOA
+table: 'NISRA Census 2021 flexible table: residence type by single year of age, NI'
+files:
+  2021:
+    filename: census2021_residence_type_single_year_age_persons_ni.csv
+    source_url: https://build.nisra.gov.uk/en/custom/table.csv?d=PEOPLE&v=UR_RESIDENCE_TYPE&v=AGE_SYOA
+    sha256: c9270bc881e227320a6515160ca096758f6d17e7a0ff7ec52eda07129171e2e2
+    size_bytes: 9781
+    fetched_at: '2026-10-15T10:35:10+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-census2021-residence-type-age-persons-ni/2021/c9270bc881e227320a6515160ca096758f6d17e7a0ff7ec52eda07129171e2e2/census2021_residence_type_single_year_age_persons_ni.csv
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-census2021-residence-type-age-persons-ni/2021/c9270bc881e227320a6515160ca096758f6d17e7a0ff7ec52eda07129171e2e2/census2021_residence_type_single_year_age_persons_ni.csv

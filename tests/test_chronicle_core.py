@@ -94,6 +94,11 @@ def test_academic_year_period_type_is_valid():
     assert validate_fact(fact) == ()
 
 
+def test_gas_year_period_type_is_valid():
+    fact = _fact(period=PeriodDimension(type="gas_year", value=2024))
+    assert validate_fact(fact) == ()
+
+
 @pytest.mark.parametrize(
     ("period_type", "value"),
     (("quarter", "2024-Q1"), ("week", "2026-W36")),

@@ -1,0 +1,3092 @@
+# HMRC Annual Stamp Tax Statistics 2024 to 2025, the corrected tables of 11 March 2026
+# (first released 11 December 2025), for PolicyEngine/chronicle#357 item 1. The
+# correction changed only the NRSDLT-overlap percentages in Tables 6b and 6c (column I),
+# which are not ported; every cell ported here is identical in the December 2025 file.
+#
+# Ported, for both financial years the workbook carries (2023-24 and 2024-25, one sheet
+# each):
+# - Table 8a, residential SDLT, and Table 8b, non-residential SDLT: transactions, estimated
+#   property value and receipts by price band, for individuals, other buyers and all
+#   buyers. HMRC's sheets say 'other buyers'; its commentary (section 8) calls them
+#   non-natural persons (companies, partnerships and collective investment schemes).
+#   Table 8a's 'Corporate bodies paying flat rate' row is outside the price bands (rows 9
+#   to 15 partition row 8), and carries no individuals ([X]).
+# - Table 6b, transactions paying the higher rates on additional dwellings (HRAD): HRAD
+#   transactions, HRAD property value, HRAD receipts (gross) and the surcharge element,
+#   in total and by the table's ten price bands. Both receipts columns are before HRAD
+#   refunds (row 5 note), so the surcharge element is gross; the OBR's 'Higher rates on
+#   additional dwellings' line (EFO table 3.7) is net and matches the workbook's Table 2f
+#   net surcharge instead. The table separates no buyer types and covers individuals and
+#   companies alike.
+#
+# Not ported: Table 6b's percentage columns (C, G and I, text cells that divide published
+# counts), its 'Residential receipts' column (E, which restates Table 8a's all-buyer
+# receipts and Table 6a's residential receipts by band) and its corporate-bodies row (only
+# column E is published). The workbook's other tables are not asked for.
+#
+# Coverage: SDLT applies in England and Northern Ireland (publication page; commentary
+# section 3.1), so facts carry the scope hmrc:england_and_northern_ireland. Transactions
+# at GBP 40,000 or above (each sheet's note) ride as a constraint on every fact. Rounding
+# is as published (transactions to the nearest 100, values and receipts to the nearest
+# GBP 5 million), so bands need not sum to the 'All price bands' row; [X] marks fewer
+# than 50 transactions, under GBP 2.5 million or not available, and emits no fact.
+# Periods are financial years ending in March. The vintage names the corrected edition.
+schema_version: ledger.source_package.v1
+package_id: hmrc-stamp-tax-statistics-2024-25
+label: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected): SDLT transactions, property value and
+  receipts by price band and buyer type (Tables 8a, 8b) and higher rates on additional dwellings (Table
+  6b), 2023-24 and 2024-25'
+dimension_labels:
+  sdlt_price_band: SDLT price band
+  sdlt_property_type: SDLT property type
+  sdlt_buyer_type: Type of buyer
+  sdlt_higher_rates: SDLT higher rates
+dimension_value_labels:
+  sdlt_price_band:
+    gbp_250k_or_less: GBP 250,000 or less
+    gbp_250k_to_500k: GBP 250,001 to GBP 500,000
+    gbp_500k_to_1m: GBP 500,001 to GBP 1,000,000
+    gbp_1m_to_1_5m: GBP 1,000,001 to GBP 1,500,000
+    gbp_1_5m_to_2m: GBP 1,500,001 to GBP 2,000,000
+    gbp_2m_to_3m: GBP 2,000,001 to GBP 3,000,000
+    gbp_3m_to_4m: GBP 3,000,001 to GBP 4,000,000
+    gbp_4m_to_5m: GBP 4,000,001 to GBP 5,000,000
+    gbp_5m_to_10m: GBP 5,000,001 to GBP 10,000,000
+    over_gbp_10m: More than GBP 10,000,000
+    over_gbp_2m: More than GBP 2,000,000
+    corporate_bodies_flat_rate: Corporate bodies paying flat rate
+  sdlt_property_type:
+    residential: Residential
+    non_residential: Non-residential
+  sdlt_buyer_type:
+    individuals: Individuals
+    other_buyers: Other buyers (non-natural persons)
+  sdlt_higher_rates:
+    additional_dwellings: Higher rates on additional dwellings (HRAD)
+artifact:
+  source_name: hmrc
+  source_table: 'UK Stamp Tax Statistics 2024 to 2025, corrected tables (11 March 2026): Tables 6b, 8a
+    and 8b'
+  resource_package: db
+  resource_directory: data/hmrc/stamp_tax_statistics_2024_25
+  manifest: manifest.yaml
+  vintage: annual_stamp_tax_statistics_2024_25_corrected_2026_03_11
+  extracted_at: '2026-10-15'
+  extraction_method: ODS whole-workbook used-range cell parse
+  parser: ods_used_range
+  artifact_year: 2025
+record_sets:
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8a.individuals.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8a.individuals.fy2024.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8a.individuals.fy2024
+  sheet_name: Table_8a_(2024-25)
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: residential
+    sdlt_buyer_type: individuals
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: residential
+    label: SDLT property type
+  - variable: sdlt_buyer_type
+    operator: ==
+    value: individuals
+    label: Type of buyer
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8a 2024-25: Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions by individuals, residential SDLT, 2024-25
+    ordinal: 0
+    column: B
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions by individuals
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2024-25), column B (''Transactions by individuals''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for individuals, residential SDLT, 2024-25
+    ordinal: 1
+    column: C
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for individuals
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2024-25), column C (''Property value for individuals''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for individuals, residential SDLT, 2024-25
+    ordinal: 2
+    column: D
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for individuals
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2024-25), column D (''Receipts for individuals''). Net receipts (sheet note). Rounded
+      as published: transactions to the nearest 100, property values and receipts to the nearest GBP 5
+      million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8a.other_buyers.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8a.other_buyers.fy2024.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8a.other_buyers.fy2024
+  sheet_name: Table_8a_(2024-25)
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: residential
+    sdlt_buyer_type: other_buyers
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: residential
+    label: SDLT property type
+  - variable: sdlt_buyer_type
+    operator: ==
+    value: other_buyers
+    label: Type of buyer
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8a 2024-25: Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  - value_id: corporate_bodies_flat_rate
+    label: Corporate bodies paying flat rate
+    ordinal: 7
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Corporate bodies paying flat rate
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: corporate_bodies_flat_rate
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: corporate_bodies_flat_rate
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions for other buyers, residential SDLT, 2024-25
+    ordinal: 0
+    column: E
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions for other buyers
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2024-25), column E (''Transactions for other buyers''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for other buyers, residential SDLT, 2024-25
+    ordinal: 1
+    column: F
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for other buyers
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2024-25), column F (''Property value for other buyers''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for other buyers, residential SDLT, 2024-25
+    ordinal: 2
+    column: G
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for other buyers
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2024-25), column G (''Receipts for other buyers''). Net receipts (sheet note). Rounded
+      as published: transactions to the nearest 100, property values and receipts to the nearest GBP 5
+      million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8a.all_buyers.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8a.all_buyers.fy2024.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8a.all_buyers.fy2024
+  sheet_name: Table_8a_(2024-25)
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: residential
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: residential
+    label: SDLT property type
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8a 2024-25: Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  - value_id: corporate_bodies_flat_rate
+    label: Corporate bodies paying flat rate
+    ordinal: 7
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Corporate bodies paying flat rate
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: corporate_bodies_flat_rate
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: corporate_bodies_flat_rate
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions for all buyers, residential SDLT, 2024-25
+    ordinal: 0
+    column: H
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions for all buyers
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2024-25), column H (''Transactions for all buyers''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for all buyers, residential SDLT, 2024-25
+    ordinal: 1
+    column: I
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for all buyers
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2024-25), column I (''Property value for all buyers''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for all buyers, residential SDLT, 2024-25
+    ordinal: 2
+    column: J
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for all buyers
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2024-25), column J (''Receipts for all buyers''). Net receipts (sheet note). Rounded as
+      published: transactions to the nearest 100, property values and receipts to the nearest GBP 5 million,
+      so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and
+      Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available)
+      emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8b.individuals.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8b.individuals.fy2024.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8b.individuals.fy2024
+  sheet_name: Table_8b_(2024-25)
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: non_residential
+    sdlt_buyer_type: individuals
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: non_residential
+    label: SDLT property type
+  - variable: sdlt_buyer_type
+    operator: ==
+    value: individuals
+    label: Type of buyer
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8b 2024-25: Non-Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions by individuals, non-residential SDLT, 2024-25
+    ordinal: 0
+    column: B
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions by individuals
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2024-25), column B (''Transactions by individuals''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for individuals, non-residential SDLT, 2024-25
+    ordinal: 1
+    column: C
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for individuals
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2024-25), column C (''Property value for individuals''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for individuals, non-residential SDLT, 2024-25
+    ordinal: 2
+    column: D
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for individuals
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2024-25), column D (''Receipts for individuals''). Net receipts (sheet note). Rounded
+      as published: transactions to the nearest 100, property values and receipts to the nearest GBP 5
+      million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8b.other_buyers.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8b.other_buyers.fy2024.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8b.other_buyers.fy2024
+  sheet_name: Table_8b_(2024-25)
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: non_residential
+    sdlt_buyer_type: other_buyers
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: non_residential
+    label: SDLT property type
+  - variable: sdlt_buyer_type
+    operator: ==
+    value: other_buyers
+    label: Type of buyer
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8b 2024-25: Non-Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions for other buyers, non-residential SDLT, 2024-25
+    ordinal: 0
+    column: E
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions for other buyers
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2024-25), column E (''Transactions for other buyers''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for other buyers, non-residential SDLT, 2024-25
+    ordinal: 1
+    column: F
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for other buyers
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2024-25), column F (''Property value for other buyers''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for other buyers, non-residential SDLT, 2024-25
+    ordinal: 2
+    column: G
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for other buyers
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2024-25), column G (''Receipts for other buyers''). Net receipts (sheet note). Rounded
+      as published: transactions to the nearest 100, property values and receipts to the nearest GBP 5
+      million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8b.all_buyers.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8b.all_buyers.fy2024.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8b.all_buyers.fy2024
+  sheet_name: Table_8b_(2024-25)
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: non_residential
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: non_residential
+    label: SDLT property type
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8b 2024-25: Non-Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions for all buyers, non-residential SDLT, 2024-25
+    ordinal: 0
+    column: H
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions for all buyers
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2024-25), column H (''Transactions for all buyers''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for all buyers, non-residential SDLT, 2024-25
+    ordinal: 1
+    column: I
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for all buyers
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2024-25), column I (''Property value for all buyers''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for all buyers, non-residential SDLT, 2024-25
+    ordinal: 2
+    column: J
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for all buyers
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2024-25), column J (''Receipts for all buyers''). Net receipts (sheet note). Rounded as
+      published: transactions to the nearest 100, property values and receipts to the nearest GBP 5 million,
+      so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and
+      Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available)
+      emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_6b.hrad.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_6b.hrad.fy2024.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_6b.hrad.fy2024
+  sheet_name: Table_6b_(2024-25)
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: residential
+    sdlt_higher_rates: additional_dwellings
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: residential
+    label: SDLT property type
+  - variable: sdlt_higher_rates
+    operator: ==
+    value: additional_dwellings
+    label: Pays the higher rates on additional dwellings
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 6b 2024-25: Higher Rates on Additional Dwellings (HRAD) transactions and
+        receipts by price band.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: gbp_2m_to_3m
+    label: GBP 2,000,001 to GBP 3,000,000
+    ordinal: 6
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: £2,000,001 to £3,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_2m_to_3m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_2m_to_3m
+      label: SDLT price band
+  - value_id: gbp_3m_to_4m
+    label: GBP 3,000,001 to GBP 4,000,000
+    ordinal: 7
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: £3,000,001 to £4,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_3m_to_4m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_3m_to_4m
+      label: SDLT price band
+  - value_id: gbp_4m_to_5m
+    label: GBP 4,000,001 to GBP 5,000,000
+    ordinal: 8
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: £4,000,001 to £5,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_4m_to_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_4m_to_5m
+      label: SDLT price band
+  - value_id: gbp_5m_to_10m
+    label: GBP 5,000,001 to GBP 10,000,000
+    ordinal: 9
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: £5,000,001 to £10,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_5m_to_10m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_5m_to_10m
+      label: SDLT price band
+  - value_id: over_gbp_10m
+    label: More than GBP 10,000,000
+    ordinal: 10
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: More than £10,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_10m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_10m
+      label: SDLT price band
+  measures:
+  - measure_id: hrad_transactions
+    label: HRAD transactions, 2024-25
+    ordinal: 0
+    column: B
+    source_column_id: hrad_transactions
+    expected_column_header_row: 9
+    expected_column_header: HRAD transactions
+    concept: hmrc.sdlt.hrad_transactions
+    source_concept: hmrc.sdlt.hrad_transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_6b_(2024-25), column B (''HRAD transactions''). Residential transactions paying HRAD, by individuals
+      and companies alike. Rounded as published: transactions to the nearest 100, property values and
+      receipts to the nearest GBP 5 million, so bands need not sum to the total (sheet notes). Transactions
+      at GBP 40,000 or above, England and Northern Ireland. [X] cells (fewer than 50 transactions, under
+      GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: hrad_property_value
+    label: HRAD property value, 2024-25
+    ordinal: 1
+    column: D
+    source_column_id: hrad_property_value
+    expected_column_header_row: 9
+    expected_column_header: HRAD property value
+    concept: hmrc.sdlt.hrad_property_value
+    source_concept: hmrc.sdlt.hrad_property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_6b_(2024-25), column D (''HRAD property value''). Property value is HMRC''s estimate. Residential
+      transactions paying HRAD, by individuals and companies alike. Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: hrad_receipts_gross
+    label: HRAD receipts (gross), 2024-25
+    ordinal: 2
+    column: F
+    source_column_id: hrad_receipts_gross
+    expected_column_header_row: 9
+    expected_column_header: HRAD receipts (gross)
+    concept: hmrc.sdlt.hrad_receipts_gross
+    source_concept: hmrc.sdlt.hrad_receipts_gross
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_6b_(2024-25), column F (''HRAD receipts (gross)''). All SDLT on HRAD transactions, at standard
+      and surcharge rates, before HRAD refunds (row 5 note; the row 3 note''s ''net'' contradicts it and
+      the column header). Residential transactions paying HRAD, by individuals and companies alike. Rounded
+      as published: transactions to the nearest 100, property values and receipts to the nearest GBP 5
+      million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: hrad_surcharge_element_gross
+    label: Surcharge Element, 2024-25
+    ordinal: 3
+    column: H
+    source_column_id: hrad_surcharge_element_gross
+    expected_column_header_row: 9
+    expected_column_header: Surcharge Element
+    concept: hmrc.sdlt.hrad_surcharge_element_gross
+    source_concept: hmrc.sdlt.hrad_surcharge_element_gross
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_6b_(2024-25), column H (''Surcharge Element''). The part of HRAD receipts that relates to
+      the surcharge for additional dwellings (row 4 note), before HRAD refunds (row 5 note). Residential
+      transactions paying HRAD, by individuals and companies alike. Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8a.individuals.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8a.individuals.fy2023.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8a.individuals.fy2023
+  sheet_name: Table_8a_(2023-24)
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: residential
+    sdlt_buyer_type: individuals
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: residential
+    label: SDLT property type
+  - variable: sdlt_buyer_type
+    operator: ==
+    value: individuals
+    label: Type of buyer
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8a 2023-24: Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions by individuals, residential SDLT, 2023-24
+    ordinal: 0
+    column: B
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions by individuals
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2023-24), column B (''Transactions by individuals''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for individuals, residential SDLT, 2023-24
+    ordinal: 1
+    column: C
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for individuals
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2023-24), column C (''Property value for individuals''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for individuals, residential SDLT, 2023-24
+    ordinal: 2
+    column: D
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for individuals
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2023-24), column D (''Receipts for individuals''). Net receipts (sheet note). Rounded
+      as published: transactions to the nearest 100, property values and receipts to the nearest GBP 5
+      million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8a.other_buyers.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8a.other_buyers.fy2023.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8a.other_buyers.fy2023
+  sheet_name: Table_8a_(2023-24)
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: residential
+    sdlt_buyer_type: other_buyers
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: residential
+    label: SDLT property type
+  - variable: sdlt_buyer_type
+    operator: ==
+    value: other_buyers
+    label: Type of buyer
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8a 2023-24: Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  - value_id: corporate_bodies_flat_rate
+    label: Corporate bodies paying flat rate
+    ordinal: 7
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Corporate bodies paying flat rate
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: corporate_bodies_flat_rate
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: corporate_bodies_flat_rate
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions for other buyers, residential SDLT, 2023-24
+    ordinal: 0
+    column: E
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions for other buyers
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2023-24), column E (''Transactions for other buyers''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for other buyers, residential SDLT, 2023-24
+    ordinal: 1
+    column: F
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for other buyers
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2023-24), column F (''Property value for other buyers''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for other buyers, residential SDLT, 2023-24
+    ordinal: 2
+    column: G
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for other buyers
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2023-24), column G (''Receipts for other buyers''). Net receipts (sheet note). Rounded
+      as published: transactions to the nearest 100, property values and receipts to the nearest GBP 5
+      million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8a.all_buyers.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8a.all_buyers.fy2023.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8a.all_buyers.fy2023
+  sheet_name: Table_8a_(2023-24)
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: residential
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: residential
+    label: SDLT property type
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8a 2023-24: Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  - value_id: corporate_bodies_flat_rate
+    label: Corporate bodies paying flat rate
+    ordinal: 7
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Corporate bodies paying flat rate
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: corporate_bodies_flat_rate
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: corporate_bodies_flat_rate
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions for all buyers, residential SDLT, 2023-24
+    ordinal: 0
+    column: H
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions for all buyers
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2023-24), column H (''Transactions for all buyers''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for all buyers, residential SDLT, 2023-24
+    ordinal: 1
+    column: I
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for all buyers
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2023-24), column I (''Property value for all buyers''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for all buyers, residential SDLT, 2023-24
+    ordinal: 2
+    column: J
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for all buyers
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8a_(2023-24), column J (''Receipts for all buyers''). Net receipts (sheet note). Rounded as
+      published: transactions to the nearest 100, property values and receipts to the nearest GBP 5 million,
+      so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and
+      Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available)
+      emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8b.individuals.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8b.individuals.fy2023.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8b.individuals.fy2023
+  sheet_name: Table_8b_(2023-24)
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: non_residential
+    sdlt_buyer_type: individuals
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: non_residential
+    label: SDLT property type
+  - variable: sdlt_buyer_type
+    operator: ==
+    value: individuals
+    label: Type of buyer
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8b 2023-24: Non-Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions by individuals, non-residential SDLT, 2023-24
+    ordinal: 0
+    column: B
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions by individuals
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2023-24), column B (''Transactions by individuals''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for individuals, non-residential SDLT, 2023-24
+    ordinal: 1
+    column: C
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for individuals
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2023-24), column C (''Property value for individuals''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for individuals, non-residential SDLT, 2023-24
+    ordinal: 2
+    column: D
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for individuals
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2023-24), column D (''Receipts for individuals''). Net receipts (sheet note). Rounded
+      as published: transactions to the nearest 100, property values and receipts to the nearest GBP 5
+      million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8b.other_buyers.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8b.other_buyers.fy2023.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8b.other_buyers.fy2023
+  sheet_name: Table_8b_(2023-24)
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: non_residential
+    sdlt_buyer_type: other_buyers
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: non_residential
+    label: SDLT property type
+  - variable: sdlt_buyer_type
+    operator: ==
+    value: other_buyers
+    label: Type of buyer
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8b 2023-24: Non-Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions for other buyers, non-residential SDLT, 2023-24
+    ordinal: 0
+    column: E
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions for other buyers
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2023-24), column E (''Transactions for other buyers''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for other buyers, non-residential SDLT, 2023-24
+    ordinal: 1
+    column: F
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for other buyers
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2023-24), column F (''Property value for other buyers''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for other buyers, non-residential SDLT, 2023-24
+    ordinal: 2
+    column: G
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for other buyers
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2023-24), column G (''Receipts for other buyers''). Net receipts (sheet note). Rounded
+      as published: transactions to the nearest 100, property values and receipts to the nearest GBP 5
+      million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_8b.all_buyers.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_8b.all_buyers.fy2023.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_8b.all_buyers.fy2023
+  sheet_name: Table_8b_(2023-24)
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: non_residential
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: non_residential
+    label: SDLT property type
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 8b 2023-24: Non-Residential Stamp Duty Land Tax (SDLT) transactions and receipts
+        by price band and buyer type.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: over_gbp_2m
+    label: More than GBP 2,000,000
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: More than £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_2m
+      label: SDLT price band
+  measures:
+  - measure_id: transactions
+    label: Transactions for all buyers, non-residential SDLT, 2023-24
+    ordinal: 0
+    column: H
+    source_column_id: transactions
+    expected_column_header_row: 7
+    expected_column_header: Transactions for all buyers
+    concept: hmrc.sdlt.transactions
+    source_concept: hmrc.sdlt.transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2023-24), column H (''Transactions for all buyers''). Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: property_value
+    label: Property value for all buyers, non-residential SDLT, 2023-24
+    ordinal: 1
+    column: I
+    source_column_id: property_value
+    expected_column_header_row: 7
+    expected_column_header: Property value for all buyers
+    concept: hmrc.sdlt.property_value
+    source_concept: hmrc.sdlt.property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2023-24), column I (''Property value for all buyers''). Property value is HMRC''s estimate.
+      Rounded as published: transactions to the nearest 100, property values and receipts to the nearest
+      GBP 5 million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: receipts
+    label: Receipts for all buyers, non-residential SDLT, 2023-24
+    ordinal: 2
+    column: J
+    source_column_id: receipts
+    expected_column_header_row: 7
+    expected_column_header: Receipts for all buyers
+    concept: hmrc.sdlt.receipts
+    source_concept: hmrc.sdlt.receipts
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_8b_(2023-24), column J (''Receipts for all buyers''). Net receipts (sheet note). Rounded as
+      published: transactions to the nearest 100, property values and receipts to the nearest GBP 5 million,
+      so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and
+      Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available)
+      emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: hmrc.stamp_taxes_2024_25.table_6b.hrad.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.stamp_taxes_2024_25.table_6b.hrad.fy2023.v1
+  source_record_id_prefix: hmrc.stamp_taxes_2024_25.table_6b.hrad.fy2023
+  sheet_name: Table_6b_(2023-24)
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24
+    notes: Financial year ending in March; period.value stores the opening year.
+  geography_id: hmrc:england_and_northern_ireland
+  geography_level: statistical_scope
+  geography_name: England and Northern Ireland
+  geography_vintage: current
+  entity: return
+  entity_role: sdlt_land_transaction
+  domain: stamp_duty_land_tax
+  groupby_dimension: sdlt_price_band
+  shared_filters:
+    sdlt_property_type: residential
+    sdlt_higher_rates: additional_dwellings
+  shared_constraints:
+  - variable: sdlt_chargeable_consideration
+    operator: '>='
+    value: 40000
+    label: Transactions at GBP 40,000 or above
+  - variable: sdlt_property_type
+    operator: ==
+    value: residential
+    label: SDLT property type
+  - variable: sdlt_higher_rates
+    operator: ==
+    value: additional_dwellings
+    label: Pays the higher rates on additional dwellings
+  rows:
+  - value_id: all_price_bands
+    label: All price bands
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: All price bands
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: 'Table 6b 2023-24: Higher Rates on Additional Dwellings (HRAD) transactions and
+        receipts by price band.'
+      label: table title
+  - value_id: gbp_250k_or_less
+    label: GBP 250,000 or less
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: £250,000 or less
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_or_less
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_or_less
+      label: SDLT price band
+  - value_id: gbp_250k_to_500k
+    label: GBP 250,001 to GBP 500,000
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: £250,001 to £500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_250k_to_500k
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_250k_to_500k
+      label: SDLT price band
+  - value_id: gbp_500k_to_1m
+    label: GBP 500,001 to GBP 1,000,000
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: £500,001 to £1,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_500k_to_1m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_500k_to_1m
+      label: SDLT price band
+  - value_id: gbp_1m_to_1_5m
+    label: GBP 1,000,001 to GBP 1,500,000
+    ordinal: 4
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: £1,000,001 to £1,500,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1m_to_1_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1m_to_1_5m
+      label: SDLT price band
+  - value_id: gbp_1_5m_to_2m
+    label: GBP 1,500,001 to GBP 2,000,000
+    ordinal: 5
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: £1,500,001 to £2,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_1_5m_to_2m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_1_5m_to_2m
+      label: SDLT price band
+  - value_id: gbp_2m_to_3m
+    label: GBP 2,000,001 to GBP 3,000,000
+    ordinal: 6
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: £2,000,001 to £3,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_2m_to_3m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_2m_to_3m
+      label: SDLT price band
+  - value_id: gbp_3m_to_4m
+    label: GBP 3,000,001 to GBP 4,000,000
+    ordinal: 7
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: £3,000,001 to £4,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_3m_to_4m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_3m_to_4m
+      label: SDLT price band
+  - value_id: gbp_4m_to_5m
+    label: GBP 4,000,001 to GBP 5,000,000
+    ordinal: 8
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: £4,000,001 to £5,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_4m_to_5m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_4m_to_5m
+      label: SDLT price band
+  - value_id: gbp_5m_to_10m
+    label: GBP 5,000,001 to GBP 10,000,000
+    ordinal: 9
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: £5,000,001 to £10,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: gbp_5m_to_10m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: gbp_5m_to_10m
+      label: SDLT price band
+  - value_id: over_gbp_10m
+    label: More than GBP 10,000,000
+    ordinal: 10
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: More than £10,000,000
+    table_record_kind: detail
+    filters:
+      sdlt_price_band: over_gbp_10m
+    constraints:
+    - variable: sdlt_price_band
+      operator: ==
+      value: over_gbp_10m
+      label: SDLT price band
+  measures:
+  - measure_id: hrad_transactions
+    label: HRAD transactions, 2023-24
+    ordinal: 0
+    column: B
+    source_column_id: hrad_transactions
+    expected_column_header_row: 9
+    expected_column_header: HRAD transactions
+    concept: hmrc.sdlt.hrad_transactions
+    source_concept: hmrc.sdlt.hrad_transactions
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_6b_(2023-24), column B (''HRAD transactions''). Residential transactions paying HRAD, by individuals
+      and companies alike. Rounded as published: transactions to the nearest 100, property values and
+      receipts to the nearest GBP 5 million, so bands need not sum to the total (sheet notes). Transactions
+      at GBP 40,000 or above, England and Northern Ireland. [X] cells (fewer than 50 transactions, under
+      GBP 2.5 million or not available) emit no fact.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: hrad_property_value
+    label: HRAD property value, 2023-24
+    ordinal: 1
+    column: D
+    source_column_id: hrad_property_value
+    expected_column_header_row: 9
+    expected_column_header: HRAD property value
+    concept: hmrc.sdlt.hrad_property_value
+    source_concept: hmrc.sdlt.hrad_property_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_6b_(2023-24), column D (''HRAD property value''). Property value is HMRC''s estimate. Residential
+      transactions paying HRAD, by individuals and companies alike. Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: hrad_receipts_gross
+    label: HRAD receipts (gross), 2023-24
+    ordinal: 2
+    column: F
+    source_column_id: hrad_receipts_gross
+    expected_column_header_row: 9
+    expected_column_header: HRAD receipts (gross)
+    concept: hmrc.sdlt.hrad_receipts_gross
+    source_concept: hmrc.sdlt.hrad_receipts_gross
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_6b_(2023-24), column F (''HRAD receipts (gross)''). All SDLT on HRAD transactions, at standard
+      and surcharge rates, before HRAD refunds (row 5 note; the row 3 note''s ''net'' contradicts it and
+      the column header). Residential transactions paying HRAD, by individuals and companies alike. Rounded
+      as published: transactions to the nearest 100, property values and receipts to the nearest GBP 5
+      million, so bands need not sum to the total (sheet notes). Transactions at GBP 40,000 or above,
+      England and Northern Ireland. [X] cells (fewer than 50 transactions, under GBP 2.5 million or not
+      available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+  - measure_id: hrad_surcharge_element_gross
+    label: Surcharge Element, 2023-24
+    ordinal: 3
+    column: H
+    source_column_id: hrad_surcharge_element_gross
+    expected_column_header_row: 9
+    expected_column_header: Surcharge Element
+    concept: hmrc.sdlt.hrad_surcharge_element_gross
+    source_concept: hmrc.sdlt.hrad_surcharge_element_gross
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+    concept_evidence_notes: 'HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026),
+      Table_6b_(2023-24), column H (''Surcharge Element''). The part of HRAD receipts that relates to
+      the surcharge for additional dwellings (row 4 note), before HRAD refunds (row 5 note). Residential
+      transactions paying HRAD, by individuals and companies alike. Rounded as published: transactions
+      to the nearest 100, property values and receipts to the nearest GBP 5 million, so bands need not
+      sum to the total (sheet notes). Transactions at GBP 40,000 or above, England and Northern Ireland.
+      [X] cells (fewer than 50 transactions, under GBP 2.5 million or not available) emit no fact.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000

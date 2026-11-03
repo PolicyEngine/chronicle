@@ -69,14 +69,14 @@ def test_load_accepts_an_omitted_unknown_sha256(tmp_path):
 def test_existing_v1_fetch_manifest_remains_valid():
     manifest = load_offline_fetch_manifest(REPO_ROOT / "FETCH-MANIFEST.json")
 
-    assert len(manifest.artifacts) == 3
+    assert len(manifest.artifacts) == 10
     assert manifest.final_validation
     assert manifest.artifacts[0].r2 is not None
     assert manifest.artifacts[0].r2.bucket == "ledger-raw"
     assert manifest.artifacts[0].replaces_synthetic_fixture is True
-    assert manifest.artifacts[-1].already_archived is True
-    assert manifest.artifacts[-1].archive_member == "FY25.xlsx"
-    assert manifest.artifacts[-1].manifest_path.endswith(
+    assert manifest.artifacts[2].already_archived is True
+    assert manifest.artifacts[2].archive_member == "FY25.xlsx"
+    assert manifest.artifacts[2].manifest_path.endswith(
         "manifest_fy2025_monthly_source_package.yaml"
     )
 

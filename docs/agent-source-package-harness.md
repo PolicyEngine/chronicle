@@ -18,7 +18,10 @@ metadata in `manifest.yaml`, and can upload the exact bytes to the private
 artifact registry with `uv run chronicle inventory-artifacts --root db/data`.
 For already-downloaded manifest artifacts, agents should run
 `uv run chronicle publish-raw --root db/data` to upload checksum-verified bytes to
-R2 and write `storage.r2` metadata back into each manifest entry.
+R2 and write `storage.r2` metadata back into each manifest entry. A manifest
+entry marked `storage.local: false` keeps its bytes in R2 only and never in Git:
+both commands accept it without a local copy, so its absence is not an error to
+fix by downloading, and `uv run chronicle verify-raw` checks the R2 object.
 
 Builds do not require production raw bytes to be committed to Git. Source
 packages first read packaged fixture bytes, then
@@ -28,6 +31,35 @@ missing locally, set `LEDGER_SOURCE_ARTIFACT_FETCH=1` to fetch it from the
 manifest `source_url`, verify the declared SHA-256, and write it to that cache.
 The old `CHRONICLE_`-prefixed environment variables remain accepted only as
 migration fallbacks.
+
+A fact package may keep its artifact in R2 only when the bytes are too large to
+commit (DESNZ's 50-56 MB LSOA energy workbooks, chronicle#356), or when the publisher
+states no licence that lets Chronicle redistribute them (the Gambling Commission's GSGB
+2025 data tables, whose manifest records the evidence under `license_evidence`): its manifest entry
+carries `storage.local: false`, the file is git-ignored, and CI sets
+`LEDGER_SOURCE_ARTIFACT_FETCH=1` and caches the fetched bytes between runs.
+`publish-raw` refuses an R2-only entry that has no R2 location yet, so upload the
+bytes first and add the marker after.
+
+Two parsers suit large or nested publisher files:
+
+- `xlsx_read_only_used_range` streams only the worksheets `sheets:` names, in
+  openpyxl's read-only mode, instead of loading the whole workbook twice. It emits
+  the same cells for the LSOA workbooks it was added for, in seconds rather than
+  minutes, but read-only mode differs from the full load on a few existing
+  workbooks (used ranges, whitespace-only cells), so it is opt-in.
+- `zip_ods_used_range` parses an ODS member of a ZIP (`archive_member:`), as
+  `zip_xlsx_used_range` does for XLSX; DWP's HBAI confidence intervals are only
+  in the release's data-table ZIP.
+
+`ons_census_observations_json_rows` unpivots an ONS Census 2021 API
+`census-observations` response into one source row per published cell: the
+population type the response's request URL names, a label and a `_code` column
+per dimension (named after its dimension id), and `observation`.
+
+DESNZ's gas year has its own period type, `gas_year`, under the publisher's year
+label (since 2018 mid-May to mid-May); PeriodCoverage carries exact dates only
+where DESNZ publishes them (Northern Ireland).
 
 For broad PE source migration, generate the agent queue from the manifest before
 assigning work:
@@ -676,6 +708,21 @@ The US off-year bundle behavior is unchanged and out of scope here.
 `packages/treasury`) the same way, and
 `--year` is inert for it as well: each NZ package pins its `artifact_year` and
 uses year-independent declarations.
+
+`--suite be` builds the curated Belgian suite: every package under
+`packages/bfp`, `fpb`, `nbb`, `onem_rva`, `onss`, `opgroeien`, `ostbelgien`,
+`rsz`, `sfpd`, `spf_finances` and `statbel`, plus each Eurostat package whose
+rows report for Belgium or a Belgian NUTS region, or which reads a euro
+exchange-rate series (`ert_bil_eur_*`). `packages/eurostat/` can hold
+packages that cover only other member states, and those stay out of the suite
+and its drift guard. A new package under those directories, or a new Eurostat
+package for Belgium, fails the guard until someone adds it to
+`BE_BUNDLE_SOURCES`. `tests/test_source_package_alias_drift.py` also sweeps
+every package for a Belgian country or NUTS geography or the commune level, so
+a package under another publisher directory that reports for Belgium, a
+Belgian region or a commune fails it unless the test names that package out
+with a reason. The sweep cannot see a package scoped only by a
+`statistical_scope` id, as Ostbelgien's is. `--year` is inert here too.
 
 The first agent-facing gate is now
 `/tmp/chronicle-suite/reports/agent_acceptance.json`; it summarizes whether raw
