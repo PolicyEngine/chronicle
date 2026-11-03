@@ -137,9 +137,26 @@ def test_fpb_basis_follows_the_observation_projection_split():
         ), fact.source_record_id
 
 
+def _with_table_source_concept(fact):
+    """Restore the table-wide FPB source concept that 2c7e8357 built.
+
+    FPB's row-grain source concepts move its aggregate and legacy keys on
+    purpose (test_source_fpb_row_source_concept); with the old concept back,
+    coverage must still move nothing.
+    """
+    concept = fact.measure.source_concept
+    if not concept.startswith("fpb.economic_outlook_2026_2031."):
+        return fact
+    table_concept = f"{concept.rsplit('.', 1)[0]}.published_cell"
+    return dataclasses.replace(
+        fact, measure=dataclasses.replace(fact.measure, source_concept=table_concept)
+    )
+
+
 @pytest.mark.parametrize("year", BUILD_YEARS)
 @pytest.mark.parametrize("alias", ALIASES)
 def test_period_coverage_moved_no_fact_key_or_value(alias, year):
+    facts = [_with_table_source_concept(fact) for fact in _facts(alias, year)]
     identity = sorted(
         [
             row["lineage"]["source_record_id"],
@@ -148,7 +165,7 @@ def test_period_coverage_moved_no_fact_key_or_value(alias, year):
             row["legacy_fact_key"],
             row["value"],
         ]
-        for row in consumer_fact_rows(_facts(alias, year))
+        for row in consumer_fact_rows(facts)
     )
     canonical = json.dumps(identity, separators=(",", ":")).encode()
 
