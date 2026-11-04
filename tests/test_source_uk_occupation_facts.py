@@ -16,7 +16,6 @@ import re
 import runpy
 import zipfile
 from collections import Counter
-from dataclasses import replace
 from pathlib import Path
 
 import openpyxl
@@ -212,33 +211,66 @@ def test_manifests_pin_bytes_licence_and_the_r2_key():
             "www.nomisweb.co.uk" if "aps218" in path.parent.name else "www.ons.gov.uk"
         )
         assert entry["source_url"].startswith(f"https://{host}/")
-        # `chronicle publish-raw` uploads the bytes and writes storage.r2; until it has
-        # run there is no storage block at all, never a partial or guessed one.
-        if "storage" in entry:
-            key = (
-                f"raw/uk/ons/{manifest['package_id']}/{year}/{entry['sha256']}/"
-                f"{entry['filename']}"
-            )
-            assert entry["storage"]["r2"]["uri"] == f"r2://ledger-raw/{key}"
+        # `chronicle publish-raw` uploaded the bytes and wrote storage.r2, and
+        # `chronicle verify-raw` read each object back.
+        key = (
+            f"raw/uk/ons/{manifest['package_id']}/{year}/{entry['sha256']}/"
+            f"{entry['filename']}"
+        )
+        assert entry["storage"]["r2"] == {
+            "provider": "r2",
+            "bucket": "ledger-raw",
+            "key": key,
+            "uri": f"r2://ledger-raw/{key}",
+        }
     aps = yaml.safe_load(_manifests()[0].read_text(encoding="utf-8"))
     ((_, entry),) = aps["files"].items()
     assert entry["nomis_dataset_last_revised"] == "2023-01-27 10:00:00"
 
 
-def test_consumer_contract_waits_only_on_the_r2_location(built):
-    for package_id, (package, _, facts) in built.items():
+def test_consumer_contract_is_valid(built):
+    for package_id, (_, _, facts) in built.items():
         report = validate_consumer_fact_contract(facts)
-        if report.valid:
-            assert facts[0].source.raw_r2_uri
-            continue
-        assert {(issue.code, issue.field) for issue in report.errors} == {
-            ("missing_contract_provenance", "source.raw_r2_uri")
-        }, package_id
-        located = [
-            replace(fact, source=replace(fact.source, raw_r2_uri="r2://ledger-raw/x"))
-            for fact in facts
-        ]
-        assert validate_consumer_fact_contract(located).valid, package_id
+        assert report.valid, (package_id, report.errors[:3])
+        assert all(fact.source.raw_r2_uri for fact in facts), package_id
+
+
+def test_a_concept_and_its_dimensions_select_one_fact(built):
+    """An interval or a CV never shares its estimate's concept.
+
+    A reader that selects by concept, aggregation, period, geography and every
+    dimension but ``statistic`` gets exactly one fact, so it can neither sum an
+    estimate with its interval or CV nor keep the wrong one.
+    """
+    keys = Counter()
+    for _, _, facts in built.values():
+        for fact in facts:
+            dimensions = tuple(
+                sorted((k, v) for k, v in fact.filters.items() if k != "statistic")
+            )
+            keys[
+                (
+                    fact.measure.concept,
+                    fact.aggregation.method,
+                    fact.period.type,
+                    fact.period.value,
+                    fact.geography.id,
+                    dimensions,
+                )
+            ] += 1
+            statistic = fact.filters["statistic"]
+            concept = fact.measure.concept
+            if statistic == "confidence_interval_half_width":
+                assert (
+                    concept
+                    == "ons.aps_people_in_employment_confidence_interval_half_width"
+                )
+            elif statistic == "coefficient_of_variation":
+                assert concept.endswith("_coefficient_of_variation"), concept
+            else:
+                assert statistic == "estimate"
+                assert not concept.endswith(("_half_width", "_of_variation")), concept
+    assert max(keys.values()) == 1
 
 
 # ---------------------------------------------------------------- 1. Nomis APS218
@@ -291,7 +323,11 @@ def test_aps_facts_are_the_published_cells_and_only_those(built):
             cell = published[key]
             assert cell["OBS_STATUS"] == "A", key
             assert fact.value == int(cell["OBS_VALUE"]), key
-            assert fact.measure.concept == "ons.aps_people_in_employment"
+            assert fact.measure.concept == (
+                "ons.aps_people_in_employment"
+                if fact.filters["statistic"] == "estimate"
+                else "ons.aps_people_in_employment_confidence_interval_half_width"
+            )
             assert (fact.measure.unit, fact.aggregation.method) == ("count", "sum")
             assert fact.provenance_class == "survey_aggregate"
             assert fact.survey_instrument == "Annual Population Survey"
@@ -455,7 +491,8 @@ def _ashe_row(sheet, code: int | None) -> int:
 
 
 def _ashe_column(fact) -> int:
-    if fact.measure.concept.endswith("_pay_jobs"):
+    concept = fact.measure.concept.removesuffix("_coefficient_of_variation")
+    if concept.endswith("_pay_jobs"):
         return 3
     if fact.aggregation.method == "median":
         return 4
@@ -492,6 +529,8 @@ def test_ashe_facts_are_the_published_cells_and_only_those(built):
             concept = (
                 f"ons.ashe_{pay}_pay_jobs" if jobs else f"ons.ashe_gross_{pay}_pay"
             )
+            if cv:
+                concept += "_coefficient_of_variation"
             assert fact.measure.concept == concept
             assert fact.geography.id == "K02000001"
             assert (fact.entity.name, fact.entity.role) == ("person", "employee_job")
@@ -573,7 +612,7 @@ def test_ashe_cvs_describe_the_estimates_they_sit_beside(built):
 
             def key(fact):
                 return (
-                    fact.measure.concept,
+                    fact.measure.concept.removesuffix("_coefficient_of_variation"),
                     fact.aggregation.method,
                     tuple(
                         sorted(

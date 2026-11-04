@@ -10,12 +10,14 @@
 # not ported), for all occupations and each SOC 2020 major group (9) and sub-major group
 # (26), counting full-time and part-time workers and all job types together. Nomis
 # describes the APS as 'a residence based labour market survey'
-# (https://www.nomisweb.co.uk/sources/aps). Each estimate (Nomis 'Value') is a fact with
-# statistic estimate; the half-width of its confidence interval (Nomis 'Confidence') is a
-# second fact, statistic confidence_interval_half_width, where Nomis publishes one. Nomis
-# does not state the interval's level on the dataset's pages; Scottish Government APS
-# publications call the limits Nomis publishes 95 per cent limits. Nomis's pages also do
-# not say whether the occupation is that of the main job. 8330 facts.
+# (https://www.nomisweb.co.uk/sources/aps). Each estimate (Nomis 'Value') is a fact of
+# concept ons.aps_people_in_employment, statistic estimate; the half-width of its
+# confidence interval (Nomis 'Confidence') is a second fact, of concept
+# ons.aps_people_in_employment_confidence_interval_half_width and statistic
+# confidence_interval_half_width, where Nomis publishes one. Nomis does not state the
+# interval's level on the dataset's pages; Scottish Government APS publications call the
+# limits Nomis publishes 95 per cent limits. Nomis's pages also do not say whether the
+# occupation is that of the main job. 8330 facts.
 #
 # Nomis rounds counts to the nearest hundred and flags every cell in OBS_STATUS: A 'Normal
 # Value'; F 'Estimate and confidence interval not available since the group sample size is
@@ -28,7 +30,8 @@
 # Record sets are one per geography, sex, employment type and statistic, with the
 # occupations as rows (groupby soc2020_group). A major group's facts carry
 # soc2020_major_group, a sub-major group's soc2020_sub_major_group; the all-occupations
-# rows are the record sets' totals. Row labels are SOC 2020 names in ASHE Table 2's
+# rows are the record sets' totals. The detail rows hold both levels, so select one level
+# by its filter and never sum across both. Row labels are SOC 2020 names in ASHE Table 2's
 # wording; each row's guards compare Nomis's own text.
 #
 # Parity on the published estimates, asserted by the generator: each major group's
@@ -1396,8 +1399,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -2690,8 +2693,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -3951,8 +3954,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -5245,8 +5248,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -6541,8 +6544,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -7755,8 +7758,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -9049,8 +9052,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -10345,8 +10348,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -11559,8 +11562,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -12851,8 +12854,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -14145,8 +14148,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -15406,8 +15409,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -16700,8 +16703,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -17996,8 +17999,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -19210,8 +19213,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -20504,8 +20507,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -21800,8 +21803,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -22981,8 +22984,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -24257,8 +24260,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -25535,8 +25538,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -26681,8 +26684,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -27943,8 +27946,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -29207,8 +29210,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -30242,8 +30245,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -31487,8 +31490,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -32686,8 +32689,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -33720,8 +33723,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -34979,8 +34982,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -36240,8 +36243,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -37437,8 +37440,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -38682,8 +38685,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -39929,8 +39932,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -41014,8 +41017,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -42243,8 +42246,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -43441,8 +43444,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -44475,8 +44478,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -45751,8 +45754,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -47029,8 +47032,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -48063,8 +48066,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -49308,8 +49311,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -50555,8 +50558,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -51426,8 +51429,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -52590,8 +52593,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -53723,8 +53726,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -54382,8 +54385,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -55658,8 +55661,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -56936,8 +56939,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -58067,8 +58070,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -59329,8 +59332,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -60593,8 +60596,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -61480,8 +61483,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -62693,8 +62696,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -63876,8 +63879,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -64682,8 +64685,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -65958,8 +65961,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -67236,8 +67239,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -68433,8 +68436,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -69711,8 +69714,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -70991,8 +70994,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -72141,8 +72144,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -73386,8 +73389,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -74617,8 +74620,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -75635,8 +75638,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -76911,8 +76914,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -78189,8 +78192,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -79352,8 +79355,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -80614,8 +80617,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -81878,8 +81881,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -82962,8 +82965,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -84192,8 +84195,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -85407,8 +85410,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -86425,8 +86428,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -87684,8 +87687,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -88945,8 +88948,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -90110,8 +90113,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -91355,8 +91358,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -92602,8 +92605,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -93639,8 +93642,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -94835,8 +94838,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -96016,8 +96019,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -96953,8 +96956,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -98229,8 +98232,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -99507,8 +99510,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -100653,8 +100656,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -101915,8 +101918,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -103179,8 +103182,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -104166,8 +104169,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -105412,8 +105415,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -106644,8 +106647,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -107662,8 +107665,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -108938,8 +108941,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -110216,8 +110219,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -111396,8 +111399,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -112658,8 +112661,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -113922,8 +113925,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -114991,8 +114994,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -116236,8 +116239,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -117467,8 +117470,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -118518,8 +118521,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -119794,8 +119797,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -121072,8 +121075,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -122220,8 +122223,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -123498,8 +123501,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -124762,8 +124765,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -125831,8 +125834,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -127011,8 +127014,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -128144,8 +128147,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -129196,8 +129199,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -130488,8 +130491,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -131782,8 +131785,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -133011,8 +133014,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -134273,8 +134276,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -135537,8 +135540,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -136670,8 +136673,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -137948,8 +137951,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -139196,8 +139199,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -140313,8 +140316,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -141589,8 +141592,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -142867,8 +142870,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -144063,8 +144066,8 @@ record_sets:
     source_column_dimensions: {sex: all, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -145325,8 +145328,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -146589,8 +146592,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -147674,8 +147677,8 @@ record_sets:
     source_column_dimensions: {sex: male, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -148903,8 +148906,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: all, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -150118,8 +150121,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: employee, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218
@@ -151153,8 +151156,8 @@ record_sets:
     source_column_dimensions: {sex: female, employment_status: self_employed, statistic: confidence_interval_half_width}
     expected_column_header_row: 1
     expected_column_header: OBS_VALUE
-    concept: ons.aps_people_in_employment
-    source_concept: ons.aps_people_in_employment
+    concept: ons.aps_people_in_employment_confidence_interval_half_width
+    source_concept: ons.aps_people_in_employment_confidence_interval_half_width
     concept_relation: source_label
     concept_authority: ons
     concept_evidence_url: https://www.nomisweb.co.uk/datasets/aps218

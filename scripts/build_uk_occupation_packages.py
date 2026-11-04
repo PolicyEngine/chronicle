@@ -384,6 +384,9 @@ APS_STATISTICS = (
     ("confidence_interval_half_width", "Confidence"),
 )
 APS_CONCEPT = "ons.aps_people_in_employment"
+# The interval has a concept of its own, as the ACS packages' margins of error do, so a
+# reader that selects by concept never sums an estimate with its interval.
+APS_INTERVAL_CONCEPT = f"{APS_CONCEPT}_confidence_interval_half_width"
 # Every major group adds to slightly less than the all-occupations total; the most the
 # packages' totals exceed their parts by, as a share of the total.
 APS_MAJOR_GAP_LIMIT = 0.01
@@ -480,12 +483,14 @@ def aps_notes(period: ApsPeriod) -> str:
 
 def aps_measure(statistic: str, dimensions: dict) -> dict:
     if statistic == "estimate":
+        concept = APS_CONCEPT
         measure_id, label = "people_in_employment", "People in employment"
         notes = (
             "Nomis APS218 measure 'Value' of measure 'Count': the estimated number of "
             "people in employment in the cell, rounded to the nearest hundred."
         )
     else:
+        concept = APS_INTERVAL_CONCEPT
         measure_id = "people_in_employment_confidence_interval_half_width"
         label = "People in employment, confidence interval half-width"
         notes = (
@@ -504,8 +509,8 @@ def aps_measure(statistic: str, dimensions: dict) -> dict:
         "source_column_dimensions": Flow(dimensions),
         "expected_column_header_row": 1,
         "expected_column_header": "OBS_VALUE",
-        "concept": APS_CONCEPT,
-        "source_concept": APS_CONCEPT,
+        "concept": concept,
+        "source_concept": concept,
         "concept_relation": "source_label",
         "concept_authority": "ons",
         "concept_evidence_url": NOMIS_PAGE,
@@ -780,9 +785,10 @@ def build_aps(period: ApsPeriod) -> str:
     family worker', is not ported), for all occupations and each SOC 2020 major group
     (9) and sub-major group (26), counting full-time and part-time workers and all job
     types together. Nomis describes the APS as 'a residence based labour market
-    survey' ({NOMIS_SOURCES}). Each estimate (Nomis 'Value') is a fact with statistic
-    estimate; the half-width of its confidence interval (Nomis 'Confidence') is a
-    second fact, statistic confidence_interval_half_width, where Nomis publishes one.
+    survey' ({NOMIS_SOURCES}). Each estimate (Nomis 'Value') is a fact of concept
+    {APS_CONCEPT}, statistic estimate; the half-width of its confidence interval (Nomis
+    'Confidence') is a second fact, of concept {APS_INTERVAL_CONCEPT}
+    and statistic confidence_interval_half_width, where Nomis publishes one.
     Nomis does not state the interval's level on the dataset's pages; Scottish
     Government APS publications call the limits Nomis publishes 95 per cent limits.
     Nomis's pages also do not say whether the occupation is that of the main job.
@@ -799,8 +805,9 @@ def build_aps(period: ApsPeriod) -> str:
     Record sets are one per geography, sex, employment type and statistic, with the
     occupations as rows (groupby soc2020_group). A major group's facts carry
     soc2020_major_group, a sub-major group's soc2020_sub_major_group; the
-    all-occupations rows are the record sets' totals. Row labels are SOC 2020 names in
-    ASHE Table 2's wording; each row's guards compare Nomis's own text.
+    all-occupations rows are the record sets' totals. The detail rows hold both levels,
+    so select one level by its filter and never sum across both. Row labels are SOC 2020
+    names in ASHE Table 2's wording; each row's guards compare Nomis's own text.
 
     Parity on the published estimates, asserted by the generator: each major group's
     sub-major groups add to it, the four countries to the UK and the nine regions to
@@ -1028,6 +1035,8 @@ def ashe_measure(
         )
         unit, aggregation, scale = "gbp", "quantile", None
     if table.cv:
+        # A concept of its own, as the APS interval has, so a CV is never read as pay.
+        concept = f"{concept}_coefficient_of_variation"
         label = f"Coefficient of variation: {label[0].lower()}{label[1:]}"
         what = f"the coefficient of variation (per cent) of {what}"
         unit, scale = "percent", None
@@ -1312,8 +1321,10 @@ def build_ashe(edition: AsheEdition, table: AsheTable) -> str:
         The coefficient of variation (CV) ONS publishes for each estimate in
         {other.number} ({other.package_id(edition)}): 'The CV is the ratio of the
         standard error of an estimate to the estimate itself and is expressed as a
-        percentage' (CV notes). Each fact repeats its estimate's concept, aggregation and
-        dimensions, with statistic coefficient_of_variation and unit percent. ONS colours
+        percentage' (CV notes). Each fact takes its estimate's concept with the suffix
+        _coefficient_of_variation, so a CV is never read as pay or jobs, and keeps the
+        estimate's aggregation and dimensions, with statistic coefficient_of_variation
+        and unit percent. ONS colours
         the estimates by these CVs (5 per cent or less 'precise', over 5 to 10
         'reasonably precise', over 10 to 20 'acceptable') and suppresses those over 20;
         Chronicle reads no colours, so these facts carry the bands.
@@ -1362,7 +1373,8 @@ def build_ashe(edition: AsheEdition, table: AsheTable) -> str:
     part-time, and the four sex by working-pattern sheets. Each sheet's 'All employees'
     row is its record sets' total, and its rows for the nine SOC 2020 major groups and
     26 sub-major groups carry soc2020_major_group or soc2020_sub_major_group (groupby
-    soc2020_group). {content}
+    soc2020_group). The detail rows hold both levels, so select one level by its filter
+    and never sum across both. {content}
 
     {marks} A row with such a cell sits in a record set whose measures leave that
     column out ('without_p90' and the like), so the row's other cells are ported. The

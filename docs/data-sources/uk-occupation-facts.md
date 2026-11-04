@@ -25,9 +25,18 @@ committed YAML, and `tests/test_source_uk_occupation_facts.py` runs it.
 
 Each Nomis file is one pinned API response; its manifest records the query and Nomis's
 revision metadata for the period. Each ASHE zip is shared by four packages, one per
-workbook member. All six files are committed; none is in R2 yet, so the consumer export
-fails with `missing_contract_provenance: source.raw_r2_uri` until `chronicle publish-raw`
-uploads them.
+workbook member. All six files are committed and in R2: `chronicle publish-raw` wrote each
+manifest's `storage.r2` block, and `chronicle verify-raw` reads every object back.
+
+Two rules for reading these facts:
+
+- **Select by concept.** An estimate, its confidence interval and its coefficient of
+  variation have different concepts (and different `statistic` values), so a reader
+  that selects by concept and dimensions gets one fact, never an estimate summed with
+  its interval or CV.
+- **One SOC level at a time.** A record set's detail rows hold both major and sub-major
+  groups. Select one level by `soc2020_major_group` or `soc2020_sub_major_group` and
+  never sum across both: summing every detail row counts each person twice.
 
 ## 1. Annual Population Survey: people in employment by occupation (Nomis APS218)
 
@@ -47,8 +56,10 @@ Nomis dataset APS218 (`NM_218_1`), "annual population survey - regional - occupa
   - the "Rate" measure, each cell's share of all in employment in the area;
   - minor and unit groups (the four-digit tables are out of scope).
 - **Semantics:**
-  - Concept `ons.aps_people_in_employment`, entity `person`, role `in_employment`,
-    `survey_aggregate`, survey instrument `Annual Population Survey`.
+  - Concept `ons.aps_people_in_employment` for the estimates and
+    `ons.aps_people_in_employment_confidence_interval_half_width` for their intervals,
+    both counts of people; entity `person`, role `in_employment`, `survey_aggregate`,
+    survey instrument `Annual Population Survey`.
   - Residence based: Nomis describes the APS as "a residence based labour market survey".
   - Nomis rounds every count to the nearest hundred.
 - **Dimensions:**
@@ -56,7 +67,7 @@ Nomis dataset APS218 (`NM_218_1`), "annual population survey - regional - occupa
   - `employment_status` (`all`, `employee`, `self_employed`);
   - `statistic` (`estimate`, `confidence_interval_half_width`);
   - `soc2020_major_group` (1 to 9) on major-group facts, `soc2020_sub_major_group` (11
-    to 92) on sub-major facts;
+    to 92) on sub-major facts: select one level and never sum across both;
   - the record sets' groupby axis is `soc2020_group`, whose `all` rows are totals.
 - **Confidence intervals:** Nomis labels the measure "Confidence" and publishes it beside
   each estimate as a plus-or-minus half-width. Its dataset pages do not state the level.
@@ -122,10 +133,13 @@ United Kingdom. Twelve packages, 48,083 facts.
     `mean` or `quantile` (with `earnings_percentile`), unit `gbp`;
   - `ons.ashe_weekly_pay_jobs` and `ons.ashe_annual_pay_jobs`: the indicative job counts,
     which differ between the tables because their populations differ;
+  - each CV takes its estimate's concept with the suffix `_coefficient_of_variation`
+    (for example `ons.ashe_gross_weekly_pay_coefficient_of_variation`), its estimate's
+    aggregation and dimensions, and unit `percent`;
   - entity `person`, role `employee_job`, as the ASHE pension packages use.
 - **Dimensions:** `sex`, `working_pattern` (`all`, `full_time`, `part_time`),
   `statistic` (`estimate` or `coefficient_of_variation`), and `soc2020_major_group` or
-  `soc2020_sub_major_group`.
+  `soc2020_sub_major_group` (select one level and never sum across both).
 - **Jobs, not people.** ASHE "is based on a 1% sample of jobs taken from HM Revenue and
   Customs' Pay As You Earn (PAYE) records", so someone with two jobs can appear twice. It
   "does not cover the self-employed".
