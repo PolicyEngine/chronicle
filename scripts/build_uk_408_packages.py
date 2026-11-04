@@ -17,11 +17,16 @@ every row number, column and guard cell below is one the package parser sees.
 - ``mhclg-epc-d3-domestic-2026-q3`` and ``mhclg-live-table-126-dwelling-density-2026``:
   EPC live table D3's domestic lodgements, floor area and habitable rooms, and Live Table
   126's dwelling stock density (item 7).
+- ``mhclg-council-tax-collection-by-authority-2025-26`` and
+  ``mhclg-council-tax-qrc4-2025-26``: MHCLG's Tables 6a and 9a; and the per-authority rows
+  of the pinned Welsh Table 2 (both years) and SLGFS Tables 2.8 and 2.11, written as a
+  block after those packages' own record sets (item 4).
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import textwrap
 from functools import cache
@@ -2474,6 +2479,722 @@ def ct_record_set(record_set_id: str, sheet: str, rows, measures, **period) -> d
     )
 
 
+# ------------------------------------------- 4a. MHCLG Table 6a, collection by authority
+
+CT6_DIRECTORY = "mhclg/council_tax_collection_by_authority_2025_26"
+CT6_SHEET = "Table_6a_-_council_tax"
+# (opening year, column, measure, QRC4 line and its description on worksheet 'Table_6')
+CT6_COLUMNS = (
+    (
+        2024,
+        "F",
+        "net_collectable_debit",
+        "Estimate of amount of council tax collectable in the year 2024-25 (£ thousand)",
+        "QRC4 line 1, 'Estimated net collectable debit in respect of 2024-25' ([note a] "
+        "'Also known as the Net Collectable Debit')",
+    ),
+    (
+        2024,
+        "G",
+        "amount_collected_in_year",
+        "Amount of council tax collected by 31 March 2025 relating to 2024-25 "
+        "(£ thousand)",
+        "QRC4 line 4, 'Total 2024-25 receipts, net of refunds granted in respect of "
+        "2024-25 only'",
+    ),
+    (
+        2025,
+        "I",
+        "net_collectable_debit",
+        "Estimate of amount of council tax collectable in the year 2025-26 (£ thousand)",
+        "QRC4 line 1, 'Estimated net collectable debit in respect of 2025-26' ([note a] "
+        "'Also known as the Net Collectable Debit')",
+    ),
+    (
+        2025,
+        "J",
+        "amount_collected_in_year",
+        "Amount council tax collected by 31 March 2026 relating to 2025-26 (£ thousand)",
+        "QRC4 line 4, 'Total 2025-26 receipts, net of refunds granted in respect of "
+        "2025-26 only'",
+    ),
+)
+# The in-year collection rate columns, which the publisher defines as arithmetic over
+# the ported columns (worksheet 'Table_6', line 5).
+CT6_RATE_HEADERS = {
+    "H": "Amount council tax collected by 31 March 2025 as a percentage of amount "
+    "collectable 2024-25 (%)",
+    "K": "Amount of council tax collected by 31 March 2026 as a percentage of amount "
+    "collectable 2025-26 (%)",
+}
+CT6_RATE_DEFINITION = "In-year collection rate for 2024-25 (%) = (Line 4/Line 1 x 100, to 2 decimal places)"
+CT6_HEADER = """
+MHCLG, Collection rates for Council Tax and non-domestic rates in England, 2025 to 2026,
+'Table 6: Council tax and non-domestic rates - collection amounts and rates, 2024-25 and
+2025-26' (published 24 June 2026, revised 31 July 2026 to include Kensington & Chelsea),
+worksheet 'Table_6a_-_council_tax', for {ISSUE} item 4. Written by
+scripts/build_uk_408_packages.py.
+
+For the six authority classes (London Boroughs and, of which, Inner and Outer London
+Boroughs; Metropolitan Districts; Unitary Authorities; Shire Districts), as England with
+the class as a filter, and for each of the 296 billing authorities, in GBP thousands
+(value_scale 1000): the estimated council tax collectable in the year, QRC4 line 1, the
+net collectable debit (note a: 'Also known as the Net Collectable Debit'); and the amount
+collected by 31 March relating to that year, QRC4 line 4 (receipts net of refunds). Both
+for 2024-25 and 2025-26, each a fiscal_year period stamped by its opening year. The
+concepts are those mhclg-council-tax-collection-england-2025-26 uses for the same lines of
+the release's Table 5.
+
+Not ported: the England row, which restates Table 5's England figures for both years in
+GBP thousands (asserted equal in the tests, not ported again); the two in-year collection
+rate columns, which the publisher defines as arithmetic over the ported columns
+('In-year collection rate ... = (Line 4/Line 1 x 100, to 2 decimal places)', worksheet
+'Table_6'); and the non-domestic rates sheet 6b.
+Authorities carry the ONS codes printed: Barnsley E08000016 and Sheffield E08000019,
+which ONS replaced with E08000038 and E08000039 in 2025 (the release's Table 9a prints
+the new codes). The notes column flags four rows '[r]': revised to include Kensington &
+Chelsea.
+""".replace("{ISSUE}", ISSUE)
+
+
+def build_collection_by_authority() -> str:
+    grid = ods_grid(CT6_DIRECTORY)
+    sheet = CT6_SHEET
+    assert grid[(sheet, 1, "A")] == (
+        "Table 6a: Council tax - collection amounts and rates, England, 2024-25 and "
+        "2025-26"
+    )
+    assert (grid[(sheet, 3, "A")], grid[(sheet, 3, "C")]) == ("Authority", "ONS Code")
+    for column, header in CT6_RATE_HEADERS.items():
+        assert grid[(sheet, 3, column)] == header, column
+    assert grid[("Table_6", 16, "B")] == CT6_RATE_DEFINITION
+    classes, authorities = ct_rows(grid, sheet, 4, england=False)
+    record_sets = []
+    for opening in (2024, 2025):
+        label = year_label(opening)
+        measures = []
+        for year, column, measure_id, header, line in CT6_COLUMNS:
+            if year != opening:
+                continue
+            assert grid[(sheet, 3, column)] == header, column
+            what = (
+                "net collectable debit"
+                if measure_id == "net_collectable_debit"
+                else "amount collected by 31 March relating to the year"
+            )
+            measures.append(
+                measure(
+                    measure_id,
+                    f"Council tax {what}, {label} (GBP thousands)",
+                    column,
+                    concept=f"mhclg.council_tax.{measure_id}",
+                    source_concept=f"mhclg.council_tax.{measure_id}",
+                    authority="mhclg",
+                    evidence_url=CT_PAGE,
+                    notes=(
+                        f"{CT_RELEASE}, Table 6, worksheet '{sheet}', column {column} "
+                        f"'{header}': {line}. GBP thousands (value_scale 1000)."
+                    ),
+                    unit="gbp",
+                    aggregation="sum",
+                    ordinal=len(measures),
+                    value_scale=1000,
+                    header=header,
+                    header_row=3,
+                )
+            )
+        period = {
+            "period_type": "fiscal_year",
+            "period": opening,
+            "period_coverage": fiscal_coverage(opening, label),
+        }
+        prefix = "mhclg.ct_collection_by_authority_2025_26.table_6a"
+        record_sets.append(
+            ct_record_set(
+                f"{prefix}.classes.fy{opening}",
+                sheet,
+                classes,
+                measures,
+                **period,
+            )
+        )
+        record_sets.append(
+            ct_record_set(
+                f"{prefix}.billing_authorities.fy{opening}",
+                sheet,
+                authorities,
+                measures,
+                **period,
+            )
+        )
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": "mhclg-council-tax-collection-by-authority-2025-26",
+        "label": "MHCLG collection rates 2025-26, Table 6a: council tax net collectable "
+        "debit and amount collected by billing authority, England, 2024-25 and 2025-26",
+        "dimension_labels": {
+            "mhclg.billing_authority": "Billing authority",
+            "billing_authority_class": FILTER_LABELS["billing_authority_class"],
+        },
+        "artifact": artifact(
+            "mhclg",
+            "Collection rates for Council Tax and non-domestic rates in England, 2025 to "
+            "2026, Table 6: Council tax and non-domestic rates - collection amounts and "
+            "rates, 2024-25 and 2025-26",
+            CT6_DIRECTORY,
+            "collection_rates_2025_26",
+            "ods_used_range",
+            "ods used-range cell parse of the Table 6 workbook",
+            2026,
+        ),
+        "record_sets": record_sets,
+    }
+    return render(CT6_HEADER, payload)
+
+
+# ------------------------------------------------- 4b. MHCLG Table 9a, QRC4 by authority
+
+CT9_DIRECTORY = "mhclg/council_tax_qrc4_2025_26"
+CT9_SHEET = "Table_9a_-_Council_Tax"
+CT9_FORM = "QRC4_Form"
+# Ported QRC4 lines: (line, column, measure and concept, label). Lines 9 to 12 are the
+# receipts of each quarter of 2025-26 and are stamped by their quarter.
+CT9_LINES = (
+    (
+        "2",
+        "G",
+        "prepayments_received_in_previous_years",
+        "prepayments, cash receipts collected in previous years in respect of 2025-26",
+    ),
+    (
+        "3",
+        "H",
+        "in_year_receipts_net_of_refunds",
+        "estimated 2025-26 receipts collected "
+        "in 2025-26, net of refunds granted in respect of 2025-26",
+    ),
+    (
+        "6",
+        "K",
+        "receipts_of_previous_years_taxes",
+        "estimated receipts in 2025-26 of "
+        "previous years' council taxes, net of refunds made in respect of those years",
+    ),
+    (
+        "7",
+        "L",
+        "receipts_of_following_year_taxes",
+        "estimated receipts of 2026-27 "
+        "council taxes received before 1 April 2026, and other credits carried forward on "
+        "31 March 2026",
+    ),
+    (
+        "13",
+        "R",
+        "arrears_brought_forward",
+        "arrears for 2024-25 and earlier years brought forward on 1 April 2025",
+    ),
+    (
+        "14",
+        "S",
+        "net_adjustments_to_arrears",
+        "net adjustments made in 2025-26 to the "
+        "arrears for 2024-25 and earlier years included in line 13",
+    ),
+    (
+        "16",
+        "U",
+        "arrears_collected_relating_to_earlier_years",
+        "arrears relating to 2023-24 or earlier years collected in 2025-26",
+    ),
+    (
+        "17",
+        "V",
+        "arrears_collected_relating_to_previous_year",
+        "arrears relating to 2024-25 only collected in 2025-26",
+    ),
+    (
+        "18",
+        "W",
+        "arrears_written_off_relating_to_earlier_years",
+        "amounts relating to 2023-24 and earlier years written off in 2025-26",
+    ),
+    (
+        "19",
+        "X",
+        "arrears_written_off_relating_to_previous_year",
+        "amounts relating to 2024-25 only written off in 2025-26",
+    ),
+    (
+        "20a",
+        "Z",
+        "arrears_outstanding_relating_to_earlier_years",
+        "arrears relating to "
+        "2023-24 and earlier years outstanding at 31 March 2026 (included in line 20)",
+    ),
+    (
+        "20b",
+        "AA",
+        "arrears_outstanding_relating_to_previous_year",
+        "arrears relating to "
+        "2024-25 outstanding at 31 March 2026 (included in line 20)",
+    ),
+    (
+        "21",
+        "AB",
+        "amount_uncollected_in_year",
+        "amounts uncollected in 2025-26 (the net "
+        "collectable debit less receipts relating to 2025-26, plus costs)",
+    ),
+    (
+        "22",
+        "AC",
+        "in_year_written_off",
+        "write-offs made in 2025-26 that related to 2025-26 only",
+    ),
+    (
+        "25",
+        "AF",
+        "court_and_administration_costs_in_arrears",
+        "court and administration "
+        "costs included in the total arrears outstanding at 31 March 2026 (line 24)",
+    ),
+)
+CT9_QUARTERS = (
+    ("9", "N", "2025-Q2", "2025-04-01", "2025-06-30", "April 2025 - June 2025"),
+    ("10", "O", "2025-Q3", "2025-07-01", "2025-09-30", "July 2025 - September 2025"),
+    ("11", "P", "2025-Q4", "2025-10-01", "2025-12-31", "October 2025 - December 2025"),
+    ("12", "Q", "2026-Q1", "2026-01-01", "2026-03-31", "January 2026 - March 2026"),
+)
+# Line 1, the estimated net collectable debit, restates Table 6a's 2025-26 column for
+# every row and is not ported again.
+CT9_RESTATED = {"1": "F"}
+# QRC4 lines the form defines as arithmetic over other lines of the return, whose
+# operands are ported; line 21's formula adds costs the return does not print.
+CT9_ARITHMETIC = {
+    "4": ("I", "= (Line 2 + Line 3)"),
+    "5": ("J", "= (Line 4/Line 1 x 100, to 2 decimal places)"),
+    "8": ("M", "= (Line 3 + Line 6 + Line 7)"),
+    "15": ("T", "= (Line 13 + Line 14)"),
+    "20": ("Y", "= (Line 15 - Line 16 - Line 17 - Line 18 - Line 19)"),
+    "23": ("AD", "= (Line 21 - Line 22)"),
+    "24": ("AE", "= (Line 20 + Line 23)"),
+}
+CT9_NOTE_A = (
+    "[note a] 'Line 16 is reported as 0 for some authorities, this indicates that the "
+    "authority was unable to separate arrears between lines 16 and 17.'"
+)
+CT9_NOTE_B = (
+    "[note b] 'These figures may be under-estimated as some local authorities have only "
+    "reported court and administration cost added in the financial year and not "
+    "accumulated costs.'"
+)
+CT9_GROSS = (
+    "Section II of the form: 'Information in this section is gross arrears and includes "
+    "administration and court costs.'"
+)
+CT9_HEADER = """
+MHCLG, Collection rates for Council Tax and non-domestic rates in England, 2025 to 2026,
+'Table 9: Quarterly return of Council Tax and non-domestic rates QRC4, 2025 to 2026'
+(published 24 June 2026, revised 31 July 2026 to include Kensington & Chelsea and to
+correct arrears for Bradford and Stoke-on-Trent), worksheet 'Table_9a_-_Council_Tax',
+for {ISSUE} item 4. Written by scripts/build_uk_408_packages.py.
+
+Each billing authority's QRC4 return for 2025-26, and the England and class totals, in
+GBP thousands (value_scale 1000), under the publisher's line numbers and labels. Lines 2,
+3, 6, 7, 13, 14, 16 to 19, 20a, 20b, 21, 22 and 25 are fiscal_year 2025 (the return's
+year; stocks such as the arrears brought forward on 1 April 2025 and outstanding on 31
+March 2026 are stamped by it too, as the Welsh collection packages do). Lines 9 to 12,
+the receipts collected in each quarter whatever year they relate to, are quarter
+periods.
+
+Not ported: line 1, the estimated net collectable debit, which restates the 2025-26
+column of Table 6a (mhclg-council-tax-collection-by-authority-2025-26) for every row
+(asserted equal in the tests, not ported again); and the lines the QRC4 form (worksheet
+'QRC4_Form') defines as arithmetic over other lines of the return: 4 = (2 + 3), 5 = (4/1
+x 100), 8 = (3 + 6 + 7), 15 = (13 + 14), 20 = (15 - 16 - 17 - 18 - 19), 23 = (21 - 22)
+and 24 = (20 + 23). Their operands are ported here, or for line 1 in Table 6a, whose
+2025-26 amount collected is also line 4. Line 21 is ported: its formula, (Line 1 - Line 4
++ Costs), adds costs the return does not print. The non-domestic rates sheet 9b is not
+ported. Barnsley and Sheffield are printed under E08000038 and E08000039,
+the codes ONS gave them in 2025 (geography_vintage lad_2025); Table 6a prints E08000016
+and E08000019. The form's line 7 text reads 'receipts of 2025-26 council taxes';
+the table's column heading, ported here, reads 2026-27.
+""".replace("{ISSUE}", ISSUE)
+
+
+def ct9_form_lines(grid: dict) -> dict[str, str]:
+    """The QRC4 form's line descriptions, keyed by line number as printed."""
+    lines = {}
+    for (name, row, column), value in grid.items():
+        if name == CT9_FORM and column == "A" and 17 <= row <= 50 and value is not None:
+            lines[str(value)] = grid.get((CT9_FORM, row, "B"))
+    return lines
+
+
+def build_qrc4() -> str:
+    grid = ods_grid(CT9_DIRECTORY)
+    sheet = CT9_SHEET
+    assert grid[(sheet, 1, "A")] == (
+        "Table 9a: Council tax - total receipts and arrears information, England, 2025-26"
+    )
+    assert (grid[(sheet, 4, "A")], grid[(sheet, 4, "C")]) == ("Authority", "ONS Code")
+    form = ct9_form_lines(grid)
+    headers = {
+        str(grid[(sheet, 4, column)]).split(". ", 1)[0]: (
+            column,
+            grid[(sheet, 4, column)],
+        )
+        for (name, row, column) in grid
+        if name == sheet and row == 4 and column not in {"A", "B", "C", "D", "E", "AG"}
+    }
+    assert len(headers) == 27, sorted(headers)
+    for line, (column, formula) in CT9_ARITHMETIC.items():
+        assert headers[line][0] == column, line
+        assert form[line].endswith(formula), (line, form[line])
+    assert form["21"].endswith("= (Line 1 - Line 4 + Costs)"), form["21"]
+    totals, authorities = ct_rows(grid, sheet, 5, england=True)
+    ported = {line for line, *_ in CT9_LINES} | {line for line, *_ in CT9_QUARTERS}
+    assert ported | set(CT9_ARITHMETIC) | set(CT9_RESTATED) == set(headers)
+    for line, column in CT9_RESTATED.items():
+        assert headers[line][0] == column, line
+
+    def notes(line: str, column: str) -> str:
+        extra = []
+        if line in {"16", "17"}:
+            extra.append(CT9_NOTE_A)
+        if line == "25":
+            extra.append(CT9_NOTE_B)
+        if line[:2].isdigit() and int(line[:2]) >= 13:
+            extra.append(CT9_GROSS)
+        return " ".join(
+            [
+                f"{CT_RELEASE}, Table 9, worksheet '{sheet}', column {column} "
+                f"'{headers[line][1]}'. QRC4 form line {line}: '{form[line]}'.",
+                *extra,
+                "GBP thousands (value_scale 1000).",
+            ]
+        )
+
+    record_sets = []
+    measures = []
+    for line, column, measure_id, label in CT9_LINES:
+        assert headers[line][0] == column, line
+        measures.append(
+            measure(
+                measure_id,
+                f"QRC4 line {line}: {label} (GBP thousands)",
+                column,
+                concept=f"mhclg.council_tax.{measure_id}",
+                source_concept=f"mhclg.council_tax.{measure_id}",
+                authority="mhclg",
+                evidence_url=CT_PAGE,
+                notes=notes(line, column),
+                unit="gbp",
+                aggregation="sum",
+                ordinal=len(measures),
+                value_scale=1000,
+                header=headers[line][1],
+                header_row=4,
+            )
+        )
+    prefix = "mhclg.ct_qrc4_2025_26.table_9a"
+    period = {
+        "period_type": "fiscal_year",
+        "period": 2025,
+        "period_coverage": fiscal_coverage(2025, "2025-26"),
+    }
+    for kind, rows in (
+        ("england_and_classes", totals),
+        ("billing_authorities", authorities),
+    ):
+        record_sets.append(
+            ct_record_set(f"{prefix}.{kind}.fy2025", sheet, rows, measures, **period)
+        )
+    for line, column, quarter, start, end, months in CT9_QUARTERS:
+        assert headers[line] == (
+            column,
+            f"{line}. Receipts collected between {months} (£ thousand)",
+        ), line
+        quarter_measures = [
+            measure(
+                "receipts_collected_in_quarter",
+                f"QRC4 line {line}: council tax receipts collected between {months}, "
+                "irrespective of the year to which they relate (GBP thousands)",
+                column,
+                concept="mhclg.council_tax.receipts_collected_in_quarter",
+                source_concept="mhclg.council_tax.receipts_collected_in_quarter",
+                authority="mhclg",
+                evidence_url=CT_PAGE,
+                notes=(
+                    f"{notes(line, column)[: -len('GBP thousands (value_scale 1000).')]}"
+                    "The form's Part B gives receipts by quarter 'irrespective of the "
+                    "financial year (previous, current or future years) to which the "
+                    "receipts relate'. GBP thousands (value_scale 1000)."
+                ),
+                unit="gbp",
+                aggregation="sum",
+                value_scale=1000,
+                header=headers[line][1],
+                header_row=4,
+            )
+        ]
+        quarter_period = {
+            "period_type": "quarter",
+            "period": quarter,
+            "period_coverage": {
+                "start_date": start,
+                "end_date": end,
+                "basis": "calendar",
+                "source_period_label": f"{months} (QRC4 line {line})",
+            },
+        }
+        suffix = "receipts_" + quarter.lower().replace("-", "_")
+        for kind, rows in (
+            ("england_and_classes", totals),
+            ("billing_authorities", authorities),
+        ):
+            record_sets.append(
+                ct_record_set(
+                    f"{prefix}.{kind}.{suffix}",
+                    sheet,
+                    rows,
+                    quarter_measures,
+                    **quarter_period,
+                )
+            )
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": "mhclg-council-tax-qrc4-2025-26",
+        "label": "MHCLG collection rates 2025-26, Table 9a: each billing authority's "
+        "council tax QRC4 return for 2025-26, England",
+        "dimension_labels": {
+            "mhclg.billing_authority": "Billing authority",
+            "billing_authority_class": FILTER_LABELS["billing_authority_class"],
+        },
+        "artifact": artifact(
+            "mhclg",
+            "Collection rates for Council Tax and non-domestic rates in England, 2025 to "
+            "2026, Table 9: Quarterly return of Council Tax and non-domestic rates QRC4, "
+            "2025 to 2026",
+            CT9_DIRECTORY,
+            "collection_rates_2025_26",
+            "ods_used_range",
+            "ods used-range cell parse of the Table 9 workbook",
+            2026,
+        ),
+        "record_sets": record_sets,
+    }
+    return render(CT9_HEADER, payload)
+
+
+# ------------------------------- 4c. Per-authority rows of the pinned Welsh and SLGFS tables
+
+
+def register_codes(prefix: str) -> dict[str, str]:
+    """Each area's code by its ONS name, from Chronicle's geography register."""
+    register = json.loads(
+        (ROOT / "chronicle/geography/uk_canonical_names.json").read_text()
+    )
+    return {
+        name: code
+        for code, name in register["names"].items()
+        if code.startswith(prefix)
+    }
+
+
+def package_prefix(directory: str) -> tuple[Path, str, dict]:
+    """The committed package text before this script's block, and its parse."""
+    path = PACKAGES / directory / "source_package.yaml"
+    prefix = path.read_text(encoding="utf-8").split(BLOCK_MARKER)[0]
+    assert prefix.endswith("\n")
+    return path, prefix, yaml.safe_load(prefix)
+
+
+def appended(prefix: str, record_sets: list[dict]) -> str:
+    block = yaml.dump(
+        record_sets,
+        Dumper=PackageDumper,
+        sort_keys=False,
+        allow_unicode=True,
+        width=100,
+    )
+    return prefix + BLOCK_MARKER + block
+
+
+def adapted_measures(
+    record_set: dict, pattern: str, rows_text: str, extra: str = ""
+) -> list[dict]:
+    """The pinned total row's measures, their notes pointed at the authority rows."""
+    measures = []
+    for spec in record_set["measures"]:
+        spec = dict(spec)
+        notes, count = re.subn(pattern, rows_text, spec["concept_evidence_notes"])
+        assert count == 1, (spec["measure_id"], spec["concept_evidence_notes"])
+        # The total row's own note 5 is restated below for the rows that carry it.
+        notes = re.sub(r" Publisher note 5 on this row: [^.]*\.", "", notes)
+        if extra:
+            head, _, tail = notes.rpartition(" GBP thousands")
+            notes = f"{head} {extra} GBP thousands{tail}"
+        spec["concept_evidence_notes"] = notes
+        measures.append(spec)
+    return measures
+
+
+WELSH_DIRECTORIES = {
+    2024: "welshgov/council_tax_collection_2024_25",
+    2025: "welshgov/council_tax_collection_2025_26",
+}
+WELSH_NOTE_5 = (
+    "Rows marked '[Note 5]' ({rows}): publisher note 5, any differences compared to "
+    "arrears carried forward are due to incorrectly stated arrears in the previous year."
+)
+
+
+def build_welsh(opening: int) -> str:
+    directory = WELSH_DIRECTORIES[opening]
+    path, prefix, package = package_prefix(directory)
+    (wales,) = package["record_sets"]
+    filename, artifact_path = manifest_file(directory)
+    grid = grid_of(
+        source_cells_from_xlsx(
+            artifact_path.read_bytes(), metadata(filename), sheets=("Table2",)
+        )
+    )
+    codes = register_codes("W06")
+    total_row = wales["rows"][0]["row_number"]
+    rows = []
+    for row in range(5, total_row):
+        printed = grid[("Table2", row, "A")]
+        name = printed.removesuffix(" [Note 5]")
+        rows.append(
+            area_row(
+                slug(f"{codes[name]} {name}"),
+                name,
+                row,
+                "A",
+                printed,
+                {
+                    "geography_id": codes[name],
+                    "geography_level": "local_authority",
+                    "geography_name": name,
+                    "geography_vintage": "lad_2023",
+                },
+                ordinal=len(rows),
+            )
+        )
+    assert len(rows) == 22 and {row["geography_id"] for row in rows} == set(
+        codes.values()
+    )
+    noted = [row["label"] for row in rows if row["expected_row_header"].endswith("]")]
+    measures = adapted_measures(
+        wales,
+        r"'Total Wales( \[Note 5\])?' row",
+        "the 22 billing authority rows",
+        WELSH_NOTE_5.format(rows=" and ".join(noted)) if noted else "",
+    )
+    record_set = {
+        **{
+            key: value
+            for key, value in wales.items()
+            if key not in {"rows", "measures"}
+        },
+        "record_set_id": wales["record_set_id"].replace(
+            ".wales", ".billing_authorities"
+        ),
+        "record_set_spec_id": wales["record_set_spec_id"].replace(
+            ".wales.", ".billing_authorities."
+        ),
+        "source_record_id_prefix": wales["source_record_id_prefix"].replace(
+            ".wales", ".billing_authorities"
+        ),
+        "rows": rows,
+        "measures": measures,
+    }
+    return appended(prefix, [record_set])
+
+
+SLGFS_DIRECTORY = "scotgov/slgfs_council_tax_2024_25"
+SLGFS_INCOME_NOTE = (
+    "The sheet: 'figures that relate to income collected in 2024-25, which can include "
+    "amounts that were billed in previous years' (LFR A0): income after CTR, not a net "
+    "collectable debit. 2024-25 is the latest year until the next SLGFS."
+)
+
+
+def build_slgfs() -> str:
+    path, prefix, package = package_prefix(SLGFS_DIRECTORY)
+    filename, artifact_path = manifest_file(SLGFS_DIRECTORY)
+    sheets = ("Table 2.8", "Table 2.11")
+    grid = grid_of(
+        source_cells_from_xlsx(
+            artifact_path.read_bytes(), metadata(filename), sheets=sheets
+        )
+    )
+    codes = {
+        name.replace(" and ", " & "): code
+        for name, code in register_codes("S12").items()
+    }
+    record_sets = []
+    for scotland in package["record_sets"]:
+        sheet = scotland["sheet_name"]
+        if sheet not in sheets:
+            continue
+        assert scotland["record_set_id"].endswith(".scotland"), scotland[
+            "record_set_id"
+        ]
+        assert scotland["rows"][0]["row_number"] == 39
+        rows = []
+        for row in range(7, 39):
+            name = grid[(sheet, row, "A")]
+            code = codes.get(name) or codes[name.replace(" and ", " & ")]
+            rows.append(
+                area_row(
+                    slug(f"{code} {name}"),
+                    name,
+                    row,
+                    "A",
+                    name,
+                    {
+                        "geography_id": code,
+                        "geography_level": "local_authority",
+                        "geography_name": name,
+                        "geography_vintage": "ca_2019",
+                    },
+                    ordinal=len(rows),
+                )
+            )
+        assert len({row["geography_id"] for row in rows}) == 32
+        measures = adapted_measures(
+            scotland,
+            r"Scotland row",
+            "the 32 local authority rows",
+            SLGFS_INCOME_NOTE if sheet == "Table 2.8" else "",
+        )
+        record_sets.append(
+            {
+                **{
+                    key: value
+                    for key, value in scotland.items()
+                    if key not in {"rows", "measures"}
+                },
+                "record_set_id": scotland["record_set_id"].replace(
+                    ".scotland", ".councils"
+                ),
+                "record_set_spec_id": scotland["record_set_spec_id"].replace(
+                    ".scotland.", ".councils."
+                ),
+                "source_record_id_prefix": scotland["source_record_id_prefix"].replace(
+                    ".scotland", ".councils"
+                ),
+                "rows": rows,
+                "measures": measures,
+            }
+        )
+    assert len(record_sets) == 3, [spec["record_set_id"] for spec in record_sets]
+    return appended(prefix, record_sets)
+
+
 BUILDERS = {
     LVE_DIRECTORY: build_land_values,
     VOA_DIRECTORY: build_bands,
@@ -2481,6 +3202,11 @@ BUILDERS = {
     VOA_BUILD_PERIODS_DIRECTORY: build_build_periods,
     D3_DIRECTORY: build_epc_d3,
     LT126_DIRECTORY: build_live_table_126,
+    CT6_DIRECTORY: build_collection_by_authority,
+    CT9_DIRECTORY: build_qrc4,
+    WELSH_DIRECTORIES[2024]: lambda: build_welsh(2024),
+    WELSH_DIRECTORIES[2025]: lambda: build_welsh(2025),
+    SLGFS_DIRECTORY: build_slgfs,
 }
 
 

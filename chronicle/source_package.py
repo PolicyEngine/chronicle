@@ -1117,6 +1117,10 @@ SOURCE_PACKAGE_ALIASES = {
     "mhclg-live-table-126-dwelling-density-2026": Path(
         "mhclg/live_table_126_dwelling_density_2026"
     ),
+    "mhclg-council-tax-collection-by-authority-2025-26": Path(
+        "mhclg/council_tax_collection_by_authority_2025_26"
+    ),
+    "mhclg-council-tax-qrc4-2025-26": Path("mhclg/council_tax_qrc4_2025_26"),
     # end PolicyEngine/chronicle#408
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"
