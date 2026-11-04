@@ -21,14 +21,23 @@ every row number, column and guard cell below is one the package parser sees.
   ``mhclg-council-tax-qrc4-2025-26``: MHCLG's Tables 6a and 9a; and the per-authority rows
   of the pinned Welsh Table 2 (both years) and SLGFS Tables 2.8 and 2.11, written as a
   block after those packages' own record sets (item 4).
+- ``mhclg-market-value-survey-2024-chapter-{1,3,4}``: the Market Value Survey 2024 annex
+  tables the issue lists (item 2).
+- The other sectors' land in ``ons-national-balance-sheet-land-2025`` and
+  ``ons-national-balance-sheet-land-preliminary-2026``, written as a block after their
+  own record sets, and ``ons-land-underlying-buildings-2022`` (item 8).
 """
 
 from __future__ import annotations
 
 import argparse
+import csv
+import io
 import json
+import math
 import re
 import textwrap
+from dataclasses import dataclass, field
 from functools import cache
 from pathlib import Path
 
@@ -40,6 +49,10 @@ from chronicle.sources.cells import (
     SourceArtifactMetadata,
     source_cells_from_ods,
     source_cells_from_xlsx,
+)
+from chronicle.sources.rows import (
+    source_cells_from_source_rows,
+    source_rows_from_delimited_text,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,6 +74,35 @@ FILTER_LABELS = {
     "voa_bedrooms": "Number of bedrooms",
     "voa_build_period": "Build period",
     "billing_authority_class": "Billing authority class",
+    "ehs_tenure": "Tenure",
+    "mvs_market_value_band": "Market value band",
+    "ehs_dwelling_age": "Dwelling age",
+    "ehs_terrace_position": "Terrace position",
+    "ehs_dwelling_type": "Dwelling type",
+    "ehs_floor_area_band": "Floor area",
+    "ehs_occupancy_status": "Occupancy status",
+    "ehs_bedrooms": "Bedroom count",
+    "ehs_hrp_age_band": "Age of HRP",
+    "ehs_hrp_ethnicity": "Ethnicity of HRP",
+    "ehs_hrp_sex": "Sex of HRP",
+    "ehs_household_type": "Household type",
+    "ehs_household_disability": "Anyone in the household with a disability or long term illness",
+    "ehs_hrp_employment_status": "Employment status of HRP",
+    "ehs_housing_support": "Receives housing support",
+    "ehs_dependent_children": "Dependent children",
+    "ehs_length_of_residence": "Length of residence",
+    "ehs_urban_rural": "Urban/rural",
+    "ehs_urban_area": "Urban area",
+    "ehs_imd_decile": "Index of Multiple Deprivation decile",
+    "ehs_house_or_flat": "House or flat",
+    "ehs_leasehold_status": "Leasehold status",
+    "ehs_income_quintile_group": "Income quintiles",
+    "ehs_fuel_bill_arrears": "Fuel bills",
+    "mvs_joint_income_to_value_band": "Joint income as a proportion of market value",
+    "mvs_value_estimate": "Household's estimate of its home's value against the market value",
+    "mvs_home_value": "Home value",
+    "mvs_perceived_value": "Perceived home value",
+    "mvs_characteristic": "Characteristic",
 }
 
 
@@ -3195,6 +3237,2186 @@ def build_slgfs() -> str:
     return appended(prefix, record_sets)
 
 
+def yaml_items(record_sets: list[dict]) -> str:
+    """Record sets as list items at column 0, as the packages' own record sets are."""
+    text = yaml.dump(
+        {"record_sets": record_sets},
+        Dumper=PackageDumper,
+        sort_keys=False,
+        allow_unicode=True,
+        width=100,
+    )
+    assert text.startswith("record_sets:\n")
+    return text[len("record_sets:\n") :]
+
+
+def comment(text: str) -> str:
+    lines = []
+    for paragraph in textwrap.dedent(text).strip().split("\n\n"):
+        if lines:
+            lines.append("")
+        lines += textwrap.wrap(
+            " ".join(paragraph.split()), width=88, break_on_hyphens=False
+        )
+    return "".join(f"# {line}".rstrip() + "\n" for line in lines)
+
+
+# ------------------------------------------------- 8a. ONS land by institutional sector
+
+NBS_2025_DIRECTORY = "ons/national_balance_sheet_land_2025"
+NBS_PRELIMINARY_DIRECTORY = "ons/national_balance_sheet_land_preliminary_2026"
+NBS_2025_URL = (
+    "https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/"
+    "thenationalbalancesheetestimates"
+)
+NBS_PRELIMINARY_URL = (
+    "https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/"
+    "preliminaryuknationalbalancesheetestimates"
+)
+NBS_MARKER = (
+    "# Sector record sets below are written by scripts/build_uk_408_packages.py "
+    "(PolicyEngine/chronicle#408)."
+)
+# (CDID, sheet, entity role, concept suffix, label, the sheet's title as printed)
+NBS_SECTORS = (
+    (
+        "E43E",
+        "Table 4",
+        "public_non_financial_corporations",
+        "public_nfc",
+        "Public non-financial corporations",
+        "Public non-financial corporations, current prices (£million at end year)",
+    ),
+    (
+        "E43J",
+        "Table 5",
+        "private_non_financial_corporations",
+        "private_nfc",
+        "Private non-financial corporations",
+        "Private non-financial corporations, current prices (£million at end year)",
+    ),
+    (
+        "E43K",
+        "Table 6",
+        "financial_corporations",
+        "financial_corporations",
+        "Financial corporations",
+        "Financial corporations, current prices (£million at end year)",
+    ),
+    (
+        "E43Z",
+        "Table 7",
+        "general_government",
+        "general_government",
+        "General government",
+        "General government, current prices (£million at end year)1",
+    ),
+    (
+        "E447",
+        "Table 8",
+        "central_government",
+        "central_government",
+        "Central government",
+        "Central government, current prices (£million at end year)1",
+    ),
+    (
+        "E44C",
+        "Table 9",
+        "local_government",
+        "local_government",
+        "Local government",
+        "Local government, current prices (£million at end year)1",
+    ),
+    (
+        "E44D",
+        "Table 10",
+        "households_and_npish",
+        "households_and_npish",
+        "Households and NPISH",
+        "Households and non-profit institutions serving households (NPISH), current "
+        "prices (£million at end year)",
+    ),
+    (
+        "E44O",
+        "Table 12",
+        "non_profit_institutions_serving_households",
+        "npish",
+        "Non-profit institutions serving households",
+        "Non-profit institutions serving households (NPISH), current prices (£million "
+        "at end year)",
+    ),
+    (
+        "E44Q",
+        "Table 13",
+        "public_sector",
+        "public_sector",
+        "Public sector",
+        "Public sector, current prices (£million at end year)1,2",
+    ),
+)
+NBS_SHEETS = tuple(sheet for _, sheet, *_ in NBS_SECTORS)
+NBS_PUBLIC_SECTOR_NOTE = (
+    " Table 13 note 1: 'Public sector is general government plus public non-financial "
+    "corporations.'"
+)
+NBS_BLOCK_HEADER = """
+Land (AN.211) for the other sectors the workbook prints, for PolicyEngine/chronicle#408
+item 8: public (E43E) and private (E43J) non-financial corporations, financial
+corporations (E43K), general government (E43Z) with central (E447) and local (E44C)
+government, households and NPISH together (E44D), NPISH alone (E44O) and the public
+sector (E44Q), each from its own sector table, in the same form as the record sets above.
+The sectors overlap as ONS's sector tree does (E43B = E43E + E43J, E43Z = E447 + E44C,
+E44D = E44N + E44O, E44Q = E43Z + E43E), so no total is derived here.
+"""
+
+
+NBS_PRELIMINARY_LABEL = (
+    "ONS preliminary national balance sheet: land (AN.211) by institutional sector, "
+    "end-2025"
+)
+NBS_PRELIMINARY_HEADER = """
+ONS, Preliminary UK national balance sheet estimates (released 10 June 2026): land
+(AN.211) at current prices, GBP million (value_scale 1e6), at end-2025, for the twelve
+institutional sectors the reference tables print, each from its own table: the whole
+economy (Table 2, E44R); non-financial corporations (Table 3, E43B), public (Table 4,
+E43E) and private (Table 5, E43J); financial corporations (Table 6, E43K); general
+government (Table 7, E43Z), central (Table 8, E447) and local (Table 9, E44C);
+households and NPISH (Table 10, E44D), households (Table 11, E44N) and NPISH (Table 12,
+E44O); and the public sector (Table 13, E44Q). Every fact carries publication_status
+preliminary.
+
+The sectors overlap as ONS's sector tree does (E43B = E43E + E43J, E43Z = E447 + E44C,
+E44D = E44N + E44O, E44Q = E43Z + E43E, E44R = E43B + E43K + E43Z + E44D), so no total
+is derived. The first three sectors' record sets come first; PolicyEngine/chronicle#408
+added the other nine, which scripts/build_uk_408_packages.py writes below its marker.
+"""
+
+
+def nbs_preliminary_front(text: str) -> str:
+    """The preliminary package under its twelve-sector header comment and label."""
+    body = re.sub(r"\A(?:#.*\n)+", "", text)
+    label = yaml.dump(
+        {"label": NBS_PRELIMINARY_LABEL},
+        Dumper=PackageDumper,
+        allow_unicode=True,
+        width=100,
+    )
+    body, count = re.subn(
+        r"^label:.*?(?=^dimension_labels:)", label, body, count=1, flags=re.M | re.S
+    )
+    assert count == 1
+    return comment(NBS_PRELIMINARY_HEADER) + body
+
+
+def nbs_grid(directory: str) -> dict[tuple[str, int, str], object]:
+    filename, path = manifest_file(directory)
+    cells = source_cells_from_xlsx(
+        path.read_bytes(), metadata(filename), sheets=NBS_SHEETS
+    )
+    return grid_of(cells)
+
+
+def nbs_land_column(grid: dict, sheet: str, cdid: str) -> str:
+    (column,) = [
+        column
+        for (name, row, column), value in grid.items()
+        if name == sheet and row == 8 and value == cdid
+    ]
+    assert grid[(sheet, 6, column)] == "Land", (sheet, column)
+    assert grid[(sheet, 7, column)] == "AN.211", (sheet, column)
+    return column
+
+
+def nbs_year_rows(grid: dict, sheet: str) -> dict[int, int]:
+    return {
+        value: row
+        for (name, row, column), value in grid.items()
+        if name == sheet
+        and column == "A"
+        and isinstance(value, int)
+        and 1987 <= value <= 2030
+    }
+
+
+def nbs_record_set(
+    prefix: str,
+    sector: tuple,
+    year: int,
+    row: int,
+    column: str,
+    *,
+    url: str,
+    notes: str,
+    preliminary: bool,
+) -> dict:
+    cdid, sheet, role, suffix, label, _title = sector
+    record_set_id = f"{prefix}.land.{role}.cy{year}"
+    record = {
+        "record_set_id": record_set_id,
+        "provenance_class": "model_output",
+        "record_set_spec_id": f"{record_set_id}.v1",
+        "source_record_id_prefix": record_set_id,
+        "sheet_name": sheet,
+        "period_type": "calendar_year",
+        "period": year,
+        "geography_id": "K02000001",
+        "geography_level": "country",
+        "geography_name": "United Kingdom",
+        "geography_vintage": "current",
+        "entity": "institutional_sector",
+        "entity_role": role,
+        "domain": "national_balance_sheet",
+        "groupby_dimension": "ons.nbs_asset_category",
+        "rows": [
+            {
+                "value_id": f"cy{year}",
+                "label": str(year),
+                "ordinal": 0,
+                "row_number": row,
+                "expected_row_header_column": "A",
+                "expected_row_header": year,
+                "table_record_kind": "total",
+            }
+        ],
+        "measures": [
+            {
+                "measure_id": "land_value",
+                "label": f"{label} land, end of {year}",
+                "ordinal": 0,
+                "column": column,
+                "source_column_id": "land_value",
+                "expected_column_header_row": 8,
+                "expected_column_header": cdid,
+                "concept": f"ons.nbs_land_value_{suffix}",
+                "source_concept": f"ons.{cdid.lower()}",
+                "concept_relation": "source_label",
+                "concept_authority": "ons",
+                "concept_evidence_url": url,
+                "concept_evidence_notes": notes,
+                "unit": "gbp",
+                "aggregation": "sum",
+                "value_scale": 1000000,
+                "expected_cell_type": "number",
+            }
+        ],
+    }
+    if preliminary:
+        record["period_coverage"] = {
+            "start_date": f"{year}-12-31",
+            "end_date": f"{year}-12-31",
+            "basis": "calendar",
+            "source_period_label": f"End of {year}",
+            "notes": "Preliminary current-price balance-sheet stock, not an annual flow.",
+        }
+        record["shared_filters"] = {"publication_status": "preliminary"}
+        record["shared_constraints"] = [
+            {
+                "variable": "publication_status",
+                "operator": "==",
+                "value": "preliminary",
+                "label": "Publication status",
+            }
+        ]
+    return record
+
+
+def splice_block(directory: str, block: str) -> str:
+    """The package with ``block`` after its own record sets.
+
+    The block starts at NBS_MARKER and runs to the next top-level key or the end of the
+    file; everything before and after it is the package's own text, kept byte for byte.
+    """
+    text = (PACKAGES / directory / "source_package.yaml").read_text(encoding="utf-8")
+    text = add_artifact_sheets(text, NBS_SHEETS)
+    top_level = re.compile(r"^(?=[A-Za-z_])", flags=re.M)
+    if NBS_MARKER in text:
+        head, rest = text.split(NBS_MARKER, 1)
+        found = top_level.search(rest)
+        tail = rest[found.start() :] if found else ""
+    else:
+        start = text.index("\nrecord_sets:\n") + len("\nrecord_sets:\n")
+        found = top_level.search(text, start)
+        head, tail = (
+            (text[: found.start()], text[found.start() :]) if found else (text, "")
+        )
+    assert head.endswith("\n")
+    return head + block + tail
+
+
+def add_artifact_sheets(text: str, sheets: tuple[str, ...]) -> str:
+    """The package with ``sheets`` added to its artifact's ``sheets:`` list, if it has one.
+
+    The preliminary package parses only the sheets it names (Tables 2, 3 and 11), so the
+    sector tables are added after them; a package without the list parses every sheet.
+    """
+    match = re.search(r"\n  sheets:\n((?:  - .*\n)+)", text)
+    if not match:
+        return text
+    listed = [line[4:] for line in match.group(1).splitlines()]
+    missing = [sheet for sheet in sheets if sheet not in listed]
+    added = "".join(f"  - {sheet}\n" for sheet in missing)
+    return text[: match.end()] + added + text[match.end() :]
+
+
+def nbs_block(directory: str, *, preliminary: bool) -> str:
+    grid = nbs_grid(directory)
+    record_sets = []
+    for sector in NBS_SECTORS:
+        cdid, sheet, _role, _suffix, _label, title = sector
+        assert grid[(sheet, 1, "B")] == title, (sheet, grid[(sheet, 1, "B")])
+        column = nbs_land_column(grid, sheet, cdid)
+        years = nbs_year_rows(grid, sheet)
+        span = range(2025, 2026) if preliminary else range(1995, 2025)
+        for year in span:
+            row = years[year]
+            assert isinstance(grid[(sheet, row, column)], (int, float)), (sheet, year)
+            if preliminary:
+                notes = (
+                    "Preliminary estimates released 10 June 2026; land AN.211, "
+                    f"current-price GBP million at end of {year}, {sheet} "
+                    f"({title.split(',')[0]}), series {cdid}."
+                )
+            else:
+                notes = (
+                    f"The UK national balance sheet estimates, 2025 edition, {sheet} "
+                    f"({title.split(',')[0]}), Land (AN.211) series {cdid}, GBP million "
+                    "at current prices, end-of-year position."
+                )
+            if cdid == "E44Q":
+                notes += NBS_PUBLIC_SECTOR_NOTE
+            record_sets.append(
+                nbs_record_set(
+                    "ons.preliminary_nbs2026" if preliminary else "ons.nbs2025",
+                    sector,
+                    year,
+                    row,
+                    column,
+                    url=NBS_PRELIMINARY_URL if preliminary else NBS_2025_URL,
+                    notes=notes,
+                    preliminary=preliminary,
+                )
+            )
+    header = NBS_BLOCK_HEADER
+    if preliminary:
+        header = header.replace("in the same form", "at end-2025, in the same form")
+    block = NBS_MARKER + "\n" + comment(header) + yaml_items(record_sets)
+    text = splice_block(directory, block)
+    return nbs_preliminary_front(text) if preliminary else text
+
+
+def build_nbs_2025() -> str:
+    return nbs_block(NBS_2025_DIRECTORY, preliminary=False)
+
+
+def build_nbs_preliminary() -> str:
+    return nbs_block(NBS_PRELIMINARY_DIRECTORY, preliminary=True)
+
+
+# ------------------------------------- 8b. ONS land underlying buildings, 2022 article
+
+LAND22_DIRECTORY = "ons/land_underlying_buildings_2022"
+LAND22_PAGE = (
+    "https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/"
+    "improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalance"
+    "sheetuk/2022"
+)
+LAND22_HEADER_ROW = 7
+# (column, header as printed, measure id, concept)
+LAND22_SERIES = (
+    (
+        "B",
+        "Total non-produced assets",
+        "total_non_produced_assets",
+        "ons.non_produced_assets_value",
+    ),
+    (
+        "C",
+        "Land underlying dwellings",
+        "land_underlying_dwellings",
+        "ons.land_underlying_dwellings_value",
+    ),
+    (
+        "D",
+        "Land underlying other buildings and structures",
+        "land_underlying_other_buildings_and_structures",
+        "ons.land_underlying_other_buildings_and_structures_value",
+    ),
+    (
+        "E",
+        "Other non-produced assets",
+        "other_non_produced_assets",
+        "ons.other_non_produced_assets_value",
+    ),
+)
+LAND22_NOTES = (
+    "ONS, 'Improving estimates of land underlying other buildings and structures in the "
+    "national balance sheet, UK: 2022' (27 June 2022), Figure 1: 'Non-produced asset "
+    "value in the UK, current prices, 1995 to 2021', in GBP trillion to one decimal "
+    "place. 'The components of land may not always add to the total because of "
+    "rounding.' A 2022 vintage, from before later revisions of the national balance "
+    "sheet; the article's series, not a current land-under-dwellings series."
+)
+LAND22_HEADER = f"""
+ONS, 'Improving estimates of land underlying other buildings and structures in the
+national balance sheet, UK: 2022' (published 27 June 2022), Figure 1's data as the
+article's CSV download, for {ISSUE} item 8. Written by
+scripts/build_uk_408_packages.py.
+
+Total non-produced assets, land underlying dwellings, land underlying other buildings
+and structures, and other non-produced assets, UK, current prices, 1995 to 2021, in GBP
+trillion to one decimal place (value_scale 1e12). The CSV's notes say the components may
+not add to the total because of rounding, so nothing is derived. It is the 2022
+vintage, from before later balance-sheet revisions, and model_output as the balance
+sheet's land is.
+
+The CSV has six lines of preamble (title, subtitle, notes, unit) before its header line,
+which the parser skips (header_row 7); the unit line, 'Unit,£ trillion', is asserted by
+the generator and the tests. ONS serves the file from its chart generator; three fetches
+on 4 November 2026, about 40 minutes apart, returned the same bytes.
+"""
+
+
+def land22_grid() -> tuple[str, dict[tuple[int, str], object]]:
+    filename, path = manifest_file(LAND22_DIRECTORY)
+    sheet = Path(filename).stem
+    rows = source_rows_from_delimited_text(
+        path.read_bytes(),
+        metadata(filename),
+        sheet_name=sheet,
+        header_row=LAND22_HEADER_ROW,
+    )
+    cells = source_cells_from_source_rows(rows, selected_rows=())
+    return sheet, {
+        (row, column): value for (_sheet, row, column), value in grid_of(cells).items()
+    }
+
+
+def land22_preamble() -> list[list[str]]:
+    _, path = manifest_file(LAND22_DIRECTORY)
+    text = path.read_bytes().decode("utf-8")
+    return list(csv.reader(io.StringIO(text)))[: LAND22_HEADER_ROW - 1]
+
+
+def build_land22() -> str:
+    preamble = land22_preamble()
+    assert (
+        preamble[1][0]
+        == "Non-produced asset value in the UK, current prices, 1995 to 2021"
+    )
+    assert [cell.strip() for cell in preamble[4]] == ["Unit", "£ trillion"]
+    assert preamble[3][1].strip() == (
+        "1. The components of land may not always add to the total because of rounding."
+    )
+    sheet, grid = land22_grid()
+    assert grid[(1, "A")] == "Year"
+    years = {
+        value: row for (row, column), value in grid.items() if column == "A" and row > 1
+    }
+    assert sorted(years) == list(range(1995, 2022)), sorted(years)
+    record_sets = []
+    for year, row in sorted(years.items()):
+        measures = []
+        for ordinal, (column, header, measure_id, concept) in enumerate(LAND22_SERIES):
+            assert grid[(1, column)] == header
+            spec = measure(
+                measure_id,
+                f"{header}, {year} (GBP trillion as printed)",
+                column,
+                concept=concept,
+                source_concept=f"ons.land_article_2022.{measure_id}",
+                authority="ons",
+                evidence_url=LAND22_PAGE,
+                notes=LAND22_NOTES,
+                unit="gbp",
+                aggregation="sum",
+                ordinal=ordinal,
+                value_scale=1000000000000,
+                header=header,
+                header_row=1,
+            )
+            measures.append(spec)
+        record_sets.append(
+            record_set(
+                f"ons.land_article_2022.figure_1.cy{year}",
+                provenance_class="model_output",
+                sheet_name=sheet,
+                period_type="calendar_year",
+                period=year,
+                geography={
+                    "geography_id": "K02000001",
+                    "geography_level": "country",
+                    "geography_name": "United Kingdom",
+                    "geography_vintage": "current",
+                },
+                entity="institutional_sector",
+                entity_role="total_economy",
+                domain="national_balance_sheet",
+                groupby_dimension="ons.nbs_asset_category",
+                rows=[
+                    {
+                        "value_id": f"cy{year}",
+                        "label": str(year),
+                        "ordinal": 0,
+                        "row_number": row,
+                        "expected_row_header_column": "A",
+                        "expected_row_header": year,
+                        "table_record_kind": "total",
+                    }
+                ],
+                measures=measures,
+            )
+        )
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": "ons-land-underlying-buildings-2022",
+        "label": "ONS 2022 article: land underlying dwellings and other buildings and "
+        "structures, and other non-produced assets, UK, 1995 to 2021",
+        "dimension_labels": {"ons.nbs_asset_category": "Balance sheet year"},
+        "artifact": artifact(
+            "ons",
+            "Improving estimates of land underlying other buildings and structures in the "
+            "national balance sheet, UK: 2022, Figure 1",
+            LAND22_DIRECTORY,
+            "ons_land_article_2022_06_27",
+            "delimited_text_full_rows",
+            "delimited text full-row parse of the article's Figure 1 CSV, header on line 7",
+            2022,
+            header_row=LAND22_HEADER_ROW,
+        ),
+        "record_sets": record_sets,
+    }
+    return render(LAND22_HEADER, payload)
+
+
+# --------------------------------------------- 2. Market Value Survey 2024 annex tables
+
+MVS_PAGE = "https://www.gov.uk/government/publications/market-value-survey-2024"
+MVS_PERIODS = {
+    "2015": {
+        "period_type": "month",
+        "period": "2015-10",
+        "period_coverage": {
+            "start_date": "2015-10-01",
+            "end_date": "2015-10-01",
+            "basis": "calendar",
+            "source_period_label": "1st October 2015",
+        },
+    },
+    "2024": {
+        "period_type": "month",
+        "period": "2024-07",
+        "period_coverage": {
+            "start_date": "2024-07-01",
+            "end_date": "2024-07-01",
+            "basis": "calendar",
+            "source_period_label": "1st July 2024",
+        },
+    },
+}
+MVS_ENGLAND = {
+    "geography_id": "E92000001",
+    "geography_level": "country",
+    "geography_name": "England",
+    "geography_vintage": "current",
+}
+MVS_ENGLAND_EXCLUDING_LONDON = {
+    "geography_id": "mhclg:england_excluding_london",
+    "geography_level": "statistical_scope",
+    "geography_name": "England excluding London",
+    "geography_vintage": "current",
+}
+MVS_LONDON = {
+    "geography_id": "E12000007",
+    "geography_level": "region",
+    "geography_name": "London",
+    "geography_vintage": "current",
+}
+MVS_REGIONS = {
+    "North East": "E12000001",
+    "North West": "E12000002",
+    "Yorkshire and the Humber": "E12000003",
+    "East Midlands": "E12000004",
+    "West Midlands": "E12000005",
+    "East of England": "E12000006",
+    "London": "E12000007",
+    "South East": "E12000008",
+    "South West": "E12000009",
+}
+MVS_VALUATION = (
+    "The VOA valued every dwelling in the EHS physical survey 'in its actual condition', "
+    "assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and "
+    "2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 "
+    "and 2014-15); the period is that valuation date, not the survey year."
+)
+MVS_U = (
+    "'To safeguard against data disclosure, findings derived from unweighted cell counts "
+    'of less than 5 and more than 0 are replaced with a "u"\', and those cells emit no '
+    "fact."
+)
+# statistic -> (concept, unit, value_scale, aggregation, relation, label, definition)
+MVS_STATISTICS = {
+    "mean": (
+        "mhclg.mvs_market_value_mean",
+        "gbp",
+        1000,
+        "mean",
+        "source_label",
+        "Mean market value",
+        "Mean (arithmetic) market value, GBP thousand as printed ('£000s'); the main "
+        "report uses the arithmetic mean 'to allow testing of the statistical "
+        "significance of differences between groups'.",
+    ),
+    "geometric_mean": (
+        "mhclg.mvs_market_value_geometric_mean",
+        "gbp",
+        1000,
+        "mean",
+        "approximate",
+        "Geometric mean market value",
+        "Geometric mean market value ('Mean (geometric)'), GBP thousand as printed; a "
+        "geometric mean, recorded under aggregation mean as an approximate mapping.",
+    ),
+    "median": (
+        "mhclg.mvs_market_value_median",
+        "gbp",
+        1000,
+        "median",
+        "source_label",
+        "Median market value",
+        "Median market value, GBP thousand as printed.",
+    ),
+    "dwellings": (
+        "mhclg.mvs_dwellings",
+        "count",
+        1000,
+        "sum",
+        "source_label",
+        "Dwellings (thousands)",
+        "Dwellings, grossed survey estimate in thousands as printed ('thousands of "
+        "dwellings').",
+    ),
+    "dwellings_percentage": (
+        "mhclg.mvs_dwellings_percentage",
+        "percent",
+        None,
+        "share",
+        "source_label",
+        "Percentage of dwellings",
+        "Percentage of the column's dwellings, as printed ('percentages').",
+    ),
+    "households": (
+        "mhclg.mvs_households",
+        "count",
+        1000,
+        "sum",
+        "source_label",
+        "Households (thousands)",
+        "Households, grossed survey estimate in thousands as printed ('thousands of "
+        "households').",
+    ),
+    "households_percentage": (
+        "mhclg.mvs_households_percentage",
+        "percent",
+        None,
+        "share",
+        "source_label",
+        "Percentage of households",
+        "Percentage of households, as printed ('percentage').",
+    ),
+    "sample_size": (
+        "mhclg.mvs_sample_size",
+        "count",
+        None,
+        "sum",
+        "source_label",
+        "Sample size",
+        "Sample size as printed: the unweighted number of surveyed cases behind the "
+        "column's estimates.",
+    ),
+    "mean_percentage_change": (
+        "mhclg.mvs_mean_percentage_change_from_purchase_price",
+        "percent",
+        None,
+        "mean",
+        "source_label",
+        "Mean percentage change from initial purchase price to market value",
+        "Mean percentage change from the initial purchase price the household reports to "
+        "the current market value ('mean percentage change'); 'Initial purchase price "
+        "estimated values less than £1,000 excluded from analysis'.",
+    ),
+}
+
+
+@dataclass(frozen=True)
+class Group:
+    """Value columns that share a period and a column dimension."""
+
+    period: str
+    columns: tuple[tuple[str, str], ...]
+    header_row: int
+    dimension: str | None = None
+    total: str | None = None
+    statistic: str | None = None
+    geography: dict | None = None
+
+
+@dataclass(frozen=True)
+class Block:
+    """Data rows of one statistic, one row dimension and one set of column groups."""
+
+    key: str
+    rows: tuple[int, ...]
+    statistic: str | None = None
+    dimension: str | None = None
+    title: tuple[int, str] | None = None
+    unit: tuple[str, int, str] | None = None
+    groups: tuple[int, ...] | None = None
+    extra_filters: dict = field(default_factory=dict)
+    pairs: str | None = None
+    skip_equal: dict = field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class Sheet:
+    sheet: str
+    geography: dict
+    groups: tuple[Group, ...]
+    blocks: tuple[Block, ...]
+    notes: str = ""
+    # (row, sheet, row): a row restating another sheet's, asserted equal and not ported
+    restates: tuple[tuple[int, str, int], ...] = ()
+    # rows restating another package's table, asserted and not ported
+    restated: tuple["Restated", ...] = ()
+
+
+@dataclass(frozen=True)
+class Restated:
+    """A row printing another table's cells again: asserted, and not ported twice.
+
+    ``columns`` pairs this sheet's columns with the other table's. Where the other table
+    prints a marker, nothing is asserted. ``transposed`` names cells printed with their
+    digits transposed against the other table's.
+    """
+
+    row: int
+    label: str
+    directory: str
+    sheet: str
+    other_row: int
+    other_label: str
+    columns: tuple[tuple[str, str], ...]
+    transposed: tuple[str, ...] = ()
+
+
+def span(first: int, last: int) -> tuple[int, ...]:
+    return tuple(range(first, last + 1))
+
+
+def tenure_groups(social: str, total: str, header_row: int = 7) -> tuple[Group, Group]:
+    headers = (
+        "owner occupiers",
+        "private renters",
+        "local authority",
+        "housing association",
+        social,
+        total,
+    )
+    return (
+        Group("2015", tuple(zip("CDEFGH", headers)), header_row, "ehs_tenure", total),
+        Group("2024", tuple(zip("JKLMNO", headers)), header_row, "ehs_tenure", total),
+    )
+
+
+def at1_1(sheet: str, geography: dict) -> Sheet:
+    return Sheet(
+        sheet,
+        geography,
+        tenure_groups("all social rented", "all dwellings"),
+        (
+            Block("mean", (10,), "mean", unit=("H", 9, "market value, £000s")),
+            Block(
+                "geometric_mean",
+                (11,),
+                "geometric_mean",
+                unit=("H", 9, "market value, £000s"),
+            ),
+            Block("median", (12,), "median", unit=("H", 9, "market value, £000s")),
+            Block("sample_size", (15,), "sample_size"),
+        ),
+        notes="The sheet's percentage changes from 2015 to 2024 (rows 18 to 25) are "
+        "arithmetic over the means and medians above and are not ported.",
+    )
+
+
+def at1_2(sheet: str, geography: dict) -> Sheet:
+    return Sheet(
+        sheet,
+        geography,
+        tenure_groups("all social rented", "all dwellings"),
+        (
+            Block(
+                "value_band",
+                span(11, 20),
+                "dwellings",
+                "mvs_market_value_band",
+                title=(10, "Market Value"),
+                unit=("H", 9, "thousands of dwellings"),
+            ),
+            Block("total", (22,), "dwellings", unit=("H", 9, "thousands of dwellings")),
+            Block(
+                "value_band_percentage",
+                span(24, 33),
+                "dwellings_percentage",
+                "mvs_market_value_band",
+                unit=("H", 23, "percentages"),
+            ),
+        ),
+        notes=f"{MVS_U} 'A cell count of 0 or 0% means that there were no cases in the "
+        "sample'; those zeros are values. The percentage 'total' row (100 in every "
+        "column) is not ported, and the sample sizes (row 37) restate Annex Table 1.1's "
+        "(row 15), so they are asserted equal and not ported twice.",
+        restates=((37, sheet.replace("AT1_2", "AT1_1"), 15),),
+    )
+
+
+def at1_4(sheet: str, geography: dict) -> Sheet:
+    mean = ("H", 9, "mean market value, £000s")
+    sample = ("H", 50, "sample size")
+    return Sheet(
+        sheet,
+        geography,
+        tenure_groups("all social renters", "all dwellings"),
+        (
+            Block(
+                "dwelling_age",
+                span(12, 17),
+                "mean",
+                "ehs_dwelling_age",
+                title=(11, "dwelling age"),
+                unit=mean,
+            ),
+            Block(
+                "terrace_position",
+                span(21, 22),
+                "mean",
+                "ehs_terrace_position",
+                title=(19, "dwelling type"),
+                unit=mean,
+            ),
+            Block(
+                "dwelling_type",
+                span(24, 31),
+                "mean",
+                "ehs_dwelling_type",
+                title=(19, "dwelling type"),
+                unit=mean,
+            ),
+            Block(
+                "floor_area",
+                span(34, 38),
+                "mean",
+                "ehs_floor_area_band",
+                title=(33, "floor area"),
+                unit=mean,
+            ),
+            Block(
+                "occupancy",
+                span(41, 42),
+                "mean",
+                "ehs_occupancy_status",
+                title=(40, "occupancy status"),
+                unit=mean,
+            ),
+            Block(
+                "bedrooms",
+                span(45, 48),
+                "mean",
+                "ehs_bedrooms",
+                title=(44, "bedroom count (occupied dwellings only)"),
+                unit=mean,
+                extra_filters={"ehs_occupancy_status": "occupied"},
+            ),
+            Block(
+                "dwelling_age_sample",
+                span(52, 57),
+                "sample_size",
+                "ehs_dwelling_age",
+                unit=sample,
+                pairs="dwelling_age",
+            ),
+            Block(
+                "terrace_position_sample",
+                span(59, 60),
+                "sample_size",
+                "ehs_terrace_position",
+                unit=sample,
+                pairs="terrace_position",
+            ),
+            Block(
+                "dwelling_type_sample",
+                span(61, 68),
+                "sample_size",
+                "ehs_dwelling_type",
+                unit=sample,
+                pairs="dwelling_type",
+            ),
+            Block(
+                "floor_area_sample",
+                span(70, 74),
+                "sample_size",
+                "ehs_floor_area_band",
+                unit=sample,
+                pairs="floor_area",
+            ),
+            Block(
+                "occupancy_sample",
+                span(76, 77),
+                "sample_size",
+                "ehs_occupancy_status",
+                unit=sample,
+                pairs="occupancy",
+            ),
+            Block(
+                "bedrooms_sample",
+                span(79, 82),
+                "sample_size",
+                "ehs_bedrooms",
+                unit=sample,
+                extra_filters={"ehs_occupancy_status": "occupied"},
+                pairs="bedrooms",
+            ),
+        ),
+        notes="'end terrace' and 'mid terrace' split terraced houses by position, and "
+        "the next eight rows split all dwellings by type (terraced houses by size), so "
+        "the two carry separate dimensions.",
+    )
+
+
+def at1_5(sheet: str, geography: dict) -> Sheet:
+    mean = ("H", 9, "mean market value, £000s")
+    sample = ("B", 54, "sample size")
+    blocks = (
+        ("hrp_age", span(11, 14), "ehs_hrp_age_band", (10, "Age of HRP"), span(56, 59)),
+        (
+            "hrp_ethnicity",
+            span(17, 18),
+            "ehs_hrp_ethnicity",
+            (16, "Ethnicity of HRP"),
+            span(61, 62),
+        ),
+        ("hrp_sex", span(21, 22), "ehs_hrp_sex", (20, "Sex of HRP"), span(64, 65)),
+        (
+            "household_type",
+            span(25, 30),
+            "ehs_household_type",
+            (24, "Household type"),
+            span(67, 72),
+        ),
+        (
+            "disability",
+            span(33, 34),
+            "ehs_household_disability",
+            (32, "Whether anyone in household has a disability or long term illness"),
+            span(74, 75),
+        ),
+        (
+            "hrp_employment",
+            span(37, 39),
+            "ehs_hrp_employment_status",
+            (36, "Employment status of HRP"),
+            span(77, 79),
+        ),
+        (
+            "housing_support",
+            span(42, 43),
+            "ehs_housing_support",
+            (41, "Recieves housing support"),
+            span(81, 82),
+        ),
+        (
+            "dependent_children",
+            span(46, 47),
+            "ehs_dependent_children",
+            (45, "Dependent Children"),
+            span(84, 85),
+        ),
+        (
+            "length_of_residence",
+            span(50, 52),
+            "ehs_length_of_residence",
+            (49, "Length of Residence"),
+            span(87, 89),
+        ),
+    )
+    specs = []
+    for key, rows, dimension, title, _ in blocks:
+        specs.append(Block(key, rows, "mean", dimension, title=title, unit=mean))
+    for key, rows, dimension, title, sample_rows in blocks:
+        specs.append(
+            Block(
+                f"{key}_sample",
+                sample_rows,
+                "sample_size",
+                dimension,
+                unit=sample,
+                pairs=key,
+            )
+        )
+    return Sheet(
+        sheet,
+        geography,
+        tenure_groups("all social renters", "all dwellings"),
+        tuple(specs),
+        notes="'[x] = not applicable' (owner occupiers and housing support); those cells "
+        "emit no fact. The sample-size rows name the categories in their own words "
+        "('Disability or long term illness - Yes'); each takes the category of the "
+        "value row it follows.",
+    )
+
+
+def at1_6a(sheet: str, geography: dict) -> Sheet:
+    mean = ("H", 9, "mean market value, £000s")
+    sample = ("B", 31, "sample size")
+    return Sheet(
+        sheet,
+        geography,
+        tenure_groups("all social renters", "all dwellings"),
+        (
+            Block(
+                "urban_rural",
+                span(12, 13),
+                "mean",
+                "ehs_urban_rural",
+                title=(11, "Urban/Rural"),
+                unit=mean,
+            ),
+            Block(
+                "urban_area",
+                span(16, 17),
+                "mean",
+                "ehs_urban_area",
+                title=(11, "Urban/Rural"),
+                unit=mean,
+                skip_equal={15: 12},
+            ),
+            Block(
+                "imd_decile",
+                span(20, 29),
+                "mean",
+                "ehs_imd_decile",
+                title=(19, "Deprived local areas"),
+                unit=mean,
+            ),
+            Block(
+                "urban_rural_sample",
+                span(33, 34),
+                "sample_size",
+                "ehs_urban_rural",
+                unit=sample,
+                pairs="urban_rural",
+            ),
+            Block(
+                "urban_area_sample",
+                span(37, 38),
+                "sample_size",
+                "ehs_urban_area",
+                unit=sample,
+                pairs="urban_area",
+                skip_equal={36: 33},
+            ),
+            Block(
+                "imd_decile_sample",
+                span(40, 49),
+                "sample_size",
+                "ehs_imd_decile",
+                unit=sample,
+                pairs="imd_decile",
+            ),
+        ),
+        notes="Rows 15 and 36 repeat 'Rural' (rows 12 and 33) to open the London split "
+        "and are asserted equal rather than ported twice. 'Data from 2015 refers to the "
+        "Indices of Multiple Deprivation as defined in 2010. Data from 2024 refers to the "
+        "Indices of Multiple Deprivation as defined in 2019.' 'A small number of "
+        "observations in 2015 in London were classed as Rural. All London observations in "
+        "2024 were classed as Urban.'",
+    )
+
+
+def at1_6b(sheet: str, geography: dict) -> Sheet:
+    return Sheet(
+        sheet,
+        geography,
+        tenure_groups("all social renters", "all dwellings"),
+        (
+            Block(
+                "imd_decile",
+                span(12, 21),
+                "mean",
+                "ehs_imd_decile",
+                title=(11, "Deprived local areas"),
+                unit=("H", 9, "mean market value, £000s"),
+            ),
+            Block(
+                "imd_decile_sample",
+                span(25, 34),
+                "sample_size",
+                "ehs_imd_decile",
+                unit=("B", 23, "sample size"),
+                pairs="imd_decile",
+            ),
+        ),
+        notes="'Data from 2015 refers to the Indices of Multiple Deprivation as defined in "
+        "2010. Data from 2024 refers to the Indices of Multiple Deprivation as defined in "
+        "2019.'",
+    )
+
+
+def at1_7(sheet: str, geography: dict) -> Sheet:
+    headers = (
+        "owner occupiers",
+        "private renters",
+        "local authority",
+        "housing association",
+        "all social renters",
+        "all occupied dwellings",
+    )
+    group = Group(
+        "2024", tuple(zip("CDEFGH", headers)), 6, "ehs_tenure", "all occupied dwellings"
+    )
+    mean = ("H", 8, "mean market value, £000s")
+    sample = ("H", 18, "sample size")
+    house = {"ehs_house_or_flat": "house_or_bungalow"}
+    flat = {"ehs_house_or_flat": "flat"}
+    return Sheet(
+        sheet,
+        geography,
+        (group,),
+        (
+            Block(
+                "house_leasehold",
+                span(11, 12),
+                "mean",
+                "ehs_leasehold_status",
+                title=(10, "House or bungalow"),
+                unit=mean,
+                extra_filters=house,
+            ),
+            Block(
+                "flat_leasehold",
+                span(15, 16),
+                "mean",
+                "ehs_leasehold_status",
+                title=(14, "Flat"),
+                unit=mean,
+                extra_filters=flat,
+            ),
+            Block(
+                "house_leasehold_sample",
+                span(20, 21),
+                "sample_size",
+                "ehs_leasehold_status",
+                title=(19, "House or bungalow"),
+                unit=sample,
+                extra_filters=house,
+            ),
+            Block(
+                "flat_leasehold_sample",
+                span(24, 25),
+                "sample_size",
+                "ehs_leasehold_status",
+                title=(23, "Flat"),
+                unit=sample,
+                extra_filters=flat,
+            ),
+        ),
+        notes="'Excludes dwellings unable to be matched to a freehold or leasehold title "
+        "record in HM Land Registry records.' The main report: the leasehold status of "
+        "occupied dwellings 'was determined by matching Market Value Survey and English "
+        "Housing Survey data to data from HM Land Registry'.",
+    )
+
+
+def at3_3(sheet: str, geography: dict) -> Sheet:
+    headers = (
+        "owner occupiers",
+        "private renters",
+        "all social renters",
+        "all households",
+    )
+    groups = (
+        Group("2015", tuple(zip("CDEF", headers)), 6, "ehs_tenure", "all households"),
+        Group("2024", tuple(zip("HIJK", headers)), 6, "ehs_tenure", "all households"),
+    )
+    return Sheet(
+        sheet,
+        geography,
+        groups,
+        (
+            Block(
+                "joint_income_band",
+                span(10, 14),
+                "households",
+                "mvs_joint_income_to_value_band",
+                title=(9, "Joint income as proportion of market value"),
+                unit=("F", 8, "thousand of households"),
+            ),
+            Block(
+                "joint_income_band_percentage",
+                span(18, 22),
+                "households_percentage",
+                "mvs_joint_income_to_value_band",
+                unit=("F", 16, "percentage"),
+            ),
+            Block("sample_size", (25,), "sample_size"),
+        ),
+        notes="Joint income is the household reference person's and partner's net "
+        "income ('annual joint income (HRP + partner, net)', main report), as a "
+        "proportion of the dwelling's market value.",
+    )
+
+
+def at3_5(sheet: str, geography: dict) -> Sheet:
+    group = Group(
+        "2024",
+        (
+            ("C", "Resident less than 10 years"),
+            ("D", "Resident 10 years or more"),
+            ("E", "All"),
+        ),
+        6,
+        "ehs_length_of_residence",
+        "All",
+    )
+    return Sheet(
+        sheet,
+        geography,
+        (group,),
+        (
+            Block(
+                "value_estimate",
+                (10, 11, 13, 15, 16),
+                "households",
+                "mvs_value_estimate",
+                unit=("E", 8, "thousands of households"),
+            ),
+            Block(
+                "value_estimate_percentage",
+                (20, 21, 23, 25, 26),
+                "households_percentage",
+                "mvs_value_estimate",
+                unit=("E", 18, "percentage"),
+            ),
+            Block("sample_size", (31,), "sample_size", unit=("B", 29, "sample size")),
+        ),
+        notes="The household's own estimate of its home's value against the VOA's "
+        "market value. 'Estimated home values less than £1,000 excluded from analysis.'",
+    )
+
+
+def at3_6(sheet: str, geography: dict) -> Sheet:
+    group = Group("2024", (("C", "mean percentage change"),), 6, None, None)
+    return Sheet(
+        sheet,
+        geography,
+        (group,),
+        (
+            Block(
+                "length_of_residence",
+                span(8, 15),
+                "mean_percentage_change",
+                "ehs_length_of_residence",
+                title=(7, "Length of residence"),
+            ),
+            Block(
+                "length_of_residence_sample",
+                span(19, 26),
+                "sample_size",
+                "ehs_length_of_residence",
+                unit=("B", 17, "sample size"),
+                pairs="length_of_residence",
+            ),
+        ),
+    )
+
+
+MVS_CHAPTER_1 = "mhclg/market_value_survey_2024_chapter_1"
+MVS_TENURE_COLUMNS = tuple((column, column) for column in "CDEFGHJKLMNO")
+
+
+def at4_1(sheet: str) -> Sheet:
+    return Sheet(
+        sheet,
+        MVS_ENGLAND,
+        tenure_groups("all social renters", "all dwellings"),
+        (
+            Block(
+                "value_band",
+                (11,),
+                "dwellings",
+                "mvs_market_value_band",
+                unit=("H", 9, "thousands of dwellings"),
+            ),
+            Block(
+                "value_band_percentage",
+                (17,),
+                "dwellings_percentage",
+                "mvs_market_value_band",
+                unit=("H", 15, "percentages"),
+            ),
+        ),
+        notes=MVS_U,
+        restated=(
+            Restated(
+                12,
+                "£1m-£2m",
+                MVS_CHAPTER_1,
+                "AT1_2a",
+                19,
+                "£1,000,000 to £2,000,000",
+                MVS_TENURE_COLUMNS,
+            ),
+            Restated(
+                13,
+                "£2m or more",
+                MVS_CHAPTER_1,
+                "AT1_2a",
+                20,
+                "£2,000,000 or more",
+                MVS_TENURE_COLUMNS,
+            ),
+            Restated(
+                18,
+                "£1m-£2m",
+                MVS_CHAPTER_1,
+                "AT1_2a",
+                32,
+                "£1,000,000 to £2,000,000",
+                MVS_TENURE_COLUMNS,
+            ),
+            Restated(
+                19,
+                "£2m or more",
+                MVS_CHAPTER_1,
+                "AT1_2a",
+                33,
+                "£2,000,000 or more",
+                MVS_TENURE_COLUMNS,
+            ),
+            Restated(
+                21,
+                "sample size",
+                MVS_CHAPTER_1,
+                "AT1_1a",
+                15,
+                "sample sizes",
+                MVS_TENURE_COLUMNS,
+                transposed=("O",),
+            ),
+        ),
+    )
+
+
+def at4_2(sheet: str) -> Sheet:
+    groups = (
+        Group("2015", (("C", "London"),), 6, geography=MVS_LONDON),
+        Group(
+            "2015",
+            (("D", "Rest of England"),),
+            6,
+            geography=MVS_ENGLAND_EXCLUDING_LONDON,
+        ),
+        Group("2024", (("F", "London"),), 6, geography=MVS_LONDON),
+        Group(
+            "2024",
+            (("G", "Rest of England"),),
+            6,
+            geography=MVS_ENGLAND_EXCLUDING_LONDON,
+        ),
+    )
+    return Sheet(
+        sheet,
+        MVS_ENGLAND,
+        groups,
+        (
+            # London prints every band; the rest of England's two upper bands restate
+            # AT1.2B's all-dwellings column.
+            Block(
+                "value_band",
+                span(10, 12),
+                "dwellings",
+                "mvs_market_value_band",
+                unit=("D", 8, "thousands of dwellings"),
+                groups=(0, 2),
+            ),
+            Block(
+                "value_band",
+                (10,),
+                "dwellings",
+                "mvs_market_value_band",
+                unit=("D", 8, "thousands of dwellings"),
+                groups=(1, 3),
+            ),
+            Block(
+                "value_band_percentage",
+                span(16, 18),
+                "dwellings_percentage",
+                "mvs_market_value_band",
+                unit=("D", 14, "percentages"),
+                groups=(0, 2),
+            ),
+            Block(
+                "value_band_percentage",
+                (16,),
+                "dwellings_percentage",
+                "mvs_market_value_band",
+                unit=("D", 14, "percentages"),
+                groups=(1, 3),
+            ),
+        ),
+        notes=f"{MVS_U} Columns are London and the rest of England.",
+        restated=(
+            Restated(
+                11,
+                "£1m-£2m",
+                MVS_CHAPTER_1,
+                "AT1_2b",
+                19,
+                "£1,000,000 to £2,000,000",
+                (("D", "H"), ("G", "O")),
+            ),
+            Restated(
+                12,
+                "£2m or more",
+                MVS_CHAPTER_1,
+                "AT1_2b",
+                20,
+                "£2,000,000 or more",
+                (("D", "H"), ("G", "O")),
+            ),
+            Restated(
+                17,
+                "£1m-£2m",
+                MVS_CHAPTER_1,
+                "AT1_2b",
+                32,
+                "£1,000,000 to £2,000,000",
+                (("D", "H"), ("G", "O")),
+            ),
+            Restated(
+                18,
+                "£2m or more",
+                MVS_CHAPTER_1,
+                "AT1_2b",
+                33,
+                "£2,000,000 or more",
+                (("D", "H"), ("G", "O")),
+            ),
+            Restated(
+                20,
+                "sample size",
+                MVS_CHAPTER_1,
+                "AT1_1b",
+                15,
+                "sample sizes",
+                (("D", "H"), ("G", "O")),
+            ),
+            Restated(
+                20,
+                "sample size",
+                MVS_CHAPTER_1,
+                "AT1_3",
+                28,
+                "London",
+                (("C", "H"), ("F", "O")),
+            ),
+        ),
+    )
+
+
+def value_band_groups(thousands: str, percent: str) -> tuple[Group, Group]:
+    headers = ("Less than £1m", "£1m-£2m", "£2m plus")
+    return (
+        Group(
+            "2024",
+            tuple(zip("CDE", headers)),
+            5,
+            "mvs_market_value_band",
+            statistic=thousands,
+        ),
+        Group(
+            "2024",
+            tuple(zip("GHI", headers)),
+            5,
+            "mvs_market_value_band",
+            statistic=percent,
+        ),
+    )
+
+
+def at4_3(sheet: str) -> Sheet:
+    blocks = (
+        ("hrp_age", span(8, 10), "ehs_hrp_age_band", (7, "Age of HRP")),
+        ("hrp_ethnicity", span(13, 14), "ehs_hrp_ethnicity", (12, "Ethnicity of HRP")),
+        ("hrp_sex", span(17, 18), "ehs_hrp_sex", (16, "Sex of HRP")),
+        (
+            "disability",
+            span(21, 22),
+            "ehs_household_disability",
+            (20, "Whether anyone in household has a disability or long term illness"),
+        ),
+        (
+            "hrp_employment",
+            span(25, 27),
+            "ehs_hrp_employment_status",
+            (24, "Employment status of HRP"),
+        ),
+        (
+            "dependent_children",
+            span(30, 31),
+            "ehs_dependent_children",
+            (29, "Dependent Children"),
+        ),
+        (
+            "length_of_residence",
+            span(34, 35),
+            "ehs_length_of_residence",
+            (33, "Length of Residence"),
+        ),
+    )
+    specs = [
+        Block(key, rows, None, dimension, title=title, groups=(0, 1))
+        for key, rows, dimension, title in blocks
+    ]
+    specs.append(
+        Block(
+            "characteristic_sample",
+            span(39, 45),
+            "sample_size",
+            "mvs_characteristic",
+            unit=("B", 37, "sample size"),
+            groups=(0,),
+        )
+    )
+    return Sheet(
+        sheet,
+        MVS_ENGLAND,
+        value_band_groups("households", "households_percentage"),
+        tuple(specs),
+        notes=f"{MVS_U} The sample sizes are printed once per characteristic, by home "
+        "value band.",
+    )
+
+
+def at4_4(sheet: str) -> Sheet:
+    return Sheet(
+        sheet,
+        MVS_ENGLAND,
+        value_band_groups("households", "households_percentage"),
+        (
+            Block(
+                "income_quintiles",
+                span(8, 9),
+                None,
+                "ehs_income_quintile_group",
+                title=(7, "Income quintiles"),
+                groups=(0, 1),
+            ),
+            Block(
+                "fuel_bills",
+                span(12, 13),
+                None,
+                "ehs_fuel_bill_arrears",
+                title=(11, "Fuel bills"),
+                groups=(0, 1),
+            ),
+            Block(
+                "characteristic_sample",
+                span(18, 19),
+                "sample_size",
+                "mvs_characteristic",
+                unit=("B", 16, "sample size"),
+                groups=(0,),
+            ),
+        ),
+        notes=MVS_U,
+    )
+
+
+def at4_5(sheet: str) -> Sheet:
+    groups = (
+        Group("2024", (("C", "thousands of households"),), 6, statistic="households"),
+        Group("2024", (("D", "percentage"),), 6, statistic="households_percentage"),
+    )
+    high = {"mvs_home_value": "gbp_1_5m_or_more"}
+    low = {"mvs_home_value": "less_than_gbp_1_5m"}
+    return Sheet(
+        sheet,
+        MVS_ENGLAND,
+        groups,
+        (
+            Block(
+                "perceived_value_high",
+                span(9, 10),
+                None,
+                "mvs_perceived_value",
+                title=(8, "Home value £1.5m or higher"),
+                groups=(0, 1),
+                extra_filters=high,
+            ),
+            Block(
+                "perceived_value_low",
+                span(13, 14),
+                None,
+                "mvs_perceived_value",
+                title=(12, "Home value lower than £1.5m"),
+                groups=(0, 1),
+                extra_filters=low,
+            ),
+            Block("sample_size", (16,), "sample_size", groups=(0,)),
+        ),
+        notes="'Estimated values less than £1,000 excluded from analysis.' The "
+        "percentages are of the table's whole base: its four cells sum to 100.",
+    )
+
+
+def at4_6(sheet: str) -> Sheet:
+    group = Group(
+        "2024", (("C", "Less than £1m"), ("D", "£1m plus")), 6, "mvs_market_value_band"
+    )
+    return Sheet(
+        sheet,
+        MVS_ENGLAND,
+        (group,),
+        (
+            Block(
+                "length_of_residence",
+                span(8, 10),
+                "mean_percentage_change",
+                "ehs_length_of_residence",
+                title=(7, "Length of residence"),
+                unit=("D", 7, "mean percentage change"),
+            ),
+            Block(
+                "length_of_residence_sample",
+                span(14, 16),
+                "sample_size",
+                "ehs_length_of_residence",
+                unit=("B", 12, "sample size"),
+                pairs="length_of_residence",
+            ),
+        ),
+    )
+
+
+def at1_3(sheet: str) -> Sheet:
+    return Sheet(
+        sheet,
+        MVS_ENGLAND,
+        tenure_groups("all social rented", "all dwellings"),
+        (
+            Block(
+                "region",
+                span(11, 19),
+                "mean",
+                "region",
+                title=(10, "Region"),
+                unit=("H", 9, "mean market value, £000s"),
+            ),
+            Block(
+                "region_sample",
+                span(22, 30),
+                "sample_size",
+                "region",
+                unit=("H", 21, "sample size"),
+            ),
+        ),
+    )
+
+
+MVS_PACKAGES = {
+    "mhclg/market_value_survey_2024_chapter_1": (
+        "mhclg-market-value-survey-2024-chapter-1",
+        "Chapter 1: Dwellings, Households and Areas - Annex Tables",
+        (
+            at1_1("AT1_1a", MVS_ENGLAND),
+            at1_1("AT1_1b", MVS_ENGLAND_EXCLUDING_LONDON),
+            at1_2("AT1_2a", MVS_ENGLAND),
+            at1_2("AT1_2b", MVS_ENGLAND_EXCLUDING_LONDON),
+            at1_3("AT1_3"),
+            at1_4("AT1_4a", MVS_ENGLAND),
+            at1_4("AT1_4b", MVS_ENGLAND_EXCLUDING_LONDON),
+            at1_5("AT1_5a", MVS_ENGLAND),
+            at1_5("AT1_5b", MVS_ENGLAND_EXCLUDING_LONDON),
+            at1_6a("AT1_6a", MVS_ENGLAND),
+            at1_6b("AT1_6b", MVS_ENGLAND_EXCLUDING_LONDON),
+            at1_7("AT1_7a", MVS_ENGLAND),
+            at1_7("AT1_7b", MVS_ENGLAND_EXCLUDING_LONDON),
+        ),
+    ),
+    "mhclg/market_value_survey_2024_chapter_3": (
+        "mhclg-market-value-survey-2024-chapter-3",
+        "Chapter 3: Housing Costs and Incomes - Annex Tables",
+        (
+            at3_3("AT3_3a", MVS_ENGLAND),
+            at3_3("AT3_3b", MVS_ENGLAND_EXCLUDING_LONDON),
+            at3_5("AT3_5a", MVS_ENGLAND),
+            at3_5("AT3_5b", MVS_ENGLAND_EXCLUDING_LONDON),
+            at3_6("AT3_6a", MVS_ENGLAND),
+            at3_6("AT3_6b", MVS_ENGLAND_EXCLUDING_LONDON),
+        ),
+    ),
+    "mhclg/market_value_survey_2024_chapter_4": (
+        "mhclg-market-value-survey-2024-chapter-4",
+        "Chapter 4: High Value Homes - Annex Tables",
+        (
+            at4_1("AT4_1"),
+            at4_2("AT4_2"),
+            at4_3("AT4_3"),
+            at4_4("AT4_4"),
+            at4_5("AT4_5"),
+            at4_6("AT4_6"),
+        ),
+    ),
+}
+MVS_MARKERS = {"u", "[x]"}
+MVS_SAMPLE_LABELS = {
+    # value-row label -> the sample-size row's own words, where they differ
+    ("ehs_household_disability", "Yes"): "Disability or long term illness - Yes",
+    ("ehs_household_disability", "No"): "Disability or long term illness - No",
+    ("ehs_housing_support", "Yes"): "Recieves housing support - Yes",
+    ("ehs_housing_support", "No"): "Recieves housing support - No",
+    ("ehs_dependent_children", "Yes"): "Dependent Children - Yes",
+    ("ehs_dependent_children", "No"): "Dependent Children - No",
+    ("ehs_urban_area", "Urban (England excluding London)"): "Urban (excluding London)",
+    ("ehs_urban_area", "Urban (London)"): "London",
+}
+
+
+def mvs_cell_value(value: object) -> bool:
+    """Whether a cell is a printed number; a publisher marker is not, anything else fails."""
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        return True
+    assert isinstance(value, str) and value.strip() in MVS_MARKERS, value
+    return False
+
+
+# Filter values for categories the tables word differently, and the value bands, which
+# take one slug per band wherever they are printed.
+MVS_VALUES = {
+    # 'all social rented' (Annex Tables 1.1 to 1.3) is the others' 'all social renters'
+    ("ehs_tenure", "all social rented"): "all_social_renters",
+    ("mvs_market_value_band", "Less than £100,000"): "less_than_gbp_100k",
+    ("mvs_market_value_band", "£100,000 to £200,000"): "gbp_100k_to_200k",
+    ("mvs_market_value_band", "£200,000 to £300,000"): "gbp_200k_to_300k",
+    ("mvs_market_value_band", "£300,000 to £400,000"): "gbp_300k_to_400k",
+    ("mvs_market_value_band", "£400,000 to £500,000"): "gbp_400k_to_500k",
+    ("mvs_market_value_band", "£500,000 to £600,000"): "gbp_500k_to_600k",
+    ("mvs_market_value_band", "£600,000 to £700,000"): "gbp_600k_to_700k",
+    ("mvs_market_value_band", "£700,000 to £1,000,000"): "gbp_700k_to_1m",
+    ("mvs_market_value_band", "£1,000,000 to £2,000,000"): "gbp_1m_to_2m",
+    ("mvs_market_value_band", "£1m-£2m"): "gbp_1m_to_2m",
+    ("mvs_market_value_band", "£2,000,000 or more"): "gbp_2m_or_more",
+    ("mvs_market_value_band", "£2m or more"): "gbp_2m_or_more",
+    ("mvs_market_value_band", "£2m plus"): "gbp_2m_or_more",
+    ("mvs_market_value_band", "Less than £1m"): "less_than_gbp_1m",
+    ("mvs_market_value_band", "£1m plus"): "gbp_1m_or_more",
+    ("mvs_perceived_value", "Perceives value at or above £1.5m"): "gbp_1_5m_or_more",
+    ("mvs_perceived_value", "Perceives value below £1.5m"): "less_than_gbp_1_5m",
+}
+
+
+def mvs_value(dimension: str, label: object) -> str:
+    """A category's filter value: a listed one, or the slug of the printed wording."""
+    text = str(label).strip()
+    if dimension in {"mvs_market_value_band", "mvs_perceived_value"}:
+        return MVS_VALUES[(dimension, text)]
+    return MVS_VALUES.get((dimension, text), mvs_slug(text))
+
+
+def mvs_slug(label: object) -> str:
+    text = str(label).strip()
+    text = text.replace("£", "gbp_").replace("+", "_plus").replace("%", "_percent")
+    return slug(text)
+
+
+def mvs_table_title(grid: dict, sheet: str) -> str:
+    title = grid[(sheet, 2, "B")]
+    assert isinstance(title, str) and title.startswith("Annex Table "), title
+    return title
+
+
+def mvs_notes(
+    title: str, statistic: str, base_text: str, geography: dict, extra: str
+) -> str:
+    definition = MVS_STATISTICS[statistic][6]
+    parts = [
+        f"MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026, "
+        f"'{title}'. {definition} Base: {base_text}, {geography['geography_name']}.",
+        MVS_VALUATION,
+    ]
+    if extra:
+        parts.append(extra)
+    return " ".join(parts)
+
+
+def mvs_check_restated(grid: dict, spec: Sheet) -> None:
+    for restated in spec.restated:
+        other = ods_grid(restated.directory)
+        assert grid[(spec.sheet, restated.row, "B")] == restated.label
+        assert other[(restated.sheet, restated.other_row, "B")] == restated.other_label
+        for column, other_column in restated.columns:
+            mine = grid[(spec.sheet, restated.row, column)]
+            theirs = other[(restated.sheet, restated.other_row, other_column)]
+            if column in restated.transposed:
+                assert isinstance(mine, int) and isinstance(theirs, int)
+                assert mine != theirs and sorted(str(mine)) == sorted(str(theirs))
+            elif mvs_cell_value(theirs):
+                assert mvs_cell_value(mine) and math.isclose(
+                    mine, theirs, rel_tol=1e-6
+                ), (
+                    spec.sheet,
+                    restated.row,
+                    column,
+                )
+
+
+def mvs_build_sheet(grid: dict, spec: Sheet, package_key: str) -> list[dict]:
+    sheet = spec.sheet
+    mvs_check_restated(grid, spec)
+    title = mvs_table_title(grid, sheet)
+    base_text = grid[(sheet, 4, "B")]
+    (source,) = [
+        value
+        for (name, _row, column), value in grid.items()
+        if name == sheet and column == "B" and str(value).startswith("Source:")
+    ]
+    household = "household sub sample" in source
+    entity = "household" if household else "dwelling"
+    entity_role = slug(base_text)
+    for group in spec.groups:
+        for column, header in group.columns:
+            assert str(grid[(sheet, group.header_row, column)]).strip() == header, (
+                sheet,
+                column,
+                grid[(sheet, group.header_row, column)],
+            )
+    for row, other, other_row in spec.restates:
+        assert (
+            str(grid[(sheet, row, "B")]).strip()
+            == str(grid[(other, other_row, "B")]).strip()
+        )
+        for group in spec.groups:
+            for column, _ in group.columns:
+                assert grid[(sheet, row, column)] == grid[(other, other_row, column)], (
+                    sheet,
+                    row,
+                    column,
+                )
+    categories: dict[str, list[tuple[str, str]]] = {}
+    record_sets = []
+    for block in spec.blocks:
+        if block.title:
+            assert grid[(sheet, block.title[0], "B")] == block.title[1], (
+                sheet,
+                block.title,
+            )
+        if block.unit:
+            assert grid[(sheet, block.unit[1], block.unit[0])] == block.unit[2], (
+                sheet,
+                block.unit,
+                grid[(sheet, block.unit[1], block.unit[0])],
+            )
+        for row, equal_to in block.skip_equal.items():
+            assert grid[(sheet, row, "B")] == grid[(sheet, equal_to, "B")]
+            for group in spec.groups:
+                for column, _ in group.columns:
+                    assert grid[(sheet, row, column)] == grid[(sheet, equal_to, column)]
+        labels = [grid[(sheet, row, "B")] for row in block.rows]
+        assert all(label not in (None, "") for label in labels), (sheet, block.key)
+        if block.pairs:
+            paired = categories[block.pairs]
+            assert len(paired) == len(block.rows), (sheet, block.key)
+            for (value_label, _), label in zip(paired, labels):
+                expected = MVS_SAMPLE_LABELS.get(
+                    (block.dimension, value_label), value_label
+                )
+                assert str(label).strip() == str(expected).strip(), (
+                    sheet,
+                    label,
+                    expected,
+                )
+            values = [value for _, value in paired]
+        elif block.dimension == "mvs_characteristic":
+            values = [mvs_slug(label) for label in labels]
+        elif block.dimension:
+            values = [mvs_value(block.dimension, label) for label in labels]
+            if block.dimension == "ehs_bedrooms":
+                values = [f"bedrooms_{value}" for value in values]
+            if block.dimension == "ehs_imd_decile":
+                values = [f"decile_{number}" for number in range(1, 11)]
+                assert labels[0] == "most deprived 10% of areas", labels
+                assert labels[-1] == "least deprived 10% of areas", labels
+            categories[block.key] = list(zip(labels, values))
+        else:
+            values = [None for _ in labels]
+        group_indexes = (
+            block.groups if block.groups is not None else range(len(spec.groups))
+        )
+        for index in group_indexes:
+            group = spec.groups[index]
+            statistic = block.statistic or group.statistic
+            concept, unit, scale, aggregation, relation, stat_label, _ = MVS_STATISTICS[
+                statistic
+            ]
+            notes = mvs_notes(
+                title,
+                statistic,
+                base_text,
+                group.geography or spec.geography,
+                spec.notes,
+            )
+            measures = []
+            for ordinal, (column, header) in enumerate(group.columns):
+                filters = (
+                    {group.dimension: mvs_value(group.dimension, header)}
+                    if group.dimension and header != group.total
+                    else None
+                )
+                measure_id = (
+                    statistic
+                    if group.dimension is None and len(group.columns) == 1
+                    else f"{statistic}_{mvs_slug(header)}"
+                )
+                spec_measure = measure(
+                    measure_id,
+                    f"{stat_label}, {header}",
+                    column,
+                    concept=concept,
+                    source_concept=concept,
+                    authority="mhclg",
+                    evidence_url=MVS_PAGE,
+                    notes=notes,
+                    unit=unit,
+                    aggregation=aggregation,
+                    ordinal=ordinal,
+                    value_scale=scale,
+                    header=header,
+                    header_row=group.header_row,
+                    filters=filters,
+                )
+                spec_measure["concept_relation"] = relation
+                measures.append(spec_measure)
+            members = []
+            for ordinal, (row, label, value) in enumerate(
+                zip(block.rows, labels, values)
+            ):
+                filters = dict(block.extra_filters)
+                geography = None
+                if block.dimension == "region":
+                    geography = {
+                        "geography_id": MVS_REGIONS[label],
+                        "geography_level": "region",
+                        "geography_name": label,
+                        "geography_vintage": "current",
+                    }
+                elif value is not None:
+                    filters = {block.dimension: value, **filters}
+                row_spec = {
+                    "value_id": value or mvs_slug(label),
+                    "label": str(label).strip(),
+                    "ordinal": ordinal,
+                    "row_number": row,
+                    "expected_row_header_column": "B",
+                    "expected_row_header": label,
+                }
+                if geography:
+                    row_spec.update(geography)
+                row_spec["table_record_kind"] = "detail" if filters else "total"
+                if filters:
+                    row_spec["filters"] = filters
+                    row_spec["constraints"] = constraints_for(filters)
+                guards = [guard("B", 2, title, "table title")]
+                if ordinal == 0 and block.title:
+                    guards.append(guard("B", block.title[0], block.title[1], "block"))
+                if ordinal == 0 and block.unit:
+                    guards.append(
+                        guard(block.unit[0], block.unit[1], block.unit[2], "unit")
+                    )
+                if ordinal == 0:
+                    row_spec["guard_cells"] = guards
+                printed = frozenset(
+                    spec_measure["measure_id"]
+                    for spec_measure in measures
+                    if mvs_cell_value(grid.get((sheet, row, spec_measure["column"])))
+                )
+                members.append((row_spec, printed))
+            geography = group.geography or spec.geography
+            suffix = (
+                ""
+                if len(spec.groups) == 1 or group.geography is None
+                else ("." + mvs_slug(group.columns[0][1]))
+            )
+            stat_suffix = f".{statistic}" if group.statistic else ""
+            record_set_id = (
+                f"mhclg.mvs2024.{sheet.lower()}.{block.key}{stat_suffix}"
+                f".p{group.period}{suffix}"
+            )
+
+            def build(record_set_id, rows, kept, group=group, geography=geography):
+                return record_set(
+                    record_set_id,
+                    provenance_class="survey_aggregate",
+                    survey_instrument="English Housing Survey",
+                    sheet_name=sheet,
+                    geography=geography,
+                    entity=entity,
+                    entity_role=entity_role,
+                    domain="housing_market_value",
+                    groupby_dimension=(
+                        f"mhclg.{block.dimension}"
+                        if block.dimension
+                        else "mhclg.mvs_row"
+                    ),
+                    rows=rows,
+                    measures=kept,
+                    **MVS_PERIODS[group.period],
+                )
+
+            # The first row of each record set carries the table and block guards.
+            sets = subsets(record_set_id, members, measures, build)
+            for record in sets:
+                first = record["rows"][0]
+                if "guard_cells" not in first:
+                    first["guard_cells"] = [guard("B", 2, title, "table title")]
+            record_sets += sets
+    return record_sets
+
+
+MVS_HEADER = """
+MHCLG, Market Value Survey: 2024 (English Housing Survey; published 14 April 2026), {part}
+annex tables, the sheets {issue} item 2 asks for: {sheets}. Written by
+scripts/build_uk_408_packages.py.
+
+The VOA valued each dwelling in the EHS physical survey as at 1 July 2024 (EHS 2022-23 and
+2023-24) and, for the 2015 survey printed alongside, as at 1 October 2015 (EHS 2013-14 and
+2014-15); each fact's period is that valuation date. Values in GBP thousand are stored
+with value_scale 1000, as printed; dwelling and household counts in thousands likewise;
+percentages as printed. Sample sizes are their own measure (mhclg.mvs_sample_size).
+'A' sheets are all of England, 'B' sheets England excluding London
+(mhclg:england_excluding_london, as DfT's England outside London is coded). Tenure,
+value band and the row characteristics are filters; every record set is
+survey_aggregate. Cells the publisher prints as 'u' (fewer than five unweighted cases)
+or '[x]' (not applicable) emit no fact. {extra}
+"""
+
+
+def build_mvs(directory: str) -> str:
+    package_id, part, sheets = MVS_PACKAGES[directory]
+    grid = ods_grid(directory)
+    record_sets = []
+    for spec in sheets:
+        record_sets += mvs_build_sheet(grid, spec, directory)
+    dimensions = sorted({record["groupby_dimension"] for record in record_sets})
+    filter_keys = sorted(
+        {
+            key
+            for record in record_sets
+            for spec in record["measures"] + record["rows"]
+            for key in spec.get("filters", {})
+        }
+    )
+    labels = {}
+    for dimension in dimensions:
+        key = dimension.split(".", 1)[1]
+        labels[dimension] = (
+            "Region"
+            if key == "region"
+            else "Row"
+            if key == "mvs_row"
+            else FILTER_LABELS[key]
+        )
+    for key in filter_keys:
+        labels[key] = FILTER_LABELS[key]
+    # A category the sample-size rows name in their own words takes the value row's
+    # wording (chronicle#376); each row keeps its own in package_dimension_value_labels.
+    wordings: dict[tuple[str, str], dict[str, bool]] = {}
+    for record in record_sets:
+        sample = (
+            ".sample_size" in record["record_set_id"]
+            or "_sample." in record["record_set_id"]
+        )
+        for row in record["rows"]:
+            wordings.setdefault((record["groupby_dimension"], row["value_id"]), {})[
+                row["label"]
+            ] = sample
+    value_labels: dict[str, dict[str, str]] = {}
+    for (dimension, value), seen in sorted(wordings.items()):
+        if len(seen) > 1:
+            (preferred,) = [label for label, sample in seen.items() if not sample]
+            # Under the row dimension and under the filter key the rows set.
+            for key in (dimension, dimension.split(".", 1)[1]):
+                value_labels.setdefault(key, {})[value] = preferred
+    extra = {
+        "mhclg-market-value-survey-2024-chapter-1": (
+            "Not ported: Annex Table 1.1's percentage changes from 2015 to 2024, which "
+            "are arithmetic over the means and medians ported, and the 100 in Annex "
+            "Table 1.2's percentage 'total' row. Rows asserted equal to rows ported and "
+            "not ported twice: Annex Table 1.2's sample sizes (Annex Table 1.1's), and "
+            "Annex Table 1.6A's rows 15 and 36, which repeat 'Rural' to open the London "
+            "split.\n\nFilter values: 'all social rented' (Annex Tables 1.1 to 1.3) is "
+            "filed under all_social_renters, the other tables' 'all social renters'. "
+            "Each value band has one slug wherever it is printed: '£1,000,000 to "
+            "£2,000,000' is gbp_1m_to_2m (Chapter 4's '£1m-£2m') and '£2,000,000 or "
+            "more' is gbp_2m_or_more (Chapter 4's '£2m or more' and '£2m plus'); the "
+            "other bands are less_than_gbp_100k, gbp_100k_to_200k and so on to "
+            "gbp_700k_to_1m."
+        ),
+        "mhclg-market-value-survey-2024-chapter-3": (
+            "Not asked for, so not ported: Annex Tables 3.1, 3.2 and 3.4."
+        ),
+        "mhclg-market-value-survey-2024-chapter-4": (
+            "Not ported, because they print Chapter 1's cells again (asserted equal "
+            "wherever both tables print a value): AT4.1's £1m-£2m and £2m-or-more rows "
+            "(AT1.2A's) and its sample sizes (AT1.1A's); AT4.2's rest-of-England "
+            "£1m-£2m and £2m-or-more rows (AT1.2B's all-dwellings column) and its "
+            "sample sizes (AT1.1B's and AT1.3's London row). AT4.1 prints its 2024 "
+            "all-dwellings base with two digits transposed against AT1.1A.\n\nFilter "
+            "values: each value band has one slug wherever it is printed: '£1m-£2m' is "
+            "gbp_1m_to_2m (Chapter 1's '£1,000,000 to £2,000,000'); '£2m or more' "
+            "(AT4.1, AT4.2) and '£2m plus' (AT4.3, AT4.4) are gbp_2m_or_more (Chapter "
+            "1's '£2,000,000 or more'); 'Less than £1m' is less_than_gbp_1m and '£1m "
+            "plus' (AT4.6) gbp_1m_or_more. AT4.5's 'Home value £1.5m or higher' and "
+            "'Perceives value at or above £1.5m' are gbp_1_5m_or_more, and 'Home value "
+            "lower than £1.5m' and 'Perceives value below £1.5m' less_than_gbp_1_5m."
+        ),
+    }[package_id]
+    header = MVS_HEADER.format(
+        part=part.split(" - ")[0],
+        issue=ISSUE,
+        sheets=", ".join(spec.sheet for spec in sheets),
+        extra=extra,
+    )
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": package_id,
+        "label": f"Market Value Survey 2024 (English Housing Survey), {part.split(' - ')[0]}"
+        " annex tables",
+        "dimension_labels": labels,
+        **({"dimension_value_labels": value_labels} if value_labels else {}),
+        "artifact": artifact(
+            "mhclg",
+            f"Market Value Survey: 2024, {part}",
+            directory,
+            "mvs_2024_2026_04_14",
+            "ods_used_range",
+            "ODS whole-workbook used-range cell parse",
+            2024,
+        ),
+        "record_sets": record_sets,
+    }
+    return render(header, payload)
+
+
 BUILDERS = {
     LVE_DIRECTORY: build_land_values,
     VOA_DIRECTORY: build_bands,
@@ -3207,6 +5429,13 @@ BUILDERS = {
     WELSH_DIRECTORIES[2024]: lambda: build_welsh(2024),
     WELSH_DIRECTORIES[2025]: lambda: build_welsh(2025),
     SLGFS_DIRECTORY: build_slgfs,
+    NBS_2025_DIRECTORY: build_nbs_2025,
+    NBS_PRELIMINARY_DIRECTORY: build_nbs_preliminary,
+    LAND22_DIRECTORY: build_land22,
+    **{
+        directory: (lambda directory=directory: build_mvs(directory))
+        for directory in MVS_PACKAGES
+    },
 }
 
 

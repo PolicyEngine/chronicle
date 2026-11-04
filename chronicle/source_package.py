@@ -1121,6 +1121,16 @@ SOURCE_PACKAGE_ALIASES = {
         "mhclg/council_tax_collection_by_authority_2025_26"
     ),
     "mhclg-council-tax-qrc4-2025-26": Path("mhclg/council_tax_qrc4_2025_26"),
+    "mhclg-market-value-survey-2024-chapter-1": Path(
+        "mhclg/market_value_survey_2024_chapter_1"
+    ),
+    "mhclg-market-value-survey-2024-chapter-3": Path(
+        "mhclg/market_value_survey_2024_chapter_3"
+    ),
+    "mhclg-market-value-survey-2024-chapter-4": Path(
+        "mhclg/market_value_survey_2024_chapter_4"
+    ),
+    "ons-land-underlying-buildings-2022": Path("ons/land_underlying_buildings_2022"),
     # end PolicyEngine/chronicle#408
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"

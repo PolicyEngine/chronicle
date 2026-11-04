@@ -1,0 +1,4239 @@
+# MHCLG, Market Value Survey: 2024 (English Housing Survey; published 14 April 2026),
+# Chapter 3: Housing Costs and Incomes annex tables, the sheets PolicyEngine/chronicle#408
+# item 2 asks for: AT3_3a, AT3_3b, AT3_5a, AT3_5b, AT3_6a, AT3_6b. Written by
+# scripts/build_uk_408_packages.py.
+#
+# The VOA valued each dwelling in the EHS physical survey as at 1 July 2024 (EHS 2022-23
+# and 2023-24) and, for the 2015 survey printed alongside, as at 1 October 2015 (EHS
+# 2013-14 and 2014-15); each fact's period is that valuation date. Values in GBP thousand
+# are stored with value_scale 1000, as printed; dwelling and household counts in thousands
+# likewise; percentages as printed. Sample sizes are their own measure
+# (mhclg.mvs_sample_size). 'A' sheets are all of England, 'B' sheets England excluding
+# London (mhclg:england_excluding_london, as DfT's England outside London is coded).
+# Tenure, value band and the row characteristics are filters; every record set is
+# survey_aggregate. Cells the publisher prints as 'u' (fewer than five unweighted cases)
+# or '[x]' (not applicable) emit no fact. Not asked for, so not ported: Annex Tables 3.1,
+# 3.2 and 3.4.
+schema_version: ledger.source_package.v1
+package_id: mhclg-market-value-survey-2024-chapter-3
+label: 'Market Value Survey 2024 (English Housing Survey), Chapter 3: Housing Costs and Incomes annex
+  tables'
+dimension_labels:
+  mhclg.ehs_length_of_residence: Length of residence
+  mhclg.mvs_joint_income_to_value_band: Joint income as a proportion of market value
+  mhclg.mvs_row: Row
+  mhclg.mvs_value_estimate: Household's estimate of its home's value against the market value
+  ehs_length_of_residence: Length of residence
+  ehs_tenure: Tenure
+  mvs_joint_income_to_value_band: Joint income as a proportion of market value
+  mvs_value_estimate: Household's estimate of its home's value against the market value
+artifact:
+  source_name: mhclg
+  source_table: 'Market Value Survey: 2024, Chapter 3: Housing Costs and Incomes - Annex Tables'
+  resource_package: db
+  resource_directory: data/mhclg/market_value_survey_2024_chapter_3
+  manifest: manifest.yaml
+  vintage: mvs_2024_2026_04_14
+  extracted_at: '2026-11-04'
+  extraction_method: ODS whole-workbook used-range cell parse
+  parser: ods_used_range
+  artifact_year: 2024
+record_sets:
+- record_set_id: mhclg.mvs2024.at3_3a.joint_income_band.p2015.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3a.joint_income_band.p2015.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3a.joint_income_band.p2015.full
+  sheet_name: AT3_3a
+  period_type: month
+  period: 2015-10
+  period_coverage:
+    start_date: '2015-10-01'
+    end_date: '2015-10-01'
+    basis: calendar
+    source_period_label: 1st October 2015
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_joint_income_to_value_band
+  rows:
+  - value_id: 0_10_percent
+    label: 0-10%
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: 0-10%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 0_10_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 0_10_percent
+      label: Joint income as a proportion of market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024,
+        all households'
+      label: table title
+    - column: B
+      row: 9
+      expected_value: Joint income as proportion of market value
+      label: block
+    - column: F
+      row: 8
+      expected_value: thousand of households
+      label: unit
+  - value_id: 10_20_percent
+    label: 10-20%
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: 10-20%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 10_20_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 10_20_percent
+      label: Joint income as a proportion of market value
+  - value_id: 20_30_percent
+    label: 20-30%
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: 20-30%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 20_30_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 20_30_percent
+      label: Joint income as a proportion of market value
+  - value_id: 30_40_percent
+    label: 30-40%
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: 30-40%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 30_40_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 30_40_percent
+      label: Joint income as a proportion of market value
+  - value_id: 40_percent_plus
+    label: 40%+
+    ordinal: 4
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: 40%+
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 40_percent_plus
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 40_percent_plus
+      label: Joint income as a proportion of market value
+  measures:
+  - measure_id: households_owner_occupiers
+    label: Households (thousands), owner occupiers
+    ordinal: 0
+    column: C
+    source_column_id: households_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Households, grossed survey estimate in thousands as printed (''thousands of households''). Base:
+      all households, England. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_private_renters
+    label: Households (thousands), private renters
+    ordinal: 1
+    column: D
+    source_column_id: households_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Households, grossed survey estimate in thousands as printed (''thousands of households''). Base:
+      all households, England. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_all_social_renters
+    label: Households (thousands), all social renters
+    ordinal: 2
+    column: E
+    source_column_id: households_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Households, grossed survey estimate in thousands as printed (''thousands of households''). Base:
+      all households, England. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_all_households
+    label: Households (thousands), all households
+    ordinal: 3
+    column: F
+    source_column_id: households_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Households, grossed survey estimate in thousands as printed (''thousands of households''). Base:
+      all households, England. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_3a.joint_income_band.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3a.joint_income_band.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3a.joint_income_band.p2024.full
+  sheet_name: AT3_3a
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_joint_income_to_value_band
+  rows:
+  - value_id: 0_10_percent
+    label: 0-10%
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: 0-10%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 0_10_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 0_10_percent
+      label: Joint income as a proportion of market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024,
+        all households'
+      label: table title
+    - column: B
+      row: 9
+      expected_value: Joint income as proportion of market value
+      label: block
+    - column: F
+      row: 8
+      expected_value: thousand of households
+      label: unit
+  - value_id: 10_20_percent
+    label: 10-20%
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: 10-20%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 10_20_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 10_20_percent
+      label: Joint income as a proportion of market value
+  - value_id: 20_30_percent
+    label: 20-30%
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: 20-30%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 20_30_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 20_30_percent
+      label: Joint income as a proportion of market value
+  - value_id: 30_40_percent
+    label: 30-40%
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: 30-40%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 30_40_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 30_40_percent
+      label: Joint income as a proportion of market value
+  - value_id: 40_percent_plus
+    label: 40%+
+    ordinal: 4
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: 40%+
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 40_percent_plus
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 40_percent_plus
+      label: Joint income as a proportion of market value
+  measures:
+  - measure_id: households_owner_occupiers
+    label: Households (thousands), owner occupiers
+    ordinal: 0
+    column: H
+    source_column_id: households_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Households, grossed survey estimate in thousands as printed (''thousands of households''). Base:
+      all households, England. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_private_renters
+    label: Households (thousands), private renters
+    ordinal: 1
+    column: I
+    source_column_id: households_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Households, grossed survey estimate in thousands as printed (''thousands of households''). Base:
+      all households, England. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_all_social_renters
+    label: Households (thousands), all social renters
+    ordinal: 2
+    column: J
+    source_column_id: households_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Households, grossed survey estimate in thousands as printed (''thousands of households''). Base:
+      all households, England. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_all_households
+    label: Households (thousands), all households
+    ordinal: 3
+    column: K
+    source_column_id: households_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Households, grossed survey estimate in thousands as printed (''thousands of households''). Base:
+      all households, England. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_3a.joint_income_band_percentage.p2015.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3a.joint_income_band_percentage.p2015.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3a.joint_income_band_percentage.p2015.full
+  sheet_name: AT3_3a
+  period_type: month
+  period: 2015-10
+  period_coverage:
+    start_date: '2015-10-01'
+    end_date: '2015-10-01'
+    basis: calendar
+    source_period_label: 1st October 2015
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_joint_income_to_value_band
+  rows:
+  - value_id: 0_10_percent
+    label: 0-10%
+    ordinal: 0
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: 0-10%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 0_10_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 0_10_percent
+      label: Joint income as a proportion of market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024,
+        all households'
+      label: table title
+    - column: F
+      row: 16
+      expected_value: percentage
+      label: unit
+  - value_id: 10_20_percent
+    label: 10-20%
+    ordinal: 1
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: 10-20%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 10_20_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 10_20_percent
+      label: Joint income as a proportion of market value
+  - value_id: 20_30_percent
+    label: 20-30%
+    ordinal: 2
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: 20-30%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 20_30_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 20_30_percent
+      label: Joint income as a proportion of market value
+  - value_id: 30_40_percent
+    label: 30-40%
+    ordinal: 3
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: 30-40%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 30_40_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 30_40_percent
+      label: Joint income as a proportion of market value
+  - value_id: 40_percent_plus
+    label: 40%+
+    ordinal: 4
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: 40%+
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 40_percent_plus
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 40_percent_plus
+      label: Joint income as a proportion of market value
+  measures:
+  - measure_id: households_percentage_owner_occupiers
+    label: Percentage of households, owner occupiers
+    ordinal: 0
+    column: C
+    source_column_id: households_percentage_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Percentage of households, as printed (''percentage''). Base: all households, England. The VOA valued
+      every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. Joint income is the household reference person''s and partner''s net income (''annual joint
+      income (HRP + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_private_renters
+    label: Percentage of households, private renters
+    ordinal: 1
+    column: D
+    source_column_id: households_percentage_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Percentage of households, as printed (''percentage''). Base: all households, England. The VOA valued
+      every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. Joint income is the household reference person''s and partner''s net income (''annual joint
+      income (HRP + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_all_social_renters
+    label: Percentage of households, all social renters
+    ordinal: 2
+    column: E
+    source_column_id: households_percentage_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Percentage of households, as printed (''percentage''). Base: all households, England. The VOA valued
+      every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. Joint income is the household reference person''s and partner''s net income (''annual joint
+      income (HRP + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_all_households
+    label: Percentage of households, all households
+    ordinal: 3
+    column: F
+    source_column_id: households_percentage_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Percentage of households, as printed (''percentage''). Base: all households, England. The VOA valued
+      every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. Joint income is the household reference person''s and partner''s net income (''annual joint
+      income (HRP + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_3a.joint_income_band_percentage.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3a.joint_income_band_percentage.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3a.joint_income_band_percentage.p2024.full
+  sheet_name: AT3_3a
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_joint_income_to_value_band
+  rows:
+  - value_id: 0_10_percent
+    label: 0-10%
+    ordinal: 0
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: 0-10%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 0_10_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 0_10_percent
+      label: Joint income as a proportion of market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024,
+        all households'
+      label: table title
+    - column: F
+      row: 16
+      expected_value: percentage
+      label: unit
+  - value_id: 10_20_percent
+    label: 10-20%
+    ordinal: 1
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: 10-20%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 10_20_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 10_20_percent
+      label: Joint income as a proportion of market value
+  - value_id: 20_30_percent
+    label: 20-30%
+    ordinal: 2
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: 20-30%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 20_30_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 20_30_percent
+      label: Joint income as a proportion of market value
+  - value_id: 30_40_percent
+    label: 30-40%
+    ordinal: 3
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: 30-40%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 30_40_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 30_40_percent
+      label: Joint income as a proportion of market value
+  - value_id: 40_percent_plus
+    label: 40%+
+    ordinal: 4
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: 40%+
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 40_percent_plus
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 40_percent_plus
+      label: Joint income as a proportion of market value
+  measures:
+  - measure_id: households_percentage_owner_occupiers
+    label: Percentage of households, owner occupiers
+    ordinal: 0
+    column: H
+    source_column_id: households_percentage_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Percentage of households, as printed (''percentage''). Base: all households, England. The VOA valued
+      every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. Joint income is the household reference person''s and partner''s net income (''annual joint
+      income (HRP + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_private_renters
+    label: Percentage of households, private renters
+    ordinal: 1
+    column: I
+    source_column_id: households_percentage_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Percentage of households, as printed (''percentage''). Base: all households, England. The VOA valued
+      every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. Joint income is the household reference person''s and partner''s net income (''annual joint
+      income (HRP + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_all_social_renters
+    label: Percentage of households, all social renters
+    ordinal: 2
+    column: J
+    source_column_id: households_percentage_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Percentage of households, as printed (''percentage''). Base: all households, England. The VOA valued
+      every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. Joint income is the household reference person''s and partner''s net income (''annual joint
+      income (HRP + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_all_households
+    label: Percentage of households, all households
+    ordinal: 3
+    column: K
+    source_column_id: households_percentage_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Percentage of households, as printed (''percentage''). Base: all households, England. The VOA valued
+      every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. Joint income is the household reference person''s and partner''s net income (''annual joint
+      income (HRP + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_3a.sample_size.p2015.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3a.sample_size.p2015.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3a.sample_size.p2015.full
+  sheet_name: AT3_3a
+  period_type: month
+  period: 2015-10
+  period_coverage:
+    start_date: '2015-10-01'
+    end_date: '2015-10-01'
+    basis: calendar
+    source_period_label: 1st October 2015
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_row
+  rows:
+  - value_id: sample_size
+    label: sample size
+    ordinal: 0
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: sample size
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024,
+        all households'
+      label: table title
+  measures:
+  - measure_id: sample_size_owner_occupiers
+    label: Sample size, owner occupiers
+    ordinal: 0
+    column: C
+    source_column_id: sample_size_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Sample size as printed: the unweighted number of surveyed cases behind the column''s estimates.
+      Base: all households, England. The VOA valued every dwelling in the EHS physical survey ''in its
+      actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23
+      and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_private_renters
+    label: Sample size, private renters
+    ordinal: 1
+    column: D
+    source_column_id: sample_size_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Sample size as printed: the unweighted number of surveyed cases behind the column''s estimates.
+      Base: all households, England. The VOA valued every dwelling in the EHS physical survey ''in its
+      actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23
+      and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_all_social_renters
+    label: Sample size, all social renters
+    ordinal: 2
+    column: E
+    source_column_id: sample_size_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Sample size as printed: the unweighted number of surveyed cases behind the column''s estimates.
+      Base: all households, England. The VOA valued every dwelling in the EHS physical survey ''in its
+      actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23
+      and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_all_households
+    label: Sample size, all households
+    ordinal: 3
+    column: F
+    source_column_id: sample_size_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Sample size as printed: the unweighted number of surveyed cases behind the column''s estimates.
+      Base: all households, England. The VOA valued every dwelling in the EHS physical survey ''in its
+      actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23
+      and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_3a.sample_size.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3a.sample_size.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3a.sample_size.p2024.full
+  sheet_name: AT3_3a
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_row
+  rows:
+  - value_id: sample_size
+    label: sample size
+    ordinal: 0
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: sample size
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024,
+        all households'
+      label: table title
+  measures:
+  - measure_id: sample_size_owner_occupiers
+    label: Sample size, owner occupiers
+    ordinal: 0
+    column: H
+    source_column_id: sample_size_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Sample size as printed: the unweighted number of surveyed cases behind the column''s estimates.
+      Base: all households, England. The VOA valued every dwelling in the EHS physical survey ''in its
+      actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23
+      and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_private_renters
+    label: Sample size, private renters
+    ordinal: 1
+    column: I
+    source_column_id: sample_size_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Sample size as printed: the unweighted number of surveyed cases behind the column''s estimates.
+      Base: all households, England. The VOA valued every dwelling in the EHS physical survey ''in its
+      actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23
+      and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_all_social_renters
+    label: Sample size, all social renters
+    ordinal: 2
+    column: J
+    source_column_id: sample_size_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Sample size as printed: the unweighted number of surveyed cases behind the column''s estimates.
+      Base: all households, England. The VOA valued every dwelling in the EHS physical survey ''in its
+      actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23
+      and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_all_households
+    label: Sample size, all households
+    ordinal: 3
+    column: K
+    source_column_id: sample_size_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3a: Joint income as a proportion of market value, 2015 and 2024, all households''.
+      Sample size as printed: the unweighted number of surveyed cases behind the column''s estimates.
+      Base: all households, England. The VOA valued every dwelling in the EHS physical survey ''in its
+      actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23
+      and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_3b.joint_income_band.p2015.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3b.joint_income_band.p2015.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3b.joint_income_band.p2015.full
+  sheet_name: AT3_3b
+  period_type: month
+  period: 2015-10
+  period_coverage:
+    start_date: '2015-10-01'
+    end_date: '2015-10-01'
+    basis: calendar
+    source_period_label: 1st October 2015
+  geography_id: mhclg:england_excluding_london
+  geography_level: statistical_scope
+  geography_name: England excluding London
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_joint_income_to_value_band
+  rows:
+  - value_id: 0_10_percent
+    label: 0-10%
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: 0-10%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 0_10_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 0_10_percent
+      label: Joint income as a proportion of market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024,
+        all households excluding London'
+      label: table title
+    - column: B
+      row: 9
+      expected_value: Joint income as proportion of market value
+      label: block
+    - column: F
+      row: 8
+      expected_value: thousand of households
+      label: unit
+  - value_id: 10_20_percent
+    label: 10-20%
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: 10-20%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 10_20_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 10_20_percent
+      label: Joint income as a proportion of market value
+  - value_id: 20_30_percent
+    label: 20-30%
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: 20-30%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 20_30_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 20_30_percent
+      label: Joint income as a proportion of market value
+  - value_id: 30_40_percent
+    label: 30-40%
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: 30-40%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 30_40_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 30_40_percent
+      label: Joint income as a proportion of market value
+  - value_id: 40_percent_plus
+    label: 40%+
+    ordinal: 4
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: 40%+
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 40_percent_plus
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 40_percent_plus
+      label: Joint income as a proportion of market value
+  measures:
+  - measure_id: households_owner_occupiers
+    label: Households (thousands), owner occupiers
+    ordinal: 0
+    column: C
+    source_column_id: households_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Households, grossed survey estimate in thousands as printed (''thousands of
+      households''). Base: all households, England excluding London. The VOA valued every dwelling in
+      the EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024
+      for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the
+      2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_private_renters
+    label: Households (thousands), private renters
+    ordinal: 1
+    column: D
+    source_column_id: households_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Households, grossed survey estimate in thousands as printed (''thousands of
+      households''). Base: all households, England excluding London. The VOA valued every dwelling in
+      the EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024
+      for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the
+      2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_all_social_renters
+    label: Households (thousands), all social renters
+    ordinal: 2
+    column: E
+    source_column_id: households_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Households, grossed survey estimate in thousands as printed (''thousands of
+      households''). Base: all households, England excluding London. The VOA valued every dwelling in
+      the EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024
+      for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the
+      2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_all_households
+    label: Households (thousands), all households
+    ordinal: 3
+    column: F
+    source_column_id: households_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Households, grossed survey estimate in thousands as printed (''thousands of
+      households''). Base: all households, England excluding London. The VOA valued every dwelling in
+      the EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024
+      for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the
+      2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_3b.joint_income_band.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3b.joint_income_band.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3b.joint_income_band.p2024.full
+  sheet_name: AT3_3b
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: mhclg:england_excluding_london
+  geography_level: statistical_scope
+  geography_name: England excluding London
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_joint_income_to_value_band
+  rows:
+  - value_id: 0_10_percent
+    label: 0-10%
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: 0-10%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 0_10_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 0_10_percent
+      label: Joint income as a proportion of market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024,
+        all households excluding London'
+      label: table title
+    - column: B
+      row: 9
+      expected_value: Joint income as proportion of market value
+      label: block
+    - column: F
+      row: 8
+      expected_value: thousand of households
+      label: unit
+  - value_id: 10_20_percent
+    label: 10-20%
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: 10-20%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 10_20_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 10_20_percent
+      label: Joint income as a proportion of market value
+  - value_id: 20_30_percent
+    label: 20-30%
+    ordinal: 2
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: 20-30%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 20_30_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 20_30_percent
+      label: Joint income as a proportion of market value
+  - value_id: 30_40_percent
+    label: 30-40%
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: 30-40%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 30_40_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 30_40_percent
+      label: Joint income as a proportion of market value
+  - value_id: 40_percent_plus
+    label: 40%+
+    ordinal: 4
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: 40%+
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 40_percent_plus
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 40_percent_plus
+      label: Joint income as a proportion of market value
+  measures:
+  - measure_id: households_owner_occupiers
+    label: Households (thousands), owner occupiers
+    ordinal: 0
+    column: H
+    source_column_id: households_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Households, grossed survey estimate in thousands as printed (''thousands of
+      households''). Base: all households, England excluding London. The VOA valued every dwelling in
+      the EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024
+      for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the
+      2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_private_renters
+    label: Households (thousands), private renters
+    ordinal: 1
+    column: I
+    source_column_id: households_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Households, grossed survey estimate in thousands as printed (''thousands of
+      households''). Base: all households, England excluding London. The VOA valued every dwelling in
+      the EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024
+      for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the
+      2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_all_social_renters
+    label: Households (thousands), all social renters
+    ordinal: 2
+    column: J
+    source_column_id: households_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Households, grossed survey estimate in thousands as printed (''thousands of
+      households''). Base: all households, England excluding London. The VOA valued every dwelling in
+      the EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024
+      for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the
+      2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_all_households
+    label: Households (thousands), all households
+    ordinal: 3
+    column: K
+    source_column_id: households_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Households, grossed survey estimate in thousands as printed (''thousands of
+      households''). Base: all households, England excluding London. The VOA valued every dwelling in
+      the EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024
+      for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the
+      2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_3b.joint_income_band_percentage.p2015.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3b.joint_income_band_percentage.p2015.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3b.joint_income_band_percentage.p2015.full
+  sheet_name: AT3_3b
+  period_type: month
+  period: 2015-10
+  period_coverage:
+    start_date: '2015-10-01'
+    end_date: '2015-10-01'
+    basis: calendar
+    source_period_label: 1st October 2015
+  geography_id: mhclg:england_excluding_london
+  geography_level: statistical_scope
+  geography_name: England excluding London
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_joint_income_to_value_band
+  rows:
+  - value_id: 0_10_percent
+    label: 0-10%
+    ordinal: 0
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: 0-10%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 0_10_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 0_10_percent
+      label: Joint income as a proportion of market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024,
+        all households excluding London'
+      label: table title
+    - column: F
+      row: 16
+      expected_value: percentage
+      label: unit
+  - value_id: 10_20_percent
+    label: 10-20%
+    ordinal: 1
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: 10-20%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 10_20_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 10_20_percent
+      label: Joint income as a proportion of market value
+  - value_id: 20_30_percent
+    label: 20-30%
+    ordinal: 2
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: 20-30%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 20_30_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 20_30_percent
+      label: Joint income as a proportion of market value
+  - value_id: 30_40_percent
+    label: 30-40%
+    ordinal: 3
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: 30-40%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 30_40_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 30_40_percent
+      label: Joint income as a proportion of market value
+  - value_id: 40_percent_plus
+    label: 40%+
+    ordinal: 4
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: 40%+
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 40_percent_plus
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 40_percent_plus
+      label: Joint income as a proportion of market value
+  measures:
+  - measure_id: households_percentage_owner_occupiers
+    label: Percentage of households, owner occupiers
+    ordinal: 0
+    column: C
+    source_column_id: households_percentage_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Percentage of households, as printed (''percentage''). Base: all households,
+      England excluding London. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_private_renters
+    label: Percentage of households, private renters
+    ordinal: 1
+    column: D
+    source_column_id: households_percentage_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Percentage of households, as printed (''percentage''). Base: all households,
+      England excluding London. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_all_social_renters
+    label: Percentage of households, all social renters
+    ordinal: 2
+    column: E
+    source_column_id: households_percentage_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Percentage of households, as printed (''percentage''). Base: all households,
+      England excluding London. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_all_households
+    label: Percentage of households, all households
+    ordinal: 3
+    column: F
+    source_column_id: households_percentage_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Percentage of households, as printed (''percentage''). Base: all households,
+      England excluding London. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_3b.joint_income_band_percentage.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3b.joint_income_band_percentage.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3b.joint_income_band_percentage.p2024.full
+  sheet_name: AT3_3b
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: mhclg:england_excluding_london
+  geography_level: statistical_scope
+  geography_name: England excluding London
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_joint_income_to_value_band
+  rows:
+  - value_id: 0_10_percent
+    label: 0-10%
+    ordinal: 0
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: 0-10%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 0_10_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 0_10_percent
+      label: Joint income as a proportion of market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024,
+        all households excluding London'
+      label: table title
+    - column: F
+      row: 16
+      expected_value: percentage
+      label: unit
+  - value_id: 10_20_percent
+    label: 10-20%
+    ordinal: 1
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: 10-20%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 10_20_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 10_20_percent
+      label: Joint income as a proportion of market value
+  - value_id: 20_30_percent
+    label: 20-30%
+    ordinal: 2
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: 20-30%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 20_30_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 20_30_percent
+      label: Joint income as a proportion of market value
+  - value_id: 30_40_percent
+    label: 30-40%
+    ordinal: 3
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: 30-40%
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 30_40_percent
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 30_40_percent
+      label: Joint income as a proportion of market value
+  - value_id: 40_percent_plus
+    label: 40%+
+    ordinal: 4
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: 40%+
+    table_record_kind: detail
+    filters:
+      mvs_joint_income_to_value_band: 40_percent_plus
+    constraints:
+    - variable: mvs_joint_income_to_value_band
+      operator: ==
+      value: 40_percent_plus
+      label: Joint income as a proportion of market value
+  measures:
+  - measure_id: households_percentage_owner_occupiers
+    label: Percentage of households, owner occupiers
+    ordinal: 0
+    column: H
+    source_column_id: households_percentage_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Percentage of households, as printed (''percentage''). Base: all households,
+      England excluding London. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_private_renters
+    label: Percentage of households, private renters
+    ordinal: 1
+    column: I
+    source_column_id: households_percentage_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Percentage of households, as printed (''percentage''). Base: all households,
+      England excluding London. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_all_social_renters
+    label: Percentage of households, all social renters
+    ordinal: 2
+    column: J
+    source_column_id: households_percentage_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Percentage of households, as printed (''percentage''). Base: all households,
+      England excluding London. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: households_percentage_all_households
+    label: Percentage of households, all households
+    ordinal: 3
+    column: K
+    source_column_id: households_percentage_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Percentage of households, as printed (''percentage''). Base: all households,
+      England excluding London. The VOA valued every dwelling in the EHS physical survey ''in its actual
+      condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and
+      2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15);
+      the period is that valuation date, not the survey year. Joint income is the household reference
+      person''s and partner''s net income (''annual joint income (HRP + partner, net)'', main report),
+      as a proportion of the dwelling''s market value.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_3b.sample_size.p2015.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3b.sample_size.p2015.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3b.sample_size.p2015.full
+  sheet_name: AT3_3b
+  period_type: month
+  period: 2015-10
+  period_coverage:
+    start_date: '2015-10-01'
+    end_date: '2015-10-01'
+    basis: calendar
+    source_period_label: 1st October 2015
+  geography_id: mhclg:england_excluding_london
+  geography_level: statistical_scope
+  geography_name: England excluding London
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_row
+  rows:
+  - value_id: sample_size
+    label: sample size
+    ordinal: 0
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: sample size
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024,
+        all households excluding London'
+      label: table title
+  measures:
+  - measure_id: sample_size_owner_occupiers
+    label: Sample size, owner occupiers
+    ordinal: 0
+    column: C
+    source_column_id: sample_size_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Sample size as printed: the unweighted number of surveyed cases behind the column''s
+      estimates. Base: all households, England excluding London. The VOA valued every dwelling in the
+      EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for
+      the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015
+      survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_private_renters
+    label: Sample size, private renters
+    ordinal: 1
+    column: D
+    source_column_id: sample_size_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Sample size as printed: the unweighted number of surveyed cases behind the column''s
+      estimates. Base: all households, England excluding London. The VOA valued every dwelling in the
+      EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for
+      the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015
+      survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_all_social_renters
+    label: Sample size, all social renters
+    ordinal: 2
+    column: E
+    source_column_id: sample_size_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Sample size as printed: the unweighted number of surveyed cases behind the column''s
+      estimates. Base: all households, England excluding London. The VOA valued every dwelling in the
+      EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for
+      the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015
+      survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_all_households
+    label: Sample size, all households
+    ordinal: 3
+    column: F
+    source_column_id: sample_size_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Sample size as printed: the unweighted number of surveyed cases behind the column''s
+      estimates. Base: all households, England excluding London. The VOA valued every dwelling in the
+      EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for
+      the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015
+      survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_3b.sample_size.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_3b.sample_size.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_3b.sample_size.p2024.full
+  sheet_name: AT3_3b
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: mhclg:england_excluding_london
+  geography_level: statistical_scope
+  geography_name: England excluding London
+  geography_vintage: current
+  entity: household
+  entity_role: all_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_row
+  rows:
+  - value_id: sample_size
+    label: sample size
+    ordinal: 0
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: sample size
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024,
+        all households excluding London'
+      label: table title
+  measures:
+  - measure_id: sample_size_owner_occupiers
+    label: Sample size, owner occupiers
+    ordinal: 0
+    column: H
+    source_column_id: sample_size_owner_occupiers
+    source_column_dimensions:
+      ehs_tenure: owner_occupiers
+    expected_column_header_row: 6
+    expected_column_header: owner occupiers
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Sample size as printed: the unweighted number of surveyed cases behind the column''s
+      estimates. Base: all households, England excluding London. The VOA valued every dwelling in the
+      EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for
+      the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015
+      survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: owner_occupiers
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: owner_occupiers
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_private_renters
+    label: Sample size, private renters
+    ordinal: 1
+    column: I
+    source_column_id: sample_size_private_renters
+    source_column_dimensions:
+      ehs_tenure: private_renters
+    expected_column_header_row: 6
+    expected_column_header: private renters
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Sample size as printed: the unweighted number of surveyed cases behind the column''s
+      estimates. Base: all households, England excluding London. The VOA valued every dwelling in the
+      EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for
+      the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015
+      survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: private_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: private_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_all_social_renters
+    label: Sample size, all social renters
+    ordinal: 2
+    column: J
+    source_column_id: sample_size_all_social_renters
+    source_column_dimensions:
+      ehs_tenure: all_social_renters
+    expected_column_header_row: 6
+    expected_column_header: all social renters
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Sample size as printed: the unweighted number of surveyed cases behind the column''s
+      estimates. Base: all households, England excluding London. The VOA valued every dwelling in the
+      EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for
+      the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015
+      survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_tenure: all_social_renters
+    constraints:
+    - variable: ehs_tenure
+      operator: ==
+      value: all_social_renters
+      label: Tenure
+    expected_cell_type: number
+  - measure_id: sample_size_all_households
+    label: Sample size, all households
+    ordinal: 3
+    column: K
+    source_column_id: sample_size_all_households
+    expected_column_header_row: 6
+    expected_column_header: all households
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.3b: Joint income as a proportion of market value, 2015 and 2024, all households
+      excluding London''. Sample size as printed: the unweighted number of surveyed cases behind the column''s
+      estimates. Base: all households, England excluding London. The VOA valued every dwelling in the
+      EHS physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for
+      the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015
+      survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year. Joint
+      income is the household reference person''s and partner''s net income (''annual joint income (HRP
+      + partner, net)'', main report), as a proportion of the dwelling''s market value.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_5a.value_estimate.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_5a.value_estimate.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_5a.value_estimate.p2024.full
+  sheet_name: AT3_5a
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: all_owner_occupied_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_value_estimate
+  rows:
+  - value_id: underestimates_by_more_than_gbp_50_000
+    label: Underestimates by more than £50,000
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: Underestimates by more than £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: underestimates_by_more_than_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: underestimates_by_more_than_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.5a: Whether household under- or overestimates their property value,
+        all households, 2024'
+      label: table title
+    - column: E
+      row: 8
+      expected_value: thousands of households
+      label: unit
+  - value_id: underestimates_up_to_gbp_50_000
+    label: Underestimates up to £50,000
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: Underestimates up to £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: underestimates_up_to_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: underestimates_up_to_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  - value_id: correctly_estimates
+    label: Correctly estimates
+    ordinal: 2
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: Correctly estimates
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: correctly_estimates
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: correctly_estimates
+      label: Household's estimate of its home's value against the market value
+  - value_id: overestimates_up_to_gbp_50_000
+    label: Overestimates up to £50,000
+    ordinal: 3
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: Overestimates up to £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: overestimates_up_to_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: overestimates_up_to_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  - value_id: overestimates_by_more_than_gbp_50_000
+    label: Overestimates by more than £50,000
+    ordinal: 4
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: Overestimates by more than £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: overestimates_by_more_than_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: overestimates_by_more_than_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  measures:
+  - measure_id: households_resident_less_than_10_years
+    label: Households (thousands), Resident less than 10 years
+    ordinal: 0
+    column: C
+    source_column_id: households_resident_less_than_10_years
+    source_column_dimensions:
+      ehs_length_of_residence: resident_less_than_10_years
+    expected_column_header_row: 6
+    expected_column_header: Resident less than 10 years
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5a: Whether household under- or overestimates their property value, all households,
+      2024''. Households, grossed survey estimate in thousands as printed (''thousands of households'').
+      Base: all owner occupied households, England. The VOA valued every dwelling in the EHS physical
+      survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey
+      (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14
+      and 2014-15); the period is that valuation date, not the survey year. The household''s own estimate
+      of its home''s value against the VOA''s market value. ''Estimated home values less than £1,000 excluded
+      from analysis.'''
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_length_of_residence: resident_less_than_10_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_less_than_10_years
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: households_resident_10_years_or_more
+    label: Households (thousands), Resident 10 years or more
+    ordinal: 1
+    column: D
+    source_column_id: households_resident_10_years_or_more
+    source_column_dimensions:
+      ehs_length_of_residence: resident_10_years_or_more
+    expected_column_header_row: 6
+    expected_column_header: Resident 10 years or more
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5a: Whether household under- or overestimates their property value, all households,
+      2024''. Households, grossed survey estimate in thousands as printed (''thousands of households'').
+      Base: all owner occupied households, England. The VOA valued every dwelling in the EHS physical
+      survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey
+      (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14
+      and 2014-15); the period is that valuation date, not the survey year. The household''s own estimate
+      of its home''s value against the VOA''s market value. ''Estimated home values less than £1,000 excluded
+      from analysis.'''
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_length_of_residence: resident_10_years_or_more
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_10_years_or_more
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: households_all
+    label: Households (thousands), All
+    ordinal: 2
+    column: E
+    source_column_id: households_all
+    expected_column_header_row: 6
+    expected_column_header: All
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5a: Whether household under- or overestimates their property value, all households,
+      2024''. Households, grossed survey estimate in thousands as printed (''thousands of households'').
+      Base: all owner occupied households, England. The VOA valued every dwelling in the EHS physical
+      survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey
+      (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14
+      and 2014-15); the period is that valuation date, not the survey year. The household''s own estimate
+      of its home''s value against the VOA''s market value. ''Estimated home values less than £1,000 excluded
+      from analysis.'''
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_5a.value_estimate_percentage.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_5a.value_estimate_percentage.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_5a.value_estimate_percentage.p2024.full
+  sheet_name: AT3_5a
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: all_owner_occupied_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_value_estimate
+  rows:
+  - value_id: underestimates_by_more_than_gbp_50_000
+    label: Underestimates by more than £50,000
+    ordinal: 0
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: Underestimates by more than £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: underestimates_by_more_than_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: underestimates_by_more_than_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.5a: Whether household under- or overestimates their property value,
+        all households, 2024'
+      label: table title
+    - column: E
+      row: 18
+      expected_value: percentage
+      label: unit
+  - value_id: underestimates_up_to_gbp_50_000
+    label: Underestimates up to £50,000
+    ordinal: 1
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: Underestimates up to £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: underestimates_up_to_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: underestimates_up_to_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  - value_id: correctly_estimates
+    label: Correctly estimates
+    ordinal: 2
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: Correctly estimates
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: correctly_estimates
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: correctly_estimates
+      label: Household's estimate of its home's value against the market value
+  - value_id: overestimates_up_to_gbp_50_000
+    label: Overestimates up to £50,000
+    ordinal: 3
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: Overestimates up to £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: overestimates_up_to_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: overestimates_up_to_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  - value_id: overestimates_by_more_than_gbp_50_000
+    label: Overestimates by more than £50,000
+    ordinal: 4
+    row_number: 26
+    expected_row_header_column: B
+    expected_row_header: Overestimates by more than £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: overestimates_by_more_than_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: overestimates_by_more_than_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  measures:
+  - measure_id: households_percentage_resident_less_than_10_years
+    label: Percentage of households, Resident less than 10 years
+    ordinal: 0
+    column: C
+    source_column_id: households_percentage_resident_less_than_10_years
+    source_column_dimensions:
+      ehs_length_of_residence: resident_less_than_10_years
+    expected_column_header_row: 6
+    expected_column_header: Resident less than 10 years
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5a: Whether household under- or overestimates their property value, all households,
+      2024''. Percentage of households, as printed (''percentage''). Base: all owner occupied households,
+      England. The VOA valued every dwelling in the EHS physical survey ''in its actual condition'', assuming
+      vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys)
+      and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation
+      date, not the survey year. The household''s own estimate of its home''s value against the VOA''s
+      market value. ''Estimated home values less than £1,000 excluded from analysis.'''
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_length_of_residence: resident_less_than_10_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_less_than_10_years
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: households_percentage_resident_10_years_or_more
+    label: Percentage of households, Resident 10 years or more
+    ordinal: 1
+    column: D
+    source_column_id: households_percentage_resident_10_years_or_more
+    source_column_dimensions:
+      ehs_length_of_residence: resident_10_years_or_more
+    expected_column_header_row: 6
+    expected_column_header: Resident 10 years or more
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5a: Whether household under- or overestimates their property value, all households,
+      2024''. Percentage of households, as printed (''percentage''). Base: all owner occupied households,
+      England. The VOA valued every dwelling in the EHS physical survey ''in its actual condition'', assuming
+      vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys)
+      and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation
+      date, not the survey year. The household''s own estimate of its home''s value against the VOA''s
+      market value. ''Estimated home values less than £1,000 excluded from analysis.'''
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_length_of_residence: resident_10_years_or_more
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_10_years_or_more
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: households_percentage_all
+    label: Percentage of households, All
+    ordinal: 2
+    column: E
+    source_column_id: households_percentage_all
+    expected_column_header_row: 6
+    expected_column_header: All
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5a: Whether household under- or overestimates their property value, all households,
+      2024''. Percentage of households, as printed (''percentage''). Base: all owner occupied households,
+      England. The VOA valued every dwelling in the EHS physical survey ''in its actual condition'', assuming
+      vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys)
+      and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation
+      date, not the survey year. The household''s own estimate of its home''s value against the VOA''s
+      market value. ''Estimated home values less than £1,000 excluded from analysis.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_5a.sample_size.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_5a.sample_size.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_5a.sample_size.p2024.full
+  sheet_name: AT3_5a
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: all_owner_occupied_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_row
+  rows:
+  - value_id: all
+    label: All
+    ordinal: 0
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: All
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.5a: Whether household under- or overestimates their property value,
+        all households, 2024'
+      label: table title
+    - column: B
+      row: 29
+      expected_value: sample size
+      label: unit
+  measures:
+  - measure_id: sample_size_resident_less_than_10_years
+    label: Sample size, Resident less than 10 years
+    ordinal: 0
+    column: C
+    source_column_id: sample_size_resident_less_than_10_years
+    source_column_dimensions:
+      ehs_length_of_residence: resident_less_than_10_years
+    expected_column_header_row: 6
+    expected_column_header: Resident less than 10 years
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5a: Whether household under- or overestimates their property value, all households,
+      2024''. Sample size as printed: the unweighted number of surveyed cases behind the column''s estimates.
+      Base: all owner occupied households, England. The VOA valued every dwelling in the EHS physical
+      survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey
+      (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14
+      and 2014-15); the period is that valuation date, not the survey year. The household''s own estimate
+      of its home''s value against the VOA''s market value. ''Estimated home values less than £1,000 excluded
+      from analysis.'''
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_length_of_residence: resident_less_than_10_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_less_than_10_years
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: sample_size_resident_10_years_or_more
+    label: Sample size, Resident 10 years or more
+    ordinal: 1
+    column: D
+    source_column_id: sample_size_resident_10_years_or_more
+    source_column_dimensions:
+      ehs_length_of_residence: resident_10_years_or_more
+    expected_column_header_row: 6
+    expected_column_header: Resident 10 years or more
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5a: Whether household under- or overestimates their property value, all households,
+      2024''. Sample size as printed: the unweighted number of surveyed cases behind the column''s estimates.
+      Base: all owner occupied households, England. The VOA valued every dwelling in the EHS physical
+      survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey
+      (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14
+      and 2014-15); the period is that valuation date, not the survey year. The household''s own estimate
+      of its home''s value against the VOA''s market value. ''Estimated home values less than £1,000 excluded
+      from analysis.'''
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_length_of_residence: resident_10_years_or_more
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_10_years_or_more
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: sample_size_all
+    label: Sample size, All
+    ordinal: 2
+    column: E
+    source_column_id: sample_size_all
+    expected_column_header_row: 6
+    expected_column_header: All
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5a: Whether household under- or overestimates their property value, all households,
+      2024''. Sample size as printed: the unweighted number of surveyed cases behind the column''s estimates.
+      Base: all owner occupied households, England. The VOA valued every dwelling in the EHS physical
+      survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey
+      (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14
+      and 2014-15); the period is that valuation date, not the survey year. The household''s own estimate
+      of its home''s value against the VOA''s market value. ''Estimated home values less than £1,000 excluded
+      from analysis.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_5b.value_estimate.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_5b.value_estimate.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_5b.value_estimate.p2024.full
+  sheet_name: AT3_5b
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: mhclg:england_excluding_london
+  geography_level: statistical_scope
+  geography_name: England excluding London
+  geography_vintage: current
+  entity: household
+  entity_role: all_owner_occupied_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_value_estimate
+  rows:
+  - value_id: underestimates_by_more_than_gbp_50_000
+    label: Underestimates by more than £50,000
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: Underestimates by more than £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: underestimates_by_more_than_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: underestimates_by_more_than_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.5b: Whether household under- or overestimates their property value,
+        all households excluding London, 2024'
+      label: table title
+    - column: E
+      row: 8
+      expected_value: thousands of households
+      label: unit
+  - value_id: underestimates_up_to_gbp_50_000
+    label: Underestimates up to £50,000
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: Underestimates up to £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: underestimates_up_to_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: underestimates_up_to_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  - value_id: correctly_estimates
+    label: Correctly estimates
+    ordinal: 2
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: Correctly estimates
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: correctly_estimates
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: correctly_estimates
+      label: Household's estimate of its home's value against the market value
+  - value_id: overestimates_up_to_gbp_50_000
+    label: Overestimates up to £50,000
+    ordinal: 3
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: Overestimates up to £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: overestimates_up_to_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: overestimates_up_to_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  - value_id: overestimates_by_more_than_gbp_50_000
+    label: Overestimates by more than £50,000
+    ordinal: 4
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: Overestimates by more than £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: overestimates_by_more_than_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: overestimates_by_more_than_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  measures:
+  - measure_id: households_resident_less_than_10_years
+    label: Households (thousands), Resident less than 10 years
+    ordinal: 0
+    column: C
+    source_column_id: households_resident_less_than_10_years
+    source_column_dimensions:
+      ehs_length_of_residence: resident_less_than_10_years
+    expected_column_header_row: 6
+    expected_column_header: Resident less than 10 years
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5b: Whether household under- or overestimates their property value, all households
+      excluding London, 2024''. Households, grossed survey estimate in thousands as printed (''thousands
+      of households''). Base: all owner occupied households, England excluding London. The VOA valued
+      every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. The household''s own estimate of its home''s value against the VOA''s market value. ''Estimated
+      home values less than £1,000 excluded from analysis.'''
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_length_of_residence: resident_less_than_10_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_less_than_10_years
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: households_resident_10_years_or_more
+    label: Households (thousands), Resident 10 years or more
+    ordinal: 1
+    column: D
+    source_column_id: households_resident_10_years_or_more
+    source_column_dimensions:
+      ehs_length_of_residence: resident_10_years_or_more
+    expected_column_header_row: 6
+    expected_column_header: Resident 10 years or more
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5b: Whether household under- or overestimates their property value, all households
+      excluding London, 2024''. Households, grossed survey estimate in thousands as printed (''thousands
+      of households''). Base: all owner occupied households, England excluding London. The VOA valued
+      every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. The household''s own estimate of its home''s value against the VOA''s market value. ''Estimated
+      home values less than £1,000 excluded from analysis.'''
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    filters:
+      ehs_length_of_residence: resident_10_years_or_more
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_10_years_or_more
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: households_all
+    label: Households (thousands), All
+    ordinal: 2
+    column: E
+    source_column_id: households_all
+    expected_column_header_row: 6
+    expected_column_header: All
+    concept: mhclg.mvs_households
+    source_concept: mhclg.mvs_households
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5b: Whether household under- or overestimates their property value, all households
+      excluding London, 2024''. Households, grossed survey estimate in thousands as printed (''thousands
+      of households''). Base: all owner occupied households, England excluding London. The VOA valued
+      every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. The household''s own estimate of its home''s value against the VOA''s market value. ''Estimated
+      home values less than £1,000 excluded from analysis.'''
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_5b.value_estimate_percentage.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_5b.value_estimate_percentage.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_5b.value_estimate_percentage.p2024.full
+  sheet_name: AT3_5b
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: mhclg:england_excluding_london
+  geography_level: statistical_scope
+  geography_name: England excluding London
+  geography_vintage: current
+  entity: household
+  entity_role: all_owner_occupied_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_value_estimate
+  rows:
+  - value_id: underestimates_by_more_than_gbp_50_000
+    label: Underestimates by more than £50,000
+    ordinal: 0
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: Underestimates by more than £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: underestimates_by_more_than_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: underestimates_by_more_than_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.5b: Whether household under- or overestimates their property value,
+        all households excluding London, 2024'
+      label: table title
+    - column: E
+      row: 18
+      expected_value: percentage
+      label: unit
+  - value_id: underestimates_up_to_gbp_50_000
+    label: Underestimates up to £50,000
+    ordinal: 1
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: Underestimates up to £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: underestimates_up_to_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: underestimates_up_to_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  - value_id: correctly_estimates
+    label: Correctly estimates
+    ordinal: 2
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: Correctly estimates
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: correctly_estimates
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: correctly_estimates
+      label: Household's estimate of its home's value against the market value
+  - value_id: overestimates_up_to_gbp_50_000
+    label: Overestimates up to £50,000
+    ordinal: 3
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: Overestimates up to £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: overestimates_up_to_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: overestimates_up_to_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  - value_id: overestimates_by_more_than_gbp_50_000
+    label: Overestimates by more than £50,000
+    ordinal: 4
+    row_number: 26
+    expected_row_header_column: B
+    expected_row_header: Overestimates by more than £50,000
+    table_record_kind: detail
+    filters:
+      mvs_value_estimate: overestimates_by_more_than_gbp_50_000
+    constraints:
+    - variable: mvs_value_estimate
+      operator: ==
+      value: overestimates_by_more_than_gbp_50_000
+      label: Household's estimate of its home's value against the market value
+  measures:
+  - measure_id: households_percentage_resident_less_than_10_years
+    label: Percentage of households, Resident less than 10 years
+    ordinal: 0
+    column: C
+    source_column_id: households_percentage_resident_less_than_10_years
+    source_column_dimensions:
+      ehs_length_of_residence: resident_less_than_10_years
+    expected_column_header_row: 6
+    expected_column_header: Resident less than 10 years
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5b: Whether household under- or overestimates their property value, all households
+      excluding London, 2024''. Percentage of households, as printed (''percentage''). Base: all owner
+      occupied households, England excluding London. The VOA valued every dwelling in the EHS physical
+      survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey
+      (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14
+      and 2014-15); the period is that valuation date, not the survey year. The household''s own estimate
+      of its home''s value against the VOA''s market value. ''Estimated home values less than £1,000 excluded
+      from analysis.'''
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_length_of_residence: resident_less_than_10_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_less_than_10_years
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: households_percentage_resident_10_years_or_more
+    label: Percentage of households, Resident 10 years or more
+    ordinal: 1
+    column: D
+    source_column_id: households_percentage_resident_10_years_or_more
+    source_column_dimensions:
+      ehs_length_of_residence: resident_10_years_or_more
+    expected_column_header_row: 6
+    expected_column_header: Resident 10 years or more
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5b: Whether household under- or overestimates their property value, all households
+      excluding London, 2024''. Percentage of households, as printed (''percentage''). Base: all owner
+      occupied households, England excluding London. The VOA valued every dwelling in the EHS physical
+      survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey
+      (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14
+      and 2014-15); the period is that valuation date, not the survey year. The household''s own estimate
+      of its home''s value against the VOA''s market value. ''Estimated home values less than £1,000 excluded
+      from analysis.'''
+    unit: percent
+    aggregation: share
+    filters:
+      ehs_length_of_residence: resident_10_years_or_more
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_10_years_or_more
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: households_percentage_all
+    label: Percentage of households, All
+    ordinal: 2
+    column: E
+    source_column_id: households_percentage_all
+    expected_column_header_row: 6
+    expected_column_header: All
+    concept: mhclg.mvs_households_percentage
+    source_concept: mhclg.mvs_households_percentage
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5b: Whether household under- or overestimates their property value, all households
+      excluding London, 2024''. Percentage of households, as printed (''percentage''). Base: all owner
+      occupied households, England excluding London. The VOA valued every dwelling in the EHS physical
+      survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for the 2024 survey
+      (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey (EHS 2013-14
+      and 2014-15); the period is that valuation date, not the survey year. The household''s own estimate
+      of its home''s value against the VOA''s market value. ''Estimated home values less than £1,000 excluded
+      from analysis.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_5b.sample_size.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_5b.sample_size.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_5b.sample_size.p2024.full
+  sheet_name: AT3_5b
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: mhclg:england_excluding_london
+  geography_level: statistical_scope
+  geography_name: England excluding London
+  geography_vintage: current
+  entity: household
+  entity_role: all_owner_occupied_households
+  domain: housing_market_value
+  groupby_dimension: mhclg.mvs_row
+  rows:
+  - value_id: all
+    label: All
+    ordinal: 0
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: All
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.5b: Whether household under- or overestimates their property value,
+        all households excluding London, 2024'
+      label: table title
+    - column: B
+      row: 29
+      expected_value: sample size
+      label: unit
+  measures:
+  - measure_id: sample_size_resident_less_than_10_years
+    label: Sample size, Resident less than 10 years
+    ordinal: 0
+    column: C
+    source_column_id: sample_size_resident_less_than_10_years
+    source_column_dimensions:
+      ehs_length_of_residence: resident_less_than_10_years
+    expected_column_header_row: 6
+    expected_column_header: Resident less than 10 years
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5b: Whether household under- or overestimates their property value, all households
+      excluding London, 2024''. Sample size as printed: the unweighted number of surveyed cases behind
+      the column''s estimates. Base: all owner occupied households, England excluding London. The VOA
+      valued every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. The household''s own estimate of its home''s value against the VOA''s market value. ''Estimated
+      home values less than £1,000 excluded from analysis.'''
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_length_of_residence: resident_less_than_10_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_less_than_10_years
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: sample_size_resident_10_years_or_more
+    label: Sample size, Resident 10 years or more
+    ordinal: 1
+    column: D
+    source_column_id: sample_size_resident_10_years_or_more
+    source_column_dimensions:
+      ehs_length_of_residence: resident_10_years_or_more
+    expected_column_header_row: 6
+    expected_column_header: Resident 10 years or more
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5b: Whether household under- or overestimates their property value, all households
+      excluding London, 2024''. Sample size as printed: the unweighted number of surveyed cases behind
+      the column''s estimates. Base: all owner occupied households, England excluding London. The VOA
+      valued every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. The household''s own estimate of its home''s value against the VOA''s market value. ''Estimated
+      home values less than £1,000 excluded from analysis.'''
+    unit: count
+    aggregation: sum
+    filters:
+      ehs_length_of_residence: resident_10_years_or_more
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: resident_10_years_or_more
+      label: Length of residence
+    expected_cell_type: number
+  - measure_id: sample_size_all
+    label: Sample size, All
+    ordinal: 2
+    column: E
+    source_column_id: sample_size_all
+    expected_column_header_row: 6
+    expected_column_header: All
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.5b: Whether household under- or overestimates their property value, all households
+      excluding London, 2024''. Sample size as printed: the unweighted number of surveyed cases behind
+      the column''s estimates. Base: all owner occupied households, England excluding London. The VOA
+      valued every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year. The household''s own estimate of its home''s value against the VOA''s market value. ''Estimated
+      home values less than £1,000 excluded from analysis.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_6a.length_of_residence.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_6a.length_of_residence.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_6a.length_of_residence.p2024.full
+  sheet_name: AT3_6a
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: all_owner_occupied_dwellings
+  domain: housing_market_value
+  groupby_dimension: mhclg.ehs_length_of_residence
+  rows:
+  - value_id: less_than_1_year
+    label: Less than 1 year
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Less than 1 year
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: less_than_1_year
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: less_than_1_year
+      label: Length of residence
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.6a: Percentage change from initial purchase price to current market
+        value, 2024, all households'
+      label: table title
+    - column: B
+      row: 7
+      expected_value: Length of residence
+      label: block
+  - value_id: 1_year
+    label: 1 year
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: 1 year
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 1_year
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 1_year
+      label: Length of residence
+  - value_id: 2_years
+    label: 2 years
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: 2 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 2_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 2_years
+      label: Length of residence
+  - value_id: 3_4_years
+    label: 3-4 years
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: 3-4 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 3_4_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 3_4_years
+      label: Length of residence
+  - value_id: 5_9_years
+    label: 5-9 years
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: 5-9 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 5_9_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 5_9_years
+      label: Length of residence
+  - value_id: 10_19_years
+    label: 10-19 years
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: 10-19 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 10_19_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 10_19_years
+      label: Length of residence
+  - value_id: 20_29_years
+    label: 20-29 years
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: 20-29 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 20_29_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 20_29_years
+      label: Length of residence
+  - value_id: 30_plus_years
+    label: 30+ years
+    ordinal: 7
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: 30+ years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 30_plus_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 30_plus_years
+      label: Length of residence
+  measures:
+  - measure_id: mean_percentage_change
+    label: Mean percentage change from initial purchase price to market value, mean percentage change
+    ordinal: 0
+    column: C
+    source_column_id: mean_percentage_change
+    expected_column_header_row: 6
+    expected_column_header: mean percentage change
+    concept: mhclg.mvs_mean_percentage_change_from_purchase_price
+    source_concept: mhclg.mvs_mean_percentage_change_from_purchase_price
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.6a: Percentage change from initial purchase price to current market value, 2024,
+      all households''. Mean percentage change from the initial purchase price the household reports to
+      the current market value (''mean percentage change''); ''Initial purchase price estimated values
+      less than £1,000 excluded from analysis''. Base: all owner occupied dwellings, England. The VOA
+      valued every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant possession:
+      as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October
+      2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey
+      year.'
+    unit: percent
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_6a.length_of_residence_sample.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_6a.length_of_residence_sample.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_6a.length_of_residence_sample.p2024.full
+  sheet_name: AT3_6a
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: all_owner_occupied_dwellings
+  domain: housing_market_value
+  groupby_dimension: mhclg.ehs_length_of_residence
+  rows:
+  - value_id: less_than_1_year
+    label: Less than 1 year
+    ordinal: 0
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: Less than 1 year
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: less_than_1_year
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: less_than_1_year
+      label: Length of residence
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.6a: Percentage change from initial purchase price to current market
+        value, 2024, all households'
+      label: table title
+    - column: B
+      row: 17
+      expected_value: sample size
+      label: unit
+  - value_id: 1_year
+    label: 1 year
+    ordinal: 1
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: 1 year
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 1_year
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 1_year
+      label: Length of residence
+  - value_id: 2_years
+    label: 2 years
+    ordinal: 2
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: 2 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 2_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 2_years
+      label: Length of residence
+  - value_id: 3_4_years
+    label: 3-4 years
+    ordinal: 3
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: 3-4 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 3_4_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 3_4_years
+      label: Length of residence
+  - value_id: 5_9_years
+    label: 5-9 years
+    ordinal: 4
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: 5-9 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 5_9_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 5_9_years
+      label: Length of residence
+  - value_id: 10_19_years
+    label: 10-19 years
+    ordinal: 5
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: 10-19 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 10_19_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 10_19_years
+      label: Length of residence
+  - value_id: 20_29_years
+    label: 20-29 years
+    ordinal: 6
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: 20-29 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 20_29_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 20_29_years
+      label: Length of residence
+  - value_id: 30_plus_years
+    label: 30+ years
+    ordinal: 7
+    row_number: 26
+    expected_row_header_column: B
+    expected_row_header: 30+ years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 30_plus_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 30_plus_years
+      label: Length of residence
+  measures:
+  - measure_id: sample_size
+    label: Sample size, mean percentage change
+    ordinal: 0
+    column: C
+    source_column_id: sample_size
+    expected_column_header_row: 6
+    expected_column_header: mean percentage change
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.6a: Percentage change from initial purchase price to current market value, 2024,
+      all households''. Sample size as printed: the unweighted number of surveyed cases behind the column''s
+      estimates. Base: all owner occupied dwellings, England. The VOA valued every dwelling in the EHS
+      physical survey ''in its actual condition'', assuming vacant possession: as at 1 July 2024 for the
+      2024 survey (EHS 2022-23 and 2023-24 physical surveys) and as at 1 October 2015 for the 2015 survey
+      (EHS 2013-14 and 2014-15); the period is that valuation date, not the survey year.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_6b.length_of_residence.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_6b.length_of_residence.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_6b.length_of_residence.p2024.full
+  sheet_name: AT3_6b
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: mhclg:england_excluding_london
+  geography_level: statistical_scope
+  geography_name: England excluding London
+  geography_vintage: current
+  entity: household
+  entity_role: all_owner_occupied_dwellings
+  domain: housing_market_value
+  groupby_dimension: mhclg.ehs_length_of_residence
+  rows:
+  - value_id: less_than_1_year
+    label: Less than 1 year
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Less than 1 year
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: less_than_1_year
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: less_than_1_year
+      label: Length of residence
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.6b: Percentage change from initial purchase price to current market
+        value, 2024, all households excluding London'
+      label: table title
+    - column: B
+      row: 7
+      expected_value: Length of residence
+      label: block
+  - value_id: 1_year
+    label: 1 year
+    ordinal: 1
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: 1 year
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 1_year
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 1_year
+      label: Length of residence
+  - value_id: 2_years
+    label: 2 years
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: 2 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 2_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 2_years
+      label: Length of residence
+  - value_id: 3_4_years
+    label: 3-4 years
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: 3-4 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 3_4_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 3_4_years
+      label: Length of residence
+  - value_id: 5_9_years
+    label: 5-9 years
+    ordinal: 4
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: 5-9 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 5_9_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 5_9_years
+      label: Length of residence
+  - value_id: 10_19_years
+    label: 10-19 years
+    ordinal: 5
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: 10-19 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 10_19_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 10_19_years
+      label: Length of residence
+  - value_id: 20_29_years
+    label: 20-29 years
+    ordinal: 6
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: 20-29 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 20_29_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 20_29_years
+      label: Length of residence
+  - value_id: 30_plus_years
+    label: 30+ years
+    ordinal: 7
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: 30+ years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 30_plus_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 30_plus_years
+      label: Length of residence
+  measures:
+  - measure_id: mean_percentage_change
+    label: Mean percentage change from initial purchase price to market value, mean percentage change
+    ordinal: 0
+    column: C
+    source_column_id: mean_percentage_change
+    expected_column_header_row: 6
+    expected_column_header: mean percentage change
+    concept: mhclg.mvs_mean_percentage_change_from_purchase_price
+    source_concept: mhclg.mvs_mean_percentage_change_from_purchase_price
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.6b: Percentage change from initial purchase price to current market value, 2024,
+      all households excluding London''. Mean percentage change from the initial purchase price the household
+      reports to the current market value (''mean percentage change''); ''Initial purchase price estimated
+      values less than £1,000 excluded from analysis''. Base: all owner occupied dwellings, England excluding
+      London. The VOA valued every dwelling in the EHS physical survey ''in its actual condition'', assuming
+      vacant possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys)
+      and as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation
+      date, not the survey year.'
+    unit: percent
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: mhclg.mvs2024.at3_6b.length_of_residence_sample.p2024.full
+  provenance_class: survey_aggregate
+  survey_instrument: English Housing Survey
+  assertion: observation
+  record_set_spec_id: mhclg.mvs2024.at3_6b.length_of_residence_sample.p2024.full.v1
+  source_record_id_prefix: mhclg.mvs2024.at3_6b.length_of_residence_sample.p2024.full
+  sheet_name: AT3_6b
+  period_type: month
+  period: 2024-07
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-07-01'
+    basis: calendar
+    source_period_label: 1st July 2024
+  geography_id: mhclg:england_excluding_london
+  geography_level: statistical_scope
+  geography_name: England excluding London
+  geography_vintage: current
+  entity: household
+  entity_role: all_owner_occupied_dwellings
+  domain: housing_market_value
+  groupby_dimension: mhclg.ehs_length_of_residence
+  rows:
+  - value_id: less_than_1_year
+    label: Less than 1 year
+    ordinal: 0
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: Less than 1 year
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: less_than_1_year
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: less_than_1_year
+      label: Length of residence
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: 'Annex Table 3.6b: Percentage change from initial purchase price to current market
+        value, 2024, all households excluding London'
+      label: table title
+    - column: B
+      row: 17
+      expected_value: sample size
+      label: unit
+  - value_id: 1_year
+    label: 1 year
+    ordinal: 1
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: 1 year
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 1_year
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 1_year
+      label: Length of residence
+  - value_id: 2_years
+    label: 2 years
+    ordinal: 2
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: 2 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 2_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 2_years
+      label: Length of residence
+  - value_id: 3_4_years
+    label: 3-4 years
+    ordinal: 3
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: 3-4 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 3_4_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 3_4_years
+      label: Length of residence
+  - value_id: 5_9_years
+    label: 5-9 years
+    ordinal: 4
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: 5-9 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 5_9_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 5_9_years
+      label: Length of residence
+  - value_id: 10_19_years
+    label: 10-19 years
+    ordinal: 5
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: 10-19 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 10_19_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 10_19_years
+      label: Length of residence
+  - value_id: 20_29_years
+    label: 20-29 years
+    ordinal: 6
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: 20-29 years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 20_29_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 20_29_years
+      label: Length of residence
+  - value_id: 30_plus_years
+    label: 30+ years
+    ordinal: 7
+    row_number: 26
+    expected_row_header_column: B
+    expected_row_header: 30+ years
+    table_record_kind: detail
+    filters:
+      ehs_length_of_residence: 30_plus_years
+    constraints:
+    - variable: ehs_length_of_residence
+      operator: ==
+      value: 30_plus_years
+      label: Length of residence
+  measures:
+  - measure_id: sample_size
+    label: Sample size, mean percentage change
+    ordinal: 0
+    column: C
+    source_column_id: sample_size
+    expected_column_header_row: 6
+    expected_column_header: mean percentage change
+    concept: mhclg.mvs_sample_size
+    source_concept: mhclg.mvs_sample_size
+    concept_relation: source_label
+    concept_authority: mhclg
+    concept_evidence_url: https://www.gov.uk/government/publications/market-value-survey-2024
+    concept_evidence_notes: 'MHCLG, Market Value Survey: 2024 (English Housing Survey), 14 April 2026,
+      ''Annex Table 3.6b: Percentage change from initial purchase price to current market value, 2024,
+      all households excluding London''. Sample size as printed: the unweighted number of surveyed cases
+      behind the column''s estimates. Base: all owner occupied dwellings, England excluding London. The
+      VOA valued every dwelling in the EHS physical survey ''in its actual condition'', assuming vacant
+      possession: as at 1 July 2024 for the 2024 survey (EHS 2022-23 and 2023-24 physical surveys) and
+      as at 1 October 2015 for the 2015 survey (EHS 2013-14 and 2014-15); the period is that valuation
+      date, not the survey year.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
