@@ -1,7 +1,7 @@
 """Source packages for PolicyEngine/chronicle#408, the UK land value inputs.
 
-MHCLG's land value estimates for policy appraisal 2023 (item 1), and the generator that
-writes the issue's packages.
+MHCLG's land value estimates for policy appraisal 2023 (item 1), the generator that writes
+the issue's packages, and Tax Policy Associates' model files, pinned raw (item 9).
 """
 
 from __future__ import annotations
@@ -273,3 +273,60 @@ def test_non_residential_sheets():
     assert ("postcode-district:LS1", ()) in car_park
     assert sheet_retail["B123"].value == "London Locations"
 
+
+# ------------------------------------------------- raw-only registrations
+
+# data directory -> (package id, file keys)
+RAW_ONLY = {
+    "tpa/lvt_model_2026": (
+        "tpa-lvt-model-2026",
+        {"preprocessing_config", "webapp_cells", "licence"},
+    ),
+}
+
+
+@pytest.mark.parametrize("directory", sorted(RAW_ONLY))
+def test_raw_only_registrations_pin_their_bytes_in_r2(directory):
+    package_id, keys = RAW_ONLY[directory]
+    manifest = yaml.safe_load(
+        (DATA / directory / "manifest.yaml").read_text(encoding="utf-8")
+    )
+    assert manifest["package_id"] == package_id
+    assert manifest["registration_kind"] == "raw_only"
+    assert manifest["license_verified_at"] == "2026-11-04"
+    assert package_id not in SOURCE_PACKAGE_ALIASES
+    assert set(manifest["files"]) == keys
+    for key, entry in manifest["files"].items():
+        assert entry["storage"]["r2"]["uri"].endswith(
+            f"/{package_id}/{key}/{entry['sha256']}/{entry['filename']}"
+        )
+        path = DATA / directory / entry["filename"]
+        if entry["storage"].get("local") is False:
+            continue
+        content = path.read_bytes()
+        assert hashlib.sha256(content).hexdigest() == entry["sha256"]
+        assert len(content) == entry["size_bytes"]
+
+
+def test_tpa_files_are_pinned_at_one_commit_under_mit():
+    manifest = yaml.safe_load(
+        (DATA / "tpa/lvt_model_2026/manifest.yaml").read_text(encoding="utf-8")
+    )
+    commit = "fef94f9e7a36ada25a9c29f1f6827759a12eed07"
+    assert manifest["license"] == "MIT License"
+    assert all(
+        f"/lvt_model_2026/{commit}/" in entry["source_url"]
+        for entry in manifest["files"].values()
+    )
+    assert all(
+        entry["storage"]["local"] is False for entry in manifest["files"].values()
+    )
+    # The bytes live in R2 only; check them where a checkout has fetched them.
+    directory = DATA / "tpa/lvt_model_2026"
+    if (directory / "LICENSE").exists():
+        licence = (directory / "LICENSE").read_text(encoding="utf-8")
+        assert licence.startswith("MIT License")
+        assert "Tax Policy Associates Limited" in licence
+    if (directory / "config.py").exists():
+        config = (directory / "config.py").read_text(encoding="utf-8")
+        assert "BASE_COST_PER_M2 = " in config and "REGION_FACTOR = " in config
