@@ -1108,6 +1108,9 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/mm23_cpi_index_liquefied_hydrocarbons_october_2026"
     ),
     # end PolicyEngine/chronicle#395
+    # PolicyEngine/chronicle#408: UK land value inputs
+    "mhclg-land-value-estimates-2023": Path("mhclg/land_value_estimates_2023"),
+    # end PolicyEngine/chronicle#408
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"
     ),

@@ -189,6 +189,7 @@ UK_BUNDLE_SOURCES = (
     "mhclg-council-taxbase-england-2024",
     "mhclg-council-taxbase-england-2025",
     "mhclg-ehs-weekly-housing-costs-2023-24",
+    "mhclg-land-value-estimates-2023",
     "nisra-census2021-ct0105-communal-residents-lgd",
     "nisra-census2021-household-composition-country",
     "nisra-census2021-households-lgd",
