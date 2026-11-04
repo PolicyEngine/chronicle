@@ -20,3 +20,9 @@ files:
     sha256: 99c6b4ca8b203f02f03a23dbd1d98b1941418b6ae8422f960f6d6ebbe9dd912f
     size_bytes: 1438576
     fetched_at: '2026-11-04T13:01:56+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-ashe-table2-2025-revised/2025/99c6b4ca8b203f02f03a23dbd1d98b1941418b6ae8422f960f6d6ebbe9dd912f/ashetable22025revised.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-ashe-table2-2025-revised/2025/99c6b4ca8b203f02f03a23dbd1d98b1941418b6ae8422f960f6d6ebbe9dd912f/ashetable22025revised.zip

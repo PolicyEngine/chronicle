@@ -33,3 +33,9 @@ files:
       status: current
     nomis_dataset_last_revised: '2023-01-27 10:00:00'
     nomis_dataset_last_updated: '2026-10-20 07:00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-aps218-occupation-apr-2025-mar-2026/2026/12deddc0617fb46f8724306545901e8894f9c6bafb839bf9554475f7e42a6673/aps218_occupation_apr_2025_mar_2026.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-aps218-occupation-apr-2025-mar-2026/2026/12deddc0617fb46f8724306545901e8894f9c6bafb839bf9554475f7e42a6673/aps218_occupation_apr_2025_mar_2026.csv
