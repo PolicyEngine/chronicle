@@ -10,6 +10,10 @@ every row number, column and guard cell below is one the package parser sees.
 
 - ``mhclg-land-value-estimates-2023``: MHCLG's land value estimates for policy appraisal
   2023, all eight sheets (item 1).
+- ``voa-council-tax-bands-2026``, ``voa-council-tax-property-types-2026`` and
+  ``voa-council-tax-build-periods-2026``: the VOA's Council Tax stock of properties 2026,
+  tables CTSOP1.0 and 2.0, 3.0 and 4.0, at every geography they print (item 3). The three
+  small-area zips are raw-only registrations under db/data/voa/ctsop*_lsoa_2026.
 """
 
 from __future__ import annotations
@@ -17,11 +21,13 @@ from __future__ import annotations
 import argparse
 import re
 import textwrap
+from functools import cache
 from pathlib import Path
 
 import yaml
-from openpyxl.utils import get_column_letter
+from openpyxl.utils import column_index_from_string, get_column_letter
 
+from chronicle.geography_names import canonical_geography_level
 from chronicle.sources.cells import (
     SourceArtifactMetadata,
     source_cells_from_ods,
@@ -41,6 +47,11 @@ FILTER_LABELS = {
     "agricultural_land_grade": "Agricultural land grade",
     "office_accommodation_type": "Office accommodation type",
     "retail_location_type": "Urban/suburban type",
+    "council_tax_band": "Council tax band",
+    "geography_match": "Geography match",
+    "voa_property_type": "Property type",
+    "voa_bedrooms": "Number of bedrooms",
+    "voa_build_period": "Build period",
 }
 
 
@@ -1052,8 +1063,695 @@ def build_land_values() -> str:
     return render(LVE_HEADER, payload)
 
 
+# ------------------------------------------ 3. VOA Council Tax: stock of properties 2026
+
+VOA_DIRECTORY = "voa/council_tax_bands_2026"
+VOA_PROPERTY_TYPES_DIRECTORY = "voa/council_tax_property_types_2026"
+VOA_BUILD_PERIODS_DIRECTORY = "voa/council_tax_build_periods_2026"
+VOA_PAGE = (
+    "https://www.gov.uk/government/statistics/council-tax-stock-of-properties-2026"
+)
+VOA_PERIOD = {
+    "period_type": "month",
+    "period": "2026-03",
+    "period_coverage": {
+        "start_date": "2026-03-31",
+        "end_date": "2026-03-31",
+        "basis": "calendar",
+        "source_period_label": "as at 31 March 2026",
+    },
+}
+VOA_ENGLAND_AND_WALES = {
+    "geography_id": "K04000001",
+    "geography_level": "country",
+    "geography_name": "England and Wales",
+    "geography_vintage": "gss_2025",
+}
+VOA_ROUNDING = (
+    "All counts are rounded to the nearest 10, with counts between 1 and 4 suppressed "
+    "and presented as [c]."
+)
+VOA_BAND_I = (
+    "Council Tax band I is only used in the Council Tax Valuation List effective in "
+    "Wales from 1 April 2005; England's band I cells are [z]."
+)
+VOA_SHEET_TITLES = {
+    "CTSOP1_0": "number of properties by Council Tax band and administrative area as "
+    "at 31 March 2026",
+    "CTSOP2_0": "number of properties by Council Tax band, Westminster Parliamentary "
+    "Constituency, and Region, as at 31 March 2026",
+    "CTSOP3_0": "number of properties by Council Tax band, property type and "
+    "administrative area as at 31 March 2026",
+    "CTSOP4_0": "number of properties by Council Tax band, property build period and "
+    "administrative area as at 31 March 2026",
+}
+VOA_BANDS = tuple("ABCDEFGHI")
+# Not values: [z] is band I outside Wales, [c] a suppressed count of 1 to 4.
+VOA_MARKERS = {"[z]", "[c]"}
+# Geography kinds as note 1 names them, and the level and vintage each takes here.
+VOA_KINDS = {
+    "ENGWAL": ("country", "gss_2025"),
+    "NATL": ("country", "gss_2025"),
+    "REGL": ("region", "gss_2025"),
+    "CTYMET": ("county", "gss_2025"),
+    "LAUA": ("local_authority", "lad_2025"),
+    "PCON": ("constituency", "pcon_2024"),
+}
+VOA_MATCH_LABELS = {
+    "matched": "Properties whose postcode was matched to a Westminster constituency "
+    "(note 15)",
+    "unmatched": "Properties whose postcode could not be matched to a Westminster "
+    "constituency (note 15)",
+}
+VOA_PROPERTY_TYPES = {
+    "Bungalow": "bungalow",
+    "Flat / Maisonette": "flat_maisonette",
+    "Terraced House": "terraced_house",
+    "Semi-Detached House": "semi_detached_house",
+    "Detached House": "detached_house",
+    "Annexe": "annexe",
+    "Caravan/ Houseboat/ Mobile Home": "caravan_houseboat_mobile_home",
+    "Unknown": "unknown",
+}
+VOA_BEDROOMS = {
+    "1 Bedroom": "1_bedroom",
+    "2 Bedrooms": "2_bedrooms",
+    "3 Bedrooms": "3_bedrooms",
+    "4 Bedrooms": "4_bedrooms",
+    "5 Bedrooms": "5_bedrooms",
+    "6+ Bedrooms": "6_plus_bedrooms",
+    "Not Known": "not_known",
+}
+# The runs of columns that share record sets in CTSOP3.0 and CTSOP4.0. A row repeats in
+# each run's record sets and a measure in each of a run's printed-cell patterns; these
+# runs keep the two packages near their smallest.
+VOA_PROPERTY_TYPE_GROUPS = (
+    ("bungalow_1_to_3_bedrooms", "F", "H"),
+    ("bungalow_4_plus_not_known_and_total", "I", "M"),
+    ("flat_maisonette_1_to_3_bedrooms", "N", "P"),
+    ("flat_maisonette_4_plus_not_known_and_total", "Q", "U"),
+    ("terraced_house_1_to_3_bedrooms", "V", "X"),
+    ("terraced_house_4_plus_not_known_and_total", "Y", "AC"),
+    ("semi_detached_house_1_to_3_bedrooms", "AD", "AF"),
+    ("semi_detached_house_4_plus_not_known_and_total", "AG", "AK"),
+    ("detached_house_1_to_3_bedrooms", "AL", "AN"),
+    ("detached_house_4_plus_not_known_and_total", "AO", "AS"),
+    ("annexe_caravan_unknown_and_all", "AT", "AW"),
+)
+VOA_BUILD_PERIOD_GROUPS = (
+    ("built_before_1983", "F", "M"),
+    ("built_1983_to_2013", "N", "U"),
+    ("built_2014_to_2021", "V", "AC"),
+    ("built_2022_to_2026_unknown_and_all", "AD", "AJ"),
+)
+VOA_HEADER_NOTES = """
+All counts are rounded to the nearest 10, with counts between 1 and 4 suppressed and
+presented as '[c]'; band I is used only in Wales's valuation list from 1 April 2005, and
+England's band I cells are '[z]'. Neither marker is a value, so those cells emit no
+fact. Areas carry the ONS codes and names the workbook prints (note markers dropped from
+names): ENGWAL and NATL rows are countries, REGL regions, CTYMET counties, metropolitan
+counties and Inner and Outer London (typed as regions, as other packages type them), LAUA billing authorities (Powys and
+Carmarthenshire each combine three billing authorities, notes 13 and 14), PCON 2024
+Westminster constituencies. Barnsley and Sheffield are E08000038 and E08000039, the codes
+ONS gave them in 2025.
+"""
+VOA_BANDS_HEADER = f"""
+VOA (HMRC Valuation Office statistics), Council Tax: stock of properties 2026, summary
+tables (published 24 September 2026; counts from the Valuation Office's administrative
+database as at 31 March 2026, England and Wales), sheets CTSOP1.0 and CTSOP2.0, for
+{ISSUE} item 3. Written by scripts/build_uk_408_packages.py. The workbook's
+CTSOP3.0 and CTSOP4.0 are the 2026 property-type and build-period packages.
+
+CTSOP1.0 counts every property in the England (1993) and Wales (2005) valuation lists
+by band and administrative area: England and Wales, the two countries, the nine English
+regions, counties, and every billing authority. CTSOP2.0 assigns properties to
+Westminster constituencies by postcode (ONS NSPL): its 575 constituency rows, and its
+country and regional rows, which count only the properties matched to a constituency
+and carry geography_match == matched. Its 'Unmatched' row (note 15) counts the rest,
+on the England-and-Wales footprint with geography_match == unmatched, as in the
+2025 package. Its England and Wales row repeats CTSOP1.0's and is asserted
+equal rather than ported twice. The 2025 package's country and regional rows are
+CTSOP2.0's, without the filter.
+
+{VOA_HEADER_NOTES}
+"""
+VOA_PROPERTY_TYPES_HEADER = f"""
+VOA (HMRC Valuation Office statistics), Council Tax: stock of properties 2026, summary
+tables (published 24 September 2026, counts as at 31 March 2026, England and Wales),
+sheet CTSOP3.0: the number of properties by Council Tax band and property type in each
+administrative area, for {ISSUE} item 3. Written by
+scripts/build_uk_408_packages.py; the artifact is the summary workbook the 2026
+bands package pins.
+
+Each area prints a row per band ('All', then A to H, and I in Wales) and a column per
+property type and number of bedrooms ('Not Known', note 16: the type is known, the
+bedrooms are not), each type's total, Annexe, Caravan/ Houseboat/ Mobile Home, Unknown
+(note 17: attributes not recorded) and All Properties. Every cell is ported as printed
+under voa.ct_stock_by_property_type, the band as council_tax_band (none on the 'All'
+rows), the type as voa_property_type and the bedrooms as voa_bedrooms (none on a type's
+total, neither on All Properties). The 'All' row and the All Properties column restate
+CTSOP1.0's counts, which the tests assert. Record sets run per band and per group of
+columns, each split by the cells its rows print.
+
+{VOA_HEADER_NOTES}
+"""
+VOA_BUILD_PERIODS_HEADER = f"""
+VOA (HMRC Valuation Office statistics), Council Tax: stock of properties 2026, summary
+tables (published 24 September 2026, counts as at 31 March 2026, England and Wales),
+sheet CTSOP4.0: the number of properties by Council Tax band and build period in each
+administrative area, for {ISSUE} item 3. Written by
+scripts/build_uk_408_packages.py; the artifact is the summary workbook the 2026
+bands package pins.
+
+Each area prints a row per band ('All', then A to H, and I in Wales) and a column per
+build period as VOA classifies it (Pre 1900, then periods to 2000 to 2008, then single
+years 2009 to 2026; the classification has no 1940 to 1944 period), Unknown (note 17)
+and All properties. Every cell is ported as printed under voa.ct_stock_by_build_period,
+the band as council_tax_band (none on the 'All' rows) and the period as
+voa_build_period (single years as year_<yyyy>; none on All properties). The 'All' row
+and the All properties column restate CTSOP1.0's counts, which the tests assert. Record
+sets run per band and per group of columns, each split by the cells its rows print.
+
+{VOA_HEADER_NOTES}
+"""
+
+
+@cache
+def voa_grid() -> dict[tuple[str, int, str], object]:
+    filename, path = manifest_file(VOA_DIRECTORY)
+    return grid_of(source_cells_from_ods(path.read_bytes(), metadata(filename)))
+
+
+def voa_sheet_rows(grid: dict, sheet: str) -> list[int]:
+    """The sheet's data rows: those whose column A names a geography kind."""
+    return sorted(
+        row
+        for (name, row, column), value in grid.items()
+        if name == sheet and column == "A" and value in {*VOA_KINDS, "UNMD"}
+    )
+
+
+def voa_name(text: object) -> str:
+    """An area name without its note marker ('Powys / Powys [note 13]')."""
+    return re.sub(r"\s*\[note \d+\]$", "", str(text)).strip()
+
+
+def voa_geography(kind: str, code: str, name: object) -> dict:
+    level, vintage = VOA_KINDS[kind]
+    if code.startswith("E13"):
+        # Inner and Outer London print among the CTYMET rows; other packages type
+        # them as regions.
+        level = "region"
+    return {
+        "geography_id": code,
+        "geography_level": level,
+        "geography_name": voa_name(name),
+        "geography_vintage": vintage,
+    }
+
+
+def voa_count(value: object) -> int | None:
+    """A printed count, or None for a marker that is not a value."""
+    if isinstance(value, str) and value in VOA_MARKERS:
+        return None
+    assert isinstance(value, int), value
+    return value
+
+
+def voa_slug(text: str) -> str:
+    return slug(text.replace("+", " plus"))
+
+
+def voa_notes(sheet: str, column_label: str, extra: str = "") -> str:
+    table = sheet.replace("_", ".")
+    if sheet in {"CTSOP3_0", "CTSOP4_0"}:
+        # Thousands of measures repeat this; the package header carries the title.
+        return (
+            f"VOA, Council Tax: stock of properties 2026, table {table}, column "
+            f"'{column_label}', as at 31 March 2026. {VOA_ROUNDING}"
+        )
+    return (
+        f"VOA, Council Tax: stock of properties 2026, summary tables, table {table} "
+        f"({VOA_SHEET_TITLES[sheet]}), column: {column_label}. {VOA_ROUNDING}"
+        + (f" {extra}" if extra else "")
+    )
+
+
+def voa_record_set(record_set_id: str, sheet: str, rows, measures, **extra) -> dict:
+    return record_set(
+        record_set_id,
+        provenance_class="administrative",
+        sheet_name=sheet,
+        geography=VOA_ENGLAND_AND_WALES,
+        entity="dwelling",
+        entity_role="banded_property",
+        domain="council_tax_stock",
+        groupby_dimension="voa.geography_row",
+        rows=rows,
+        measures=measures,
+        **VOA_PERIOD,
+        **extra,
+    )
+
+
+def voa_band_measures(grid: dict, sheet: str) -> list[dict]:
+    """CTSOP1.0 and 2.0's band columns E to M and All properties, N."""
+    measures = []
+    for ordinal, band in enumerate(VOA_BANDS):
+        column = chr(ord("E") + ordinal)
+        assert grid[(sheet, 5, column)] == band
+        measures.append(
+            measure(
+                f"band_{band.lower()}",
+                f"Number of properties, Band {band}",
+                column,
+                concept=f"voa.ct_stock_band_{band.lower()}",
+                source_concept=f"voa.ct_stock_band_{band.lower()}",
+                authority="voa",
+                evidence_url=VOA_PAGE,
+                notes=voa_notes(
+                    sheet, f"Band {band}", VOA_BAND_I if band == "I" else ""
+                ),
+                unit="count",
+                aggregation="sum",
+                ordinal=ordinal,
+                header=band,
+                header_row=5,
+            )
+        )
+    assert grid[(sheet, 5, "N")] == "All properties"
+    measures.append(
+        measure(
+            "all_properties",
+            "Number of properties, All properties",
+            "N",
+            concept="voa.ct_stock_all_properties",
+            source_concept="voa.ct_stock_all_properties",
+            authority="voa",
+            evidence_url=VOA_PAGE,
+            notes=voa_notes(sheet, "All properties"),
+            unit="count",
+            aggregation="sum",
+            ordinal=len(VOA_BANDS),
+            header="All properties",
+            header_row=5,
+        )
+    )
+    return measures
+
+
+def voa_printed(grid: dict, sheet: str, row: int, measures: list[dict]) -> frozenset:
+    return frozenset(
+        spec["measure_id"]
+        for spec in measures
+        if voa_count(grid[(sheet, row, spec["column"])]) is not None
+    )
+
+
+def voa_area_row(grid: dict, sheet: str, row: int, ordinal: int) -> dict:
+    kind, code, name = (grid[(sheet, row, column)] for column in "ACD")
+    if kind == "UNMD":
+        spec = area_row(
+            "unmatched",
+            "Unmatched (properties not matched to a constituency)",
+            row,
+            "C",
+            code,
+            VOA_ENGLAND_AND_WALES,
+            ordinal=ordinal,
+            guards=[
+                guard("A", row, kind, "geography kind"),
+                guard("D", row, name, "area name"),
+            ],
+            filters={"geography_match": "unmatched"},
+        )
+    else:
+        matched = sheet == "CTSOP2_0" and kind in {"NATL", "REGL"}
+        spec = area_row(
+            voa_slug(code),
+            voa_name(name),
+            row,
+            "C",
+            code,
+            voa_geography(kind, code, name),
+            ordinal=ordinal,
+            guards=[
+                guard("A", row, kind, "geography kind"),
+                guard("D", row, name, "area name"),
+            ],
+            filters={"geography_match": "matched"} if matched else None,
+        )
+    for constraint in spec.get("constraints", ()):
+        constraint["label"] = VOA_MATCH_LABELS[constraint["value"]]
+    return spec
+
+
+def build_bands() -> str:
+    grid = voa_grid()
+    record_sets = []
+    for sheet in ("CTSOP1_0", "CTSOP2_0"):
+        assert str(grid[(sheet, 1, "A")]).startswith(
+            f"Table {sheet.replace('_', '.')}:"
+        )
+        measures = voa_band_measures(grid, sheet)
+        rows = voa_sheet_rows(grid, sheet)
+        if sheet == "CTSOP2_0":
+            # Its England and Wales row is CTSOP1.0's, cell for cell.
+            assert grid[(sheet, rows[0], "A")] == "ENGWAL"
+            assert [grid[(sheet, rows[0], c)] for c in "CDEFGHIJKLMN"] == [
+                grid[("CTSOP1_0", 6, c)] for c in "CDEFGHIJKLMN"
+            ]
+            rows = rows[1:]
+        members = [
+            (
+                voa_area_row(grid, sheet, row, ordinal),
+                voa_printed(grid, sheet, row, measures),
+            )
+            for ordinal, row in enumerate(rows)
+        ]
+        record_sets += subsets(
+            f"voa.ctsop2026.{sheet.lower()}",
+            members,
+            measures,
+            lambda record_set_id, rows, kept, sheet=sheet: voa_record_set(
+                record_set_id, sheet, rows, kept
+            ),
+        )
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": "voa-council-tax-bands-2026",
+        "label": "VOA Council Tax stock of properties 2026: properties by band, by "
+        "administrative area and by constituency (CTSOP1.0, CTSOP2.0)",
+        "dimension_labels": {
+            "voa.geography_row": "Geography",
+            "geography_match": "Geography match",
+        },
+        "dimension_value_labels": {
+            "geography_match": {
+                "matched": "Matched to a constituency",
+                "unmatched": "Not matched to a constituency",
+            }
+        },
+        "artifact": voa_artifact(
+            "Council Tax: stock of properties 2026, summary tables CTSOP1.0 and "
+            "CTSOP2.0 (band by administrative area and by constituency)"
+        ),
+        "record_sets": record_sets,
+    }
+    return render(VOA_BANDS_HEADER, payload)
+
+
+def voa_artifact(source_table: str) -> dict:
+    return artifact(
+        "voa",
+        source_table,
+        VOA_DIRECTORY,
+        "ctsop_2026",
+        "ods_used_range",
+        "ods whole-workbook used-range cell parse",
+        2026,
+    )
+
+
+def voa_column_letters(first: str, last: str) -> list[str]:
+    return [
+        get_column_letter(index)
+        for index in range(
+            column_index_from_string(first), column_index_from_string(last) + 1
+        )
+    ]
+
+
+def voa_property_type_filters(header: str) -> dict:
+    """'Bungalow: 1 Bedroom' -> type and bedrooms; 'Bungalow' -> type; 'All Properties'
+    -> nothing."""
+    text = voa_name(header)
+    if text == "All Properties":
+        return {}
+    kind, _, bedrooms = text.partition(": ")
+    filters = {"voa_property_type": VOA_PROPERTY_TYPES[kind]}
+    if bedrooms:
+        filters["voa_bedrooms"] = VOA_BEDROOMS[bedrooms]
+    return filters
+
+
+def voa_build_period_filters(header: object) -> dict:
+    """'Pre 1900' -> pre_1900; '1900 to 1918' -> 1900_to_1918; 2009 -> year_2009."""
+    if header == "All properties":
+        return {}
+    if isinstance(header, int):
+        return {"voa_build_period": f"year_{header}"}
+    return {"voa_build_period": slug(voa_name(header))}
+
+
+def voa_crossed_package(
+    sheet: str,
+    concept: str,
+    groups: tuple[tuple[str, str, str], ...],
+    filters_of,
+) -> list[dict]:
+    """CTSOP3.0 or 4.0: a record set per band and column group, split by printed cells."""
+    grid = voa_grid()
+    assert str(grid[(sheet, 1, "A")]).startswith(f"Table {sheet.replace('_', '.')}:")
+    assert grid[(sheet, 5, "C")] == "ONS area code [note 3]"
+    assert grid[(sheet, 5, "E")] == "Band"
+    rows = voa_sheet_rows(grid, sheet)
+    columns = [
+        column
+        for _, first, last in groups
+        for column in voa_column_letters(first, last)
+    ]
+    # The groups cover every column from F to the sheet's last.
+    after = get_column_letter(column_index_from_string(columns[-1]) + 1)
+    assert columns[0] == "F" and grid.get((sheet, 5, after)) is None
+    assert columns == voa_column_letters("F", columns[-1])
+    measures = {}
+    for ordinal, column in enumerate(columns):
+        header = grid[(sheet, 5, column)]
+        label = voa_name(header) if isinstance(header, str) else str(header)
+        measures[column] = measure(
+            voa_slug(label) if not isinstance(header, int) else f"year_{header}",
+            f"Number of properties, {label}",
+            column,
+            concept=concept,
+            source_concept=concept,
+            authority="voa",
+            evidence_url=VOA_PAGE,
+            notes=voa_notes(sheet, str(header)),
+            unit="count",
+            aggregation="sum",
+            ordinal=ordinal,
+            header=header,
+            header_row=5,
+            filters=filters_of(header),
+        )
+    record_sets = []
+    for band in ("All", *VOA_BANDS):
+        band_rows = [row for row in rows if grid[(sheet, row, "E")] == band]
+        shared = {} if band == "All" else {"council_tax_band": band}
+        for group, first, last in groups:
+            kept = [measures[column] for column in voa_column_letters(first, last)]
+            members = []
+            for ordinal, row in enumerate(band_rows):
+                kind, code, name = (grid[(sheet, row, column)] for column in "ACD")
+                members.append(
+                    (
+                        area_row(
+                            voa_slug(code),
+                            voa_name(name),
+                            row,
+                            "C",
+                            code,
+                            voa_geography(kind, code, name),
+                            ordinal=ordinal,
+                            guards=[guard("E", row, band, "Council Tax band")],
+                        ),
+                        voa_printed(grid, sheet, row, kept),
+                    )
+                )
+            record_sets += subsets(
+                f"voa.ctsop2026.{sheet.lower()}.band_{band.lower()}.{group}",
+                members,
+                kept,
+                lambda record_set_id, rows, measures, shared=shared: voa_record_set(
+                    record_set_id, sheet, rows, measures, shared_filters=shared
+                ),
+            )
+    return record_sets
+
+
+def build_property_types() -> str:
+    record_sets = voa_crossed_package(
+        "CTSOP3_0",
+        "voa.ct_stock_by_property_type",
+        VOA_PROPERTY_TYPE_GROUPS,
+        voa_property_type_filters,
+    )
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": "voa-council-tax-property-types-2026",
+        "label": "VOA Council Tax stock of properties 2026: properties by band and "
+        "property type, by administrative area (CTSOP3.0)",
+        "dimension_labels": {
+            "voa.geography_row": "Geography",
+            "council_tax_band": "Council tax band",
+            "voa_property_type": "Property type",
+            "voa_bedrooms": "Number of bedrooms",
+        },
+        "dimension_value_labels": {
+            "voa_property_type": {
+                value: label for label, value in VOA_PROPERTY_TYPES.items()
+            },
+            "voa_bedrooms": {value: label for label, value in VOA_BEDROOMS.items()},
+        },
+        "artifact": voa_artifact(
+            "Council Tax: stock of properties 2026, summary table CTSOP3.0 (band by "
+            "property type and administrative area)"
+        ),
+        "record_sets": record_sets,
+    }
+    return render(VOA_PROPERTY_TYPES_HEADER, payload)
+
+
+def build_build_periods() -> str:
+    grid = voa_grid()
+    record_sets = voa_crossed_package(
+        "CTSOP4_0",
+        "voa.ct_stock_by_build_period",
+        VOA_BUILD_PERIOD_GROUPS,
+        voa_build_period_filters,
+    )
+    periods = {}
+    for column in voa_column_letters("F", "AI"):
+        header = grid[("CTSOP4_0", 5, column)]
+        (value,) = voa_build_period_filters(header).values()
+        periods[value] = voa_name(header) if isinstance(header, str) else str(header)
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": "voa-council-tax-build-periods-2026",
+        "label": "VOA Council Tax stock of properties 2026: properties by band and "
+        "build period, by administrative area (CTSOP4.0)",
+        "dimension_labels": {
+            "voa.geography_row": "Geography",
+            "council_tax_band": "Council tax band",
+            "voa_build_period": "Build period",
+        },
+        "dimension_value_labels": {"voa_build_period": periods},
+        "artifact": voa_artifact(
+            "Council Tax: stock of properties 2026, summary table CTSOP4.0 (band by "
+            "build period and administrative area)"
+        ),
+        "record_sets": record_sets,
+    }
+    return render(VOA_BUILD_PERIODS_HEADER, payload)
+
+
+# Local authority codes ONS retired before its December 2024 lookup (the register's),
+# by the last December vintage that carried them: the reorganisations of 1 April 2019
+# (Dorset, Suffolk, Somerset West and Taunton), 2020 (Buckinghamshire), 2021
+# (Northamptonshire) and 2023 (Cumbria, North Yorkshire, Somerset).
+RETIRED_LAD = {
+    **dict.fromkeys(
+        (
+            "E06000028",
+            "E06000029",
+            "E07000048",
+            "E07000049",
+            "E07000050",
+            "E07000051",
+            "E07000052",
+            "E07000053",
+            "E07000190",
+            "E07000191",
+            "E07000201",
+            "E07000204",
+            "E07000205",
+            "E07000206",
+        ),
+        "lad_2018",
+    ),
+    **dict.fromkeys(("E07000004", "E07000005", "E07000006", "E07000007"), "lad_2019"),
+    **dict.fromkeys((f"E07000{n}" for n in range(150, 157)), "lad_2020"),
+    **dict.fromkeys(
+        (
+            *(f"E070000{n}" for n in range(26, 32)),
+            *(f"E07000{n}" for n in range(163, 170)),
+            "E07000187",
+            "E07000188",
+            "E07000189",
+            "E07000246",
+        ),
+        "lad_2022",
+    ),
+}
+# ONS replaced Barnsley's and Sheffield's codes in 2025, after a boundary change.
+NEW_LAD = {"E08000038": "lad_2025", "E08000039": "lad_2025"}
+
+
+def lad_vintage(code: str) -> str:
+    """The latest December ONS lookup that carries a local authority code."""
+    if code in NEW_LAD:
+        return NEW_LAD[code]
+    if canonical_geography_level(code) == "local_authority":
+        return "lad_2024"
+    return RETIRED_LAD[code]
+
+
+def local_authority(code: str, name: str) -> dict:
+    return {
+        "geography_id": code,
+        "geography_level": "local_authority",
+        "geography_name": str(name).strip(),
+        "geography_vintage": lad_vintage(code),
+    }
+
+
+ENGLAND_AND_WALES = {
+    "geography_id": "K04000001",
+    "geography_level": "country",
+    "geography_name": "England and Wales",
+    "geography_vintage": "current",
+}
+ENGLAND = {
+    "geography_id": "E92000001",
+    "geography_level": "country",
+    "geography_name": "England",
+    "geography_vintage": "current",
+}
+WALES = {
+    "geography_id": "W92000004",
+    "geography_level": "country",
+    "geography_name": "Wales",
+    "geography_vintage": "current",
+}
+# D3 names regions without codes; these are their ONS codes.
+REGION_CODES = {
+    "North East": "E12000001",
+    "North West": "E12000002",
+    "Yorkshire and The Humber": "E12000003",
+    "East Midlands": "E12000004",
+    "West Midlands": "E12000005",
+    "East of England": "E12000006",
+    "London": "E12000007",
+    "South East": "E12000008",
+    "South West": "E12000009",
+}
+
+
+def region(code: str, name: str) -> dict:
+    return {
+        "geography_id": code,
+        "geography_level": "region",
+        "geography_name": str(name).strip(),
+        "geography_vintage": "gss_2024",
+    }
+
+
 BUILDERS = {
     LVE_DIRECTORY: build_land_values,
+    VOA_DIRECTORY: build_bands,
+    VOA_PROPERTY_TYPES_DIRECTORY: build_property_types,
+    VOA_BUILD_PERIODS_DIRECTORY: build_build_periods,
 }
 
 
