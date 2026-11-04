@@ -78,6 +78,7 @@
       "salary_sacrifice_threshold_position=all",
       "sex=female",
       "sex=male",
+      "soc2020_major_group=3",
       "us:statutes/26/62#adjusted_gross_income=all",
       "us:statutes/26/62#adjusted_gross_income=under_1"
     ]
@@ -7140,6 +7141,18 @@
     "earnings_denominator": {
       "fte": "Full-time equivalent employees (FTEs)"
     },
+    "earnings_percentile": {
+      "10": "10",
+      "20": "20",
+      "25": "25",
+      "30": "30",
+      "40": "40",
+      "60": "60",
+      "70": "70",
+      "75": "75",
+      "80": "80",
+      "90": "90"
+    },
     "earnings_sector": {
       "all_sectors": "All sectors"
     },
@@ -7171,6 +7184,11 @@
       "4% to < 8%": "4% to < 8%",
       "8% to < 10%": "8% to < 10%",
       "Under 4%": "Under 4%"
+    },
+    "employment_status": {
+      "all": "All in employment",
+      "employee": "Employees",
+      "self_employed": "Self-employed"
     },
     "family_type": {
       "Couple, no children": "Couple, no children",
@@ -8207,16 +8225,82 @@
     "slc.repayment_plan": {
       "net_repayments": "Net repayments posted during the financial year"
     },
+    "soc2020_group": {
+      "all": "All occupations",
+      "soc_1": "Managers, directors and senior officials",
+      "soc_11": "Corporate managers and directors",
+      "soc_12": "Other managers and proprietors",
+      "soc_2": "Professional occupations",
+      "soc_21": "Science, research, engineering and technology professionals",
+      "soc_22": "Health professionals",
+      "soc_23": "Teaching and other educational professionals",
+      "soc_24": "Business, media and public service professionals",
+      "soc_3": "Associate professional occupations",
+      "soc_31": "Science, engineering and technology associate professionals",
+      "soc_32": "Health and social care associate professionals",
+      "soc_33": "Protective service occupations",
+      "soc_34": "Culture, media and sports occupations",
+      "soc_35": "Business and public service associate professionals",
+      "soc_4": "Administrative and secretarial occupations",
+      "soc_41": "Administrative occupations",
+      "soc_42": "Secretarial and related occupations",
+      "soc_5": "Skilled trades occupations",
+      "soc_51": "Skilled agricultural and related trades",
+      "soc_52": "Skilled metal, electrical and electronic trades",
+      "soc_53": "Skilled construction and building trades",
+      "soc_54": "Textiles, printing and other skilled trades",
+      "soc_6": "Caring, leisure and other service occupations",
+      "soc_61": "Caring personal service occupations",
+      "soc_62": "Leisure, travel and related personal service occupations",
+      "soc_63": "Community and civil enforcement occupations",
+      "soc_7": "Sales and customer service occupations",
+      "soc_71": "Sales occupations",
+      "soc_72": "Customer service occupations",
+      "soc_8": "Process, plant and machine operatives",
+      "soc_81": "Process, plant and machine operatives",
+      "soc_82": "Transport and mobile machine drivers and operatives",
+      "soc_9": "Elementary occupations",
+      "soc_91": "Elementary trades and related occupations",
+      "soc_92": "Elementary administration and service occupations"
+    },
     "soc2020_major_group": {
       "1": "Managers, directors and senior officials",
       "2": "Professional occupations",
-      "3": "Associate professional and technical occupations",
+      "3": "Associate professional occupations",
       "4": "Administrative and secretarial occupations",
       "5": "Skilled trades occupations",
       "6": "Caring, leisure and other service occupations",
       "7": "Sales and customer service occupations",
       "8": "Process, plant and machine operatives",
       "9": "Elementary occupations"
+    },
+    "soc2020_sub_major_group": {
+      "11": "Corporate managers and directors",
+      "12": "Other managers and proprietors",
+      "21": "Science, research, engineering and technology professionals",
+      "22": "Health professionals",
+      "23": "Teaching and other educational professionals",
+      "24": "Business, media and public service professionals",
+      "31": "Science, engineering and technology associate professionals",
+      "32": "Health and social care associate professionals",
+      "33": "Protective service occupations",
+      "34": "Culture, media and sports occupations",
+      "35": "Business and public service associate professionals",
+      "41": "Administrative occupations",
+      "42": "Secretarial and related occupations",
+      "51": "Skilled agricultural and related trades",
+      "52": "Skilled metal, electrical and electronic trades",
+      "53": "Skilled construction and building trades",
+      "54": "Textiles, printing and other skilled trades",
+      "61": "Caring personal service occupations",
+      "62": "Leisure, travel and related personal service occupations",
+      "63": "Community and civil enforcement occupations",
+      "71": "Sales occupations",
+      "72": "Customer service occupations",
+      "81": "Process, plant and machine operatives",
+      "82": "Transport and mobile machine drivers and operatives",
+      "91": "Elementary trades and related occupations",
+      "92": "Elementary administration and service occupations"
     },
     "spdeps": {
       "SPR": "SPR"
@@ -8242,6 +8326,8 @@
       "unemployment": "Unemployment"
     },
     "statistic": {
+      "coefficient_of_variation": "Coefficient of variation",
+      "confidence_interval_half_width": "Confidence interval half-width",
       "estimate": "Estimate",
       "margin_of_error": "Margin of error",
       "mean": "Mean",
@@ -8559,6 +8645,11 @@
     },
     "welshgov.geography_row": {
       "wales": "Wales"
+    },
+    "working_pattern": {
+      "all": "Full-time and part-time",
+      "full_time": "Full-time",
+      "part_time": "Part-time"
     }
   }
 }
