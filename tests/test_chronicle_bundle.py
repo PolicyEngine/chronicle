@@ -548,7 +548,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # statistics add 544 person facts. chronicle#397 drops the 427 March 2026
         # EFO facts whose line and year the October 2026 packages also publish:
         # receipts 239, expenditure 141, economy 30, aggregates 17.
-        "fact_count": 1662950,
+        # chronicle#407 adds 73,039 person facts from 15 ONS packages: Nomis
+        # APS218's employment by SOC 2020 group (24,956) and ASHE Table 2's pay
+        # and CVs by two-digit SOC (48,083). Its geography, period and entity
+        # keys already exist, and no key is duplicated.
+        "fact_count": 1735989,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -604,8 +608,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # (PolicyEngine/microcosm#1381) adds one. PolicyEngine/microcosm#1415
         # adds three, and chronicle#393 the five OBR October 2026 EFO packages.
         # PolicyEngine/uk-autumn-budget-dashboard-2026#316 adds HMRC's benefits in
-        # kind statistics. G8-x adds the September 2026 QES vintage.
-        "source_package_count": 443,
+        # kind statistics. G8-x adds the September 2026 QES vintage. chronicle#407
+        # adds the three APS218 and twelve ASHE Table 2 packages.
+        "source_package_count": 458,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -657,14 +662,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1662950
+    assert row_count == 1735989
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 443
+    assert source_packages["source_package_count"] == 458
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -692,7 +697,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1662950
+    assert coverage["fact_count"] == 1735989
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -734,7 +739,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "obr": 4539,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 347275,
+        "ons": 420314,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
@@ -758,7 +763,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9570,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 385
+    # chronicle#407 adds 15 source tables, one per package.
+    assert len(table_counts) == 400
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2362,6 +2368,20 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fiscal_year:2030": 65,
     }.items():
         expected_period_counts[key] -= count
+    # chronicle#407: APS218's April-March and calendar 2025 periods, ASHE weekly pay
+    # by survey year and ASHE annual pay by the tax year it covers (estimates and
+    # CVs together).
+    for key, count in {
+        "fiscal_year:2024": 8306,
+        "calendar_year:2025": 8320 + 4053 + 4053,
+        "fiscal_year:2025": 8330,
+        "calendar_year:2024": 4046 + 4098,
+        "calendar_year:2026": 4056 + 4056,
+        "tax_year:2023": 3937 + 4020,
+        "tax_year:2024": 3934 + 3934,
+        "tax_year:2025": 3948 + 3948,
+    }.items():
+        expected_period_counts[key] += count
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2425,13 +2445,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # CPI gas (23) series, and the March EFO's 2024-25 VED outturn (1). HMRC's
     # benefits in kind statistics add 505 (all but Table 4's regions;
     # PolicyEngine/uk-autumn-budget-dashboard-2026#316), and chronicle#397 drops
-    # 343 March 2026 EFO facts.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 41080
+    # 343 March 2026 EFO facts. chronicle#407 adds 49,991: every ASHE Table 2
+    # fact (48,083) and APS218's UK rows (1,908).
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 91071
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
-    # England rows add 20 (PolicyEngine/microcosm#1415).
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 6828
+    # England rows add 20 (PolicyEngine/microcosm#1415). APS218's England rows add
+    # 1,902 (chronicle#407).
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 8730
     # Great Britain gains HBAI's FYE 1995-2002 rows (32), Move to UC (80), the
     # table 4.9 lines DWP counts over Great Britain (56) and BUS04 (2): +170.
     # chronicle#381's 1,435 Gambling Commission facts, the National Lottery's
@@ -2487,7 +2509,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # firms +8 (EKED). HMRC's benefits in kind statistics add 544 people
     # (PolicyEngine/uk-autumn-budget-dashboard-2026#316).
     # chronicle#397's March 2026 EFO drop: people -338, government -47 and
-    # institutional sectors -42.
+    # institutional sectors -42. chronicle#407 adds 73,039 people (APS218's
+    # employment estimates and ASHE Table 2's pay by occupation).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 274727,
@@ -2497,7 +2520,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 676547,
         "institutional_sector": 8877,
         "pension_plan": 2,
-        "person": 598990,
+        "person": 672029,
         "return": 14952,
         "social_protection_scheme": 36,
         "tax_unit": 45268,

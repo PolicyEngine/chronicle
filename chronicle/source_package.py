@@ -521,6 +521,52 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/employee_workplace_pensions_summary_2024"
     ),
     # end chronicle#302
+    # chronicle#407 (PolicyEngine/microcosm#1490): APS employment by occupation and
+    # ASHE Table 2 earnings by two-digit SOC 2020.
+    "ons-aps218-occupation-apr-2024-mar-2025": Path(
+        "ons/aps218_occupation_apr_2024_mar_2025"
+    ),
+    "ons-aps218-occupation-jan-dec-2025": Path("ons/aps218_occupation_jan_dec_2025"),
+    "ons-aps218-occupation-apr-2025-mar-2026": Path(
+        "ons/aps218_occupation_apr_2025_mar_2026"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-2024-revised": Path(
+        "ons/ashe_table2_weekly_pay_gross_2024_revised"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-cv-2024-revised": Path(
+        "ons/ashe_table2_weekly_pay_gross_cv_2024_revised"
+    ),
+    "ons-ashe-table2-annual-pay-gross-2024-revised": Path(
+        "ons/ashe_table2_annual_pay_gross_2024_revised"
+    ),
+    "ons-ashe-table2-annual-pay-gross-cv-2024-revised": Path(
+        "ons/ashe_table2_annual_pay_gross_cv_2024_revised"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-2025-revised": Path(
+        "ons/ashe_table2_weekly_pay_gross_2025_revised"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-cv-2025-revised": Path(
+        "ons/ashe_table2_weekly_pay_gross_cv_2025_revised"
+    ),
+    "ons-ashe-table2-annual-pay-gross-2025-revised": Path(
+        "ons/ashe_table2_annual_pay_gross_2025_revised"
+    ),
+    "ons-ashe-table2-annual-pay-gross-cv-2025-revised": Path(
+        "ons/ashe_table2_annual_pay_gross_cv_2025_revised"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-2026-provisional": Path(
+        "ons/ashe_table2_weekly_pay_gross_2026_provisional"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-cv-2026-provisional": Path(
+        "ons/ashe_table2_weekly_pay_gross_cv_2026_provisional"
+    ),
+    "ons-ashe-table2-annual-pay-gross-2026-provisional": Path(
+        "ons/ashe_table2_annual_pay_gross_2026_provisional"
+    ),
+    "ons-ashe-table2-annual-pay-gross-cv-2026-provisional": Path(
+        "ons/ashe_table2_annual_pay_gross_cv_2026_provisional"
+    ),
+    # end chronicle#407
     # chronicle#343: high-value housing facts for the UK local calibration (the
     # Price Paid, UK HPI and NSPL releases are raw-only registrations, not packages).
     "obr-hvcts-costing-april-2026": Path("obr/hvcts_costing_april_2026"),
