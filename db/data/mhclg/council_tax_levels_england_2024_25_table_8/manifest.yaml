@@ -1,0 +1,29 @@
+source_id: mhclg
+package_id: mhclg-council-tax-levels-england-2024-25-table-8
+dataset: mhclg_mhclg-council-tax-levels-england-2024-25-table-8
+source_page: https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2024-to-2025
+table: 'Council Tax levels set by local authorities in England 2024 to 2025, Table
+  8: Area council tax for a dwelling occupied by 2 adults by band 2024-25'
+files:
+  2024:
+    filename: Table_8_24-25.ods
+    source_url: https://assets.publishing.service.gov.uk/media/65fad6739316f5001164c3ca/Table_8_24-25.ods
+    sha256: 249127ae1bff3f37bb335896f801524562de0dd9668c6c9cd64eacd8a8880245
+    size_bytes: 53280
+    fetched_at: '2026-11-04T18:19:44+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-council-tax-levels-england-2024-25-table-8/2024/249127ae1bff3f37bb335896f801524562de0dd9668c6c9cd64eacd8a8880245/Table_8_24-25.ods
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-council-tax-levels-england-2024-25-table-8/2024/249127ae1bff3f37bb335896f801524562de0dd9668c6c9cd64eacd8a8880245/Table_8_24-25.ods
+registration_kind: raw_only
+provenance_notes: 'MHCLG, Council Tax levels set by local authorities in England 2024
+  to 2025 (first published 21 March 2024). The 2024-25 release publishes Tables 1
+  to 9 as nine files; this is Table 8. Area council tax for a dwelling occupied by
+  two adults, Bands A to H, for each of the 296 billing authorities, with E code,
+  ONS code, region, class and area. Figures include adult social care and parish precepts
+  (note a); the band ratios to Band D are 6/9 to 18/9 (note b). This is the 2024-25
+  counterpart of Table 9 in mhclg-council-tax-levels-england-summary-2025-26: the
+  2024-25 release numbers it Table 8. Licence: Open Government Licence v3.0. Raw-only
+  for chronicle#412 item 2.'
