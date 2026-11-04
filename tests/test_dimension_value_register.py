@@ -128,7 +128,8 @@ def test_the_chosen_labels_are_the_registers_labels():
     script = _script()
     register = json.loads(_REGISTER.read_text(encoding="utf-8"))["labels"]
 
-    assert len(script.CHOSEN_LABELS) == 47
+    # chronicle#407 adds soc2020_major_group=3, SOC 2020's own name for the group.
+    assert len(script.CHOSEN_LABELS) == 48
     for (dimension_id, value_id), label in script.CHOSEN_LABELS.items():
         assert register[dimension_id][value_id] == label
 

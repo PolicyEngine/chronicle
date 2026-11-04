@@ -78,6 +78,7 @@
       "salary_sacrifice_threshold_position=all",
       "sex=female",
       "sex=male",
+      "soc2020_major_group=3",
       "us:statutes/26/62#adjusted_gross_income=all",
       "us:statutes/26/62#adjusted_gross_income=under_1"
     ]
@@ -8210,7 +8211,7 @@
     "soc2020_major_group": {
       "1": "Managers, directors and senior officials",
       "2": "Professional occupations",
-      "3": "Associate professional and technical occupations",
+      "3": "Associate professional occupations",
       "4": "Administrative and secretarial occupations",
       "5": "Skilled trades occupations",
       "6": "Caring, leisure and other service occupations",
