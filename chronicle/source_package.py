@@ -1113,6 +1113,10 @@ SOURCE_PACKAGE_ALIASES = {
     "voa-council-tax-bands-2026": Path("voa/council_tax_bands_2026"),
     "voa-council-tax-property-types-2026": Path("voa/council_tax_property_types_2026"),
     "voa-council-tax-build-periods-2026": Path("voa/council_tax_build_periods_2026"),
+    "mhclg-epc-d3-domestic-2026-q3": Path("mhclg/epc_d3_domestic_2026_q3"),
+    "mhclg-live-table-126-dwelling-density-2026": Path(
+        "mhclg/live_table_126_dwelling_density_2026"
+    ),
     # end PolicyEngine/chronicle#408
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"

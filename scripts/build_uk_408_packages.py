@@ -14,6 +14,9 @@ every row number, column and guard cell below is one the package parser sees.
   ``voa-council-tax-build-periods-2026``: the VOA's Council Tax stock of properties 2026,
   tables CTSOP1.0 and 2.0, 3.0 and 4.0, at every geography they print (item 3). The three
   small-area zips are raw-only registrations under db/data/voa/ctsop*_lsoa_2026.
+- ``mhclg-epc-d3-domestic-2026-q3`` and ``mhclg-live-table-126-dwelling-density-2026``:
+  EPC live table D3's domestic lodgements, floor area and habitable rooms, and Live Table
+  126's dwelling stock density (item 7).
 """
 
 from __future__ import annotations
@@ -52,6 +55,7 @@ FILTER_LABELS = {
     "voa_property_type": "Property type",
     "voa_bedrooms": "Number of bedrooms",
     "voa_build_period": "Build period",
+    "billing_authority_class": "Billing authority class",
 }
 
 
@@ -1747,11 +1751,736 @@ def region(code: str, name: str) -> dict:
     }
 
 
+# ------------------------------------------------------------ 7a. EPC live table D3
+
+D3_DIRECTORY = "mhclg/epc_d3_domestic_2026_q3"
+D3_PAGE = (
+    "https://www.gov.uk/government/statistical-data-sets/"
+    "live-tables-on-energy-performance-of-buildings-certificates"
+)
+D3_NATIONAL = (
+    ("D3_England_and_Wales", "england_and_wales", ENGLAND_AND_WALES),
+    ("D3_England_Only", "england", ENGLAND),
+    ("D3_Wales_Only", "wales", WALES),
+)
+D3_REGION = "D3_by_Region"
+D3_LA = "D3_by_LA"
+D3_SHEETS = tuple(sheet for sheet, _, _ in D3_NATIONAL) + (D3_REGION, D3_LA)
+# Certificates whose region or authority the register does not record. D3_by_Region
+# and D3_by_LA print the same 'Unknown' rows; parity puts them inside England.
+D3_UNKNOWN = {
+    "geography_id": "mhclg-epc-d3:england-area-unknown",
+    "geography_level": "statistical_scope",
+    "geography_name": "Unknown",
+    "geography_vintage": "epc_d3_2026_q3",
+}
+D3_MEASURES = (
+    (
+        "lodgements",
+        "Number Lodgements",
+        "Number of domestic EPC lodgements",
+        "mhclg.epc_domestic_lodgements",
+        "count",
+    ),
+    (
+        "total_floor_area",
+        "Total Floor Area (m2)",
+        "Total floor area of the lodged certificates (square metres)",
+        "mhclg.epc_domestic_total_floor_area",
+        "square_metres",
+    ),
+    (
+        "habitable_rooms",
+        "Number Habitable Rooms",
+        "Number of habitable rooms on the lodged certificates",
+        "mhclg.epc_domestic_habitable_rooms",
+        "count",
+    ),
+)
+D3_NOTES = (
+    "MHCLG, Energy Performance of Buildings Certificates live table D3, 'Domestic "
+    "Properties ... in each Year/Quarter to 30 September 2026' (published 29 October "
+    "2026). Counts are of certificates lodged on the EPC register, not of dwellings: "
+    "'The counts in the tables cover all EPCs whether valid or invalid (excluding "
+    "cancelled reports), although be aware individual buildings may have more than one "
+    "certificate.' 'Buildings only require an EPC when, sold, let or constructed. These "
+    "statistics should, therefore, not be interpreted as a true representation of the "
+    "whole of the building stock in England and Wales' (note 3). 'On the 20 September "
+    "2021 the register transitioned to www.gov.uk, prior to this data were provided by a "
+    "contractor (Landmark)' (note 1). 'Data are aligned to the address level data "
+    "published on Open Data Communities, and as a result will reflect lower figures "
+    "compared to previous publications for all quarters. The methodology for allocating "
+    "regions and local authorities has been updated'. Quarters are calendar quarters "
+    "(Q1=Jan-Mar), printed as 'YYYY/Q'."
+)
+D3_HEADER = f"""
+MHCLG, Energy Performance of Buildings Certificates (EPC) live table D3, 'Domestic
+Properties ... by Energy Use, Carbon Dioxide Emissions and Fuel Costs', to 30 September
+2026 (published 29 October 2026), for {ISSUE} item 7. Written by
+scripts/build_uk_408_packages.py.
+
+Three columns of each sheet are ported: Number Lodgements, Total Floor Area (m2) and
+Number Habitable Rooms. The energy use, carbon dioxide and fuel cost columns are not.
+Each quarter is its own record set, 2008/4 to 2026/3 (calendar quarters, Q1=Jan-Mar).
+The three national sheets (England and Wales, England, Wales) also print
+calendar-year rows, 2009 to 2025, each the sum of its four quarters, which are ported as calendar_year facts; their
+'(Total)' row sums every quarter since 2008/4 and has no stampable period, so it is left
+out, as are D3_by_Region's all-period rows for each region.
+
+D3 counts certificates lodged, not dwellings: a dwelling with several certificates counts
+each time, and homes never sold, let or built since 2008 are absent. All certificates
+count, valid or invalid, except cancelled reports.
+
+D3_by_Region names regions without codes, mapped here to their ONS codes; its 'Unknown'
+rows are certificates whose region the register does not record. D3_by_LA prints the
+same 'Unknown' rows under the code 'Unknown', so they are ported once, from
+D3_by_Region, and asserted equal; with them the regions and the authorities sum to
+England. D3_by_LA's first column is headed 'Region' but holds the authority's name.
+Authorities carry the code printed for each quarter: the register codes a lodgement to
+the authority current when it was lodged, so retired districts stop and their
+successors start at reorganisations, and Barnsley and Sheffield print as E08000016 and
+E08000019 to 2025/4 and as E08000038 and E08000039 from 2025/4 (both codes in 2025/4).
+Each code's geography_vintage is the latest December ONS lookup that carries it.
+"""
+
+
+def quarter_period(label: str) -> dict:
+    year, quarter = (int(part) for part in label.split("/"))
+    first = 3 * quarter - 2
+    last_day = {1: "03-31", 2: "06-30", 3: "09-30", 4: "12-31"}[quarter]
+    return {
+        "period_type": "quarter",
+        "period": f"{year}-Q{quarter}",
+        "period_coverage": {
+            "start_date": f"{year}-{first:02d}-01",
+            "end_date": f"{year}-{last_day}",
+            "basis": "calendar",
+            "source_period_label": label,
+        },
+    }
+
+
+def year_period(year: int) -> dict:
+    return {
+        "period_type": "calendar_year",
+        "period": year,
+        "period_coverage": {
+            "start_date": f"{year}-01-01",
+            "end_date": f"{year}-12-31",
+            "basis": "calendar",
+            "source_period_label": str(year),
+        },
+    }
+
+
+def d3_measures(columns: str) -> list[dict]:
+    return [
+        measure(
+            key,
+            label,
+            column,
+            concept=concept,
+            source_concept=concept,
+            authority="mhclg",
+            evidence_url=D3_PAGE,
+            notes=D3_NOTES,
+            unit=unit,
+            aggregation="sum",
+            ordinal=ordinal,
+            header=header,
+            header_row=4,
+        )
+        for ordinal, (column, (key, header, label, concept, unit)) in enumerate(
+            zip(columns, D3_MEASURES)
+        )
+    ]
+
+
+def d3_record_set(
+    record_set_id: str, sheet: str, period: dict, rows: list[dict], columns: str
+) -> dict:
+    return record_set(
+        record_set_id,
+        provenance_class="administrative",
+        sheet_name=sheet,
+        geography=ENGLAND_AND_WALES,
+        entity="dwelling",
+        entity_role="domestic_epc_lodgement",
+        domain="energy_performance_certificates",
+        groupby_dimension="mhclg.epc_area",
+        rows=rows,
+        measures=d3_measures(columns),
+        **period,
+    )
+
+
+def d3_numbers(grid: dict, sheet: str, row: int, columns: str) -> None:
+    for column in columns:
+        assert isinstance(grid[(sheet, row, column)], int), (sheet, row, column)
+
+
+def sheet_rows(grid: dict, sheet: str) -> list[int]:
+    return sorted({row for (name, row, _column) in grid if name == sheet and row > 4})
+
+
+def d3_period_key(label: str) -> str:
+    year, quarter = label.split("/")
+    return f"{year}_q{quarter}"
+
+
+def d3_national(grid: dict) -> list[dict]:
+    record_sets = []
+    for sheet, key, geography in D3_NATIONAL:
+        assert [grid[(sheet, 4, column)] for column in "ABCDE"] == [
+            "Year",
+            "Quarter",
+            *(header for _, header, _, _, _ in D3_MEASURES),
+        ]
+        years, quarters = [], []
+        for row in sheet_rows(grid, sheet):
+            year, quarter = grid[(sheet, row, "A")], grid.get((sheet, row, "B"))
+            if year == "(Total)":
+                continue
+            d3_numbers(grid, sheet, row, "CDE")
+            (quarters if quarter else years).append((row, year, quarter))
+        assert [int(year) for _, year, _ in years] == list(range(2009, 2026))
+        for row, year, _ in years:
+            record_sets.append(
+                d3_record_set(
+                    f"mhclg.epc_d3_2026q3.{key}.calendar_{year}",
+                    sheet,
+                    year_period(int(year)),
+                    [
+                        area_row(
+                            key,
+                            geography["geography_name"],
+                            row,
+                            "A",
+                            year,
+                            geography,
+                            ordinal=0,
+                        )
+                    ],
+                    "CDE",
+                )
+            )
+        for row, year, quarter in quarters:
+            assert quarter.split("/")[0] == year, (sheet, row)
+            record_sets.append(
+                d3_record_set(
+                    f"mhclg.epc_d3_2026q3.{key}.{d3_period_key(quarter)}",
+                    sheet,
+                    quarter_period(quarter),
+                    [
+                        area_row(
+                            key,
+                            geography["geography_name"],
+                            row,
+                            "B",
+                            quarter,
+                            geography,
+                            ordinal=0,
+                            guards=[guard("A", row, year, "Year")],
+                        )
+                    ],
+                    "CDE",
+                )
+            )
+    return record_sets
+
+
+def d3_quarters(grid: dict) -> list[str]:
+    sheet = D3_NATIONAL[0][0]
+    return [
+        grid[(sheet, row, "B")]
+        for row in sheet_rows(grid, sheet)
+        if grid.get((sheet, row, "B"))
+    ]
+
+
+def d3_regions(grid: dict) -> list[dict]:
+    sheet = D3_REGION
+    assert [grid[(sheet, 4, column)] for column in "ABCDE"] == [
+        "Region",
+        "Quarter",
+        *(header for _, header, _, _, _ in D3_MEASURES),
+    ]
+    by_quarter: dict[str, list[dict]] = {}
+    for row in sheet_rows(grid, sheet):
+        name, quarter = grid[(sheet, row, "A")], grid.get((sheet, row, "B"))
+        if not quarter:
+            continue  # the all-period row for each region
+        d3_numbers(grid, sheet, row, "CDE")
+        geography = (
+            D3_UNKNOWN if name == "Unknown" else region(REGION_CODES[name], name)
+        )
+        members = by_quarter.setdefault(quarter, [])
+        members.append(
+            area_row(
+                slug(name),
+                name,
+                row,
+                "A",
+                name,
+                geography,
+                ordinal=len(members),
+                guards=[guard("B", row, quarter, "Quarter")],
+            )
+        )
+    assert list(by_quarter) == d3_quarters(grid)
+    return [
+        d3_record_set(
+            f"mhclg.epc_d3_2026q3.regions.{d3_period_key(quarter)}",
+            sheet,
+            quarter_period(quarter),
+            rows,
+            "CDE",
+        )
+        for quarter, rows in by_quarter.items()
+    ]
+
+
+def d3_unknown_restated(grid: dict) -> list[tuple[int, int]]:
+    """(LA row, region row) pairs: D3_by_LA's 'Unknown' rows restate D3_by_Region's."""
+    regions = {
+        grid[(D3_REGION, row, "B")]: row
+        for row in sheet_rows(grid, D3_REGION)
+        if grid[(D3_REGION, row, "A")] == "Unknown" and grid.get((D3_REGION, row, "B"))
+    }
+    pairs = []
+    for row in sheet_rows(grid, D3_LA):
+        if grid[(D3_LA, row, "B")] != "Unknown":
+            continue
+        assert grid[(D3_LA, row, "A")] == "Unknown"
+        match = regions[grid[(D3_LA, row, "C")]]
+        assert [grid[(D3_LA, row, column)] for column in "DEF"] == [
+            grid[(D3_REGION, match, column)] for column in "CDE"
+        ]
+        pairs.append((row, match))
+    assert len(pairs) == len(regions)
+    return pairs
+
+
+def d3_local_authorities(grid: dict) -> list[dict]:
+    sheet = D3_LA
+    assert [grid[(sheet, 4, column)] for column in "ABCDEF"] == [
+        "Region",
+        "Local Authority Code",
+        "Quarter",
+        *(header for _, header, _, _, _ in D3_MEASURES),
+    ]
+    d3_unknown_restated(grid)
+    by_quarter: dict[str, list[dict]] = {quarter: [] for quarter in d3_quarters(grid)}
+    for row in sheet_rows(grid, sheet):
+        name, code, quarter = (grid[(sheet, row, column)] for column in "ABC")
+        if code == "Unknown":
+            continue
+        d3_numbers(grid, sheet, row, "DEF")
+        members = by_quarter[quarter]
+        members.append(
+            area_row(
+                slug(code),
+                str(name).strip(),
+                row,
+                "B",
+                code,
+                local_authority(code, name),
+                ordinal=len(members),
+                guards=[guard("C", row, quarter, "Quarter")],
+            )
+        )
+    return [
+        d3_record_set(
+            f"mhclg.epc_d3_2026q3.local_authorities.{d3_period_key(quarter)}",
+            sheet,
+            quarter_period(quarter),
+            rows,
+            "DEF",
+        )
+        for quarter, rows in by_quarter.items()
+    ]
+
+
+def build_epc_d3() -> str:
+    grid = ods_grid(D3_DIRECTORY)
+    record_sets = d3_national(grid) + d3_regions(grid) + d3_local_authorities(grid)
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": "mhclg-epc-d3-domestic-2026-q3",
+        "label": "MHCLG EPC live table D3: domestic certificates lodged, floor area and "
+        "habitable rooms, by quarter, to 30 September 2026",
+        "dimension_labels": {"mhclg.epc_area": "Area"},
+        "artifact": artifact(
+            "mhclg",
+            "Energy Performance of Buildings Certificates live table D3: domestic "
+            "properties, to 30 September 2026",
+            D3_DIRECTORY,
+            "epc_d3_2026_q3",
+            "ods_used_range",
+            "ods whole-workbook used-range cell parse",
+            2026,
+        ),
+        "record_sets": record_sets,
+    }
+    return render(D3_HEADER, payload)
+
+
+# ------------------------------------------------------------- 7b. Live Table 126
+
+LT126_DIRECTORY = "mhclg/live_table_126_dwelling_density_2026"
+LT126_PAGE = (
+    "https://www.gov.uk/government/statistical-data-sets/"
+    "live-tables-on-dwelling-stock-including-vacants"
+)
+LT126_SHEET = "LT_126"
+LT126_HEADER_ROW = 5
+LT126_NOTES = (
+    "MHCLG, Live Table 126, 'Dwelling stock density estimates by local authority "
+    "district, England, 2011 - 2025' (published 21 May 2026): 'the number of dwellings "
+    "per hectare as at 31 March by English local authority district from 2011 to 2025. "
+    "Dwelling density is calculated for each area by dividing total dwelling stock (as "
+    "published in Live Table 125) by land area in hectares (as published as "
+    "AREALHECT).' The stock 'use[s] the Census as a baseline and apply annual net "
+    "changes to the dwelling stock as measured by the related Housing supply: net "
+    "additional dwellings statistics'. Column markers: '[p] These figures are "
+    "provisional and subject to scheduled revisions and revisions pending the release of "
+    "future census dwelling stock data.' '[r] These figures have been revised.' Cells "
+    "marked '[x] Data is not available.' emit no fact. [note 7]: 'Net additional "
+    "dwellings figures for 2023-24 were imputed for the local authority Ribble Valley due "
+    "to a lack of data.'"
+)
+LT126_HEADER = f"""
+MHCLG, Live Table 126, dwelling stock density estimates by local authority district,
+England, 2011 to 2025 (published 21 May 2026; 'Source: Dwelling stock estimates in
+England: 2025'), sheet LT_126, for {ISSUE} item 7. Written by
+scripts/build_uk_408_packages.py.
+
+Dwellings per hectare at 31 March of each year: the dwelling stock (Live Table 125)
+divided by the land area in hectares (ONS AREALHECT). Each year column is its own record
+set, a calendar_year period stamped 31 March, with the column's printed header kept as
+the measure's expected header, so its markers stay: '[p]' provisional (2022 to 2025),
+'[r]' revised (2024), and notes 2 to 4 on the 2019, 2020 and 2021 reorganisations. '[x]'
+(data not available) emits no fact: each authority prints values only for the years it
+existed in.
+
+Rows are England, the regions, the counties and metropolitan counties, Inner and Outer
+London and every local authority district, keyed by the 'New ONS code' and guarded by the
+'Old ONS code' where one is printed. The table prints four codes twice: Cumberland,
+Westmorland and Furness and North Yorkshire with identical rows, and Suffolk twice, the
+first row without its 2023 value. Each is ported once, from the row that prints the most
+values, and the other is asserted to agree wherever both print. Tyne and Wear prints
+under E11000004, with values to 2022. Densities are ratios and are not additive.
+"""
+
+# County codes retired before 2024, by the last December vintage that carried them.
+RETIRED_COUNTY = {
+    "E10000009": "gss_2018",  # Dorset, 1 April 2019
+    "E10000002": "gss_2019",  # Buckinghamshire, 1 April 2020
+    "E10000021": "gss_2020",  # Northamptonshire, 1 April 2021
+    "E10000006": "gss_2022",  # Cumbria, 1 April 2023
+    "E10000023": "gss_2022",  # North Yorkshire, 1 April 2023
+    "E10000027": "gss_2022",  # Somerset, 1 April 2023
+    "E11000004": "gss_2022",  # Tyne and Wear, printed to 2022
+}
+
+
+def lt126_geography(code: str, name: str) -> dict:
+    name = str(name).strip()
+    if code == "E92000001":
+        return dict(ENGLAND)
+    if code.startswith("E12"):
+        return region(code, name)
+    if code[:3] in {"E06", "E07", "E08", "E09"}:
+        return local_authority(code, name)
+    if code[:3] in {"E10", "E11"}:
+        return {
+            "geography_id": code,
+            "geography_level": "county",
+            "geography_name": name,
+            "geography_vintage": RETIRED_COUNTY.get(code, "gss_2024"),
+        }
+    assert code.startswith("E13"), code
+    return {
+        "geography_id": code,
+        "geography_level": "region",
+        "geography_name": name,
+        "geography_vintage": "gss_2024",
+    }
+
+
+def lt126_year_columns(grid: dict) -> list[tuple[str, int, str]]:
+    """(column, year, printed header) for each year column."""
+    found = []
+    for column in "DEFGHIJKLMNOPQR":
+        header = grid[(LT126_SHEET, LT126_HEADER_ROW, column)]
+        found.append((column, int(str(header)[:4]), header))
+    assert [year for _, year, _ in found] == list(range(2011, 2026))
+    assert grid[(LT126_SHEET, LT126_HEADER_ROW, "S")] == "Notes"
+    return found
+
+
+def lt126_value(value: object) -> float | None:
+    if value == "[x]":
+        return None
+    assert isinstance(value, float), value
+    return value
+
+
+def lt126_rows(grid: dict) -> dict[str, int]:
+    """The row ported for each code, and a check that its repeats agree with it."""
+    columns = [column for column, _, _ in lt126_year_columns(grid)]
+    rows: dict[str, list[int]] = {}
+    for row in sorted({r for (s, r, _c) in grid if s == LT126_SHEET and r > 5}):
+        rows.setdefault(grid[(LT126_SHEET, row, "B")], []).append(row)
+    chosen = {}
+    for code, found in rows.items():
+        printed = {
+            row: {
+                column: lt126_value(grid[(LT126_SHEET, row, column)])
+                for column in columns
+            }
+            for row in found
+        }
+        best = max(
+            found,
+            key=lambda row: (sum(v is not None for v in printed[row].values()), -row),
+        )
+        for row in found:
+            assert grid[(LT126_SHEET, row, "C")] == grid[(LT126_SHEET, best, "C")]
+            for column, value in printed[row].items():
+                if value is not None and printed[best][column] is not None:
+                    assert value == printed[best][column], (code, row, column)
+                elif value is not None:
+                    raise AssertionError(
+                        (code, row, column, "printed only on a repeat")
+                    )
+        chosen[code] = best
+    return chosen
+
+
+def build_live_table_126() -> str:
+    grid = ods_grid(LT126_DIRECTORY)
+    sheet = LT126_SHEET
+    assert [grid[(sheet, LT126_HEADER_ROW, column)] for column in "ABC"] == [
+        "Old ONS code",
+        "New ONS code",
+        "Area",
+    ]
+    chosen = lt126_rows(grid)
+    record_sets = []
+    for column, year, header in lt126_year_columns(grid):
+        rows = []
+        for code, row in sorted(chosen.items(), key=lambda item: item[1]):
+            if lt126_value(grid[(sheet, row, column)]) is None:
+                continue
+            old = grid.get((sheet, row, "A"))
+            rows.append(
+                area_row(
+                    slug(code),
+                    str(grid[(sheet, row, "C")]).strip(),
+                    row,
+                    "B",
+                    code,
+                    lt126_geography(code, grid[(sheet, row, "C")]),
+                    ordinal=len(rows),
+                    guards=[guard("A", row, old, "Old ONS code")] if old else None,
+                )
+            )
+        marker = header[4:].strip()
+        record_sets.append(
+            record_set(
+                f"mhclg.lt126_2026.dwelling_density.{year}",
+                provenance_class="model_output",
+                sheet_name=sheet,
+                period_type="calendar_year",
+                period=year,
+                period_coverage={
+                    "start_date": f"{year}-03-31",
+                    "end_date": f"{year}-03-31",
+                    "basis": "calendar",
+                    "source_period_label": f"31 March {year}"
+                    + (f" {marker}" if marker else ""),
+                },
+                geography=ENGLAND,
+                entity="dwelling",
+                entity_role="dwelling_stock",
+                domain="dwelling_stock",
+                groupby_dimension="mhclg.lt126_area",
+                rows=rows,
+                measures=[
+                    measure(
+                        "dwelling_density",
+                        f"Dwelling stock density at 31 March {year}"
+                        + (f" {marker}" if marker else "")
+                        + " (dwellings per hectare)",
+                        column,
+                        concept="mhclg.dwelling_stock_density",
+                        source_concept="mhclg.dwelling_stock_density",
+                        authority="mhclg",
+                        evidence_url=LT126_PAGE,
+                        notes=LT126_NOTES,
+                        unit="dwellings_per_hectare",
+                        aggregation="ratio",
+                        header=header,
+                        header_row=LT126_HEADER_ROW,
+                    )
+                ],
+            )
+        )
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": "mhclg-live-table-126-dwelling-density-2026",
+        "label": "MHCLG Live Table 126: dwelling stock density by local authority "
+        "district, England, 2011 to 2025",
+        "dimension_labels": {"mhclg.lt126_area": "Area"},
+        "artifact": artifact(
+            "mhclg",
+            "Live Table 126: dwelling stock density estimates by local authority "
+            "district, England, 2011 to 2025",
+            LT126_DIRECTORY,
+            "lt126_2026_05",
+            "ods_used_range",
+            "ods whole-workbook used-range cell parse",
+            2026,
+        ),
+        "record_sets": record_sets,
+    }
+    return render(LT126_HEADER, payload)
+
+
+CT_PAGE = (
+    "https://www.gov.uk/government/statistics/"
+    "collection-rates-for-council-tax-and-non-domestic-rates-in-england-2025-to-2026"
+)
+CT_RELEASE = (
+    "MHCLG, Collection rates for Council Tax and non-domestic rates in England, 2025 to "
+    "2026 (published 24 June 2026, revised 31 July 2026)"
+)
+CT_ENGLAND = {
+    "geography_id": "E92000001",
+    "geography_level": "country",
+    "geography_name": "England",
+    "geography_vintage": "current",
+}
+# Class codes of the class total rows, which precede the 296 billing authorities.
+CT_CLASS_CODES = ("LB", "ILB", "OLB", "MD", "UA", "SD")
+# Table 9a prints Barnsley and Sheffield under the codes ONS gave them in 2025 (Table 6a
+# under E08000016 and E08000019), as mhclg-council-taxbase-england-2025 does.
+CT_2025_CODES = {"E08000038": "lad_2025", "E08000039": "lad_2025"}
+BLOCK_MARKER = "# Record sets below: scripts/build_uk_408_packages.py (PolicyEngine/chronicle#408).\n"
+
+
+def fiscal_coverage(opening: int, label: str) -> dict:
+    return {
+        "start_date": f"{opening}-04-01",
+        "end_date": f"{opening + 1}-03-31",
+        "basis": "fiscal",
+        "source_period_label": label,
+    }
+
+
+def year_label(opening: int) -> str:
+    return f"{opening}-{(opening + 1) % 100:02d}"
+
+
+def ct_rows(
+    grid: dict, sheet: str, first: int, *, england: bool
+) -> tuple[list[dict], list[dict]]:
+    """England (if wanted) and the class rows, then the billing authority rows."""
+    rows = sorted(
+        row
+        for (name, row, column), value in grid.items()
+        if name == sheet and column == "A" and row >= first and value
+    )
+    totals, authorities = [], []
+    for row in rows:
+        label, ecode = grid[(sheet, row, "A")], grid[(sheet, row, "B")]
+        code, kind = grid[(sheet, row, "C")], grid[(sheet, row, "D")]
+        if ecode == "E-ENG":
+            assert (label, code, kind) == ("England", "[z]", "Eng"), row
+            if not england:
+                continue
+            totals.append(
+                area_row(
+                    "england",
+                    "England",
+                    row,
+                    "A",
+                    label,
+                    CT_ENGLAND,
+                    ordinal=len(totals),
+                    guards=[guard("B", row, ecode, "E-Code")],
+                )
+            )
+        elif code == "[z]":
+            name = label.removeprefix("of which: ")
+            assert kind in CT_CLASS_CODES, (row, kind)
+            totals.append(
+                area_row(
+                    slug(name),
+                    name,
+                    row,
+                    "A",
+                    label,
+                    CT_ENGLAND,
+                    ordinal=len(totals),
+                    guards=[guard("D", row, kind, "Class")],
+                    filters={"billing_authority_class": slug(name)},
+                )
+            )
+        else:
+            assert code[:3] in {"E06", "E07", "E08", "E09"}, (row, code)
+            authorities.append(
+                area_row(
+                    slug(f"{code} {label}"),
+                    label,
+                    row,
+                    "C",
+                    code,
+                    {
+                        "geography_id": code,
+                        "geography_level": "local_authority",
+                        "geography_name": label,
+                        "geography_vintage": CT_2025_CODES.get(code, "lad_2023"),
+                    },
+                    ordinal=len(authorities),
+                )
+            )
+    assert [row["value_id"] for row in totals] == ["england"] * england + [
+        "london_boroughs",
+        "inner_london_boroughs",
+        "outer_london_boroughs",
+        "metropolitan_districts",
+        "unitary_authorities",
+        "shire_districts",
+    ], [row["value_id"] for row in totals]
+    assert len(authorities) == 296, len(authorities)
+    return totals, authorities
+
+
+def ct_record_set(record_set_id: str, sheet: str, rows, measures, **period) -> dict:
+    return record_set(
+        record_set_id,
+        provenance_class="administrative",
+        sheet_name=sheet,
+        geography=CT_ENGLAND,
+        entity="government",
+        entity_role="billing_authority",
+        domain="council_tax",
+        groupby_dimension="mhclg.billing_authority",
+        rows=rows,
+        measures=measures,
+        **period,
+    )
+
+
 BUILDERS = {
     LVE_DIRECTORY: build_land_values,
     VOA_DIRECTORY: build_bands,
     VOA_PROPERTY_TYPES_DIRECTORY: build_property_types,
     VOA_BUILD_PERIODS_DIRECTORY: build_build_periods,
+    D3_DIRECTORY: build_epc_d3,
+    LT126_DIRECTORY: build_live_table_126,
 }
 
 
