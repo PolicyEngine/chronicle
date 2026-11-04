@@ -46,6 +46,7 @@ from pathlib import Path
 import yaml
 from openpyxl.utils import column_index_from_string, get_column_letter
 
+from chronicle.dimension_labels import canonical_value_label
 from chronicle.geography_names import canonical_geography_level
 from chronicle.sources.cells import (
     SourceArtifactMetadata,
@@ -1048,6 +1049,39 @@ def lve_car_park(grid: dict) -> dict:
     )
 
 
+def lve_value_labels(record_sets: list[dict]) -> dict[str, dict[str, str]]:
+    """Every filter value takes a label (chronicle#376): the sheets' own headings.
+
+    Densities and grades are printed as Low, Medium and High; the percentile headings
+    print the bare number (25, 40, '50 (Median)', 60, 75), so their labels name it; an
+    office or retail type is the type column's text on the rows that print it.
+    """
+    labels = {
+        "site_density_scenario": {
+            density: header.strip() for density, header in LVE_DENSITIES
+        },
+        "new_build_price_percentile": {
+            percentile: "50th percentile (median)" if label == "median" else label
+            for percentile, _, label in LVE_PERCENTILES
+        },
+        "agricultural_land_grade": {
+            grade: grade.title() for grade in ("low", "medium", "high")
+        },
+    }
+    for record in record_sets:
+        for row in record["rows"]:
+            for key in ("office_accommodation_type", "retail_location_type"):
+                value = row.get("filters", {}).get(key)
+                if value is not None:
+                    (printed,) = (
+                        cell["expected_value"]
+                        for cell in row["guard_cells"]
+                        if cell["label"] == FILTER_LABELS[key]
+                    )
+                    labels.setdefault(key, {})[value] = printed.strip()
+    return labels
+
+
 def build_land_values() -> str:
     grid = xlsx_grid(LVE_DIRECTORY, LVE_SHEETS)
     record_sets = lve_residential(grid)
@@ -1101,6 +1135,7 @@ def build_land_values() -> str:
             "mhclg.lve_location": "Location",
             **{key: FILTER_LABELS[key] for key in LVE_FILTERS},
         },
+        "dimension_value_labels": lve_value_labels(record_sets),
         "artifact": artifact(
             "mhclg",
             "Land value estimates for policy appraisal 2023",
@@ -2601,6 +2636,17 @@ Chelsea.
 """.replace("{ISSUE}", ISSUE)
 
 
+def ct_class_labels(rows: list[dict]) -> dict[str, dict[str, str]]:
+    """Each billing authority class takes its subtotal row's wording (chronicle#376)."""
+    return {
+        "billing_authority_class": {
+            row["filters"]["billing_authority_class"]: row["label"]
+            for row in rows
+            if "billing_authority_class" in row.get("filters", {})
+        }
+    }
+
+
 def build_collection_by_authority() -> str:
     grid = ods_grid(CT6_DIRECTORY)
     sheet = CT6_SHEET
@@ -2680,6 +2726,7 @@ def build_collection_by_authority() -> str:
             "mhclg.billing_authority": "Billing authority",
             "billing_authority_class": FILTER_LABELS["billing_authority_class"],
         },
+        "dimension_value_labels": ct_class_labels(classes),
         "artifact": artifact(
             "mhclg",
             "Collection rates for Council Tax and non-domestic rates in England, 2025 to "
@@ -3016,6 +3063,7 @@ def build_qrc4() -> str:
             "mhclg.billing_authority": "Billing authority",
             "billing_authority_class": FILTER_LABELS["billing_authority_class"],
         },
+        "dimension_value_labels": ct_class_labels(totals),
         "artifact": artifact(
             "mhclg",
             "Collection rates for Council Tax and non-domestic rates in England, 2025 to "
@@ -5025,6 +5073,14 @@ MVS_VALUES = {
     ("mvs_perceived_value", "Perceives value at or above £1.5m"): "gbp_1_5m_or_more",
     ("mvs_perceived_value", "Perceives value below £1.5m"): "less_than_gbp_1_5m",
 }
+# Filter values a block sets, where no row or column prints the category: the block's
+# printed title (AT1.7's 'House or bungalow' and 'Flat', AT4.5's two home values).
+MVS_FILTER_VALUE_LABELS = {
+    ("ehs_house_or_flat", "house_or_bungalow"): "House or bungalow",
+    ("ehs_house_or_flat", "flat"): "Flat",
+    ("mvs_home_value", "gbp_1_5m_or_more"): "Home value £1.5m or higher",
+    ("mvs_home_value", "less_than_gbp_1_5m"): "Home value lower than £1.5m",
+}
 
 
 def mvs_value(dimension: str, label: object) -> str:
@@ -5358,6 +5414,56 @@ def build_mvs(directory: str) -> str:
             # Under the row dimension and under the filter key the rows set.
             for key in (dimension, dimension.split(".", 1)[1]):
                 value_labels.setdefault(key, {})[value] = preferred
+    # Every other filter value takes a label too (chronicle#376). A value this package
+    # prints as a row takes the row's wording (a value row's before a sample-size
+    # row's); a column's value takes its header as printed, the wording its slug is
+    # made from where tables word it two ways ('all social renters', not 'all social
+    # rented'); a value a block sets takes the block's title.
+    row_wordings: dict[tuple[str, str], str] = {}
+    for record in sorted(
+        record_sets,
+        key=lambda record: (
+            ".sample_size" in record["record_set_id"]
+            or "_sample." in record["record_set_id"]
+        ),
+    ):
+        key = record["groupby_dimension"].split(".", 1)[1]
+        for row in record["rows"]:
+            row_wordings.setdefault((key, row["value_id"]), row["label"])
+    headers: dict[tuple[str, str], set[str]] = {}
+    for record in record_sets:
+        for spec in record["measures"]:
+            for key, value in spec.get("filters", {}).items():
+                headers.setdefault((key, value), set()).add(
+                    spec["expected_column_header"]
+                )
+    named = {
+        (key, value)
+        for record in record_sets
+        for spec in record["measures"] + record["rows"]
+        for key, value in spec.get("filters", {}).items()
+    }
+    for key, value in sorted(named):
+        if value in value_labels.get(key, {}):
+            continue
+        if (key, value) in row_wordings:
+            label = row_wordings[(key, value)]
+        elif (key, value) in headers:
+            printed = sorted(headers[(key, value)])
+            own = [text for text in printed if mvs_slug(text) == value]
+            assert len(printed) == 1 or len(own) == 1, (key, value, printed)
+            label = (own or printed)[0]
+        else:
+            label = MVS_FILTER_VALUE_LABELS[(key, value)]
+        # A value the register labels another way takes the register's label, which
+        # a package may not contradict (Chapter 4's '£1m-£2m' and '£2m or more').
+        if canonical_value_label(key, value) not in (None, label):
+            continue
+        value_labels.setdefault(key, {})[value] = label
+    value_labels = {
+        key: dict(sorted(values.items()))
+        for key, values in sorted(value_labels.items())
+    }
     extra = {
         "mhclg-market-value-survey-2024-chapter-1": (
             "Not ported: Annex Table 1.1's percentage changes from 2015 to 2024, which "

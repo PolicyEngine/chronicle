@@ -75,30 +75,126 @@ dimension_labels:
   ehs_urban_rural: Urban/rural
   mvs_market_value_band: Market value band
 dimension_value_labels:
-  mhclg.ehs_dependent_children:
+  ehs_bedrooms:
+    bedrooms_1: '1'
+    bedrooms_2: '2'
+    bedrooms_3: '3'
+    bedrooms_4_plus: 4+
+  ehs_dependent_children:
     'no': 'No'
     'yes': 'Yes'
-  ehs_dependent_children:
+  ehs_dwelling_age:
+    '1919_44': 1919-44
+    '1945_64': 1945-64
+    '1965_80': 1965-80
+    '1981_90': 1981-90
+    post_1990: post 1990
+    pre_1919: pre 1919
+  ehs_dwelling_type:
+    bungalow: bungalow
+    converted_flat: converted flat
+    detached_house: detached house
+    medium_large_terraced_house: medium/large terraced house
+    purpose_built_flat_high_rise: purpose built flat, high rise
+    purpose_built_flat_low_rise: purpose built flat, low rise
+    semi_detached_house: semi-detached house
+    small_terraced_house: small terraced house
+  ehs_floor_area_band:
+    110_or_more_m2: 110 or more m2
+    50_to_69_m2: 50 to 69 m2
+    70_to_89_m2: 70 to 89 m2
+    90_to_109_m2: 90 to 109 m2
+    less_than_50_m2: less than 50 m2
+  ehs_house_or_flat:
+    flat: Flat
+    house_or_bungalow: House or bungalow
+  ehs_household_disability:
+    'no': 'No'
+    'yes': 'Yes'
+  ehs_household_type:
+    couple_no_dependent_child_ren: couple, no dependent child(ren)
+    couple_with_dependent_child_ren: couple with dependent child(ren)
+    lone_parent_with_dependent_child_ren: lone parent with dependent child(ren)
+    one_person_aged_60_or_over: one person aged 60 or over
+    one_person_under_60: one person under 60
+    other_multi_person_households: other multi-person households
+  ehs_housing_support:
+    'no': 'No'
+    'yes': 'Yes'
+  ehs_hrp_age_band:
+    '16_29': 16-29
+    '30_44': 30-44
+    '45_64': 45-64
+    65_plus: 65+
+  ehs_hrp_employment_status:
+    inactive: Inactive
+    unemployed: Unemployed
+    working: Working
+  ehs_hrp_ethnicity:
+    ethnic_minority: Ethnic minority
+    white: White
+  ehs_hrp_sex:
+    female: Female
+    male: Male
+  ehs_imd_decile:
+    decile_1: most deprived 10% of areas
+    decile_10: least deprived 10% of areas
+    decile_2: 2nd
+    decile_3: 3rd
+    decile_4: 4th
+    decile_5: 5th
+    decile_6: 6th
+    decile_7: 7th
+    decile_8: 8th
+    decile_9: 9th
+  ehs_leasehold_status:
+    freehold: Freehold
+    leasehold: Leasehold
+  ehs_length_of_residence:
+    5_20_years: 5-20 years
+    less_than_5_years: Less than 5 years
+    more_than_20_years: More than 20 years
+  ehs_occupancy_status:
+    occupied: occupied
+    vacant: vacant
+  ehs_tenure:
+    all_social_renters: all social renters
+    housing_association: housing association
+    local_authority: local authority
+    owner_occupiers: owner occupiers
+    private_renters: private renters
+  ehs_terrace_position:
+    end_terrace: end terrace
+    mid_terrace: mid terrace
+  ehs_urban_area:
+    urban_england_excluding_london: Urban (England excluding London)
+    urban_london: Urban (London)
+  ehs_urban_rural:
+    rural: Rural
+    urban: Urban
+  mhclg.ehs_dependent_children:
     'no': 'No'
     'yes': 'Yes'
   mhclg.ehs_household_disability:
     'no': 'No'
     'yes': 'Yes'
-  ehs_household_disability:
-    'no': 'No'
-    'yes': 'Yes'
   mhclg.ehs_housing_support:
-    'no': 'No'
-    'yes': 'Yes'
-  ehs_housing_support:
     'no': 'No'
     'yes': 'Yes'
   mhclg.ehs_urban_area:
     urban_england_excluding_london: Urban (England excluding London)
     urban_london: Urban (London)
-  ehs_urban_area:
-    urban_england_excluding_london: Urban (England excluding London)
-    urban_london: Urban (London)
+  mvs_market_value_band:
+    gbp_100k_to_200k: £100,000 to £200,000
+    gbp_1m_to_2m: £1,000,000 to £2,000,000
+    gbp_200k_to_300k: £200,000 to £300,000
+    gbp_2m_or_more: £2,000,000 or more
+    gbp_300k_to_400k: £300,000 to £400,000
+    gbp_400k_to_500k: £400,000 to £500,000
+    gbp_500k_to_600k: £500,000 to £600,000
+    gbp_600k_to_700k: £600,000 to £700,000
+    gbp_700k_to_1m: £700,000 to £1,000,000
+    less_than_gbp_100k: Less than £100,000
 artifact:
   source_name: mhclg
   source_table: 'Market Value Survey: 2024, Chapter 1: Dwellings, Households and Areas - Annex Tables'

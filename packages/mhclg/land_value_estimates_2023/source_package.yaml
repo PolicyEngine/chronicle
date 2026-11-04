@@ -39,6 +39,27 @@ dimension_labels:
   agricultural_land_grade: Agricultural land grade
   office_accommodation_type: Office accommodation type
   retail_location_type: Urban/suburban type
+dimension_value_labels:
+  site_density_scenario:
+    low: Low
+    medium: Medium
+    high: High
+  new_build_price_percentile:
+    p25: 25th percentile
+    p40: 40th percentile
+    p50: 50th percentile (median)
+    p60: 60th percentile
+    p75: 75th percentile
+  agricultural_land_grade:
+    low: Low
+    medium: Medium
+    high: High
+  office_accommodation_type:
+    primary: Primary
+    secondary: Secondary
+  retail_location_type:
+    urban: Urban
+    suburban: Suburban
 artifact:
   source_name: mhclg
   source_table: Land value estimates for policy appraisal 2023

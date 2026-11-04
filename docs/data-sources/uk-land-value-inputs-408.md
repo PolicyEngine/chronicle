@@ -46,6 +46,11 @@ of Scilly.
 - **Values.** Under each density there are values at the 25th, 40th, 50th, 60th and 75th
   percentiles of new-build house price per square metre (filter `new_build_price_percentile`,
   `p25` to `p75`).
+  - The sheet heads these columns with the bare numbers (25, 40, "50 (Median)", 60, 75), so
+    the package declares labels that name them ("25th percentile", ..., "50th percentile
+    (median)").
+  - Every other filter value takes the sheets' own heading: "Low", "Medium" and "High", or
+    the office or retail type the row prints.
 - **Two concepts:**
   - `mhclg.residential_land_value_before_floor`, from sheet `Residential`.
   - `mhclg.residential_land_value_floor_adjusted`, from sheet `Residential (adj for floor)`.
@@ -156,6 +161,18 @@ published 14 April 2026:
   (for example `gbp_2m_or_more` for "£2,000,000 or more", "£2m or more" and "£2m plus").
 - The printed wording stays in each row's label and guard.
 - The package headers list each such mapping.
+- Every filter value carries a label, chosen in this order:
+  - the row's wording, where the package prints the value as a row;
+  - otherwise the column header as printed;
+  - otherwise the title of the block that sets it (AT1.7's "House or bungalow" and "Flat",
+    AT4.5's two home values).
+- Chronicle's label register (chronicle#376) gives a value that several packages emit one
+  label:
+  - "Yes" and "No", the wording most packages use, where chapter 1's sample-size rows print
+    "Dependent Children - Yes" and the like;
+  - for the two value bands chapters 1 and 4 word differently, chapter 1's "£1,000,000 to
+    £2,000,000" and "£2,000,000 or more". This choice is proposed for the maintainer's
+    review.
 
 This document quotes no figure from the survey.
 

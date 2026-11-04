@@ -27,6 +27,34 @@ dimension_labels:
   ehs_tenure: Tenure
   mvs_joint_income_to_value_band: Joint income as a proportion of market value
   mvs_value_estimate: Household's estimate of its home's value against the market value
+dimension_value_labels:
+  ehs_length_of_residence:
+    10_19_years: 10-19 years
+    1_year: 1 year
+    20_29_years: 20-29 years
+    2_years: 2 years
+    30_plus_years: 30+ years
+    3_4_years: 3-4 years
+    5_9_years: 5-9 years
+    less_than_1_year: Less than 1 year
+    resident_10_years_or_more: Resident 10 years or more
+    resident_less_than_10_years: Resident less than 10 years
+  ehs_tenure:
+    all_social_renters: all social renters
+    owner_occupiers: owner occupiers
+    private_renters: private renters
+  mvs_joint_income_to_value_band:
+    0_10_percent: 0-10%
+    10_20_percent: 10-20%
+    20_30_percent: 20-30%
+    30_40_percent: 30-40%
+    40_percent_plus: 40%+
+  mvs_value_estimate:
+    correctly_estimates: Correctly estimates
+    overestimates_by_more_than_gbp_50_000: Overestimates by more than £50,000
+    overestimates_up_to_gbp_50_000: Overestimates up to £50,000
+    underestimates_by_more_than_gbp_50_000: Underestimates by more than £50,000
+    underestimates_up_to_gbp_50_000: Underestimates up to £50,000
 artifact:
   source_name: mhclg
   source_table: 'Market Value Survey: 2024, Chapter 3: Housing Costs and Incomes - Annex Tables'

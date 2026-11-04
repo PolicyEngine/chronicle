@@ -56,6 +56,67 @@ dimension_labels:
   mvs_home_value: Home value
   mvs_market_value_band: Market value band
   mvs_perceived_value: Perceived home value
+dimension_value_labels:
+  ehs_dependent_children:
+    'no': 'No'
+    'yes': 'Yes'
+  ehs_fuel_bill_arrears:
+    has_not_been_behind_on_fuel_bills_in_last_12_months: Has not been behind on fuel bills in last 12
+      months
+    is_or_has_been_behind_on_fuel_bills_in_last_12_months: Is, or has been, behind on fuel bills in last
+      12 months
+  ehs_household_disability:
+    'no': 'No'
+    'yes': 'Yes'
+  ehs_hrp_age_band:
+    '16_29': 16-29
+    '30_64': 30-64
+    65_plus: 65+
+  ehs_hrp_employment_status:
+    inactive: Inactive
+    unemployed: Unemployed
+    working: Working
+  ehs_hrp_ethnicity:
+    ethnic_minority: Ethnic minority
+    white: White
+  ehs_hrp_sex:
+    female: Female
+    male: Male
+  ehs_income_quintile_group:
+    in_highest_two_income_quintiles: In highest two income quintiles
+    in_lowest_three_income_quintiles: In lowest three income quintiles
+  ehs_length_of_residence:
+    15_years_or_more: 15 years or more
+    5_10_years: 5-10 years
+    less_than_15_years: Less than 15 years
+    less_than_5_years: Less than 5 years
+    more_than_10_years: More than 10 years
+  ehs_tenure:
+    all_social_renters: all social renters
+    housing_association: housing association
+    local_authority: local authority
+    owner_occupiers: owner occupiers
+    private_renters: private renters
+  mvs_characteristic:
+    age_of_hrp: age of HRP
+    dependent_children: dependent children
+    employment_status_of_hrp: employment status of HRP
+    ethnicity_of_hrp: ethnicity of HRP
+    fuel_bills: Fuel bills
+    income_quintiles: Income quintiles
+    length_of_residence: length of residence
+    sex_of_hrp: sex of HRP
+    whether_anyone_in_household_has_a_disability_or_long_term_illness: whether anyone in household has
+      a disability or long term illness
+  mvs_home_value:
+    gbp_1_5m_or_more: Home value £1.5m or higher
+    less_than_gbp_1_5m: Home value lower than £1.5m
+  mvs_market_value_band:
+    gbp_1m_or_more: £1m plus
+    less_than_gbp_1m: Less than £1m
+  mvs_perceived_value:
+    gbp_1_5m_or_more: Perceives value at or above £1.5m
+    less_than_gbp_1_5m: Perceives value below £1.5m
 artifact:
   source_name: mhclg
   source_table: 'Market Value Survey: 2024, Chapter 4: High Value Homes - Annex Tables'

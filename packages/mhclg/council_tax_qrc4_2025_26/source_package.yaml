@@ -31,6 +31,14 @@ label: 'MHCLG collection rates 2025-26, Table 9a: each billing authority''s coun
 dimension_labels:
   mhclg.billing_authority: Billing authority
   billing_authority_class: Billing authority class
+dimension_value_labels:
+  billing_authority_class:
+    london_boroughs: London Boroughs
+    inner_london_boroughs: Inner London Boroughs
+    outer_london_boroughs: Outer London Boroughs
+    metropolitan_districts: Metropolitan Districts
+    unitary_authorities: Unitary Authorities
+    shire_districts: Shire Districts
 artifact:
   source_name: mhclg
   source_table: 'Collection rates for Council Tax and non-domestic rates in England, 2025 to 2026, Table
