@@ -26,6 +26,8 @@ every row number, column and guard cell below is one the package parser sees.
 - The other sectors' land in ``ons-national-balance-sheet-land-2025`` and
   ``ons-national-balance-sheet-land-preliminary-2026``, written as a block after their
   own record sets, and ``ons-land-underlying-buildings-2022`` (item 8).
+
+HMRC's stamp tables (item 5) are written by scripts/build_uk_1095_port_packages.py.
 """
 
 from __future__ import annotations
