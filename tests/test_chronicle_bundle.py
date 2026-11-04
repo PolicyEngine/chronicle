@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import json
+import weakref
 from collections import Counter
 from datetime import date, timedelta
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -3254,3 +3256,73 @@ def test_bundle_metadata_pool_preserves_serialized_rows_and_distinct_facts(tmp_p
     assert loaded[0]["geography"] is loaded[1]["geography"]
     assert loaded[0]["entity"] is loaded[1]["entity"]
     assert loaded[0]["period"] is loaded[1]["period"]
+
+
+def test_build_bundle_frees_each_packages_rows_before_the_next_builds(
+    tmp_path, monkeypatch
+):
+    """Holding every package's rows until the end peaked at 15.4 GB for the
+    default bundle on a 16 GB CI runner. build_bundle now writes and counts a
+    package's rows, and frees them before the next package builds."""
+    fixture_rows = _fixture_consumer_rows()
+    # The second package repeats the first package's first fact.
+    packages = {
+        "first": fixture_rows[:2],
+        "second": [fixture_rows[0], fixture_rows[2]],
+    }
+    loaded = []
+    held_when_built = []
+
+    class Row(dict):
+        """A row that can be weakly referenced, to see when it is freed."""
+
+    load_jsonl = chronicle.bundle._load_jsonl
+
+    def load_weakly_referenced_rows(path, **kwargs):
+        rows = [Row(row) for row in load_jsonl(path, **kwargs)]
+        loaded.extend(weakref.ref(row) for row in rows)
+        return rows
+
+    def build_source_suite(source, suite_dir, **kwargs):
+        # build_bundle records a failed package build as a bundle error, so
+        # this notes what is held rather than asserting here.
+        held_when_built.append(sum(row() is not None for row in loaded))
+        suite_dir.mkdir(parents=True)
+        facts = suite_dir / "consumer_facts.jsonl"
+        facts.write_text(
+            "".join(json.dumps(row, sort_keys=True) + "\n" for row in packages[source]),
+            encoding="utf-8",
+        )
+        return SimpleNamespace(
+            source=source,
+            output_dir=str(suite_dir),
+            valid=True,
+            outputs={"consumer_facts": str(facts)},
+            to_dict=lambda: {"counts": {}},
+        )
+
+    monkeypatch.setattr(chronicle.bundle, "_load_jsonl", load_weakly_referenced_rows)
+    monkeypatch.setattr(chronicle.bundle, "build_source_suite", build_source_suite)
+    monkeypatch.setattr(
+        chronicle.bundle,
+        "validate_source_package",
+        lambda source, year: SimpleNamespace(valid=True, errors=()),
+    )
+
+    report = build_bundle(tmp_path / "bundle", sources=["first", "second"])
+
+    rows = [*packages["first"], *packages["second"]]
+    assert held_when_built == [0, 0]
+    assert _load_jsonl(Path(report.outputs["consumer_facts"])) == rows
+    assert not (tmp_path / "bundle" / "consumer_facts.jsonl.partial").exists()
+    assert report.coverage == build_bundle_coverage(rows)
+    assert report.coverage["fact_count"] == 4
+    assert report.coverage["duplicates"]["aggregate_fact_keys"] == [
+        {
+            "key": fixture_rows[0]["aggregate_fact_key"],
+            "count": 2,
+            "sources": ["irs_soi:Publication 1304 Table 1.1"],
+            "legacy_fact_keys": [fixture_rows[0]["legacy_fact_key"]],
+        }
+    ]
+    assert "duplicate_aggregate_fact_key" in [issue.code for issue in report.errors]
