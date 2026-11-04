@@ -206,6 +206,10 @@ CHOSEN_LABELS: dict[tuple[str, str], str] = {
     ("salary_sacrifice_threshold_position", "all"): "All threshold positions",
     ("sex", "female"): "Female",
     ("sex", "male"): "Male",
+    # SOC 2020's name for major group 3, as ASHE Table 2 and Nomis APS218 print it
+    # (the chronicle#407 packages); the ASHE pension tables print SOC 2010's
+    # "Associate professional and technical occupations".
+    ("soc2020_major_group", "3"): "Associate professional occupations",
 }
 
 DESCRIPTION = (

@@ -389,6 +389,37 @@ contracts and caveats are in
 - **Gas in the CPI.** The CPI weights for 04.5.2 and its two classes, 2024 to 2026, and
   the two classes' indices (`ons-mm23-cpi-*-october-2026`, 23 facts).
 
+## Beyond parity — UK occupation facts (chronicle#407)
+
+Published totals for Microcosm UK's occupation variable
+([microcosm#1490](https://github.com/PolicyEngine/microcosm/issues/1490)): its
+report-only check compares the build's shares of people in work by SOC 2020 major and
+sub-major group with the APS, and full-time employee pay by major group with ASHE. The
+pinned feed had no Labour Force Survey employment series. Fifteen packages add 73,039
+facts; field contracts and caveats are in
+[`docs/data-sources/uk-occupation-facts.md`](data-sources/uk-occupation-facts.md).
+
+- **APS employment by occupation, Nomis APS218** (`ons-aps218-occupation-*`, 24,956
+  facts):
+  - people in employment, and the half-width of the estimate's confidence interval
+    where Nomis publishes one;
+  - by all occupations, the 9 major groups and the 26 sub-major groups;
+  - by sex and by employment type (all, employees, self-employed);
+  - for the UK, its four countries and the nine English regions;
+  - for Apr 2024-Mar 2025, Jan-Dec 2025 and Apr 2025-Mar 2026.
+- **ASHE Table 2, earnings by two-digit SOC** (`ons-ashe-table2-*`, 48,083 facts):
+  - gross weekly and gross annual pay (median, mean and ten percentiles) and the number
+    of jobs, with the coefficients of variation ONS publishes for each;
+  - for all employee jobs and each sex by working-pattern sheet;
+  - for 2024 revised, 2025 revised and 2026 provisional.
+- Not ported:
+  - APS periods ending in June or September, including the latest, Jul 2025-Jun 2026:
+    Chronicle has no period type for those twelve-month windows;
+  - the APS "Other" employment type, its full-time/part-time split and its "Rate"
+    measure;
+  - ASHE's annual percentage changes, its other tables (2.2 to 2.11) and the 2025
+    provisional edition.
+
 ## Beyond parity — UK land value inputs (chronicle#408)
 
 Published inputs for Microcosm's land value work
