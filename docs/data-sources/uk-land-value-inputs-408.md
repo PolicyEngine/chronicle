@@ -16,6 +16,31 @@ is a published table or file, and no value in this PR is computed by PolicyEngin
 `scripts/build_uk_408_packages.py` regenerates the new packages from the pinned bytes, and
 `--check` compares instead of writing.
 
+## Barnsley's and Sheffield's codes
+
+ONS replaced Barnsley's E08000016 and Sheffield's E08000019 with E08000038 and E08000039 in
+2025, after a boundary change. Every package keeps the codes its table prints, so packages from
+the same period disagree:
+
+| Package | Barnsley | Sheffield |
+| --- | --- | --- |
+| `mhclg-land-value-estimates-2023` | E08000016 | E08000019 |
+| `mhclg-council-tax-collection-by-authority-2025-26` (Table 6a) | E08000016 | E08000019 |
+| `mhclg-council-tax-qrc4-2025-26` (Table 9a) | E08000038 | E08000039 |
+| `voa-council-tax-bands-2026`, `-property-types-2026`, `-build-periods-2026` | E08000038 | E08000039 |
+| `mhclg-epc-d3-domestic-2026-q3`, to 2025 Q4 | E08000016 | E08000019 |
+| `mhclg-epc-d3-domestic-2026-q3`, from 2025 Q4 (2025 Q4 has both) | E08000038 | E08000039 |
+| `mhclg-live-table-126-dwelling-density-2026` | E08000016 | E08000019 |
+| `mhclg-council-tax-levels-england-2026-27` (on main) | E08000038 | E08000039 |
+
+A consumer that joins these packages on `geography_id` must map one pair of codes to the other.
+Otherwise it drops both authorities.
+
+- Tables 6a and 9a give their authority rows `mhclg.billing_authority` values made from the
+  printed code. Each of these two authorities therefore has a different value in each table.
+- Chronicle's geography name register, built from ONS's December 2024 lookups, carries the old
+  codes but not the new ones.
+
 ## 1. MHCLG land value estimates for policy appraisal 2023
 
 **`mhclg-land-value-estimates-2023`** (10,101 facts) holds all eight data sheets of MHCLG's
@@ -444,6 +469,9 @@ waits for a separate change to how Chronicle stores large raw files, which
 
 - `[x]` cells emit no fact. `[p]` (provisional) and `[r]` (revised) stay in the measure
   headers and labels.
+- The `[p]` years, 2022 to 2025, also carry `publication_status == provisional`, as
+  `welshgov-dwelling-stock-by-tenure-2025` does. A consumer can filter on it. `[r]` (2024)
+  has no filter of its own.
 - Four codes print twice:
   - Cumberland, Westmorland and Furness, and North Yorkshire repeat identical rows.
   - Suffolk's first row lacks its 2023 value.

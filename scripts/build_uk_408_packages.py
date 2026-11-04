@@ -76,6 +76,7 @@ FILTER_LABELS = {
     "voa_property_type": "Property type",
     "voa_bedrooms": "Number of bedrooms",
     "voa_build_period": "Build period",
+    "publication_status": "Publication status",
     "billing_authority_class": "Billing authority class",
     "ehs_tenure": "Tenure",
     "mvs_market_value_band": "Market value band",
@@ -2243,9 +2244,9 @@ Dwellings per hectare at 31 March of each year: the dwelling stock (Live Table 1
 divided by the land area in hectares (ONS AREALHECT). Each year column is its own record
 set, a calendar_year period stamped 31 March, with the column's printed header kept as
 the measure's expected header, so its markers stay: '[p]' provisional (2022 to 2025),
-'[r]' revised (2024), and notes 2 to 4 on the 2019, 2020 and 2021 reorganisations. '[x]'
-(data not available) emits no fact: each authority prints values only for the years it
-existed in.
+'[r]' revised (2024), and notes 2 to 4 on the 2019, 2020 and 2021 reorganisations. The
+'[p]' years' facts also carry publication_status == provisional. '[x]' (data not
+available) emits no fact: each authority prints values only for the years it existed in.
 
 Rows are England, the regions, the counties and metropolitan counties, Inner and Outer
 London and every local authority district, keyed by the 'New ONS code' and guarded by the
@@ -2378,6 +2379,11 @@ def build_live_table_126() -> str:
                 sheet_name=sheet,
                 period_type="calendar_year",
                 period=year,
+                # The table marks these years' columns '[p]' provisional; the facts say
+                # so in the filter other packages use for a publisher's status.
+                shared_filters=(
+                    {"publication_status": "provisional"} if "[p]" in marker else None
+                ),
                 period_coverage={
                     "start_date": f"{year}-03-31",
                     "end_date": f"{year}-03-31",
@@ -2416,7 +2422,10 @@ def build_live_table_126() -> str:
         "package_id": "mhclg-live-table-126-dwelling-density-2026",
         "label": "MHCLG Live Table 126: dwelling stock density by local authority "
         "district, England, 2011 to 2025",
-        "dimension_labels": {"mhclg.lt126_area": "Area"},
+        "dimension_labels": {
+            "mhclg.lt126_area": "Area",
+            "publication_status": FILTER_LABELS["publication_status"],
+        },
         "artifact": artifact(
             "mhclg",
             "Live Table 126: dwelling stock density estimates by local authority "
