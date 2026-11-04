@@ -1,0 +1,28 @@
+source_id: nisra
+package_id: nisra-nimdm-2017-soa-results
+dataset: nisra_nisra-nimdm-2017-soa-results
+source_page: https://www.nisra.gov.uk/publications/nimdm17-soa-level-results
+table: Northern Ireland Multiple Deprivation Measure 2017, Super Output Area level
+  results
+files:
+  2017:
+    filename: NIMDM17_SOAresults.xls
+    source_url: https://www.nisra.gov.uk/files/nisra/publications/NIMDM17_SOAresults.xls
+    sha256: 3738edf2d264491301b41cc7b64967373d49b09a6f5719225a0e4f7d789af9d3
+    size_bytes: 1772032
+    fetched_at: '2026-11-04T18:22:06+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-nimdm-2017-soa-results/2017/3738edf2d264491301b41cc7b64967373d49b09a6f5719225a0e4f7d789af9d3/NIMDM17_SOAresults.xls
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-nimdm-2017-soa-results/2017/3738edf2d264491301b41cc7b64967373d49b09a6f5719225a0e4f7d789af9d3/NIMDM17_SOAresults.xls
+registration_kind: raw_only
+provenance_notes: 'Northern Ireland Multiple Deprivation Measure 2017 (NISRA, November
+  2017), Super Output Area results: the MDM rank (1 most deprived to 890) and the
+  seven domain ranks for each of the 890 SOAs (2001 boundaries, unchanged for 2011),
+  with LGD 2014 and the 2015 default urban/rural status, and one sheet per domain
+  with its indicators. NISRA publishes ranks, not deciles. The May 2026 NSPL (ons-nspl-may-2026)
+  carries the MDM ranks as imd20ind. NISRA publishes no lookup from SOAs or Small
+  Areas to Data Zones 2021. Licence: Open Government Licence. Raw-only for chronicle#412
+  item 1.'
