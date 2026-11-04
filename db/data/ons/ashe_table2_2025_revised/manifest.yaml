@@ -1,0 +1,22 @@
+source_id: ons
+package_id: ons-ashe-table2-2025-revised
+dataset: ons_ons-ashe-table2-2025-revised
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/occupation2digitsocashetable2
+table: 'ASHE Table 2: earnings and hours worked, occupation by two-digit SOC, 2025
+  revised'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, Annual Survey of Hours and Earnings,
+  Table 2, 2025 revised (released 22 October 2026). Contains public sector information
+  licensed under the Open Government Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (dataset page https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/occupation2digitsocashetable2);
+  the workbooks state no other terms.'
+license_verified_at: '2026-11-04'
+files:
+  2025:
+    filename: ashetable22025revised.zip
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/occupation2digitsocashetable2/2025revised/ashetable22025revised.zip
+    sha256: 99c6b4ca8b203f02f03a23dbd1d98b1941418b6ae8422f960f6d6ebbe9dd912f
+    size_bytes: 1438576
+    fetched_at: '2026-11-04T13:01:56+00:00'
