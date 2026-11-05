@@ -3192,6 +3192,48 @@ def test_bundle_coverage_canonicalizes_cross_epoch_identities():
     ]
 
 
+def test_bundle_coverage_duplicates_keep_each_keys_first_row():
+    # Coverage keeps only a key's first row's source table and legacy key until
+    # the key repeats, so the first row's must still reach the report. Main's
+    # build, which grouped every row by key, reports the same.
+    fixture_rows = _fixture_consumer_rows()
+    first, second, third = (json.loads(json.dumps(fixture_rows[0])) for _ in range(3))
+    first["source"]["source_table"] = "Publication 1304 Table 1.2"
+    first["legacy_fact_key"] = fixture_rows[1]["legacy_fact_key"]
+    first["semantic_fact_key"] = fixture_rows[1]["semantic_fact_key"]
+    del second["legacy_fact_key"]
+
+    coverage = build_bundle_coverage([first, second, third])
+
+    assert coverage["unique_counts"]["aggregate_fact_key"] == 1
+    assert coverage["unique_counts"]["semantic_fact_key"] == 2
+    assert coverage["duplicates"] == {
+        "aggregate_fact_keys": [
+            {
+                "key": fixture_rows[0]["aggregate_fact_key"],
+                "count": 3,
+                "sources": [
+                    "irs_soi:Publication 1304 Table 1.1",
+                    "irs_soi:Publication 1304 Table 1.2",
+                ],
+                "legacy_fact_keys": [
+                    fixture_rows[0]["legacy_fact_key"],
+                    fixture_rows[1]["legacy_fact_key"],
+                ],
+            }
+        ],
+        # The semantic key's first row is the second, which has no legacy key.
+        "semantic_fact_keys": [
+            {
+                "key": fixture_rows[0]["semantic_fact_key"],
+                "count": 2,
+                "sources": ["irs_soi:Publication 1304 Table 1.1"],
+                "legacy_fact_keys": [fixture_rows[0]["legacy_fact_key"]],
+            }
+        ],
+    }
+
+
 def test_bundle_coverage_preserves_non_string_identity_scalars(tmp_path):
     identity_fields = (
         "aggregate_fact_key",
@@ -3258,11 +3300,38 @@ def test_bundle_metadata_pool_preserves_serialized_rows_and_distinct_facts(tmp_p
     assert loaded[0]["period"] is loaded[1]["period"]
 
 
+def _stub_source_suites(monkeypatch, packages, on_build=lambda: None):
+    """Have build_bundle build each named package as a suite of the given rows."""
+
+    def build_source_suite(source, suite_dir, **kwargs):
+        on_build()
+        suite_dir.mkdir(parents=True)
+        facts = suite_dir / "consumer_facts.jsonl"
+        facts.write_text(
+            "".join(json.dumps(row, sort_keys=True) + "\n" for row in packages[source]),
+            encoding="utf-8",
+        )
+        return SimpleNamespace(
+            source=source,
+            output_dir=str(suite_dir),
+            valid=True,
+            outputs={"consumer_facts": str(facts)},
+            to_dict=lambda: {"counts": {}},
+        )
+
+    monkeypatch.setattr(chronicle.bundle, "build_source_suite", build_source_suite)
+    monkeypatch.setattr(
+        chronicle.bundle,
+        "validate_source_package",
+        lambda source, year: SimpleNamespace(valid=True, errors=()),
+    )
+
+
 def test_build_bundle_frees_each_packages_rows_before_the_next_builds(
     tmp_path, monkeypatch
 ):
-    """Holding every package's rows until the end peaked at 15.4 GB for the
-    default bundle on a 16 GB CI runner. build_bundle now writes and counts a
+    """Holding every package's rows until the end peaked at 15.0 GiB on CI for
+    the default bundle's 1.74M rows. build_bundle now writes and counts a
     package's rows, and frees them before the next package builds."""
     fixture_rows = _fixture_consumer_rows()
     # The second package repeats the first package's first fact.
@@ -3283,31 +3352,13 @@ def test_build_bundle_frees_each_packages_rows_before_the_next_builds(
         loaded.extend(weakref.ref(row) for row in rows)
         return rows
 
-    def build_source_suite(source, suite_dir, **kwargs):
+    def note_rows_held():
         # build_bundle records a failed package build as a bundle error, so
         # this notes what is held rather than asserting here.
         held_when_built.append(sum(row() is not None for row in loaded))
-        suite_dir.mkdir(parents=True)
-        facts = suite_dir / "consumer_facts.jsonl"
-        facts.write_text(
-            "".join(json.dumps(row, sort_keys=True) + "\n" for row in packages[source]),
-            encoding="utf-8",
-        )
-        return SimpleNamespace(
-            source=source,
-            output_dir=str(suite_dir),
-            valid=True,
-            outputs={"consumer_facts": str(facts)},
-            to_dict=lambda: {"counts": {}},
-        )
 
     monkeypatch.setattr(chronicle.bundle, "_load_jsonl", load_weakly_referenced_rows)
-    monkeypatch.setattr(chronicle.bundle, "build_source_suite", build_source_suite)
-    monkeypatch.setattr(
-        chronicle.bundle,
-        "validate_source_package",
-        lambda source, year: SimpleNamespace(valid=True, errors=()),
-    )
+    _stub_source_suites(monkeypatch, packages, on_build=note_rows_held)
 
     report = build_bundle(tmp_path / "bundle", sources=["first", "second"])
 
@@ -3326,3 +3377,24 @@ def test_build_bundle_frees_each_packages_rows_before_the_next_builds(
         }
     ]
     assert "duplicate_aggregate_fact_key" in [issue.code for issue in report.errors]
+
+
+def test_build_bundle_removes_its_partial_facts_file_when_it_fails(
+    tmp_path, monkeypatch
+):
+    """The first package's rows are written before the second fails to load.
+    The old build wrote no facts file before the end, and nor does a failed
+    build now: the UK suite's partial file reaches about 8 GB."""
+    fixture_rows = _fixture_consumer_rows()
+    unloadable = json.loads(json.dumps(fixture_rows[1]))
+    digest = unloadable["aggregate_fact_key"].partition(":")[2]
+    unloadable["aggregate_fact_key"] = f"future.aggregate_fact.v4:{digest}"
+    _stub_source_suites(
+        monkeypatch, {"first": fixture_rows[:1], "second": [unloadable]}
+    )
+
+    with pytest.raises(ValueError, match="chronicle.aggregate_fact.v3"):
+        build_bundle(tmp_path / "bundle", sources=["first", "second"])
+
+    assert not (tmp_path / "bundle" / "consumer_facts.jsonl.partial").exists()
+    assert not (tmp_path / "bundle" / "consumer_facts.jsonl").exists()

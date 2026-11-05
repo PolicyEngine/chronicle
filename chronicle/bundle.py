@@ -817,99 +817,108 @@ def build_bundle(
     geography_names: dict[tuple[str, str], dict[str, list[str]]] = {}
     value_labels: dict[tuple[str, str], dict[str, list[str]]] = {}
     # Each package's rows are written and counted as soon as they are read, then
-    # freed. Holding every package's rows until the end peaked at 15.4 GB for
-    # the default bundle's 1.66M rows, on a CI runner with 16 GB. The file takes
-    # its final name once every package is in it.
+    # freed. Holding every package's rows until the end peaked at 15.0 GiB on CI
+    # for the default bundle's 1.74M rows, close to the runner's memory. The file
+    # takes its final name once every package is in it; a failed build removes it.
     coverage_counts = _BundleCoverage()
     consumer_facts_path = output_path / "consumer_facts.jsonl"
     partial_facts_path = output_path / "consumer_facts.jsonl.partial"
     partial_facts_path.write_text("", encoding="utf-8")
 
-    for source in build_sources:
-        suite_dir = sources_path / _safe_source_dir_name(source)
-        try:
-            suite_report = build_source_suite(
-                source,
-                suite_dir,
-                year=year,
-                axiom_command=axiom_command,
-                axiom_roots=axiom_roots,
-                require_axiom_validation=require_axiom_validation,
-                replace=True,
+    try:
+        for source in build_sources:
+            suite_dir = sources_path / _safe_source_dir_name(source)
+            try:
+                suite_report = build_source_suite(
+                    source,
+                    suite_dir,
+                    year=year,
+                    axiom_command=axiom_command,
+                    axiom_roots=axiom_roots,
+                    require_axiom_validation=require_axiom_validation,
+                    replace=True,
+                )
+            except Exception as exc:
+                errors.append(
+                    BuildBundleIssue(
+                        code="source_suite_build_failed",
+                        message=str(exc),
+                        source=source,
+                    )
+                )
+                continue
+
+            if not suite_report.valid:
+                errors.append(
+                    BuildBundleIssue(
+                        code="source_suite_invalid",
+                        message="Nested source-package suite did not pass validation.",
+                        source=source,
+                    )
+                )
+            # The metadata pool is the package's own, so it is freed with its rows.
+            rows = _load_jsonl(
+                Path(suite_report.outputs["consumer_facts"]),
+                shared_metadata={},
             )
-        except Exception as exc:
+            _append_jsonl(partial_facts_path, rows)
+            coverage_counts.add(rows)
+            source_reports.append(_bundle_source_report(source, suite_report))
+            label_errors, label_warnings = _dimension_label_reports(source, rows)
+            errors.extend(label_errors)
+            warnings.extend(label_warnings)
+            errors.extend(_geography_name_errors(source, rows))
+            for area, names in _geography_names(rows).items():
+                for name in names:
+                    geography_names.setdefault(area, {}).setdefault(name, []).append(
+                        source
+                    )
+            for pair, labels in _value_labels(rows).items():
+                for label in labels:
+                    value_labels.setdefault(pair, {}).setdefault(label, []).append(
+                        source
+                    )
+            for dimension_id, labels in dimension_labels_by_id(rows).items():
+                for label in labels:
+                    dimension_labels.setdefault(dimension_id, {}).setdefault(
+                        label, []
+                    ).append(source)
+            # Free this package's rows and suite reports before the next one builds.
+            del rows, suite_report
+
+        errors.extend(_cross_package_dimension_label_errors(dimension_labels))
+        errors.extend(_cross_package_value_label_errors(value_labels))
+        warnings.extend(_cross_package_geography_name_warnings(geography_names))
+        aggregate_duplicates = coverage_counts.duplicates("aggregate_fact_key")
+        semantic_duplicates = coverage_counts.duplicates("semantic_fact_key")
+        for duplicate in aggregate_duplicates:
             errors.append(
                 BuildBundleIssue(
-                    code="source_suite_build_failed",
-                    message=str(exc),
-                    source=source,
+                    code="duplicate_aggregate_fact_key",
+                    message="Aggregate fact keys must be unique within a bundle.",
+                    key=duplicate["key"],
                 )
             )
-            continue
-
-        if not suite_report.valid:
-            errors.append(
+        if semantic_duplicates:
+            warnings.append(
                 BuildBundleIssue(
-                    code="source_suite_invalid",
-                    message="Nested source-package suite did not pass validation.",
-                    source=source,
+                    code="duplicate_semantic_fact_key",
+                    message=(
+                        "One or more semantic facts appear in multiple rows; "
+                        "downstream consumers should reconcile or select sources."
+                    ),
                 )
             )
-        # The metadata pool is the package's own, so it is freed with its rows.
-        rows = _load_jsonl(
-            Path(suite_report.outputs["consumer_facts"]),
-            shared_metadata={},
-        )
-        _append_jsonl(partial_facts_path, rows)
-        coverage_counts.add(rows)
-        source_reports.append(_bundle_source_report(source, suite_report))
-        label_errors, label_warnings = _dimension_label_reports(source, rows)
-        errors.extend(label_errors)
-        warnings.extend(label_warnings)
-        errors.extend(_geography_name_errors(source, rows))
-        for area, names in _geography_names(rows).items():
-            for name in names:
-                geography_names.setdefault(area, {}).setdefault(name, []).append(source)
-        for pair, labels in _value_labels(rows).items():
-            for label in labels:
-                value_labels.setdefault(pair, {}).setdefault(label, []).append(source)
-        for dimension_id, labels in dimension_labels_by_id(rows).items():
-            for label in labels:
-                dimension_labels.setdefault(dimension_id, {}).setdefault(
-                    label, []
-                ).append(source)
-        # Free this package's rows and suite reports before the next one builds.
-        del rows, suite_report
 
-    errors.extend(_cross_package_dimension_label_errors(dimension_labels))
-    errors.extend(_cross_package_value_label_errors(value_labels))
-    warnings.extend(_cross_package_geography_name_warnings(geography_names))
-    aggregate_duplicates = coverage_counts.duplicates("aggregate_fact_key")
-    semantic_duplicates = coverage_counts.duplicates("semantic_fact_key")
-    for duplicate in aggregate_duplicates:
-        errors.append(
-            BuildBundleIssue(
-                code="duplicate_aggregate_fact_key",
-                message="Aggregate fact keys must be unique within a bundle.",
-                key=duplicate["key"],
-            )
-        )
-    if semantic_duplicates:
-        warnings.append(
-            BuildBundleIssue(
-                code="duplicate_semantic_fact_key",
-                message=(
-                    "One or more semantic facts appear in multiple rows; "
-                    "downstream consumers should reconcile or select sources."
-                ),
-            )
-        )
+        partial_facts_path.replace(consumer_facts_path)
+    except BaseException:
+        partial_facts_path.unlink(missing_ok=True)
+        raise
 
     source_packages_path = output_path / "source_packages.json"
     coverage_path = output_path / "coverage.json"
     report_path = reports_path / "build_bundle.json"
 
-    partial_facts_path.replace(consumer_facts_path)
     coverage = coverage_counts.report(
         aggregate_duplicates=aggregate_duplicates,
         semantic_duplicates=semantic_duplicates,
