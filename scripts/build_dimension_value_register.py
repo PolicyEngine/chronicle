@@ -99,7 +99,9 @@ AGI = "us:statutes/26/62#adjusted_gross_income"
 #: wording after review. The maintainer chose four more on 2026-10-26, for
 #: values the packages merged from main word two ways: freq=A, GSGB's
 #: national_lottery_draws_in_person, income_range=all and
-#: salary_sacrifice_threshold_position=all.
+#: salary_sacrifice_threshold_position=all. chronicle#408 proposes twelve for
+#: the Market Value Survey 2024 packages, for the maintainer's review: eight
+#: by the rule, four value bands that two packages word one way each.
 CHOSEN_LABELS: dict[tuple[str, str], str] = {
     (AGI, "under_1"): "No adjusted gross income",
     (AGI, "all"): "All returns, total",
@@ -116,6 +118,13 @@ CHOSEN_LABELS: dict[tuple[str, str], str] = {
         "early_year_award_line",
         "new_returning_total_returning_31_33_35",
     ): "Total returning [31][33][35]",
+    # The Market Value Survey 2024's value rows (Chapters 1 and 4) print "Yes"
+    # and "No"; Chapter 1's sample-size rows print "Dependent Children - Yes"
+    # and "Disability or long term illness - Yes". The wording most packages use.
+    ("ehs_dependent_children", "no"): "No",
+    ("ehs_dependent_children", "yes"): "Yes",
+    ("ehs_household_disability", "no"): "No",
+    ("ehs_household_disability", "yes"): "Yes",
     # Eurostat's exchange-rate dataset's JSON-stat category label; the older
     # Eurostat packages carry the bare code "A".
     ("freq", "A"): "Annual",
@@ -140,6 +149,20 @@ CHOSEN_LABELS: dict[tuple[str, str], str] = {
     # The IRS SOI packages' wording; Census B19001 writes "Total".
     ("income_range", "all"): "All income ranges",
     ("measure", "country_total"): "Country total",
+    # As ehs_dependent_children and ehs_household_disability above.
+    ("mhclg.ehs_dependent_children", "no"): "No",
+    ("mhclg.ehs_dependent_children", "yes"): "Yes",
+    ("mhclg.ehs_household_disability", "no"): "No",
+    ("mhclg.ehs_household_disability", "yes"): "Yes",
+    # Chapter 1 of the Market Value Survey 2024 prints "£1,000,000 to
+    # £2,000,000" and "£2,000,000 or more", Chapter 4 "£1m-£2m" and "£2m or
+    # more" (AT4.1 and AT4.2) and "£2m plus" (AT4.3 and AT4.4): one package
+    # each, both MHCLG's. Chapter 1's wording, in the style of its other bands
+    # ("£700,000 to £1,000,000"), proposed for the maintainer.
+    ("mhclg.mvs_market_value_band", "gbp_1m_to_2m"): "£1,000,000 to £2,000,000",
+    ("mhclg.mvs_market_value_band", "gbp_2m_or_more"): "£2,000,000 or more",
+    ("mvs_market_value_band", "gbp_1m_to_2m"): "£1,000,000 to £2,000,000",
+    ("mvs_market_value_band", "gbp_2m_or_more"): "£2,000,000 or more",
     (
         "na_item",
         "belgium_household_disposable_income_gross",

@@ -1154,6 +1154,30 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/mm23_cpi_index_liquefied_hydrocarbons_october_2026"
     ),
     # end PolicyEngine/chronicle#395
+    # PolicyEngine/chronicle#408: UK land value inputs
+    "mhclg-land-value-estimates-2023": Path("mhclg/land_value_estimates_2023"),
+    "voa-council-tax-bands-2026": Path("voa/council_tax_bands_2026"),
+    "voa-council-tax-property-types-2026": Path("voa/council_tax_property_types_2026"),
+    "voa-council-tax-build-periods-2026": Path("voa/council_tax_build_periods_2026"),
+    "mhclg-epc-d3-domestic-2026-q3": Path("mhclg/epc_d3_domestic_2026_q3"),
+    "mhclg-live-table-126-dwelling-density-2026": Path(
+        "mhclg/live_table_126_dwelling_density_2026"
+    ),
+    "mhclg-council-tax-collection-by-authority-2025-26": Path(
+        "mhclg/council_tax_collection_by_authority_2025_26"
+    ),
+    "mhclg-council-tax-qrc4-2025-26": Path("mhclg/council_tax_qrc4_2025_26"),
+    "mhclg-market-value-survey-2024-chapter-1": Path(
+        "mhclg/market_value_survey_2024_chapter_1"
+    ),
+    "mhclg-market-value-survey-2024-chapter-3": Path(
+        "mhclg/market_value_survey_2024_chapter_3"
+    ),
+    "mhclg-market-value-survey-2024-chapter-4": Path(
+        "mhclg/market_value_survey_2024_chapter_4"
+    ),
+    "ons-land-underlying-buildings-2022": Path("ons/land_underlying_buildings_2022"),
+    # end PolicyEngine/chronicle#408
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"
     ),

@@ -1,0 +1,29 @@
+source_id: mhclg
+package_id: mhclg-market-value-survey-2024-chapter-4
+dataset: mhclg_mhclg-market-value-survey-2024-chapter-4
+source_page: https://www.gov.uk/government/publications/market-value-survey-2024
+table: '2024 Market Value Survey (English Housing Survey), Chapter 4, high value homes:
+  annex tables'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Ministry of Housing, Communities and Local Government, Market
+  Value Survey: 2024 (published 14 April 2026), Chapter 4 annex tables (high value
+  homes). Contains public sector information licensed under the Open Government Licence
+  v3.0.'
+license_evidence: 'GOV.UK publication page (research, MHCLG): ''All content is available
+  under the Open Government Licence v3.0, except where otherwise stated''; the workbook
+  states no other licence.'
+license_verified_at: '2026-11-04'
+files:
+  2024:
+    filename: Chapter_4_MVS_-_Annex_Tables.ods
+    source_url: https://assets.publishing.service.gov.uk/media/69d675373cf9187b7a07ba2d/Chapter_4_MVS_-_Annex_Tables.ods
+    sha256: fc27131ea159145be7f6c61ae0a6b873ec4c2e63db06516dbb0c3689b2dd056f
+    size_bytes: 15838
+    fetched_at: '2026-11-04T13:13:02+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-market-value-survey-2024-chapter-4/2024/fc27131ea159145be7f6c61ae0a6b873ec4c2e63db06516dbb0c3689b2dd056f/Chapter_4_MVS_-_Annex_Tables.ods
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-market-value-survey-2024-chapter-4/2024/fc27131ea159145be7f6c61ae0a6b873ec4c2e63db06516dbb0c3689b2dd056f/Chapter_4_MVS_-_Annex_Tables.ods

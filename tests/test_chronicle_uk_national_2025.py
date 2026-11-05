@@ -87,7 +87,7 @@ def test_uk_mid_year_population_packages_share_the_consumer_representation(alias
         ("slc-student-loan-repayments-england-2026", 2026, 8),
         ("slc-student-support-england-2025-provisional-2025-26", 2025, 136),
         ("ons-public-sector-employment-june-2026", 2026, 24),
-        ("ons-national-balance-sheet-land-preliminary-2026", 2026, 3),
+        ("ons-national-balance-sheet-land-preliminary-2026", 2026, 12),
         ("dfi-ni-public-transport-statistics-2025-26", 2026, 21),
         ("isc-annual-census-2025", 2025, 1),
         ("isc-annual-census-2026", 2026, 1),
@@ -269,11 +269,21 @@ def test_public_sector_employment_keeps_four_published_quarters(facts_for):
 
 def test_preliminary_land_is_a_publisher_sector_stock(facts_for):
     facts = facts_for("ons-national-balance-sheet-land-preliminary-2026")
-    # End-2025 land AN.211, Tables 2/3/11!47; GBP million scaled to GBP.
+    # End-2025 land AN.211, Tables 2 to 12!47 and Table 13!39 (chronicle#408 added every
+    # sector after the first three); GBP million scaled to GBP.
     assert {f.entity.role: f.value for f in facts} == {
         "total_economy": 6_872_455_000_000,
         "households": 4_485_171_000_000,
         "non_financial_corporations": 2_063_534_000_000,
+        "public_non_financial_corporations": 310_221_000_000,
+        "private_non_financial_corporations": 1_753_313_000_000,
+        "financial_corporations": 13_925_000_000,
+        "general_government": 274_634_000_000,
+        "central_government": 152_501_000_000,
+        "local_government": 122_133_000_000,
+        "households_and_npish": 4_520_362_000_000,
+        "non_profit_institutions_serving_households": 35_191_000_000,
+        "public_sector": 584_855_000_000,
     }
     assert all(f.filters["publication_status"] == "preliminary" for f in facts)
     assert all(f.period_coverage.end_date == "2025-12-31" for f in facts)
