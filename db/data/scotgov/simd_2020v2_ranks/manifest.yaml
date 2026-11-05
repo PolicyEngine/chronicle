@@ -1,0 +1,25 @@
+source_id: scotgov
+package_id: scotgov-simd-2020v2-ranks
+dataset: scotgov_scotgov-simd-2020v2-ranks
+source_page: https://www.gov.scot/publications/scottish-index-of-multiple-deprivation-2020v2-ranks/
+table: Scottish Index of Multiple Deprivation 2020v2 ranks
+files:
+  2020:
+    filename: SIMD_2020v2_ranks.xlsx
+    source_url: https://www.gov.scot/binaries/content/documents/govscot/publications/statistics/2020/01/scottish-index-of-multiple-deprivation-2020-ranks-and-domain-ranks/documents/scottish-index-of-multiple-deprivation-2020-ranks-and-domain-ranks/scottish-index-of-multiple-deprivation-2020-ranks-and-domain-ranks/govscot%3Adocument/SIMD%2B2020v2%2B-%2Branks.xlsx
+    sha256: 9904aa957a8177853564415e848e08553c17491d1578ff631a5074cacc9fb296
+    size_bytes: 513811
+    fetched_at: '2026-11-04T18:21:41+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-simd-2020v2-ranks/2020/9904aa957a8177853564415e848e08553c17491d1578ff631a5074cacc9fb296/SIMD_2020v2_ranks.xlsx
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-simd-2020v2-ranks/2020/9904aa957a8177853564415e848e08553c17491d1578ff631a5074cacc9fb296/SIMD_2020v2_ranks.xlsx
+registration_kind: raw_only
+provenance_notes: 'Scottish Index of Multiple Deprivation 2020v2 ranks (SIMD 2020
+  published 28 January 2020; version 2, April 2020, corrects the income ranks DWP
+  supplied): the overall rank (1 most deprived to 6,976) and seven domain ranks for
+  each of the 6,976 data zones on 2011 boundaries, with NRS 2017 small area population
+  estimates. It prints no deciles; the data zone lookup (scotgov-simd-2020v2-data-zone-lookup)
+  does. Licence: Open Government Licence v3.0. Raw-only for chronicle#412 item 1.'
