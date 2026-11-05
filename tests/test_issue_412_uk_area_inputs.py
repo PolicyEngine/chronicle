@@ -499,6 +499,12 @@ def test_2024_25_band_table_is_numbered_8():
     ]
     authorities = [row for row in rows[3:] if str(row[1]).startswith("E0")]
     assert len(authorities) == len({row[1] for row in authorities}) == 296
+    # Barnsley and Sheffield keep their pre-April 2025 codes here; the NSPL's
+    # district columns and the 2025-26 workbook carry E08000038 and E08000039.
+    codes = {row[1]: row[2] for row in authorities}
+    assert codes["E08000016"] == "Barnsley"
+    assert codes["E08000019"] == "Sheffield"
+    assert not {"E08000038", "E08000039"} & codes.keys()
     notes = _ods_rows("mhclg/council_tax_levels_england_2024_25_table_8", "Notes")
     assert ["[note a]", "Figures include adult social care and parish precepts."] in [
         row[:2] for row in notes
@@ -513,6 +519,9 @@ def test_2024_25_band_table_is_numbered_8():
     assert later.iloc[0, 0].startswith(
         "Table 9: Area council tax for a dwelling occupied by two adults by band 2025 to 2026"
     )
+    later_codes = set(later[1].astype(str))
+    assert {"E08000038", "E08000039"} <= later_codes
+    assert not {"E08000016", "E08000019"} & later_codes
 
 
 def test_statswales_band_d_matches_the_2024_25_release():
@@ -534,9 +543,19 @@ def test_statswales_band_d_matches_the_2024_25_release():
     with _path("welshgov/band_d_council_tax_composition_1993_94_to_2026_27").open(
         encoding="utf-8-sig", newline=""
     ) as handle:
+        reader = csv.DictReader(handle)
+        # Authorities are named, not coded; the Wales row is "Total Unitary Authorities".
+        assert reader.fieldnames == [
+            "Data values",
+            "Data description",
+            "Row",
+            "Year",
+            "Authority",
+            "Notes",
+        ]
         values = {
             (row["Authority"], row["Row"]): float(row["Data values"])
-            for row in csv.DictReader(handle)
+            for row in reader
             if row["Year"] == "2024-25" and row["Data description"] == "£ per band D"
         }
     columns = (

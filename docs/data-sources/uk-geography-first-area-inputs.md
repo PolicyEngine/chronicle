@@ -129,17 +129,27 @@ and 890.
 Each postcode in this edition also carries `oa21cd`: the 2021 output area in England and
 Wales, the 2022 output area in Scotland and the 2021 Data Zone in Northern Ireland. So it
 links the 2019-vintage ranks to the small areas Microcosm assigns, in all four nations.
-Postcodes in one small area can carry different ranks. The areas with more than one rank
-among their postcodes are:
+Postcodes in one small area can carry different ranks. The table counts the areas with
+more than one rank among their postcodes, first over all postcodes (current and
+terminated), then over live postcodes only (`doterm` empty):
 
-| nation | areas with more than one rank | areas with postcodes |
-|---|---|---|
-| England | 507 | 178,582 OAs |
-| Wales | 28 | 10,274 OAs |
-| Scotland | 3,335 | 46,282 OAs |
-| Northern Ireland | 2,011 | 3,780 Data Zones |
+| nation | more than one rank, all postcodes | areas, all postcodes | more than one rank, live postcodes | areas, live postcodes |
+|---|---|---|---|---|
+| England | 507 | 178,582 OAs | 470 | 178,571 OAs |
+| Wales | 28 | 10,274 OAs | 26 | 10,274 OAs |
+| Scotland | 3,335 | 46,282 OAs | 2,991 | 46,270 OAs |
+| Northern Ireland | 2,011 | 3,780 Data Zones | 1,993 | 3,780 Data Zones |
 
 How to weight such areas is Microcosm's choice.
+
+**Ranks are within-nation only.** Each index ranks the small areas of its own nation and no
+other, so ranks and deciles cannot be compared across nations. The NSPL's single
+`imd20ind` (or `imd25ind`) column holds four separate rankings, 1 to 32,844, 1 to 1,909, 1
+to 6,976 and 1 to 890; the user guide says "Each IMD is unique ONLY within each country".
+Banded UK-wide, every Welsh, Scottish and Northern Ireland rank would land in the most
+deprived deciles, since their ranks stop at 1,909, 6,976 and 890. This matches the FRS's separate `IMDE`, `IMDW`, `IMDS` and `IMDN`. A decile of an
+NIMDM rank is a banding within Northern Ireland, over its 890 SOAs or its 4,537 Small
+Areas, depending on the level DWP used.
 
 **What this means for Microcosm.** The vintage question stays with DWP.
 
@@ -180,6 +190,16 @@ here, not Table 9.**
 Table 8 covers the 296 billing authorities, with E code and ONS code. Its figures include
 adult social care and parish precepts (note a), and note b states the band ratios.
 
+**Barnsley and Sheffield carry their pre-April 2025 codes in Table 8**: `E08000016` and
+`E08000019`.
+- These two authorities took new codes in April 2025, recorded in
+  `tests/test_issue_262_council_taxbase.py`. The NSPL's district column uses only the new
+  codes, `E08000038` and `E08000039`: `lad25cd` in May 2026 and `lad26cd` in August 2026.
+  The 2025-26 workbook's Table 9 uses them too.
+- So a join from an NSPL district to Table 8 by code finds no row for either authority
+  unless the consumer maps the two codes.
+- IoD 2025 File 1's 2024 district column also uses the old codes (148 and 343 LSOAs).
+
 Table 9's workbook has ten data sheets and also carries 272 empty sheets named after
 external file references.
 
@@ -195,6 +215,8 @@ external file references.
   - Checked: the release's Table 1 equals the export's 2024-25 values rounded to the pound,
     for all 22 authorities and the Wales average. This holds for the band D total and each
     of the three elements.
+  - The export names each authority but carries no `W06` code, and its Wales row is named
+    "Total Unitary Authorities".
   - The API regenerates the export, so the registration pins one fetch's bytes.
 - Not registered: the April 2025 to March 2026 release. Its Table 2 gives the overall
   2024-25 band D, but not its elements, and the StatsWales export carries the same values.
