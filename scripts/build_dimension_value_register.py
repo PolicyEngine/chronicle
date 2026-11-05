@@ -156,8 +156,9 @@ CHOSEN_LABELS: dict[tuple[str, str], str] = {
     ("mhclg.ehs_household_disability", "yes"): "Yes",
     # Chapter 1 of the Market Value Survey 2024 prints "£1,000,000 to
     # £2,000,000" and "£2,000,000 or more", Chapter 4 "£1m-£2m" and "£2m or
-    # more": one package each, both MHCLG's. Chapter 1's wording, in the style of
-    # its other bands ("£700,000 to £1,000,000"), proposed for the maintainer.
+    # more" (AT4.1 and AT4.2) and "£2m plus" (AT4.3 and AT4.4): one package
+    # each, both MHCLG's. Chapter 1's wording, in the style of its other bands
+    # ("£700,000 to £1,000,000"), proposed for the maintainer.
     ("mhclg.mvs_market_value_band", "gbp_1m_to_2m"): "£1,000,000 to £2,000,000",
     ("mhclg.mvs_market_value_band", "gbp_2m_or_more"): "£2,000,000 or more",
     ("mvs_market_value_band", "gbp_1m_to_2m"): "£1,000,000 to £2,000,000",
