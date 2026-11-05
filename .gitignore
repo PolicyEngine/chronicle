@@ -20,6 +20,9 @@ db/data/desnz/lsoa_domestic_*_consumption_2024/LSOA_domestic_*_2010-2024.xlsx
 db/data/desnz/msoa_domestic_*_consumption_2010_2024/MSOA_domestic_*_2010-2024.xlsx
 db/data/ons/ruc2021_lookups_march_2026/260331rucallsupplementarytables.xlsx
 db/data/gambling_commission/gsgb_annual_report_*/GSGB_annual_report_*_data_tables.xlsx
+# The ONS OA 2011 to OA 2021 lookup (chronicle#412) is 9.8 MB and parsed by no build;
+# R2 holds it. The May 2026 NSPL zip of the same issue falls under the nspl_* rule.
+db/data/ons/oa11_oa21_lad22_exact_fit_lookup_v3/ew_oa11_oa21_lad22_exact_fit_v3.csv
 # The VOA's 2026 small-area stock zips (chronicle#408) are raw-only registrations that
 # no build parses, 4-96 MB each; R2 holds them.
 db/data/voa/ctsop*_lsoa_2026/CTSOP_*.zip

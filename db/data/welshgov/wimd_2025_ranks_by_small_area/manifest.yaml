@@ -1,0 +1,26 @@
+source_id: welshgov
+package_id: welshgov-wimd-2025-ranks-by-small-area
+dataset: welshgov_welshgov-wimd-2025-ranks-by-small-area
+source_page: https://www.gov.wales/welsh-index-multiple-deprivation-2025
+table: Welsh Index of Multiple Deprivation 2025, index and domain ranks by small area
+files:
+  2025:
+    filename: wimd-2025-index-and-domain-ranks-by-small-area.ods
+    source_url: https://www.gov.wales/sites/default/files/statistics-and-research/2025-11/wimd-2025-index-and-domain-ranks-by-small-area.ods
+    sha256: 755870f8a82f463c2d6cbd079ace00620f299714dc830aef67583145396613dc
+    size_bytes: 242742
+    fetched_at: '2026-11-04T18:21:08+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/welshgov/welshgov-wimd-2025-ranks-by-small-area/2025/755870f8a82f463c2d6cbd079ace00620f299714dc830aef67583145396613dc/wimd-2025-index-and-domain-ranks-by-small-area.ods
+        uri: r2://ledger-raw/raw/uk/welshgov/welshgov-wimd-2025-ranks-by-small-area/2025/755870f8a82f463c2d6cbd079ace00620f299714dc830aef67583145396613dc/wimd-2025-index-and-domain-ranks-by-small-area.ods
+registration_kind: raw_only
+provenance_notes: 'Welsh Index of Multiple Deprivation 2025 (released 27 November
+  2025), index and domain ranks by small area: the WIMD 2025 rank (1 most deprived
+  to 1,917) and the eight domain ranks for each of the 1,917 LSOAs in Wales on 2021
+  boundaries (WIMD_2025_ranks), and each LSOA''s overall rank, decile, quintile, quartile
+  and deprivation group (Deciles_quintiles_quartiles). The August 2026 NSPL (ons-nspl-august-2026)
+  carries these ranks as imd25ind. Licence: Open Government Licence v3.0. Raw-only
+  for chronicle#412 item 1.'

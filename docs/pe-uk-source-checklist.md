@@ -296,6 +296,39 @@ Not ported:
   uprating; about two million published cells do not belong in the bundle as
   facts.
 
+## Beyond parity — area inputs for the geography-first spine (chronicle#412)
+
+Published area inputs requested in
+[#412](https://github.com/PolicyEngine/chronicle/issues/412) for
+PolicyEngine/microcosm#931, which draws each household's output area conditioned on its
+FRS deprivation decile and council tax band. uk-data has no such input. All 23 are
+raw-only registrations (no package, alias, bundle entry or fact). Field contracts, checks
+and gaps are in
+[`docs/data-sources/uk-geography-first-area-inputs.md`](data-sources/uk-geography-first-area-inputs.md).
+
+- **Deprivation by small area**, at both candidate vintages:
+  - IoD 2019 and IoD 2025 File 1 (England);
+  - WIMD 2019 and WIMD 2025 ranks (Wales);
+  - SIMD 2020v2 ranks and data zone lookup (Scotland);
+  - NIMDM 2017 SOA and Small Area results (Northern Ireland).
+- **Crosswalks**:
+  - the ONS LSOA 2011 to 2021 exact-fit lookup (V3);
+  - the May 2026 NSPL (`ons-nspl-may-2026`, R2 only), whose `imd20ind` carries the
+    2019-vintage ranks of all four nations beside each postcode's 2021/22 small area.
+    The August 2026 edition carries IoD 2025 and WIMD 2025, and nothing for Scotland or
+    Northern Ireland.
+  - Scotland is already covered by `nrs-census2022-index`. NISRA publishes no lookup from
+    SOAs or Small Areas to Data Zones 2021.
+- **Council tax Band D, 2024-25**:
+  - England's nine 2024-25 table files, where the band table is Table 8;
+  - the Welsh 2024-25 release (PDF);
+  - the unrounded StatsWales band D composition by billing authority.
+- **Output Area Classification**:
+  - the ONS 2011 OAC (v3);
+  - the ONS OA 2011 to 2021 exact-fit lookup (V3, R2 only).
+  - The 2021 OAC is not registered: GeoDS downloads need a sign-in. The August 2026
+    NSPL's `oac21ind` carries it by postcode.
+
 ## Beyond parity — HMRC annual savings statistics (PolicyEngine/microcosm#1415)
 
 Published sources for

@@ -1,0 +1,27 @@
+source_id: ons
+package_id: ons-oac2011-clusters-and-names-v3
+dataset: ons_ons-oac2011-clusters-and-names-v3
+source_page: https://www.ons.gov.uk/methodology/geography/geographicalproducts/areaclassifications/2011areaclassifications/datasets
+table: 2011 Area Classification for Output Areas, clusters and names (CSV, version
+  3)
+files:
+  2011:
+    filename: 2011oacclustersandnamescsvv3.zip
+    source_url: https://www.ons.gov.uk/file?uri=/methodology/geography/geographicalproducts/areaclassifications/2011areaclassifications/datasets/2011oacclustersandnamescsvv3.zip
+    sha256: 2364b044b991cd8c93be13dc6bc006e4a1032a7c95cca0bb6c2c1e6f401fc2de
+    size_bytes: 1527645
+    fetched_at: '2026-11-04T18:27:18+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-oac2011-clusters-and-names-v3/2011/2364b044b991cd8c93be13dc6bc006e4a1032a7c95cca0bb6c2c1e6f401fc2de/2011oacclustersandnamescsvv3.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-oac2011-clusters-and-names-v3/2011/2364b044b991cd8c93be13dc6bc006e4a1032a7c95cca0bb6c2c1e6f401fc2de/2011oacclustersandnamescsvv3.zip
+registration_kind: raw_only
+provenance_notes: 'ONS 2011 Area Classification for Output Areas (2011 OAC), clusters
+  and names, version 3 (3 July 2023, which restored the corrected names of subgroups
+  4a1 and 4a2): one CSV (''2011 OAC Clusters and Names Excel v3.csv'') giving the
+  supergroup (8), group (26) and subgroup (76) codes and names, local authority and
+  region or country for each of the 232,296 UK output areas of 2011 (171,372 in England,
+  10,036 in Wales, 46,351 in Scotland and 4,537 Northern Ireland Small Areas). Licence:
+  Open Government Licence v3.0. Raw-only for chronicle#412 item 3.'
