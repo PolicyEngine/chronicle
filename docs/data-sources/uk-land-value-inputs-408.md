@@ -34,7 +34,9 @@ the same period disagree:
 | `mhclg-council-tax-levels-england-2026-27` (on main) | E08000038 | E08000039 |
 
 A consumer that joins these packages on `geography_id` must map one pair of codes to the other.
-Otherwise it drops both authorities.
+Otherwise it drops both authorities. Microcosm maps them: its local-authority crosswalk lists
+E08000038 and E08000039 as aliases of E08000016 and E08000019, the April 2023 codes its areas use
+([PolicyEngine/microcosm#931](https://github.com/PolicyEngine/microcosm/issues/931), item (e)).
 
 - Tables 6a and 9a give their authority rows `mhclg.billing_authority` values made from the
   printed code. Each of these two authorities therefore has a different value in each table.
