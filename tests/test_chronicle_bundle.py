@@ -554,7 +554,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # APS218's employment by SOC 2020 group (24,956) and ASHE Table 2's pay
         # and CVs by two-digit SOC (48,083). Its geography, period and entity
         # keys already exist, and no key is duplicated.
-        "fact_count": 1735989,
+        # chronicle#408 adds 326,495 facts, and no key is duplicated: VOA's
+        # council tax stock by band, property type and build period (222,588),
+        # EPC live table D3's domestic certificates (75,051), MHCLG's land value
+        # estimates (10,101), council tax collection Table 6 (1,208) and QRC4
+        # (5,757), Live Table 126's dwelling density (5,406), the Market Value
+        # Survey's chapters 1, 3 and 4 (4,458), HMRC's stamp tax Tables 2e, 3a,
+        # 5a, 7, 9a and 9d (1,135), ONS's land by sector (387) and the council
+        # rows of the Welsh (308) and Scottish (96) council tax tables.
+        "fact_count": 2062484,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -563,7 +571,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope.
         # PolicyEngine/uk-autumn-budget-dashboard-2026#316 adds HMRC's unknown
         # region of company car benefit recipients (Table 4).
-        "geography_count": 102618,
+        # chronicle#408 adds 275: the land value estimates' 109 built-up areas,
+        # 109 postcode districts and 25 London locations; Live Table 126's 25
+        # districts and three counties retired at the 2019 to 2021
+        # reorganisations, and Tyne and Wear's E11000004 (EPC D3 reports 11 of
+        # the districts too); and three scopes: HMRC's England, Wales and
+        # Northern Ireland, EPC D3's England area unknown and the Market Value
+        # Survey's England excluding London.
+        "geography_count": 102893,
         # And 12 period keys: HBAI's FYE 1995 and FYE 1996 (fiscal_year 1994,
         # 1995) and gas_year 2015 to 2024, the period type chronicle#356 adds.
         # chronicle#381 adds 12 more: HMRC's betting and gaming receipts from
@@ -571,7 +586,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # tobacco's calendar years 1991 to 1994. chronicle#393 adds fiscal_year
         # 2031: 2031-32 is the October 2026 EFO's new forecast year, and no
         # other package carries it.
-        "period_count": 554,
+        # chronicle#408 adds 46: EPC D3's quarters 2008-Q4 to 2019-Q4 (HMRC's
+        # quarterly First Time Buyers' Relief shares the nine from 2017-Q4) and
+        # the Market Value Survey's 1 October 2015 valuations (month 2015-10).
+        "period_count": 600,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -611,8 +629,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # adds three, and chronicle#393 the five OBR October 2026 EFO packages.
         # PolicyEngine/uk-autumn-budget-dashboard-2026#316 adds HMRC's benefits in
         # kind statistics. G8-x adds the September 2026 QES vintage. chronicle#407
-        # adds the three APS218 and twelve ASHE Table 2 packages.
-        "source_package_count": 458,
+        # adds the three APS218 and twelve ASHE Table 2 packages. chronicle#408
+        # adds twelve: VOA's three council tax stock packages, MHCLG's EPC D3,
+        # land value estimates, Live Table 126, collection Table 6, QRC4 and
+        # three Market Value Survey chapters, and ONS's land underlying other
+        # buildings.
+        "source_package_count": 470,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -664,14 +686,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 1735989
+    assert row_count == 2062484
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 458
+    assert source_packages["source_package_count"] == 470
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -699,7 +721,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 1735989
+    assert coverage["fact_count"] == 2062484
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -723,7 +745,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "gambling_commission": 2459,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 37216,
+        "hmrc": 38351,
         "ici": 12,
         "ird": 4362,
         "irs_soi": 43963,
@@ -732,7 +754,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "kff": 52,
         "lps": 996,
         "mbie": 5663,
-        "mhclg": 118542,
+        "mhclg": 220523,
         "msd": 139,
         "nbb_national_accounts": 1,
         "nisra": 29227,
@@ -741,14 +763,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "obr": 4539,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 420314,
+        "ons": 420701,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
         "ostbelgien_kindergeld": 35,
         "rsz_annual_wages_key_figures": 252,
         "rsz_employment_daily_wage_class": 34629,
-        "scotgov": 4244,
+        "scotgov": 4340,
         "sfpd_pension_amount_bands": 10239,
         "sfpd_pensions": 20954,
         "slc": 343,
@@ -761,12 +783,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "treasury": 146,
         "stats_nz": 2060,
         "usda_snap": 852,
-        "voa": 3001,
-        "welshgov": 9570,
+        "voa": 225589,
+        "welshgov": 9878,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    # chronicle#407 adds 15 source tables, one per package.
-    assert len(table_counts) == 400
+    # chronicle#407 adds 15 source tables, one per package, and chronicle#408
+    # adds 12, one per new package.
+    assert len(table_counts) == 412
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -1204,21 +1227,24 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         ]
         == 108
     )
+    # chronicle#408 adds Tables 2.8 and 2.11's 32 council rows (96).
     assert (
         table_counts[
             "scotgov:Scottish Local Government Finance Statistics (SLGFS) "
             "2024-25: publication tables, council tax tables 2.6, 2.8, 2.10, 2.11 "
             "and chart 2.7"
         ]
-        == 71
+        == 167
     )
+    # chronicle#408 adds the 22 billing authorities' rows to both years' Table 2
+    # (154 each).
     assert (
         table_counts[
             "welshgov:Council tax collection rates in Wales, April 2024 to March "
             "2025, Table 2 amounts outstanding in respect of 2024-25 bills and "
             "arrears"
         ]
-        == 7
+        == 161
     )
     assert (
         table_counts[
@@ -1226,7 +1252,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             "2026, Table 2 amounts outstanding in respect of 2025-26 bills and "
             "arrears"
         ]
-        == 7
+        == 161
     )
     assert table_counts["irs_soi:Congressional District Data 2022"] == 29760
     assert table_counts["irs_soi:IRS SOI County Data 2022"] == 6286
@@ -2384,6 +2410,128 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "tax_year:2025": 3948 + 3948,
     }.items():
         expected_period_counts[key] += count
+    # chronicle#408. Months: VOA's council tax stock at 31 March 2026 (222,588),
+    # the land value estimates at 1 October 2023 (10,101) and the Market Value
+    # Survey's valuations at 1 July 2024 and 1 October 2015 (4,458). Quarters:
+    # EPC D3's 2008-Q4 to 2026-Q3 (74,898), QRC4's 2025-Q2 to 2026-Q1 (1,212)
+    # and HMRC's Table 2e, 2017-Q4 to 2025-Q1 (108). Calendar years: Live Table
+    # 126's 2011 to 2025 (5,406), ONS's land, 1995 to 2025 (387), and EPC D3's
+    # years 2009 to 2025 (153). Fiscal years: QRC4 (4,545), Table 6 (1,208),
+    # HMRC's stamp tax (1,027), Wales (308) and Scotland (96).
+    chronicle_408_period_increments = {
+        "calendar_year:1995": 13,
+        "calendar_year:1996": 13,
+        "calendar_year:1997": 13,
+        "calendar_year:1998": 13,
+        "calendar_year:1999": 13,
+        "calendar_year:2000": 13,
+        "calendar_year:2001": 13,
+        "calendar_year:2002": 13,
+        "calendar_year:2003": 13,
+        "calendar_year:2004": 13,
+        "calendar_year:2005": 13,
+        "calendar_year:2006": 13,
+        "calendar_year:2007": 13,
+        "calendar_year:2008": 13,
+        "calendar_year:2009": 22,
+        "calendar_year:2010": 22,
+        "calendar_year:2011": 393,
+        "calendar_year:2012": 393,
+        "calendar_year:2013": 393,
+        "calendar_year:2014": 393,
+        "calendar_year:2015": 393,
+        "calendar_year:2016": 393,
+        "calendar_year:2017": 393,
+        "calendar_year:2018": 393,
+        "calendar_year:2019": 393,
+        "calendar_year:2020": 383,
+        "calendar_year:2021": 379,
+        "calendar_year:2022": 369,
+        "calendar_year:2023": 348,
+        "calendar_year:2024": 352,
+        "calendar_year:2025": 352,
+        "fiscal_year:2023": 513,
+        "fiscal_year:2024": 1368,
+        "fiscal_year:2025": 5303,
+        "month:2015-10": 2050,
+        "month:2023-10": 10101,
+        "month:2024-07": 2408,
+        "month:2026-03": 222588,
+        "quarter:2008-Q4": 1056,
+        "quarter:2009-Q1": 1056,
+        "quarter:2009-Q2": 1056,
+        "quarter:2009-Q3": 1056,
+        "quarter:2009-Q4": 1056,
+        "quarter:2010-Q1": 1056,
+        "quarter:2010-Q2": 1056,
+        "quarter:2010-Q3": 1056,
+        "quarter:2010-Q4": 1056,
+        "quarter:2011-Q1": 1056,
+        "quarter:2011-Q2": 1056,
+        "quarter:2011-Q3": 1056,
+        "quarter:2011-Q4": 1056,
+        "quarter:2012-Q1": 1056,
+        "quarter:2012-Q2": 1056,
+        "quarter:2012-Q3": 1056,
+        "quarter:2012-Q4": 1056,
+        "quarter:2013-Q1": 1056,
+        "quarter:2013-Q2": 1056,
+        "quarter:2013-Q3": 1056,
+        "quarter:2013-Q4": 1056,
+        "quarter:2014-Q1": 1056,
+        "quarter:2014-Q2": 1056,
+        "quarter:2014-Q3": 1056,
+        "quarter:2014-Q4": 1056,
+        "quarter:2015-Q1": 1056,
+        "quarter:2015-Q2": 1056,
+        "quarter:2015-Q3": 1056,
+        "quarter:2015-Q4": 1056,
+        "quarter:2016-Q1": 1056,
+        "quarter:2016-Q2": 1053,
+        "quarter:2016-Q3": 1053,
+        "quarter:2016-Q4": 1056,
+        "quarter:2017-Q1": 1053,
+        "quarter:2017-Q2": 1056,
+        "quarter:2017-Q3": 1056,
+        "quarter:2017-Q4": 1060,
+        "quarter:2018-Q1": 1060,
+        "quarter:2018-Q2": 1057,
+        "quarter:2018-Q3": 1060,
+        "quarter:2018-Q4": 1060,
+        "quarter:2019-Q1": 1057,
+        "quarter:2019-Q2": 1057,
+        "quarter:2019-Q3": 1057,
+        "quarter:2019-Q4": 1057,
+        "quarter:2020-Q1": 1057,
+        "quarter:2020-Q2": 1048,
+        "quarter:2020-Q3": 1051,
+        "quarter:2020-Q4": 1047,
+        "quarter:2021-Q1": 1047,
+        "quarter:2021-Q2": 1032,
+        "quarter:2021-Q3": 1036,
+        "quarter:2021-Q4": 1036,
+        "quarter:2022-Q1": 1036,
+        "quarter:2022-Q2": 1036,
+        "quarter:2022-Q3": 1036,
+        "quarter:2022-Q4": 1036,
+        "quarter:2023-Q1": 1036,
+        "quarter:2023-Q2": 997,
+        "quarter:2023-Q3": 997,
+        "quarter:2023-Q4": 997,
+        "quarter:2024-Q1": 997,
+        "quarter:2024-Q2": 997,
+        "quarter:2024-Q3": 997,
+        "quarter:2024-Q4": 997,
+        "quarter:2025-Q1": 997,
+        "quarter:2025-Q2": 1296,
+        "quarter:2025-Q3": 1296,
+        "quarter:2025-Q4": 1302,
+        "quarter:2026-Q1": 1296,
+        "quarter:2026-Q2": 993,
+        "quarter:2026-Q3": 993,
+    }
+    for key, count in chronicle_408_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2448,14 +2596,18 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # benefits in kind statistics add 505 (all but Table 4's regions;
     # PolicyEngine/uk-autumn-budget-dashboard-2026#316), and chronicle#397 drops
     # 343 March 2026 EFO facts. chronicle#407 adds 49,991: every ASHE Table 2
-    # fact (48,083) and APS218's UK rows (1,908).
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 91071
+    # fact (48,083) and APS218's UK rows (1,908). chronicle#408 adds ONS's 387 land
+    # facts.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 91458
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
     # England rows add 20 (PolicyEngine/microcosm#1415). APS218's England rows add
-    # 1,902 (chronicle#407).
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 8730
+    # 1,902 (chronicle#407). chronicle#408 adds 3,455: the Market Value Survey's
+    # 2,259 (chapters 1, 3 and 4: 1,938, 137 and 184), VOA's council tax stock
+    # 693, EPC D3 267, council tax collection 157 (QRC4 133, Table 6 24), HMRC's
+    # stamp tax 64 and Live Table 126 15.
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 12185
     # Great Britain gains HBAI's FYE 1995-2002 rows (32), Move to UC (80), the
     # table 4.9 lines DWP counts over Great Britain (56) and BUS04 (2): +170.
     # chronicle#381's 1,435 Gambling Commission facts, the National Lottery's
@@ -2466,12 +2618,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["country:K03000001"] == 23558
     # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28),
     # and the October 2026 EFO's table 5.9 the same four lines (28, chronicle#393).
-    # chronicle#397 drops the March lines' 24 facts after 2024-25.
-    assert coverage["counts"]["by_geography"]["country:K04000001"] == 1180
+    # chronicle#397 drops the March lines' 24 facts after 2024-25. chronicle#408
+    # adds 1,033: VOA's council tax stock (766) and EPC D3 (267).
+    assert coverage["counts"]["by_geography"]["country:K04000001"] == 2213
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
     # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope, and
     # PolicyEngine/uk-autumn-budget-dashboard-2026#316 its unknown recipient region.
-    assert len(coverage["counts"]["by_geography"]) == 102618
+    # chronicle#408 adds 275 (see geography_count).
+    assert len(coverage["counts"]["by_geography"]) == 102893
     for region in (
         "auckland",
         "bay-of-plenty",
@@ -2489,8 +2643,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         assert (
             coverage["counts"]["by_geography"][f"statistical_scope:nz-wi-{region}"] == 3
         )
-    assert coverage["counts"]["by_geography"]["region:E13000001"] == 200
-    assert coverage["counts"]["by_geography"]["region:E13000002"] == 200
+    # chronicle#408 adds 675 to each: VOA's council tax stock (660) and Live
+    # Table 126 (15).
+    assert coverage["counts"]["by_geography"]["region:E13000001"] == 875
+    assert coverage["counts"]["by_geography"]["region:E13000002"] == 875
     # chronicle#326/#339/#356/#357/#358: households +521,305 (the DESNZ LSOA
     # and Northern Ireland energy rows, the UC area cells net of the retired
     # all-claims ones, UV404 by output area and Move to UC), people +25,216
@@ -2513,17 +2669,23 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # chronicle#397's March 2026 EFO drop: people -338, government -47 and
     # institutional sectors -42. chronicle#407 adds 73,039 people (APS218's
     # employment estimates and ASHE Table 2's pay by occupation).
+    # chronicle#408: dwellings +315,537 (VOA's council tax stock 222,588, EPC D3
+    # 75,051, the land value estimates 9,700, Live Table 126 5,406 and the
+    # Market Value Survey 2,792), government +7,369 (council tax collection:
+    # QRC4 5,757, Table 6 1,208, Wales 308 and Scotland 96), households +1,666
+    # (the Market Value Survey), returns +1,135 (HMRC's stamp tax), firms +401
+    # (the land value estimates) and institutional sectors +387 (ONS's land).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
-        "dwelling": 274727,
+        "dwelling": 590264,
         "family": 1700,
-        "firm": 1504,
-        "government": 6702,
-        "household": 676547,
-        "institutional_sector": 8877,
+        "firm": 1905,
+        "government": 14071,
+        "household": 678213,
+        "institutional_sector": 9264,
         "pension_plan": 2,
         "person": 672029,
-        "return": 14952,
+        "return": 16087,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
     }

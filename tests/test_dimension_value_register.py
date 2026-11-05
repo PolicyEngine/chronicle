@@ -128,8 +128,10 @@ def test_the_chosen_labels_are_the_registers_labels():
     script = _script()
     register = json.loads(_REGISTER.read_text(encoding="utf-8"))["labels"]
 
-    # chronicle#407 adds soc2020_major_group=3, SOC 2020's own name for the group.
-    assert len(script.CHOSEN_LABELS) == 48
+    # 47 chosen by 2026-10-26, chronicle#407's soc2020_major_group=3 (SOC 2020's
+    # own name for the group), and the twelve chronicle#408 proposes for the
+    # Market Value Survey 2024 packages.
+    assert len(script.CHOSEN_LABELS) == 60
     for (dimension_id, value_id), label in script.CHOSEN_LABELS.items():
         assert register[dimension_id][value_id] == label
 
