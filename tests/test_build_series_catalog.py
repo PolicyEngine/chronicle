@@ -3922,9 +3922,10 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
         "enrich_retires",
     ):
         assert not plan[kind], (kind, plan[kind])
+    committed_series = json.loads(bsc.CATALOG.read_text(encoding="utf-8"))["series"]
     committed = {
         series["uuid"]: {k: v for k, v in series.items() if k != "unit"}
-        for series in json.loads(bsc.CATALOG.read_text(encoding="utf-8"))["series"]
+        for series in committed_series
     }
     assert {
         series["uuid"]: {k: v for k, v in series.items() if k != "unit"}
@@ -3938,6 +3939,12 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
     ]
     assert len(occupations) == 6
     assert all(series["unit"] == "millions" for series in occupations)
+    # Those six are the only series whose unit moves.
+    committed_units = {series["uuid"]: series["unit"] for series in committed_series}
+    assert {
+        series["uuid"] for series in catalog["series"]
+        if series["unit"] != committed_units[series["uuid"]]
+    } == {series["uuid"] for series in occupations}
     assert catalog["observation_rows"] == len(journal)
     # Each correction replaces its target, so the current count is the
     # live ledger's.
@@ -4109,6 +4116,8 @@ def _mutated_journals(draw, max_mutations: int, kinds=MUTATIONS):
 PROPERTY_SETTINGS = settings(
     max_examples=400, deadline=None, derandomize=True, database=None
 )
+# The journals the refusal property compares, which its reach check also reads.
+ONE_DEFECT_JOURNALS = _mutated_journals(max_mutations=1)
 
 
 @PROPERTY_SETTINGS
@@ -4122,7 +4131,7 @@ def test_gate_accepted_journals_pass_the_preconditions(journal) -> None:
 
 
 @PROPERTY_SETTINGS
-@given(_mutated_journals(max_mutations=1))
+@given(ONE_DEFECT_JOURNALS)
 def test_generator_refuses_iff_the_gate_does_for_that_reason(journal) -> None:
     # Invariant, on journals with at most one defect: the generator refuses
     # for reason R exactly when the gate's refusal classifies as R, and
@@ -4131,6 +4140,7 @@ def test_generator_refuses_iff_the_gate_does_for_that_reason(journal) -> None:
     refusal = _gate_refusal(rows, prefix)
     reason = _generator_refusal(rows)
     hypothesis_event(f"generator refusal: {reason}")
+    hypothesis_event(f"gate: {'refused' if refusal else 'accepted'}")
     assert reason == _gate_reason(rows, refusal), refusal
 
 
@@ -4155,13 +4165,7 @@ JOURNAL_CLASSES = {
 def test_the_mutation_strategy_reaches_every_class(name: str) -> None:
     # A strategy that never produced a class would leave the property above
     # passing without ever comparing the two refusals there.
-    find(
-        _mutated_journals(max_mutations=1),
-        JOURNAL_CLASSES[name],
-        settings=settings(
-            max_examples=400, deadline=None, derandomize=True, database=None
-        ),
-    )
+    find(ONE_DEFECT_JOURNALS, JOURNAL_CLASSES[name], settings=PROPERTY_SETTINGS)
 
 
 @PROPERTY_SETTINGS

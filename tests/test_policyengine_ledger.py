@@ -385,8 +385,7 @@ def test_a_duplicate_identity_without_supersedes_is_detected():
 
 
 def test_an_explicit_supersede_correction_is_accepted():
-    # A correction of a pre-versioning row supersedes that row's
-    # recomputable content address.
+    # A correction supersedes the row's recomputable content address.
     lines = _read_lines()
     original = json.loads(lines[-1])
     correction = _appended_row(original, value_delta=1)
