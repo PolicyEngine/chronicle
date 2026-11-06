@@ -3929,12 +3929,12 @@ def test_live_ledger_reserves_the_gates_ids() -> None:
 def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
     tmp_path: pathlib.Path,
 ) -> None:
-    # The 2026-09-29 repro on the live ledger. SYNTHETIC corrections: the
-    # restatement in millions is the repro's, not a chosen remedy (that is
-    # decision d397), and each archive digest is synthetic so no real
-    # correction can share its content address. Each supersedes the active
-    # version of its June record, which is the prefix row's av2 address
-    # until a real correction lands.
+    # The 2026-09-29 repro on the live ledger. SYNTHETIC corrections: Chronicle
+    # stores these series in no unit called persons, so their unit moves on any
+    # ledger, and each archive digest is synthetic so no real correction can
+    # share its content address. Each supersedes the active version of its June
+    # record, which is the prefix row's av2 address until a later row restates
+    # or corrects it.
     lines = bsc.OBSERVATIONS.read_text(encoding="utf-8").splitlines()
     rows = [json.loads(line) for line in lines]
     june = [
@@ -3951,8 +3951,8 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
         record = original["source_record_id"]
         active = [r for r in rows if r["source_record_id"] == record][-1]
         correction = copy.deepcopy(original)
-        correction["value"] = round(original["value"] / 1000, 3)
-        correction["measure"]["unit"] = "millions"
+        correction["value"] = round(original["value"] * 1000)
+        correction["measure"]["unit"] = "persons"
         correction["responseArchive"]["sha256"] = hashlib.sha256(
             f"synthetic correction of {record}".encode()
         ).hexdigest()
@@ -4002,7 +4002,7 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
         )
     ]
     assert len(occupations) == 6
-    assert all(series["unit"] == "millions" for series in occupations)
+    assert all(series["unit"] == "persons" for series in occupations)
     # Those six are the only series whose unit moves.
     committed_units = {series["uuid"]: series["unit"] for series in committed_series}
     assert {
