@@ -3061,31 +3061,20 @@ def test_census_pep_vintages_give_each_state_age_range_one_number():
     assert (len(earlier), len(later)) == (918, 816)
 
 
-def test_census_pep_2025_state_age_bands_equal_direct_csv_sums():
-    # Sum SC-EST2025-ALLDATA6 with the csv module, apart from Chronicle's
-    # parser and selectors, and compare every fact with that sum.
-    path = REPO_ROOT / "db/data/census/pep_2025_age_sex/sc-est2025-alldata6.csv"
+def _assert_census_pep_state_facts_equal_direct_csv_sums(
+    package_id: str, csv_path: str, age_groups: dict[str, tuple[int, int]]
+) -> None:
+    # Sum the state ALLDATA6 file with the csv module, apart from Chronicle's
+    # parser and selectors, and compare every fact with that sum. AGE 85 holds
+    # everyone 85 and over.
     by_age: dict[str, list[int]] = {}
-    with path.open(newline="", encoding="utf-8") as stream:
+    with (REPO_ROOT / csv_path).open(newline="", encoding="utf-8") as stream:
         for row in csv.DictReader(stream):
             if (row["SUMLEV"], row["SEX"], row["ORIGIN"]) != ("040", "0", "0"):
                 continue
             ages = by_age.setdefault(f"{int(row['STATE']):02d}", [0] * 86)
             ages[int(row["AGE"])] += int(row["POPESTIMATE2024"])
-    age_groups = {
-        "all": (0, 85),
-        **{f"age_{age}": (age, age) for age in range(6)},
-        "6_to_11": (6, 11),
-        "12_to_17": (12, 17),
-        "18_to_24": (18, 24),
-        "25_to_34": (25, 34),
-        "35_to_44": (35, 44),
-        "45_to_54": (45, 54),
-        "55_to_64": (55, 64),
-        "65_to_74": (65, 74),
-        "75_plus": (75, 85),
-    }
-    package = load_source_package("census-pep-2025-state-age-bands")
+    package = load_source_package(package_id)
     rows = package.build_source_rows(2024)
     cells = package.build_source_cells(2024, source_rows=rows)
     facts = package.build_facts(2024, cells=cells, source_rows=rows)
@@ -3104,13 +3093,46 @@ def test_census_pep_2025_state_age_bands_equal_direct_csv_sums():
         }
         if value_id == "all":
             assert not bounds, fact.source_record_id
-        elif value_id == "75_plus":
+        elif last == 85:
             assert bounds == {">=": first}, fact.source_record_id
         else:
             assert bounds == {">=": first, "<": last + 1}, fact.source_record_id
         compared.add((state, value_id))
     assert len(by_age) == 51
     assert len(compared) == len(facts) == 51 * len(age_groups)
+
+
+def test_census_pep_2025_state_age_bands_equal_direct_csv_sums():
+    _assert_census_pep_state_facts_equal_direct_csv_sums(
+        "census-pep-2025-state-age-bands",
+        "db/data/census/pep_2025_age_sex/sc-est2025-alldata6.csv",
+        {
+            "all": (0, 85),
+            **{f"age_{age}": (age, age) for age in range(6)},
+            "6_to_11": (6, 11),
+            "12_to_17": (12, 17),
+            "18_to_24": (18, 24),
+            "25_to_34": (25, 34),
+            "35_to_44": (35, 44),
+            "45_to_54": (45, 54),
+            "55_to_64": (55, 64),
+            "65_to_74": (65, 74),
+            "75_plus": (75, 85),
+        },
+    )
+
+
+def test_census_pep_2024_state_age_sex_equal_direct_csv_sums():
+    # Vintage 2024 keeps its eighteen five-year groups. A state total would
+    # fail the lookup below, since Vintage 2025 gives the totals (chronicle#397).
+    _assert_census_pep_state_facts_equal_direct_csv_sums(
+        "census-pep-2024-state-age-sex",
+        "db/data/census/pep_2024_age_sex/sc-est2024-alldata6.csv",
+        {
+            **{f"{age}_to_{age + 4}": (age, age + 4) for age in range(0, 85, 5)},
+            "85_plus": (85, 85),
+        },
+    )
 
 
 def test_census_population_projections_source_package_alias_validates_counts():
