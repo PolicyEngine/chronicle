@@ -69,10 +69,11 @@ GREAT_BRITAIN = ("K03000001", "Great Britain")
 
 SINGLE_AGE = f"str:value:{DB}:V_F_UC_CASELOAD_FULL:AGE_CODE:C_UC_SINGLE_AGE"
 AGE_BAND = f"str:value:{DB}:V_F_UC_CASELOAD_FULL:AGE_CODE:C_UC_AGE_BAND"
-# Age items in request order: (value URI, label, (lower, upper) or None). DWP: 'The
-# over 70 age group contains people aged 71 to 90 inclusive only. Over 90 years is
-# classified as missing/unknown'. Chronicle's Stat-Xplore age reader takes no bound
-# from 'Over 70', so that row carries none.
+# Age items in request order: (value URI, label, (lower, upper or None) or None). DWP:
+# 'The over 70 age group contains people aged 71 to 90 inclusive only. Over 90 years is
+# classified as missing/unknown'. 'Over 70' takes the open top band's lower bound,
+# age >= 71, which Chronicle's Stat-Xplore age reader gives for the label (as '90 and
+# over' gives age >= 90); 'Unknown/Missing' carries none.
 AGES = (
     *((f"{SINGLE_AGE}:{age}", str(age), (age, age + 1)) for age in range(16, 25)),
     *(
@@ -89,7 +90,7 @@ AGES = (
             (11, 65, 70),
         )
     ),
-    (f"{AGE_BAND}:999", "Over 70", None),
+    (f"{AGE_BAND}:999", "Over 70", (71, None)),
     (f"{AGE_BAND}:9999", "Unknown/Missing", None),
 )
 REGIME_VALUE = f"str:value:{DB}:V_F_UC_CASELOAD_FULL:CCCONDITIONALITY_REGIME:C_UC_CONDITIONALITY_REGIME"
@@ -301,22 +302,25 @@ def build() -> str:
                             )
                             if bounds is not None:
                                 low, high = bounds
-                                constraints += [
+                                constraints.append(
                                     {
                                         "variable": "age",
                                         "operator": ">=",
                                         "value": low,
                                         "unit": "years",
                                         "label": "Age lower bound",
-                                    },
-                                    {
-                                        "variable": "age",
-                                        "operator": "<",
-                                        "value": high,
-                                        "unit": "years",
-                                        "label": "Age upper bound",
-                                    },
-                                ]
+                                    }
+                                )
+                                if high is not None:
+                                    constraints.append(
+                                        {
+                                            "variable": "age",
+                                            "operator": "<",
+                                            "value": high,
+                                            "unit": "years",
+                                            "label": "Age upper bound",
+                                        }
+                                    )
                         if regime_code is not None:
                             constraints.append(
                                 {
@@ -597,8 +601,10 @@ def render_header(
         'Age is derived from the claimant's date of birth'; 'The over 70 age group
         contains people aged 71 to 90 inclusive only. Over 90 years is classified as
         missing/unknown for this measure' (field metadata). Each single year and band
-        carries age bounds; 'Over 70' and 'Unknown/Missing' carry none (Chronicle's
-        Stat-Xplore age reader takes no bound from 'Over 70').""",
+        carries age bounds. 'Over 70' carries its lower bound only, age >= 71, as the
+        open top band of a sibling cube does ('90 and over', age >= 90), so a reader
+        selecting by age keeps it; DWP's upper limit of 90 is the note quoted here.
+        'Unknown/Missing' carries none.""",
         """Geography is the residence-based field (National - Regional - LA - OAs),
         country value set, with DWP's total: that total is the Great Britain count DWP
         publishes, and it includes people whose residence is unknown ('Unknown',

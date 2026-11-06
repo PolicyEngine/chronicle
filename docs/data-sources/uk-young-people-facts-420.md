@@ -105,7 +105,9 @@ Rules for reading these facts:
   partners of a joint claim are counted.
 - **Ages:** single years from 16 to 24, then DWP's bands from 25-29 to 65-70, "Over 70"
   and "Unknown/Missing". DWP says "Over 70" holds people aged 71 to 90 and counts people
-  over 90 as unknown; those two carry no age bounds.
+  over 90 as unknown. "Over 70" carries its lower bound only, `age >= 71`, as the
+  Attendance Allowance cube's "90 and over" carries `age >= 90`; "Unknown/Missing"
+  carries none.
 - **Regimes:** the six regimes plus "Unknown or missing regime", so the regimes add to
   each age's total. DWP's wording for "No work requirements" is "Health or caring
   responsibility prevents claimant from working or preparing for work"; its examples are

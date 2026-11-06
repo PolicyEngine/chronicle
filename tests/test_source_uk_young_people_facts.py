@@ -396,6 +396,30 @@ def test_neet_women_nsa_population_gap_is_ported_as_published(built):
         assert a06_total == [sa]
 
 
+def test_a_corrected_women_nsa_population_fails_the_build():
+    """The pinned gap is a check: if ONS corrects the cell, the generator refuses it."""
+    generator = runpy.run_path(str(ROOT / "scripts/build_uk_young_people_packages.py"))
+    entry, content = generator["pinned"](generator["NEET_DIRECTORY"])
+    grid = generator["grid_of"](
+        generator["source_cells_from_xlsx"](
+            content, generator["metadata"](entry["filename"])
+        )
+    )
+    sheet, groups = "Women - NSA", generator["NEET_MAIN_GROUPS"]
+    latest = generator["quarters"](grid, sheet, rolling=False)[-1]
+    # As published, the row passes.
+    generator["neet_check_parity"](grid, sheet, latest, groups)
+    # A corrected edition: the 18-24 population (O) becomes the SA sheet's, and its
+    # NEET share (P) is recomputed on it, so only the pinned gap no longer holds.
+    corrected = dict(grid)
+    corrected[(sheet, latest.row, "O")] = grid[("Women - SA", latest.row, "O")]
+    corrected[(sheet, latest.row, "P")] = (
+        100 * grid[(sheet, latest.row, "L")] / corrected[(sheet, latest.row, "O")]
+    )
+    with pytest.raises(AssertionError):
+        generator["neet_check_parity"](corrected, sheet, latest, groups)
+
+
 # ---------------------------------------------------------------- 2. LFS A06
 
 A06_GROUP_FIRST = {

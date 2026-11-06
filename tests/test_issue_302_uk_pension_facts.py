@@ -818,6 +818,7 @@ def test_statxplore_parser_refuses_a_malformed_later_cube(second_cube):
         ("65 - 69", (65, 70)),
         ("65–69", (65, 70)),
         ("90 and over", (90, None)),
+        ("Over 70", (71, None)),
         ("Under 65", (0, 65)),
         ("Unknown", None),
         ("all", None),

@@ -334,5 +334,7 @@ def test_ages_carry_bounds_and_the_open_items_carry_none(built):
         assert bounds_by_age[age] == (("<", age + 1), (">=", age))
     assert bounds_by_age["25-29"] == (("<", 30), (">=", 25))
     assert bounds_by_age["65-70"] == (("<", 71), (">=", 65))
-    for age in ("Over 70", "Unknown/Missing", "all"):
+    # 'Over 70' is DWP's 71 to 90; it takes the open top band's lower bound only.
+    assert bounds_by_age["Over 70"] == ((">=", 71),)
+    for age in ("Unknown/Missing", "all"):
         assert bounds_by_age[age] == ()
