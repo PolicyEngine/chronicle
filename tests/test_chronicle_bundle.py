@@ -135,7 +135,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 339948,
+        # The Census Vintage 2025 state age-group package (SC-EST2025-ALLDATA6)
+        # adds 816 census_pep facts, one source package and one table.
+        "fact_count": 340764,
         "geography_count": 12586,
         "period_count": 493,
         "semantic_duplicate_key_count": 213,
@@ -144,14 +146,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # bundle skips them (10 -> 17); no fact or key count moves.
         "skipped_source_count": 17,
         "source_count": 50,
-        "source_package_count": 217,
+        "source_package_count": 218,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: areas two packages name differently, values two
         # packages word differently, and groupby rows that drift inside one
         # package (chronicle#265, #266).
         "warning_count": 171,
     }
-    assert len(rows) == 339948
+    assert len(rows) == 340764
     assert {row["provenance_class"] for row in rows} <= {
         "administrative",
         "census",
@@ -169,7 +171,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
     assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 217
+    assert source_packages["source_package_count"] == 218
     assert source_packages["skipped_source_count"] == 17
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -190,13 +192,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 339948
+    assert coverage["fact_count"] == 340764
     assert coverage["counts"]["by_source"] == {
         "bea": 445,
         "bfp_economic_outlook": 5,
         "cbo": 7,
         "census_acs": 468,
-        "census_pep": 4132,
+        "census_pep": 4948,
         "census_population_projections": 86,
         "census_stc": 46,
         "cms_medicaid": 515,
@@ -244,7 +246,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "welshgov": 9325,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 212
+    assert len(table_counts) == 213
     assert (
         table_counts[
             "dwp:Households on Universal Credit by family type, "
