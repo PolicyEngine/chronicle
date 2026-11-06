@@ -55,10 +55,11 @@ provenance_notes: 'UK Data Service ReShare 856542 (DOI 10.5255/UKDA-SN-856542), 
   of the series 854240, 855033, 856204 and 856542. Bundle 1 holds the linked file tranall_link_02122023.zip
   (3,214,108,822 bytes, stored), which UCL''s readme describes as 21,438,854 transactions in England
   and Wales from 1 January 1995 to 31 October 2023 with 107 fields, plus the readme and the licence
-  note. Bundle 2 holds the files UCL linked: the domestic EPCs downloaded on 2 December 2023 with
-  their address fields removed (epc20_id.zip), Price Paid with field names as at 2 December 2023 (LRPPD_02122023.zip)
-  and the November 2023 NSPL (NSPL_NOV_2023_UK.zip). ReShare''s ETags equal the MD5s of the bytes
-  fetched on 6 November 2026 (239aebb08e10939b7cba4c5b2d5f89c9 and 5fa5f769f3061aef86c455a4ed23c97e),
-  and both bundles were last modified on 22 August 2025. Raw only: no build parses either bundle (chronicle#408,
-  item 6). Both are above the 300 MiB that wrangler r2 object put accepts, so publish-raw uploads
-  them through R2''s S3 API in 100 MiB parts (chronicle#409).'
+  note. ReShare''s record gives the temporal coverage as 1 January 1995 to 23 October 2023, while
+  its abstract, like the readme, says 31 October 2023. Bundle 2 holds the files UCL linked: the domestic
+  EPCs downloaded on 2 December 2023 with their address fields removed (epc20_id.zip), Price Paid
+  with field names as at 2 December 2023 (LRPPD_02122023.zip) and the November 2023 NSPL (NSPL_NOV_2023_UK.zip).
+  ReShare''s ETags equal the MD5s of the bytes fetched on 6 November 2026 (239aebb08e10939b7cba4c5b2d5f89c9
+  and 5fa5f769f3061aef86c455a4ed23c97e), and both bundles were last modified on 22 August 2025. Raw
+  only: no build parses either bundle (chronicle#408, item 6). Both are above the 300 MiB that wrangler
+  r2 object put accepts, so publish-raw uploads them through R2''s S3 API in 100 MiB parts (chronicle#409).'

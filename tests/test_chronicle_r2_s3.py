@@ -98,6 +98,8 @@ class FakeR2:
         self.fail_part = fail_part or {}
         self.complete_status = 200
         self.complete_body = b"<CompleteMultipartUploadResult/>"
+        self.objects: dict[str, int] = {}
+        self.head_status: int | None = None
 
     def handler(self, request: httpx.Request) -> httpx.Response:
         self.requests.append(request)
@@ -109,6 +111,15 @@ class FakeR2:
         assert request.headers["authorization"].startswith(
             "AWS4-HMAC-SHA256 Credential=key-id/"
         )
+        if request.method == "HEAD":
+            if self.head_status is not None:
+                return httpx.Response(self.head_status)
+            key = request.url.path.split("/", 2)[2]
+            if key not in self.objects:
+                return httpx.Response(404)
+            return httpx.Response(
+                200, headers={"Content-Length": str(self.objects[key])}
+            )
         if request.method == "POST" and "uploads" in query:
             return httpx.Response(
                 200,
@@ -249,6 +260,27 @@ def test_put_file_frees_each_part_before_reading_the_next(tmp_path):
 
     assert sizes == [part_size] * 8
     assert peak < 3 * part_size
+
+
+def test_object_size_reads_head_and_is_none_for_a_missing_key():
+    fake = FakeR2()
+    fake.objects["raw/uk/ucl/pkg/bundle_2.zip"] = 4_426_805_029
+
+    with fake.client() as client:
+        present = client.object_size("ledger-raw", "raw/uk/ucl/pkg/bundle_2.zip")
+        missing = client.object_size("ledger-raw", "raw/uk/ucl/pkg/bundle_3.zip")
+
+    assert present == 4_426_805_029
+    assert missing is None
+    assert [request.method for request in fake.requests] == ["HEAD", "HEAD"]
+
+
+def test_object_size_reports_a_refused_head_rather_than_a_missing_object():
+    fake = FakeR2()
+    fake.head_status = 403
+
+    with fake.client() as client, pytest.raises(R2S3Error, match="HTTP 403"):
+        client.object_size("ledger-raw", "key")
 
 
 def test_put_file_refuses_an_empty_file(tmp_path):

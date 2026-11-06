@@ -410,6 +410,8 @@ parses it. It came after the rest of this issue, once Chronicle could store file
     UCL's readme and licence note.
   - The readme describes the linked file as 21,438,854 transactions in England and Wales from
     1 January 1995 to 31 October 2023, with 107 fields.
+  - ReShare's record gives the temporal coverage as 1 January 1995 to 23 October 2023, while
+    its abstract, like the readme, says 31 October 2023.
 - **Bundle 2**, `856542_bundle_2.zip`: 4,426,805,029 bytes, sha256 `61cbf6a7…02da97`. It
   holds the files UCL linked:
   - the domestic EPCs downloaded on 2 December 2023, with their address fields removed

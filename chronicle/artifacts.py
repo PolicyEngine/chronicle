@@ -1544,17 +1544,42 @@ def _upload_r2_object_in_parts(
     local_path: Path,
     content_type: str | None,
 ) -> ArtifactCommandResult:
-    """Upload a file too large for Wrangler through R2's S3 API (chronicle#409)."""
+    """Upload a file too large for Wrangler through R2's S3 API (chronicle#409).
+
+    The key carries the file's sha256, so an object of the file's size under it
+    already holds these bytes. Such a file is not sent again, and a failed
+    upload, such as a completion whose response was lost, counts once the
+    object is there.
+    """
     command = (
         "r2-s3-multipart-put",
         f"{location.bucket}/{location.key}",
         str(local_path),
     )
     try:
+        size_bytes = local_path.stat().st_size
         with _r2_s3_client() as client:
-            parts = client.put_file(
-                location.bucket, location.key, local_path, content_type=content_type
-            )
+            if client.object_size(location.bucket, location.key) == size_bytes:
+                return ArtifactCommandResult(
+                    command=command, returncode=0, stdout="already in R2", stderr=""
+                )
+            try:
+                parts = client.put_file(
+                    location.bucket, location.key, local_path, content_type=content_type
+                )
+            except r2_s3.R2S3Error as error:
+                try:
+                    landed = client.object_size(location.bucket, location.key)
+                except r2_s3.R2S3Error:
+                    landed = None
+                if landed != size_bytes:
+                    raise error
+                return ArtifactCommandResult(
+                    command=command,
+                    returncode=0,
+                    stdout=f"in R2 although the upload reported: {error}",
+                    stderr="",
+                )
     except (OSError, r2_s3.R2S3Error) as exc:
         return ArtifactCommandResult(
             command=command, returncode=1, stdout="", stderr=str(exc)

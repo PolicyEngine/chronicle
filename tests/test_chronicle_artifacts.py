@@ -13,6 +13,9 @@ import yaml
 from chronicle.cli import main as cli_main
 from chronicle.artifacts import (
     R2_COUNTRY_PUBLISHERS,
+    WRANGLER_PUT_LIMIT_BYTES,
+    ArtifactStorageLocation,
+    _upload_r2_object,
     build_artifact_key,
     build_artifact_rows,
     build_derived_r2_key,
@@ -716,6 +719,9 @@ def test_fetch_publish_and_inventory_hash_files_without_reading_them_whole(
 class _RecordingS3Client:
     uploads: list[tuple[str, str, bytes, str | None]] = []
     error: Exception | None = None
+    # What HEAD finds under the key before an upload, and after one that failed.
+    existing_size: int | Exception | None = None
+    size_after_error: int | Exception | None = None
 
     def __enter__(self):
         return self
@@ -723,8 +729,14 @@ class _RecordingS3Client:
     def __exit__(self, *exc_info):
         return None
 
+    def object_size(self, bucket, key):
+        if isinstance(self.existing_size, Exception):
+            raise self.existing_size
+        return self.existing_size
+
     def put_file(self, bucket, key, path, *, content_type=None):
         if self.error is not None:
+            type(self).existing_size = self.size_after_error
             raise self.error
         self.uploads.append((bucket, key, Path(path).read_bytes(), content_type))
         return 1
@@ -751,11 +763,20 @@ def test_files_above_the_wrangler_limit_go_through_the_s3_api(tmp_path, monkeypa
     assert not log.exists()
 
 
-def test_a_failed_s3_upload_records_no_r2_location(tmp_path, monkeypatch):
+@pytest.mark.parametrize(
+    "size_after_error",
+    [None, R2S3Error("HEAD failed")],
+    ids=["nothing-under-the-key", "head-fails-too"],
+)
+def test_a_failed_s3_upload_records_no_r2_location(
+    tmp_path, monkeypatch, size_after_error
+):
     wrangler, log = _logging_wrangler(tmp_path)
     output_dir = _fetch_release(tmp_path, b"above the limit")
     monkeypatch.setattr("chronicle.artifacts.WRANGLER_PUT_LIMIT_BYTES", 4)
     monkeypatch.setattr(_RecordingS3Client, "error", R2S3Error("HTTP 403: denied"))
+    monkeypatch.setattr(_RecordingS3Client, "existing_size", None)
+    monkeypatch.setattr(_RecordingS3Client, "size_after_error", size_after_error)
     monkeypatch.setattr("chronicle.artifacts._r2_s3_client", _RecordingS3Client)
 
     report = publish_source_artifacts(output_dir, wrangler_command=str(wrangler))
@@ -763,9 +784,92 @@ def test_a_failed_s3_upload_records_no_r2_location(tmp_path, monkeypatch):
 
     assert not report.valid
     assert report.entries[0].errors == ("r2_upload_failed",)
-    assert "HTTP 403" in report.entries[0].upload.stderr
+    # The upload's own error is reported, not the check that followed it.
+    assert report.entries[0].upload.stderr == "HTTP 403: denied"
     assert "storage" not in manifest["files"][2026]
     assert not log.exists()
+
+
+@pytest.mark.parametrize(
+    ("existing_size", "sent"),
+    [(15, False), (14, True)],
+    ids=["same-size", "other-size"],
+)
+def test_an_object_of_the_files_size_under_its_key_is_not_sent_again(
+    tmp_path, monkeypatch, existing_size, sent
+):
+    # The key carries the file's sha256, so an object of its size is the file.
+    wrangler, log = _logging_wrangler(tmp_path)
+    output_dir = _fetch_release(tmp_path, b"above the limit")
+    monkeypatch.setattr("chronicle.artifacts.WRANGLER_PUT_LIMIT_BYTES", 4)
+    monkeypatch.setattr(_RecordingS3Client, "uploads", [])
+    monkeypatch.setattr(_RecordingS3Client, "existing_size", existing_size)
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", _RecordingS3Client)
+
+    report = publish_source_artifacts(output_dir, wrangler_command=str(wrangler))
+    manifest = yaml.safe_load((output_dir / "manifest.yaml").read_text())
+    entry = report.entries[0]
+
+    assert report.valid
+    assert manifest["files"][2026]["storage"]["r2"]["key"] == entry.r2_location.key
+    assert len(_RecordingS3Client.uploads) == int(sent)
+    assert (entry.upload.stdout == "already in R2") is not sent
+    assert not log.exists()
+
+
+def test_an_upload_whose_completion_landed_counts_as_uploaded(tmp_path, monkeypatch):
+    # A completion can commit and lose its response: the retry then finds no
+    # upload and put_file raises, though the object is in R2.
+    wrangler, log = _logging_wrangler(tmp_path)
+    output_dir = _fetch_release(tmp_path, b"above the limit")
+    monkeypatch.setattr("chronicle.artifacts.WRANGLER_PUT_LIMIT_BYTES", 4)
+    monkeypatch.setattr(
+        _RecordingS3Client,
+        "error",
+        R2S3Error("POST key returned HTTP 404: <Code>NoSuchUpload</Code>"),
+    )
+    monkeypatch.setattr(_RecordingS3Client, "existing_size", None)
+    monkeypatch.setattr(_RecordingS3Client, "size_after_error", 15)
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", _RecordingS3Client)
+
+    report = publish_source_artifacts(output_dir, wrangler_command=str(wrangler))
+    manifest = yaml.safe_load((output_dir / "manifest.yaml").read_text())
+    entry = report.entries[0]
+
+    assert report.valid
+    assert entry.errors == ()
+    assert "NoSuchUpload" in entry.upload.stdout
+    assert manifest["files"][2026]["storage"]["r2"]["key"] == entry.r2_location.key
+    assert not log.exists()
+
+
+def test_the_s3_path_starts_one_byte_above_the_wrangler_limit(tmp_path, monkeypatch):
+    # Wrangler refuses only files above its limit (sizeBytes > 300 MiB).
+    wrangler, log = _logging_wrangler(tmp_path)
+    sent: list[int] = []
+
+    class SizeRecordingClient(_RecordingS3Client):
+        def put_file(self, bucket, key, path, *, content_type=None):
+            sent.append(Path(path).stat().st_size)
+            return 4
+
+    monkeypatch.setattr(_RecordingS3Client, "existing_size", None)
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", SizeRecordingClient)
+    location = ArtifactStorageLocation(provider="r2", bucket="ledger-raw", key="raw/k")
+    results = {}
+    for size in (WRANGLER_PUT_LIMIT_BYTES, WRANGLER_PUT_LIMIT_BYTES + 1):
+        path = tmp_path / f"{size}.zip"
+        with path.open("wb") as stream:
+            stream.truncate(size)  # sparse, so nothing is written
+        results[size] = _upload_r2_object(
+            location, path, wrangler_command=str(wrangler)
+        )
+
+    assert WRANGLER_PUT_LIMIT_BYTES == 300 * 1024 * 1024
+    assert results[WRANGLER_PUT_LIMIT_BYTES].command[0] == str(wrangler)
+    assert results[WRANGLER_PUT_LIMIT_BYTES + 1].command[0] == "r2-s3-multipart-put"
+    assert sent == [WRANGLER_PUT_LIMIT_BYTES + 1]
+    assert log.read_text().count("r2 object put") == 1
 
 
 def test_fetch_keeps_the_earlier_copy_when_a_download_fails(tmp_path):

@@ -240,6 +240,16 @@ class R2Client:
             raise
         return len(parts)
 
+    def object_size(self, bucket: str, key: str) -> int | None:
+        """Return the size in bytes of the object under ``key``, or None if absent."""
+        response = self._request("HEAD", bucket, key, {}, missing_ok=True)
+        if response.status_code == 404:
+            return None
+        size = response.headers.get("content-length")
+        if size is None:
+            raise R2S3Error(f"HEAD {key} returned no Content-Length")
+        return int(size)
+
     def _create_upload(self, bucket: str, key: str, content_type: str | None) -> str:
         response = self._request(
             "POST",
@@ -307,6 +317,7 @@ class R2Client:
         *,
         body: bytes = b"",
         headers: Mapping[str, str] | None = None,
+        missing_ok: bool = False,
     ) -> httpx.Response:
         path = f"/{_uri_encode(bucket)}/{_uri_encode(key, keep_slash=True)}"
         url = f"https://{self.credentials.host}{path}"
@@ -331,7 +342,7 @@ class R2Client:
                 if attempt == self.attempts:
                     raise R2S3Error(f"{method} {key} failed: {exc}") from exc
             else:
-                if response.is_success:
+                if response.is_success or (missing_ok and response.status_code == 404):
                     return response
                 if (
                     response.status_code not in _RETRY_STATUSES
