@@ -562,7 +562,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Survey's chapters 1, 3 and 4 (4,458), HMRC's stamp tax Tables 2e, 3a,
         # 5a, 7, 9a and 9d (1,135), ONS's land by sector (387) and the council
         # rows of the Welsh (308) and Scottish (96) council tax tables.
-        "fact_count": 2062484,
+        "fact_count": 2063300,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -634,7 +634,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # land value estimates, Live Table 126, collection Table 6, QRC4 and
         # three Market Value Survey chapters, and ONS's land underlying other
         # buildings.
-        "source_package_count": 470,
+        "source_package_count": 471,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -686,14 +686,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2062484
+    assert row_count == 2063300
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 470
+    assert source_packages["source_package_count"] == 471
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -721,13 +721,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2062484
+    assert coverage["fact_count"] == 2063300
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
         "cbo": 7,
         "census_acs": 468,
-        "census_pep": 4132,
+        "census_pep": 4948,
         "census_population_projections": 86,
         "census_stc": 46,
         "cms_medicaid": 515,
@@ -788,8 +788,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     table_counts = coverage["counts"]["by_source_table"]
     # chronicle#407 adds 15 source tables, one per package, and chronicle#408
-    # adds 12, one per new package.
-    assert len(table_counts) == 412
+    # adds 12, one per new package. The Census Vintage 2025 state age-group
+    # package adds one (SC-EST2025-ALLDATA6) and 816 census_pep facts.
+    assert len(table_counts) == 413
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "

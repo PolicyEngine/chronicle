@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import csv
 import hashlib
 from io import BytesIO
 from pathlib import Path
@@ -2958,6 +2959,113 @@ def test_census_pep_state_source_package_alias_validates_fixture_counts():
         "source_record_count": 969,
         "source_region_count": 51,
     }
+
+
+def test_census_pep_2025_state_age_bands_source_package_validates_counts():
+    report = validate_source_package("census-pep-2025-state-age-bands", year=2023)
+
+    assert report.valid
+    assert report.counts == {
+        "record_set_count": 51,
+        "row_count": 816,
+        "measure_count": 51,
+        "source_record_count": 816,
+        "source_region_count": 51,
+    }
+
+
+def test_census_pep_2025_state_age_bands_partition_each_state():
+    package = load_source_package("census-pep-2025-state-age-bands")
+    rows = package.build_source_rows(2024)
+    cells = package.build_source_cells(2024, source_rows=rows)
+    facts = package.build_facts(2024, cells=cells, source_rows=rows)
+
+    assert validate_facts(facts).valid
+    assert {fact.period.value for fact in facts} == {2024}
+    values: dict[str, dict[str, float]] = {}
+    bounds: dict[str, tuple[int, float]] = {}
+    for fact in facts:
+        prefix, state, value_id, measure = fact.source_record_id.rsplit(".", 3)
+        assert prefix == "census_pep.v2025.cy2024.state_resident_population_age_bands"
+        assert measure == "population"
+        assert fact.geography.id == f"0400000US{state}"
+        values.setdefault(state, {})[value_id] = float(fact.value)
+        if value_id == "all":
+            continue
+        lower = upper = None
+        for constraint in fact.constraints:
+            if constraint.variable == "age" and constraint.operator == ">=":
+                lower = int(constraint.value)
+            if constraint.variable == "age" and constraint.operator == "<":
+                upper = int(constraint.value)
+        bounds[value_id] = (lower, float("inf") if upper is None else upper)
+    # The fifteen age groups tile [0, inf) without a gap or an overlap.
+    edges = sorted(bounds.values())
+    assert edges[0][0] == 0 and edges[-1][1] == float("inf")
+    assert all(edges[i][1] == edges[i + 1][0] for i in range(len(edges) - 1))
+    assert len(values) == 51
+    for state_values in values.values():
+        assert len(state_values) == 16
+        groups_total = sum(v for k, v in state_values.items() if k != "all")
+        assert groups_total == state_values["all"]
+    # SC-EST2025-ALLDATA6, POPESTIMATE2024, SEX 0 and ORIGIN 0 summed over the
+    # six race groups.
+    indiana = values["18"]
+    assert [indiana[f"age_{age}"] for age in range(6)] == [
+        79070,
+        80279,
+        82196,
+        80483,
+        84136,
+        84966,
+    ]
+    assert indiana["6_to_11"] == 532317
+    assert indiana["12_to_17"] == 560707
+    assert indiana["18_to_24"] == 683990
+    assert indiana["75_plus"] == 518414
+    assert indiana["all"] == 6934754
+    assert values["06"]["all"] == 39364774
+    assert sum(state_values["all"] for state_values in values.values()) == 340003797
+
+
+def test_census_pep_2025_state_age_bands_equal_direct_csv_sums():
+    # Sum SC-EST2025-ALLDATA6 with the csv module, apart from Chronicle's
+    # parser and selectors, and compare every fact with that sum.
+    path = REPO_ROOT / "db/data/census/pep_2025_age_sex/sc-est2025-alldata6.csv"
+    by_age: dict[str, list[int]] = {}
+    with path.open(newline="", encoding="utf-8") as stream:
+        for row in csv.DictReader(stream):
+            if (row["SUMLEV"], row["SEX"], row["ORIGIN"]) != ("040", "0", "0"):
+                continue
+            ages = by_age.setdefault(f"{int(row['STATE']):02d}", [0] * 86)
+            ages[int(row["AGE"])] += int(row["POPESTIMATE2024"])
+    age_groups = {
+        "all": (0, 85),
+        **{f"age_{age}": (age, age) for age in range(6)},
+        "6_to_11": (6, 11),
+        "12_to_17": (12, 17),
+        "18_to_24": (18, 24),
+        "25_to_34": (25, 34),
+        "35_to_44": (35, 44),
+        "45_to_54": (45, 54),
+        "55_to_64": (55, 64),
+        "65_to_74": (65, 74),
+        "75_plus": (75, 85),
+    }
+    package = load_source_package("census-pep-2025-state-age-bands")
+    rows = package.build_source_rows(2024)
+    cells = package.build_source_cells(2024, source_rows=rows)
+    facts = package.build_facts(2024, cells=cells, source_rows=rows)
+
+    compared = set()
+    for fact in facts:
+        _prefix, state, value_id, _measure = fact.source_record_id.rsplit(".", 3)
+        first, last = age_groups[value_id]
+        expected = sum(by_age[state][first : last + 1])
+        assert float(fact.value) == expected, fact.source_record_id
+        compared.add((state, value_id))
+    assert len(by_age) == 51
+    assert len(compared) == len(facts) == 51 * len(age_groups)
 
 
 def test_census_population_projections_source_package_alias_validates_counts():
