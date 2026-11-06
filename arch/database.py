@@ -17,7 +17,12 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
-from arch.core import AggregateFact, build_aggregate_constraints, build_fact_key
+from arch.core import (
+    AggregateFact,
+    build_aggregate_constraints,
+    build_fact_key,
+    drop_absent_recorded_pair,
+)
 from arch.sources.cells import (
     SourceCell,
     build_source_cell_key,
@@ -910,6 +915,13 @@ def _insert_aggregate_fact(
     )
 
 
+def _hashed_fact(fact: AggregateFact) -> dict[str, Any]:
+    """The fact's mapping for the build hash, which stays ``asdict`` otherwise."""
+    payload = asdict(fact)
+    drop_absent_recorded_pair(payload["source"])
+    return payload
+
+
 def _build_id(
     facts: list[AggregateFact],
     cells: list[SourceCell],
@@ -923,7 +935,7 @@ def _build_id(
             "fact",
             {
                 "fact_key": build_fact_key(fact),
-                "fact": asdict(fact),
+                "fact": _hashed_fact(fact),
                 "constraints": [
                     asdict(constraint)
                     for constraint in build_aggregate_constraints(fact)
