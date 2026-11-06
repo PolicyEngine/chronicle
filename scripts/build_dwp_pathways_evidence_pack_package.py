@@ -151,6 +151,40 @@ SCOPE = (
     ),
 )
 DAILY_LIVING_AWARDED = "standard_or_enhanced"
+# DWP's notes say 'Data includes working age claimants only' on every table, but
+# Tables 2.9 to 2.12's volumes are the whole caseload, pension age included: their
+# 60+ rows hold about 1.18 million claimants and their totals 3.62 to 3.70 million,
+# where Stat-Xplore's January 2025 caseload for England and Wales
+# (dwp-pip-cases-country-award-age-january-2024-july-2026, all rules) is 503,287 aged
+# 60 to 64, 1,196,452 aged 60 to 79 and 3,653,211 in all. Tables 2.19 to 2.22, 2.27
+# and 2.28 do fit the working-age caseload. So these four tables' facts carry no
+# claimant age group, and the header quotes DWP's note beside the volumes;
+# tests/test_source_uk_pathways_pip_points.py checks the comparison against the cube.
+WHOLE_CASELOAD_TABLES = ("2.9", "2.10", "2.11", "2.12")
+# The printed volumes the header quotes, asserted against the workbook: (table, row
+# text) -> claimants.
+WHOLE_CASELOAD_VOLUMES = {
+    ("2.9", "All ages"): 3_627_000,
+    ("2.9", "60+"): 1_183_000,
+    ("2.10", "All ages"): 3_620_000,
+    ("2.10", "60+"): 1_182_000,
+    ("2.11", "All health conditions"): 3_701_000,
+    ("2.12", "All health conditions"): 3_691_000,
+}
+WORKING_AGE_VOLUMES = {
+    (
+        "2.21",
+        "All working age claimants in receipt of Daily Living component",
+    ): 2_891_000,
+    ("2.21", "60+"): 569_000,
+}
+# Stat-Xplore's January 2025 England and Wales caseload, all rules, as the header
+# quotes it; the test reads the same numbers from the pinned cube.
+STAT_XPLORE_JANUARY_2025 = {
+    "60_to_64": 503_287,
+    "60_to_79": 1_196_452,
+    "all": 3_653_211,
+}
 
 AGE_GROUPS = (
     # printed text, value id, label, lower bound, upper bound (exclusive). The labels
@@ -1237,7 +1271,11 @@ def parity(grid: dict) -> Parity:
 
 
 # Row sums (the published cells of each distribution) outside 100 +/- this are listed
-# in the header; Table 2.9 prints whole percentages and its rows reach 92 to 102.
+# in the header. Table 2.9 prints whole percentages, so its rows may reach 94 to 106
+# (twelve cells, each within 0.5 of its unrounded share), and all but one do. Its
+# 16 - 19 row adds to 92, which rounding cannot give: about 8 points of that
+# distribution are missing from some band, and DWP does not say which. It is ported
+# as published, and the header names it.
 SUM_TOLERANCE = 0.2
 TABLE_2_9_SUMS = {
     "All ages": 98,
@@ -1263,9 +1301,16 @@ def record_set_for(
     record_constraints: list,
 ) -> dict:
     family = FAMILIES[table.family]
-    filters = {variable: value for variable, value, _ in SCOPE}
+    scope = [
+        item
+        for item in SCOPE
+        if not (
+            table.key in WHOLE_CASELOAD_TABLES and item[0] == "pip_claimant_age_group"
+        )
+    ]
+    filters = {variable: value for variable, value, _ in scope}
     constraints = [
-        constraint(variable, value, label) for variable, value, label in SCOPE
+        constraint(variable, value, label) for variable, value, label in scope
     ]
     if table.daily_living_only and table.breakdown not in ("overall", "award"):
         filters["pip_daily_living_award_rate"] = DAILY_LIVING_AWARDED
@@ -1461,9 +1506,23 @@ def declarations(record_sets: list[dict]) -> tuple[dict, dict]:
 COPIED_ROW_LABEL = "Arthritis: Activity 1 - Preparing food"
 
 
+def check_population_volumes(grid: dict) -> None:
+    """The printed volumes behind WHOLE_CASELOAD_TABLES, row text and value."""
+    for volumes in (WHOLE_CASELOAD_VOLUMES, WORKING_AGE_VOLUMES):
+        for (key, text), value in volumes.items():
+            table = TABLES_BY_KEY[key]
+            (row,) = [
+                row
+                for row in range(table.first_row, table.last_row + 1)
+                if squeeze(grid.get((table.sheet, row, table.label_column))) == text
+            ]
+            assert grid[(table.sheet, row, table.volume_column)] == value, (key, text)
+
+
 def build() -> str:
     grid, filename, entry = workbook()
     check_reprints(grid)
+    check_population_volumes(grid)
     misplaced_cells = check_text_order_row(grid)
     copied = check_copied_cell(grid)
     excluded = {
@@ -1578,6 +1637,23 @@ def build() -> str:
     footprint; the claimants living abroad are in every figure and have no code. DWP's
     description of the source, on every table: '{SOURCE_LINE}'. Period: month 2025-01.
 
+    One exception to DWP's notes: Tables 2.9 to 2.12 are the whole caseload, pension age
+    included, so their facts carry no claimant age group, while Tables 2.19 to 2.22,
+    2.27 and 2.28 keep pip_claimant_age_group working_age. Their volumes do not fit
+    'working age claimants only': Table 2.9's 60+ row holds
+    {WHOLE_CASELOAD_VOLUMES[("2.9", "60+")]:,} claimants and Table 2.10's
+    {WHOLE_CASELOAD_VOLUMES[("2.10", "60+")]:,}, and the four tables' totals are
+    {WHOLE_CASELOAD_VOLUMES[("2.10", "All ages")]:,} to
+    {WHOLE_CASELOAD_VOLUMES[("2.11", "All health conditions")]:,}, where Stat-Xplore's
+    caseload for England and Wales at January 2025 (dwp-pip-cases-country-award-age-january-2024-july-2026,
+    all rules) is {STAT_XPLORE_JANUARY_2025["60_to_64"]:,} aged 60 to 64,
+    {STAT_XPLORE_JANUARY_2025["60_to_79"]:,} aged 60 to 79 and
+    {STAT_XPLORE_JANUARY_2025["all"]:,} in all. So their 60+ rows run past State
+    Pension age, and they carry only their lower bound, age 60. Table 2.21's 60+ row,
+    {WORKING_AGE_VOLUMES[("2.21", "60+")]:,}, and Table 2.19's
+    {WORKING_AGE_VOLUMES[("2.21", "All working age claimants in receipt of Daily Living component")]:,}
+    do fit the working-age daily living caseload (State Pension age was 66).
+
     Shares are percentages as published, unit percent, aggregation share: of the
     group's claimants in each points band (daily living, 2.9 and 2.11), at each mobility
     total (2.10 and 2.12), at each highest score on any one daily living activity (2.19 to
@@ -1626,7 +1702,10 @@ def build() -> str:
     Parity, asserted by the generator on the published cells: every distribution adds to
     100 within {SUM_TOLERANCE} points (the largest gap, {largest[0]:.3f}, is Table
     {largest[1]}'s '{largest[2]}'), except the two rows above and Table 2.9's whole
-    percentages, whose rows add to: {sums_2_9}. Weighted by the published volumes, the
+    percentages, whose rows add to: {sums_2_9}. Rounding twelve whole percentages lets a
+    row add to 94 to 106, so Table 2.9's 16 - 19 row, at 92, is short by about 8 points
+    that DWP does not place in any band: a publisher shortfall, ported as published.
+    Weighted by the published volumes, the
     parts reproduce the total row within: Table 2.9 {checks.weighted_gaps["2.9"]:.2f}
     points (whole percentages), 2.10 {checks.weighted_gaps["2.10"]:.3f}, 2.12
     {checks.weighted_gaps["2.12"]:.3f}; and Table 2.19's overall shares within

@@ -31,6 +31,18 @@
 # figure and have no code. DWP's description of the source, on every table: 'Figures
 # derived from DWP administrative data'. Period: month 2025-01.
 #
+# One exception to DWP's notes: Tables 2.9 to 2.12 are the whole caseload, pension age
+# included, so their facts carry no claimant age group, while Tables 2.19 to 2.22, 2.27
+# and 2.28 keep pip_claimant_age_group working_age. Their volumes do not fit 'working age
+# claimants only': Table 2.9's 60+ row holds 1,183,000 claimants and Table 2.10's
+# 1,182,000, and the four tables' totals are 3,620,000 to 3,701,000, where Stat-Xplore's
+# caseload for England and Wales at January 2025
+# (dwp-pip-cases-country-award-age-january-2024-july-2026, all rules) is 503,287 aged 60
+# to 64, 1,196,452 aged 60 to 79 and 3,653,211 in all. So their 60+ rows run past State
+# Pension age, and they carry only their lower bound, age 60. Table 2.21's 60+ row,
+# 569,000, and Table 2.19's 2,891,000 do fit the working-age daily living caseload (State
+# Pension age was 66).
+#
 # Shares are percentages as published, unit percent, aggregation share: of the group's
 # claimants in each points band (daily living, 2.9 and 2.11), at each mobility total (2.10
 # and 2.12), at each highest score on any one daily living activity (2.19 to 2.22), or
@@ -81,12 +93,15 @@
 # Parity, asserted by the generator on the published cells: every distribution adds to 100
 # within 0.2 points (the largest gap, 0.164, is Table 2.22's 'All Other Conditions'),
 # except the two rows above and Table 2.9's whole percentages, whose rows add to: All ages
-# 98, 16 - 19 92, 20 - 29 100, 30 - 39 99, 40 - 49 100, 50 - 59 100, 60+ 102. Weighted by
-# the published volumes, the parts reproduce the total row within: Table 2.9 0.59 points
-# (whole percentages), 2.10 0.001, 2.12 0.003; and Table 2.19's overall shares within
-# 0.008 (2.20, by award), 0.006 (2.21, by age) and 0.014 (2.22, by condition). Table
-# 2.20's award volumes, 1,608,000 enhanced and 1,283,000 standard, are the counts
-# FOI2025/24990 (dwp-pip-daily-living-foi-2025) gives for the same caseload. 1240 facts.
+# 98, 16 - 19 92, 20 - 29 100, 30 - 39 99, 40 - 49 100, 50 - 59 100, 60+ 102. Rounding
+# twelve whole percentages lets a row add to 94 to 106, so Table 2.9's 16 - 19 row, at 92,
+# is short by about 8 points that DWP does not place in any band: a publisher shortfall,
+# ported as published. Weighted by the published volumes, the parts reproduce the total
+# row within: Table 2.9 0.59 points (whole percentages), 2.10 0.001, 2.12 0.003; and Table
+# 2.19's overall shares within 0.008 (2.20, by award), 0.006 (2.21, by age) and 0.014
+# (2.22, by condition). Table 2.20's award volumes, 1,608,000 enhanced and 1,283,000
+# standard, are the counts FOI2025/24990 (dwp-pip-daily-living-foi-2025) gives for the
+# same caseload. 1240 facts.
 schema_version: ledger.source_package.v1
 package_id: dwp-pathways-to-work-pip-points-january-2025
 label: 'DWP Pathways to Work evidence pack, chapter 2: PIP daily living and mobility point scores, January
@@ -205,12 +220,10 @@ record_sets:
   groupby_dimension: age_band
   shared_filters:
     pip_policy_ownership: dwp
-    pip_claimant_age_group: working_age
     pip_claim_rules: normal_rules
   shared_constraints:
   - {variable: pip_policy_ownership, operator: ==, value: dwp, label: 'DWP policy ownership (England,
       Wales and Abroad)'}
-  - {variable: pip_claimant_age_group, operator: ==, value: working_age, label: Working-age claimants}
   - {variable: pip_claim_rules, operator: ==, value: normal_rules, label: Normal rules only (special rules
       for end of life excluded)}
   rows:
@@ -644,12 +657,10 @@ record_sets:
   groupby_dimension: age_band
   shared_filters:
     pip_policy_ownership: dwp
-    pip_claimant_age_group: working_age
     pip_claim_rules: normal_rules
   shared_constraints:
   - {variable: pip_policy_ownership, operator: ==, value: dwp, label: 'DWP policy ownership (England,
       Wales and Abroad)'}
-  - {variable: pip_claimant_age_group, operator: ==, value: working_age, label: Working-age claimants}
   - {variable: pip_claim_rules, operator: ==, value: normal_rules, label: Normal rules only (special rules
       for end of life excluded)}
   rows:
@@ -1018,12 +1029,10 @@ record_sets:
   groupby_dimension: pip_primary_health_condition_group
   shared_filters:
     pip_policy_ownership: dwp
-    pip_claimant_age_group: working_age
     pip_claim_rules: normal_rules
   shared_constraints:
   - {variable: pip_policy_ownership, operator: ==, value: dwp, label: 'DWP policy ownership (England,
       Wales and Abroad)'}
-  - {variable: pip_claimant_age_group, operator: ==, value: working_age, label: Working-age claimants}
   - {variable: pip_claim_rules, operator: ==, value: normal_rules, label: Normal rules only (special rules
       for end of life excluded)}
   rows:
@@ -1114,12 +1123,10 @@ record_sets:
   groupby_dimension: pip_primary_health_condition_group
   shared_filters:
     pip_policy_ownership: dwp
-    pip_claimant_age_group: working_age
     pip_claim_rules: normal_rules
   shared_constraints:
   - {variable: pip_policy_ownership, operator: ==, value: dwp, label: 'DWP policy ownership (England,
       Wales and Abroad)'}
-  - {variable: pip_claimant_age_group, operator: ==, value: working_age, label: Working-age claimants}
   - {variable: pip_claim_rules, operator: ==, value: normal_rules, label: Normal rules only (special rules
       for end of life excluded)}
   rows:
@@ -1694,12 +1701,10 @@ record_sets:
   groupby_dimension: pip_primary_health_condition_group
   shared_filters:
     pip_policy_ownership: dwp
-    pip_claimant_age_group: working_age
     pip_claim_rules: normal_rules
   shared_constraints:
   - {variable: pip_policy_ownership, operator: ==, value: dwp, label: 'DWP policy ownership (England,
       Wales and Abroad)'}
-  - {variable: pip_claimant_age_group, operator: ==, value: working_age, label: Working-age claimants}
   - {variable: pip_claim_rules, operator: ==, value: normal_rules, label: Normal rules only (special rules
       for end of life excluded)}
   rows:

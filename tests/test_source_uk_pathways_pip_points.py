@@ -121,6 +121,18 @@ SCOPE = {
     "pip_claimant_age_group": "working_age",
     "pip_claim_rules": "normal_rules",
 }
+# Tables 2.9 to 2.12 are the whole caseload, pension age included, whatever DWP's note
+# says, so their facts carry no claimant age group (see the package header).
+WHOLE_CASELOAD_TABLES = ("2.9", "2.10", "2.11", "2.12")
+CASES_PACKAGE_ID = "dwp-pip-cases-country-award-age-january-2024-july-2026"
+
+
+def _scope(fact) -> dict:
+    if _table(fact) in WHOLE_CASELOAD_TABLES:
+        return {k: v for k, v in SCOPE.items() if k != "pip_claimant_age_group"}
+    return SCOPE
+
+
 TABLE_NS = "urn:oasis:names:tc:opendocument:xmlns:table:1.0"
 OFFICE_NS = "urn:oasis:names:tc:opendocument:xmlns:office:1.0"
 TEXT_NS = "urn:oasis:names:tc:opendocument:xmlns:text:1.0"
@@ -397,7 +409,10 @@ def test_facts_are_the_published_cells_and_only_those(built, workbook):
         seen.add((table, row, column))
         assert fact.period.type == "month" and fact.period.value == "2025-01"
         assert fact.geography.id == "K04000001"
-        assert {key: fact.filters[key] for key in SCOPE} == SCOPE
+        scope = _scope(fact)
+        assert {key: fact.filters[key] for key in scope} == scope
+        if _table(fact) in WHOLE_CASELOAD_TABLES:
+            assert "pip_claimant_age_group" not in fact.filters
         assert fact.provenance_class == "administrative"
     excluded = _excluded(workbook)
     assert not seen & excluded
@@ -484,8 +499,10 @@ def test_points_filters_carry_their_constraints(built):
     _, facts = built
     for fact in facts:
         constraints = {(c.variable, c.operator): c.value for c in fact.constraints}
-        for key, value in SCOPE.items():
+        for key, value in _scope(fact).items():
             assert constraints[(key, "==")] == value
+        if _table(fact) in WHOLE_CASELOAD_TABLES:
+            assert ("pip_claimant_age_group", "==") not in constraints
         if fact.layout.measure_id == "claimants":
             assert fact.measure.unit == "count" and fact.aggregation.method == "sum"
             continue
@@ -713,3 +730,55 @@ def test_award_volumes_are_the_foi_counts(built):
         if _table(fact) == "2.20" and fact.layout.measure_id == "claimants"
     }
     assert volumes == counts == {"enhanced": 1_608_000, "standard": 1_283_000}
+
+
+def test_tables_2_9_to_2_12_are_the_whole_caseload(built):
+    """Their volumes fit Stat-Xplore's caseload at all ages, not its working age."""
+    _, facts = built
+
+    def volume(table: str, **filters) -> int:
+        (value,) = [
+            fact.value
+            for fact in facts
+            if _table(fact) == table
+            and fact.layout.measure_id == "claimants"
+            and all(fact.filters.get(k) == v for k, v in filters.items())
+        ]
+        return value
+
+    cases = load_source_package(CASES_PACKAGE_ID).build_facts(2026)
+    by_age: Counter = Counter()
+    for fact in cases:
+        filters = fact.filters
+        if (
+            fact.period.value == "2025-01"
+            and fact.geography.id in ("E92000001", "W92000004")
+            and filters["daily_living_award_status"] == "all"
+            and filters["mobility_award_status"] == "all"
+        ):
+            by_age[filters["age_bands_and_single_year"]] += fact.value
+    sixty_to_64 = by_age["60-64"]
+    sixty_to_79 = sum(by_age[band] for band in ("60-64", "65-69", "70-74", "75-79"))
+    assert (sixty_to_64, sixty_to_79, by_age["all"]) == (503_287, 1_196_452, 3_653_211)
+    for table in ("2.9", "2.10"):
+        sixty_plus = volume(table, age_band="60_and_over")
+        # The 60+ row is all claimants aged 60 to 79, not 60 to 65 ...
+        assert abs(sixty_plus / sixty_to_79 - 1) < 0.02
+        assert sixty_plus > 2 * sixty_to_64
+        # ... and the total the caseload at all ages.
+        assert abs(volume(table, age_band="all") / by_age["all"] - 1) < 0.02
+    for table in ("2.11", "2.12"):
+        total = volume(table, pip_primary_health_condition_group="all")
+        assert abs(total / by_age["all"] - 1) < 0.02
+    # Table 2.21's 60+ row is the working-age daily living caseload aged 60 to 65.
+    assert sixty_to_64 < volume("2.21", age_band="60_and_over") < 0.6 * sixty_to_79
+
+
+def test_table_2_9_16_to_19_row_is_short_beyond_rounding(workbook):
+    """Twelve whole percentages can add to 94 at least; this row adds to 92."""
+    grid = workbook[SHEETS["2.9"]]
+    heading_row, columns = _heading_row(grid, "2.9")
+    row = _one(grid, "16 - 19", rows=range(heading_row + 1, heading_row + 80))[0]
+    cells = [grid[(row, column)] for column in columns.values()]
+    assert len(cells) == 12 and all(isinstance(cell, int) for cell in cells)
+    assert sum(cells) == 92 < 100 - 0.5 * len(cells)
