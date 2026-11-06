@@ -487,6 +487,29 @@ Field contracts and caveats are in
 - **Not in this PR.** UCL's house price per square metre file (item 6) is above the 300 MiB that
   `publish-raw` can upload ([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)).
 
+## Beyond parity — UK PIP review facts (chronicle#420)
+
+Published facts for the PIP review
+([PolicyEngine/uk-pip-review-2026](https://github.com/PolicyEngine/uk-pip-review-2026)), items 5
+and 6 of [chronicle#420](https://github.com/PolicyEngine/chronicle/issues/420): comparators for
+the event, and inputs for Microcosm's PIP points draw and caseload checks if the next pair takes
+them up. Seven packages add 23,947 facts; field contracts and caveats are in
+[`docs/data-sources/uk-pip-review-facts-420.md`](data-sources/uk-pip-review-facts-420.md).
+
+- **Pathways to Work evidence pack, chapter 2** (`dwp-pathways-to-work-pip-points-january-2025`,
+  1,240 facts): PIP daily living and mobility points by age and condition, the most points on
+  any one daily living activity (overall, by award, age and condition) and the points on each
+  activity (with Table 2.28 by condition), for working-age normal-rules claimants under DWP
+  policy ownership at the end of January 2025.
+- **PIP cases with entitlement, Stat-Xplore** (`dwp-pip-cases-*`, 22,707 facts): each
+  quarter-end month from January 2024 to July 2026, by country with the daily living and
+  mobility awards crossed with age band, End of Life Rules or disability category, and the
+  English regions by award; and July 2026 totals by constituency and local authority.
+- Not ported:
+  - the evidence pack's Tables 2.25 and 2.26 (by area; not requested), 2.18, 2.23 and 2.24,
+    and 12 cells DWP misprints (Table 2.11's all-conditions bands, one Table 2.28 cell);
+  - Stat-Xplore's disability subgroups and conditions, cases abroad and of unknown residence.
+
 ## Consumer contracts
 
 The UK national, local-geography, and firms selection contracts now live in

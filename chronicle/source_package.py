@@ -647,6 +647,31 @@ SOURCE_PACKAGE_ALIASES = {
         "nrs/census2022_uv404_tenure_output_area"
     ),
     # end chronicle#326
+    # chronicle#420: the PIP review (PolicyEngine/uk-pip-review-2026): DWP's
+    # Pathways to Work evidence pack (PIP points) and Stat-Xplore PIP cases with
+    # entitlement.
+    "dwp-pathways-to-work-pip-points-january-2025": Path(
+        "dwp/pathways_to_work_pip_points_january_2025"
+    ),
+    "dwp-pip-cases-by-constituency-july-2026": Path(
+        "dwp/pip_cases_by_constituency_july_2026"
+    ),
+    "dwp-pip-cases-by-local-authority-july-2026": Path(
+        "dwp/pip_cases_by_local_authority_july_2026"
+    ),
+    "dwp-pip-cases-country-award-age-january-2024-july-2026": Path(
+        "dwp/pip_cases_country_award_age_january_2024_july_2026"
+    ),
+    "dwp-pip-cases-country-disability-award-january-2024-july-2026": Path(
+        "dwp/pip_cases_country_disability_award_january_2024_july_2026"
+    ),
+    "dwp-pip-cases-country-end-of-life-rules-award-january-2024-july-2026": Path(
+        "dwp/pip_cases_country_end_of_life_rules_award_january_2024_july_2026"
+    ),
+    "dwp-pip-cases-region-award-january-2024-july-2026": Path(
+        "dwp/pip_cases_region_award_january_2024_july_2026"
+    ),
+    # end chronicle#420 (PIP)
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),
