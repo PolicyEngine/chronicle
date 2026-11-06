@@ -562,7 +562,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Survey's chapters 1, 3 and 4 (4,458), HMRC's stamp tax Tables 2e, 3a,
         # 5a, 7, 9a and 9d (1,135), ONS's land by sector (387) and the council
         # rows of the Welsh (308) and Scottish (96) council tax tables.
-        "fact_count": 2062484,
+        # chronicle#419 adds 118,272 dwelling facts: NRS's council tax bands A to
+        # H for each of Scotland's 7,392 2022 data zones, December 2024 and
+        # December 2025. Measured with only nrs-dwellings-data-zone-2025 at
+        # bundle year 2023: no new geography, period or entity key, duplicate
+        # key or warning.
+        "fact_count": 2180756,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -686,7 +691,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2062484
+    assert row_count == 2180756
     assert provenance_classes <= {
         "administrative",
         "census",
@@ -721,7 +726,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2062484
+    assert coverage["fact_count"] == 2180756
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -759,7 +764,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "nbb_national_accounts": 1,
         "nisra": 29227,
         "nithc": 8,
-        "nrs": 359094,
+        "nrs": 477366,
         "obr": 4539,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
@@ -2532,6 +2537,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in chronicle_408_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#419: NRS's eight council tax bands for each of the 7,392 data
+    # zones, at December 2024 and December 2025.
+    for year in (2024, 2025):
+        expected_period_counts[f"calendar_year:{year}"] += 8 * 7392
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2675,9 +2684,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # QRC4 5,757, Table 6 1,208, Wales 308 and Scotland 96), households +1,666
     # (the Market Value Survey), returns +1,135 (HMRC's stamp tax), firms +401
     # (the land value estimates) and institutional sectors +387 (ONS's land).
+    # chronicle#419: dwellings +118,272 (NRS's council tax bands by data zone).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
-        "dwelling": 590264,
+        "dwelling": 708536,
         "family": 1700,
         "firm": 1905,
         "government": 14071,
