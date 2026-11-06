@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from contextlib import closing
 from dataclasses import replace
-import json
-from pathlib import Path
 import sqlite3
 
 import pytest
@@ -13,14 +11,13 @@ import pytest
 from arch.artifacts import infer_build_id
 from arch.core import build_aggregate_constraints
 from arch.jurisdictions.us.soi import AXIOM_IRC_AGI_CONCEPT
-from arch.database import _build_id, build_arch_db
+from arch.database import build_arch_db
 from arch.harness import build_arch_db_file
 from arch.jurisdictions.us.soi import (
     build_soi_table_1_1_source_cells,
     build_soi_table_1_1_facts,
 )
 from arch.mirror import export_arch_db_tables
-from arch.store import fact_from_mapping
 
 
 def test_build_aggregate_constraints_lifts_agi_filters():
@@ -179,27 +176,6 @@ def test_build_arch_db_build_id_changes_when_fact_payload_changes(tmp_path):
     )
 
     assert original.build_id != changed.build_id
-
-
-def _first_ledger_fact():
-    ledger = Path(__file__).resolve().parents[1] / "ledger" / "official_observations.jsonl"
-    with ledger.open() as handle:
-        return fact_from_mapping(json.loads(handle.readline()))
-
-
-def test_a_fact_with_no_recorded_pair_keeps_its_build_hash():
-    # This row sits in the ledger's immutable prefix, and this is the id it
-    # hashed to before SourceProvenance held a recorded pair (fd83eec2).
-    assert _build_id([_first_ledger_fact()], [], []) == "arch.build.v1:b41b7e261d263508792d239f"
-
-
-def test_a_recorded_pair_enters_the_build_hash():
-    fact = _first_ledger_fact()
-    paired = replace(
-        fact,
-        source=replace(fact.source, recorded_value=7.716, recorded_unit="millions"),
-    )
-    assert _build_id([paired], [], []) != _build_id([fact], [], [])
 
 
 def test_build_arch_db_rejects_unresolved_source_cell_lineage(tmp_path):

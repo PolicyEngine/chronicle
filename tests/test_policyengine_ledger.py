@@ -13,6 +13,7 @@ import hashlib
 import json
 import subprocess
 import sys
+from dataclasses import replace
 from decimal import Decimal
 from pathlib import Path
 
@@ -26,6 +27,7 @@ from arch.core import (
     SourceProvenance,
     validate_facts,
 )
+from arch.database import _build_id
 from arch.store import fact_from_mapping, fact_to_mapping
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -268,6 +270,13 @@ def test_recorded_pair_checks_hold_past_decimal_precision():
     assert len(rounded) == 1 and "stores" in rounded[0]
 
 
+def test_recorded_pair_checks_keep_a_negative_sign():
+    source = {"recorded_value": -7.716, "recorded_unit": "millions"}
+    assert _recorded_pair_problems([_restatement(value=-7716000, source=source)]) == []
+    flipped = _recorded_pair_problems([_restatement(value=7716000, source=source)])
+    assert len(flipped) == 1 and "stores 7716000" in flipped[0]
+
+
 def test_restatement_checks_refuse_a_row_that_changes_the_prior_pair():
     changed = _restatement(
         value=7717000,
@@ -301,6 +310,51 @@ def test_a_recorded_pair_survives_the_fact_store():
     paired = _to_aggregate_fact({**row, "source": source})
     assert fact_to_mapping(paired)["source"]["recorded_value"] == 7.716
     assert fact_from_mapping(fact_to_mapping(paired)) == paired
+
+
+def test_the_fact_store_drops_only_the_absent_half_of_a_pair():
+    row = _read_ledger_facts()[0]
+    for present, absent in (
+        ({"recorded_value": 0}, "recorded_unit"),
+        ({"recorded_unit": "millions"}, "recorded_value"),
+    ):
+        fact = _to_aggregate_fact({**row, "source": {**row["source"], **present}})
+        source = fact_to_mapping(fact)["source"]
+        assert present.items() <= source.items() and absent not in source
+        assert fact_from_mapping(fact_to_mapping(fact)) == fact
+
+
+def _first_fact() -> AggregateFact:
+    return fact_from_mapping(_read_ledger_facts()[0])
+
+
+def test_a_fact_with_no_recorded_pair_keeps_its_build_hash():
+    # This row sits in the ledger's immutable prefix, and this is the id it
+    # hashed to before SourceProvenance held a recorded pair (fd83eec2).
+    assert _build_id([_first_fact()], [], []) == "arch.build.v1:b41b7e261d263508792d239f"
+
+
+def test_every_shape_of_a_recorded_pair_hashes_apart():
+    # So the hash reads each half on its own and keeps a recorded 0 as a value.
+    fact = _first_fact()
+    shapes = (
+        (None, None),
+        (7.716, None),
+        (0, None),
+        (None, "millions"),
+        (7.716, "millions"),
+        (0, "millions"),
+        (7.716, "thousands"),
+    )
+    build_ids = {
+        _build_id(
+            [replace(fact, source=replace(fact.source, recorded_value=value, recorded_unit=unit))],
+            [],
+            [],
+        )
+        for value, unit in shapes
+    }
+    assert len(build_ids) == len(shapes)
 
 
 def _git(repo: Path, *arguments: str) -> str:
