@@ -5,10 +5,22 @@ representation, and preserve provenance. Selection and measurement contracts liv
 in consumers such as Microcosm.
 
 Every fact value must trace to a publisher. The boundary is who asserted the
-value, not level versus projection: a publisher's own projection (CBO baseline,
-BFP outlook, SSA trustees, TPC/JCT score) is a fact typed
+value, not level versus projection: a government's own projection (CBO
+baseline, BFP outlook, SSA trustees) is a fact typed
 `assertion: source_projection`. PolicyEngine-computed values — aged, uprated,
 forecast, or reconciled levels — are never Chronicle facts.
+
+Chronicle holds government-produced records only. Before adding a source
+folder or package, confirm the publisher is part of a government and add or
+update its entry in `docs/source-publishers.yaml`; `tests/test_source_publishers.py`
+fails on an unclassified folder or a new non-government one. Do not add
+records from trade associations, charities, think tanks, universities,
+firms, or aggregators that republish government data: take the series from
+the government publisher instead. Comparisons against outside scores belong
+in PolicyEngine/policyengine-scorecard, not here. Edge cases (central banks,
+regulators, public corporations, intergovernmental bodies, government records
+on a third-party host) follow the 2026-10-21 amendment in
+`docs/adr-chronicle-facts-only.md`.
 
 Do not put Microcosm work in Chronicle:
 
