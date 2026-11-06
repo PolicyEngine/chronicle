@@ -2533,6 +2533,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in chronicle_408_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # Census Vintage 2025 state age groups: 51 states x 16 groups, July 1, 2024.
+    expected_period_counts["calendar_year:2024"] += 816
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2580,7 +2582,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         == 35
     )
     assert coverage["counts"]["by_geography"]["country:0100000US"] == 2116
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 255
+    # 255 + 16 Census Vintage 2025 age groups (15 groups and the total).
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 271
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 62
     )
@@ -2676,6 +2679,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # QRC4 5,757, Table 6 1,208, Wales 308 and Scotland 96), households +1,666
     # (the Market Value Survey), returns +1,135 (HMRC's stamp tax), firms +401
     # (the land value estimates) and institutional sectors +387 (ONS's land).
+    # Census Vintage 2025 state age groups add 816 people.
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 590264,
@@ -2685,7 +2689,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 678213,
         "institutional_sector": 9264,
         "pension_plan": 2,
-        "person": 672029,
+        "person": 672845,
         "return": 16087,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
