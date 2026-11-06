@@ -22,7 +22,6 @@ def main() -> None:
         ["export-db-tables"],
         ["fetch-artifact"],
         ["inventory-artifacts"],
-        ["load-supabase-mirror"],
         ["plan-pe-sources"],
         ["publish-derived"],
         ["publish-raw"],

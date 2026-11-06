@@ -21,7 +21,6 @@ __all__ = [
     "build_source_cell_key",
     "compile_source_record_set_specs",
     "load_source_cells_jsonl",
-    "query_sources",
     "resolve_cell_selector",
     "resolve_source_record",
     "save_source_cells_jsonl",
