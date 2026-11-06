@@ -2954,9 +2954,9 @@ def test_census_pep_state_source_package_alias_validates_fixture_counts():
     assert report.valid
     assert report.counts == {
         "record_set_count": 51,
-        "row_count": 969,
+        "row_count": 918,
         "measure_count": 51,
-        "source_record_count": 969,
+        "source_record_count": 918,
         "source_region_count": 51,
     }
 
@@ -2983,7 +2983,7 @@ def test_census_pep_2025_state_age_bands_partition_each_state():
     assert validate_facts(facts).valid
     assert {fact.period.value for fact in facts} == {2024}
     values: dict[str, dict[str, float]] = {}
-    bounds: dict[str, tuple[int, float]] = {}
+    bounds: dict[str, dict[str, tuple[int, float]]] = {}
     for fact in facts:
         prefix, state, value_id, measure = fact.source_record_id.rsplit(".", 3)
         assert prefix == "census_pep.v2025.cy2024.state_resident_population_age_bands"
@@ -2998,14 +2998,17 @@ def test_census_pep_2025_state_age_bands_partition_each_state():
                 lower = int(constraint.value)
             if constraint.variable == "age" and constraint.operator == "<":
                 upper = int(constraint.value)
-        bounds[value_id] = (lower, float("inf") if upper is None else upper)
-    # The fifteen age groups tile [0, inf) without a gap or an overlap.
-    edges = sorted(bounds.values())
-    assert edges[0][0] == 0 and edges[-1][1] == float("inf")
-    assert all(edges[i][1] == edges[i + 1][0] for i in range(len(edges) - 1))
+        bounds.setdefault(state, {})[value_id] = (
+            lower,
+            float("inf") if upper is None else upper,
+        )
     assert len(values) == 51
-    for state_values in values.values():
+    for state, state_values in values.items():
         assert len(state_values) == 16
+        # The state's fifteen age groups tile [0, inf) without a gap or an overlap.
+        edges = sorted(bounds[state].values())
+        assert edges[0][0] == 0 and edges[-1][1] == float("inf")
+        assert all(edges[i][1] == edges[i + 1][0] for i in range(len(edges) - 1))
         groups_total = sum(v for k, v in state_values.items() if k != "all")
         assert groups_total == state_values["all"]
     # SC-EST2025-ALLDATA6, POPESTIMATE2024, SEX 0 and ORIGIN 0 summed over the
@@ -3026,6 +3029,35 @@ def test_census_pep_2025_state_age_bands_partition_each_state():
     assert indiana["all"] == 6934754
     assert values["06"]["all"] == 39364774
     assert sum(state_values["all"] for state_values in values.values()) == 340003797
+
+
+def _census_pep_state_age_ranges(package_id: str) -> dict[tuple, float]:
+    package = load_source_package(package_id)
+    rows = package.build_source_rows(2024)
+    cells = package.build_source_cells(2024, source_rows=rows)
+    ranges: dict[tuple, float] = {}
+    for fact in package.build_facts(2024, cells=cells, source_rows=rows):
+        lower = upper = None
+        for constraint in fact.constraints:
+            if constraint.variable == "age" and constraint.operator == ">=":
+                lower = int(constraint.value)
+            if constraint.variable == "age" and constraint.operator == "<":
+                upper = int(constraint.value)
+        key = (fact.geography.id, fact.period.value, lower, upper)
+        assert key not in ranges
+        ranges[key] = float(fact.value)
+    return ranges
+
+
+def test_census_pep_vintages_give_each_state_age_range_one_number():
+    # Of two vintages' numbers for a line and year, Chronicle keeps the later
+    # (chronicle#397). Vintages 2024 and 2025 both estimate July 1, 2024, so
+    # Vintage 2024 leaves out each state's total, which Vintage 2025 also gives.
+    earlier = _census_pep_state_age_ranges("census-pep-2024-state-age-sex")
+    later = _census_pep_state_age_ranges("census-pep-2025-state-age-bands")
+
+    assert (len(earlier), len(later)) == (918, 816)
+    assert not earlier.keys() & later.keys()
 
 
 def test_census_pep_2025_state_age_bands_equal_direct_csv_sums():

@@ -562,7 +562,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Survey's chapters 1, 3 and 4 (4,458), HMRC's stamp tax Tables 2e, 3a,
         # 5a, 7, 9a and 9d (1,135), ONS's land by sector (387) and the council
         # rows of the Welsh (308) and Scottish (96) council tax tables.
-        "fact_count": 2063300,
+        "fact_count": 2063249,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -686,7 +686,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2063300
+    assert row_count == 2063249
     assert provenance_classes <= {
         "administrative",
         "census",
@@ -721,13 +721,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2063300
+    assert coverage["fact_count"] == 2063249
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
         "cbo": 7,
         "census_acs": 468,
-        "census_pep": 4948,
+        "census_pep": 4897,
         "census_population_projections": 86,
         "census_stc": 46,
         "cms_medicaid": 515,
@@ -789,7 +789,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     table_counts = coverage["counts"]["by_source_table"]
     # chronicle#407 adds 15 source tables, one per package, and chronicle#408
     # adds 12, one per new package. The Census Vintage 2025 state age-group
-    # package adds one (SC-EST2025-ALLDATA6) and 816 census_pep facts.
+    # package adds one (SC-EST2025-ALLDATA6) and 816 census_pep facts, and the
+    # Vintage 2024 package gives up its 51 state totals (chronicle#397).
     assert len(table_counts) == 413
     assert (
         table_counts[
@@ -2534,7 +2535,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     for key, count in chronicle_408_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     # Census Vintage 2025 state age groups: 51 states x 16 groups, July 1, 2024.
-    expected_period_counts["calendar_year:2024"] += 816
+    # Vintage 2024 gives up its 51 state totals for the same date (chronicle#397).
+    expected_period_counts["calendar_year:2024"] += 816 - 51
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2582,8 +2584,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         == 35
     )
     assert coverage["counts"]["by_geography"]["country:0100000US"] == 2116
-    # 255 + 16 Census Vintage 2025 age groups (15 groups and the total).
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 271
+    # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
+    # 2025 age groups (15 groups and the total).
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 270
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 62
     )
@@ -2689,7 +2692,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 678213,
         "institutional_sector": 9264,
         "pension_plan": 2,
-        "person": 672845,
+        "person": 672794,
         "return": 16087,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
