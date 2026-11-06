@@ -487,6 +487,66 @@ Field contracts and caveats are in
 - **Not in this PR.** UCL's house price per square metre file (item 6) is above the 300 MiB that
   `publish-raw` can upload ([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)).
 
+## Beyond parity — UK young people and work facts (chronicle#420)
+
+Published facts for the review of young people and work
+([PolicyEngine/uk-young-people-work-review](https://github.com/PolicyEngine/uk-young-people-work-review)),
+items 1 to 4 and 9 of [chronicle#420](https://github.com/PolicyEngine/chronicle/issues/420):
+comparators for the event, and inputs for Microcosm targets or diagnostics if the next
+national pair takes them up. Eighteen packages add 33,641 facts; field contracts and
+caveats are in
+[`docs/data-sources/uk-young-people-facts-420.md`](data-sources/uk-young-people-facts-420.md).
+
+- **ONS NEET, August 2026** (`ons-neet-august-2026`, 945 facts): NEET people (all,
+  unemployed, inactive), the population and the NEET share, ages 16-17, 18-24 and 16-24
+  by sex, and 18-20, 21-22 and 23-24, seasonally adjusted and not, April to June 2024 to
+  April to June 2026.
+- **LFS table A06, October 2026** (`ons-a06-sa-october-2026`, 1,701;
+  `ons-a06-nsa-october-2026`, 2,831): people aged 16 to 24 by full-time education and
+  economic activity, levels and rates, by sex, each calendar quarter of the same window;
+  the NSA edition adds 18-21 and 22-24.
+- **People on Universal Credit by age and conditionality regime**
+  (`dwp-uc-people-country-age-conditionality-regime-april-2024-may-2026`, 16,510): Great
+  Britain and its countries, single years 16 to 24 and bands above, the six regimes,
+  April 2024 to May 2026.
+- **PAYE RTI by age, October 2026** (`ons-paye-rti-age-nsa-october-2026`, 826): payrolled
+  employees and median, mean and aggregate monthly pay by age band, UK, not seasonally
+  adjusted, April 2024 to September 2026.
+- **ASHE Table 6, earnings by age group** (`ons-ashe-table6-*`, 10,806): gross weekly and
+  annual pay and jobs, with CVs, 2024 revised, 2025 revised and 2026 provisional.
+- **HMRC's employer NICs reliefs, January 2026**
+  (`hmrc-employer-nics-age-reliefs-january-2026`, 22): the cost of the zero rates for
+  employees under 21 and apprentices under 25, 2020-21 to 2025-26 (2025-26 forecast), and
+  the employers claiming them.
+- Not ported:
+  - A06's rolling windows that are not calendar quarters, including the latest, June to
+    August 2026: Chronicle has no period type for them;
+  - single years of age from PAYE RTI, which publishes bands only;
+  - the NEET sampling variability dataset, and ASHE Table 6's other tables (6.2 to 6.11).
+
+## Beyond parity — UK PIP review facts (chronicle#420)
+
+Published facts for the PIP review
+([PolicyEngine/uk-pip-review-2026](https://github.com/PolicyEngine/uk-pip-review-2026)), items 5
+and 6 of [chronicle#420](https://github.com/PolicyEngine/chronicle/issues/420): comparators for
+the event, and inputs for Microcosm's PIP points draw and caseload checks if the next pair takes
+them up. Seven packages add 23,947 facts; field contracts and caveats are in
+[`docs/data-sources/uk-pip-review-facts-420.md`](data-sources/uk-pip-review-facts-420.md).
+
+- **Pathways to Work evidence pack, chapter 2** (`dwp-pathways-to-work-pip-points-january-2025`,
+  1,240 facts): PIP daily living and mobility points by age and condition, the most points on
+  any one daily living activity (overall, by award, age and condition) and the points on each
+  activity (with Table 2.28 by condition), for working-age normal-rules claimants under DWP
+  policy ownership at the end of January 2025.
+- **PIP cases with entitlement, Stat-Xplore** (`dwp-pip-cases-*`, 22,707 facts): each
+  quarter-end month from January 2024 to July 2026, by country with the daily living and
+  mobility awards crossed with age band, End of Life Rules or disability category, and the
+  English regions by award; and July 2026 totals by constituency and local authority.
+- Not ported:
+  - the evidence pack's Tables 2.25 and 2.26 (by area; not requested), 2.18, 2.23 and 2.24,
+    and 12 cells DWP misprints (Table 2.11's all-conditions bands, one Table 2.28 cell);
+  - Stat-Xplore's disability subgroups and conditions, cases abroad and of unknown residence.
+
 ## Beyond parity — UK Scottish Budget facts (chronicle#420)
 
 Published facts for the Scottish Budget 2027-28
