@@ -32,29 +32,40 @@
 # (note 51); 'The caseload measure counts an individual only once' (note 32). 'Figures are
 # rounded for disclosure control and may not sum due to rounding' (note 1); '[c] indicates
 # that figures are suppressed for disclosure control' (note 11), and a [c] cell emits no
-# fact (2 in the ported rows). 'A small number of cases could not be assigned to a daily
-# living award level and are not included in this table, therefore totals may not sum'
-# (note 62). Note 84: a change of analytical software raised the award levels in Tables 15
-# to 18 'with around 1-2% more enhanced Daily Living awards, 1% more enhanced Mobility
-# awards, and 1-2% more clients awarded both Daily Living and Mobility components', so
-# earlier editions' levels are not comparable.
+# fact (2 in the ported rows). Tables 16, 17 and 18 cite note 62: 'A small number of cases
+# could not be assigned to a daily living award level and are not included in this table,
+# therefore totals may not sum'. That holds for Table 18, which falls short of the
+# caseload as Table 15 does (note 70). Tables 16 and 17 add up: their 'Number not awarded'
+# is the caseload less the assigned levels, so it includes the unassigned cases. Table
+# 16's is Table 15's Mobility-only count plus Table 15's shortfall, and Table 17's the
+# Daily Living-only count plus the same shortfall, within the rounding in every month and
+# type of client. So adp_daily_living_award_level not_awarded is not 'ADP clients with
+# Mobility only' (17,995 against Table 15's 15,470 for all clients at July 2026), and it
+# rises faster than that count as the shortfall grows; the generator asserts both
+# identities, and those two columns' notes say so. Note 84: a change of analytical
+# software raised the award levels in Tables 15 to 18 'with around 1-2% more enhanced
+# Daily Living awards, 1% more enhanced Mobility awards, and 1-2% more clients awarded
+# both Daily Living and Mobility components', so earlier editions' levels are not
+# comparable.
 #
 # Parity, asserted by the generator: routes, levels, ages and councils add to their totals
-# within the rounding to the nearest 5, except that Tables 15 and 18 fall short of by the
-# cases that 'could not be assigned to a Daily Living or Mobility award level' (note 70):
-# 280 people for all clients in April 2024, rising to 2,520 (0.5 per cent) in July 2026.
-# Largest gaps: T15 Caseload by award type: levels add to the caseload: at most 2,520; T15
-# Caseload by award type: routes add to all clients: at most 5; T16 Caseload by DL award:
-# levels add to the caseload: at most 10; T16 Caseload by DL award: routes add to all
-# clients: at most 5; T17 Caseload by mob award: levels add to the caseload: at most 5;
-# T17 Caseload by mob award: routes add to all clients: at most 5; T18 Caseload by award
-# level: levels add to the caseload: at most 2,510; T18 Caseload by award level: levels
-# add to the caseload (skipped: a [c] cell): 2; T18 Caseload by award level: routes add to
-# all clients: at most 5; T18 Caseload by award level: routes add to all clients (skipped:
-# a [c] cell): 1; T18's Daily Living margins against T16: at most 5; T18's Daily Living
-# margins against T16 (skipped: a [c] cell): 2; T18's Mobility margins against T17: at
-# most 10; T18's Mobility margins against T17 (skipped: a [c] cell): 2; T19: age bands add
-# to the total: at most 5; T25: councils and 'Other' add to the total: at most 0. 1885
+# within the rounding to the nearest 5, except that Tables 15 and 18 fall short of the
+# caseload by the cases that 'could not be assigned to a Daily Living or Mobility award
+# level' (note 70): 280 people for all clients in April 2024, rising to 2,520 (0.5 per
+# cent) in July 2026. Largest gaps: T15 Caseload by award type: levels add to the
+# caseload: at most 2,520; T15 Caseload by award type: routes add to all clients: at most
+# 5; T16 Caseload by DL award: levels add to the caseload: at most 10; T16 Caseload by DL
+# award: routes add to all clients: at most 5; T16's not awarded is T15's Mobility only
+# plus T15's shortfall: at most 5; T17 Caseload by mob award: levels add to the caseload:
+# at most 5; T17 Caseload by mob award: routes add to all clients: at most 5; T17's not
+# awarded is T15's Daily Living only plus T15's shortfall: at most 5; T18 Caseload by
+# award level: levels add to the caseload: at most 2,510; T18 Caseload by award level:
+# levels add to the caseload (skipped: a [c] cell): 2; T18 Caseload by award level: routes
+# add to all clients: at most 5; T18 Caseload by award level: routes add to all clients
+# (skipped: a [c] cell): 1; T18's Daily Living margins against T16: at most 5; T18's Daily
+# Living margins against T16 (skipped: a [c] cell): 2; T18's Mobility margins against T17:
+# at most 10; T18's Mobility margins against T17 (skipped: a [c] cell): 2; T19: age bands
+# add to the total: at most 5; T25: councils and 'Other' add to the total: at most 0. 1885
 # facts.
 schema_version: ledger.source_package.v1
 package_id: scotgov-adp-caseload-july-2026
@@ -10357,8 +10368,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -10481,8 +10496,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -10605,8 +10624,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -10729,8 +10752,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -10853,8 +10880,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -10977,8 +11008,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -11101,8 +11136,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -11225,8 +11264,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -11349,8 +11392,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -11473,8 +11520,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -11597,8 +11648,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -11721,8 +11776,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -11845,8 +11904,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -11969,8 +12032,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -12093,8 +12160,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -12217,8 +12288,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -12341,8 +12416,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -12465,8 +12544,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -12589,8 +12672,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -12713,8 +12800,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -12837,8 +12928,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -12961,8 +13056,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -13085,8 +13184,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -13209,8 +13312,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -13333,8 +13440,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -13457,8 +13568,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -13581,8 +13696,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -13705,8 +13824,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -13830,8 +13953,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -13955,8 +14082,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -14080,8 +14211,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -14205,8 +14340,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -14330,8 +14469,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -14455,8 +14598,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -14580,8 +14727,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -14705,8 +14856,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -14830,8 +14985,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -14955,8 +15114,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -15080,8 +15243,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -15205,8 +15372,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -15330,8 +15501,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -15455,8 +15630,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -15580,8 +15759,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -15705,8 +15888,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -15830,8 +16017,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -15955,8 +16146,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -16080,8 +16275,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -16205,8 +16404,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -16330,8 +16533,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -16455,8 +16662,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -16580,8 +16791,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -16705,8 +16920,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -16830,8 +17049,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -16955,8 +17178,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -17080,8 +17307,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -17205,8 +17436,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -17330,8 +17565,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -17455,8 +17694,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -17580,8 +17823,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -17705,8 +17952,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -17830,8 +18081,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -17955,8 +18210,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -18080,8 +18339,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -18205,8 +18468,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -18330,8 +18597,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -18455,8 +18726,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -18580,8 +18855,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -18705,8 +18984,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -18830,8 +19113,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -18955,8 +19242,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -19080,8 +19371,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -19205,8 +19500,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -19330,8 +19629,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -19455,8 +19758,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -19580,8 +19887,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -19705,8 +20016,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -19830,8 +20145,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -19955,8 +20274,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -20080,8 +20403,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -20205,8 +20532,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -20330,8 +20661,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -20455,8 +20790,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -20580,8 +20919,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -20705,8 +21048,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T16 Caseload by DL award', column
-      G ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T16 Caseload by DL award'',
+      column G (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Mobility only
+      count plus Table 15''s shortfall, within the rounding, not Table 15''s Mobility only count alone.
+      Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -20806,8 +21153,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -20907,8 +21258,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21008,8 +21363,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21109,8 +21468,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21210,8 +21573,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21311,8 +21678,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21412,8 +21783,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21513,8 +21888,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21614,8 +21993,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21715,8 +22098,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21816,8 +22203,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -21917,8 +22308,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22018,8 +22413,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22119,8 +22518,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22220,8 +22623,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22321,8 +22728,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22422,8 +22833,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22523,8 +22938,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22624,8 +23043,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22725,8 +23148,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22826,8 +23253,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -22927,8 +23358,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23028,8 +23463,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23129,8 +23568,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23230,8 +23673,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23331,8 +23778,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23432,8 +23883,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23533,8 +23988,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23635,8 +24094,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23737,8 +24200,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23839,8 +24306,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -23941,8 +24412,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24043,8 +24518,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24145,8 +24624,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24247,8 +24730,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24349,8 +24836,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24451,8 +24942,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24553,8 +25048,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24655,8 +25154,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24757,8 +25260,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24859,8 +25366,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -24961,8 +25472,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25063,8 +25578,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25165,8 +25684,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25267,8 +25790,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25369,8 +25896,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25471,8 +26002,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25573,8 +26108,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25675,8 +26214,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25777,8 +26320,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25879,8 +26426,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -25981,8 +26532,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26083,8 +26638,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26185,8 +26744,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26287,8 +26850,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26389,8 +26956,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26491,8 +27062,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26593,8 +27168,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26695,8 +27274,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26797,8 +27380,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -26899,8 +27486,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27001,8 +27592,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27103,8 +27698,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27205,8 +27804,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27307,8 +27910,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27409,8 +28016,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27511,8 +28122,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27613,8 +28228,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27715,8 +28334,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27817,8 +28440,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -27919,8 +28546,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28021,8 +28652,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28123,8 +28758,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28225,8 +28864,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28327,8 +28970,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28429,8 +29076,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28531,8 +29182,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28633,8 +29288,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28735,8 +29394,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28837,8 +29500,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -28939,8 +29606,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -29041,8 +29712,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -29143,8 +29818,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number
@@ -29245,8 +29924,12 @@ record_sets:
     concept_relation: source_label
     concept_authority: social_security_scotland
     concept_evidence_url: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
-    concept_evidence_notes: Adult Disability Payment statistics, sheet 'T17 Caseload by mob award', column
-      F ('Number not awarded'), people in receipt on the last day of the month.
+    concept_evidence_notes: 'Adult Disability Payment statistics, sheet ''T17 Caseload by mob award'',
+      column F (''Number not awarded''), people in receipt on the last day of the month. Its ''Number
+      not awarded'' is the caseload less the assigned levels, so it includes the cases that ''could not
+      be assigned to a Daily Living or Mobility award level'' (note 70): it is Table 15''s Daily Living
+      only count plus Table 15''s shortfall, within the rounding, not Table 15''s Daily Living only count
+      alone. Note 62''s ''not included in this table'' holds for Table 18, not for this column.'
     unit: count
     aggregation: sum
     expected_cell_type: number

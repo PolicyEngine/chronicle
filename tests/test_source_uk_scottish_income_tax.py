@@ -474,3 +474,50 @@ def test_marginal_rates_follow_each_group_s_bands(built):
             assert rate == ("additional_or_top" if from_2018 else "additional")
         else:
             assert rate == "additional"
+
+
+def test_a_corrected_uk_all_bands_cell_fails_the_build(built):
+    """The pinned starter-band gap is a check: a corrected cell makes Table 2's fail."""
+    _, facts = built
+    generator = runpy.run_path(
+        str(ROOT / "scripts/build_uk_scottish_income_tax_package.py")
+    )
+    entry, content = generator["pinned"](generator["DIRECTORY"])
+    grid = generator["grid_of"](
+        generator["source_cells_from_ods"](
+            content, generator["metadata"](entry["filename"]), coerce_numeric_text=True
+        )
+    )
+    _, final = generator["build_table_1"](grid)
+    # As published, Table 2 passes with its pinned gap.
+    generator["build_table_2"](grid, final)
+    (uk_all,) = [
+        fact.value
+        for fact in facts
+        if fact.measure.concept == "hmrc.nsnd_income_tax_by_band"
+        and fact.geography.id == "K02000001"
+        and fact.period.value == 2024
+        and "income_tax_band" not in fact.filters  # the all-bands row is the total
+        and fact.filters.get("marginal_rate") == "all"
+    ]
+    (cell,) = [
+        key
+        for key, value in grid.items()
+        if key[0] == "Table_2"
+        and isinstance(value, float)
+        and abs(value * 1_000_000 - uk_all) < 1
+    ]
+    starter = [
+        fact.value
+        for fact in facts
+        if fact.measure.concept == "hmrc.nsnd_income_tax_by_band"
+        and fact.geography.id == "K02000001"
+        and fact.period.value == 2024
+        and fact.filters.get("income_tax_band") == "starter"
+        and fact.filters.get("marginal_rate") == "all"
+    ]
+    # A corrected edition: the all-bands cell becomes the sum of its bands.
+    corrected = dict(grid)
+    corrected[cell] = grid[cell] + starter[0] / 1_000_000
+    with pytest.raises(AssertionError):
+        generator["build_table_2"](corrected, final)

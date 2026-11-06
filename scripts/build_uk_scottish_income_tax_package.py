@@ -520,6 +520,15 @@ def build_table_1(grid: dict) -> tuple[list[dict], dict]:
                             else f"{component_words.lower()} of NSND Income Tax for "
                             f"{population}, £ million."
                         )
+                        + (
+                            NOTE_4_COLUMN
+                            if component
+                            in (
+                                "paye_established_liability",
+                                "estimated_further_liability",
+                            )
+                            else ""
+                        )
                     ),
                     filters=filters,
                     constraints=constraints,
@@ -907,6 +916,7 @@ def build_table_3(grid: dict, final: dict) -> list[dict]:
                             "non-dividend outturn established liability was collected "
                             "through PAYE or paid through Self Assessment' (table notes)."
                         )
+                        + (NOTE_14_COLUMN if method == "collected_through_paye" else "")
                     ),
                     filters=filters,
                     constraints=constraints,
@@ -1140,6 +1150,40 @@ COVER_QUOTES = (
     "All figures in these table relate to Income Tax devolved to Scotland based on "
     "Scotland Act 2016 - all tax due on non-savings non-dividends (NSND) Income.",
 )
+NOTE_4 = (
+    "The estimated further liability includes an increase in the number of unreconciled "
+    "PAYE cases. These unreconciled PAYE cases account for around £37m of the Scottish "
+    "estimated further liability and £4,242m of the non-Scottish estimated further "
+    "liability. For 2018/19, these cases account for £36m and £398m of the Scottish and "
+    "non-Scottish estimated further liability respectively. For 2019/20, these cases "
+    "account for £9m and £87m of the Scottish and non-Scottish estimated further liability "
+    "respectively. For 2020/21, these cases account for £10m and £87m of the Scottish and "
+    "non-Scottish estimated further liability respectively. For 2021/22, these cases account "
+    "for less than £1m and £2m of the Scottish and non-Scottish estimated further liability "
+    "respectively. For 2022/23, these cases account for less than £1m and £2m of the "
+    "Scottish and non-Scottish estimated further liability respectively. For 2023/24, these "
+    "cases account for £2m and £291m of the Scottish and non-Scottish estimated further "
+    "liability respectively. For 2024/25, these cases account for £37m and £4,272m of the "
+    "Scottish and non-Scottish estimated further liability respectively. For a more "
+    "consistent comparison between all years these amounts should be deducted from "
+    '"estimated further liability" and added to "PAYE established liability".'
+)
+NOTE_14 = (
+    "The parts of the further estimated liabiltiy component relating to unreconciled PAYE "
+    'cases have been fully assigned "collected through PAYE".'
+)
+# What Table 1's PAYE established and estimated further liability columns add to their
+# notes (both cite Note 4), and Table 3's PAYE column (it cites Note 14).
+NOTE_4_COLUMN = (
+    " Note 4: unreconciled PAYE cases sit in the estimated further liability (2024-25: "
+    "£37m Scottish and £4,272m non-Scottish; 2023-24: £2m and £291m), and 'For a more "
+    "consistent comparison between all years these amounts should be deducted from "
+    '"estimated further liability" and added to "PAYE established liability"\'.'
+)
+NOTE_14_COLUMN = (
+    " Note 14: 'The parts of the further estimated liabiltiy component relating to "
+    'unreconciled PAYE cases have been fully assigned "collected through PAYE".\''
+)
 NOTE_9 = (
     "Scottish/Welsh taxpayers are identified using the Scottish/Welsh taxpayer indicator in "
     "the NPS (National Insurance and PAYE Service) system which identifies an individual "
@@ -1160,6 +1204,8 @@ def build_package() -> str:
     for quote in COVER_QUOTES:
         assert squeeze(quote) in cover, quote
     assert grid[("Notes", 11, "A")] == 9 and grid[("Notes", 11, "B")] == NOTE_9
+    assert grid[("Notes", 6, "A")] == 4 and grid[("Notes", 6, "B")] == NOTE_4
+    assert grid[("Notes", 16, "A")] == 14 and grid[("Notes", 16, "B")] == NOTE_14
     table_1, final = build_table_1(grid)
     table_2 = build_table_2(grid, final)
     table_3 = build_table_3(grid, final)
@@ -1271,6 +1317,14 @@ def build_package() -> str:
     established in the future' (background quality report, {QUALITY_REPORT}), so the
     estimated further liability is under 5%. HMRC revised earlier years in the 2020 to 2021
     and 2022 to 2023 releases (quality report, section 6.3); these facts are this edition's.
+
+    Unreconciled PAYE cases move liability between two of Table 1's components, as Note 4
+    says (both columns cite it, and their facts' notes carry it): '{NOTE_4}' The note's
+    first sentence and its 2024/25 sentence give the non-Scottish amount as £4,242m and
+    £4,272m; both are quoted as printed. So the rest of the UK's estimated further
+    liability rising from 2023-24 to 2024-25, and the Scottish share of it falling, is
+    mostly that effect; the facts are as published, and a consumer comparing years moves
+    the note's amounts itself. Table 3's 'Collected through PAYE' cites Note 14: '{NOTE_14}'
 
     Parity, asserted by the generator: Table 1's six components add to the final revenue
     within rounding, and the Scottish share is Scottish over Scottish, rest of UK and Welsh

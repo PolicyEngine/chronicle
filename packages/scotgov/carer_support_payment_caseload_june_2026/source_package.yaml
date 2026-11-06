@@ -14,10 +14,17 @@
 # at 30 June 2026, Table 11's caseload by age group and Table 10's by council area. All as
 # concept scotgov.carer_support_payment_caseload, carers, at Scotland or the council's
 # code. Tables 10 and 11's totals are Table 9's June 2026 caseload, ported once. Not
-# ported: the percentage columns, November 2023 to March 2024 (the pilot's first months;
-# Carer Support Payment opened in three pilot areas on 20 November 2023 and reached the
-# rest of Scotland in stages, note 2), and Table 10's 'Other' row, which has no council
-# code.
+# ported: the percentage columns, November 2023 to March 2024 (the pilot's first months),
+# and Table 10's 'Other' row, which has no council code.
+#
+# Coverage grew over the ported months, as note 2 dates it: 'From 20 November 2023, Carer
+# Support Payment opened for new applications in the pilot areas of Dundee City, Na
+# h-Eileanan Siar and Perth and Kinross. On 24 June 2024, Carer Support Payment launched
+# in the three further pilot local authority areas of Angus, North Lanarkshire and South
+# Lanarkshire. Carer Support Payment was rolled out to seven additional areas from August,
+# and was made available nationally from 4 November 2024.' So the months before November
+# 2024 count the pilot areas only, though they sit at Scotland's code, and November 2024's
+# rise is the national launch, mostly case transfers.
 #
 # Semantics as published: 'The caseload presented in the Carer Support Payment caseload
 # table is based on a true point-in-time on the last day of each month to calculate the

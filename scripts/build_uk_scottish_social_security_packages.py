@@ -429,6 +429,8 @@ class MonthlyTable:
     # (measure id, printed header, filters) for every ported column but the caseload
     columns: tuple[tuple[str, str, dict], ...]
     port_caseload: bool = True
+    # (measure id, a sentence its notes add): what a column holds beyond its header
+    column_notes: tuple[tuple[str, str], ...] = ()
 
 
 def monthly_blocks(grid: dict, table: MonthlyTable):
@@ -593,6 +595,11 @@ def monthly_record_sets(
                             f"{benefit} statistics, sheet '{sheet}', column {column} "
                             f"('{squeeze(header)}'), people in receipt on the last day of "
                             "the month."
+                            + (
+                                f" {dict(table.column_notes)[measure_id]}"
+                                if measure_id in dict(table.column_notes)
+                                else ""
+                            )
                         ),
                         filters=Flow(more_filters),
                         constraints=more_constraints,
@@ -847,6 +854,20 @@ ADP_CASELOAD_NOTE = (
     "day of each month to calculate the caseload of that month' (note 51); 'The caseload "
     "measure counts an individual only once' (note 32)."
 )
+# Tables 16 and 17 cite note 62 ('not included in this table'), but their 'Number not
+# awarded' is the caseload less the assigned levels: it includes the cases note 70 says
+# could not be assigned to an award level, so Table 16's is Table 15's Mobility-only count
+# plus Table 15's shortfall, and Table 17's the Daily Living-only count plus the same
+# shortfall. build_adp asserts both; note 62 holds for Table 18.
+ADP_NOT_AWARDED_NOTE = (
+    "Its 'Number not awarded' is the caseload less the assigned levels, so it includes "
+    "the cases that 'could not be assigned to a Daily Living or Mobility award level' "
+    "(note 70): it is Table 15's {other} count plus Table 15's shortfall, within the "
+    "rounding, not Table 15's {other} count alone. Note 62's 'not included in this "
+    "table' holds for Table 18, not for this column."
+)
+
+
 ADP_TABLES = (
     MonthlyTable(
         "T15 Caseload by award type",
@@ -903,6 +924,12 @@ ADP_TABLES = (
             ),
         ),
         port_caseload=False,
+        column_notes=(
+            (
+                "daily_living_not_awarded",
+                ADP_NOT_AWARDED_NOTE.format(other="Mobility only"),
+            ),
+        ),
     ),
     MonthlyTable(
         "T17 Caseload by mob award",
@@ -929,6 +956,12 @@ ADP_TABLES = (
             ),
         ),
         port_caseload=False,
+        column_notes=(
+            (
+                "mobility_not_awarded",
+                ADP_NOT_AWARDED_NOTE.format(other="Daily Living only"),
+            ),
+        ),
     ),
     MonthlyTable(
         "T18 Caseload by award level",
@@ -1032,6 +1065,21 @@ def build_adp() -> str:
                 cells["caseload"],
                 shortfall=unassigned,
             )
+    # Tables 16 and 17's 'not awarded' include the unassigned cases (ADP_NOT_AWARDED_NOTE).
+    for key, cells in t15.items():
+        unassigned = cells["caseload"] - sum(
+            cells[part] for part in ("daily_living_only", "mobility_only", "both")
+        )
+        tally.gap(
+            "T16's not awarded is T15's Mobility only plus T15's shortfall",
+            [cells["mobility_only"], unassigned],
+            tables["T16 Caseload by DL award"][key]["daily_living_not_awarded"],
+        )
+        tally.gap(
+            "T17's not awarded is T15's Daily Living only plus T15's shortfall",
+            [cells["daily_living_only"], unassigned],
+            tables["T17 Caseload by mob award"][key]["mobility_not_awarded"],
+        )
     for key, cells in tables["T18 Caseload by award level"].items():
         living = tables["T16 Caseload by DL award"][key]
         mobility = tables["T17 Caseload by mob award"][key]
@@ -1055,6 +1103,10 @@ def build_adp() -> str:
             )
     latest = max(month for _, month in t15)
     assert latest == date(2026, 7, 1)
+    mobility_only_latest = t15[("all", latest)]["mobility_only"]
+    not_awarded_latest = tables["T16 Caseload by DL award"][("all", latest)][
+        "daily_living_not_awarded"
+    ]
     latest_caseload = t15[("all", latest)]["caseload"]
     # Table 19: by age at 31 July 2026; its total is T15's, ported once.
     age_rows, age_total, _ = age_table(
@@ -1165,8 +1217,18 @@ def build_adp() -> str:
 
     Semantics as published: {ADP_CASELOAD_NOTE} {ROUNDING}; '[c] indicates that figures are
     suppressed for disclosure control' (note 11), and a [c] cell emits no fact ({tally.suppressed}
-    in the ported rows). 'A small number of cases could not be assigned to a daily living
-    award level and are not included in this table, therefore totals may not sum' (note 62).
+    in the ported rows). Tables 16, 17 and 18 cite note 62: 'A small number of cases could
+    not be assigned to a daily living award level and are not included in this table,
+    therefore totals may not sum'. That holds for Table 18, which falls short of the
+    caseload as Table 15 does (note 70). Tables 16 and 17 add up: their 'Number not
+    awarded' is the caseload less the assigned levels, so it includes the unassigned cases.
+    Table 16's is Table 15's Mobility-only count plus Table 15's shortfall, and Table 17's
+    the Daily Living-only count plus the same shortfall, within the rounding in every
+    month and type of client. So adp_daily_living_award_level not_awarded is not 'ADP
+    clients with Mobility only' ({not_awarded_latest:,} against Table 15's
+    {mobility_only_latest:,} for all clients at July 2026), and it rises faster than that
+    count as the shortfall grows; the generator
+    asserts both identities, and those two columns' notes say so.
     Note 84: a change of analytical software raised the award levels in Tables 15 to 18 'with
     around 1-2% more enhanced Daily Living awards, 1% more enhanced Mobility awards, and 1-2%
     more clients awarded both Daily Living and Mobility components', so earlier editions'
@@ -1174,7 +1236,7 @@ def build_adp() -> str:
 
     Parity, asserted by the generator: routes, levels, ages and councils add to their
     totals within the rounding to the nearest 5, except that Tables 15 and 18 fall short of
-    by the cases that 'could not be assigned to a Daily Living or Mobility award
+    the caseload by the cases that 'could not be assigned to a Daily Living or Mobility award
     level' (note 70): 280 people for all clients in April 2024, rising to 2,520 (0.5 per
     cent) in July 2026. Largest gaps: {format_gaps(tally)}. {fact_count(payload)} facts.
     """
@@ -1227,6 +1289,11 @@ CSP_AGE_BANDS = (
     ("65 and over", "65_and_over"),
 )
 CSP_NOTE_QUOTES = (
+    "From 20 November 2023, Carer Support Payment opened for new applications in the pilot "
+    "areas of Dundee City, Na h-Eileanan Siar and Perth and Kinross. On 24 June 2024, Carer "
+    "Support Payment launched in the three further pilot local authority areas of Angus, "
+    "North Lanarkshire and South Lanarkshire. Carer Support Payment was rolled out to seven "
+    "additional areas from August, and was made available nationally from 4 November 2024.",
     "Figures are rounded for disclosure control and may not sum due to rounding.",
     "The caseload measure counts an individual only once.",
     "Underlying entitlement or In payment for the caseload calculation is based on the "
@@ -1356,9 +1423,16 @@ def build_csp() -> str:
     10's by council area. All as concept scotgov.carer_support_payment_caseload, carers, at
     Scotland or the council's code. Tables 10 and 11's totals are Table 9's June 2026
     caseload, ported once. Not ported: the percentage columns, November 2023 to March 2024
-    (the pilot's first months; Carer Support Payment opened in three pilot areas on 20
-    November 2023 and reached the rest of Scotland in stages, note 2), and Table 10's 'Other'
-    row, which has no council code.
+    (the pilot's first months), and Table 10's 'Other' row, which has no council code.
+
+    Coverage grew over the ported months, as note 2 dates it: 'From 20 November 2023, Carer
+    Support Payment opened for new applications in the pilot areas of Dundee City, Na
+    h-Eileanan Siar and Perth and Kinross. On 24 June 2024, Carer Support Payment launched in
+    the three further pilot local authority areas of Angus, North Lanarkshire and South
+    Lanarkshire. Carer Support Payment was rolled out to seven additional areas from August,
+    and was made available nationally from 4 November 2024.' So the months before November
+    2024 count the pilot areas only, though they sit at Scotland's code, and November 2024's
+    rise is the national launch, mostly case transfers.
 
     Semantics as published: {CSP_CASELOAD_NOTE} 'This is a derived statistic calculated based
     on identifying all cases who are in receipt of, or have been approved for, a payment in
