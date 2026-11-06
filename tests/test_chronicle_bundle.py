@@ -562,6 +562,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Survey's chapters 1, 3 and 4 (4,458), HMRC's stamp tax Tables 2e, 3a,
         # 5a, 7, 9a and 9d (1,135), ONS's land by sector (387) and the council
         # rows of the Welsh (308) and Scottish (96) council tax tables.
+        # Census Vintage 2025 state age groups add 816 facts, and Vintage 2024
+        # gives up its 51 state totals for the same date (chronicle#397).
         "fact_count": 2063249,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
@@ -2682,7 +2684,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # QRC4 5,757, Table 6 1,208, Wales 308 and Scotland 96), households +1,666
     # (the Market Value Survey), returns +1,135 (HMRC's stamp tax), firms +401
     # (the land value estimates) and institutional sectors +387 (ONS's land).
-    # Census Vintage 2025 state age groups add 816 people.
+    # Census Vintage 2025 state age groups add 816 people, and Vintage 2024 gives
+    # up its 51 state totals (chronicle#397).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 590264,

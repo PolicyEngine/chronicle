@@ -3037,7 +3037,8 @@ def _census_pep_state_age_ranges(package_id: str) -> dict[tuple, float]:
     cells = package.build_source_cells(2024, source_rows=rows)
     ranges: dict[tuple, float] = {}
     for fact in package.build_facts(2024, cells=cells, source_rows=rows):
-        lower = upper = None
+        # A total and a fact bounded only by age >= 0 cover the same range.
+        lower, upper = 0, None
         for constraint in fact.constraints:
             if constraint.variable == "age" and constraint.operator == ">=":
                 lower = int(constraint.value)
@@ -3056,8 +3057,8 @@ def test_census_pep_vintages_give_each_state_age_range_one_number():
     earlier = _census_pep_state_age_ranges("census-pep-2024-state-age-sex")
     later = _census_pep_state_age_ranges("census-pep-2025-state-age-bands")
 
-    assert (len(earlier), len(later)) == (918, 816)
     assert not earlier.keys() & later.keys()
+    assert (len(earlier), len(later)) == (918, 816)
 
 
 def test_census_pep_2025_state_age_bands_equal_direct_csv_sums():
@@ -3095,6 +3096,18 @@ def test_census_pep_2025_state_age_bands_equal_direct_csv_sums():
         first, last = age_groups[value_id]
         expected = sum(by_age[state][first : last + 1])
         assert float(fact.value) == expected, fact.source_record_id
+        # The fact's age bounds name the ages its value sums.
+        bounds = {
+            constraint.operator: int(constraint.value)
+            for constraint in fact.constraints
+            if constraint.variable == "age"
+        }
+        if value_id == "all":
+            assert not bounds, fact.source_record_id
+        elif value_id == "75_plus":
+            assert bounds == {">=": first}, fact.source_record_id
+        else:
+            assert bounds == {">=": first, "<": last + 1}, fact.source_record_id
         compared.add((state, value_id))
     assert len(by_age) == 51
     assert len(compared) == len(facts) == 51 * len(age_groups)
