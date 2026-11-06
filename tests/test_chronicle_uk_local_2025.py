@@ -2,7 +2,7 @@
 
 import hashlib
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 from dataclasses import replace
 from datetime import datetime
 from pathlib import Path
@@ -105,6 +105,29 @@ def test_household_controls_keep_private_households_projections_and_stock_distin
     assert {f.period_coverage.end_date for f in stock} == {
         f"{year}-04-01" for year in range(2021, 2027)
     }
+
+
+def test_scottish_data_zone_council_tax_bands_sum_to_each_zone_total():
+    """chronicle#419: columns G to N (bands A to H) add up to column E."""
+    facts = load_source_package("nrs-dwellings-data-zone-2025").build_facts(2025)
+    bands = tuple(f"nrs.dwellings_band_{band}" for band in "abcdefgh")
+    zones = defaultdict(dict)
+    for fact in facts:
+        zones[fact.period.value, fact.geography.id][fact.measure.concept] = fact.value
+    assert len(facts) == 2 * 7_392 * 9
+    assert Counter(period for period, _ in zones) == {2024: 7_392, 2025: 7_392}
+    for key, values in zones.items():
+        assert set(values) == {"nrs.dwellings_total", *bands}, key
+        assert sum(values[band] for band in bands) == values["nrs.dwellings_total"], key
+    # Culter - 01 (S01013482, row 6), bands A to H as published.
+    published = {
+        2024: [21, 153, 45, 55, 100, 44, 85, 13],
+        2025: [21, 153, 45, 55, 99, 45, 85, 13],
+    }
+    for period, counts in published.items():
+        assert [zones[period, "S01013482"][band] for band in bands] == counts
+    assert all(f.source_cell_keys for f in facts)
+    assert validate_consumer_fact_contract(facts).valid
 
 
 def test_rm120_retains_age_sex_residence_and_2023_lad_boundaries():
