@@ -28,6 +28,7 @@ from chronicle.artifacts import (
 from chronicle.bundle import NZ_BUNDLE_SOURCE_PREFIXES, NZ_BUNDLE_SOURCES
 from chronicle.epoch import Epoch
 from chronicle.harness import main as harness_main
+from chronicle.r2_s3 import R2S3Error
 from chronicle.source_package import load_source_package
 
 
@@ -675,6 +676,112 @@ def test_publish_raw_refuses_r2_only_bytes_without_an_r2_location(tmp_path):
     assert not report.valid
     assert report.entries[0].errors == ("r2_only_without_r2_location",)
     assert not log.exists()
+
+
+def _fetch_release(tmp_path: Path, content: bytes) -> Path:
+    source = tmp_path / "release.csv"
+    source.write_bytes(content)
+    output_dir = tmp_path / "data" / "hmlr" / "release"
+    fetch_source_artifact(
+        str(source),
+        source_id="hmlr",
+        package_id="hmlr-release",
+        year=2026,
+        output_dir=output_dir,
+    )
+    return output_dir
+
+
+def test_fetch_publish_and_inventory_hash_files_without_reading_them_whole(
+    tmp_path, monkeypatch
+):
+    # Raw files can be several GB (chronicle#409), so none is read whole.
+    def refuse_whole_read(path):
+        raise AssertionError(f"read whole: {path}")
+
+    monkeypatch.setattr(Path, "read_bytes", refuse_whole_read)
+    wrangler, _ = _logging_wrangler(tmp_path)
+    output_dir = _fetch_release(tmp_path, b"raw release bytes")
+
+    published = publish_source_artifacts(output_dir, wrangler_command=str(wrangler))
+    inventory = inventory_source_artifacts(output_dir)
+
+    assert published.valid and inventory.valid
+    (entry,) = published.entries
+    assert entry.sha256 == hashlib.sha256(b"raw release bytes").hexdigest()
+    assert entry.size_bytes == len(b"raw release bytes")
+    assert inventory.entries[0].sha256_actual == entry.sha256
+
+
+class _RecordingS3Client:
+    uploads: list[tuple[str, str, bytes, str | None]] = []
+    error: Exception | None = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_info):
+        return None
+
+    def put_file(self, bucket, key, path, *, content_type=None):
+        if self.error is not None:
+            raise self.error
+        self.uploads.append((bucket, key, Path(path).read_bytes(), content_type))
+        return 1
+
+
+def test_files_above_the_wrangler_limit_go_through_the_s3_api(tmp_path, monkeypatch):
+    wrangler, log = _logging_wrangler(tmp_path)
+    output_dir = _fetch_release(tmp_path, b"above the limit")
+    monkeypatch.setattr("chronicle.artifacts.WRANGLER_PUT_LIMIT_BYTES", 4)
+    monkeypatch.setattr(_RecordingS3Client, "uploads", [])
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", _RecordingS3Client)
+
+    report = publish_source_artifacts(output_dir, wrangler_command=str(wrangler))
+    manifest = yaml.safe_load((output_dir / "manifest.yaml").read_text())
+    r2 = manifest["files"][2026]["storage"]["r2"]
+
+    assert report.valid
+    assert report.counts["uploaded_count"] == 1
+    assert report.entries[0].upload.command[0] == "r2-s3-multipart-put"
+    assert _RecordingS3Client.uploads == [
+        ("ledger-raw", r2["key"], b"above the limit", "text/csv")
+    ]
+    assert r2["key"].startswith("raw/uk/hmlr/hmlr-release/2026/")
+    assert not log.exists()
+
+
+def test_a_failed_s3_upload_records_no_r2_location(tmp_path, monkeypatch):
+    wrangler, log = _logging_wrangler(tmp_path)
+    output_dir = _fetch_release(tmp_path, b"above the limit")
+    monkeypatch.setattr("chronicle.artifacts.WRANGLER_PUT_LIMIT_BYTES", 4)
+    monkeypatch.setattr(_RecordingS3Client, "error", R2S3Error("HTTP 403: denied"))
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", _RecordingS3Client)
+
+    report = publish_source_artifacts(output_dir, wrangler_command=str(wrangler))
+    manifest = yaml.safe_load((output_dir / "manifest.yaml").read_text())
+
+    assert not report.valid
+    assert report.entries[0].errors == ("r2_upload_failed",)
+    assert "HTTP 403" in report.entries[0].upload.stderr
+    assert "storage" not in manifest["files"][2026]
+    assert not log.exists()
+
+
+def test_fetch_keeps_the_earlier_copy_when_a_download_fails(tmp_path):
+    output_dir = _fetch_release(tmp_path, b"first copy")
+
+    with pytest.raises(FileNotFoundError):
+        fetch_source_artifact(
+            str(tmp_path / "gone" / "release.csv"),
+            source_id="hmlr",
+            package_id="hmlr-release",
+            year=2026,
+            output_dir=output_dir,
+        )
+
+    assert (output_dir / "release.csv").read_bytes() == b"first copy"
+    assert not (output_dir / "release.csv.partial").exists()
 
 
 def test_artifact_cli_commands_emit_json(tmp_path, capsys):
