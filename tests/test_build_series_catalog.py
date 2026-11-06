@@ -501,6 +501,70 @@ def test_unit_conflict_is_a_hard_error(tmp_path: pathlib.Path) -> None:
         _build(tmp_path, rows)
 
 
+@pytest.mark.parametrize(
+    "unit",
+    [
+        "thousands",
+        "millions",
+        "usd_millions",
+        "usd_billions",
+        "billions USD",
+        "gbp_billions",
+        "million_cubic_feet",
+        "Trillions",
+    ],
+)
+def test_a_current_observation_in_a_scaled_unit_is_refused(
+    tmp_path: pathlib.Path, unit: str
+) -> None:
+    with pytest.raises(SystemExit, match="carries a scale word"):
+        _build(tmp_path, [_row("agency.level", unit=unit)])
+
+
+def test_a_restated_observation_passes_the_scale_refusal(
+    tmp_path: pathlib.Path,
+) -> None:
+    scaled = _row("agency.level", unit="millions")
+    scaled["assertionVersion"] = {"id": "av-1"}
+    restated = _row("agency.level", unit="count")
+    restated["assertionVersion"] = {
+        "id": "av-2",
+        "supersedes": "av-1",
+        "relation": "unit_restatement",
+    }
+    catalog, _ = _build(tmp_path, [scaled, restated])
+    (row,) = catalog["series"]
+    assert row["unit"] == "count"
+    # One scaled row left current elsewhere still stops the build.
+    with pytest.raises(SystemExit, match="agency.other.*carries a scale word"):
+        _build(tmp_path, [scaled, restated, _row("agency.other", unit="thousands")])
+
+
+def test_a_docket_only_series_keeps_its_scaled_target_unit(
+    tmp_path: pathlib.Path,
+) -> None:
+    # A contract registers in this unit, and contracts keep their units. The
+    # series' first observation stores the base unit.
+    seed = {
+        "series": [
+            {
+                "series": "agency.level",
+                "cadence": "monthly",
+                "extras": {"country": "US", "targetUnit": "millions"},
+            }
+        ]
+    }
+    bystander = _row("agency.other")
+    catalog, _ = _build(tmp_path, [bystander], docket=seed)
+    row = next(r for r in catalog["series"] if r["concept"] == "agency.level")
+    assert row["status"] == "docket-only" and row["unit"] == "millions"
+    catalog, _ = _build(
+        tmp_path, [bystander, _row("agency.level", unit="count")], docket=seed
+    )
+    row = next(r for r in catalog["series"] if r["concept"] == "agency.level")
+    assert row["status"] != "docket-only" and row["unit"] == "count"
+
+
 def test_uuid_validation_requires_canonical_and_parsed_uniqueness() -> None:
     base = "abcd1234-ab12-4ab1-8ab1-abcd1234abcd"
     catalog = {
@@ -1382,7 +1446,7 @@ def _weekly(end: str, role: str = "ui_claimant") -> dict:
     return _row(
         CLAIMS,
         rid=f"{CLAIMS}.week_{end}",
-        unit="thousands",
+        unit="count",
         period={"type": "week_ending", "value": end},
         entity={"name": "person", "role": role},
     )
@@ -1430,7 +1494,7 @@ def test_strip_audit_flags_a_new_template_on_a_reviewed_concept(
     ending = _row(
         CLAIMS,
         rid=f"{CLAIMS}.week_ending_2026_08_29",
-        unit="thousands",
+        unit="count",
         period={"type": "week_ending", "value": "2026-08-29"},
         entity={"name": "person", "role": "ui_claimant"},
     )
@@ -1498,7 +1562,7 @@ def test_strip_audit_flags_an_overlap_strip_on_a_reviewed_template(
     monthly = _row(
         CLAIMS,
         rid=f"{CLAIMS}.week_2026-09-12",
-        unit="thousands",
+        unit="count",
         period={"type": "month", "value": "2026-09"},
         entity={"name": "person", "role": "ui_initial_claimant"},
     )
@@ -1519,7 +1583,7 @@ def test_strip_audit_flags_a_reviewed_strip_reached_by_overlap(
     monthly = _row(
         CLAIMS,
         rid=f"{CLAIMS}.week_2026-08-22",
-        unit="thousands",
+        unit="count",
         period={"type": "month", "value": "2026-08"},
         entity={"name": "person", "role": "ui_initial_claimant"},
     )
@@ -5302,7 +5366,7 @@ def _dod_observation() -> dict:
     return _row(
         f"{DOD}.fy2026",
         rid=f"{DOD}.fy2026.registered_query_snapshot",
-        unit="billions USD",
+        unit="usd",
         period={"type": "year", "value": "2026"},
     )
 
