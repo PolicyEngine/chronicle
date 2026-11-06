@@ -155,6 +155,18 @@ class SourceProvenance:
     recorded_unit: str | None = None
 
 
+def drop_absent_recorded_pair(source: dict[str, Any]) -> None:
+    """Remove the recorded pair keys a source mapping does not hold.
+
+    Serialized facts and build hashes read a row with no pair exactly as they
+    did before ``SourceProvenance`` held one.
+    """
+
+    for key in ("recorded_value", "recorded_unit"):
+        if source[key] is None:
+            del source[key]
+
+
 @dataclass(frozen=True)
 class AggregateConstraint:
     """One semantic filter that scopes an aggregate fact."""

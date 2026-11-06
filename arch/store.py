@@ -18,6 +18,7 @@ from arch.core import (
     SourceProvenance,
     SourceRecordLayout,
     AggregateFact,
+    drop_absent_recorded_pair,
 )
 
 
@@ -89,9 +90,7 @@ def fact_to_mapping(fact: AggregateFact) -> dict[str, Any]:
     payload["measure"] = {
         key: value for key, value in payload["measure"].items() if value is not None
     }
-    for key in ("recorded_value", "recorded_unit"):
-        if payload["source"][key] is None:
-            del payload["source"][key]
+    drop_absent_recorded_pair(payload["source"])
     if not fact.constraints:
         payload.pop("constraints", None)
     if not fact.source_row_keys:

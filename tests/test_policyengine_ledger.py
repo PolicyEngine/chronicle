@@ -161,6 +161,12 @@ def test_rows_carry_no_unknown_top_level_fields():
         assert not unknown, f"line {number} has unknown fields: {sorted(unknown)}"
 
 
+def _moved_by_power_of_ten(recorded: int | float, power: int) -> Decimal:
+    """The recorded value in base units, with no rounding at any length."""
+    sign, digits, exponent = Decimal(repr(recorded)).as_tuple()
+    return Decimal((sign, digits, exponent + power))
+
+
 def _recorded_pair_problems(rows: list[dict]) -> list[str]:
     """Rows whose recorded pair does not state the value they store, exactly."""
     problems = []
@@ -176,7 +182,7 @@ def _recorded_pair_problems(rows: list[dict]) -> list[str]:
         base, power = BASE_UNITS[unit]
         if row["measure"]["unit"] != base:
             problems.append(f"line {number} stores {row['measure']['unit']!r}, not {base!r}")
-        elif Decimal(repr(row["value"])) != Decimal(repr(recorded)).scaleb(power):
+        elif Decimal(repr(row["value"])) != _moved_by_power_of_ten(recorded, power):
             problems.append(f"line {number} stores {row['value']!r}, not {recorded!r} {unit}")
     return problems
 
@@ -252,6 +258,14 @@ def test_recorded_pair_checks_refuse_a_changed_quantity():
     ):
         problems = _recorded_pair_problems([_restatement(**changes)])
         assert len(problems) == 1 and problem in problems[0]
+
+
+def test_recorded_pair_checks_hold_past_decimal_precision():
+    # 29 significant digits, one more than Decimal's default context keeps.
+    source = {"recorded_value": 10**28 + 1, "recorded_unit": "millions"}
+    assert _recorded_pair_problems([_restatement(value=10**34 + 10**6, source=source)]) == []
+    rounded = _recorded_pair_problems([_restatement(value=10**34, source=source)])
+    assert len(rounded) == 1 and "stores" in rounded[0]
 
 
 def test_restatement_checks_refuse_a_row_that_changes_the_prior_pair():
