@@ -2,9 +2,10 @@
 
 import hashlib
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 from dataclasses import replace
 from datetime import datetime
+from functools import lru_cache
 from pathlib import Path
 
 import pytest
@@ -12,6 +13,20 @@ import yaml
 
 from chronicle.consumer_contract import validate_consumer_fact_contract
 from chronicle.source_package import SOURCE_PACKAGE_ALIASES, load_source_package
+
+# NRS dwellings by 2022 data zone: council tax bands A to H in columns G to N.
+DATA_ZONE_BAND_COLUMNS = dict(zip("ABCDEFGH", "GHIJKLMN", strict=True))
+
+
+@lru_cache
+def _data_zone_dwellings():
+    return load_source_package("nrs-dwellings-data-zone-2025")
+
+
+@lru_cache
+def _data_zone_dwelling_cells():
+    # Parsing the workbook takes over a minute; building facts from its cells, 8s.
+    return _data_zone_dwellings().build_source_cells(2025)
 
 
 def test_mid2025_local_authority_population_keeps_all_four_nations():
@@ -105,6 +120,49 @@ def test_household_controls_keep_private_households_projections_and_stock_distin
     assert {f.period_coverage.end_date for f in stock} == {
         f"{year}-04-01" for year in range(2021, 2027)
     }
+
+
+def test_scottish_data_zone_council_tax_bands_sum_to_each_zone_total():
+    """chronicle#419: columns G to N (bands A to H) add up to column E."""
+    facts = _data_zone_dwellings().build_facts(2025, cells=_data_zone_dwelling_cells())
+    bands = tuple(f"nrs.dwellings_band_{band}" for band in "abcdefgh")
+    zones = defaultdict(dict)
+    for fact in facts:
+        zones[fact.period.value, fact.geography.id][fact.measure.concept] = fact.value
+    assert len(facts) == 2 * 7_392 * 9
+    assert Counter(period for period, _ in zones) == {2024: 7_392, 2025: 7_392}
+    for key, values in zones.items():
+        assert set(values) == {"nrs.dwellings_total", *bands}, key
+        assert sum(values[band] for band in bands) == values["nrs.dwellings_total"], key
+    # Culter - 01 (S01013482, row 6), bands A to H as published.
+    published = {
+        2024: [21, 153, 45, 55, 100, 44, 85, 13],
+        2025: [21, 153, 45, 55, 99, 45, 85, 13],
+    }
+    for period, counts in published.items():
+        assert [zones[period, "S01013482"][band] for band in bands] == counts
+    assert all(f.source_cell_keys for f in facts)
+    assert validate_consumer_fact_contract(facts).valid
+
+
+@pytest.mark.parametrize("sheet", ["2024", "2025"])
+@pytest.mark.parametrize("band", list(DATA_ZONE_BAND_COLUMNS))
+def test_scottish_data_zone_band_header_guards_reject_drift(sheet, band):
+    """Each band's guard stops the build when its column holds the next band."""
+    address = f"{DATA_ZONE_BAND_COLUMNS[band]}5"
+    next_band = "BCDEFGHA"["ABCDEFGH".index(band)]
+    changed_cells = [
+        replace(cell, raw_value=f"Council Tax band:\n{next_band}")
+        if (cell.sheet_name, cell.address) == (sheet, address)
+        else cell
+        for cell in _data_zone_dwelling_cells()
+    ]
+    measure = f"nrs_dwellings_band_{band.lower()}"
+    with pytest.raises(
+        ValueError,
+        match=rf"\.{sheet}\.\w+\.{measure}\.selector' expected column header",
+    ):
+        _data_zone_dwellings().build_facts(2025, cells=changed_cells)
 
 
 def test_rm120_retains_age_sex_residence_and_2023_lad_boundaries():
