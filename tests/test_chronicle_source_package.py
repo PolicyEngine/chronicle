@@ -6,6 +6,7 @@ from copy import deepcopy
 import hashlib
 from io import BytesIO
 from pathlib import Path
+import re
 from zipfile import ZipFile
 
 import openpyxl
@@ -4066,6 +4067,14 @@ def test_usda_snap_source_package_builds_fy24_national_and_state_facts():
     assert len(cells) == 6_288
     assert len(facts) == 216
     assert all(fact.source.raw_r2_uri for fact in facts)
+    # The package artifact is the FY2024 workbook: every fact refers to fiscal
+    # 2024 and cites the workbook's checksum.
+    assert {(fact.period.type, fact.period.value) for fact in facts} == {
+        ("fiscal_year", 2024)
+    }
+    assert all(
+        re.fullmatch(r"[0-9a-f]{64}", fact.source.source_sha256 or "") for fact in facts
+    )
 
     households = (
         "usda_snap.fy2024.national_average_monthly_households."

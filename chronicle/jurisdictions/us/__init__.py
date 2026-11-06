@@ -1,11 +1,7 @@
-"""United States Chronicle target loaders."""
+"""United States Chronicle source builders.
 
-from chronicle.targets.loaders import (
-    load_snap_targets,
-    load_soi_targets,
-)
+US measures are source packages. The legacy DB target loaders were retired
+(see docs/us-legacy-etl-cleanup.md), so this module exports no loaders.
+"""
 
-__all__ = [
-    "load_snap_targets",
-    "load_soi_targets",
-]
+__all__: list[str] = []
