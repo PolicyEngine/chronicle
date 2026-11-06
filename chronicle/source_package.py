@@ -647,6 +647,21 @@ SOURCE_PACKAGE_ALIASES = {
         "nrs/census2022_uv404_tenure_output_area"
     ),
     # end chronicle#326
+    # chronicle#420: the Scottish Budget 2027-28
+    # (PolicyEngine/uk-scottish-budget-2027-28): HMRC's Scottish income tax outturn
+    # and Social Security Scotland's caseloads.
+    "hmrc-scottish-income-tax-outturn-2024-25": Path(
+        "hmrc/scottish_income_tax_outturn_2024_25"
+    ),
+    "scotgov-adp-caseload-july-2026": Path("scotgov/adp_caseload_july_2026"),
+    "scotgov-carer-support-payment-caseload-june-2026": Path(
+        "scotgov/carer_support_payment_caseload_june_2026"
+    ),
+    "scotgov-child-disability-payment-caseload-june-2026": Path(
+        "scotgov/child_disability_payment_caseload_june_2026"
+    ),
+    "scotgov-padp-caseload-july-2026": Path("scotgov/padp_caseload_july_2026"),
+    # end chronicle#420 (Scotland)
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),

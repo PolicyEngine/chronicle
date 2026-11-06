@@ -3459,6 +3459,7 @@
       "55 to 59": "55 to 59",
       "60 to 64": "60 to 64",
       "65 and over": "65 and over",
+      "65_and_over": "Age 65 and over",
       "66-69": "66-69",
       "70 to 74": "70 to 74",
       "70-74": "70-74",
@@ -3594,6 +3595,11 @@
     },
     "c2021_hh_1_name": {
       "Number of households": "Number of households"
+    },
+    "case_route": {
+      "all": "All clients",
+      "case_transfer": "Case transfers",
+      "new_applicant": "New applicants"
     },
     "category_of_pension": {
       "Category A": "Category A",
@@ -7443,6 +7449,7 @@
     },
     "marginal_rate": {
       "additional": "Additional rate",
+      "all": "All rates",
       "basic": "Basic rate",
       "higher": "Higher rate",
       "savers": "Savers rate"

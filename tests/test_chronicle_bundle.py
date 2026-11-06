@@ -562,7 +562,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Survey's chapters 1, 3 and 4 (4,458), HMRC's stamp tax Tables 2e, 3a,
         # 5a, 7, 9a and 9d (1,135), ONS's land by sector (387) and the council
         # rows of the Welsh (308) and Scottish (96) council tax tables.
-        "fact_count": 2062484,
+        # chronicle#420's Scottish packages add 3,966: HMRC's Scottish income tax
+        # outturn 2024-25 (1,652) and Social Security Scotland's caseloads of Adult
+        # Disability Payment (1,885), Carer Support Payment (282), Child Disability
+        # Payment (81) and Pension Age Disability Payment (66).
+        "fact_count": 2066450,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -589,7 +593,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#408 adds 46: EPC D3's quarters 2008-Q4 to 2019-Q4 (HMRC's
         # quarterly First Time Buyers' Relief shares the nine from 2017-Q4) and
         # the Market Value Survey's 1 October 2015 valuations (month 2015-10).
-        "period_count": 600,
+        # chronicle#420 adds nine months from April 2016 to March 2017, the start of
+        # HMRC's in-year RTI income tax series (Table 4 of the Scottish outturn).
+        "period_count": 609,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -633,8 +639,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # adds twelve: VOA's three council tax stock packages, MHCLG's EPC D3,
         # land value estimates, Live Table 126, collection Table 6, QRC4 and
         # three Market Value Survey chapters, and ONS's land underlying other
-        # buildings.
-        "source_package_count": 470,
+        # buildings. chronicle#420's Scottish batch adds five: HMRC's Scottish income
+        # tax outturn and four Social Security Scotland caseload packages.
+        "source_package_count": 475,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -686,14 +693,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2062484
+    assert row_count == 2066450
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 470
+    assert source_packages["source_package_count"] == 475
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -721,7 +728,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2062484
+    assert coverage["fact_count"] == 2066450
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -745,7 +752,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "gambling_commission": 2459,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 38351,
+        "hmrc": 40003,
         "ici": 12,
         "ird": 4362,
         "irs_soi": 43963,
@@ -770,7 +777,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "ostbelgien_kindergeld": 35,
         "rsz_annual_wages_key_figures": 252,
         "rsz_employment_daily_wage_class": 34629,
-        "scotgov": 4340,
+        "scotgov": 6654,
         "sfpd_pension_amount_bands": 10239,
         "sfpd_pensions": 20954,
         "slc": 343,
@@ -788,8 +795,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     table_counts = coverage["counts"]["by_source_table"]
     # chronicle#407 adds 15 source tables, one per package, and chronicle#408
-    # adds 12, one per new package.
-    assert len(table_counts) == 412
+    # adds 12, one per new package. chronicle#420's Scottish batch adds five, one
+    # per package.
+    assert len(table_counts) == 417
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2532,6 +2540,148 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in chronicle_408_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#420's Scottish packages, counted from each package's facts: HMRC's
+    # outturn years (tax_year 2016 to 2024) and its in-year RTI months from April
+    # 2016 (nine of them new keys), and Social Security Scotland's month-end
+    # caseloads from April 2024 to June or July 2026.
+    chronicle_420_scotland_period_increments = {
+        "month:2016-04": 3,
+        "month:2016-05": 3,
+        "month:2016-06": 3,
+        "month:2016-07": 3,
+        "month:2016-08": 3,
+        "month:2016-09": 3,
+        "month:2016-10": 3,
+        "month:2016-11": 3,
+        "month:2016-12": 3,
+        "month:2017-01": 3,
+        "month:2017-02": 3,
+        "month:2017-03": 3,
+        "month:2017-04": 3,
+        "month:2017-05": 3,
+        "month:2017-06": 3,
+        "month:2017-07": 3,
+        "month:2017-08": 3,
+        "month:2017-09": 3,
+        "month:2017-10": 3,
+        "month:2017-11": 3,
+        "month:2017-12": 3,
+        "month:2018-01": 3,
+        "month:2018-02": 3,
+        "month:2018-03": 3,
+        "month:2018-04": 3,
+        "month:2018-05": 3,
+        "month:2018-06": 3,
+        "month:2018-07": 3,
+        "month:2018-08": 3,
+        "month:2018-09": 3,
+        "month:2018-10": 3,
+        "month:2018-11": 3,
+        "month:2018-12": 3,
+        "month:2019-01": 3,
+        "month:2019-02": 3,
+        "month:2019-03": 3,
+        "month:2019-04": 4,
+        "month:2019-05": 4,
+        "month:2019-06": 4,
+        "month:2019-07": 4,
+        "month:2019-08": 4,
+        "month:2019-09": 4,
+        "month:2019-10": 4,
+        "month:2019-11": 4,
+        "month:2019-12": 4,
+        "month:2020-01": 4,
+        "month:2020-02": 4,
+        "month:2020-03": 4,
+        "month:2020-04": 4,
+        "month:2020-05": 4,
+        "month:2020-06": 4,
+        "month:2020-07": 4,
+        "month:2020-08": 4,
+        "month:2020-09": 4,
+        "month:2020-10": 4,
+        "month:2020-11": 4,
+        "month:2020-12": 4,
+        "month:2021-01": 4,
+        "month:2021-02": 4,
+        "month:2021-03": 4,
+        "month:2021-04": 4,
+        "month:2021-05": 4,
+        "month:2021-06": 4,
+        "month:2021-07": 4,
+        "month:2021-08": 4,
+        "month:2021-09": 4,
+        "month:2021-10": 4,
+        "month:2021-11": 4,
+        "month:2021-12": 4,
+        "month:2022-01": 4,
+        "month:2022-02": 4,
+        "month:2022-03": 4,
+        "month:2022-04": 4,
+        "month:2022-05": 4,
+        "month:2022-06": 4,
+        "month:2022-07": 4,
+        "month:2022-08": 4,
+        "month:2022-09": 4,
+        "month:2022-10": 4,
+        "month:2022-11": 4,
+        "month:2022-12": 4,
+        "month:2023-01": 4,
+        "month:2023-02": 4,
+        "month:2023-03": 4,
+        "month:2023-04": 4,
+        "month:2023-05": 4,
+        "month:2023-06": 4,
+        "month:2023-07": 4,
+        "month:2023-08": 4,
+        "month:2023-09": 4,
+        "month:2023-10": 4,
+        "month:2023-11": 4,
+        "month:2023-12": 4,
+        "month:2024-01": 4,
+        "month:2024-02": 4,
+        "month:2024-03": 4,
+        "month:2024-04": 80,
+        "month:2024-05": 80,
+        "month:2024-06": 82,
+        "month:2024-07": 82,
+        "month:2024-08": 82,
+        "month:2024-09": 82,
+        "month:2024-10": 85,
+        "month:2024-11": 85,
+        "month:2024-12": 85,
+        "month:2025-01": 85,
+        "month:2025-02": 85,
+        "month:2025-03": 85,
+        "month:2025-04": 85,
+        "month:2025-05": 85,
+        "month:2025-06": 85,
+        "month:2025-07": 85,
+        "month:2025-08": 85,
+        "month:2025-09": 85,
+        "month:2025-10": 85,
+        "month:2025-11": 85,
+        "month:2025-12": 85,
+        "month:2026-01": 85,
+        "month:2026-02": 85,
+        "month:2026-03": 85,
+        "month:2026-04": 81,
+        "month:2026-05": 81,
+        "month:2026-06": 124,
+        "month:2026-07": 106,
+        "tax_year:2016": 91,
+        "tax_year:2017": 91,
+        "tax_year:2018": 121,
+        "tax_year:2019": 208,
+        "tax_year:2020": 135,
+        "tax_year:2021": 135,
+        "tax_year:2022": 135,
+        "tax_year:2023": 135,
+        "tax_year:2024": 153,
+        "tax_year:2025": 4,
+    }
+    for key, count in chronicle_420_scotland_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2597,8 +2747,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # PolicyEngine/uk-autumn-budget-dashboard-2026#316), and chronicle#397 drops
     # 343 March 2026 EFO facts. chronicle#407 adds 49,991: every ASHE Table 2
     # fact (48,083) and APS218's UK rows (1,908). chronicle#408 adds ONS's 387 land
-    # facts.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 91458
+    # facts. chronicle#420's Scottish income tax outturn adds its 429 UK rows.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 91887
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
@@ -2675,6 +2825,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # QRC4 5,757, Table 6 1,208, Wales 308 and Scotland 96), households +1,666
     # (the Market Value Survey), returns +1,135 (HMRC's stamp tax), firms +401
     # (the land value estimates) and institutional sectors +387 (ONS's land).
+    # chronicle#420's Scottish packages add 3,966 people.
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 590264,
@@ -2684,7 +2835,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 678213,
         "institutional_sector": 9264,
         "pension_plan": 2,
-        "person": 672029,
+        "person": 675995,
         "return": 16087,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
