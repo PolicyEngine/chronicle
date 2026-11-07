@@ -984,6 +984,7 @@ SOURCE_PACKAGE_ALIASES = {
     "census-pep-county-population-2024": Path("census/pep_county_2024"),
     "census-pep-2024-national-age-sex": Path("census/pep_2024_national_age_sex"),
     "census-pep-2024-state-age-sex": Path("census/pep_2024_state_age_sex"),
+    "census-pep-2025-state-age-bands": Path("census/pep_2025_state_age_bands"),
     "census-population-projections-2023": Path("census/population_projections_2023"),
     "census-stc-individual-income-tax": Path("census/stc_individual_income_tax"),
     "cms-medicaid-chip-monthly-enrollment-december-2024": Path(

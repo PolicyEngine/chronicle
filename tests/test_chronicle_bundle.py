@@ -567,6 +567,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # December 2025. Measured with only nrs-dwellings-data-zone-2025 at
         # bundle year 2023: no new geography, period or entity key, duplicate
         # key or warning.
+        # Census Vintage 2025 state age groups add 816 facts, and Vintage 2024
+        # gives up its 51 state totals for the same date (chronicle#397).
         # chronicle#420's young people packages add 33,641: DWP's people on UC by
         # age and conditionality regime (16,510), ASHE Table 6 by age group (10,806),
         # LFS table A06 (SA 1,701, NSA 2,831), ONS NEET (945), PAYE RTI by age (826)
@@ -580,7 +582,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # outturn 2024-25 (1,652) and Social Security Scotland's caseloads of Adult
         # Disability Payment (1,885), Carer Support Payment (282), Child Disability
         # Payment (81) and Pension Age Disability Payment (66).
-        "fact_count": 2242310,
+        "fact_count": 2243075,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -670,7 +672,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # to Work evidence pack's points tables; and its Scottish batch adds five:
         # HMRC's Scottish income tax outturn and four Social Security Scotland
         # caseload packages.
-        "source_package_count": 500,
+        "source_package_count": 501,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -722,14 +724,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2242310
+    assert row_count == 2243075
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 500
+    assert source_packages["source_package_count"] == 501
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -757,13 +759,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2242310
+    assert coverage["fact_count"] == 2243075
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
         "cbo": 7,
         "census_acs": 468,
-        "census_pep": 4132,
+        "census_pep": 4897,
         "census_population_projections": 86,
         "census_stc": 46,
         "cms_medicaid": 515,
@@ -824,9 +826,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     table_counts = coverage["counts"]["by_source_table"]
     # chronicle#407 adds 15 source tables, one per package, and chronicle#408
-    # adds 12, one per new package. chronicle#420's young people batch adds 18,
-    # its PIP batch seven and its Scottish batch five, one per package.
-    assert len(table_counts) == 442
+    # adds 12, one per new package. The Census Vintage 2025 state age-group
+    # package adds one (SC-EST2025-ALLDATA6) and 816 census_pep facts, and the
+    # Vintage 2024 package gives up its 51 state totals (chronicle#397).
+    # chronicle#420's young people batch adds 18, its PIP batch seven and its Scottish
+    # batch five, one per package.
+    assert len(table_counts) == 443
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2573,6 +2578,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # zones, at December 2024 and December 2025.
     for year in (2024, 2025):
         expected_period_counts[f"calendar_year:{year}"] += 8 * 7392
+    # Census Vintage 2025 state age groups: 51 states x 16 groups, July 1, 2024.
+    # Vintage 2024 gives up its 51 state totals for the same date (chronicle#397).
+    expected_period_counts["calendar_year:2024"] += 816 - 51
     # chronicle#420's young people packages, counted from each package's facts:
     # NEET and A06's quarters (2024-Q2 to 2026-Q2), PAYE RTI's months (April 2024
     # to September 2026; month 2026-09 is new) and the UC cube's (April 2024 to May
@@ -2837,7 +2845,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         == 35
     )
     assert coverage["counts"]["by_geography"]["country:0100000US"] == 2116
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 255
+    # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
+    # 2025 age groups (15 groups and the total).
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 270
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 62
     )
@@ -2939,6 +2949,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # (the Market Value Survey), returns +1,135 (HMRC's stamp tax), firms +401
     # (the land value estimates) and institutional sectors +387 (ONS's land).
     # chronicle#419: dwellings +118,272 (NRS's council tax bands by data zone).
+    # Census Vintage 2025 state age groups add 816 people, and Vintage 2024 gives
+    # up its 51 state totals (chronicle#397).
     # chronicle#420's young people packages: people +33,619 and firms +22 (the
     # employers claiming HMRC's NICs reliefs, and the reliefs' cost).
     # chronicle#420's PIP packages add 23,947 people.
@@ -2952,7 +2964,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 678213,
         "institutional_sector": 9264,
         "pension_plan": 2,
-        "person": 733561,
+        "person": 734326,
         "return": 16087,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
