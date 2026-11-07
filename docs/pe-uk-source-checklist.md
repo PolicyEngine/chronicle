@@ -547,6 +547,34 @@ them up. Seven packages add 23,947 facts; field contracts and caveats are in
     and 12 cells DWP misprints (Table 2.11's all-conditions bands, one Table 2.28 cell);
   - Stat-Xplore's disability subgroups and conditions, cases abroad and of unknown residence.
 
+## Beyond parity — UK Scottish Budget facts (chronicle#420)
+
+Published facts for the Scottish Budget 2027-28
+([PolicyEngine/uk-scottish-budget-2027-28](https://github.com/PolicyEngine/uk-scottish-budget-2027-28)),
+items 7 and 8 of [chronicle#420](https://github.com/PolicyEngine/chronicle/issues/420):
+caseloads to anchor Scottish disability and carer payments beside Table 5.08's spending, and a
+diagnostic of Scottish NSND income tax and its band shares. Five packages add 3,966 facts;
+field contracts and caveats are in
+[`docs/data-sources/uk-scottish-budget-facts-420.md`](data-sources/uk-scottish-budget-facts-420.md).
+
+- **Adult Disability Payment to 31 July 2026** (`scotgov-adp-caseload-july-2026`, 1,885
+  facts): each month from April 2024, for all clients, new applicants and case transfers from
+  DWP, the caseload by award type, Daily Living and Mobility level and their combinations; at
+  31 July 2026, by age band and council area.
+- **Carer Support Payment to 30 June 2026** (`scotgov-carer-support-payment-caseload-june-2026`,
+  282): the caseload in payment and with underlying entitlement each month from April 2024 by
+  type of client; at 30 June 2026, by age group and council area.
+- **Child Disability Payment and Pension Age Disability Payment**
+  (`scotgov-child-disability-payment-caseload-june-2026`, 81;
+  `scotgov-padp-caseload-july-2026`, 66): totals each month by type of client.
+- **HMRC Scottish income tax outturn, 2024 to 2025** (`hmrc-scottish-income-tax-outturn-2024-25`,
+  1,652): all four tables, with the earlier years and the rest of the UK and UK lines they
+  carry.
+- Not ported:
+  - percentages, ADP's Accessible Vehicles and Equipment counts, months before April 2024,
+    and the CDP and PADP award-level, age and council tables (#420 asks for their totals);
+  - the "Other" council rows, which have no code.
+
 ## Consumer contracts
 
 The UK national, local-geography, and firms selection contracts now live in

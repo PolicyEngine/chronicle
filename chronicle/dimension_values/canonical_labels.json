@@ -3464,6 +3464,7 @@
       "18_to_24": "Age 18 to 24",
       "22 to 29": "22 to 29",
       "22_to_29": "Age 22 to 29",
+      "25_to_34": "Age 25 to 34",
       "30 to 39": "30 to 39",
       "30_to_39": "Age 30 to 39",
       "40 to 49": "40 to 49",
@@ -3618,6 +3619,11 @@
     },
     "c2021_hh_1_name": {
       "Number of households": "Number of households"
+    },
+    "case_route": {
+      "all": "All clients",
+      "case_transfer": "Case transfers",
+      "new_applicant": "New applicants"
     },
     "category_of_pension": {
       "Category A": "Category A",
@@ -7485,6 +7491,7 @@
     },
     "marginal_rate": {
       "additional": "Additional rate",
+      "all": "All rates",
       "basic": "Basic rate",
       "higher": "Higher rate",
       "savers": "Savers rate"
