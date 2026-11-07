@@ -3500,6 +3500,14 @@
       "up to 69": "up to 69"
     },
     "age_bands_and_single_year": {
+      "25-29": "25-29",
+      "30-34": "30-34",
+      "35-39": "35-39",
+      "40-44": "40-44",
+      "45-49": "45-49",
+      "50-54": "50-54",
+      "55-59": "55-59",
+      "60-64": "60-64",
       "65-69": "65-69",
       "70-74": "70-74",
       "75-79": "75-79",
@@ -6995,6 +7003,13 @@
       "H": "Band H",
       "I": "Band I"
     },
+    "daily_living_award_status": {
+      "Daily Living - Enhanced": "Daily Living - Enhanced",
+      "Daily Living - Nil": "Daily Living - Nil",
+      "Daily Living - Standard": "Daily Living - Standard",
+      "Unknown or missing": "Unknown or missing",
+      "all": "Total"
+    },
     "demographic_group": {
       "be1_female_0_17": "Brussels Capital Region female aged 0 to 17",
       "be1_female_18_64": "Brussels Capital Region female aged 18 to 64",
@@ -7822,6 +7837,13 @@
     "mhclg.mvs_row": {
       "sample_size": "sample size"
     },
+    "mobility_award_status": {
+      "Mobility Award - Enhanced": "Mobility Award - Enhanced",
+      "Mobility Award - Nil": "Mobility Award - Nil",
+      "Mobility Award - Standard": "Mobility Award - Standard",
+      "Unknown or missing": "Unknown or missing",
+      "all": "Total"
+    },
     "msd_supplementary_assistance_type": {
       "accommodation_supplement": "Accommodation Supplement (AS)",
       "disability_allowance": "Disability Allowance (DA)",
@@ -8318,6 +8340,19 @@
     "person.sex": {
       "female": "female",
       "male": "male"
+    },
+    "pip_claim_rules": {
+      "normal_rules": "Normal rules (special rules for end of life excluded)"
+    },
+    "pip_claimant_age_group": {
+      "working_age": "Working age"
+    },
+    "pip_daily_living_award_rate": {
+      "enhanced": "Enhanced",
+      "standard": "Standard"
+    },
+    "pip_policy_ownership": {
+      "dwp": "DWP (England, Wales and abroad)"
     },
     "population_type": {
       "UR_CE": "All usual residents in communal establishments",

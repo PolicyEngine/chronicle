@@ -573,7 +573,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # age and conditionality regime (16,510), ASHE Table 6 by age group (10,806),
         # LFS table A06 (SA 1,701, NSA 2,831), ONS NEET (945), PAYE RTI by age (826)
         # and HMRC's employer NICs reliefs for young employees (22).
-        "fact_count": 2215162,
+        # chronicle#420's PIP packages add 23,947: DWP's Stat-Xplore PIP cases with
+        # entitlement (22,707: by country, award and age 7,997; by disability
+        # category 10,769; by region 1,881; by End of Life Rules 1,078; by
+        # constituency 632 and local authority 350) and the Pathways to Work
+        # evidence pack's PIP points tables (1,240).
+        "fact_count": 2239109,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -631,7 +636,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # is LFS table A06's totals (162, of which the nine women aged 18 to 24 not
         # seasonally adjusted differ, as NEET's sheet prints them); and the people
         # on UC cube's Great Britain totals are the employment indicator cube's (26).
-        "semantic_duplicate_key_count": 3916,
+        # chronicle#420's Pathways to Work package adds 14: its age and condition
+        # tables' all-claimants rows describe one caseload on bases DWP prints
+        # differently (3,627,000 and 3,701,000 for daily living), both kept.
+        "semantic_duplicate_key_count": 3930,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
@@ -653,8 +661,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # three Market Value Survey chapters, and ONS's land underlying other
         # buildings. chronicle#420's young people batch adds 18: ONS NEET, A06 SA
         # and NSA, PAYE RTI by age, twelve ASHE Table 6 packages, HMRC's employer
-        # NICs reliefs and DWP's people on UC by age and conditionality regime.
-        "source_package_count": 489,
+        # NICs reliefs and DWP's people on UC by age and conditionality regime; its
+        # PIP batch adds seven: six Stat-Xplore PIP cases packages and the Pathways
+        # to Work evidence pack's points tables.
+        "source_package_count": 496,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -706,14 +716,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2215162
+    assert row_count == 2239109
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 489
+    assert source_packages["source_package_count"] == 496
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -741,7 +751,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2215162
+    assert coverage["fact_count"] == 2239109
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -758,7 +768,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dfc_ni": 1700,
         "dfi_ni": 33,
         "dft": 2834,
-        "dwp": 250588,
+        "dwp": 274535,
         "eurostat": 262,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
@@ -811,8 +821,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # adds 12, one per new package. The Census Vintage 2025 state age-group
     # package adds one (SC-EST2025-ALLDATA6) and 816 census_pep facts, and the
     # Vintage 2024 package gives up its 51 state totals (chronicle#397).
-    # chronicle#420's young people batch adds 18, one per package.
-    assert len(table_counts) == 431
+    # chronicle#420's young people batch adds 18 and its PIP batch seven, one per
+    # package.
+    assert len(table_counts) == 438
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2618,6 +2629,25 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in chronicle_420_young_people_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#420's PIP packages, counted from each package's facts: the
+    # Stat-Xplore cases at DWP's quarter-end months (January 2024 to July 2026; the
+    # constituency and local authority totals at July 2026) and the Pathways to Work
+    # tables at month 2025-01, the end of January 2025 caseload. No key is new.
+    chronicle_420_pip_period_increments = {
+        "month:2024-01": 1975,
+        "month:2024-04": 1975,
+        "month:2024-07": 1975,
+        "month:2024-10": 1975,
+        "month:2025-01": 3215,
+        "month:2025-04": 1975,
+        "month:2025-07": 1975,
+        "month:2025-10": 1975,
+        "month:2026-01": 1975,
+        "month:2026-04": 1975,
+        "month:2026-07": 2957,
+    }
+    for key, count in chronicle_420_pip_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2696,8 +2726,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # 2,259 (chapters 1, 3 and 4: 1,938, 137 and 184), VOA's council tax stock
     # 693, EPC D3 267, council tax collection 157 (QRC4 133, Table 6 24), HMRC's
     # stamp tax 64 and Live Table 126 15. The people on UC cube's England rows add
-    # 4,238 (chronicle#420).
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 16423
+    # 4,238 and the PIP cases packages England's 7,095 (chronicle#420).
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 23518
     # Great Britain gains HBAI's FYE 1995-2002 rows (32), Move to UC (80), the
     # table 4.9 lines DWP counts over Great Britain (56) and BUS04 (2): +170.
     # chronicle#381's 1,435 Gambling Commission facts, the National Lottery's
@@ -2710,8 +2740,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28),
     # and the October 2026 EFO's table 5.9 the same four lines (28, chronicle#393).
     # chronicle#397 drops the March lines' 24 facts after 2024-25. chronicle#408
-    # adds 1,033: VOA's council tax stock (766) and EPC D3 (267).
-    assert coverage["counts"]["by_geography"]["country:K04000001"] == 2213
+    # adds 1,033: VOA's council tax stock (766) and EPC D3 (267). chronicle#420's
+    # Pathways to Work package adds 1,240 (England, Wales and abroad).
+    assert coverage["counts"]["by_geography"]["country:K04000001"] == 3453
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
     # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope, and
     # PolicyEngine/uk-autumn-budget-dashboard-2026#316 its unknown recipient region.
@@ -2771,6 +2802,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # up its 51 state totals (chronicle#397).
     # chronicle#420's young people packages: people +33,619 and firms +22 (the
     # employers claiming HMRC's NICs reliefs, and the reliefs' cost).
+    # chronicle#420's PIP packages add 23,947 people.
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 708536,
@@ -2780,13 +2812,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "household": 678213,
         "institutional_sector": 9264,
         "pension_plan": 2,
-        "person": 706413,
+        "person": 730360,
         "return": 16087,
         "social_protection_scheme": 36,
         "tax_unit": 45268,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 3916
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 3930
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
         "duplicate_semantic_fact_key": 1,
