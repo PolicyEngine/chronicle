@@ -3458,13 +3458,23 @@
     },
     "age_band": {
       "16 to 21": "16 to 21",
+      "16_to_17": "Age 16 to 17",
+      "16_to_24": "Age 16 to 24",
+      "18_to_21": "Age 18 to 21",
+      "18_to_24": "Age 18 to 24",
       "22 to 29": "22 to 29",
+      "22_to_29": "Age 22 to 29",
       "30 to 39": "30 to 39",
+      "30_to_39": "Age 30 to 39",
       "40 to 49": "40 to 49",
+      "40_to_49": "Age 40 to 49",
       "50 to 54": "50 to 54",
+      "50_to_59": "Age 50 to 59",
       "55 to 59": "55 to 59",
       "60 to 64": "60 to 64",
+      "60_and_over": "Age 60 and over",
       "65 and over": "65 and over",
+      "65_and_over": "Age 65 and over",
       "66-69": "66-69",
       "70 to 74": "70 to 74",
       "70-74": "70-74",
@@ -7187,6 +7197,12 @@
       "QEMQ.SBSZ9A": "QEMQ.SBSZ9A — all-sector ordinary-time average weekly earnings per FTE, actual (not seasonally adjusted)",
       "QEMQ.SBSZ9Z": "QEMQ.SBSZ9Z — all-sector total average weekly earnings per FTE, actual (not seasonally adjusted)"
     },
+    "economic_activity": {
+      "all": "All economic activity statuses",
+      "economically_inactive": "Economically inactive",
+      "employed": "Employed",
+      "unemployed": "Unemployed"
+    },
     "ehs_dependent_children": {
       "no": "No",
       "yes": "Yes"
@@ -7272,6 +7288,11 @@
     "fuel": {
       "electricity": "Electricity",
       "gas": "Gas"
+    },
+    "full_time_education": {
+      "all": "In or not in full-time education",
+      "in_full_time_education": "In full-time education",
+      "not_in_full_time_education": "Not in full-time education"
     },
     "funding_component": {
       "all_government_support": "All government support",
@@ -8604,7 +8625,9 @@
       "concessionary_passenger_journeys": "Concessionary passenger journeys"
     },
     "seasonal_adjustment": {
-      "actual": "Actual (not seasonally adjusted)"
+      "actual": "Actual (not seasonally adjusted)",
+      "not_seasonally_adjusted": "Not seasonally adjusted",
+      "seasonally_adjusted": "Seasonally adjusted"
     },
     "sector": {
       "Private": "Private sector",

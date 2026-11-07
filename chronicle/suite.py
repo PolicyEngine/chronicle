@@ -1786,8 +1786,9 @@ def _statxplore_age_range(label: str) -> tuple[int, int | None] | None:
     """Read a DWP Stat-Xplore 'Age (bands and single year)' item label.
 
     The field's value sets label single years as bare digits ('66'), bands as
-    '65-69', the open top band as '90 and over' and the open bottom band as
-    'Under 65'. 'Unknown' and a recode's 'Total' carry no age.
+    '65-69', the open top band as '90 and over' or 'Over 70' (ages in completed
+    years, so 71 and over) and the open bottom band as 'Under 65'. 'Unknown' and a
+    recode's 'Total' carry no age.
     """
     label = label.strip()
     if re.fullmatch(r"\d+", label):
@@ -1799,6 +1800,9 @@ def _statxplore_age_range(label: str) -> tuple[int, int | None] | None:
     match = re.fullmatch(r"(\d+)\s+and\s+over", label, re.I)
     if match:
         return int(match.group(1)), None
+    match = re.fullmatch(r"over\s+(\d+)", label, re.I)
+    if match:
+        return int(match.group(1)) + 1, None
     match = re.fullmatch(r"under\s+(\d+)", label, re.I)
     if match:
         return 0, int(match.group(1))

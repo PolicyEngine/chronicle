@@ -647,6 +647,57 @@ SOURCE_PACKAGE_ALIASES = {
         "nrs/census2022_uv404_tenure_output_area"
     ),
     # end chronicle#326
+    # chronicle#420: young people and work (PolicyEngine/uk-young-people-work-review):
+    # ONS NEET, LFS table A06, PAYE RTI by age, ASHE Table 6 and HMRC's employer
+    # NICs reliefs for young employees, and DWP's people on Universal Credit by age
+    # and conditionality regime.
+    "ons-neet-august-2026": Path("ons/neet_august_2026"),
+    "ons-a06-sa-october-2026": Path("ons/a06_sa_october_2026"),
+    "ons-a06-nsa-october-2026": Path("ons/a06_nsa_october_2026"),
+    "ons-paye-rti-age-nsa-october-2026": Path("ons/paye_rti_age_nsa_october_2026"),
+    "ons-ashe-table6-weekly-pay-gross-2024-revised": Path(
+        "ons/ashe_table6_weekly_pay_gross_2024_revised"
+    ),
+    "ons-ashe-table6-weekly-pay-gross-cv-2024-revised": Path(
+        "ons/ashe_table6_weekly_pay_gross_cv_2024_revised"
+    ),
+    "ons-ashe-table6-annual-pay-gross-2024-revised": Path(
+        "ons/ashe_table6_annual_pay_gross_2024_revised"
+    ),
+    "ons-ashe-table6-annual-pay-gross-cv-2024-revised": Path(
+        "ons/ashe_table6_annual_pay_gross_cv_2024_revised"
+    ),
+    "ons-ashe-table6-weekly-pay-gross-2025-revised": Path(
+        "ons/ashe_table6_weekly_pay_gross_2025_revised"
+    ),
+    "ons-ashe-table6-weekly-pay-gross-cv-2025-revised": Path(
+        "ons/ashe_table6_weekly_pay_gross_cv_2025_revised"
+    ),
+    "ons-ashe-table6-annual-pay-gross-2025-revised": Path(
+        "ons/ashe_table6_annual_pay_gross_2025_revised"
+    ),
+    "ons-ashe-table6-annual-pay-gross-cv-2025-revised": Path(
+        "ons/ashe_table6_annual_pay_gross_cv_2025_revised"
+    ),
+    "ons-ashe-table6-weekly-pay-gross-2026-provisional": Path(
+        "ons/ashe_table6_weekly_pay_gross_2026_provisional"
+    ),
+    "ons-ashe-table6-weekly-pay-gross-cv-2026-provisional": Path(
+        "ons/ashe_table6_weekly_pay_gross_cv_2026_provisional"
+    ),
+    "ons-ashe-table6-annual-pay-gross-2026-provisional": Path(
+        "ons/ashe_table6_annual_pay_gross_2026_provisional"
+    ),
+    "ons-ashe-table6-annual-pay-gross-cv-2026-provisional": Path(
+        "ons/ashe_table6_annual_pay_gross_cv_2026_provisional"
+    ),
+    "hmrc-employer-nics-age-reliefs-january-2026": Path(
+        "hmrc/employer_nics_age_reliefs_january_2026"
+    ),
+    "dwp-uc-people-country-age-conditionality-regime-april-2024-may-2026": Path(
+        "dwp/uc_people_country_age_conditionality_regime_april_2024_may_2026"
+    ),
+    # end chronicle#420 (young people)
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),

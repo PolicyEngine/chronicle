@@ -487,6 +487,43 @@ Field contracts and caveats are in
 - **Not in this PR.** UCL's house price per square metre file (item 6) is above the 300 MiB that
   `publish-raw` can upload ([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)).
 
+## Beyond parity — UK young people and work facts (chronicle#420)
+
+Published facts for the review of young people and work
+([PolicyEngine/uk-young-people-work-review](https://github.com/PolicyEngine/uk-young-people-work-review)),
+items 1 to 4 and 9 of [chronicle#420](https://github.com/PolicyEngine/chronicle/issues/420):
+comparators for the event, and inputs for Microcosm targets or diagnostics if the next
+national pair takes them up. Eighteen packages add 33,641 facts; field contracts and
+caveats are in
+[`docs/data-sources/uk-young-people-facts-420.md`](data-sources/uk-young-people-facts-420.md).
+
+- **ONS NEET, August 2026** (`ons-neet-august-2026`, 945 facts): NEET people (all,
+  unemployed, inactive), the population and the NEET share, ages 16-17, 18-24 and 16-24
+  by sex, and 18-20, 21-22 and 23-24, seasonally adjusted and not, April to June 2024 to
+  April to June 2026.
+- **LFS table A06, October 2026** (`ons-a06-sa-october-2026`, 1,701;
+  `ons-a06-nsa-october-2026`, 2,831): people aged 16 to 24 by full-time education and
+  economic activity, levels and rates, by sex, each calendar quarter of the same window;
+  the NSA edition adds 18-21 and 22-24.
+- **People on Universal Credit by age and conditionality regime**
+  (`dwp-uc-people-country-age-conditionality-regime-april-2024-may-2026`, 16,510): Great
+  Britain and its countries, single years 16 to 24 and bands above, the six regimes,
+  April 2024 to May 2026.
+- **PAYE RTI by age, October 2026** (`ons-paye-rti-age-nsa-october-2026`, 826): payrolled
+  employees and median, mean and aggregate monthly pay by age band, UK, not seasonally
+  adjusted, April 2024 to September 2026.
+- **ASHE Table 6, earnings by age group** (`ons-ashe-table6-*`, 10,806): gross weekly and
+  annual pay and jobs, with CVs, 2024 revised, 2025 revised and 2026 provisional.
+- **HMRC's employer NICs reliefs, January 2026**
+  (`hmrc-employer-nics-age-reliefs-january-2026`, 22): the cost of the zero rates for
+  employees under 21 and apprentices under 25, 2020-21 to 2025-26 (2025-26 forecast), and
+  the employers claiming them.
+- Not ported:
+  - A06's rolling windows that are not calendar quarters, including the latest, June to
+    August 2026: Chronicle has no period type for them;
+  - single years of age from PAYE RTI, which publishes bands only;
+  - the NEET sampling variability dataset, and ASHE Table 6's other tables (6.2 to 6.11).
+
 ## Consumer contracts
 
 The UK national, local-geography, and firms selection contracts now live in
