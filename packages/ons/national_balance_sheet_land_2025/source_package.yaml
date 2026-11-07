@@ -11,7 +11,7 @@
 # 1,757,818) matches no series in this edition - an earlier, since-revised
 # vintage. The fixed 2020 share split, the 2025/26 flat-fills, and the
 # regional split over an unattributed prices-x-dwellings CSV are all
-# uk-data-computed and excluded per the facts-only ADR; populace re-derives
+# uk-data-computed and excluded per the facts-only ADR; Microcosm re-derives
 # them over these raw sector series.
 schema_version: ledger.source_package.v1
 package_id: ons-national-balance-sheet-land-2025
