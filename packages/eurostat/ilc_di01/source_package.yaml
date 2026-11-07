@@ -81,7 +81,7 @@ artifact:
     - {freq: A, quant_inc: D8, statinfo: TC, unit: EUR, geo: FR, time: "2024"}
     - {freq: A, quant_inc: D9, statinfo: TC, unit: EUR, geo: FR, time: "2024"}
 
-# EVALUATION-ONLY by class: Ledger ingests everything; the Populace gate decides use.
+# EVALUATION-ONLY by class: Ledger ingests everything; the Microcosm gate decides use.
 record_sets:
   - &share_be_record_set
     record_set_id: eurostat.ilc_di01.cy2024.income_share.be

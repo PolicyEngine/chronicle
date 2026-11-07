@@ -1,7 +1,7 @@
 # Tables 01, 03A/03B and 04A/04B: all four status rows ported (in receipt /
 # affected / not receiving a child element / exception granted). month period
 # 2025-04 (publisher reference point); policyengine-uk-data models these at
-# 2026, a populace-side timing declaration. Entity split per review: household
+# 2026, a Microcosm-side timing declaration. Entity split per review: household
 # counts carry entity household; children counts (table 01 cols C-D, tables
 # 03B/04B) carry entity person (role child_in_uc_household) - DWP's captions
 # count children, and 03B values are exact child-multiples of 03A households.

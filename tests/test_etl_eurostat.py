@@ -29,7 +29,7 @@ from chronicle.suite import build_source_suite
 REPO_ROOT = Path(__file__).resolve().parents[1]
 EVALUATION_ONLY_COMMENT = (
     "# EVALUATION-ONLY by class: Ledger ingests everything; "
-    "the Populace gate decides use."
+    "the Microcosm gate decides use."
 )
 EUROSTAT_PACKAGES = {
     "eurostat-gov-10a-taxag": ("gov_10a_taxag", 2024, 24, 24),
