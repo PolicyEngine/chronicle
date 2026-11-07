@@ -2563,7 +2563,7 @@ def test_ssa_ssi_monthly_2024_12_package_builds_federal_payment_age_facts():
     # SSA SSI Monthly Statistics, December 2024, Table 1, "Total with—
     # Federal payment" row: persons receiving a federal SSI payment in
     # December 2024, by the three published age groups. These are the
-    # PolicyEngine/populace#470 age-band take-up count targets.
+    # PolicyEngine/microcosm#470 age-band take-up count targets.
     assert all_ages.value == 7_289_843
     assert under_18.value == 1_001_922
     assert aged_18_to_64.value == 3_905_779
