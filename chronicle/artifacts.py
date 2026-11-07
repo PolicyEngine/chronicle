@@ -15,12 +15,13 @@ import shlex
 import sqlite3
 import subprocess
 from threading import Thread
-from typing import Any, BinaryIO, Literal, get_args
+from typing import Any, BinaryIO, Iterator, Literal, get_args
 from urllib.parse import unquote, urlparse
 
 import httpx
 import yaml
 
+from chronicle import r2_s3
 from chronicle.epoch import EMIT_EPOCH, Epoch, canonicalize_key, hash_domain
 from chronicle.yaml_io import safe_load as safe_load_yaml
 
@@ -29,6 +30,9 @@ DEFAULT_R2_RAW_BUCKET = "ledger-raw"
 DEFAULT_R2_DERIVED_BUCKET = "ledger-derived"
 DEFAULT_R2_PREFIX = "raw"
 DEFAULT_R2_DERIVED_PREFIX = "derived"
+#: ``wrangler r2 object put`` refuses objects above 300 MiB. Larger files go to R2
+#: through its S3-compatible API as multipart uploads (chronicle#409).
+WRANGLER_PUT_LIMIT_BYTES = 300 * 1024 * 1024
 
 # New UK and New Zealand uploads are namespaced by country. US objects predate
 # the country segment and deliberately keep their legacy ``raw/{source_id}``
@@ -53,6 +57,7 @@ R2_COUNTRY_PUBLISHERS = {
             "ons",
             "scotgov",
             "slc",
+            "ucl",
             "voa",
             "welshgov",
         }
@@ -525,17 +530,13 @@ def fetch_source_artifact(
         package_path=output,
     )
     fetched_at = datetime.now(UTC).replace(microsecond=0).isoformat()
-    content, inferred_filename = _read_artifact(source_url)
-    artifact_filename = filename or inferred_filename
+    artifact_filename = filename or _filename_from_url(source_url)
     if not artifact_filename:
         raise ValueError("Could not infer artifact filename; pass --filename.")
 
     output.mkdir(parents=True, exist_ok=True)
     local_path = output / artifact_filename
-    local_path.write_bytes(content)
-
-    sha256 = hashlib.sha256(content).hexdigest()
-    size_bytes = len(content)
+    sha256, size_bytes = _read_artifact(source_url, local_path)
     manifest_path = output / "manifest.yaml"
 
     r2_location = ArtifactStorageLocation(
@@ -682,8 +683,7 @@ def publish_derived_artifacts(
         relative_path = artifact_path.relative_to(input_path).as_posix()
         if relative_path == "build_artifacts.jsonl":
             continue
-        content = artifact_path.read_bytes()
-        sha256 = hashlib.sha256(content).hexdigest()
+        sha256, size_bytes = _hash_file(artifact_path)
         location = ArtifactStorageLocation(
             provider="r2",
             bucket=r2_bucket,
@@ -708,7 +708,7 @@ def publish_derived_artifacts(
                 artifact_name=relative_path,
                 local_path=str(artifact_path),
                 sha256=sha256,
-                size_bytes=len(content),
+                size_bytes=size_bytes,
                 r2_location=location,
                 upload=upload,
             )
@@ -1014,6 +1014,12 @@ def _hash_stream(stream: BinaryIO) -> tuple[str, int]:
         digest.update(chunk)
         size_bytes += len(chunk)
     return digest.hexdigest(), size_bytes
+
+
+def _hash_file(path: Path) -> tuple[str, int]:
+    """Hash a file a chunk at a time: raw files can be several GB (chronicle#409)."""
+    with path.open("rb") as stream:
+        return _hash_stream(stream)
 
 
 _ANSI_ESCAPE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
@@ -1423,19 +1429,43 @@ def infer_build_id(input_dir: str | Path) -> str | None:
     return None
 
 
-def _read_artifact(source_url: str) -> tuple[bytes, str]:
+def _read_artifact(source_url: str, local_path: Path) -> tuple[str, int]:
+    """Copy a source artifact to ``local_path`` a chunk at a time, hashing it.
+
+    The bytes go to a ``.partial`` file that takes the final name only once the
+    copy is complete, so a failed download leaves any earlier copy in place.
+    """
+    parsed = urlparse(source_url)
+    if parsed.scheme not in ("http", "https", "file", ""):
+        raise ValueError(f"Unsupported source URL scheme: {parsed.scheme}")
+    partial_path = local_path.with_name(f"{local_path.name}.partial")
+    digest = hashlib.sha256()
+    size_bytes = 0
+    try:
+        with partial_path.open("wb") as output:
+            for chunk in _artifact_chunks(source_url):
+                output.write(chunk)
+                digest.update(chunk)
+                size_bytes += len(chunk)
+        partial_path.replace(local_path)
+    except BaseException:
+        partial_path.unlink(missing_ok=True)
+        raise
+    return digest.hexdigest(), size_bytes
+
+
+def _artifact_chunks(source_url: str) -> Iterator[bytes]:
     parsed = urlparse(source_url)
     if parsed.scheme in ("http", "https"):
-        response = httpx.get(source_url, follow_redirects=True, timeout=60)
-        response.raise_for_status()
-        return response.content, _filename_from_url(source_url)
-    if parsed.scheme == "file":
-        path = Path(unquote(parsed.path))
-        return path.read_bytes(), path.name
-    if not parsed.scheme:
-        path = Path(source_url)
-        return path.read_bytes(), path.name
-    raise ValueError(f"Unsupported source URL scheme: {parsed.scheme}")
+        with httpx.stream(
+            "GET", source_url, follow_redirects=True, timeout=60
+        ) as response:
+            response.raise_for_status()
+            yield from response.iter_bytes(1024 * 1024)
+        return
+    path = Path(unquote(parsed.path)) if parsed.scheme == "file" else Path(source_url)
+    with path.open("rb") as stream:
+        yield from iter(lambda: stream.read(1024 * 1024), b"")
 
 
 def _filename_from_url(source_url: str) -> str:
@@ -1492,6 +1522,8 @@ def _upload_r2_object(
     wrangler_command: str,
 ) -> ArtifactCommandResult:
     content_type, _ = mimetypes.guess_type(local_path.name)
+    if local_path.stat().st_size > WRANGLER_PUT_LIMIT_BYTES:
+        return _upload_r2_object_in_parts(location, local_path, content_type)
     command = [
         *shlex.split(wrangler_command),
         "r2",
@@ -1505,6 +1537,61 @@ def _upload_r2_object(
     if content_type:
         command.extend(["--content-type", content_type])
     return _run_command(command)
+
+
+def _upload_r2_object_in_parts(
+    location: ArtifactStorageLocation,
+    local_path: Path,
+    content_type: str | None,
+) -> ArtifactCommandResult:
+    """Upload a file too large for Wrangler through R2's S3 API (chronicle#409).
+
+    The key carries the file's sha256, so an object of the file's size under it
+    already holds these bytes. Such a file is not sent again, and a failed
+    upload, such as a completion whose response was lost, counts once the
+    object is there.
+    """
+    command = (
+        "r2-s3-multipart-put",
+        f"{location.bucket}/{location.key}",
+        str(local_path),
+    )
+    try:
+        size_bytes = local_path.stat().st_size
+        with _r2_s3_client() as client:
+            if client.object_size(location.bucket, location.key) == size_bytes:
+                return ArtifactCommandResult(
+                    command=command, returncode=0, stdout="already in R2", stderr=""
+                )
+            try:
+                parts = client.put_file(
+                    location.bucket, location.key, local_path, content_type=content_type
+                )
+            except r2_s3.R2S3Error as error:
+                try:
+                    landed = client.object_size(location.bucket, location.key)
+                except r2_s3.R2S3Error:
+                    landed = None
+                if landed != size_bytes:
+                    raise error
+                return ArtifactCommandResult(
+                    command=command,
+                    returncode=0,
+                    stdout=f"in R2 although the upload reported: {error}",
+                    stderr="",
+                )
+    except (OSError, r2_s3.R2S3Error) as exc:
+        return ArtifactCommandResult(
+            command=command, returncode=1, stdout="", stderr=str(exc)
+        )
+    return ArtifactCommandResult(
+        command=command, returncode=0, stdout=f"uploaded in {parts} parts", stderr=""
+    )
+
+
+def _r2_s3_client() -> r2_s3.R2Client:
+    """Return the S3 API client for large uploads; tests substitute their own."""
+    return r2_s3.R2Client(r2_s3.credentials_from_environment())
 
 
 def _r2_only_storage(spec: dict[str, Any]) -> tuple[bool, list[str]]:
@@ -1578,9 +1665,7 @@ def _publish_raw_manifest_entry(
     elif not artifact_path.exists():
         errors.append("missing_file")
     else:
-        content = artifact_path.read_bytes()
-        sha256_actual = hashlib.sha256(content).hexdigest()
-        size_bytes = len(content)
+        sha256_actual, size_bytes = _hash_file(artifact_path)
         if sha256_expected and sha256_actual != sha256_expected:
             errors.append("checksum_mismatch")
 
@@ -1702,9 +1787,7 @@ def _inventory_entry(
         if not r2_only:
             errors.append("missing_file")
     else:
-        content = artifact_path.read_bytes()
-        sha256_actual = hashlib.sha256(content).hexdigest()
-        size_bytes = len(content)
+        sha256_actual, size_bytes = _hash_file(artifact_path)
         if sha256_expected and sha256_actual != sha256_expected:
             errors.append("checksum_mismatch")
     storage = spec.get("storage") if isinstance(spec, dict) else None
