@@ -1,9 +1,9 @@
 {
   "comment": "Canonical series catalog. One row per (concept, geography level/id/vintage, entity) identity. UUID authority is the append-only ledger/series_uuid_registry.jsonl (digest below): a uuid is minted once, inherited from the registry on every regeneration, and changes only through explicit, chained supersede/retire/revive/succeeds events recorded there (live bindings and rows stay in bijection). Consumers reference series by uuid or concept only. Regenerate with scripts/build_series_catalog.py; verify with --check. Aliases are curated identity statements (plus observed spellings of the same identity) and inherit only within one (geography, entity) slice; aliases listed in ambiguous_aliases match multiple rows and never drive inheritance. source_concepts are publisher labels — provenance, never identity. Cross-spelling and cross-vintage merges are manual curation: delete the absorbed row, alias its concept on the survivor, regenerate with --allow-remint.",
   "generator_version": 3,
-  "observations_sha256": "deb182935cb33cb8dd39c2a960f29630efa7afdf3e9698a06481f2122c274270",
-  "observation_rows": 338,
-  "current_assertion_rows": 249,
+  "observations_sha256": "4bdb5e0d99740fb13627a3b44b450cf8855ee79c63d76b2ee72cc2098c6bbfa8",
+  "observation_rows": 350,
+  "current_assertion_rows": 261,
   "docket_seed_sha256": "5914192517350e0166045afd9064a515ea312acbea1844d9cb594cc9f525dbb9",
   "entity_folds_sha256": "f7496541139308e97c65c8681dd9f44829d46df25eede0d4e639203049667b58",
   "uuid_registry_sha256": "3bcb97a66df775da590063ad10c634850ff189108adc13b980784cda11dc24a8",
@@ -131,6 +131,14 @@
       "statcan.retail_trade.sales_mom.canada",
       "statcan.wholesale_trade.sales_mom_exclusions.canada"
     ],
+    "august_2026": [
+      "bls.cps.employed_people_by_occupation.business_financial_operations",
+      "bls.cps.employed_people_by_occupation.computer_mathematical",
+      "bls.cps.employed_people_by_occupation.healthcare_support",
+      "bls.cps.employed_people_by_occupation.office_administrative_support",
+      "bls.cps.employed_people_by_occupation.production",
+      "bls.cps.employed_people_by_occupation.transportation_material_moving"
+    ],
     "feb_2026": [
       "cms.medicaid_pi.beneficiaries_disenrolled_procedural",
       "cms.medicaid_pi.beneficiaries_disenrolled_total",
@@ -232,6 +240,14 @@
     ],
     "q1_2026": [
       "bea.real_gdp.saar.third_estimate"
+    ],
+    "september_2026": [
+      "bls.cps.employed_people_by_occupation.business_financial_operations",
+      "bls.cps.employed_people_by_occupation.computer_mathematical",
+      "bls.cps.employed_people_by_occupation.healthcare_support",
+      "bls.cps.employed_people_by_occupation.office_administrative_support",
+      "bls.cps.employed_people_by_occupation.production",
+      "bls.cps.employed_people_by_occupation.transportation_material_moving"
     ],
     "week_2026-06-13": [
       "us.dol.initial_claims.sa"
@@ -1631,7 +1647,9 @@
         "bls_cps"
       ],
       "aliases": [
-        "bls.cps.employed_people_by_occupation.business_financial_operations.june_2026"
+        "bls.cps.employed_people_by_occupation.business_financial_operations.august_2026",
+        "bls.cps.employed_people_by_occupation.business_financial_operations.june_2026",
+        "bls.cps.employed_people_by_occupation.business_financial_operations.september_2026"
       ],
       "source_concepts": [
         "Business and financial operations occupations"
@@ -1640,8 +1658,8 @@
         "bls.cps.employed_people_by_occupation.business_financial_operations.{P}.first_print"
       ],
       "first_observed_period": "2026-06",
-      "last_observed_period": "2026-06",
-      "observation_count": 1
+      "last_observed_period": "2026-09",
+      "observation_count": 3
     },
     {
       "uuid": "54f19551-6288-48e2-9fa0-17933e55d390",
@@ -1666,7 +1684,9 @@
         "bls_cps"
       ],
       "aliases": [
-        "bls.cps.employed_people_by_occupation.computer_mathematical.june_2026"
+        "bls.cps.employed_people_by_occupation.computer_mathematical.august_2026",
+        "bls.cps.employed_people_by_occupation.computer_mathematical.june_2026",
+        "bls.cps.employed_people_by_occupation.computer_mathematical.september_2026"
       ],
       "source_concepts": [
         "Computer and mathematical occupations"
@@ -1675,8 +1695,8 @@
         "bls.cps.employed_people_by_occupation.computer_mathematical.{P}.first_print"
       ],
       "first_observed_period": "2026-06",
-      "last_observed_period": "2026-06",
-      "observation_count": 1
+      "last_observed_period": "2026-09",
+      "observation_count": 3
     },
     {
       "uuid": "25457957-df59-4e16-ae3f-431b4c63e7bf",
@@ -1701,7 +1721,9 @@
         "bls_cps"
       ],
       "aliases": [
-        "bls.cps.employed_people_by_occupation.healthcare_support.june_2026"
+        "bls.cps.employed_people_by_occupation.healthcare_support.august_2026",
+        "bls.cps.employed_people_by_occupation.healthcare_support.june_2026",
+        "bls.cps.employed_people_by_occupation.healthcare_support.september_2026"
       ],
       "source_concepts": [
         "Healthcare support occupations"
@@ -1710,8 +1732,8 @@
         "bls.cps.employed_people_by_occupation.healthcare_support.{P}.first_print"
       ],
       "first_observed_period": "2026-06",
-      "last_observed_period": "2026-06",
-      "observation_count": 1
+      "last_observed_period": "2026-09",
+      "observation_count": 3
     },
     {
       "uuid": "2316f164-f13f-4025-980c-b92cc46b4d1a",
@@ -1736,7 +1758,9 @@
         "bls_cps"
       ],
       "aliases": [
-        "bls.cps.employed_people_by_occupation.office_administrative_support.june_2026"
+        "bls.cps.employed_people_by_occupation.office_administrative_support.august_2026",
+        "bls.cps.employed_people_by_occupation.office_administrative_support.june_2026",
+        "bls.cps.employed_people_by_occupation.office_administrative_support.september_2026"
       ],
       "source_concepts": [
         "Office and administrative support occupations"
@@ -1745,8 +1769,8 @@
         "bls.cps.employed_people_by_occupation.office_administrative_support.{P}.first_print"
       ],
       "first_observed_period": "2026-06",
-      "last_observed_period": "2026-06",
-      "observation_count": 1
+      "last_observed_period": "2026-09",
+      "observation_count": 3
     },
     {
       "uuid": "3240539a-c5b8-43de-a240-cc6754fb59aa",
@@ -1771,7 +1795,9 @@
         "bls_cps"
       ],
       "aliases": [
-        "bls.cps.employed_people_by_occupation.production.june_2026"
+        "bls.cps.employed_people_by_occupation.production.august_2026",
+        "bls.cps.employed_people_by_occupation.production.june_2026",
+        "bls.cps.employed_people_by_occupation.production.september_2026"
       ],
       "source_concepts": [
         "Production occupations"
@@ -1780,8 +1806,8 @@
         "bls.cps.employed_people_by_occupation.production.{P}.first_print"
       ],
       "first_observed_period": "2026-06",
-      "last_observed_period": "2026-06",
-      "observation_count": 1
+      "last_observed_period": "2026-09",
+      "observation_count": 3
     },
     {
       "uuid": "e2502908-1e16-46e3-b330-4d6612e510c2",
@@ -1806,7 +1832,9 @@
         "bls_cps"
       ],
       "aliases": [
-        "bls.cps.employed_people_by_occupation.transportation_material_moving.june_2026"
+        "bls.cps.employed_people_by_occupation.transportation_material_moving.august_2026",
+        "bls.cps.employed_people_by_occupation.transportation_material_moving.june_2026",
+        "bls.cps.employed_people_by_occupation.transportation_material_moving.september_2026"
       ],
       "source_concepts": [
         "Transportation and material moving occupations"
@@ -1815,8 +1843,8 @@
         "bls.cps.employed_people_by_occupation.transportation_material_moving.{P}.first_print"
       ],
       "first_observed_period": "2026-06",
-      "last_observed_period": "2026-06",
-      "observation_count": 1
+      "last_observed_period": "2026-09",
+      "observation_count": 3
     },
     {
       "uuid": "cfc40ec5-49cc-44d9-8c57-cda9f7748cc5",
