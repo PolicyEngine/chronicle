@@ -1,0 +1,18 @@
+source_id: irs_soi
+package_id: soi-table-1-3
+dataset: irs_soi_soi-table-1-3
+source_page: https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-returns-complete-report-publication-1304-basic-tables-part-1
+table: Publication 1304 Table 1.3
+files:
+  2023:
+    filename: 23in13ms.xls
+    source_url: https://www.irs.gov/pub/irs-soi/23in13ms.xls
+    sha256: aa9a706537a533f69c9a30c5837e99f5fdaeb5b45f5781740062a233c6b1d315
+    size_bytes: 48128
+    fetched_at: '2026-11-08T18:59:18+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-table-1-3/2023/aa9a706537a533f69c9a30c5837e99f5fdaeb5b45f5781740062a233c6b1d315/23in13ms.xls
+        uri: r2://ledger-raw/raw/irs_soi/soi-table-1-3/2023/aa9a706537a533f69c9a30c5837e99f5fdaeb5b45f5781740062a233c6b1d315/23in13ms.xls

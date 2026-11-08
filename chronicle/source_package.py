@@ -977,6 +977,13 @@ SOURCE_PACKAGE_ALIASES = {
         f"census-acs5-{table}-county-2024": Path(f"census/acs5_{table}_county_2024")
         for table in ("b01003", "b11001", "b19001", "b19013", "b19025", "b19051", "b19061")
     },
+    **{
+        f"census-acs1-{table}-{geography}-2024": Path(
+            f"census/acs1_{table}_{geography}_2024"
+        )
+        for table in ("b11001", "b11003")
+        for geography in ("national", "state")
+    },
     "census-acs-s2201-congressional-district-snap-2024": Path(
         "census/acs_s2201_district_2024"
     ),
@@ -1031,6 +1038,7 @@ SOURCE_PACKAGE_ALIASES = {
     "slc-student-support-england-2025": Path("slc/student_support_england_2025"),
     "soi-table-1-1": Path("irs_soi/table_1_1"),
     "soi-table-1-2": Path("irs_soi/table_1_2"),
+    "soi-table-1-3": Path("irs_soi/table_1_3"),
     "soi-table-1-4": Path("irs_soi/table_1_4"),
     "soi-table-2-1": Path("irs_soi/table_2_1"),
     "soi-table-2-5": Path("irs_soi/table_2_5"),
