@@ -295,6 +295,18 @@ def test_every_fact_is_the_exact_publisher_cell_with_its_categories(
         assert value_cell.source_row_key == fact.source_row_keys[0]
         assert value_cell.raw_value == fact.value
         assert list(source_row.values)[value_cell.column_number - 1] == variable
+        # The fact cites three cells and nothing else: its value, its column's
+        # header (the variable name, row 1) and its row's GEO_ID.
+        geo_id_column = list(source_row.values).index("GEO_ID") + 1
+        assert len(fact.source_cell_keys) == 3
+        assert {
+            (cell.row_number, cell.column_number, cell.raw_value)
+            for cell in (cells_by_key[key] for key in fact.source_cell_keys)
+        } == {
+            (value_cell.row_number, value_cell.column_number, fact.value),
+            (1, value_cell.column_number, variable),
+            (value_cell.row_number, geo_id_column, fact.geography.id),
+        }
         assert fact.source.source_sha256 == SHA256[bundle.table, bundle.geography]
         assert fact.source.vintage == "acs_1_year_2024"
         index = int(variable[len(bundle.table) + 1 : -1])

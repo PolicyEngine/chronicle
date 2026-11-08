@@ -53,6 +53,22 @@ PUBLISHED = {
     ),
 }
 COLUMN_OFFSETS = {status: 2 * index for index, status in enumerate(STATUSES)}
+#: Row 3 heads each filing status's pair of columns; row 5 heads each column.
+STATUS_HEADERS = {
+    "all": "All\nreturns",
+    "married_filing_jointly_surviving_spouse": (
+        "Returns of married persons filing jointly\nand returns of surviving spouses"
+    ),
+    "married_filing_separately": "Returns of married\npersons filing separately",
+    "head_of_household": "Returns of heads\nof households",
+    "single": "Returns of\nsingle persons",
+}
+MEASURE_HEADERS = {
+    "return_count": "Number of\nreturns",
+    "adjusted_gross_income": "Amount",
+    "ctc_claims": "Number of\nreturns",
+    "ctc_amount": "Amount",
+}
 
 
 def _record_id(record_set: str, status: str, measure: str) -> str:
@@ -126,10 +142,20 @@ def test_every_fact_is_the_published_cell_for_its_filing_status(built):
             assert fact.entity.name == "tax_unit"
             assert fact.provenance_class == "administrative"
             assert fact.source.source_sha256 == SHA256
-            (cell_key,) = fact.source_cell_keys
-            cell = cells_by_key[cell_key]
-            assert cell.raw_value == value
-            assert cell.address == f"{_column(first_column, status)}{row}"
+            # Each fact cites its value cell and the two headers that label it:
+            # its column's header in row 5 and its filing status's in row 3.
+            column = _column(first_column, status)
+            status_column = _column("B", status)
+            cited = {
+                cells_by_key[key].address: cells_by_key[key].raw_value
+                for key in fact.source_cell_keys
+            }
+            assert len(cited) == len(fact.source_cell_keys) == 3
+            assert cited == {
+                f"{column}{row}": value,
+                f"{column}5": MEASURE_HEADERS[measure],
+                f"{status_column}3": STATUS_HEADERS[status],
+            }
             constraints = {
                 (item.variable, item.operator, item.value) for item in fact.constraints
             }
