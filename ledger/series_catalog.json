@@ -1,8 +1,8 @@
 {
   "comment": "Canonical series catalog. One row per (concept, geography level/id/vintage, entity) identity. UUID authority is the append-only ledger/series_uuid_registry.jsonl (digest below): a uuid is minted once, inherited from the registry on every regeneration, and changes only through explicit, chained supersede/retire/revive/succeeds events recorded there (live bindings and rows stay in bijection). Consumers reference series by uuid or concept only. Regenerate with scripts/build_series_catalog.py; verify with --check. Aliases are curated identity statements (plus observed spellings of the same identity) and inherit only within one (geography, entity) slice; aliases listed in ambiguous_aliases match multiple rows and never drive inheritance. source_concepts are publisher labels — provenance, never identity. Cross-spelling and cross-vintage merges are manual curation: delete the absorbed row, alias its concept on the survivor, regenerate with --allow-remint.",
   "generator_version": 3,
-  "observations_sha256": "cfb60fb1fc6a7a9b32d41a9916b8d973148cab6749b08f947ef3762f48fdabe0",
-  "observation_rows": 255,
+  "observations_sha256": "deb182935cb33cb8dd39c2a960f29630efa7afdf3e9698a06481f2122c274270",
+  "observation_rows": 338,
   "current_assertion_rows": 249,
   "docket_seed_sha256": "5914192517350e0166045afd9064a515ea312acbea1844d9cb594cc9f525dbb9",
   "entity_folds_sha256": "f7496541139308e97c65c8681dd9f44829d46df25eede0d4e639203049667b58",
@@ -450,7 +450,7 @@
         "abs.labour.employment_change.australia.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -595,7 +595,7 @@
         "bea.disposable_personal_income.level.{P}"
       ],
       "status": "observed",
-      "unit": "usd_billions",
+      "unit": "usd",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -630,7 +630,7 @@
         "bea.government_social_benefits.level.{P}"
       ],
       "status": "observed",
-      "unit": "usd_billions",
+      "unit": "usd",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -665,7 +665,7 @@
         "bea.government_social_benefits.medicaid.{P}"
       ],
       "status": "observed",
-      "unit": "usd_billions",
+      "unit": "usd",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -700,7 +700,7 @@
         "bea.government_social_benefits.medicare.{P}"
       ],
       "status": "observed",
-      "unit": "usd_billions",
+      "unit": "usd",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -735,7 +735,7 @@
         "bea.government_social_benefits.social_security.{P}"
       ],
       "status": "observed",
-      "unit": "usd_billions",
+      "unit": "usd",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -863,7 +863,7 @@
         "bea.personal_current_taxes.level.{P}"
       ],
       "status": "observed",
-      "unit": "usd_billions",
+      "unit": "usd",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -979,7 +979,7 @@
         "bea.trade.goods_services_deficit.{P}"
       ],
       "status": "observed",
-      "unit": "usd_billions",
+      "unit": "usd",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1014,7 +1014,7 @@
         "bea.wages_and_salaries.level.{P}"
       ],
       "status": "observed",
-      "unit": "usd_billions",
+      "unit": "usd",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1049,7 +1049,7 @@
         "bls.ces.aerospace_product_and_parts_employment.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1119,7 +1119,7 @@
         "bls.ces.federal_department_of_defense_employment.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1154,7 +1154,7 @@
         "bls.ces.home_health_care_services.employment.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1189,7 +1189,7 @@
         "bls.ces.nonfarm_payrolls.change.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1224,7 +1224,7 @@
         "bls.ces.ship_and_boat_building_employment.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1259,7 +1259,7 @@
         "bls.ces.total_nonfarm_payroll_change.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1294,7 +1294,7 @@
         "bls.ces.total_nonfarm_payroll_change"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1615,7 +1615,7 @@
         "bls.cps.employed_people_by_occupation.business_financial_operations.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1650,7 +1650,7 @@
         "bls.cps.employed_people_by_occupation.computer_mathematical.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1685,7 +1685,7 @@
         "bls.cps.employed_people_by_occupation.healthcare_support.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1720,7 +1720,7 @@
         "bls.cps.employed_people_by_occupation.office_administrative_support.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1755,7 +1755,7 @@
         "bls.cps.employed_people_by_occupation.production.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -1790,7 +1790,7 @@
         "bls.cps.employed_people_by_occupation.transportation_material_moving.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -2134,7 +2134,7 @@
         "bls.jolts.job_openings.{P}"
       ],
       "status": "observed",
-      "unit": "millions",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -2170,7 +2170,7 @@
         "bls.jolts.job_openings_total.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -2224,7 +2224,7 @@
         "bls.laus.colorado.labor_force.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -2518,7 +2518,7 @@
         "census.housing.completions_saar.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -2553,7 +2553,7 @@
         "census.housing.permits_saar.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -2589,7 +2589,7 @@
         "us.census.housing_starts.total_saar.{P}"
       ],
       "status": "observed",
-      "unit": "millions",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -2738,7 +2738,7 @@
         "census.mtis.total_business_inventories_level.{P}"
       ],
       "status": "observed",
-      "unit": "usd_billions",
+      "unit": "usd",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -2773,7 +2773,7 @@
         "census.new_residential_sales.new_single_family_houses_sold_saar.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -3033,7 +3033,7 @@
         "dol.eta.continued_claims.sa"
       ],
       "status": "observed",
-      "unit": "millions",
+      "unit": "count",
       "cadence": "week_ending",
       "geography": {
         "level": "country",
@@ -5910,7 +5910,7 @@
         "ons.hmrc.paye_payrolled_employees.{P}"
       ],
       "status": "observed",
-      "unit": "millions",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -5980,7 +5980,7 @@
         "ons.pusf.j5ii.public_sector_net_borrowing_ex_banks.{P}"
       ],
       "status": "observed",
-      "unit": "gbp_billions",
+      "unit": "gbp",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -6154,7 +6154,7 @@
         "ssa.oasdi.disabled_worker_beneficiaries.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -6189,7 +6189,7 @@
         "ssa.ssi.recipients.colorado.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -6259,7 +6259,7 @@
         "ssa.ssi.recipients_aged_65_plus.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -6294,7 +6294,7 @@
         "ssa.ssi.total_recipients.{P}"
       ],
       "status": "observed",
-      "unit": "millions",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -6515,7 +6515,7 @@
         "statcan.employment_insurance.regular_beneficiaries.canada.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -6551,7 +6551,7 @@
         "statcan.employment_insurance.regular_beneficiaries.canada.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -6622,7 +6622,7 @@
         "statcan.lfs.employment_change"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -6917,7 +6917,7 @@
         "treasury.mts.monthly_deficit.{P}"
       ],
       "status": "observed",
-      "unit": "usd_billions",
+      "unit": "usd",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -6988,7 +6988,7 @@
         "us.dol.initial_claims.sa"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "week_ending",
       "geography": {
         "level": "country",
@@ -7022,7 +7022,7 @@
         "us.dol.initial_claims.sa.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "month",
       "geography": {
         "level": "country",
@@ -7096,7 +7096,7 @@
         "usaspending.cdfi.assistance_transaction_obligations"
       ],
       "status": "observed",
-      "unit": "usd_millions",
+      "unit": "usd",
       "cadence": "fiscal_year",
       "geography": {
         "level": "country",
@@ -7162,7 +7162,7 @@
         "usaspending.dod.new_prime_awards"
       ],
       "status": "observed",
-      "unit": "millions",
+      "unit": "count",
       "cadence": "fiscal_year",
       "geography": {
         "level": "country",
@@ -7195,7 +7195,7 @@
         "usaspending.dod.prime_award_obligations"
       ],
       "status": "observed",
-      "unit": "billions USD",
+      "unit": "usd",
       "cadence": "fiscal_year",
       "geography": {
         "level": "country",
@@ -7228,7 +7228,7 @@
         "usaspending.dod.prime_award_transactions"
       ],
       "status": "observed",
-      "unit": "millions",
+      "unit": "count",
       "cadence": "fiscal_year",
       "geography": {
         "level": "country",
@@ -7261,7 +7261,7 @@
         "usaspending.dod.prime_contract_obligations"
       ],
       "status": "observed",
-      "unit": "billions USD",
+      "unit": "usd",
       "cadence": "fiscal_year",
       "geography": {
         "level": "country",
@@ -7327,7 +7327,7 @@
         "usaspending.dod.unique_prime_contract_recipients"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "fiscal_year",
       "geography": {
         "level": "country",
@@ -7360,7 +7360,7 @@
         "usaspending.ntia.broadband_al11038_obligations"
       ],
       "status": "observed",
-      "unit": "usd_millions",
+      "unit": "usd",
       "cadence": "fiscal_year",
       "geography": {
         "level": "country",
@@ -7416,7 +7416,7 @@
         "usaspending.usfs.minnesota_place_of_performance_obligations"
       ],
       "status": "observed",
-      "unit": "usd_millions",
+      "unit": "usd",
       "cadence": "fiscal_year",
       "geography": {
         "level": "country",
@@ -7472,7 +7472,7 @@
         "va.vba.mmwr.claims_inventory.{P}"
       ],
       "status": "observed",
-      "unit": "thousands",
+      "unit": "count",
       "cadence": "week_ending",
       "geography": {
         "level": "country",
