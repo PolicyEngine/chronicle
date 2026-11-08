@@ -582,7 +582,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # outturn 2024-25 (1,652) and Social Security Scotland's caseloads of Adult
         # Disability Payment (1,885), Carer Support Payment (282), Child Disability
         # Payment (81) and Pension Age Disability Payment (66).
-        "fact_count": 2243075,
+        # IRS SOI Table 1.3 adds 20 TY2023 facts: returns, AGI and the child
+        # and other dependent credit (returns and amount), for all returns and
+        # each filing status (PolicyEngine/microcosm#880).
+        "fact_count": 2243095,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -651,7 +654,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # bundle skips them (10 -> 17); no fact or key count moves.
         # Seven ACS 2020–2024 county packages also have no 2023 artifact, so
         # they are skipped (17 -> 24) and the built-package count is unchanged.
-        "skipped_source_count": 24,
+        # The four ACS 2024 1-year household and family type packages
+        # (B11001, B11003; national and state) have no 2023 artifact either
+        # (24 -> 28).
+        "skipped_source_count": 28,
         # chronicle#381 adds the Gambling Commission.
         "source_count": 62,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
@@ -671,8 +677,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # PIP batch adds seven: six Stat-Xplore PIP cases packages and the Pathways
         # to Work evidence pack's points tables; and its Scottish batch adds five:
         # HMRC's Scottish income tax outturn and four Social Security Scotland
-        # caseload packages.
-        "source_package_count": 501,
+        # caseload packages. IRS SOI Table 1.3 adds one.
+        "source_package_count": 502,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -724,21 +730,25 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2243075
+    assert row_count == 2243095
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 501
-    assert source_packages["skipped_source_count"] == 24
+    assert source_packages["source_package_count"] == 502
+    assert source_packages["skipped_source_count"] == 28
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
         "census-acs-s0101-national-age-2024",
         "census-acs-s0101-state-age-2024",
         "census-acs-s1501-state-attainment-2024",
         "census-acs-s2201-congressional-district-snap-2024",
+        "census-acs1-b11001-national-2024",
+        "census-acs1-b11001-state-2024",
+        "census-acs1-b11003-national-2024",
+        "census-acs1-b11003-state-2024",
         "census-acs5-b01003-county-2024",
         "census-acs5-b11001-county-2024",
         "census-acs5-b19001-county-2024",
@@ -759,7 +769,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2243075
+    assert coverage["fact_count"] == 2243095
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -786,7 +796,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc": 40025,
         "ici": 12,
         "ird": 4362,
-        "irs_soi": 43963,
+        "irs_soi": 43983,
         "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
@@ -830,8 +840,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # package adds one (SC-EST2025-ALLDATA6) and 816 census_pep facts, and the
     # Vintage 2024 package gives up its 51 state totals (chronicle#397).
     # chronicle#420's young people batch adds 18, its PIP batch seven and its Scottish
-    # batch five, one per package.
-    assert len(table_counts) == 443
+    # batch five, one per package. IRS SOI Table 1.3 adds one.
+    assert len(table_counts) == 444
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2798,6 +2808,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in chronicle_420_scotland_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # IRS SOI Table 1.3: returns, AGI and the child credit by filing status.
+    expected_period_counts["tax_year:2023"] += 20
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2844,7 +2856,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         ]
         == 35
     )
-    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2116
+    # IRS SOI Table 1.3 adds 20 national facts.
+    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2136
     # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
     # 2025 age groups (15 groups and the total).
     assert coverage["counts"]["by_geography"]["state:0400000US06"] == 270
