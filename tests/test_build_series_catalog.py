@@ -512,6 +512,9 @@ def test_unit_conflict_is_a_hard_error(tmp_path: pathlib.Path) -> None:
         "gbp_billions",
         "million_cubic_feet",
         "Trillions",
+        "THOUSANDS",
+        "Millions",
+        "Usd_Billions",
     ],
 )
 def test_a_current_observation_in_a_scaled_unit_is_refused(
@@ -538,6 +541,48 @@ def test_a_restated_observation_passes_the_scale_refusal(
     # One scaled row left current elsewhere still stops the build.
     with pytest.raises(SystemExit, match="agency.other.*carries a scale word"):
         _build(tmp_path, [scaled, restated, _row("agency.other", unit="thousands")])
+
+
+# Spelled out so the property below doesn't take its answer from SCALE_WORD.
+_SCALED_UNITS = ["thousands", "Millions", "usd_billions", "TRILLION"]
+_PLAIN_UNITS = ["count", "usd", "percent"]
+
+
+@settings(max_examples=100, deadline=None)
+@given(
+    st.lists(
+        st.lists(
+            st.sampled_from(_SCALED_UNITS + _PLAIN_UNITS),
+            min_size=1,
+            max_size=4,
+        ),
+        min_size=1,
+        max_size=4,
+    )
+)
+def test_a_catalog_builds_exactly_when_no_current_unit_is_scaled(
+    chains: list[list[str]],
+) -> None:
+    # The invariant, for every journal: a build succeeds exactly when no row
+    # of the current view carries a scale word, whatever the superseded rows
+    # carry and wherever the scaled row sits.
+    rows = []
+    for series, units in enumerate(chains):
+        previous = None
+        for version, unit in enumerate(units):
+            row = _row(f"agency.s{series}", unit=unit)
+            own = f"av-{series}-{version}"
+            row["assertionVersion"] = {"id": own, "supersedes": previous}
+            previous = own
+            rows.append(row)
+    current = {units[-1] for units in chains}
+    with tempfile.TemporaryDirectory() as name:
+        if current.intersection(_SCALED_UNITS):
+            with pytest.raises(SystemExit, match="carries a scale word"):
+                _build(pathlib.Path(name), rows)
+        else:
+            catalog, _ = _build(pathlib.Path(name), rows)
+            assert {row["unit"] for row in catalog["series"]} == current
 
 
 def test_a_docket_only_series_keeps_its_scaled_target_unit(
@@ -3933,10 +3978,9 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
     # stores these series in no unit called persons, so their unit moves on any
     # ledger, and each archive digest is synthetic so no real correction can
     # share its content address. Each supersedes the active version of its
-    # record, which for June is the prefix row's av2 address until a later row
-    # restates or corrects it. Later months join these series as they print,
-    # and the catalog refuses a series in two units, so every current record
-    # of the six moves, not only June's.
+    # record. Later months join these series as they print, and the catalog
+    # refuses a series in two units, so every current record of the six moves,
+    # not only June's.
     lines = bsc.OBSERVATIONS.read_text(encoding="utf-8").splitlines()
     rows = [json.loads(line) for line in lines]
     june = [
@@ -3948,6 +3992,15 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
     ]
     assert len(june) == 6
     assert all("assertionVersion" not in row for row in june)
+    # The 2026-11-08 restatement moved June's active version off the prefix
+    # row. Dropping every later version of those six records makes each June
+    # correction below name the prefix row's av2 address, the case this test
+    # exists for.
+    june_records = {row["source_record_id"] for row in june}
+    rows = [
+        row for line, row in enumerate(rows)
+        if line < PREFIX_LINE_COUNT or row["source_record_id"] not in june_records
+    ]
     active = {
         row["source_record_id"]: row
         for row in rows
@@ -3978,6 +4031,10 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
         }
         corrections.append(correction)
     journal = rows + corrections
+    prefix_ids = {_address(row) for row in rows[:PREFIX_LINE_COUNT]}
+    assert sum(
+        c["assertionVersion"]["supersedes"] in prefix_ids for c in corrections
+    ) == 6
 
     assert _gate_refusal(journal, PREFIX_LINE_COUNT) is None
     ids = bsc.check_assertion_versions(journal)
@@ -4013,13 +4070,14 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
     } == committed
     occupations = [
         series for series in catalog["series"]
-        if series["concept"].startswith(
+        if series["status"] == "observed"
+        and series["concept"].startswith(
             "bls.cps.employed_people_by_occupation."
         )
     ]
-    assert len(occupations) == 6
+    assert len(occupations) >= 6
     assert all(series["unit"] == "persons" for series in occupations)
-    # Those six are the only series whose unit moves.
+    # No other series' unit moves.
     committed_units = {series["uuid"]: series["unit"] for series in committed_series}
     assert {
         series["uuid"] for series in catalog["series"]

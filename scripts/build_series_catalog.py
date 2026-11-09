@@ -990,14 +990,6 @@ def build_identities(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
                 f"observation row {index} missing source_record_id or "
                 f"measure.concept: {json.dumps(row)[:200]}"
             )
-        unit = measure.get("unit")
-        if isinstance(unit, str) and SCALE_WORD.search(unit):
-            raise SystemExit(
-                f"observation row {index} ({rid}): unit {unit!r} carries a "
-                "scale word. Chronicle stores plain numbers: store the value "
-                "in its base unit, with the printed pair in "
-                "source.recorded_value and source.recorded_unit"
-            )
         raw_period = row.get("period")
         if raw_period is not None and not isinstance(raw_period, dict):
             raise SystemExit(
@@ -1029,6 +1021,13 @@ def build_identities(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
             raise SystemExit(
                 f"observation row {index}: measure.unit must be a nonempty "
                 "string or null"
+            )
+        if unit is not None and SCALE_WORD.search(unit):
+            raise SystemExit(
+                f"observation row {index} ({rid}): unit {unit!r} carries a "
+                "scale word. Chronicle stores plain numbers: store the value "
+                "in its base unit, with the printed pair in "
+                "source.recorded_value and source.recorded_unit"
             )
         raw_source_concept = measure.get("source_concept")
         if raw_source_concept is not None and (
