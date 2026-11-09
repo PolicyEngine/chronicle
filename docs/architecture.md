@@ -37,21 +37,20 @@ sources/
   usda/snap/2023/qc_data.xlsx          # SNAP QC data
 ```
 
-### Supabase Schemas
+### Relational Artifact
 
-| Schema | Purpose | Example Tables |
-|--------|---------|----------------|
-| `chronicle` | Source metadata and lineage | sources, files, content, fetch_log |
-| `indices` | Source time series | series, values (CPI, wage growth) |
-| `targets` | Target inputs | strata, constraints, targets |
-| `microcosm` | Final calibrated data | households, persons, tax_units |
+`build-suite` writes a deterministic SQLite `ledger.db` (schema in
+`chronicle/database.py`), and `publish-derived` can upload it to the
+`ledger-derived` R2 bucket.
+Chronicle has no hosted relational mirror; the Supabase mirror was retired (see
+`docs/supabase-mirror-retirement.md`).
 
 ## Python Namespaces
 
 New code should use the `policyengine_chronicle` namespace:
 
 ```python
-from policyengine_chronicle.sources import SourceFile, SourceReference, query_sources
+from policyengine_chronicle.sources import SourceFile, SourceReference
 from policyengine_chronicle.facts import SourceFact
 from policyengine_chronicle.targets import Target, query_targets
 from policyengine_chronicle.normalization import convert_units

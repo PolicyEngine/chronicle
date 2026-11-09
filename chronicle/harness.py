@@ -35,12 +35,7 @@ from chronicle.consumer_contract import (
 )
 from chronicle.core import AggregateFact, ValidationReport, validate_facts
 from chronicle.database import ChronicleDbBuildReport, build_chronicle_db
-from chronicle.mirror import (
-    ChronicleMirrorExportReport,
-    SupabaseMirrorLoadReport,
-    export_chronicle_db_tables,
-    load_supabase_mirror,
-)
+from chronicle.mirror import ChronicleMirrorExportReport, export_chronicle_db_tables
 from chronicle.pe_source_plan import (
     PeSourcePlanReport,
     build_pe_source_plan,
@@ -461,29 +456,6 @@ def export_chronicle_db_table_files(
 ) -> ChronicleMirrorExportReport:
     """Export local Chronicle DB tables to bulk-loadable JSONL files."""
     return export_chronicle_db_tables(db_path, output_dir, replace=replace)
-
-
-def load_supabase_mirror_files(
-    input_dir: str | Path,
-    *,
-    schema: str = "ledger",
-    batch_size: int = 500,
-    dry_run: bool = False,
-    build_artifacts_path: str | Path | None = None,
-) -> SupabaseMirrorLoadReport:
-    """Load exported Chronicle JSONL mirror files into Supabase/Postgres."""
-    table_paths = (
-        {"build_artifacts": Path(build_artifacts_path)}
-        if build_artifacts_path is not None
-        else None
-    )
-    return load_supabase_mirror(
-        input_dir,
-        schema=schema,
-        batch_size=batch_size,
-        dry_run=dry_run,
-        table_paths=table_paths,
-    )
 
 
 def plan_pe_source_files(
@@ -1130,38 +1102,6 @@ def main(argv: list[str] | None = None) -> int:
         help="Replace an existing nonempty output directory",
     )
 
-    mirror_load_parser = subparsers.add_parser(
-        "load-supabase-mirror",
-        help="Load exported Chronicle JSONL mirror files into Supabase/Postgres",
-    )
-    mirror_load_parser.add_argument(
-        "--dir",
-        type=Path,
-        required=True,
-        help="Directory containing exported per-table JSONL files.",
-    )
-    mirror_load_parser.add_argument(
-        "--schema",
-        default="ledger",
-        help="Supabase/Postgres schema to load into.",
-    )
-    mirror_load_parser.add_argument(
-        "--batch-size",
-        type=int,
-        default=500,
-        help="Rows per Supabase upsert batch.",
-    )
-    mirror_load_parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Count rows and validate files without writing to Supabase.",
-    )
-    mirror_load_parser.add_argument(
-        "--build-artifacts",
-        type=Path,
-        help="Optional build_artifacts JSONL path to use instead of the file in --dir.",
-    )
-
     pe_plan_parser = subparsers.add_parser(
         "plan-pe-sources",
         help="Build an agent batch plan from a PE source manifest CSV",
@@ -1450,16 +1390,6 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
         return 0
-    if args.command == "load-supabase-mirror":
-        report = load_supabase_mirror_files(
-            args.dir,
-            schema=args.schema,
-            batch_size=args.batch_size,
-            dry_run=args.dry_run,
-            build_artifacts_path=args.build_artifacts,
-        )
-        print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
-        return 0 if report.valid else 1
     if args.command == "plan-pe-sources":
         report = plan_pe_source_files(
             args.manifest,
