@@ -457,7 +457,9 @@ facts; field contracts and caveats are in
 
 Published inputs for Microcosm's land value work
 ([PolicyEngine/uk-land-value-tax](https://github.com/PolicyEngine/uk-land-value-tax)). Eight of
-the issue's nine items are here: about 326,500 new facts, plus three raw-only registrations.
+the issue's nine items came first: about 326,500 new facts, plus three raw-only registrations.
+The ninth, UCL's house price per square metre, followed once `publish-raw` could upload files
+above 300 MiB ([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)).
 Field contracts and caveats are in
 [`docs/data-sources/uk-land-value-inputs-408.md`](data-sources/uk-land-value-inputs-408.md).
 
@@ -484,8 +486,8 @@ Field contracts and caveats are in
   `hmrc-stamp-tax-statistics-2024-25` (1,135 facts).
 - **Tax Policy Associates' model.** Three files pinned raw at one commit, with no facts
   (`tpa-lvt-model-2026`).
-- **Not in this PR.** UCL's house price per square metre file (item 6) is above the 300 MiB that
-  `publish-raw` can upload ([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)).
+- **UCL's house price per square metre (item 6).** UK Data Service ReShare 856542's two
+  bundles, 3.2 and 4.4 GB, pinned raw with no facts (`ucl-house-price-per-square-metre-856542`).
 
 ## Beyond parity — UK young people and work facts (chronicle#420)
 

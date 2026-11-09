@@ -19,7 +19,13 @@ metadata in `manifest.yaml`, and can upload the exact bytes to the private
 artifact registry with `uv run chronicle inventory-artifacts --root db/data`.
 For already-downloaded manifest artifacts, agents should run
 `uv run chronicle publish-raw --root db/data` to upload checksum-verified bytes to
-R2 and write `storage.r2` metadata back into each manifest entry. A manifest
+R2 and write `storage.r2` metadata back into each manifest entry. A file above the
+300 MiB that `wrangler r2 object put` accepts goes through R2's S3-compatible API
+instead, as a multipart upload in 100 MiB parts
+([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)). That path
+signs with `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY` when both are set, and
+otherwise with the S3 key pair Cloudflare derives from `CLOUDFLARE_API_TOKEN`. It
+takes the account from `CLOUDFLARE_ACCOUNT_ID` or `wrangler.toml`. A manifest
 entry marked `storage.local: false` keeps its bytes in R2 only and never in Git:
 both commands accept it without a local copy, so its absence is not an error to
 fix by downloading, and `uv run chronicle verify-raw` checks the R2 object.

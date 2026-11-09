@@ -396,13 +396,46 @@ These rows give Microcosm council tax by authority for all three nations, which 
 - **Table 9a against Tables 9d and 2e.** 9a's 155,400 claims equal 9d's total. 2e's quarters
   from 2024 Q2 to 2025 Q1 sum to 155,368.45.
 
-## 6. UCL's house price per square metre: not in this PR
+## 6. UCL's house price per square metre: both bundles, raw-only
 
-ReShare 856542's two bundles are 3,214,161,126 and 4,426,805,029 bytes. Each holds stored
-nested zips, the linked file `tranall_link_02122023.zip` alone being 3.2 GB. `publish-raw`
-uploads through `wrangler r2 object put`, which refuses objects over 300 MiB. Item 6 therefore
-waits for a separate change to how Chronicle stores large raw files, which
-[chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409) asks for a ruling on.
+**`ucl-house-price-per-square-metre-856542`** registers
+[UK Data Service ReShare 856542](https://reshare.ukdataservice.ac.uk/856542/), *House Price
+Per Square Metre in England and Wales, 1995-2023*. It is by Bin Chi, Adam Dennett, Thomas
+Oléron-Evans and Robin Morphet (UCL), published on 22 August 2025 under CC BY 4.0. No build
+parses it. It came after the rest of this issue, once Chronicle could store files above
+300 MiB ([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)).
+
+- **Bundle 1**, `856542_bundle_1.zip`: 3,214,161,126 bytes, sha256 `e397cdac…34b296`.
+  - It holds the linked file `tranall_link_02122023.zip` (3,214,108,822 bytes, stored), with
+    UCL's readme and licence note.
+  - The readme describes the linked file as 21,438,854 transactions in England and Wales from
+    1 January 1995 to 31 October 2023, with 107 fields.
+  - ReShare's record gives the temporal coverage as 1 January 1995 to 23 October 2023, while
+    its abstract, like the readme, says 31 October 2023.
+- **Bundle 2**, `856542_bundle_2.zip`: 4,426,805,029 bytes, sha256 `61cbf6a7…02da97`. It
+  holds the files UCL linked:
+  - the domestic EPCs downloaded on 2 December 2023, with their address fields removed
+    (`epc20_id.zip`);
+  - Price Paid with field names as at 2 December 2023 (`LRPPD_02122023.zip`);
+  - the November 2023 NSPL (`NSPL_NOV_2023_UK.zip`).
+- ReShare's ETags equal the MD5s of the bytes fetched on 6 November 2026, and both bundles
+  were last modified on 22 August 2025.
+
+**Licence.** ReShare states CC BY 4.0. UCL's licence note adds that the linked file, Price
+Paid and the NSPL carry Royal Mail address data, limited to non-commercial use, with
+everything else under the Open Government Licence v3.0. It also quotes the EPC terms: the data
+contains personal data, and Royal Mail's notice must go with any address data that is shared.
+As with Price Paid, the zips are git-ignored and the private `ledger-raw` bucket holds them.
+
+**Storage.** Both bundles are above the 300 MiB that `wrangler r2 object put` accepts, so
+`publish-raw` sent them through R2's S3 API, in 31 and 43 parts of 100 MiB. R2's ETags for
+them, `"7eb31fba…44b1df-31"` and `"d04abcef…798c87-43"`, are the MD5 of the parts' MD5s,
+which can be recomputed from the pinned bytes without downloading the objects. `verify-raw`
+reads them back in full through `wrangler r2 object get --pipe`, which streams.
+
+Microcosm needs bundle 1's linked file for each sale's floor area; bundle 2 keeps what UCL
+linked from. The London Datastore's 2024 edition is not registered, because its record states
+no licence.
 
 ## 7. Floor area and dwelling density by authority
 

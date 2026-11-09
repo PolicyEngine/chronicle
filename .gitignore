@@ -31,3 +31,7 @@ db/data/voa/ctsop*_lsoa_2026/CTSOP_*.zip
 db/data/tpa/lvt_model_2026/config.py
 db/data/tpa/lvt_model_2026/cells.json
 db/data/tpa/lvt_model_2026/LICENSE
+# UCL's house price per square metre deposit (ReShare 856542, chronicle#409) is two
+# zips of 3.2 and 4.4 GB, above GitHub's file limit and carrying Royal Mail address
+# data licensed for non-commercial use. R2 holds them; the manifest pins the bytes.
+db/data/ucl/house_price_per_square_metre_856542/856542_bundle_*.zip
