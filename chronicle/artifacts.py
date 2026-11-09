@@ -559,6 +559,7 @@ def fetch_source_artifact(
             r2_location,
             local_path,
             wrangler_command=wrangler_command,
+            content_addressed=True,
         )
         if not r2_upload.ok:
             errors.append("r2_upload_failed")
@@ -1520,10 +1521,18 @@ def _upload_r2_object(
     local_path: Path,
     *,
     wrangler_command: str,
+    content_addressed: bool = False,
 ) -> ArtifactCommandResult:
+    """Upload one file through Wrangler, or through R2's S3 API above its limit.
+
+    ``content_addressed`` marks a key that carries the file's sha256, as raw
+    and fetched files' keys do and derived files' keys do not.
+    """
     content_type, _ = mimetypes.guess_type(local_path.name)
     if local_path.stat().st_size > WRANGLER_PUT_LIMIT_BYTES:
-        return _upload_r2_object_in_parts(location, local_path, content_type)
+        return _upload_r2_object_in_parts(
+            location, local_path, content_type, content_addressed=content_addressed
+        )
     command = [
         *shlex.split(wrangler_command),
         "r2",
@@ -1543,13 +1552,16 @@ def _upload_r2_object_in_parts(
     location: ArtifactStorageLocation,
     local_path: Path,
     content_type: str | None,
+    *,
+    content_addressed: bool,
 ) -> ArtifactCommandResult:
     """Upload a file too large for Wrangler through R2's S3 API (chronicle#409).
 
-    The key carries the file's sha256, so an object of the file's size under it
-    already holds these bytes. Such a file is not sent again, and a failed
-    upload, such as a completion whose response was lost, counts once the
-    object is there.
+    Under a content-addressed key, an object of the file's size already holds
+    these bytes. Such a file is not sent again, and a failed upload, such as a
+    completion whose response was lost, counts once the object is there. A
+    derived file's key names its build, not its bytes, so it is always sent,
+    as Wrangler sends smaller files.
     """
     command = (
         "r2-s3-multipart-put",
@@ -1559,7 +1571,10 @@ def _upload_r2_object_in_parts(
     try:
         size_bytes = local_path.stat().st_size
         with _r2_s3_client() as client:
-            if client.object_size(location.bucket, location.key) == size_bytes:
+            if (
+                content_addressed
+                and client.object_size(location.bucket, location.key) == size_bytes
+            ):
                 return ArtifactCommandResult(
                     command=command, returncode=0, stdout="already in R2", stderr=""
                 )
@@ -1568,6 +1583,8 @@ def _upload_r2_object_in_parts(
                     location.bucket, location.key, local_path, content_type=content_type
                 )
             except r2_s3.R2S3Error as error:
+                if not content_addressed:
+                    raise
                 try:
                     landed = client.object_size(location.bucket, location.key)
                 except r2_s3.R2S3Error:
@@ -1728,6 +1745,7 @@ def _publish_raw_manifest_entry(
         location,
         artifact_path,
         wrangler_command=wrangler_command,
+        content_addressed=True,
     )
     if not upload.ok:
         errors.append("r2_upload_failed")

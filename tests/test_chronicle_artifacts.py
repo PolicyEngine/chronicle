@@ -843,6 +843,41 @@ def test_an_upload_whose_completion_landed_counts_as_uploaded(tmp_path, monkeypa
     assert not log.exists()
 
 
+def test_a_derived_file_is_sent_whatever_is_under_its_key(tmp_path, monkeypatch):
+    # A derived key names the build, not the bytes: a rebuilt file of the same
+    # size, under the same build ID, may hold other bytes.
+    suite = tmp_path / "suite"
+    suite.mkdir()
+    (suite / "ledger.db").write_bytes(b"rebuilt ledger")
+    monkeypatch.setattr("chronicle.artifacts.WRANGLER_PUT_LIMIT_BYTES", 4)
+    monkeypatch.setattr(_RecordingS3Client, "uploads", [])
+    monkeypatch.setattr(_RecordingS3Client, "existing_size", 14)
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", _RecordingS3Client)
+
+    def publish():
+        return publish_derived_artifacts(
+            suite,
+            source_id="ons",
+            package_id="pkg",
+            year=2024,
+            build_id="ledger.build.v1:test123",
+            wrangler_command="false",
+        )
+
+    sent = publish()
+    monkeypatch.setattr(
+        _RecordingS3Client, "error", R2S3Error("HTTP 404: NoSuchUpload")
+    )
+    monkeypatch.setattr(_RecordingS3Client, "size_after_error", 14)
+    failed = publish()
+
+    assert sent.valid
+    assert sent.entries[0].upload.stdout == "uploaded in 1 parts"
+    assert [upload[2] for upload in _RecordingS3Client.uploads] == [b"rebuilt ledger"]
+    assert not failed.valid
+    assert failed.entries[0].upload.stderr == "HTTP 404: NoSuchUpload"
+
+
 def test_the_s3_path_starts_one_byte_above_the_wrangler_limit(tmp_path, monkeypatch):
     # Wrangler refuses only files above its limit (sizeBytes > 300 MiB).
     wrangler, log = _logging_wrangler(tmp_path)
