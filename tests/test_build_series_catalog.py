@@ -3932,9 +3932,11 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
     # The 2026-09-29 repro on the live ledger. SYNTHETIC corrections: Chronicle
     # stores these series in no unit called persons, so their unit moves on any
     # ledger, and each archive digest is synthetic so no real correction can
-    # share its content address. Each supersedes the active version of its June
-    # record, which is the prefix row's av2 address until a later row restates
-    # or corrects it.
+    # share its content address. Each supersedes the active version of its
+    # record, which for June is the prefix row's av2 address until a later row
+    # restates or corrects it. Later months join these series as they print,
+    # and the catalog refuses a series in two units, so every current record
+    # of the six moves, not only June's.
     lines = bsc.OBSERVATIONS.read_text(encoding="utf-8").splitlines()
     rows = [json.loads(line) for line in lines]
     june = [
@@ -3946,19 +3948,33 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
     ]
     assert len(june) == 6
     assert all("assertionVersion" not in row for row in june)
+    active = {
+        row["source_record_id"]: row
+        for row in rows
+        if row["source_record_id"].startswith(
+            "bls.cps.employed_people_by_occupation."
+        )
+    }
+    assert {row["source_record_id"] for row in june} <= set(active)
+    originals = {row["source_record_id"]: row for row in june}
     corrections = []
-    for original in june:
-        record = original["source_record_id"]
-        active = [r for r in rows if r["source_record_id"] == record][-1]
-        correction = copy.deepcopy(original)
-        correction["value"] = round(original["value"] * 1000)
+    for record, current in active.items():
+        original = originals.get(record)
+        correction = copy.deepcopy(current if original is None else original)
+        if original is not None:
+            correction["value"] = round(original["value"] * 1000)
         correction["measure"]["unit"] = "persons"
-        correction["responseArchive"]["sha256"] = hashlib.sha256(
+        digest = hashlib.sha256(
             f"synthetic correction of {record}".encode()
         ).hexdigest()
+        correction["responseArchive"]["sha256"] = digest
+        projection = correction.get("sourceBindingProjection")
+        if projection is not None:
+            projection["responseSha256"] = digest
+            projection["unit"] = "persons"
         correction["assertionVersion"] = {
             "id": gate.expected_assertion_version_id(correction),
-            "supersedes": _address(active),
+            "supersedes": _address(current),
         }
         corrections.append(correction)
     journal = rows + corrections
