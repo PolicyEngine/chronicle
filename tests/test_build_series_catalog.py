@@ -501,6 +501,115 @@ def test_unit_conflict_is_a_hard_error(tmp_path: pathlib.Path) -> None:
         _build(tmp_path, rows)
 
 
+@pytest.mark.parametrize(
+    "unit",
+    [
+        "thousands",
+        "millions",
+        "usd_millions",
+        "usd_billions",
+        "billions USD",
+        "gbp_billions",
+        "million_cubic_feet",
+        "Trillions",
+        "THOUSANDS",
+        "Millions",
+        "Usd_Billions",
+    ],
+)
+def test_a_current_observation_in_a_scaled_unit_is_refused(
+    tmp_path: pathlib.Path, unit: str
+) -> None:
+    with pytest.raises(SystemExit, match="carries a scale word"):
+        _build(tmp_path, [_row("agency.level", unit=unit)])
+
+
+def test_a_restated_observation_passes_the_scale_refusal(
+    tmp_path: pathlib.Path,
+) -> None:
+    scaled = _row("agency.level", unit="millions")
+    scaled["assertionVersion"] = {"id": "av-1"}
+    restated = _row("agency.level", unit="count")
+    restated["assertionVersion"] = {
+        "id": "av-2",
+        "supersedes": "av-1",
+        "relation": "unit_restatement",
+    }
+    catalog, _ = _build(tmp_path, [scaled, restated])
+    (row,) = catalog["series"]
+    assert row["unit"] == "count"
+    # One scaled row left current elsewhere still stops the build.
+    with pytest.raises(SystemExit, match="agency.other.*carries a scale word"):
+        _build(tmp_path, [scaled, restated, _row("agency.other", unit="thousands")])
+
+
+# Spelled out so the property below doesn't take its answer from SCALE_WORD.
+_SCALED_UNITS = ["thousands", "Millions", "usd_billions", "TRILLION"]
+_PLAIN_UNITS = ["count", "usd", "percent", None]
+
+
+@settings(max_examples=100, deadline=None)
+@given(
+    st.lists(
+        st.lists(
+            st.sampled_from(_SCALED_UNITS + _PLAIN_UNITS),
+            min_size=1,
+            max_size=4,
+        ),
+        min_size=1,
+        max_size=4,
+    )
+)
+def test_a_catalog_builds_exactly_when_no_current_unit_is_scaled(
+    chains: list[list[str | None]],
+) -> None:
+    # The invariant, for every otherwise valid journal: a build succeeds
+    # exactly when no row of the current view carries a scale word, whatever
+    # the superseded rows carry and wherever the scaled row sits.
+    rows = []
+    for series, units in enumerate(chains):
+        previous = None
+        for version, unit in enumerate(units):
+            row = _row(f"agency.s{series}", unit=unit)
+            own = f"av-{series}-{version}"
+            row["assertionVersion"] = {"id": own, "supersedes": previous}
+            previous = own
+            rows.append(row)
+    current = {units[-1] for units in chains}
+    with tempfile.TemporaryDirectory() as name:
+        if current.intersection(_SCALED_UNITS):
+            with pytest.raises(SystemExit, match="carries a scale word"):
+                _build(pathlib.Path(name), rows)
+        else:
+            catalog, _ = _build(pathlib.Path(name), rows)
+            assert {row["unit"] for row in catalog["series"]} == current
+
+
+def test_a_docket_only_series_keeps_its_scaled_target_unit(
+    tmp_path: pathlib.Path,
+) -> None:
+    # A contract registers in this unit, and contracts keep their units. The
+    # series' first observation stores the base unit.
+    seed = {
+        "series": [
+            {
+                "series": "agency.level",
+                "cadence": "monthly",
+                "extras": {"country": "US", "targetUnit": "millions"},
+            }
+        ]
+    }
+    bystander = _row("agency.other")
+    catalog, _ = _build(tmp_path, [bystander], docket=seed)
+    row = next(r for r in catalog["series"] if r["concept"] == "agency.level")
+    assert row["status"] == "docket-only" and row["unit"] == "millions"
+    catalog, _ = _build(
+        tmp_path, [bystander, _row("agency.level", unit="count")], docket=seed
+    )
+    row = next(r for r in catalog["series"] if r["concept"] == "agency.level")
+    assert row["status"] != "docket-only" and row["unit"] == "count"
+
+
 def test_uuid_validation_requires_canonical_and_parsed_uniqueness() -> None:
     base = "abcd1234-ab12-4ab1-8ab1-abcd1234abcd"
     catalog = {
@@ -1384,7 +1493,7 @@ def _weekly(end: str, role: str = "ui_claimant") -> dict:
     return _row(
         CLAIMS,
         rid=f"{CLAIMS}.week_{end}",
-        unit="thousands",
+        unit="count",
         period={"type": "week_ending", "value": end},
         entity={"name": "person", "role": role},
     )
@@ -1432,7 +1541,7 @@ def test_strip_audit_flags_a_new_template_on_a_reviewed_concept(
     ending = _row(
         CLAIMS,
         rid=f"{CLAIMS}.week_ending_2026_08_29",
-        unit="thousands",
+        unit="count",
         period={"type": "week_ending", "value": "2026-08-29"},
         entity={"name": "person", "role": "ui_claimant"},
     )
@@ -1500,7 +1609,7 @@ def test_strip_audit_flags_an_overlap_strip_on_a_reviewed_template(
     monthly = _row(
         CLAIMS,
         rid=f"{CLAIMS}.week_2026-09-12",
-        unit="thousands",
+        unit="count",
         period={"type": "month", "value": "2026-09"},
         entity={"name": "person", "role": "ui_initial_claimant"},
     )
@@ -1521,7 +1630,7 @@ def test_strip_audit_flags_a_reviewed_strip_reached_by_overlap(
     monthly = _row(
         CLAIMS,
         rid=f"{CLAIMS}.week_2026-08-22",
-        unit="thousands",
+        unit="count",
         period={"type": "month", "value": "2026-08"},
         entity={"name": "person", "role": "ui_initial_claimant"},
     )
@@ -3865,12 +3974,13 @@ def test_live_ledger_reserves_the_gates_ids() -> None:
 def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
     tmp_path: pathlib.Path,
 ) -> None:
-    # The 2026-09-29 repro on the live ledger. SYNTHETIC corrections: the
-    # restatement in millions is the repro's, not a chosen remedy (that is
-    # decision d397), and each archive digest is synthetic so no real
-    # correction can share its content address. Each supersedes the active
-    # version of its June record, which is the prefix row's av2 address
-    # until a real correction lands.
+    # The 2026-09-29 repro on the live ledger. SYNTHETIC corrections: Chronicle
+    # stores these series in no unit called persons, so their unit moves on any
+    # ledger, and each archive digest is synthetic so no real correction can
+    # share its content address. Each supersedes the active version of its
+    # record. Later months join these series as they print, and the catalog
+    # refuses a series in two units, so every current record of the six moves,
+    # not only June's.
     lines = bsc.OBSERVATIONS.read_text(encoding="utf-8").splitlines()
     rows = [json.loads(line) for line in lines]
     june = [
@@ -3882,22 +3992,49 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
     ]
     assert len(june) == 6
     assert all("assertionVersion" not in row for row in june)
+    # The 2026-11-08 restatement moved June's active version off the prefix
+    # row. Dropping every later version of those six records makes each June
+    # correction below name the prefix row's av2 address, the case this test
+    # exists for.
+    june_records = {row["source_record_id"] for row in june}
+    rows = [
+        row for line, row in enumerate(rows)
+        if line < PREFIX_LINE_COUNT or row["source_record_id"] not in june_records
+    ]
+    active = {
+        row["source_record_id"]: row
+        for row in rows
+        if row["source_record_id"].startswith(
+            "bls.cps.employed_people_by_occupation."
+        )
+    }
+    assert {row["source_record_id"] for row in june} <= set(active)
+    originals = {row["source_record_id"]: row for row in june}
     corrections = []
-    for original in june:
-        record = original["source_record_id"]
-        active = [r for r in rows if r["source_record_id"] == record][-1]
-        correction = copy.deepcopy(original)
-        correction["value"] = round(original["value"] / 1000, 3)
-        correction["measure"]["unit"] = "millions"
-        correction["responseArchive"]["sha256"] = hashlib.sha256(
+    for record, current in active.items():
+        original = originals.get(record)
+        correction = copy.deepcopy(current if original is None else original)
+        if original is not None:
+            correction["value"] = round(original["value"] * 1000)
+        correction["measure"]["unit"] = "persons"
+        digest = hashlib.sha256(
             f"synthetic correction of {record}".encode()
         ).hexdigest()
+        correction["responseArchive"]["sha256"] = digest
+        projection = correction.get("sourceBindingProjection")
+        if projection is not None:
+            projection["responseSha256"] = digest
+            projection["unit"] = "persons"
         correction["assertionVersion"] = {
             "id": gate.expected_assertion_version_id(correction),
-            "supersedes": _address(active),
+            "supersedes": _address(current),
         }
         corrections.append(correction)
     journal = rows + corrections
+    prefix_ids = {_address(row) for row in rows[:PREFIX_LINE_COUNT]}
+    assert sum(
+        c["assertionVersion"]["supersedes"] in prefix_ids for c in corrections
+    ) == 6
 
     assert _gate_refusal(journal, PREFIX_LINE_COUNT) is None
     ids = bsc.check_assertion_versions(journal)
@@ -3933,13 +4070,14 @@ def test_correction_of_a_prefix_row_is_accepted_like_the_gate(
     } == committed
     occupations = [
         series for series in catalog["series"]
-        if series["concept"].startswith(
+        if series["status"] == "observed"
+        and series["concept"].startswith(
             "bls.cps.employed_people_by_occupation."
         )
     ]
-    assert len(occupations) == 6
-    assert all(series["unit"] == "millions" for series in occupations)
-    # Those six are the only series whose unit moves.
+    assert len(occupations) >= 6
+    assert all(series["unit"] == "persons" for series in occupations)
+    # No other series' unit moves.
     committed_units = {series["uuid"]: series["unit"] for series in committed_series}
     assert {
         series["uuid"] for series in catalog["series"]
@@ -5308,7 +5446,7 @@ def _dod_observation() -> dict:
     return _row(
         f"{DOD}.fy2026",
         rid=f"{DOD}.fy2026.registered_query_snapshot",
-        unit="billions USD",
+        unit="usd",
         period={"type": "year", "value": "2026"},
     )
 

@@ -970,6 +970,14 @@ def apply_entity_folds(
     return out, applied
 
 
+# Chronicle stores plain numbers (Max, 2026-10-21): 7716000 in count, not 7.716
+# in millions, with the printed pair in source.recorded_value and
+# source.recorded_unit. This reads current observations only. A superseded row
+# keeps the unit it was written in, and a docket-only row's unit is the unit a
+# forecast contract registers in.
+SCALE_WORD = re.compile(r"thousand|million|billion|trillion", re.IGNORECASE)
+
+
 def build_identities(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
     """Group observation rows by (concept, geography, entity) identity."""
     identities: dict[tuple[str, str, str], dict] = {}
@@ -1013,6 +1021,13 @@ def build_identities(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
             raise SystemExit(
                 f"observation row {index}: measure.unit must be a nonempty "
                 "string or null"
+            )
+        if unit is not None and SCALE_WORD.search(unit):
+            raise SystemExit(
+                f"observation row {index} ({rid}): unit {unit!r} carries a "
+                "scale word. Chronicle stores plain numbers: store the value "
+                "in its base unit, with the printed pair in "
+                "source.recorded_value and source.recorded_unit"
             )
         raw_source_concept = measure.get("source_concept")
         if raw_source_concept is not None and (
@@ -1112,7 +1127,7 @@ def build_identities(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
                     ident["strips"].setdefault(
                         (field, shape, segment), set()
                     ).add(kind)
-        ident["units"][measure.get("unit")] += 1
+        ident["units"][unit] += 1
         ident["period_types"][period.get("type")] += 1
         source = row.get("source") or {}
         if isinstance(source.get("source_name"), str):
