@@ -545,7 +545,7 @@ def test_a_restated_observation_passes_the_scale_refusal(
 
 # Spelled out so the property below doesn't take its answer from SCALE_WORD.
 _SCALED_UNITS = ["thousands", "Millions", "usd_billions", "TRILLION"]
-_PLAIN_UNITS = ["count", "usd", "percent"]
+_PLAIN_UNITS = ["count", "usd", "percent", None]
 
 
 @settings(max_examples=100, deadline=None)
@@ -561,11 +561,11 @@ _PLAIN_UNITS = ["count", "usd", "percent"]
     )
 )
 def test_a_catalog_builds_exactly_when_no_current_unit_is_scaled(
-    chains: list[list[str]],
+    chains: list[list[str | None]],
 ) -> None:
-    # The invariant, for every journal: a build succeeds exactly when no row
-    # of the current view carries a scale word, whatever the superseded rows
-    # carry and wherever the scaled row sits.
+    # The invariant, for every otherwise valid journal: a build succeeds
+    # exactly when no row of the current view carries a scale word, whatever
+    # the superseded rows carry and wherever the scaled row sits.
     rows = []
     for series, units in enumerate(chains):
         previous = None
