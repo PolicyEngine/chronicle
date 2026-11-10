@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-ashe-pension-membership-by-business-size-earnings-2024
+dataset: ons_ons-ashe-pension-membership-by-business-size-earnings-2024
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+table: 'ASHE pension tables P4: pension membership by pension type, earnings and size
+  of business, 2024 provisional'
+files:
+  2026:
+    filename: 2024provisionalp4.zip
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/workplacepensions/datasets/annualsurveyofhoursandearningspensiontablespensiontypebysizeofbusinessandbygrossweeklyearningsbandsp4/2024provisional/2024provisionalp4.zip
+    sha256: 87857bdc2fb688310579e575e13015eb162ec1753a232acc91449e1a6cbe9f0b
+    size_bytes: 147080
+    fetched_at: '2026-09-29T12:06:29+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-ashe-pension-membership-by-business-size-earnings-2024/2026/87857bdc2fb688310579e575e13015eb162ec1753a232acc91449e1a6cbe9f0b/2024provisionalp4.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-ashe-pension-membership-by-business-size-earnings-2024/2026/87857bdc2fb688310579e575e13015eb162ec1753a232acc91449e1a6cbe9f0b/2024provisionalp4.zip

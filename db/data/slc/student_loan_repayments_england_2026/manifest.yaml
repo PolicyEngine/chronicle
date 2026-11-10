@@ -1,0 +1,19 @@
+source_id: slc
+package_id: slc-student-loan-repayments-england-2026
+dataset: slc_slc-student-loan-repayments-england-2026
+source_page: https://www.gov.uk/government/statistics/student-loans-in-england-2025-to-2026
+table: student_loan_repayments_england_2026
+files:
+  2026:
+    filename: slcsp012026.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/6a44d1241a04d4dae8b8155e/slcsp012026.xlsx
+    sha256: 9e1e524997974aa3251bc138f07d97437cb551d7b3a1c944cad0be2bdd863dd1
+    size_bytes: 345455
+    fetched_at: '2026-10-07T16:07:14+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/slc/slc-student-loan-repayments-england-2026/2026/9e1e524997974aa3251bc138f07d97437cb551d7b3a1c944cad0be2bdd863dd1/slcsp012026.xlsx
+        uri: r2://ledger-raw/raw/uk/slc/slc-student-loan-repayments-england-2026/2026/9e1e524997974aa3251bc138f07d97437cb551d7b3a1c944cad0be2bdd863dd1/slcsp012026.xlsx
+registration_kind: source_facts

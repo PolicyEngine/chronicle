@@ -1,0 +1,18 @@
+source_id: ird
+package_id: ird-working-for-families-statistics-sept-2025
+dataset: ird_working_for_families_statistics_sept_2025
+source_page: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+table: Working for Families statistics - September 2025
+files:
+  2024:
+    filename: working-for-families-statistics---sept-2025.xlsx
+    source_url: https://www.ird.govt.nz/-/media/project/ir/home/documents/about-us/tax-statistics---current/social-policy/wff-stats/working-for-families-statistics---sept-2025.xlsx?modified=20251111195236
+    sha256: 95ae66f4d44f3f47ea3daa006328b22f061a163cf7e31b487342cde649390833
+    size_bytes: 71211
+    fetched_at: '2026-08-29T22:46:45+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/ird/ird-working-for-families-statistics-sept-2025/2024/95ae66f4d44f3f47ea3daa006328b22f061a163cf7e31b487342cde649390833/working-for-families-statistics---sept-2025.xlsx
+        uri: r2://ledger-raw/raw/nz/ird/ird-working-for-families-statistics-sept-2025/2024/95ae66f4d44f3f47ea3daa006328b22f061a163cf7e31b487342cde649390833/working-for-families-statistics---sept-2025.xlsx

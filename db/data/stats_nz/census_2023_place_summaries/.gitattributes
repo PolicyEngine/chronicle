@@ -1,0 +1,2 @@
+# Publisher exports are immutable, including CRLF line endings.
+*.csv binary

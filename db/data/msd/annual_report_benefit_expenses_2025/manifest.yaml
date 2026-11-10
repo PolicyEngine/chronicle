@@ -1,0 +1,18 @@
+source_id: msd
+package_id: msd-annual-report-benefit-expenses-2025
+dataset: msd_annual_report_benefit_expenses_2025
+source_page: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/corporate/annual-report/2025/msd-annual-report-2025.pdf
+table: Ministry of Social Development Annual Report 2025, Benefits or Related Expenses
+files:
+  2025:
+    filename: msd-annual-report-2025.pdf
+    source_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/corporate/annual-report/2025/msd-annual-report-2025.pdf
+    sha256: 991a524e9cc6de7de1b75f07122aa0d5452a4d5303433bdbfccc316a481fa3c6
+    size_bytes: 2214729
+    fetched_at: '2026-10-07T19:22:33Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/msd/msd-annual-report-benefit-expenses-2025/2025/991a524e9cc6de7de1b75f07122aa0d5452a4d5303433bdbfccc316a481fa3c6/msd-annual-report-2025.pdf
+        uri: r2://ledger-raw/raw/nz/msd/msd-annual-report-benefit-expenses-2025/2025/991a524e9cc6de7de1b75f07122aa0d5452a4d5303433bdbfccc316a481fa3c6/msd-annual-report-2025.pdf

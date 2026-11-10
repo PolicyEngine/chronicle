@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-employee-workplace-pensions-summary-2024
+dataset: ons_ons-employee-workplace-pensions-summary-2024
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+table: 'Employee workplace pensions in the UK: 2024 provisional and 2021 to 2023 final
+  results, summary tables'
+files:
+  2026:
+    filename: summaryofpensionresults2024provisionaland2021to2023finalestimates.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/workplacepensions/datasets/summaryofpensionresultsannualsurveyofhoursandearnings/2024provisionaland2021to2023revised/summaryofpensionresults2024provisionaland2021to2023finalestimates.xlsx
+    sha256: 34d8c84ed76dfa8b3140dcc739d6d0a8df6621707bafe504ff86d8c23e995a53
+    size_bytes: 45941
+    fetched_at: '2026-09-29T12:06:32+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-employee-workplace-pensions-summary-2024/2026/34d8c84ed76dfa8b3140dcc739d6d0a8df6621707bafe504ff86d8c23e995a53/summaryofpensionresults2024provisionaland2021to2023finalestimates.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-employee-workplace-pensions-summary-2024/2026/34d8c84ed76dfa8b3140dcc739d6d0a8df6621707bafe504ff86d8c23e995a53/summaryofpensionresults2024provisionaland2021to2023finalestimates.xlsx

@@ -1,0 +1,30 @@
+source_id: scotgov
+package_id: scotgov-adp-statistics-july-2026
+dataset: scotgov_scotgov-adp-statistics-july-2026
+source_page: https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026
+table: 'Social Security Scotland, Adult Disability Payment statistics to 31 July 2026:
+  tables (published 15 September 2026)'
+publisher: Social Security Scotland (an executive agency of the Scottish Government)
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Social Security Scotland, Adult Disability Payment statistics
+  to 31 July 2026 (published 15 September 2026). Contains public sector information
+  licensed under the Open Government Licence v3.0.'
+license_evidence: 'The publication page (https://www.socialsecurity.gov.scot/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026)
+  states: ''All content is available under the Open Government Licence v3.0, except
+  for graphic assets and where otherwise stated''; the workbook states no other terms.'
+license_verified_at: '2026-11-06'
+files:
+  2026:
+    filename: adult_disability_payment_to_31_july_2026_tables.xlsx
+    publisher_filename: Adult Disability Payment - to 31 July 2026 - Tables.xlsx
+    source_url: https://www.socialsecurity.gov.scot/binaries/socialsecurity/publications/2026/09/adult-disability-payment-statistics-to-31-july-2026/adult-disability-payment-statistics-to-31-july-2026/publishing%3AcontentBlocks%5B3%5D/publishing%3Adocument/Adult+Disability+Payment+-+to+31+July+2026+-+Tables.xlsx
+    sha256: 89be0f9d213a697c9bc2ea84033bc972253126bc60845eb1a11d967ab02acefd
+    size_bytes: 324318
+    fetched_at: '2026-11-06T13:30:54+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-adp-statistics-july-2026/2026/89be0f9d213a697c9bc2ea84033bc972253126bc60845eb1a11d967ab02acefd/adult_disability_payment_to_31_july_2026_tables.xlsx
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-adp-statistics-july-2026/2026/89be0f9d213a697c9bc2ea84033bc972253126bc60845eb1a11d967ab02acefd/adult_disability_payment_to_31_july_2026_tables.xlsx

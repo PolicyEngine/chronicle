@@ -1,0 +1,32 @@
+source_id: hmrc
+package_id: hmrc-scottish-income-tax-outturn-2024-25
+dataset: hmrc_hmrc-scottish-income-tax-outturn-2024-25
+source_page: https://www.gov.uk/government/statistics/scottish-income-tax-outturn-statistics-2024-to-2025
+table: 'Scottish Income Tax Outturn Statistics: 2024 to 2025, statistical tables (Tables
+  1 to 4)'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: HM Revenue and Customs, Scottish Income Tax Outturn Statistics:
+  2024 to 2025 (published 9 July 2026). Contains public sector information licensed
+  under the Open Government Licence v3.0.'
+license_evidence: 'The GOV.UK publication page (https://www.gov.uk/government/statistics/scottish-income-tax-outturn-statistics-2024-to-2025)
+  states that all content is available under the Open Government Licence v3.0, except
+  where otherwise stated, and the release itself says ''This publication is licensed
+  under the terms of the Open Government Licence v3.0 except where otherwise stated.''
+  The workbook states no other terms: its Cover_Sheet, Contents and Notes sheets carry
+  no licence or copyright line.'
+license_verified_at: '2026-11-06'
+files:
+  2026:
+    filename: Scottish_Income_Tax_Outturn_Statistics_2024-2025.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a981bd5f5b35599aec190b6/Scottish_Income_Tax_Outturn_Statistics_2024-2025.ods
+    sha256: d085b3653550d48e7b12f092e1b595dcd3ca74090f76eddb6e1a67c01c0084be
+    size_bytes: 44204
+    fetched_at: '2026-11-06T13:29:46+00:00'
+    publisher_last_modified: '2026-09-02T12:51:33+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-scottish-income-tax-outturn-2024-25/2026/d085b3653550d48e7b12f092e1b595dcd3ca74090f76eddb6e1a67c01c0084be/Scottish_Income_Tax_Outturn_Statistics_2024-2025.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-scottish-income-tax-outturn-2024-25/2026/d085b3653550d48e7b12f092e1b595dcd3ca74090f76eddb6e1a67c01c0084be/Scottish_Income_Tax_Outturn_Statistics_2024-2025.ods

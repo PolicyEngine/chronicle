@@ -1,0 +1,3441 @@
+# Department for Communities Northern Ireland, Benefits Statistics Summary Publication,
+# May 2026 (published 26 August 2026), Pension Credit workbook, for PolicyEngine/chronicle#302
+# section 3: the Northern Ireland part of the UK Pension Credit caseload.
+#
+# This edition's rolling series make it the newest release for every point from February 2023
+# to May 2026 (the Pension Credit series is identical across all fourteen 2023-2026 editions):
+# Table 1 (claimants by type), Table 2 (partners), Table 3 (beneficiaries - claimants plus
+# partners - by type) and Table 7 (average weekly payment by type) for those 14 points.
+# Table 2's claimant column restates Table 1's total and its beneficiary column Table 3's
+# total, so only its partner column is ported. The own-month cross-sections at May 2026 are
+# ported too: Table 4 (claimants by age band and gender) and Table 6 (beneficiaries by age band
+# and gender) in full, and Table 5's type-by-gender cells for claimants and beneficiaries (its
+# all-genders columns restate Tables 1 and 3 at May 2026 and its Total row restates Tables 4
+# and 6, so they are not ported twice).
+#
+# Not ported: Table 9 (payment bands), whose Both and Guarantee Credit only columns are
+# mislabelled from the August 2025 edition on (its column totals are swapped against Table 1);
+# Table 8 (duration); Tables 10 and 11 (districts, constituencies).
+#
+# Claimants are claims, one per benefit unit, so they carry entity benefit_unit and the
+# canonical concept of the DWP Great Britain packages (dwp.pension_credit_benefit_units, source
+# concept dfc_ni.pension_credit_claimants, exact); partners and beneficiaries are people.
+# Counts are rounded to the nearest ten with further disclosure control; averages are GBP a
+# week. May 2026: 60,030 claimants, 68,900 beneficiaries, average GBP 92.88 a week.
+schema_version: ledger.source_package.v1
+package_id: dfc-ni-pension-credit-statistics-may-2026
+label: DfC Northern Ireland Pension Credit claimants, partners, beneficiaries and average weekly payment
+  by type, February 2023 to May 2026, with May 2026 by age band and gender
+dimension_labels:
+  geography: Geography
+  type_of_pension_credit: Type of Pension Credit
+  gender: Gender
+  age_band: Age band
+dimension_value_labels:
+  type_of_pension_credit:
+    Both Guarantee and Savings Credit: Both Guarantee and Savings Credit
+    Guarantee Credit only: Guarantee Credit only
+    Savings Credit only: Savings Credit only
+  gender:
+    Female: Female
+    Male: Male
+  age_band:
+    66-69: 66-69
+    70-74: 70-74
+    75-79: 75-79
+    80-84: 80-84
+    85-89: 85-89
+    90 and over: 90 and over
+    all: All ages
+artifact:
+  source_name: dfc_ni
+  source_table: 'Benefits Statistics Summary Publication May 2026: Pension Credit workbook'
+  resource_package: db
+  resource_directory: data/dfc_ni/pension_credit_statistics_may_2026
+  manifest: manifest.yaml
+  vintage: benefits_statistics_summary_may_2026
+  extracted_at: '2026-09-29'
+  extraction_method: xlsx used-range cell parse of the workbook's data tables
+  parser: xlsx_used_range
+  sheets:
+    - Table 1
+    - Table 2
+    - Table 3
+    - Table 4
+    - Table 5
+    - Table 6
+    - Table 7
+  artifact_year: 2026
+record_sets:
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2023_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2023_02
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: '2023-02-28T00:00:00'
+        table_record_kind: detail
+    measures: &id001
+      - measure_id: claimants_both_guarantee_and_savings_credit
+        label: Pension Credit claimants, Both Guarantee and Savings Credit
+        ordinal: 0
+        column: B
+        source_column_id: claimants_both_guarantee_and_savings_credit
+        source_column_dimensions:
+          type_of_pension_credit: Both Guarantee and Savings Credit
+        filters:
+          type_of_pension_credit: Both Guarantee and Savings Credit
+        constraints:
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Both Guarantee and Savings Credit
+            label: Type of Pension Credit
+        expected_column_header_row: 4
+        expected_column_header: 'Type of Pension Credit:
+
+          Both Guarantee and Savings Credit'
+        concept: dwp.pension_credit_benefit_units
+        source_concept: dfc_ni.pension_credit_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: claimants
+          (claims, one per benefit unit) in payment at each quarter-end, rounded to the nearest ten with
+          further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_guarantee_credit_only
+        label: Pension Credit claimants, Guarantee Credit only
+        ordinal: 1
+        column: C
+        source_column_id: claimants_guarantee_credit_only
+        source_column_dimensions:
+          type_of_pension_credit: Guarantee Credit only
+        filters:
+          type_of_pension_credit: Guarantee Credit only
+        constraints:
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Guarantee Credit only
+            label: Type of Pension Credit
+        expected_column_header_row: 4
+        expected_column_header: 'Type of Pension Credit:
+
+          Guarantee Credit only'
+        concept: dwp.pension_credit_benefit_units
+        source_concept: dfc_ni.pension_credit_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: claimants
+          (claims, one per benefit unit) in payment at each quarter-end, rounded to the nearest ten with
+          further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_savings_credit_only
+        label: Pension Credit claimants, Savings Credit only
+        ordinal: 2
+        column: D
+        source_column_id: claimants_savings_credit_only
+        source_column_dimensions:
+          type_of_pension_credit: Savings Credit only
+        filters:
+          type_of_pension_credit: Savings Credit only
+        constraints:
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Savings Credit only
+            label: Type of Pension Credit
+        expected_column_header_row: 4
+        expected_column_header: 'Type of Pension Credit:
+
+          Savings Credit only'
+        concept: dwp.pension_credit_benefit_units
+        source_concept: dfc_ni.pension_credit_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: claimants
+          (claims, one per benefit unit) in payment at each quarter-end, rounded to the nearest ten with
+          further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2023_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2023_02.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: '2023-02-28T00:00:00'
+        table_record_kind: total
+    measures: &id002
+      - measure_id: claimants_all
+        label: Pension Credit claimants, all types
+        ordinal: 0
+        column: E
+        source_column_id: claimants_all
+        expected_column_header_row: 4
+        expected_column_header: Total
+        concept: dwp.pension_credit_benefit_units
+        source_concept: dfc_ni.pension_credit_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: claimants
+          (claims, one per benefit unit) in payment at each quarter-end, rounded to the nearest ten with
+          further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2023_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2023_05
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: '2023-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2023_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2023_05.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: '2023-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2023_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2023_08
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: '2023-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2023_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2023_08.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: '2023-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2023_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2023_11
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: '2023-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2023_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2023_11.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2023-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: '2023-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2024_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2024_02
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: '2024-02-29T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2024_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2024_02.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: '2024-02-29T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2024_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2024_05
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: '2024-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2024_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2024_05.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: '2024-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2024_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2024_08
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: '2024-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2024_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2024_08.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: '2024-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2024_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2024_11
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: '2024-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2024_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2024_11.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2024-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: '2024-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2025_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2025_02
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: '2025-02-28T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2025_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2025_02.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: '2025-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2025_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2025_05
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: '2025-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2025_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2025_05.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: '2025-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2025_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2025_08
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 22
+        expected_row_header_column: A
+        expected_row_header: '2025-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2025_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2025_08.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 22
+        expected_row_header_column: A
+        expected_row_header: '2025-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2025_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2025_11
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 23
+        expected_row_header_column: A
+        expected_row_header: '2025-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2025_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2025_11.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2025-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 23
+        expected_row_header_column: A
+        expected_row_header: '2025-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2026_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2026_02
+    sheet_name: Table 1
+    period_type: month
+    period: 2026-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 24
+        expected_row_header_column: A
+        expected_row_header: '2026-02-28T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2026_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2026_02.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2026-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 24
+        expected_row_header_column: A
+        expected_row_header: '2026-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2026_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2026_05
+    sheet_name: Table 1
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 25
+        expected_row_header_column: A
+        expected_row_header: '2026-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id001
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type.month2026_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type.month2026_05.total
+    sheet_name: Table 1
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 25
+        expected_row_header_column: A
+        expected_row_header: '2026-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id002
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2023_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2023_02.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2023-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: '2023-02-28T00:00:00'
+        table_record_kind: total
+    measures: &id003
+      - measure_id: partners
+        label: Pension Credit partners
+        ordinal: 0
+        column: C
+        source_column_id: partners
+        expected_column_header_row: 4
+        expected_column_header: Partners
+        concept: dfc_ni.pension_credit_partners
+        source_concept: dfc_ni.pension_credit_partners
+        concept_relation: source_label
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: partners,
+          and beneficiaries (claimants plus partners), at each quarter-end, rounded to the nearest ten.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2023_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2023_05.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2023-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: '2023-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2023_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2023_08.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2023-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: '2023-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2023_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2023_11.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2023-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: '2023-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2024_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2024_02.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2024-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: '2024-02-29T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2024_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2024_05.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2024-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: '2024-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2024_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2024_08.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2024-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: '2024-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2024_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2024_11.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2024-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: '2024-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2025_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2025_02.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2025-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: '2025-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2025_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2025_05.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2025-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: '2025-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2025_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2025_08.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2025-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 22
+        expected_row_header_column: A
+        expected_row_header: '2025-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2025_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2025_11.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2025-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 23
+        expected_row_header_column: A
+        expected_row_header: '2025-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2026_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2026_02.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2026-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 24
+        expected_row_header_column: A
+        expected_row_header: '2026-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.partners.month2026_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.partners.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.partners.month2026_05.total
+    sheet_name: Table 2
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: partner
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 25
+        expected_row_header_column: A
+        expected_row_header: '2026-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id003
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_02
+    sheet_name: Table 3
+    period_type: month
+    period: 2023-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: '2023-02-28T00:00:00'
+        table_record_kind: detail
+    measures: &id004
+      - measure_id: beneficiaries_both_guarantee_and_savings_credit
+        label: Pension Credit beneficiaries, Both Guarantee and Savings Credit
+        ordinal: 0
+        column: B
+        source_column_id: beneficiaries_both_guarantee_and_savings_credit
+        source_column_dimensions:
+          type_of_pension_credit: Both Guarantee and Savings Credit
+        filters:
+          type_of_pension_credit: Both Guarantee and Savings Credit
+        constraints:
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Both Guarantee and Savings Credit
+            label: Type of Pension Credit
+        expected_column_header_row: 4
+        expected_column_header: 'Type of Pension Credit:
+
+          Both Guarantee and Savings Credit'
+        concept: dfc_ni.pension_credit_beneficiaries
+        source_concept: dfc_ni.pension_credit_beneficiaries
+        concept_relation: source_label
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: partners,
+          and beneficiaries (claimants plus partners), at each quarter-end, rounded to the nearest ten.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: beneficiaries_guarantee_credit_only
+        label: Pension Credit beneficiaries, Guarantee Credit only
+        ordinal: 1
+        column: C
+        source_column_id: beneficiaries_guarantee_credit_only
+        source_column_dimensions:
+          type_of_pension_credit: Guarantee Credit only
+        filters:
+          type_of_pension_credit: Guarantee Credit only
+        constraints:
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Guarantee Credit only
+            label: Type of Pension Credit
+        expected_column_header_row: 4
+        expected_column_header: 'Type of Pension Credit:
+
+          Guarantee Credit only'
+        concept: dfc_ni.pension_credit_beneficiaries
+        source_concept: dfc_ni.pension_credit_beneficiaries
+        concept_relation: source_label
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: partners,
+          and beneficiaries (claimants plus partners), at each quarter-end, rounded to the nearest ten.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: beneficiaries_savings_credit_only
+        label: Pension Credit beneficiaries, Savings Credit only
+        ordinal: 2
+        column: D
+        source_column_id: beneficiaries_savings_credit_only
+        source_column_dimensions:
+          type_of_pension_credit: Savings Credit only
+        filters:
+          type_of_pension_credit: Savings Credit only
+        constraints:
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Savings Credit only
+            label: Type of Pension Credit
+        expected_column_header_row: 4
+        expected_column_header: 'Type of Pension Credit:
+
+          Savings Credit only'
+        concept: dfc_ni.pension_credit_beneficiaries
+        source_concept: dfc_ni.pension_credit_beneficiaries
+        concept_relation: source_label
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: partners,
+          and beneficiaries (claimants plus partners), at each quarter-end, rounded to the nearest ten.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_02.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2023-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: '2023-02-28T00:00:00'
+        table_record_kind: total
+    measures: &id005
+      - measure_id: beneficiaries_all
+        label: Pension Credit beneficiaries, all types
+        ordinal: 0
+        column: E
+        source_column_id: beneficiaries_all
+        expected_column_header_row: 4
+        expected_column_header: Total
+        concept: dfc_ni.pension_credit_beneficiaries
+        source_concept: dfc_ni.pension_credit_beneficiaries
+        concept_relation: source_label
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: partners,
+          and beneficiaries (claimants plus partners), at each quarter-end, rounded to the nearest ten.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_05
+    sheet_name: Table 3
+    period_type: month
+    period: 2023-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: '2023-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_05.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2023-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: '2023-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_08
+    sheet_name: Table 3
+    period_type: month
+    period: 2023-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: '2023-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_08.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2023-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: '2023-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_11
+    sheet_name: Table 3
+    period_type: month
+    period: 2023-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: '2023-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2023_11.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2023-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: '2023-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_02
+    sheet_name: Table 3
+    period_type: month
+    period: 2024-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: '2024-02-29T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_02.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2024-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: '2024-02-29T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_05
+    sheet_name: Table 3
+    period_type: month
+    period: 2024-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: '2024-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_05.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2024-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: '2024-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_08
+    sheet_name: Table 3
+    period_type: month
+    period: 2024-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: '2024-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_08.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2024-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: '2024-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_11
+    sheet_name: Table 3
+    period_type: month
+    period: 2024-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: '2024-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2024_11.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2024-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: '2024-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_02
+    sheet_name: Table 3
+    period_type: month
+    period: 2025-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: '2025-02-28T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_02.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2025-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: '2025-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_05
+    sheet_name: Table 3
+    period_type: month
+    period: 2025-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: '2025-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_05.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2025-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: '2025-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_08
+    sheet_name: Table 3
+    period_type: month
+    period: 2025-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 22
+        expected_row_header_column: A
+        expected_row_header: '2025-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_08.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2025-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 22
+        expected_row_header_column: A
+        expected_row_header: '2025-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_11
+    sheet_name: Table 3
+    period_type: month
+    period: 2025-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 23
+        expected_row_header_column: A
+        expected_row_header: '2025-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2025_11.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2025-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 23
+        expected_row_header_column: A
+        expected_row_header: '2025-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2026_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2026_02
+    sheet_name: Table 3
+    period_type: month
+    period: 2026-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 24
+        expected_row_header_column: A
+        expected_row_header: '2026-02-28T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2026_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2026_02.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2026-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 24
+        expected_row_header_column: A
+        expected_row_header: '2026-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2026_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2026_05
+    sheet_name: Table 3
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 25
+        expected_row_header_column: A
+        expected_row_header: '2026-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id004
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2026_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type.month2026_05.total
+    sheet_name: Table 3
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 25
+        expected_row_header_column: A
+        expected_row_header: '2026-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id005
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_02
+    sheet_name: Table 7
+    period_type: month
+    period: 2023-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: '2023-02-28T00:00:00'
+        table_record_kind: detail
+    measures: &id006
+      - measure_id: average_weekly_payment_both_guarantee_and_savings_credit
+        label: Average weekly Pension Credit payment, Both Guarantee and Savings Credit
+        ordinal: 0
+        column: B
+        source_column_id: average_weekly_payment_both_guarantee_and_savings_credit
+        source_column_dimensions:
+          type_of_pension_credit: Both Guarantee and Savings Credit
+        filters:
+          type_of_pension_credit: Both Guarantee and Savings Credit
+        constraints:
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Both Guarantee and Savings Credit
+            label: Type of Pension Credit
+        expected_column_header_row: 4
+        expected_column_header: 'Type of Pension Credit:
+
+          Both Guarantee and Savings Credit (£)'
+        concept: dwp.pension_credit_mean_weekly_award
+        source_concept: dfc_ni.pension_credit_average_weekly_payment
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook Table
+          7: average weekly payment per claim, GBP to the nearest penny.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+      - measure_id: average_weekly_payment_guarantee_credit_only
+        label: Average weekly Pension Credit payment, Guarantee Credit only
+        ordinal: 1
+        column: C
+        source_column_id: average_weekly_payment_guarantee_credit_only
+        source_column_dimensions:
+          type_of_pension_credit: Guarantee Credit only
+        filters:
+          type_of_pension_credit: Guarantee Credit only
+        constraints:
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Guarantee Credit only
+            label: Type of Pension Credit
+        expected_column_header_row: 4
+        expected_column_header: 'Type of Pension Credit:
+
+          Guarantee Credit only (£)'
+        concept: dwp.pension_credit_mean_weekly_award
+        source_concept: dfc_ni.pension_credit_average_weekly_payment
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook Table
+          7: average weekly payment per claim, GBP to the nearest penny.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+      - measure_id: average_weekly_payment_savings_credit_only
+        label: Average weekly Pension Credit payment, Savings Credit only
+        ordinal: 2
+        column: D
+        source_column_id: average_weekly_payment_savings_credit_only
+        source_column_dimensions:
+          type_of_pension_credit: Savings Credit only
+        filters:
+          type_of_pension_credit: Savings Credit only
+        constraints:
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Savings Credit only
+            label: Type of Pension Credit
+        expected_column_header_row: 4
+        expected_column_header: 'Type of Pension Credit:
+
+          Savings Credit only (£)'
+        concept: dwp.pension_credit_mean_weekly_award
+        source_concept: dfc_ni.pension_credit_average_weekly_payment
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook Table
+          7: average weekly payment per claim, GBP to the nearest penny.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_02.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2023-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: '2023-02-28T00:00:00'
+        table_record_kind: total
+    measures: &id007
+      - measure_id: average_weekly_payment_all
+        label: Average weekly Pension Credit payment, all types
+        ordinal: 0
+        column: E
+        source_column_id: average_weekly_payment_all
+        expected_column_header_row: 4
+        expected_column_header: Total (£)
+        concept: dwp.pension_credit_mean_weekly_award
+        source_concept: dfc_ni.pension_credit_average_weekly_payment
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook Table
+          7: average weekly payment per claim, GBP to the nearest penny.'
+        unit: gbp_per_week
+        aggregation: mean
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_05
+    sheet_name: Table 7
+    period_type: month
+    period: 2023-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: '2023-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_05.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2023-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: '2023-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_08
+    sheet_name: Table 7
+    period_type: month
+    period: 2023-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: '2023-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_08.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2023-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: '2023-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_11
+    sheet_name: Table 7
+    period_type: month
+    period: 2023-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: '2023-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2023_11.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2023-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 15
+        expected_row_header_column: A
+        expected_row_header: '2023-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_02
+    sheet_name: Table 7
+    period_type: month
+    period: 2024-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: '2024-02-29T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_02.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2024-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 16
+        expected_row_header_column: A
+        expected_row_header: '2024-02-29T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_05
+    sheet_name: Table 7
+    period_type: month
+    period: 2024-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: '2024-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_05.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2024-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 17
+        expected_row_header_column: A
+        expected_row_header: '2024-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_08
+    sheet_name: Table 7
+    period_type: month
+    period: 2024-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: '2024-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_08.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2024-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 18
+        expected_row_header_column: A
+        expected_row_header: '2024-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_11
+    sheet_name: Table 7
+    period_type: month
+    period: 2024-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: '2024-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2024_11.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2024-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 19
+        expected_row_header_column: A
+        expected_row_header: '2024-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_02
+    sheet_name: Table 7
+    period_type: month
+    period: 2025-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: '2025-02-28T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_02.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2025-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 20
+        expected_row_header_column: A
+        expected_row_header: '2025-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_05
+    sheet_name: Table 7
+    period_type: month
+    period: 2025-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: '2025-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_05.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2025-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 21
+        expected_row_header_column: A
+        expected_row_header: '2025-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_08
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_08
+    sheet_name: Table 7
+    period_type: month
+    period: 2025-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 22
+        expected_row_header_column: A
+        expected_row_header: '2025-08-31T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_08.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_08.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2025-08
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 22
+        expected_row_header_column: A
+        expected_row_header: '2025-08-31T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_11
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_11
+    sheet_name: Table 7
+    period_type: month
+    period: 2025-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 23
+        expected_row_header_column: A
+        expected_row_header: '2025-11-30T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_11.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2025_11.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2025-11
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 23
+        expected_row_header_column: A
+        expected_row_header: '2025-11-30T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2026_02
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2026_02
+    sheet_name: Table 7
+    period_type: month
+    period: 2026-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 24
+        expected_row_header_column: A
+        expected_row_header: '2026-02-28T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2026_02.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2026_02.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2026-02
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 24
+        expected_row_header_column: A
+        expected_row_header: '2026-02-28T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2026_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2026_05
+    sheet_name: Table 7
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 25
+        expected_row_header_column: A
+        expected_row_header: '2026-05-31T00:00:00'
+        table_record_kind: detail
+    measures: *id006
+  - record_set_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2026_05.total
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.total.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.average_weekly_payment_by_type.month2026_05.total
+    sheet_name: Table 7
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: geography
+    rows:
+      - value_id: northern_ireland
+        label: Northern Ireland
+        ordinal: 0
+        row_number: 25
+        expected_row_header_column: A
+        expected_row_header: '2026-05-31T00:00:00'
+        table_record_kind: total
+    measures: *id007
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_age_gender.month2026_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_age_gender.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_age_gender.month2026_05
+    sheet_name: Table 4
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: age_band
+    rows:
+      - value_id: age_66_69
+        label: Aged 66-69
+        ordinal: 0
+        row_number: 5
+        expected_row_header_column: A
+        expected_row_header: 66-69
+        table_record_kind: detail
+        filters:
+          age_band: 66-69
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 66-69
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 66
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 70
+            unit: years
+            label: Age upper bound
+      - value_id: age_70_74
+        label: Aged 70-74
+        ordinal: 1
+        row_number: 6
+        expected_row_header_column: A
+        expected_row_header: 70-74
+        table_record_kind: detail
+        filters:
+          age_band: 70-74
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 70-74
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 70
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 75
+            unit: years
+            label: Age upper bound
+      - value_id: age_75_79
+        label: Aged 75-79
+        ordinal: 2
+        row_number: 7
+        expected_row_header_column: A
+        expected_row_header: 75-79
+        table_record_kind: detail
+        filters:
+          age_band: 75-79
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 75-79
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 75
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 80
+            unit: years
+            label: Age upper bound
+      - value_id: age_80_84
+        label: Aged 80-84
+        ordinal: 3
+        row_number: 8
+        expected_row_header_column: A
+        expected_row_header: 80-84
+        table_record_kind: detail
+        filters:
+          age_band: 80-84
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 80-84
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 80
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 85
+            unit: years
+            label: Age upper bound
+      - value_id: age_85_89
+        label: Aged 85-89
+        ordinal: 4
+        row_number: 9
+        expected_row_header_column: A
+        expected_row_header: 85-89
+        table_record_kind: detail
+        filters:
+          age_band: 85-89
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 85-89
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 85
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 90
+            unit: years
+            label: Age upper bound
+      - value_id: age_90_plus
+        label: Aged 90 and over
+        ordinal: 5
+        row_number: 10
+        expected_row_header_column: A
+        expected_row_header: 90 and over
+        table_record_kind: detail
+        filters:
+          age_band: 90 and over
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 90 and over
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 90
+            unit: years
+            label: Age lower bound
+      - value_id: all_ages
+        label: All
+        ordinal: 6
+        row_number: 11
+        expected_row_header_column: A
+        expected_row_header: Total
+        table_record_kind: total
+        filters:
+          age_band: all
+    measures:
+      - measure_id: claimants_female
+        label: Pension Credit claimants, female
+        ordinal: 0
+        column: B
+        source_column_id: claimants_female
+        source_column_dimensions:
+          gender: Female
+        filters:
+          gender: Female
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Female
+            label: Gender
+        expected_column_header_row: 4
+        expected_column_header: 'Gender:
+
+          Female'
+        concept: dwp.pension_credit_benefit_units
+        source_concept: dfc_ni.pension_credit_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: claimants
+          (claims, one per benefit unit) in payment at each quarter-end, rounded to the nearest ten with
+          further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_male
+        label: Pension Credit claimants, male
+        ordinal: 1
+        column: C
+        source_column_id: claimants_male
+        source_column_dimensions:
+          gender: Male
+        filters:
+          gender: Male
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Male
+            label: Gender
+        expected_column_header_row: 4
+        expected_column_header: 'Gender:
+
+          Male'
+        concept: dwp.pension_credit_benefit_units
+        source_concept: dfc_ni.pension_credit_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: claimants
+          (claims, one per benefit unit) in payment at each quarter-end, rounded to the nearest ten with
+          further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_all
+        label: Pension Credit claimants, all genders
+        ordinal: 2
+        column: D
+        source_column_id: claimants_all
+        expected_column_header_row: 4
+        expected_column_header: Total
+        concept: dwp.pension_credit_benefit_units
+        source_concept: dfc_ni.pension_credit_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: claimants
+          (claims, one per benefit unit) in payment at each quarter-end, rounded to the nearest ten with
+          further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_age_gender.month2026_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_age_gender.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_age_gender.month2026_05
+    sheet_name: Table 6
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: age_band
+    rows:
+      - value_id: age_66_69
+        label: Aged 66-69
+        ordinal: 0
+        row_number: 5
+        expected_row_header_column: A
+        expected_row_header: 66-69
+        table_record_kind: detail
+        filters:
+          age_band: 66-69
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 66-69
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 66
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 70
+            unit: years
+            label: Age upper bound
+      - value_id: age_70_74
+        label: Aged 70-74
+        ordinal: 1
+        row_number: 6
+        expected_row_header_column: A
+        expected_row_header: 70-74
+        table_record_kind: detail
+        filters:
+          age_band: 70-74
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 70-74
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 70
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 75
+            unit: years
+            label: Age upper bound
+      - value_id: age_75_79
+        label: Aged 75-79
+        ordinal: 2
+        row_number: 7
+        expected_row_header_column: A
+        expected_row_header: 75-79
+        table_record_kind: detail
+        filters:
+          age_band: 75-79
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 75-79
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 75
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 80
+            unit: years
+            label: Age upper bound
+      - value_id: age_80_84
+        label: Aged 80-84
+        ordinal: 3
+        row_number: 8
+        expected_row_header_column: A
+        expected_row_header: 80-84
+        table_record_kind: detail
+        filters:
+          age_band: 80-84
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 80-84
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 80
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 85
+            unit: years
+            label: Age upper bound
+      - value_id: age_85_89
+        label: Aged 85-89
+        ordinal: 4
+        row_number: 9
+        expected_row_header_column: A
+        expected_row_header: 85-89
+        table_record_kind: detail
+        filters:
+          age_band: 85-89
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 85-89
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 85
+            unit: years
+            label: Age lower bound
+          - variable: age
+            operator: <
+            value: 90
+            unit: years
+            label: Age upper bound
+      - value_id: age_90_plus
+        label: Aged 90 and over
+        ordinal: 5
+        row_number: 10
+        expected_row_header_column: A
+        expected_row_header: 90 and over
+        table_record_kind: detail
+        filters:
+          age_band: 90 and over
+        constraints:
+          - variable: age_band
+            operator: ==
+            value: 90 and over
+            label: Age band
+          - variable: age
+            operator: '>='
+            value: 90
+            unit: years
+            label: Age lower bound
+      - value_id: all_ages
+        label: All
+        ordinal: 6
+        row_number: 11
+        expected_row_header_column: A
+        expected_row_header: Total
+        table_record_kind: total
+        filters:
+          age_band: all
+    measures:
+      - measure_id: beneficiaries_female
+        label: Pension Credit beneficiaries, female
+        ordinal: 0
+        column: B
+        source_column_id: beneficiaries_female
+        source_column_dimensions:
+          gender: Female
+        filters:
+          gender: Female
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Female
+            label: Gender
+        expected_column_header_row: 4
+        expected_column_header: 'Gender:
+
+          Female'
+        concept: dfc_ni.pension_credit_beneficiaries
+        source_concept: dfc_ni.pension_credit_beneficiaries
+        concept_relation: source_label
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: partners,
+          and beneficiaries (claimants plus partners), at each quarter-end, rounded to the nearest ten.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: beneficiaries_male
+        label: Pension Credit beneficiaries, male
+        ordinal: 1
+        column: C
+        source_column_id: beneficiaries_male
+        source_column_dimensions:
+          gender: Male
+        filters:
+          gender: Male
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Male
+            label: Gender
+        expected_column_header_row: 4
+        expected_column_header: 'Gender:
+
+          Male'
+        concept: dfc_ni.pension_credit_beneficiaries
+        source_concept: dfc_ni.pension_credit_beneficiaries
+        concept_relation: source_label
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: partners,
+          and beneficiaries (claimants plus partners), at each quarter-end, rounded to the nearest ten.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: beneficiaries_all
+        label: Pension Credit beneficiaries, all genders
+        ordinal: 2
+        column: D
+        source_column_id: beneficiaries_all
+        expected_column_header_row: 4
+        expected_column_header: Total
+        concept: dfc_ni.pension_credit_beneficiaries
+        source_concept: dfc_ni.pension_credit_beneficiaries
+        concept_relation: source_label
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: partners,
+          and beneficiaries (claimants plus partners), at each quarter-end, rounded to the nearest ten.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.pension_credit.claimants_by_type_gender.month2026_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.claimants_by_type_gender.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.claimants_by_type_gender.month2026_05
+    sheet_name: Table 5
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: benefit_unit
+    entity_role: claimant
+    domain: social_security
+    groupby_dimension: type_of_pension_credit
+    rows:
+      - value_id: both_guarantee_and_savings_credit
+        label: Both Guarantee and Savings Credit
+        ordinal: 0
+        row_number: 5
+        expected_row_header_column: A
+        expected_row_header: Both Guarantee and Savings Credit
+        table_record_kind: detail
+        filters: &id008
+          type_of_pension_credit: Both Guarantee and Savings Credit
+        constraints: &id009
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Both Guarantee and Savings Credit
+            label: Type of Pension Credit
+      - value_id: guarantee_credit_only
+        label: Guarantee Credit only
+        ordinal: 1
+        row_number: 6
+        expected_row_header_column: A
+        expected_row_header: Guarantee Credit only
+        table_record_kind: detail
+        filters: &id010
+          type_of_pension_credit: Guarantee Credit only
+        constraints: &id011
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Guarantee Credit only
+            label: Type of Pension Credit
+      - value_id: savings_credit_only
+        label: Savings Credit only
+        ordinal: 2
+        row_number: 7
+        expected_row_header_column: A
+        expected_row_header: Savings Credit only
+        table_record_kind: detail
+        filters: &id012
+          type_of_pension_credit: Savings Credit only
+        constraints: &id013
+          - variable: type_of_pension_credit
+            operator: ==
+            value: Savings Credit only
+            label: Type of Pension Credit
+    measures:
+      - measure_id: claimants_female
+        label: Pension Credit claimants, female
+        ordinal: 0
+        column: B
+        source_column_id: claimants_female
+        source_column_dimensions:
+          gender: Female
+        filters:
+          gender: Female
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Female
+            label: Gender
+        expected_column_header_row: 4
+        expected_column_header: 'Claimants:
+
+          Female'
+        concept: dwp.pension_credit_benefit_units
+        source_concept: dfc_ni.pension_credit_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: claimants
+          (claims, one per benefit unit) in payment at each quarter-end, rounded to the nearest ten with
+          further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: claimants_male
+        label: Pension Credit claimants, male
+        ordinal: 1
+        column: C
+        source_column_id: claimants_male
+        source_column_dimensions:
+          gender: Male
+        filters:
+          gender: Male
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Male
+            label: Gender
+        expected_column_header_row: 4
+        expected_column_header: 'Claimants:
+
+          Male'
+        concept: dwp.pension_credit_benefit_units
+        source_concept: dfc_ni.pension_credit_claimants
+        concept_relation: exact
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: claimants
+          (claims, one per benefit unit) in payment at each quarter-end, rounded to the nearest ten with
+          further disclosure control.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+  - record_set_id: dfc_ni.bss.pension_credit.beneficiaries_by_type_gender.month2026_05
+    provenance_class: administrative
+    record_set_spec_id: dfc_ni.bss.pension_credit.beneficiaries_by_type_gender.v1
+    source_record_id_prefix: dfc_ni.bss.pension_credit.beneficiaries_by_type_gender.month2026_05
+    sheet_name: Table 5
+    period_type: month
+    period: 2026-05
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: gss_2021
+    entity: person
+    entity_role: beneficiary
+    domain: social_security
+    groupby_dimension: type_of_pension_credit
+    rows:
+      - value_id: both_guarantee_and_savings_credit
+        label: Both Guarantee and Savings Credit
+        ordinal: 0
+        row_number: 5
+        expected_row_header_column: A
+        expected_row_header: Both Guarantee and Savings Credit
+        table_record_kind: detail
+        filters: *id008
+        constraints: *id009
+      - value_id: guarantee_credit_only
+        label: Guarantee Credit only
+        ordinal: 1
+        row_number: 6
+        expected_row_header_column: A
+        expected_row_header: Guarantee Credit only
+        table_record_kind: detail
+        filters: *id010
+        constraints: *id011
+      - value_id: savings_credit_only
+        label: Savings Credit only
+        ordinal: 2
+        row_number: 7
+        expected_row_header_column: A
+        expected_row_header: Savings Credit only
+        table_record_kind: detail
+        filters: *id012
+        constraints: *id013
+    measures:
+      - measure_id: beneficiaries_female
+        label: Pension Credit beneficiaries, female
+        ordinal: 0
+        column: E
+        source_column_id: beneficiaries_female
+        source_column_dimensions:
+          gender: Female
+        filters:
+          gender: Female
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Female
+            label: Gender
+        expected_column_header_row: 4
+        expected_column_header: 'Beneficiaries:
+
+          Female'
+        concept: dfc_ni.pension_credit_beneficiaries
+        source_concept: dfc_ni.pension_credit_beneficiaries
+        concept_relation: source_label
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: partners,
+          and beneficiaries (claimants plus partners), at each quarter-end, rounded to the nearest ten.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+      - measure_id: beneficiaries_male
+        label: Pension Credit beneficiaries, male
+        ordinal: 1
+        column: F
+        source_column_id: beneficiaries_male
+        source_column_dimensions:
+          gender: Male
+        filters:
+          gender: Male
+        constraints:
+          - variable: gender
+            operator: ==
+            value: Male
+            label: Gender
+        expected_column_header_row: 4
+        expected_column_header: 'Beneficiaries:
+
+          Male'
+        concept: dfc_ni.pension_credit_beneficiaries
+        source_concept: dfc_ni.pension_credit_beneficiaries
+        concept_relation: source_label
+        concept_authority: dfc_ni
+        concept_evidence_url: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+        concept_evidence_notes: 'DfC Benefits Statistics Summary May 2026, Pension Credit workbook: partners,
+          and beneficiaries (claimants plus partners), at each quarter-end, rounded to the nearest ten.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number

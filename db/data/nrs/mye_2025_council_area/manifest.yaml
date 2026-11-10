@@ -1,0 +1,19 @@
+source_id: nrs
+package_id: nrs-mye-2025-council-area
+dataset: nrs_nrs-mye-2025-council-area
+source_page: https://www.nrscotland.gov.uk/publications/mid-2025-population-estimates/
+table: mye_2025_council_area
+files:
+  2025:
+    filename: data-mid-year-population-estimates-mid-2025.xlsx
+    source_url: https://www.nrscotland.gov.uk/media/15rlr1vf/data-mid-year-population-estimates-mid-2025.xlsx
+    sha256: d9cc42bcff7551801e2243ae1a788ae017b6787633f6dab0bf764caa18389d76
+    size_bytes: 159882
+    fetched_at: '2026-10-07T13:34:58+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-mye-2025-council-area/2025/d9cc42bcff7551801e2243ae1a788ae017b6787633f6dab0bf764caa18389d76/data-mid-year-population-estimates-mid-2025.xlsx
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-mye-2025-council-area/2025/d9cc42bcff7551801e2243ae1a788ae017b6787633f6dab0bf764caa18389d76/data-mid-year-population-estimates-mid-2025.xlsx
+registration_kind: source_facts

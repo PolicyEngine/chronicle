@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-state-pension-age-gender-type-february-2023-march-2026
+dataset: dwp_dwp-state-pension-age-gender-type-february-2023-march-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: State Pension caseload and mean weekly amount by age, gender and type of pension,
+  Great Britain residents, February 2023 to March 2026
+files:
+  2026:
+    filename: state_pension_caseload_by_age_gender_and_type_february_2023_march_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: aaeda3973cf51ceb75d4ccfc6271ce13ca06cb4f128744e895ad3563a5c92fea
+    size_bytes: 123243
+    fetched_at: '2026-09-29T12:30:01+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-state-pension-age-gender-type-february-2023-march-2026/2026/aaeda3973cf51ceb75d4ccfc6271ce13ca06cb4f128744e895ad3563a5c92fea/state_pension_caseload_by_age_gender_and_type_february_2023_march_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-state-pension-age-gender-type-february-2023-march-2026/2026/aaeda3973cf51ceb75d4ccfc6271ce13ca06cb4f128744e895ad3563a5c92fea/state_pension_caseload_by_age_gender_and_type_february_2023_march_2026.json

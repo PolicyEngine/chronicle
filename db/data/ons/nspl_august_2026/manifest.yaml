@@ -1,0 +1,39 @@
+source_id: ons
+package_id: ons-nspl-august-2026
+source_name: National Statistics Postcode Lookup, August 2026
+publisher: Office for National Statistics
+source_page: https://geoportal.statistics.gov.uk/datasets/9d8364ebae8b4439aa66cda440e54fc8
+files:
+  2026:
+    filename: NSPL_AUG_2026.zip
+    source_url: https://www.arcgis.com/sharing/rest/content/items/9d8364ebae8b4439aa66cda440e54fc8/data
+    source_table: National Statistics Postcode Lookup (August 2026)
+    sha256: f5d86a518d360cad67f0304f25574d3ce619f242d9ea6385a120abab7c15b15c
+    size_bytes: 185109467
+    fetched_at: '2026-10-12T12:38:37+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: nspl_2026_08
+    vintages:
+    - nspl_2026_08
+    - 2021_census
+    - 2024_pcon
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-nspl-august-2026/2026/f5d86a518d360cad67f0304f25574d3ce619f242d9ea6385a120abab7c15b15c/NSPL_AUG_2026.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-nspl-august-2026/2026/f5d86a518d360cad67f0304f25574d3ce619f242d9ea6385a120abab7c15b15c/NSPL_AUG_2026.zip
+registration_kind: raw_only
+provenance_notes: 'Every current and terminated UK postcode (Data/NSPL_AUG_2026_UK.csv,
+  2,729,090 rows, 35 fields in a header row; the same rows split by postcode area
+  under Data/multi_csv), with the user guide and code lists. Each postcode carries
+  dointr and doterm (introduction and termination, yyyymm) and is assigned best-fit,
+  from its 2021 Census output area, to the 2021 output area (oa21cd), LSOA and MSOA
+  2021, local authority (lad26cd), Westminster constituency on the July 2024 boundaries
+  (pcon24cd) and other geographies. The zip is above GitHub''s 100 MB file limit,
+  so its bytes are archived in R2 and not committed. Licence: Open Government Licence
+  v3.0, with the attributions the user guide requires (OS data and Royal Mail data,
+  Crown copyright and database right; Source: Office for National Statistics). The
+  user guide also requires a separate Land and Property Services licence for commercial
+  use of the Northern Ireland (BT) postcodes.'

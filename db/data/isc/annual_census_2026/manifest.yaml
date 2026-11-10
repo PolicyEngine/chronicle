@@ -1,0 +1,19 @@
+source_id: isc
+package_id: isc-annual-census-2026
+dataset: isc_isc-annual-census-2026
+source_page: https://www.isc.co.uk/research/annual-census/
+table: annual_census_2026
+files:
+  2026:
+    filename: 2026-06-isc-census-2026.pdf
+    source_url: https://www.isc.co.uk/media/5rmduu0j/2026-06-isc-census-2026.pdf
+    sha256: 576e8b7840767e9259078b187c81c1786831d0ab9de390a33c7dc60c270cc5da
+    size_bytes: 3556545
+    fetched_at: '2026-10-07T16:07:17+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/isc/isc-annual-census-2026/2026/576e8b7840767e9259078b187c81c1786831d0ab9de390a33c7dc60c270cc5da/2026-06-isc-census-2026.pdf
+        uri: r2://ledger-raw/raw/uk/isc/isc-annual-census-2026/2026/576e8b7840767e9259078b187c81c1786831d0ab9de390a33c7dc60c270cc5da/2026-06-isc-census-2026.pdf
+registration_kind: source_facts

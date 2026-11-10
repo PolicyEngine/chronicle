@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+from contextlib import closing
 from dataclasses import replace
 import sqlite3
 
 import pytest
 
+from chronicle.artifacts import infer_build_id
 from chronicle.core import build_aggregate_constraints
 from chronicle.database import build_chronicle_db
 from chronicle.epoch import HASH_DOMAINS, Epoch
@@ -16,6 +18,7 @@ from chronicle.jurisdictions.us.soi import (
     build_soi_table_1_1_source_cells,
     build_soi_table_1_1_facts,
 )
+from chronicle.mirror import export_chronicle_db_tables
 from chronicle.sources.cells import build_source_cell_key
 from chronicle.sources.rows import SourceRow, build_source_row_key
 
@@ -415,3 +418,56 @@ def test_build_chronicle_db_file_uses_fixture_facts_and_cells(tmp_path):
 
     assert facts_count == 80
     assert cells_count == 1932
+
+
+def _record_sqlite_connections(monkeypatch):
+    opened = []
+    connect = sqlite3.connect
+
+    def record(*args, **kwargs):
+        connection = connect(*args, **kwargs)
+        opened.append(connection)
+        return connection
+
+    monkeypatch.setattr(sqlite3, "connect", record)
+    return opened
+
+
+def _assert_closed(connections):
+    assert connections
+    for connection in connections:
+        with pytest.raises(sqlite3.ProgrammingError, match="closed database"):
+            connection.execute("SELECT 1")
+
+
+def test_build_chronicle_db_closes_its_connection(tmp_path, monkeypatch):
+    """The DB file must be released on return so callers can delete it."""
+    opened = _record_sqlite_connections(monkeypatch)
+    db_path = tmp_path / "ledger.db"
+
+    build_chronicle_db(
+        build_soi_table_1_1_facts(2023),
+        db_path,
+        source_cells=build_soi_table_1_1_source_cells(2023),
+    )
+
+    _assert_closed(opened)
+    with closing(sqlite3.connect(db_path)) as connection:
+        builds = connection.execute("SELECT COUNT(*) FROM ledger_builds").fetchone()
+    assert builds == (1,)
+
+
+def test_chronicle_db_readers_close_their_connections(tmp_path, monkeypatch):
+    suite = tmp_path / "suite"
+    report = build_chronicle_db(
+        build_soi_table_1_1_facts(2023),
+        suite / "ledger.db",
+        source_cells=build_soi_table_1_1_source_cells(2023),
+    )
+    opened = _record_sqlite_connections(monkeypatch)
+
+    assert infer_build_id(suite) == report.build_id
+    export_chronicle_db_tables(suite / "ledger.db", tmp_path / "mirror")
+
+    assert len(opened) == 2
+    _assert_closed(opened)

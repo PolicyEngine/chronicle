@@ -3,6 +3,9 @@
 # it does not allocate unassigned totals or derive household connection shares.
 # Isles of Scilly, Orkney, and Shetland are omitted in both years: their 2023
 # cells are blank and their 2024 meter/consumption cells are explicit zeroes.
+# Periods are DESNZ gas years (period_type gas_year, chronicle#356): the 2024 gas year
+# runs from mid-May 2024 to mid-May 2025. The record set ids keep their original cy2023
+# and cy2024 names so source record ids stay stable; no value changed.
 schema_version: ledger.source_package.v1
 package_id: desnz-subnational-gas-consumption-2024
 label: DESNZ subnational weather-corrected domestic gas consumption and meter counts, 2023 and 2024
@@ -43,13 +46,15 @@ record_sets:
   record_set_spec_id: desnz.subnational.gas.cy2023.v1
   source_record_id_prefix: desnz.subnational.gas.cy2023
   sheet_name: '2023'
-  period_type: calendar_year
+  period_type: gas_year
   period: 2023
   period_coverage:
     basis: survey_reference
     source_period_label: 2023 (mid-May 2023 to mid-May 2024)
-    notes: The calendar_year identity follows the publisher's 2023 label. The workbook publishes only
-      mid-May endpoints, not exact dates; consumption is weather-corrected annualised quantity.
+    notes: DESNZ's 2023 gas year, labelled by its opening year (gas_year, chronicle#356). The cover
+      sheet, the methodology (Table 2, 'After 2018 Mid-May to Mid-May') and the summary report give
+      only mid-May endpoints for Great Britain, so no exact dates are stamped; consumption is the
+      weather-corrected annualised quantity.
   geography_id: K03000001
   geography_level: country
   geography_name: Great Britain
@@ -4137,13 +4142,15 @@ record_sets:
   record_set_spec_id: desnz.subnational.gas.cy2024.v1
   source_record_id_prefix: desnz.subnational.gas.cy2024
   sheet_name: '2024'
-  period_type: calendar_year
+  period_type: gas_year
   period: 2024
   period_coverage:
     basis: survey_reference
     source_period_label: 2024 (mid-May 2024 to mid-May 2025)
-    notes: The calendar_year identity follows the publisher's 2024 label. The workbook publishes only
-      mid-May endpoints, not exact dates; consumption is weather-corrected annualised quantity.
+    notes: DESNZ's 2024 gas year, labelled by its opening year (gas_year, chronicle#356). The cover
+      sheet, the methodology (Table 2, 'After 2018 Mid-May to Mid-May') and the summary report give
+      only mid-May endpoints for Great Britain, so no exact dates are stamped; consumption is the
+      weather-corrected annualised quantity.
   geography_id: K03000001
   geography_level: country
   geography_name: Great Britain

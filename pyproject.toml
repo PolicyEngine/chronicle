@@ -43,6 +43,14 @@ packages = ["chronicle", "db", "packages", "policyengine_chronicle"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Delete each passing test's tmp_path at teardown, and the whole session
+# basetemp once every test passes. A test that fails in its body keeps its
+# directory; at exit pytest removes older sessions' directories, keeping the
+# newest one and any still locked by a running session. To keep passing tests'
+# directories while debugging, run with -o tmp_path_retention_policy=all
+# (--basetemp alone does not keep them).
+tmp_path_retention_policy = "failed"
+tmp_path_retention_count = 1
 
 [tool.ruff]
 line-length = 88

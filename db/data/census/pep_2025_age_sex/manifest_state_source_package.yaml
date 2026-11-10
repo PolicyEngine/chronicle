@@ -1,0 +1,19 @@
+source_id: census_pep
+package_id: census-pep-2025-state-age-bands
+dataset: census_pep_2025_age_sex
+source_page: https://www.census.gov/data/tables/time-series/demo/popest/2020s-state-detail.html
+table: 'Annual State Resident Population Estimates for 6 Race Groups (5 Race Alone Groups and Two
+  or More Races) by Age, Sex, and Hispanic Origin: April 1, 2020 to July 1, 2025 (SC-EST2025-ALLDATA6)'
+files:
+  2025:
+    filename: sc-est2025-alldata6.csv
+    source_url: https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/state/asrh/sc-est2025-alldata6.csv
+    sha256: 505fd45bfb15b96c0da1d67cf54d47b3b4cb8765a7814de6e0629dabd13258aa
+    size_bytes: 13786782
+    fetched_at: '2026-11-06T02:18:11+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_pep/census-pep-2025-state-age-bands/2025/505fd45bfb15b96c0da1d67cf54d47b3b4cb8765a7814de6e0629dabd13258aa/sc-est2025-alldata6.csv
+        uri: r2://ledger-raw/raw/census_pep/census-pep-2025-state-age-bands/2025/505fd45bfb15b96c0da1d67cf54d47b3b4cb8765a7814de6e0629dabd13258aa/sc-est2025-alldata6.csv

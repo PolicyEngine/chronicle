@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/waikato-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-03.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/3/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/3/
+    http_status: 200
+    sha256: d4f378940be75e0a138282bd55368b232e4eacb5ea347184f1b4b7abd2deb694
+    size_bytes: 407261
+    fetched_at: '2026-10-10T20:12:02Z'
+    content_disposition_filename: place-summaries-waikato-region-20261011-091201.csv
+    place_code: '3'
+    place: Waikato Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/d4f378940be75e0a138282bd55368b232e4eacb5ea347184f1b4b7abd2deb694/place-summaries-rc-03.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/d4f378940be75e0a138282bd55368b232e4eacb5ea347184f1b4b7abd2deb694/place-summaries-rc-03.csv

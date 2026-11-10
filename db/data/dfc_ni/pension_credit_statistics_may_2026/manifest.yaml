@@ -1,0 +1,18 @@
+source_id: dfc_ni
+package_id: dfc-ni-pension-credit-statistics-may-2026
+dataset: dfc_ni_dfc-ni-pension-credit-statistics-may-2026
+source_page: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+table: 'Benefits Statistics Summary Publication May 2026: Pension Credit workbook'
+files:
+  2026:
+    filename: bss-pension-credit-may-2026.xlsx
+    source_url: https://www.communities-ni.gov.uk/system/files/2026-08/bss-pension-credit-may-2026.xlsx
+    sha256: 7179424803d543fd30ffaff75044f77fa92db8a30300b980c33c4624b28d350e
+    size_bytes: 112885
+    fetched_at: '2026-09-29T11:56:58+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/dfc_ni/dfc-ni-pension-credit-statistics-may-2026/2026/7179424803d543fd30ffaff75044f77fa92db8a30300b980c33c4624b28d350e/bss-pension-credit-may-2026.xlsx
+        uri: r2://ledger-raw/raw/dfc_ni/dfc-ni-pension-credit-statistics-may-2026/2026/7179424803d543fd30ffaff75044f77fa92db8a30300b980c33c4624b28d350e/bss-pension-credit-may-2026.xlsx

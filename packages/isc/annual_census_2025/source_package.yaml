@@ -1,0 +1,86 @@
+schema_version: ledger.source_package.v1
+package_id: isc-annual-census-2025
+label: 'ISC annual Census 2025: pupils at ISC member schools'
+dimension_labels:
+  isc.census_line: ISC census line
+  school_membership: School membership
+dimension_value_labels:
+  school_membership:
+    isc: ISC member schools
+artifact:
+  source_name: isc
+  source_table: ISC annual Census 2025
+  resource_package: db
+  resource_directory: data/isc/annual_census_2025
+  manifest: manifest.yaml
+  vintage: census_2025
+  extracted_at: '2026-10-07'
+  extraction_method: pypdf text-line number extraction from the full census report PDF
+  parser: pdf_text_numbers
+  artifact_year: 2025
+record_sets:
+- record_set_id: isc.census_2025.pupils
+  provenance_class: census
+  record_set_spec_id: isc.census_2025.pupils.v1
+  source_record_id_prefix: isc.census_2025.pupils
+  sheet_name: document_numbers
+  period_type: month
+  period: 2025-01
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: private_school_pupil
+  domain: independent_school_education
+  groupby_dimension: isc.census_line
+  rows:
+  - value_id: pupils_at_isc_schools
+    label: Pupils at ISC member schools
+    ordinal: 0
+    row_number: 180
+    expected_row_header_column: D
+    expected_row_header: 545,640
+    table_record_kind: total
+    filters:
+      school_membership: isc
+    constraints:
+    - variable: school_membership
+      operator: ==
+      value: isc
+      label: Pupils at schools in UK membership of ISC constituent associations
+    guard_cells:
+    - column: A
+      row: 180
+      expected_value: 6
+      label: PDF page number, executive summary
+    - column: C
+      row: 180
+      expected_value: • There are 545,640 pupils at 1,423 ISC member schools, a reduction of nearly 11,000
+        or 2.0%
+      label: Publisher pupil-total text
+  measures:
+  - measure_id: pupils
+    label: Pupils at ISC member schools
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    expected_column_header_row: 1
+    expected_column_header: numeric_value
+    concept: isc.pupils_at_member_schools
+    source_concept: isc.pupils_at_member_schools
+    concept_relation: source_label
+    concept_authority: isc
+    concept_evidence_url: https://www.isc.co.uk/research/annual-census/isc-annual-census-2025/
+    concept_evidence_notes: 'ISC annual Census 2025, executive summary: 545,640 pupils at ISC member schools
+      in January 2025; publisher total, not the like-for-like change panel or overseas-campus count.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  period_coverage:
+    start_date: '2025-01-16'
+    end_date: '2025-01-16'
+    basis: survey_reference
+    source_period_label: Census Day 16 January 2025
+    notes: Pupils at responding schools in UK membership of ISC constituent associations on Census Day;
+      not all independent-school pupils. Overseas campuses are outside this total.

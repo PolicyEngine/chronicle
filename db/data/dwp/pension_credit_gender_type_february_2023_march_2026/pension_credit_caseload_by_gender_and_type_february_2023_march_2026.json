@@ -1,0 +1,161 @@
+{
+  "query" : {
+    "database" : "str:database:PC_New",
+    "measures" : [ "str:count:PC_New:V_F_PC_CASELOAD_New", "str:statfn:PC_New:V_F_PC_CASELOAD_New:CAWKLYAMT:MEAN" ],
+    "recodes" : {
+      "str:field:PC_New:V_F_PC_CASELOAD_New:PCTYPE" : {
+        "map" : [ [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:1" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:2" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:3" ] ],
+        "total" : true
+      },
+      "str:field:PC_New:V_F_PC_CASELOAD_New:CCSEX" : {
+        "map" : [ [ "str:value:PC_New:V_F_PC_CASELOAD_New:CCSEX:C_PC_CCSEX:1" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:CCSEX:C_PC_CCSEX:2" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:CCSEX:C_PC_CCSEX:99" ] ],
+        "total" : true
+      },
+      "str:field:PC_New:F_PC_QTR_New:DATE_NAME" : {
+        "map" : [ [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202302" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202305" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202308" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202311" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202402" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202405" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202408" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202411" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202502" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202505" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202508" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202511" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202603" ] ],
+        "total" : false
+      },
+      "str:field:PC_New:V_F_PC_CASELOAD_New:COA_CODE" : {
+        "map" : [ [ "str:value:PC_New:V_F_PC_CASELOAD_New:COA_CODE:V_C_MASTERGEOG21_GB:K03000001" ] ],
+        "total" : false
+      }
+    },
+    "dimensions" : [ [ "str:field:PC_New:F_PC_QTR_New:DATE_NAME" ], [ "str:field:PC_New:V_F_PC_CASELOAD_New:COA_CODE" ], [ "str:field:PC_New:V_F_PC_CASELOAD_New:CCSEX" ], [ "str:field:PC_New:V_F_PC_CASELOAD_New:PCTYPE" ] ]
+  },
+  "database" : {
+    "id" : "PC_New",
+    "uri" : "str:database:PC_New",
+    "label" : "Pension Credit - Data from May 2018",
+    "annotationKeys" : [ "I", "II" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:PC_New:V_F_PC_CASELOAD_New",
+    "label" : "Pension Credit Caseload - 2021 Geographies",
+    "measure" : "str:count:PC_New:V_F_PC_CASELOAD_New",
+    "function" : "COUNT"
+  }, {
+    "uri" : "str:statfn:PC_New:V_F_PC_CASELOAD_New:CAWKLYAMT:MEAN",
+    "label" : "Mean of Weekly Award Amount",
+    "measure" : "str:measure:PC_New:V_F_PC_CASELOAD_New:CAWKLYAMT",
+    "function" : "MEAN"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:PC_New:F_PC_QTR_New:DATE_NAME",
+    "label" : "Quarter",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202302" ],
+      "labels" : [ "Feb-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202305" ],
+      "labels" : [ "May-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202308" ],
+      "labels" : [ "Aug-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202311" ],
+      "labels" : [ "Nov-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202402" ],
+      "labels" : [ "Feb-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202405" ],
+      "labels" : [ "May-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202408" ],
+      "labels" : [ "Aug-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202411" ],
+      "labels" : [ "Nov-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202502" ],
+      "labels" : [ "Feb-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202505" ],
+      "labels" : [ "May-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202508" ],
+      "labels" : [ "Aug-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202511" ],
+      "labels" : [ "Nov-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202603" ],
+      "labels" : [ "Mar-26" ]
+    } ]
+  }, {
+    "uri" : "str:field:PC_New:V_F_PC_CASELOAD_New:COA_CODE",
+    "label" : "National - Regional - LA - OAs",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:COA_CODE:V_C_MASTERGEOG21_GB:K03000001" ],
+      "labels" : [ "Great Britain" ]
+    } ]
+  }, {
+    "uri" : "str:field:PC_New:V_F_PC_CASELOAD_New:CCSEX",
+    "label" : "Gender",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:CCSEX:C_PC_CCSEX:1" ],
+      "labels" : [ "Male" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:CCSEX:C_PC_CCSEX:2" ],
+      "labels" : [ "Female" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:CCSEX:C_PC_CCSEX:99" ],
+      "labels" : [ "Unknown" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  }, {
+    "uri" : "str:field:PC_New:V_F_PC_CASELOAD_New:PCTYPE",
+    "label" : "Type of Pension Credit",
+    "annotationKeys" : [ "III" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:1" ],
+      "labels" : [ "Guarantee Credit only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:2" ],
+      "labels" : [ "Savings Credit only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:3" ],
+      "labels" : [ "Both Guarantee and Savings Credit" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:PC_New:V_F_PC_CASELOAD_New" : {
+      "values" : [ [ [ [ 250922, 72939, 141507, 465363 ], [ 482459, 120682, 301374, 904515 ], [ 0, 0, 0, 0 ], [ 733376, 193622, 442876, 1369871 ] ] ], [ [ [ 254102, 71619, 140358, 466076 ], [ 487254, 120806, 302345, 910405 ], [ 0, 0, 0, 0 ], [ 741354, 192421, 442705, 1376480 ] ] ], [ [ [ 255694, 70205, 138804, 464701 ], [ 488748, 119876, 301400, 910028 ], [ 0, 0, 0, 0 ], [ 744447, 190081, 440204, 1374725 ] ] ], [ [ [ 256621, 68476, 136791, 461888 ], [ 489466, 118113, 299059, 906640 ], [ 0, 0, 0, 0 ], [ 746094, 186584, 435851, 1368526 ] ] ], [ [ [ 260061, 64209, 134353, 458624 ], [ 494435, 111427, 294988, 900846 ], [ 0, 0, 0, 0 ], [ 754501, 175637, 429335, 1359471 ] ] ], [ [ [ 262551, 62146, 132012, 456711 ], [ 497012, 108460, 292266, 897730 ], [ 0, 0, 0, 0 ], [ 759564, 170601, 424276, 1354441 ] ] ], [ [ [ 266129, 61558, 130561, 458250 ], [ 500894, 109185, 291442, 901520 ], [ 0, 0, 0, 0 ], [ 767028, 170745, 422002, 1359768 ] ] ], [ [ [ 275563, 62653, 131003, 469216 ], [ 511178, 114263, 296086, 921529 ], [ 0, 0, 0, 0 ], [ 786736, 176912, 427087, 1390743 ] ] ], [ [ [ 282373, 60055, 128593, 471021 ], [ 521246, 110668, 292132, 924039 ], [ 0, 0, 0, 0 ], [ 803622, 170723, 420720, 1395063 ] ] ], [ [ [ 285064, 57970, 126249, 469289 ], [ 524709, 107741, 288493, 920941 ], [ 0, 0, 0, 0 ], [ 809774, 165716, 414743, 1390228 ] ] ], [ [ [ 288074, 56486, 124570, 469127 ], [ 527145, 106105, 286642, 919889 ], [ 0, 0, 0, 0 ], [ 815217, 162592, 411214, 1389020 ] ] ], [ [ [ 291437, 55410, 122589, 469439 ], [ 529623, 105030, 283942, 918600 ], [ 0, 0, 0, 0 ], [ 821058, 160443, 406535, 1388034 ] ] ], [ [ [ 296737, 51683, 119434, 467858 ], [ 535585, 98601, 278801, 912987 ], [ 0, 0, 0, 0 ], [ 832322, 150288, 398237, 1380846 ] ] ] ],
+      "precision" : 0
+    },
+    "str:statfn:PC_New:V_F_PC_CASELOAD_New:CAWKLYAMT:MEAN" : {
+      "values" : [ [ [ [ 96.59405944034978, 8.29643954291063, 53.20127088144844, 69.57304358503545 ], [ 92.55926826543032, 8.281818416086773, 48.852047396738534, 66.76180696079537 ], [ 0, 0, 0, 0 ], [ 93.93981969401393, 8.287316675128803, 50.241335484688676, 67.71678174052381 ] ] ], [ [ [ 106.35895120552864, 9.529064910340596, 59.40950996772694, 77.35803184118421 ], [ 101.98370065832012, 9.543747749093333, 54.312566261428415, 73.89800692059283 ], [ 0, 0, 0, 0 ], [ 103.48336206788312, 9.538303984495364, 55.92814117492745, 75.0694833246552 ] ] ], [ [ [ 106.24373250692467, 9.436692312084253, 59.92915896014346, 77.79845554498114 ], [ 102.00818318139275, 9.464862334709617, 54.59021274687073, 74.12129161359836 ], [ 0, 0, 0, 0 ], [ 103.46294797443034, 9.454442845394624, 56.27294395511221, 75.36411164223203 ] ] ], [ [ [ 106.09298480798834, 9.350708358335686, 60.49236202249897, 78.25927246750607 ], [ 102.08239671354374, 9.396712838869476, 54.925809667937514, 74.45990409477426 ], [ 0, 0, 0, 0 ], [ 103.46183100402071, 9.379838362358225, 56.6722248875297, 75.74202342771902 ] ] ], [ [ [ 105.56022495105866, 9.257314719385333, 60.181229148638245, 78.8011974669601 ], [ 101.66300253221749, 9.212033693802395, 54.665753156129135, 74.85595525091945 ], [ 0, 0, 0, 0 ], [ 103.00648061789195, 9.228582842652838, 56.39154977217213, 76.18703468342923 ] ] ], [ [ [ 113.53094189660611, 10.386765299368799, 65.15825368641778, 85.39766941138272 ], [ 109.74878811858952, 10.384212972803052, 59.17667714694072, 81.25794312367725 ], [ 0, 0, 0, 0 ], [ 111.049451366132, 10.38514803888133, 61.03282063166158, 82.64848775536079 ] ] ], [ [ [ 113.61188547432624, 10.31091621075939, 65.36466504955126, 86.00707280179672 ], [ 109.81951478799414, 10.291809913638716, 59.364201523851825, 81.46287829286194 ], [ 0, 0, 0, 0 ], [ 111.13549120054277, 10.29870305264195, 61.21988771406654, 82.99418982322507 ] ] ], [ [ [ 112.7120148423151, 10.135519641571287, 65.44239444708347, 85.83788974286693 ], [ 109.30389576749488, 10.081683727621186, 59.46481143537794, 80.99939874424146 ], [ 0, 0, 0, 0 ], [ 110.49761189633179, 10.100746127434828, 61.297059382678434, 82.6315066286822 ] ] ], [ [ [ 111.73804932444716, 9.996233512538844, 64.76714342573572, 85.96696190836587 ], [ 108.4520988649477, 9.92562551570934, 59.01300695123528, 81.04326479413929 ], [ 0, 0, 0, 0 ], [ 109.60698630418574, 9.950499297798096, 60.77080710261662, 82.70583399464279 ] ] ], [ [ [ 115.24535305411545, 10.563795638112166, 66.7194392441476, 89.1756457160325 ], [ 112.40455125824217, 10.552240177882057, 60.90542169889538, 84.3423022289015 ], [ 0, 0, 0, 0 ], [ 113.40096898103133, 10.55626377747959, 62.67179360703731, 85.96929788317182 ] ] ], [ [ [ 115.80710168689392, 10.536129702873659, 67.12327313176024, 90.23510820039183 ], [ 112.71209952748275, 10.546383998498492, 61.27590240932355, 84.91868376700255 ], [ 0, 0, 0, 0 ], [ 113.80625856606113, 10.542803098927429, 63.04694942763404, 86.71473369393817 ] ] ], [ [ [ 115.19899693526742, 10.433326775916921, 67.27276731304211, 90.31500362193141 ], [ 112.44863791404615, 10.43546567647339, 61.463514584375574, 85.02094539036169 ], [ 0, 0, 0, 0 ], [ 113.42492295260557, 10.434714531470247, 63.21524332435671, 86.8114263314717 ] ] ], [ [ [ 114.65352322981653, 10.332375682055735, 67.05524112174614, 90.97679153726862 ], [ 112.15162077318675, 10.298531410373455, 61.21716409130779, 85.59498618098074 ], [ 0, 0, 0, 0 ], [ 113.0436093235537, 10.310190577588605, 62.96794820412151, 87.41843063188196 ] ] ] ],
+      "precision" : 2
+    }
+  },
+  "annotationMap" : {
+    "I" : "The move to publishing benefit data via the Stat-Xplore instead of the DWP Tabulation Tool has involved adopting a new disclosure control methodology, in line with other benefits published via this new tool. Although the data still comes from the same source there may be small differences in the outputs displayed using this new tool, when compared to the Tabulation Tool.",
+    "II" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants.",
+    "III" : "From May 2024, the 'Residual MIG' category field has been removed from the 'Type of Pension Credit' breakdown. This is due to the very small number of cases that were present in this field being incorrectly classified as such."
+  }
+}

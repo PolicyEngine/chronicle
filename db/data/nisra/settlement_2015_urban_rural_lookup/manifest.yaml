@@ -1,0 +1,25 @@
+source_id: nisra
+package_id: nisra-settlement-2015-urban-rural-lookup
+dataset: nisra_nisra-settlement-2015-urban-rural-lookup
+source_page: https://www.nisra.gov.uk/support/geography/urban-rural-classification
+table: NISRA 2015 settlement classification and default urban-rural status, Small
+  Area 2011, SOA 2011 and 1992 ward lookups
+files:
+  2015:
+    filename: Settlement15-lookup.xls
+    source_url: https://www.nisra.gov.uk/files/nisra/publications/Settlement15-lookup.xls
+    sha256: 1f9e4c3d2d1ccadbf80eb52f8dc6b8f8867ca0a1aec327925df03cb993ac0ff0
+    size_bytes: 4331008
+    fetched_at: '2026-10-15T10:02:46+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-settlement-2015-urban-rural-lookup/2015/1f9e4c3d2d1ccadbf80eb52f8dc6b8f8867ca0a1aec327925df03cb993ac0ff0/Settlement15-lookup.xls
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-settlement-2015-urban-rural-lookup/2015/1f9e4c3d2d1ccadbf80eb52f8dc6b8f8867ca0a1aec327925df03cb993ac0ff0/Settlement15-lookup.xls
+registration_kind: raw_only
+provenance_notes: 'NISRA 2015 settlement classification lookup (May 2016), the smallest
+  geography NISRA publishes it for: Small Area 2011 (4,537 areas) with settlement
+  code, name and band (A Belfast to H open countryside) and the 2015 default urban/rural/mixed
+  status; SOA 2011 and 1992 ward sheets. Licence: Open Government Licence. Raw-only
+  for chronicle#356 item 4.'

@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-ashe-employee-contribution-bands-by-business-size-2024-full-pay
+dataset: ons_ons-ashe-employee-contribution-bands-by-business-size-2024-full-pay
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+table: 'ASHE pension tables P8: employee pension contribution bands (full pay) by
+  pension type and size of business, 2024 provisional'
+files:
+  2026:
+    filename: 2024provisionalp8.zip
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/workplacepensions/datasets/annualsurveyofhoursandearningspensiontablesemployeecontributionbandsbysizeofbusinessandbypensiontypep8/2024provisional/2024provisionalp8.zip
+    sha256: 15c15c3214366ccfb41da6d6fbe12db8d5e2f0e72212cc9c22e81d3a27b24491
+    size_bytes: 275868
+    fetched_at: '2026-09-29T12:06:03+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-ashe-employee-contribution-bands-by-business-size-2024-full-pay/2026/15c15c3214366ccfb41da6d6fbe12db8d5e2f0e72212cc9c22e81d3a27b24491/2024provisionalp8.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-ashe-employee-contribution-bands-by-business-size-2024-full-pay/2026/15c15c3214366ccfb41da6d6fbe12db8d5e2f0e72212cc9c22e81d3a27b24491/2024provisionalp8.zip

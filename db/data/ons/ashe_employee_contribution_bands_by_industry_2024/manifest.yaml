@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-ashe-employee-contribution-bands-by-industry-2024-full-pay
+dataset: ons_ons-ashe-employee-contribution-bands-by-industry-2024-full-pay
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+table: 'ASHE pension tables P6: employee pension contribution bands (full pay) by
+  pension type and SIC2007 industry, 2024 provisional'
+files:
+  2026:
+    filename: 2024provisionalp6.zip
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/workplacepensions/datasets/annualsurveyofhoursandearningspensiontablesemployeecontributionbandsbyindustryandbypensiontypep6/2024provisional/2024provisionalp6.zip
+    sha256: 28c648ab636863e50602958ee3fe8f740c7e71bd5bfa437ffd0a0c7c91365338
+    size_bytes: 578364
+    fetched_at: '2026-09-29T12:05:56+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-ashe-employee-contribution-bands-by-industry-2024-full-pay/2026/28c648ab636863e50602958ee3fe8f740c7e71bd5bfa437ffd0a0c7c91365338/2024provisionalp6.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-ashe-employee-contribution-bands-by-industry-2024-full-pay/2026/28c648ab636863e50602958ee3fe8f740c7e71bd5bfa437ffd0a0c7c91365338/2024provisionalp6.zip

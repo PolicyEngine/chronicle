@@ -1,0 +1,83 @@
+﻿tax_year,income_tax_nics,contribution_type,nics_relief_class,sector_scheme,scheme_type,tax_rate,value_of_relief
+2023 to 2024,Income Tax,Individual contributions to net pay arrangements,Not applicable,Total,Total,Total,6200
+2023 to 2024,Income Tax,Individual contributions to relief at source schemes,Not applicable,Total,Total,Total,5400
+2023 to 2024,Income Tax,Salary sacrificed contributions,Not applicable,Total,Total,Total,7200
+2023 to 2024,Income Tax,Employer contributions to net pay arrangements plus deficit reduction contributions,Not applicable,Total,Total,Total,22900
+2023 to 2024,Income Tax,Employer contributions to relief at source schemes,Not applicable,Total,Total,Total,8100
+2023 to 2024,Income Tax,Individual contributions to net pay arrangements,Not applicable,Public sector occupational scheme,Total,Total,3800
+2023 to 2024,Income Tax,Individual contributions to relief at source schemes,Not applicable,Public sector occupational scheme,Total,Total,100
+2023 to 2024,Income Tax,Salary sacrificed contributions,Not applicable,Public sector occupational scheme,Total,Total,600
+2023 to 2024,Income Tax,Employer contributions to net pay arrangements plus deficit reduction contributions,Not applicable,Public sector occupational scheme,Total,Total,12400
+2023 to 2024,Income Tax,Employer contributions to relief at source schemes,Not applicable,Public sector occupational scheme,Total,Total,200
+2023 to 2024,Income Tax,Individual contributions to net pay arrangements,Not applicable,Personal or private sector occupational scheme,Total,Total,2300
+2023 to 2024,Income Tax,Individual contributions to relief at source schemes,Not applicable,Personal or private sector occupational scheme,Total,Total,5400
+2023 to 2024,Income Tax,Salary sacrificed contributions,Not applicable,Personal or private sector occupational scheme,Total,Total,6600
+2023 to 2024,Income Tax,Employer contributions to net pay arrangements plus deficit reduction contributions,Not applicable,Personal or private sector occupational scheme,Total,Total,10500
+2023 to 2024,Income Tax,Employer contributions to relief at source schemes,Not applicable,Personal or private sector occupational scheme,Total,Total,7900
+2023 to 2024,Income Tax,Individual contributions to net pay arrangements,Not applicable,Total,Defined benefit,Total,4800
+2023 to 2024,Income Tax,Individual contributions to relief at source schemes,Not applicable,Total,Defined benefit,Total,0
+2023 to 2024,Income Tax,Salary sacrificed contributions,Not applicable,Total,Defined benefit,Total,1200
+2023 to 2024,Income Tax,Employer contributions to net pay arrangements plus deficit reduction contributions,Not applicable,Total,Defined benefit,Total,16200
+2023 to 2024,Income Tax,Employer contributions to relief at source schemes,Not applicable,Total,Defined benefit,Total,0
+2023 to 2024,Income Tax,Individual contributions to net pay arrangements,Not applicable,Total,Defined contribution,Total,1400
+2023 to 2024,Income Tax,Individual contributions to relief at source schemes,Not applicable,Total,Defined contribution,Total,5400
+2023 to 2024,Income Tax,Salary sacrificed contributions,Not applicable,Total,Defined contribution,Total,6000
+2023 to 2024,Income Tax,Employer contributions to net pay arrangements plus deficit reduction contributions,Not applicable,Total,Defined contribution,Total,6700
+2023 to 2024,Income Tax,Employer contributions to relief at source schemes,Not applicable,Total,Defined contribution,Total,8100
+2023 to 2024,Income Tax,Individual contributions to net pay arrangements,Not applicable,Total,Total,Basic Rate,2300
+2023 to 2024,Income Tax,Individual contributions to relief at source schemes,Not applicable,Total,Total,Basic Rate,2900
+2023 to 2024,Income Tax,Salary sacrificed contributions,Not applicable,Total,Total,Basic Rate,1600
+2023 to 2024,Income Tax,Employer contributions to net pay arrangements plus deficit reduction contributions,Not applicable,Total,Total,Basic Rate,7000
+2023 to 2024,Income Tax,Employer contributions to relief at source schemes,Not applicable,Total,Total,Basic Rate,2200
+2023 to 2024,Income Tax,Individual contributions to net pay arrangements,Not applicable,Total,Total,Higher Rate,3200
+2023 to 2024,Income Tax,Individual contributions to relief at source schemes,Not applicable,Total,Total,Higher Rate,1500
+2023 to 2024,Income Tax,Salary sacrificed contributions,Not applicable,Total,Total,Higher Rate,4400
+2023 to 2024,Income Tax,Employer contributions to net pay arrangements plus deficit reduction contributions,Not applicable,Total,Total,Higher Rate,14100
+2023 to 2024,Income Tax,Employer contributions to relief at source schemes,Not applicable,Total,Total,Higher Rate,4500
+2023 to 2024,Income Tax,Individual contributions to net pay arrangements,Not applicable,Total,Total,Additional Rate,700
+2023 to 2024,Income Tax,Individual contributions to relief at source schemes,Not applicable,Total,Total,Additional Rate,1000
+2023 to 2024,Income Tax,Salary sacrificed contributions,Not applicable,Total,Total,Additional Rate,1200
+2023 to 2024,Income Tax,Employer contributions to net pay arrangements plus deficit reduction contributions,Not applicable,Total,Total,Additional Rate,1900
+2023 to 2024,Income Tax,Employer contributions to relief at source schemes,Not applicable,Total,Total,Additional Rate,1400
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Primary (employee),Total,Total,Total,4800
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Primary (employee),Total,Total,Total,1600
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Primary (employee),Total,Total,Total,1200
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Secondary (employer),Total,Total,Total,10100
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Secondary (employer),Total,Total,Total,3400
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Secondary (employer),Total,Total,Total,2900
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Primary (employee),Public sector occupational scheme,Total,Total,2900
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Primary (employee),Public sector occupational scheme,Total,Total,100
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Primary (employee),Public sector occupational scheme,Total,Total,100
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Secondary (employer),Public sector occupational scheme,Total,Total,5700
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Secondary (employer),Public sector occupational scheme,Total,Total,100
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Secondary (employer),Public sector occupational scheme,Total,Total,300
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Primary (employee),Personal or private sector occupational scheme,Total,Total,1900
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Primary (employee),Personal or private sector occupational scheme,Total,Total,1500
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Primary (employee),Personal or private sector occupational scheme,Total,Total,1000
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Secondary (employer),Personal or private sector occupational scheme,Total,Total,4400
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Secondary (employer),Personal or private sector occupational scheme,Total,Total,3400
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Secondary (employer),Personal or private sector occupational scheme,Total,Total,2600
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Primary (employee),Total,Defined benefit,Total,3700
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Primary (employee),Total,Defined benefit,Total,0
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Primary (employee),Total,Defined benefit,Total,200
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Secondary (employer),Total,Defined benefit,Total,7400
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Secondary (employer),Total,Defined benefit,Total,0
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Secondary (employer),Total,Defined benefit,Total,500
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Primary (employee),Total,Defined contribution,Total,1200
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Primary (employee),Total,Defined contribution,Total,1600
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Primary (employee),Total,Defined contribution,Total,900
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Secondary (employer),Total,Defined contribution,Total,2700
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Secondary (employer),Total,Defined contribution,Total,3400
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Secondary (employer),Total,Defined contribution,Total,2300
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Primary (employee),Total,Total,Main Rate,4100
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Primary (employee),Total,Total,Main Rate,1300
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Primary (employee),Total,Total,Main Rate,900
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Secondary (employer),Total,Total,Main Rate,10100
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Secondary (employer),Total,Total,Main Rate,3400
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Secondary (employer),Total,Total,Main Rate,2900
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Primary (employee),Total,Total,Additional Rate,700
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Primary (employee),Total,Total,Additional Rate,300
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Primary (employee),Total,Total,Additional Rate,300
+2023 to 2024,NICs,Employer contributions to net pay arrangements and on employer deficit reduction contributions,Class 1 Secondary (employer),Total,Total,Additional Rate,[z]
+2023 to 2024,NICs,Employer contributions to relief at source schemes,Class 1 Secondary (employer),Total,Total,Additional Rate,[z]
+2023 to 2024,NICs,Salary sacrificed contributions,Class 1 Secondary (employer),Total,Total,Additional Rate,[z]

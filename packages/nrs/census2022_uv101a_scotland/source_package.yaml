@@ -1,0 +1,5568 @@
+# Scotland's Census 2022 UV101a (usual residents by sex, age and residence type) at Scotland
+# level, for PolicyEngine/chronicle#358 item 2: the same SuperWEB2 export layout as the
+# council-area and UK-constituency UV101a packages, from the UK Data Service mirror of NRS's
+# outputs. Census day 20 March 2022.
+#
+# NRS publishes nothing finer than '85 and over' by residence type. UV101a (20 age bands) and
+# UV101b (six bands) are the only published tables crossing residence type with age; UV102a
+# (single year by sex) also stops at 85 and over, and UV103 (single year to 100 and over) has
+# no sex or residence type. A residence-type split of 85-89 from 90 and over would need an
+# export from NRS's flexible table builder, which requires accepting its user agreement and
+# has not been made. This package therefore carries UV101a's 20 bands and totals, by sex and
+# residence type, as published (cells are perturbed and need not add up).
+schema_version: ledger.source_package.v1
+package_id: nrs-census2022-uv101a-scotland
+label: 'NRS Scotland''s Census 2022 UV101a residence type by sex by age: Scotland'
+dimension_labels:
+  Sex: Sex
+  Age: Age
+  Residence Type Indicator: Residence Type Indicator
+artifact:
+  source_name: nrs
+  source_table: 'NRS Scotland''s Census 2022 UV101a residence type by sex by age: Scotland'
+  resource_package: db
+  resource_directory: data/nrs/census2022_uv101a_scotland
+  manifest: manifest.yaml
+  vintage: census_2022_uv101a_2024_release
+  extracted_at: '2026-10-15'
+  extraction_method: Publisher artifact parsed without modifying values
+  parser: delimited_text_full_rows
+  artifact_year: 2022
+  sheet_name: census2022_uv101a_sex_and_age_residence_type_scotland.csv
+  header_row: 11
+record_sets:
+- record_set_id: nrs.census2022_uv101a_scotland.all_people.all_people
+  provenance_class: census
+  record_set_spec_id: nrs.census2022_uv101a_scotland.all_people.all_people.v1
+  source_record_id_prefix: nrs.census2022_uv101a_scotland.all_people.all_people
+  sheet_name: census2022_uv101a_sex_and_age_residence_type_scotland.csv
+  period_type: calendar_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-03-20'
+    end_date: '2022-03-20'
+    basis: calendar
+    source_period_label: Census 2022
+    notes: Census day 20 March 2022. Usual residents; students at term-time address.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: Age
+  shared_filters:
+    Sex: All people
+    Residence Type Indicator: All people
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: All people
+    label: Sex
+  - variable: Residence Type Indicator
+    operator: ==
+    value: All people
+    label: Residence Type Indicator
+  measures:
+  - measure_id: nrs_census2022_residents
+    label: Usual residents
+    ordinal: 0
+    column: F
+    source_column_id: Count
+    expected_column_header_row: 1
+    expected_column_header: Count
+    concept: nrs.census2022_residents
+    concept_evidence_notes: 'Publisher disclosure-controlled counts: cells need not add to totals. Census
+      date 20 March 2022, students at term-time address.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: age_total
+    label: Total
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: D
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      Age: Total
+    constraints:
+    - variable: Age
+      operator: ==
+      value: Total
+      label: Age
+    guard_cells:
+    - column: B
+      row: 2
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 2
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 2
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_0_4
+    label: 0 - 4
+    ordinal: 1
+    row_number: 5
+    expected_row_header_column: D
+    expected_row_header: 0 - 4
+    table_record_kind: detail
+    filters:
+      Age: 0 - 4
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 0 - 4
+      label: Age
+    guard_cells:
+    - column: B
+      row: 5
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 5
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 5
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_5_9
+    label: 5 - 9
+    ordinal: 2
+    row_number: 8
+    expected_row_header_column: D
+    expected_row_header: 5 - 9
+    table_record_kind: detail
+    filters:
+      Age: 5 - 9
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 5 - 9
+      label: Age
+    guard_cells:
+    - column: B
+      row: 8
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 8
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 8
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_10_14
+    label: 10 - 14
+    ordinal: 3
+    row_number: 11
+    expected_row_header_column: D
+    expected_row_header: 10 - 14
+    table_record_kind: detail
+    filters:
+      Age: 10 - 14
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 10 - 14
+      label: Age
+    guard_cells:
+    - column: B
+      row: 11
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 11
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 11
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_15
+    label: '15'
+    ordinal: 4
+    row_number: 14
+    expected_row_header_column: D
+    expected_row_header: '15'
+    table_record_kind: detail
+    filters:
+      Age: '15'
+    constraints:
+    - variable: Age
+      operator: ==
+      value: '15'
+      label: Age
+    guard_cells:
+    - column: B
+      row: 14
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 14
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 14
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_16_17
+    label: 16 - 17
+    ordinal: 5
+    row_number: 17
+    expected_row_header_column: D
+    expected_row_header: 16 - 17
+    table_record_kind: detail
+    filters:
+      Age: 16 - 17
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 16 - 17
+      label: Age
+    guard_cells:
+    - column: B
+      row: 17
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 17
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 17
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_18_19
+    label: 18 - 19
+    ordinal: 6
+    row_number: 20
+    expected_row_header_column: D
+    expected_row_header: 18 - 19
+    table_record_kind: detail
+    filters:
+      Age: 18 - 19
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 18 - 19
+      label: Age
+    guard_cells:
+    - column: B
+      row: 20
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 20
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 20
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_20_24
+    label: 20 - 24
+    ordinal: 7
+    row_number: 23
+    expected_row_header_column: D
+    expected_row_header: 20 - 24
+    table_record_kind: detail
+    filters:
+      Age: 20 - 24
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 20 - 24
+      label: Age
+    guard_cells:
+    - column: B
+      row: 23
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 23
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 23
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_25_29
+    label: 25 - 29
+    ordinal: 8
+    row_number: 26
+    expected_row_header_column: D
+    expected_row_header: 25 - 29
+    table_record_kind: detail
+    filters:
+      Age: 25 - 29
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 25 - 29
+      label: Age
+    guard_cells:
+    - column: B
+      row: 26
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 26
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 26
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_30_34
+    label: 30 - 34
+    ordinal: 9
+    row_number: 29
+    expected_row_header_column: D
+    expected_row_header: 30 - 34
+    table_record_kind: detail
+    filters:
+      Age: 30 - 34
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 30 - 34
+      label: Age
+    guard_cells:
+    - column: B
+      row: 29
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 29
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 29
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_35_39
+    label: 35 - 39
+    ordinal: 10
+    row_number: 32
+    expected_row_header_column: D
+    expected_row_header: 35 - 39
+    table_record_kind: detail
+    filters:
+      Age: 35 - 39
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 35 - 39
+      label: Age
+    guard_cells:
+    - column: B
+      row: 32
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 32
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 32
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_40_44
+    label: 40 - 44
+    ordinal: 11
+    row_number: 35
+    expected_row_header_column: D
+    expected_row_header: 40 - 44
+    table_record_kind: detail
+    filters:
+      Age: 40 - 44
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 40 - 44
+      label: Age
+    guard_cells:
+    - column: B
+      row: 35
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 35
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 35
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_45_49
+    label: 45 - 49
+    ordinal: 12
+    row_number: 38
+    expected_row_header_column: D
+    expected_row_header: 45 - 49
+    table_record_kind: detail
+    filters:
+      Age: 45 - 49
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 45 - 49
+      label: Age
+    guard_cells:
+    - column: B
+      row: 38
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 38
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 38
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_50_54
+    label: 50 - 54
+    ordinal: 13
+    row_number: 41
+    expected_row_header_column: D
+    expected_row_header: 50 - 54
+    table_record_kind: detail
+    filters:
+      Age: 50 - 54
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 50 - 54
+      label: Age
+    guard_cells:
+    - column: B
+      row: 41
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 41
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 41
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_55_59
+    label: 55 - 59
+    ordinal: 14
+    row_number: 44
+    expected_row_header_column: D
+    expected_row_header: 55 - 59
+    table_record_kind: detail
+    filters:
+      Age: 55 - 59
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 55 - 59
+      label: Age
+    guard_cells:
+    - column: B
+      row: 44
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 44
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 44
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_60_64
+    label: 60 - 64
+    ordinal: 15
+    row_number: 47
+    expected_row_header_column: D
+    expected_row_header: 60 - 64
+    table_record_kind: detail
+    filters:
+      Age: 60 - 64
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 60 - 64
+      label: Age
+    guard_cells:
+    - column: B
+      row: 47
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 47
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 47
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_65_69
+    label: 65 - 69
+    ordinal: 16
+    row_number: 50
+    expected_row_header_column: D
+    expected_row_header: 65 - 69
+    table_record_kind: detail
+    filters:
+      Age: 65 - 69
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 65 - 69
+      label: Age
+    guard_cells:
+    - column: B
+      row: 50
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 50
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 50
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_70_74
+    label: 70 - 74
+    ordinal: 17
+    row_number: 53
+    expected_row_header_column: D
+    expected_row_header: 70 - 74
+    table_record_kind: detail
+    filters:
+      Age: 70 - 74
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 70 - 74
+      label: Age
+    guard_cells:
+    - column: B
+      row: 53
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 53
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 53
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_75_79
+    label: 75 - 79
+    ordinal: 18
+    row_number: 56
+    expected_row_header_column: D
+    expected_row_header: 75 - 79
+    table_record_kind: detail
+    filters:
+      Age: 75 - 79
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 75 - 79
+      label: Age
+    guard_cells:
+    - column: B
+      row: 56
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 56
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 56
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_80_84
+    label: 80 - 84
+    ordinal: 19
+    row_number: 59
+    expected_row_header_column: D
+    expected_row_header: 80 - 84
+    table_record_kind: detail
+    filters:
+      Age: 80 - 84
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 80 - 84
+      label: Age
+    guard_cells:
+    - column: B
+      row: 59
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 59
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 59
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_85_and_over
+    label: 85 and over
+    ordinal: 20
+    row_number: 62
+    expected_row_header_column: D
+    expected_row_header: 85 and over
+    table_record_kind: detail
+    filters:
+      Age: 85 and over
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 85 and over
+      label: Age
+    guard_cells:
+    - column: B
+      row: 62
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 62
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 62
+      expected_value: All people
+      label: Residence Type Indicator
+- record_set_id: nrs.census2022_uv101a_scotland.all_people.lives_in_a_household
+  provenance_class: census
+  record_set_spec_id: nrs.census2022_uv101a_scotland.all_people.lives_in_a_household.v1
+  source_record_id_prefix: nrs.census2022_uv101a_scotland.all_people.lives_in_a_household
+  sheet_name: census2022_uv101a_sex_and_age_residence_type_scotland.csv
+  period_type: calendar_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-03-20'
+    end_date: '2022-03-20'
+    basis: calendar
+    source_period_label: Census 2022
+    notes: Census day 20 March 2022. Usual residents; students at term-time address.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: Age
+  shared_filters:
+    Sex: All people
+    Residence Type Indicator: Lives in a household
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: All people
+    label: Sex
+  - variable: Residence Type Indicator
+    operator: ==
+    value: Lives in a household
+    label: Residence Type Indicator
+  measures:
+  - measure_id: nrs_census2022_residents
+    label: Usual residents
+    ordinal: 0
+    column: F
+    source_column_id: Count
+    expected_column_header_row: 1
+    expected_column_header: Count
+    concept: nrs.census2022_residents
+    concept_evidence_notes: 'Publisher disclosure-controlled counts: cells need not add to totals. Census
+      date 20 March 2022, students at term-time address.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: age_total
+    label: Total
+    ordinal: 0
+    row_number: 3
+    expected_row_header_column: D
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      Age: Total
+    constraints:
+    - variable: Age
+      operator: ==
+      value: Total
+      label: Age
+    guard_cells:
+    - column: B
+      row: 3
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 3
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 3
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_0_4
+    label: 0 - 4
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: D
+    expected_row_header: 0 - 4
+    table_record_kind: detail
+    filters:
+      Age: 0 - 4
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 0 - 4
+      label: Age
+    guard_cells:
+    - column: B
+      row: 6
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 6
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 6
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_5_9
+    label: 5 - 9
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: D
+    expected_row_header: 5 - 9
+    table_record_kind: detail
+    filters:
+      Age: 5 - 9
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 5 - 9
+      label: Age
+    guard_cells:
+    - column: B
+      row: 9
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 9
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 9
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_10_14
+    label: 10 - 14
+    ordinal: 3
+    row_number: 12
+    expected_row_header_column: D
+    expected_row_header: 10 - 14
+    table_record_kind: detail
+    filters:
+      Age: 10 - 14
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 10 - 14
+      label: Age
+    guard_cells:
+    - column: B
+      row: 12
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 12
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 12
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_15
+    label: '15'
+    ordinal: 4
+    row_number: 15
+    expected_row_header_column: D
+    expected_row_header: '15'
+    table_record_kind: detail
+    filters:
+      Age: '15'
+    constraints:
+    - variable: Age
+      operator: ==
+      value: '15'
+      label: Age
+    guard_cells:
+    - column: B
+      row: 15
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 15
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 15
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_16_17
+    label: 16 - 17
+    ordinal: 5
+    row_number: 18
+    expected_row_header_column: D
+    expected_row_header: 16 - 17
+    table_record_kind: detail
+    filters:
+      Age: 16 - 17
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 16 - 17
+      label: Age
+    guard_cells:
+    - column: B
+      row: 18
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 18
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 18
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_18_19
+    label: 18 - 19
+    ordinal: 6
+    row_number: 21
+    expected_row_header_column: D
+    expected_row_header: 18 - 19
+    table_record_kind: detail
+    filters:
+      Age: 18 - 19
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 18 - 19
+      label: Age
+    guard_cells:
+    - column: B
+      row: 21
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 21
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 21
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_20_24
+    label: 20 - 24
+    ordinal: 7
+    row_number: 24
+    expected_row_header_column: D
+    expected_row_header: 20 - 24
+    table_record_kind: detail
+    filters:
+      Age: 20 - 24
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 20 - 24
+      label: Age
+    guard_cells:
+    - column: B
+      row: 24
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 24
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 24
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_25_29
+    label: 25 - 29
+    ordinal: 8
+    row_number: 27
+    expected_row_header_column: D
+    expected_row_header: 25 - 29
+    table_record_kind: detail
+    filters:
+      Age: 25 - 29
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 25 - 29
+      label: Age
+    guard_cells:
+    - column: B
+      row: 27
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 27
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 27
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_30_34
+    label: 30 - 34
+    ordinal: 9
+    row_number: 30
+    expected_row_header_column: D
+    expected_row_header: 30 - 34
+    table_record_kind: detail
+    filters:
+      Age: 30 - 34
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 30 - 34
+      label: Age
+    guard_cells:
+    - column: B
+      row: 30
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 30
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 30
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_35_39
+    label: 35 - 39
+    ordinal: 10
+    row_number: 33
+    expected_row_header_column: D
+    expected_row_header: 35 - 39
+    table_record_kind: detail
+    filters:
+      Age: 35 - 39
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 35 - 39
+      label: Age
+    guard_cells:
+    - column: B
+      row: 33
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 33
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 33
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_40_44
+    label: 40 - 44
+    ordinal: 11
+    row_number: 36
+    expected_row_header_column: D
+    expected_row_header: 40 - 44
+    table_record_kind: detail
+    filters:
+      Age: 40 - 44
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 40 - 44
+      label: Age
+    guard_cells:
+    - column: B
+      row: 36
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 36
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 36
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_45_49
+    label: 45 - 49
+    ordinal: 12
+    row_number: 39
+    expected_row_header_column: D
+    expected_row_header: 45 - 49
+    table_record_kind: detail
+    filters:
+      Age: 45 - 49
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 45 - 49
+      label: Age
+    guard_cells:
+    - column: B
+      row: 39
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 39
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 39
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_50_54
+    label: 50 - 54
+    ordinal: 13
+    row_number: 42
+    expected_row_header_column: D
+    expected_row_header: 50 - 54
+    table_record_kind: detail
+    filters:
+      Age: 50 - 54
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 50 - 54
+      label: Age
+    guard_cells:
+    - column: B
+      row: 42
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 42
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 42
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_55_59
+    label: 55 - 59
+    ordinal: 14
+    row_number: 45
+    expected_row_header_column: D
+    expected_row_header: 55 - 59
+    table_record_kind: detail
+    filters:
+      Age: 55 - 59
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 55 - 59
+      label: Age
+    guard_cells:
+    - column: B
+      row: 45
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 45
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 45
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_60_64
+    label: 60 - 64
+    ordinal: 15
+    row_number: 48
+    expected_row_header_column: D
+    expected_row_header: 60 - 64
+    table_record_kind: detail
+    filters:
+      Age: 60 - 64
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 60 - 64
+      label: Age
+    guard_cells:
+    - column: B
+      row: 48
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 48
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 48
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_65_69
+    label: 65 - 69
+    ordinal: 16
+    row_number: 51
+    expected_row_header_column: D
+    expected_row_header: 65 - 69
+    table_record_kind: detail
+    filters:
+      Age: 65 - 69
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 65 - 69
+      label: Age
+    guard_cells:
+    - column: B
+      row: 51
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 51
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 51
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_70_74
+    label: 70 - 74
+    ordinal: 17
+    row_number: 54
+    expected_row_header_column: D
+    expected_row_header: 70 - 74
+    table_record_kind: detail
+    filters:
+      Age: 70 - 74
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 70 - 74
+      label: Age
+    guard_cells:
+    - column: B
+      row: 54
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 54
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 54
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_75_79
+    label: 75 - 79
+    ordinal: 18
+    row_number: 57
+    expected_row_header_column: D
+    expected_row_header: 75 - 79
+    table_record_kind: detail
+    filters:
+      Age: 75 - 79
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 75 - 79
+      label: Age
+    guard_cells:
+    - column: B
+      row: 57
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 57
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 57
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_80_84
+    label: 80 - 84
+    ordinal: 19
+    row_number: 60
+    expected_row_header_column: D
+    expected_row_header: 80 - 84
+    table_record_kind: detail
+    filters:
+      Age: 80 - 84
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 80 - 84
+      label: Age
+    guard_cells:
+    - column: B
+      row: 60
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 60
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 60
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_85_and_over
+    label: 85 and over
+    ordinal: 20
+    row_number: 63
+    expected_row_header_column: D
+    expected_row_header: 85 and over
+    table_record_kind: detail
+    filters:
+      Age: 85 and over
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 85 and over
+      label: Age
+    guard_cells:
+    - column: B
+      row: 63
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 63
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 63
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+- record_set_id: nrs.census2022_uv101a_scotland.all_people.lives_in_a_communal_establishment
+  provenance_class: census
+  record_set_spec_id: nrs.census2022_uv101a_scotland.all_people.lives_in_a_communal_establishment.v1
+  source_record_id_prefix: nrs.census2022_uv101a_scotland.all_people.lives_in_a_communal_establishment
+  sheet_name: census2022_uv101a_sex_and_age_residence_type_scotland.csv
+  period_type: calendar_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-03-20'
+    end_date: '2022-03-20'
+    basis: calendar
+    source_period_label: Census 2022
+    notes: Census day 20 March 2022. Usual residents; students at term-time address.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: Age
+  shared_filters:
+    Sex: All people
+    Residence Type Indicator: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: All people
+    label: Sex
+  - variable: Residence Type Indicator
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence Type Indicator
+  measures:
+  - measure_id: nrs_census2022_residents
+    label: Usual residents
+    ordinal: 0
+    column: F
+    source_column_id: Count
+    expected_column_header_row: 1
+    expected_column_header: Count
+    concept: nrs.census2022_residents
+    concept_evidence_notes: 'Publisher disclosure-controlled counts: cells need not add to totals. Census
+      date 20 March 2022, students at term-time address.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: age_total
+    label: Total
+    ordinal: 0
+    row_number: 4
+    expected_row_header_column: D
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      Age: Total
+    constraints:
+    - variable: Age
+      operator: ==
+      value: Total
+      label: Age
+    guard_cells:
+    - column: B
+      row: 4
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 4
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 4
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_0_4
+    label: 0 - 4
+    ordinal: 1
+    row_number: 7
+    expected_row_header_column: D
+    expected_row_header: 0 - 4
+    table_record_kind: detail
+    filters:
+      Age: 0 - 4
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 0 - 4
+      label: Age
+    guard_cells:
+    - column: B
+      row: 7
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 7
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 7
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_5_9
+    label: 5 - 9
+    ordinal: 2
+    row_number: 10
+    expected_row_header_column: D
+    expected_row_header: 5 - 9
+    table_record_kind: detail
+    filters:
+      Age: 5 - 9
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 5 - 9
+      label: Age
+    guard_cells:
+    - column: B
+      row: 10
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 10
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 10
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_10_14
+    label: 10 - 14
+    ordinal: 3
+    row_number: 13
+    expected_row_header_column: D
+    expected_row_header: 10 - 14
+    table_record_kind: detail
+    filters:
+      Age: 10 - 14
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 10 - 14
+      label: Age
+    guard_cells:
+    - column: B
+      row: 13
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 13
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 13
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_15
+    label: '15'
+    ordinal: 4
+    row_number: 16
+    expected_row_header_column: D
+    expected_row_header: '15'
+    table_record_kind: detail
+    filters:
+      Age: '15'
+    constraints:
+    - variable: Age
+      operator: ==
+      value: '15'
+      label: Age
+    guard_cells:
+    - column: B
+      row: 16
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 16
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 16
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_16_17
+    label: 16 - 17
+    ordinal: 5
+    row_number: 19
+    expected_row_header_column: D
+    expected_row_header: 16 - 17
+    table_record_kind: detail
+    filters:
+      Age: 16 - 17
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 16 - 17
+      label: Age
+    guard_cells:
+    - column: B
+      row: 19
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 19
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 19
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_18_19
+    label: 18 - 19
+    ordinal: 6
+    row_number: 22
+    expected_row_header_column: D
+    expected_row_header: 18 - 19
+    table_record_kind: detail
+    filters:
+      Age: 18 - 19
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 18 - 19
+      label: Age
+    guard_cells:
+    - column: B
+      row: 22
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 22
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 22
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_20_24
+    label: 20 - 24
+    ordinal: 7
+    row_number: 25
+    expected_row_header_column: D
+    expected_row_header: 20 - 24
+    table_record_kind: detail
+    filters:
+      Age: 20 - 24
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 20 - 24
+      label: Age
+    guard_cells:
+    - column: B
+      row: 25
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 25
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 25
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_25_29
+    label: 25 - 29
+    ordinal: 8
+    row_number: 28
+    expected_row_header_column: D
+    expected_row_header: 25 - 29
+    table_record_kind: detail
+    filters:
+      Age: 25 - 29
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 25 - 29
+      label: Age
+    guard_cells:
+    - column: B
+      row: 28
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 28
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 28
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_30_34
+    label: 30 - 34
+    ordinal: 9
+    row_number: 31
+    expected_row_header_column: D
+    expected_row_header: 30 - 34
+    table_record_kind: detail
+    filters:
+      Age: 30 - 34
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 30 - 34
+      label: Age
+    guard_cells:
+    - column: B
+      row: 31
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 31
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 31
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_35_39
+    label: 35 - 39
+    ordinal: 10
+    row_number: 34
+    expected_row_header_column: D
+    expected_row_header: 35 - 39
+    table_record_kind: detail
+    filters:
+      Age: 35 - 39
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 35 - 39
+      label: Age
+    guard_cells:
+    - column: B
+      row: 34
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 34
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 34
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_40_44
+    label: 40 - 44
+    ordinal: 11
+    row_number: 37
+    expected_row_header_column: D
+    expected_row_header: 40 - 44
+    table_record_kind: detail
+    filters:
+      Age: 40 - 44
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 40 - 44
+      label: Age
+    guard_cells:
+    - column: B
+      row: 37
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 37
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 37
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_45_49
+    label: 45 - 49
+    ordinal: 12
+    row_number: 40
+    expected_row_header_column: D
+    expected_row_header: 45 - 49
+    table_record_kind: detail
+    filters:
+      Age: 45 - 49
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 45 - 49
+      label: Age
+    guard_cells:
+    - column: B
+      row: 40
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 40
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 40
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_50_54
+    label: 50 - 54
+    ordinal: 13
+    row_number: 43
+    expected_row_header_column: D
+    expected_row_header: 50 - 54
+    table_record_kind: detail
+    filters:
+      Age: 50 - 54
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 50 - 54
+      label: Age
+    guard_cells:
+    - column: B
+      row: 43
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 43
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 43
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_55_59
+    label: 55 - 59
+    ordinal: 14
+    row_number: 46
+    expected_row_header_column: D
+    expected_row_header: 55 - 59
+    table_record_kind: detail
+    filters:
+      Age: 55 - 59
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 55 - 59
+      label: Age
+    guard_cells:
+    - column: B
+      row: 46
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 46
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 46
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_60_64
+    label: 60 - 64
+    ordinal: 15
+    row_number: 49
+    expected_row_header_column: D
+    expected_row_header: 60 - 64
+    table_record_kind: detail
+    filters:
+      Age: 60 - 64
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 60 - 64
+      label: Age
+    guard_cells:
+    - column: B
+      row: 49
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 49
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 49
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_65_69
+    label: 65 - 69
+    ordinal: 16
+    row_number: 52
+    expected_row_header_column: D
+    expected_row_header: 65 - 69
+    table_record_kind: detail
+    filters:
+      Age: 65 - 69
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 65 - 69
+      label: Age
+    guard_cells:
+    - column: B
+      row: 52
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 52
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 52
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_70_74
+    label: 70 - 74
+    ordinal: 17
+    row_number: 55
+    expected_row_header_column: D
+    expected_row_header: 70 - 74
+    table_record_kind: detail
+    filters:
+      Age: 70 - 74
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 70 - 74
+      label: Age
+    guard_cells:
+    - column: B
+      row: 55
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 55
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 55
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_75_79
+    label: 75 - 79
+    ordinal: 18
+    row_number: 58
+    expected_row_header_column: D
+    expected_row_header: 75 - 79
+    table_record_kind: detail
+    filters:
+      Age: 75 - 79
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 75 - 79
+      label: Age
+    guard_cells:
+    - column: B
+      row: 58
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 58
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 58
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_80_84
+    label: 80 - 84
+    ordinal: 19
+    row_number: 61
+    expected_row_header_column: D
+    expected_row_header: 80 - 84
+    table_record_kind: detail
+    filters:
+      Age: 80 - 84
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 80 - 84
+      label: Age
+    guard_cells:
+    - column: B
+      row: 61
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 61
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 61
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_85_and_over
+    label: 85 and over
+    ordinal: 20
+    row_number: 64
+    expected_row_header_column: D
+    expected_row_header: 85 and over
+    table_record_kind: detail
+    filters:
+      Age: 85 and over
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 85 and over
+      label: Age
+    guard_cells:
+    - column: B
+      row: 64
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 64
+      expected_value: All people
+      label: Sex
+    - column: E
+      row: 64
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+- record_set_id: nrs.census2022_uv101a_scotland.female.all_people
+  provenance_class: census
+  record_set_spec_id: nrs.census2022_uv101a_scotland.female.all_people.v1
+  source_record_id_prefix: nrs.census2022_uv101a_scotland.female.all_people
+  sheet_name: census2022_uv101a_sex_and_age_residence_type_scotland.csv
+  period_type: calendar_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-03-20'
+    end_date: '2022-03-20'
+    basis: calendar
+    source_period_label: Census 2022
+    notes: Census day 20 March 2022. Usual residents; students at term-time address.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: Age
+  shared_filters:
+    Sex: Female
+    Residence Type Indicator: All people
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Female
+    label: Sex
+  - variable: Residence Type Indicator
+    operator: ==
+    value: All people
+    label: Residence Type Indicator
+  measures:
+  - measure_id: nrs_census2022_residents
+    label: Usual residents
+    ordinal: 0
+    column: F
+    source_column_id: Count
+    expected_column_header_row: 1
+    expected_column_header: Count
+    concept: nrs.census2022_residents
+    concept_evidence_notes: 'Publisher disclosure-controlled counts: cells need not add to totals. Census
+      date 20 March 2022, students at term-time address.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: age_total
+    label: Total
+    ordinal: 0
+    row_number: 65
+    expected_row_header_column: D
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      Age: Total
+    constraints:
+    - variable: Age
+      operator: ==
+      value: Total
+      label: Age
+    guard_cells:
+    - column: B
+      row: 65
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 65
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 65
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_0_4
+    label: 0 - 4
+    ordinal: 1
+    row_number: 68
+    expected_row_header_column: D
+    expected_row_header: 0 - 4
+    table_record_kind: detail
+    filters:
+      Age: 0 - 4
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 0 - 4
+      label: Age
+    guard_cells:
+    - column: B
+      row: 68
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 68
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 68
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_5_9
+    label: 5 - 9
+    ordinal: 2
+    row_number: 71
+    expected_row_header_column: D
+    expected_row_header: 5 - 9
+    table_record_kind: detail
+    filters:
+      Age: 5 - 9
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 5 - 9
+      label: Age
+    guard_cells:
+    - column: B
+      row: 71
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 71
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 71
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_10_14
+    label: 10 - 14
+    ordinal: 3
+    row_number: 74
+    expected_row_header_column: D
+    expected_row_header: 10 - 14
+    table_record_kind: detail
+    filters:
+      Age: 10 - 14
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 10 - 14
+      label: Age
+    guard_cells:
+    - column: B
+      row: 74
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 74
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 74
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_15
+    label: '15'
+    ordinal: 4
+    row_number: 77
+    expected_row_header_column: D
+    expected_row_header: '15'
+    table_record_kind: detail
+    filters:
+      Age: '15'
+    constraints:
+    - variable: Age
+      operator: ==
+      value: '15'
+      label: Age
+    guard_cells:
+    - column: B
+      row: 77
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 77
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 77
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_16_17
+    label: 16 - 17
+    ordinal: 5
+    row_number: 80
+    expected_row_header_column: D
+    expected_row_header: 16 - 17
+    table_record_kind: detail
+    filters:
+      Age: 16 - 17
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 16 - 17
+      label: Age
+    guard_cells:
+    - column: B
+      row: 80
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 80
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 80
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_18_19
+    label: 18 - 19
+    ordinal: 6
+    row_number: 83
+    expected_row_header_column: D
+    expected_row_header: 18 - 19
+    table_record_kind: detail
+    filters:
+      Age: 18 - 19
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 18 - 19
+      label: Age
+    guard_cells:
+    - column: B
+      row: 83
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 83
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 83
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_20_24
+    label: 20 - 24
+    ordinal: 7
+    row_number: 86
+    expected_row_header_column: D
+    expected_row_header: 20 - 24
+    table_record_kind: detail
+    filters:
+      Age: 20 - 24
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 20 - 24
+      label: Age
+    guard_cells:
+    - column: B
+      row: 86
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 86
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 86
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_25_29
+    label: 25 - 29
+    ordinal: 8
+    row_number: 89
+    expected_row_header_column: D
+    expected_row_header: 25 - 29
+    table_record_kind: detail
+    filters:
+      Age: 25 - 29
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 25 - 29
+      label: Age
+    guard_cells:
+    - column: B
+      row: 89
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 89
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 89
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_30_34
+    label: 30 - 34
+    ordinal: 9
+    row_number: 92
+    expected_row_header_column: D
+    expected_row_header: 30 - 34
+    table_record_kind: detail
+    filters:
+      Age: 30 - 34
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 30 - 34
+      label: Age
+    guard_cells:
+    - column: B
+      row: 92
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 92
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 92
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_35_39
+    label: 35 - 39
+    ordinal: 10
+    row_number: 95
+    expected_row_header_column: D
+    expected_row_header: 35 - 39
+    table_record_kind: detail
+    filters:
+      Age: 35 - 39
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 35 - 39
+      label: Age
+    guard_cells:
+    - column: B
+      row: 95
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 95
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 95
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_40_44
+    label: 40 - 44
+    ordinal: 11
+    row_number: 98
+    expected_row_header_column: D
+    expected_row_header: 40 - 44
+    table_record_kind: detail
+    filters:
+      Age: 40 - 44
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 40 - 44
+      label: Age
+    guard_cells:
+    - column: B
+      row: 98
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 98
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 98
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_45_49
+    label: 45 - 49
+    ordinal: 12
+    row_number: 101
+    expected_row_header_column: D
+    expected_row_header: 45 - 49
+    table_record_kind: detail
+    filters:
+      Age: 45 - 49
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 45 - 49
+      label: Age
+    guard_cells:
+    - column: B
+      row: 101
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 101
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 101
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_50_54
+    label: 50 - 54
+    ordinal: 13
+    row_number: 104
+    expected_row_header_column: D
+    expected_row_header: 50 - 54
+    table_record_kind: detail
+    filters:
+      Age: 50 - 54
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 50 - 54
+      label: Age
+    guard_cells:
+    - column: B
+      row: 104
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 104
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 104
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_55_59
+    label: 55 - 59
+    ordinal: 14
+    row_number: 107
+    expected_row_header_column: D
+    expected_row_header: 55 - 59
+    table_record_kind: detail
+    filters:
+      Age: 55 - 59
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 55 - 59
+      label: Age
+    guard_cells:
+    - column: B
+      row: 107
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 107
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 107
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_60_64
+    label: 60 - 64
+    ordinal: 15
+    row_number: 110
+    expected_row_header_column: D
+    expected_row_header: 60 - 64
+    table_record_kind: detail
+    filters:
+      Age: 60 - 64
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 60 - 64
+      label: Age
+    guard_cells:
+    - column: B
+      row: 110
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 110
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 110
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_65_69
+    label: 65 - 69
+    ordinal: 16
+    row_number: 113
+    expected_row_header_column: D
+    expected_row_header: 65 - 69
+    table_record_kind: detail
+    filters:
+      Age: 65 - 69
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 65 - 69
+      label: Age
+    guard_cells:
+    - column: B
+      row: 113
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 113
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 113
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_70_74
+    label: 70 - 74
+    ordinal: 17
+    row_number: 116
+    expected_row_header_column: D
+    expected_row_header: 70 - 74
+    table_record_kind: detail
+    filters:
+      Age: 70 - 74
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 70 - 74
+      label: Age
+    guard_cells:
+    - column: B
+      row: 116
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 116
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 116
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_75_79
+    label: 75 - 79
+    ordinal: 18
+    row_number: 119
+    expected_row_header_column: D
+    expected_row_header: 75 - 79
+    table_record_kind: detail
+    filters:
+      Age: 75 - 79
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 75 - 79
+      label: Age
+    guard_cells:
+    - column: B
+      row: 119
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 119
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 119
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_80_84
+    label: 80 - 84
+    ordinal: 19
+    row_number: 122
+    expected_row_header_column: D
+    expected_row_header: 80 - 84
+    table_record_kind: detail
+    filters:
+      Age: 80 - 84
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 80 - 84
+      label: Age
+    guard_cells:
+    - column: B
+      row: 122
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 122
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 122
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_85_and_over
+    label: 85 and over
+    ordinal: 20
+    row_number: 125
+    expected_row_header_column: D
+    expected_row_header: 85 and over
+    table_record_kind: detail
+    filters:
+      Age: 85 and over
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 85 and over
+      label: Age
+    guard_cells:
+    - column: B
+      row: 125
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 125
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 125
+      expected_value: All people
+      label: Residence Type Indicator
+- record_set_id: nrs.census2022_uv101a_scotland.female.lives_in_a_household
+  provenance_class: census
+  record_set_spec_id: nrs.census2022_uv101a_scotland.female.lives_in_a_household.v1
+  source_record_id_prefix: nrs.census2022_uv101a_scotland.female.lives_in_a_household
+  sheet_name: census2022_uv101a_sex_and_age_residence_type_scotland.csv
+  period_type: calendar_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-03-20'
+    end_date: '2022-03-20'
+    basis: calendar
+    source_period_label: Census 2022
+    notes: Census day 20 March 2022. Usual residents; students at term-time address.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: Age
+  shared_filters:
+    Sex: Female
+    Residence Type Indicator: Lives in a household
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Female
+    label: Sex
+  - variable: Residence Type Indicator
+    operator: ==
+    value: Lives in a household
+    label: Residence Type Indicator
+  measures:
+  - measure_id: nrs_census2022_residents
+    label: Usual residents
+    ordinal: 0
+    column: F
+    source_column_id: Count
+    expected_column_header_row: 1
+    expected_column_header: Count
+    concept: nrs.census2022_residents
+    concept_evidence_notes: 'Publisher disclosure-controlled counts: cells need not add to totals. Census
+      date 20 March 2022, students at term-time address.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: age_total
+    label: Total
+    ordinal: 0
+    row_number: 66
+    expected_row_header_column: D
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      Age: Total
+    constraints:
+    - variable: Age
+      operator: ==
+      value: Total
+      label: Age
+    guard_cells:
+    - column: B
+      row: 66
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 66
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 66
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_0_4
+    label: 0 - 4
+    ordinal: 1
+    row_number: 69
+    expected_row_header_column: D
+    expected_row_header: 0 - 4
+    table_record_kind: detail
+    filters:
+      Age: 0 - 4
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 0 - 4
+      label: Age
+    guard_cells:
+    - column: B
+      row: 69
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 69
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 69
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_5_9
+    label: 5 - 9
+    ordinal: 2
+    row_number: 72
+    expected_row_header_column: D
+    expected_row_header: 5 - 9
+    table_record_kind: detail
+    filters:
+      Age: 5 - 9
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 5 - 9
+      label: Age
+    guard_cells:
+    - column: B
+      row: 72
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 72
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 72
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_10_14
+    label: 10 - 14
+    ordinal: 3
+    row_number: 75
+    expected_row_header_column: D
+    expected_row_header: 10 - 14
+    table_record_kind: detail
+    filters:
+      Age: 10 - 14
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 10 - 14
+      label: Age
+    guard_cells:
+    - column: B
+      row: 75
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 75
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 75
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_15
+    label: '15'
+    ordinal: 4
+    row_number: 78
+    expected_row_header_column: D
+    expected_row_header: '15'
+    table_record_kind: detail
+    filters:
+      Age: '15'
+    constraints:
+    - variable: Age
+      operator: ==
+      value: '15'
+      label: Age
+    guard_cells:
+    - column: B
+      row: 78
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 78
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 78
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_16_17
+    label: 16 - 17
+    ordinal: 5
+    row_number: 81
+    expected_row_header_column: D
+    expected_row_header: 16 - 17
+    table_record_kind: detail
+    filters:
+      Age: 16 - 17
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 16 - 17
+      label: Age
+    guard_cells:
+    - column: B
+      row: 81
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 81
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 81
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_18_19
+    label: 18 - 19
+    ordinal: 6
+    row_number: 84
+    expected_row_header_column: D
+    expected_row_header: 18 - 19
+    table_record_kind: detail
+    filters:
+      Age: 18 - 19
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 18 - 19
+      label: Age
+    guard_cells:
+    - column: B
+      row: 84
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 84
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 84
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_20_24
+    label: 20 - 24
+    ordinal: 7
+    row_number: 87
+    expected_row_header_column: D
+    expected_row_header: 20 - 24
+    table_record_kind: detail
+    filters:
+      Age: 20 - 24
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 20 - 24
+      label: Age
+    guard_cells:
+    - column: B
+      row: 87
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 87
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 87
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_25_29
+    label: 25 - 29
+    ordinal: 8
+    row_number: 90
+    expected_row_header_column: D
+    expected_row_header: 25 - 29
+    table_record_kind: detail
+    filters:
+      Age: 25 - 29
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 25 - 29
+      label: Age
+    guard_cells:
+    - column: B
+      row: 90
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 90
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 90
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_30_34
+    label: 30 - 34
+    ordinal: 9
+    row_number: 93
+    expected_row_header_column: D
+    expected_row_header: 30 - 34
+    table_record_kind: detail
+    filters:
+      Age: 30 - 34
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 30 - 34
+      label: Age
+    guard_cells:
+    - column: B
+      row: 93
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 93
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 93
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_35_39
+    label: 35 - 39
+    ordinal: 10
+    row_number: 96
+    expected_row_header_column: D
+    expected_row_header: 35 - 39
+    table_record_kind: detail
+    filters:
+      Age: 35 - 39
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 35 - 39
+      label: Age
+    guard_cells:
+    - column: B
+      row: 96
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 96
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 96
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_40_44
+    label: 40 - 44
+    ordinal: 11
+    row_number: 99
+    expected_row_header_column: D
+    expected_row_header: 40 - 44
+    table_record_kind: detail
+    filters:
+      Age: 40 - 44
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 40 - 44
+      label: Age
+    guard_cells:
+    - column: B
+      row: 99
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 99
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 99
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_45_49
+    label: 45 - 49
+    ordinal: 12
+    row_number: 102
+    expected_row_header_column: D
+    expected_row_header: 45 - 49
+    table_record_kind: detail
+    filters:
+      Age: 45 - 49
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 45 - 49
+      label: Age
+    guard_cells:
+    - column: B
+      row: 102
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 102
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 102
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_50_54
+    label: 50 - 54
+    ordinal: 13
+    row_number: 105
+    expected_row_header_column: D
+    expected_row_header: 50 - 54
+    table_record_kind: detail
+    filters:
+      Age: 50 - 54
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 50 - 54
+      label: Age
+    guard_cells:
+    - column: B
+      row: 105
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 105
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 105
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_55_59
+    label: 55 - 59
+    ordinal: 14
+    row_number: 108
+    expected_row_header_column: D
+    expected_row_header: 55 - 59
+    table_record_kind: detail
+    filters:
+      Age: 55 - 59
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 55 - 59
+      label: Age
+    guard_cells:
+    - column: B
+      row: 108
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 108
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 108
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_60_64
+    label: 60 - 64
+    ordinal: 15
+    row_number: 111
+    expected_row_header_column: D
+    expected_row_header: 60 - 64
+    table_record_kind: detail
+    filters:
+      Age: 60 - 64
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 60 - 64
+      label: Age
+    guard_cells:
+    - column: B
+      row: 111
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 111
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 111
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_65_69
+    label: 65 - 69
+    ordinal: 16
+    row_number: 114
+    expected_row_header_column: D
+    expected_row_header: 65 - 69
+    table_record_kind: detail
+    filters:
+      Age: 65 - 69
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 65 - 69
+      label: Age
+    guard_cells:
+    - column: B
+      row: 114
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 114
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 114
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_70_74
+    label: 70 - 74
+    ordinal: 17
+    row_number: 117
+    expected_row_header_column: D
+    expected_row_header: 70 - 74
+    table_record_kind: detail
+    filters:
+      Age: 70 - 74
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 70 - 74
+      label: Age
+    guard_cells:
+    - column: B
+      row: 117
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 117
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 117
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_75_79
+    label: 75 - 79
+    ordinal: 18
+    row_number: 120
+    expected_row_header_column: D
+    expected_row_header: 75 - 79
+    table_record_kind: detail
+    filters:
+      Age: 75 - 79
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 75 - 79
+      label: Age
+    guard_cells:
+    - column: B
+      row: 120
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 120
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 120
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_80_84
+    label: 80 - 84
+    ordinal: 19
+    row_number: 123
+    expected_row_header_column: D
+    expected_row_header: 80 - 84
+    table_record_kind: detail
+    filters:
+      Age: 80 - 84
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 80 - 84
+      label: Age
+    guard_cells:
+    - column: B
+      row: 123
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 123
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 123
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_85_and_over
+    label: 85 and over
+    ordinal: 20
+    row_number: 126
+    expected_row_header_column: D
+    expected_row_header: 85 and over
+    table_record_kind: detail
+    filters:
+      Age: 85 and over
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 85 and over
+      label: Age
+    guard_cells:
+    - column: B
+      row: 126
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 126
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 126
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+- record_set_id: nrs.census2022_uv101a_scotland.female.lives_in_a_communal_establishment
+  provenance_class: census
+  record_set_spec_id: nrs.census2022_uv101a_scotland.female.lives_in_a_communal_establishment.v1
+  source_record_id_prefix: nrs.census2022_uv101a_scotland.female.lives_in_a_communal_establishment
+  sheet_name: census2022_uv101a_sex_and_age_residence_type_scotland.csv
+  period_type: calendar_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-03-20'
+    end_date: '2022-03-20'
+    basis: calendar
+    source_period_label: Census 2022
+    notes: Census day 20 March 2022. Usual residents; students at term-time address.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: Age
+  shared_filters:
+    Sex: Female
+    Residence Type Indicator: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Female
+    label: Sex
+  - variable: Residence Type Indicator
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence Type Indicator
+  measures:
+  - measure_id: nrs_census2022_residents
+    label: Usual residents
+    ordinal: 0
+    column: F
+    source_column_id: Count
+    expected_column_header_row: 1
+    expected_column_header: Count
+    concept: nrs.census2022_residents
+    concept_evidence_notes: 'Publisher disclosure-controlled counts: cells need not add to totals. Census
+      date 20 March 2022, students at term-time address.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: age_total
+    label: Total
+    ordinal: 0
+    row_number: 67
+    expected_row_header_column: D
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      Age: Total
+    constraints:
+    - variable: Age
+      operator: ==
+      value: Total
+      label: Age
+    guard_cells:
+    - column: B
+      row: 67
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 67
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 67
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_0_4
+    label: 0 - 4
+    ordinal: 1
+    row_number: 70
+    expected_row_header_column: D
+    expected_row_header: 0 - 4
+    table_record_kind: detail
+    filters:
+      Age: 0 - 4
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 0 - 4
+      label: Age
+    guard_cells:
+    - column: B
+      row: 70
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 70
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 70
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_5_9
+    label: 5 - 9
+    ordinal: 2
+    row_number: 73
+    expected_row_header_column: D
+    expected_row_header: 5 - 9
+    table_record_kind: detail
+    filters:
+      Age: 5 - 9
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 5 - 9
+      label: Age
+    guard_cells:
+    - column: B
+      row: 73
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 73
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 73
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_10_14
+    label: 10 - 14
+    ordinal: 3
+    row_number: 76
+    expected_row_header_column: D
+    expected_row_header: 10 - 14
+    table_record_kind: detail
+    filters:
+      Age: 10 - 14
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 10 - 14
+      label: Age
+    guard_cells:
+    - column: B
+      row: 76
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 76
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 76
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_15
+    label: '15'
+    ordinal: 4
+    row_number: 79
+    expected_row_header_column: D
+    expected_row_header: '15'
+    table_record_kind: detail
+    filters:
+      Age: '15'
+    constraints:
+    - variable: Age
+      operator: ==
+      value: '15'
+      label: Age
+    guard_cells:
+    - column: B
+      row: 79
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 79
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 79
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_16_17
+    label: 16 - 17
+    ordinal: 5
+    row_number: 82
+    expected_row_header_column: D
+    expected_row_header: 16 - 17
+    table_record_kind: detail
+    filters:
+      Age: 16 - 17
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 16 - 17
+      label: Age
+    guard_cells:
+    - column: B
+      row: 82
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 82
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 82
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_18_19
+    label: 18 - 19
+    ordinal: 6
+    row_number: 85
+    expected_row_header_column: D
+    expected_row_header: 18 - 19
+    table_record_kind: detail
+    filters:
+      Age: 18 - 19
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 18 - 19
+      label: Age
+    guard_cells:
+    - column: B
+      row: 85
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 85
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 85
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_20_24
+    label: 20 - 24
+    ordinal: 7
+    row_number: 88
+    expected_row_header_column: D
+    expected_row_header: 20 - 24
+    table_record_kind: detail
+    filters:
+      Age: 20 - 24
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 20 - 24
+      label: Age
+    guard_cells:
+    - column: B
+      row: 88
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 88
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 88
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_25_29
+    label: 25 - 29
+    ordinal: 8
+    row_number: 91
+    expected_row_header_column: D
+    expected_row_header: 25 - 29
+    table_record_kind: detail
+    filters:
+      Age: 25 - 29
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 25 - 29
+      label: Age
+    guard_cells:
+    - column: B
+      row: 91
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 91
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 91
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_30_34
+    label: 30 - 34
+    ordinal: 9
+    row_number: 94
+    expected_row_header_column: D
+    expected_row_header: 30 - 34
+    table_record_kind: detail
+    filters:
+      Age: 30 - 34
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 30 - 34
+      label: Age
+    guard_cells:
+    - column: B
+      row: 94
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 94
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 94
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_35_39
+    label: 35 - 39
+    ordinal: 10
+    row_number: 97
+    expected_row_header_column: D
+    expected_row_header: 35 - 39
+    table_record_kind: detail
+    filters:
+      Age: 35 - 39
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 35 - 39
+      label: Age
+    guard_cells:
+    - column: B
+      row: 97
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 97
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 97
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_40_44
+    label: 40 - 44
+    ordinal: 11
+    row_number: 100
+    expected_row_header_column: D
+    expected_row_header: 40 - 44
+    table_record_kind: detail
+    filters:
+      Age: 40 - 44
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 40 - 44
+      label: Age
+    guard_cells:
+    - column: B
+      row: 100
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 100
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 100
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_45_49
+    label: 45 - 49
+    ordinal: 12
+    row_number: 103
+    expected_row_header_column: D
+    expected_row_header: 45 - 49
+    table_record_kind: detail
+    filters:
+      Age: 45 - 49
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 45 - 49
+      label: Age
+    guard_cells:
+    - column: B
+      row: 103
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 103
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 103
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_50_54
+    label: 50 - 54
+    ordinal: 13
+    row_number: 106
+    expected_row_header_column: D
+    expected_row_header: 50 - 54
+    table_record_kind: detail
+    filters:
+      Age: 50 - 54
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 50 - 54
+      label: Age
+    guard_cells:
+    - column: B
+      row: 106
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 106
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 106
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_55_59
+    label: 55 - 59
+    ordinal: 14
+    row_number: 109
+    expected_row_header_column: D
+    expected_row_header: 55 - 59
+    table_record_kind: detail
+    filters:
+      Age: 55 - 59
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 55 - 59
+      label: Age
+    guard_cells:
+    - column: B
+      row: 109
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 109
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 109
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_60_64
+    label: 60 - 64
+    ordinal: 15
+    row_number: 112
+    expected_row_header_column: D
+    expected_row_header: 60 - 64
+    table_record_kind: detail
+    filters:
+      Age: 60 - 64
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 60 - 64
+      label: Age
+    guard_cells:
+    - column: B
+      row: 112
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 112
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 112
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_65_69
+    label: 65 - 69
+    ordinal: 16
+    row_number: 115
+    expected_row_header_column: D
+    expected_row_header: 65 - 69
+    table_record_kind: detail
+    filters:
+      Age: 65 - 69
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 65 - 69
+      label: Age
+    guard_cells:
+    - column: B
+      row: 115
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 115
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 115
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_70_74
+    label: 70 - 74
+    ordinal: 17
+    row_number: 118
+    expected_row_header_column: D
+    expected_row_header: 70 - 74
+    table_record_kind: detail
+    filters:
+      Age: 70 - 74
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 70 - 74
+      label: Age
+    guard_cells:
+    - column: B
+      row: 118
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 118
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 118
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_75_79
+    label: 75 - 79
+    ordinal: 18
+    row_number: 121
+    expected_row_header_column: D
+    expected_row_header: 75 - 79
+    table_record_kind: detail
+    filters:
+      Age: 75 - 79
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 75 - 79
+      label: Age
+    guard_cells:
+    - column: B
+      row: 121
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 121
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 121
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_80_84
+    label: 80 - 84
+    ordinal: 19
+    row_number: 124
+    expected_row_header_column: D
+    expected_row_header: 80 - 84
+    table_record_kind: detail
+    filters:
+      Age: 80 - 84
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 80 - 84
+      label: Age
+    guard_cells:
+    - column: B
+      row: 124
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 124
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 124
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_85_and_over
+    label: 85 and over
+    ordinal: 20
+    row_number: 127
+    expected_row_header_column: D
+    expected_row_header: 85 and over
+    table_record_kind: detail
+    filters:
+      Age: 85 and over
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 85 and over
+      label: Age
+    guard_cells:
+    - column: B
+      row: 127
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 127
+      expected_value: Female
+      label: Sex
+    - column: E
+      row: 127
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+- record_set_id: nrs.census2022_uv101a_scotland.male.all_people
+  provenance_class: census
+  record_set_spec_id: nrs.census2022_uv101a_scotland.male.all_people.v1
+  source_record_id_prefix: nrs.census2022_uv101a_scotland.male.all_people
+  sheet_name: census2022_uv101a_sex_and_age_residence_type_scotland.csv
+  period_type: calendar_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-03-20'
+    end_date: '2022-03-20'
+    basis: calendar
+    source_period_label: Census 2022
+    notes: Census day 20 March 2022. Usual residents; students at term-time address.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: Age
+  shared_filters:
+    Sex: Male
+    Residence Type Indicator: All people
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Male
+    label: Sex
+  - variable: Residence Type Indicator
+    operator: ==
+    value: All people
+    label: Residence Type Indicator
+  measures:
+  - measure_id: nrs_census2022_residents
+    label: Usual residents
+    ordinal: 0
+    column: F
+    source_column_id: Count
+    expected_column_header_row: 1
+    expected_column_header: Count
+    concept: nrs.census2022_residents
+    concept_evidence_notes: 'Publisher disclosure-controlled counts: cells need not add to totals. Census
+      date 20 March 2022, students at term-time address.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: age_total
+    label: Total
+    ordinal: 0
+    row_number: 128
+    expected_row_header_column: D
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      Age: Total
+    constraints:
+    - variable: Age
+      operator: ==
+      value: Total
+      label: Age
+    guard_cells:
+    - column: B
+      row: 128
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 128
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 128
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_0_4
+    label: 0 - 4
+    ordinal: 1
+    row_number: 131
+    expected_row_header_column: D
+    expected_row_header: 0 - 4
+    table_record_kind: detail
+    filters:
+      Age: 0 - 4
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 0 - 4
+      label: Age
+    guard_cells:
+    - column: B
+      row: 131
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 131
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 131
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_5_9
+    label: 5 - 9
+    ordinal: 2
+    row_number: 134
+    expected_row_header_column: D
+    expected_row_header: 5 - 9
+    table_record_kind: detail
+    filters:
+      Age: 5 - 9
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 5 - 9
+      label: Age
+    guard_cells:
+    - column: B
+      row: 134
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 134
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 134
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_10_14
+    label: 10 - 14
+    ordinal: 3
+    row_number: 137
+    expected_row_header_column: D
+    expected_row_header: 10 - 14
+    table_record_kind: detail
+    filters:
+      Age: 10 - 14
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 10 - 14
+      label: Age
+    guard_cells:
+    - column: B
+      row: 137
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 137
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 137
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_15
+    label: '15'
+    ordinal: 4
+    row_number: 140
+    expected_row_header_column: D
+    expected_row_header: '15'
+    table_record_kind: detail
+    filters:
+      Age: '15'
+    constraints:
+    - variable: Age
+      operator: ==
+      value: '15'
+      label: Age
+    guard_cells:
+    - column: B
+      row: 140
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 140
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 140
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_16_17
+    label: 16 - 17
+    ordinal: 5
+    row_number: 143
+    expected_row_header_column: D
+    expected_row_header: 16 - 17
+    table_record_kind: detail
+    filters:
+      Age: 16 - 17
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 16 - 17
+      label: Age
+    guard_cells:
+    - column: B
+      row: 143
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 143
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 143
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_18_19
+    label: 18 - 19
+    ordinal: 6
+    row_number: 146
+    expected_row_header_column: D
+    expected_row_header: 18 - 19
+    table_record_kind: detail
+    filters:
+      Age: 18 - 19
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 18 - 19
+      label: Age
+    guard_cells:
+    - column: B
+      row: 146
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 146
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 146
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_20_24
+    label: 20 - 24
+    ordinal: 7
+    row_number: 149
+    expected_row_header_column: D
+    expected_row_header: 20 - 24
+    table_record_kind: detail
+    filters:
+      Age: 20 - 24
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 20 - 24
+      label: Age
+    guard_cells:
+    - column: B
+      row: 149
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 149
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 149
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_25_29
+    label: 25 - 29
+    ordinal: 8
+    row_number: 152
+    expected_row_header_column: D
+    expected_row_header: 25 - 29
+    table_record_kind: detail
+    filters:
+      Age: 25 - 29
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 25 - 29
+      label: Age
+    guard_cells:
+    - column: B
+      row: 152
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 152
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 152
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_30_34
+    label: 30 - 34
+    ordinal: 9
+    row_number: 155
+    expected_row_header_column: D
+    expected_row_header: 30 - 34
+    table_record_kind: detail
+    filters:
+      Age: 30 - 34
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 30 - 34
+      label: Age
+    guard_cells:
+    - column: B
+      row: 155
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 155
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 155
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_35_39
+    label: 35 - 39
+    ordinal: 10
+    row_number: 158
+    expected_row_header_column: D
+    expected_row_header: 35 - 39
+    table_record_kind: detail
+    filters:
+      Age: 35 - 39
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 35 - 39
+      label: Age
+    guard_cells:
+    - column: B
+      row: 158
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 158
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 158
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_40_44
+    label: 40 - 44
+    ordinal: 11
+    row_number: 161
+    expected_row_header_column: D
+    expected_row_header: 40 - 44
+    table_record_kind: detail
+    filters:
+      Age: 40 - 44
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 40 - 44
+      label: Age
+    guard_cells:
+    - column: B
+      row: 161
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 161
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 161
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_45_49
+    label: 45 - 49
+    ordinal: 12
+    row_number: 164
+    expected_row_header_column: D
+    expected_row_header: 45 - 49
+    table_record_kind: detail
+    filters:
+      Age: 45 - 49
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 45 - 49
+      label: Age
+    guard_cells:
+    - column: B
+      row: 164
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 164
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 164
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_50_54
+    label: 50 - 54
+    ordinal: 13
+    row_number: 167
+    expected_row_header_column: D
+    expected_row_header: 50 - 54
+    table_record_kind: detail
+    filters:
+      Age: 50 - 54
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 50 - 54
+      label: Age
+    guard_cells:
+    - column: B
+      row: 167
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 167
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 167
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_55_59
+    label: 55 - 59
+    ordinal: 14
+    row_number: 170
+    expected_row_header_column: D
+    expected_row_header: 55 - 59
+    table_record_kind: detail
+    filters:
+      Age: 55 - 59
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 55 - 59
+      label: Age
+    guard_cells:
+    - column: B
+      row: 170
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 170
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 170
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_60_64
+    label: 60 - 64
+    ordinal: 15
+    row_number: 173
+    expected_row_header_column: D
+    expected_row_header: 60 - 64
+    table_record_kind: detail
+    filters:
+      Age: 60 - 64
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 60 - 64
+      label: Age
+    guard_cells:
+    - column: B
+      row: 173
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 173
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 173
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_65_69
+    label: 65 - 69
+    ordinal: 16
+    row_number: 176
+    expected_row_header_column: D
+    expected_row_header: 65 - 69
+    table_record_kind: detail
+    filters:
+      Age: 65 - 69
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 65 - 69
+      label: Age
+    guard_cells:
+    - column: B
+      row: 176
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 176
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 176
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_70_74
+    label: 70 - 74
+    ordinal: 17
+    row_number: 179
+    expected_row_header_column: D
+    expected_row_header: 70 - 74
+    table_record_kind: detail
+    filters:
+      Age: 70 - 74
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 70 - 74
+      label: Age
+    guard_cells:
+    - column: B
+      row: 179
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 179
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 179
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_75_79
+    label: 75 - 79
+    ordinal: 18
+    row_number: 182
+    expected_row_header_column: D
+    expected_row_header: 75 - 79
+    table_record_kind: detail
+    filters:
+      Age: 75 - 79
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 75 - 79
+      label: Age
+    guard_cells:
+    - column: B
+      row: 182
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 182
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 182
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_80_84
+    label: 80 - 84
+    ordinal: 19
+    row_number: 185
+    expected_row_header_column: D
+    expected_row_header: 80 - 84
+    table_record_kind: detail
+    filters:
+      Age: 80 - 84
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 80 - 84
+      label: Age
+    guard_cells:
+    - column: B
+      row: 185
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 185
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 185
+      expected_value: All people
+      label: Residence Type Indicator
+  - value_id: age_85_and_over
+    label: 85 and over
+    ordinal: 20
+    row_number: 188
+    expected_row_header_column: D
+    expected_row_header: 85 and over
+    table_record_kind: detail
+    filters:
+      Age: 85 and over
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 85 and over
+      label: Age
+    guard_cells:
+    - column: B
+      row: 188
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 188
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 188
+      expected_value: All people
+      label: Residence Type Indicator
+- record_set_id: nrs.census2022_uv101a_scotland.male.lives_in_a_household
+  provenance_class: census
+  record_set_spec_id: nrs.census2022_uv101a_scotland.male.lives_in_a_household.v1
+  source_record_id_prefix: nrs.census2022_uv101a_scotland.male.lives_in_a_household
+  sheet_name: census2022_uv101a_sex_and_age_residence_type_scotland.csv
+  period_type: calendar_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-03-20'
+    end_date: '2022-03-20'
+    basis: calendar
+    source_period_label: Census 2022
+    notes: Census day 20 March 2022. Usual residents; students at term-time address.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: Age
+  shared_filters:
+    Sex: Male
+    Residence Type Indicator: Lives in a household
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Male
+    label: Sex
+  - variable: Residence Type Indicator
+    operator: ==
+    value: Lives in a household
+    label: Residence Type Indicator
+  measures:
+  - measure_id: nrs_census2022_residents
+    label: Usual residents
+    ordinal: 0
+    column: F
+    source_column_id: Count
+    expected_column_header_row: 1
+    expected_column_header: Count
+    concept: nrs.census2022_residents
+    concept_evidence_notes: 'Publisher disclosure-controlled counts: cells need not add to totals. Census
+      date 20 March 2022, students at term-time address.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: age_total
+    label: Total
+    ordinal: 0
+    row_number: 129
+    expected_row_header_column: D
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      Age: Total
+    constraints:
+    - variable: Age
+      operator: ==
+      value: Total
+      label: Age
+    guard_cells:
+    - column: B
+      row: 129
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 129
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 129
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_0_4
+    label: 0 - 4
+    ordinal: 1
+    row_number: 132
+    expected_row_header_column: D
+    expected_row_header: 0 - 4
+    table_record_kind: detail
+    filters:
+      Age: 0 - 4
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 0 - 4
+      label: Age
+    guard_cells:
+    - column: B
+      row: 132
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 132
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 132
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_5_9
+    label: 5 - 9
+    ordinal: 2
+    row_number: 135
+    expected_row_header_column: D
+    expected_row_header: 5 - 9
+    table_record_kind: detail
+    filters:
+      Age: 5 - 9
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 5 - 9
+      label: Age
+    guard_cells:
+    - column: B
+      row: 135
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 135
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 135
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_10_14
+    label: 10 - 14
+    ordinal: 3
+    row_number: 138
+    expected_row_header_column: D
+    expected_row_header: 10 - 14
+    table_record_kind: detail
+    filters:
+      Age: 10 - 14
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 10 - 14
+      label: Age
+    guard_cells:
+    - column: B
+      row: 138
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 138
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 138
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_15
+    label: '15'
+    ordinal: 4
+    row_number: 141
+    expected_row_header_column: D
+    expected_row_header: '15'
+    table_record_kind: detail
+    filters:
+      Age: '15'
+    constraints:
+    - variable: Age
+      operator: ==
+      value: '15'
+      label: Age
+    guard_cells:
+    - column: B
+      row: 141
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 141
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 141
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_16_17
+    label: 16 - 17
+    ordinal: 5
+    row_number: 144
+    expected_row_header_column: D
+    expected_row_header: 16 - 17
+    table_record_kind: detail
+    filters:
+      Age: 16 - 17
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 16 - 17
+      label: Age
+    guard_cells:
+    - column: B
+      row: 144
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 144
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 144
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_18_19
+    label: 18 - 19
+    ordinal: 6
+    row_number: 147
+    expected_row_header_column: D
+    expected_row_header: 18 - 19
+    table_record_kind: detail
+    filters:
+      Age: 18 - 19
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 18 - 19
+      label: Age
+    guard_cells:
+    - column: B
+      row: 147
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 147
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 147
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_20_24
+    label: 20 - 24
+    ordinal: 7
+    row_number: 150
+    expected_row_header_column: D
+    expected_row_header: 20 - 24
+    table_record_kind: detail
+    filters:
+      Age: 20 - 24
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 20 - 24
+      label: Age
+    guard_cells:
+    - column: B
+      row: 150
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 150
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 150
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_25_29
+    label: 25 - 29
+    ordinal: 8
+    row_number: 153
+    expected_row_header_column: D
+    expected_row_header: 25 - 29
+    table_record_kind: detail
+    filters:
+      Age: 25 - 29
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 25 - 29
+      label: Age
+    guard_cells:
+    - column: B
+      row: 153
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 153
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 153
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_30_34
+    label: 30 - 34
+    ordinal: 9
+    row_number: 156
+    expected_row_header_column: D
+    expected_row_header: 30 - 34
+    table_record_kind: detail
+    filters:
+      Age: 30 - 34
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 30 - 34
+      label: Age
+    guard_cells:
+    - column: B
+      row: 156
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 156
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 156
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_35_39
+    label: 35 - 39
+    ordinal: 10
+    row_number: 159
+    expected_row_header_column: D
+    expected_row_header: 35 - 39
+    table_record_kind: detail
+    filters:
+      Age: 35 - 39
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 35 - 39
+      label: Age
+    guard_cells:
+    - column: B
+      row: 159
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 159
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 159
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_40_44
+    label: 40 - 44
+    ordinal: 11
+    row_number: 162
+    expected_row_header_column: D
+    expected_row_header: 40 - 44
+    table_record_kind: detail
+    filters:
+      Age: 40 - 44
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 40 - 44
+      label: Age
+    guard_cells:
+    - column: B
+      row: 162
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 162
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 162
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_45_49
+    label: 45 - 49
+    ordinal: 12
+    row_number: 165
+    expected_row_header_column: D
+    expected_row_header: 45 - 49
+    table_record_kind: detail
+    filters:
+      Age: 45 - 49
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 45 - 49
+      label: Age
+    guard_cells:
+    - column: B
+      row: 165
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 165
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 165
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_50_54
+    label: 50 - 54
+    ordinal: 13
+    row_number: 168
+    expected_row_header_column: D
+    expected_row_header: 50 - 54
+    table_record_kind: detail
+    filters:
+      Age: 50 - 54
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 50 - 54
+      label: Age
+    guard_cells:
+    - column: B
+      row: 168
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 168
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 168
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_55_59
+    label: 55 - 59
+    ordinal: 14
+    row_number: 171
+    expected_row_header_column: D
+    expected_row_header: 55 - 59
+    table_record_kind: detail
+    filters:
+      Age: 55 - 59
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 55 - 59
+      label: Age
+    guard_cells:
+    - column: B
+      row: 171
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 171
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 171
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_60_64
+    label: 60 - 64
+    ordinal: 15
+    row_number: 174
+    expected_row_header_column: D
+    expected_row_header: 60 - 64
+    table_record_kind: detail
+    filters:
+      Age: 60 - 64
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 60 - 64
+      label: Age
+    guard_cells:
+    - column: B
+      row: 174
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 174
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 174
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_65_69
+    label: 65 - 69
+    ordinal: 16
+    row_number: 177
+    expected_row_header_column: D
+    expected_row_header: 65 - 69
+    table_record_kind: detail
+    filters:
+      Age: 65 - 69
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 65 - 69
+      label: Age
+    guard_cells:
+    - column: B
+      row: 177
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 177
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 177
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_70_74
+    label: 70 - 74
+    ordinal: 17
+    row_number: 180
+    expected_row_header_column: D
+    expected_row_header: 70 - 74
+    table_record_kind: detail
+    filters:
+      Age: 70 - 74
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 70 - 74
+      label: Age
+    guard_cells:
+    - column: B
+      row: 180
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 180
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 180
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_75_79
+    label: 75 - 79
+    ordinal: 18
+    row_number: 183
+    expected_row_header_column: D
+    expected_row_header: 75 - 79
+    table_record_kind: detail
+    filters:
+      Age: 75 - 79
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 75 - 79
+      label: Age
+    guard_cells:
+    - column: B
+      row: 183
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 183
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 183
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_80_84
+    label: 80 - 84
+    ordinal: 19
+    row_number: 186
+    expected_row_header_column: D
+    expected_row_header: 80 - 84
+    table_record_kind: detail
+    filters:
+      Age: 80 - 84
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 80 - 84
+      label: Age
+    guard_cells:
+    - column: B
+      row: 186
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 186
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 186
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+  - value_id: age_85_and_over
+    label: 85 and over
+    ordinal: 20
+    row_number: 189
+    expected_row_header_column: D
+    expected_row_header: 85 and over
+    table_record_kind: detail
+    filters:
+      Age: 85 and over
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 85 and over
+      label: Age
+    guard_cells:
+    - column: B
+      row: 189
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 189
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 189
+      expected_value: Lives in a household
+      label: Residence Type Indicator
+- record_set_id: nrs.census2022_uv101a_scotland.male.lives_in_a_communal_establishment
+  provenance_class: census
+  record_set_spec_id: nrs.census2022_uv101a_scotland.male.lives_in_a_communal_establishment.v1
+  source_record_id_prefix: nrs.census2022_uv101a_scotland.male.lives_in_a_communal_establishment
+  sheet_name: census2022_uv101a_sex_and_age_residence_type_scotland.csv
+  period_type: calendar_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-03-20'
+    end_date: '2022-03-20'
+    basis: calendar
+    source_period_label: Census 2022
+    notes: Census day 20 March 2022. Usual residents; students at term-time address.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: person
+  entity_role: usual_resident
+  domain: population
+  groupby_dimension: Age
+  shared_filters:
+    Sex: Male
+    Residence Type Indicator: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Male
+    label: Sex
+  - variable: Residence Type Indicator
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence Type Indicator
+  measures:
+  - measure_id: nrs_census2022_residents
+    label: Usual residents
+    ordinal: 0
+    column: F
+    source_column_id: Count
+    expected_column_header_row: 1
+    expected_column_header: Count
+    concept: nrs.census2022_residents
+    concept_evidence_notes: 'Publisher disclosure-controlled counts: cells need not add to totals. Census
+      date 20 March 2022, students at term-time address.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: age_total
+    label: Total
+    ordinal: 0
+    row_number: 130
+    expected_row_header_column: D
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      Age: Total
+    constraints:
+    - variable: Age
+      operator: ==
+      value: Total
+      label: Age
+    guard_cells:
+    - column: B
+      row: 130
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 130
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 130
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_0_4
+    label: 0 - 4
+    ordinal: 1
+    row_number: 133
+    expected_row_header_column: D
+    expected_row_header: 0 - 4
+    table_record_kind: detail
+    filters:
+      Age: 0 - 4
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 0 - 4
+      label: Age
+    guard_cells:
+    - column: B
+      row: 133
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 133
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 133
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_5_9
+    label: 5 - 9
+    ordinal: 2
+    row_number: 136
+    expected_row_header_column: D
+    expected_row_header: 5 - 9
+    table_record_kind: detail
+    filters:
+      Age: 5 - 9
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 5 - 9
+      label: Age
+    guard_cells:
+    - column: B
+      row: 136
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 136
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 136
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_10_14
+    label: 10 - 14
+    ordinal: 3
+    row_number: 139
+    expected_row_header_column: D
+    expected_row_header: 10 - 14
+    table_record_kind: detail
+    filters:
+      Age: 10 - 14
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 10 - 14
+      label: Age
+    guard_cells:
+    - column: B
+      row: 139
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 139
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 139
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_15
+    label: '15'
+    ordinal: 4
+    row_number: 142
+    expected_row_header_column: D
+    expected_row_header: '15'
+    table_record_kind: detail
+    filters:
+      Age: '15'
+    constraints:
+    - variable: Age
+      operator: ==
+      value: '15'
+      label: Age
+    guard_cells:
+    - column: B
+      row: 142
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 142
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 142
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_16_17
+    label: 16 - 17
+    ordinal: 5
+    row_number: 145
+    expected_row_header_column: D
+    expected_row_header: 16 - 17
+    table_record_kind: detail
+    filters:
+      Age: 16 - 17
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 16 - 17
+      label: Age
+    guard_cells:
+    - column: B
+      row: 145
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 145
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 145
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_18_19
+    label: 18 - 19
+    ordinal: 6
+    row_number: 148
+    expected_row_header_column: D
+    expected_row_header: 18 - 19
+    table_record_kind: detail
+    filters:
+      Age: 18 - 19
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 18 - 19
+      label: Age
+    guard_cells:
+    - column: B
+      row: 148
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 148
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 148
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_20_24
+    label: 20 - 24
+    ordinal: 7
+    row_number: 151
+    expected_row_header_column: D
+    expected_row_header: 20 - 24
+    table_record_kind: detail
+    filters:
+      Age: 20 - 24
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 20 - 24
+      label: Age
+    guard_cells:
+    - column: B
+      row: 151
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 151
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 151
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_25_29
+    label: 25 - 29
+    ordinal: 8
+    row_number: 154
+    expected_row_header_column: D
+    expected_row_header: 25 - 29
+    table_record_kind: detail
+    filters:
+      Age: 25 - 29
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 25 - 29
+      label: Age
+    guard_cells:
+    - column: B
+      row: 154
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 154
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 154
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_30_34
+    label: 30 - 34
+    ordinal: 9
+    row_number: 157
+    expected_row_header_column: D
+    expected_row_header: 30 - 34
+    table_record_kind: detail
+    filters:
+      Age: 30 - 34
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 30 - 34
+      label: Age
+    guard_cells:
+    - column: B
+      row: 157
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 157
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 157
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_35_39
+    label: 35 - 39
+    ordinal: 10
+    row_number: 160
+    expected_row_header_column: D
+    expected_row_header: 35 - 39
+    table_record_kind: detail
+    filters:
+      Age: 35 - 39
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 35 - 39
+      label: Age
+    guard_cells:
+    - column: B
+      row: 160
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 160
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 160
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_40_44
+    label: 40 - 44
+    ordinal: 11
+    row_number: 163
+    expected_row_header_column: D
+    expected_row_header: 40 - 44
+    table_record_kind: detail
+    filters:
+      Age: 40 - 44
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 40 - 44
+      label: Age
+    guard_cells:
+    - column: B
+      row: 163
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 163
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 163
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_45_49
+    label: 45 - 49
+    ordinal: 12
+    row_number: 166
+    expected_row_header_column: D
+    expected_row_header: 45 - 49
+    table_record_kind: detail
+    filters:
+      Age: 45 - 49
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 45 - 49
+      label: Age
+    guard_cells:
+    - column: B
+      row: 166
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 166
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 166
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_50_54
+    label: 50 - 54
+    ordinal: 13
+    row_number: 169
+    expected_row_header_column: D
+    expected_row_header: 50 - 54
+    table_record_kind: detail
+    filters:
+      Age: 50 - 54
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 50 - 54
+      label: Age
+    guard_cells:
+    - column: B
+      row: 169
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 169
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 169
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_55_59
+    label: 55 - 59
+    ordinal: 14
+    row_number: 172
+    expected_row_header_column: D
+    expected_row_header: 55 - 59
+    table_record_kind: detail
+    filters:
+      Age: 55 - 59
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 55 - 59
+      label: Age
+    guard_cells:
+    - column: B
+      row: 172
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 172
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 172
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_60_64
+    label: 60 - 64
+    ordinal: 15
+    row_number: 175
+    expected_row_header_column: D
+    expected_row_header: 60 - 64
+    table_record_kind: detail
+    filters:
+      Age: 60 - 64
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 60 - 64
+      label: Age
+    guard_cells:
+    - column: B
+      row: 175
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 175
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 175
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_65_69
+    label: 65 - 69
+    ordinal: 16
+    row_number: 178
+    expected_row_header_column: D
+    expected_row_header: 65 - 69
+    table_record_kind: detail
+    filters:
+      Age: 65 - 69
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 65 - 69
+      label: Age
+    guard_cells:
+    - column: B
+      row: 178
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 178
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 178
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_70_74
+    label: 70 - 74
+    ordinal: 17
+    row_number: 181
+    expected_row_header_column: D
+    expected_row_header: 70 - 74
+    table_record_kind: detail
+    filters:
+      Age: 70 - 74
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 70 - 74
+      label: Age
+    guard_cells:
+    - column: B
+      row: 181
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 181
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 181
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_75_79
+    label: 75 - 79
+    ordinal: 18
+    row_number: 184
+    expected_row_header_column: D
+    expected_row_header: 75 - 79
+    table_record_kind: detail
+    filters:
+      Age: 75 - 79
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 75 - 79
+      label: Age
+    guard_cells:
+    - column: B
+      row: 184
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 184
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 184
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_80_84
+    label: 80 - 84
+    ordinal: 19
+    row_number: 187
+    expected_row_header_column: D
+    expected_row_header: 80 - 84
+    table_record_kind: detail
+    filters:
+      Age: 80 - 84
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 80 - 84
+      label: Age
+    guard_cells:
+    - column: B
+      row: 187
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 187
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 187
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator
+  - value_id: age_85_and_over
+    label: 85 and over
+    ordinal: 20
+    row_number: 190
+    expected_row_header_column: D
+    expected_row_header: 85 and over
+    table_record_kind: detail
+    filters:
+      Age: 85 and over
+    constraints:
+    - variable: Age
+      operator: ==
+      value: 85 and over
+      label: Age
+    guard_cells:
+    - column: B
+      row: 190
+      expected_value: Scotland
+      label: Country
+    - column: C
+      row: 190
+      expected_value: Male
+      label: Sex
+    - column: E
+      row: 190
+      expected_value: Lives in a communal establishment
+      label: Residence Type Indicator

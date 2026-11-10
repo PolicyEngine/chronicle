@@ -1,0 +1,172 @@
+{
+  "query" : {
+    "database" : "str:database:WFP23",
+    "measures" : [ "str:count:WFP23:V_F_WFP23" ],
+    "recodes" : {
+      "str:field:WFP23:F_WFP23_YEAR:YEAR_NAME" : {
+        "map" : [ [ "str:value:WFP23:F_WFP23_YEAR:YEAR_NAME:C_WFP23_YEAR:2023" ] ],
+        "total" : false
+      },
+      "str:field:WFP23:V_F_WFP23:COA_CODE" : {
+        "map" : [ [ "str:value:WFP23:V_F_WFP23:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:E92000001" ], [ "str:value:WFP23:V_F_WFP23:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:W92000004" ], [ "str:value:WFP23:V_F_WFP23:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003" ] ],
+        "total" : false
+      },
+      "str:field:WFP23:V_F_WFP23:AGE_CODE" : {
+        "map" : [ [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:1" ], [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:2" ], [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:3" ], [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:4" ], [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:5" ], [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:6" ], [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:7" ] ],
+        "total" : true
+      },
+      "str:field:WFP23:V_F_WFP23:SEX_CODE" : {
+        "map" : [ [ "str:value:WFP23:V_F_WFP23:SEX_CODE:C_WFP_SEX:1" ], [ "str:value:WFP23:V_F_WFP23:SEX_CODE:C_WFP_SEX:2" ], [ "str:value:WFP23:V_F_WFP23:SEX_CODE:C_WFP_SEX:99" ] ],
+        "total" : true
+      },
+      "str:field:WFP23:V_F_WFP23:AMT_CODE" : {
+        "map" : [ [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:1" ], [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:2" ], [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:3" ], [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:4" ], [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:5" ], [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:6" ], [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:7" ], [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:8" ], [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:99" ] ],
+        "total" : true
+      }
+    },
+    "dimensions" : [ [ "str:field:WFP23:F_WFP23_YEAR:YEAR_NAME" ], [ "str:field:WFP23:V_F_WFP23:COA_CODE" ], [ "str:field:WFP23:V_F_WFP23:AGE_CODE" ], [ "str:field:WFP23:V_F_WFP23:AMT_CODE" ], [ "str:field:WFP23:V_F_WFP23:SEX_CODE" ] ]
+  },
+  "database" : {
+    "id" : "WFP23",
+    "uri" : "str:database:WFP23",
+    "label" : "Winter Fuel Payment - data to winter 2023",
+    "annotationKeys" : [ "I" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:WFP23:V_F_WFP23",
+    "label" : "Winter Fuel Payment - data to winter 2023",
+    "measure" : "str:count:WFP23:V_F_WFP23",
+    "function" : "COUNT"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:WFP23:F_WFP23_YEAR:YEAR_NAME",
+    "label" : "Year",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:F_WFP23_YEAR:YEAR_NAME:C_WFP23_YEAR:2023" ],
+      "labels" : [ "2023 / 2024" ]
+    } ]
+  }, {
+    "uri" : "str:field:WFP23:V_F_WFP23:COA_CODE",
+    "label" : "National - Regional - LA - OAs",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:E92000001" ],
+      "labels" : [ "England" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:W92000004" ],
+      "labels" : [ "Wales" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:COA_CODE:V_C_MASTERGEOG21_COUNTRY_TO_GB:S92000003" ],
+      "labels" : [ "Scotland" ]
+    } ]
+  }, {
+    "uri" : "str:field:WFP23:V_F_WFP23:AGE_CODE",
+    "label" : "Age (bands and single year)",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:1" ],
+      "labels" : [ "65-69" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:2" ],
+      "labels" : [ "70-74" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:3" ],
+      "labels" : [ "75-79" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:4" ],
+      "labels" : [ "80-84" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:5" ],
+      "labels" : [ "85-89" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:6" ],
+      "labels" : [ "90 and over" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AGE_CODE:C_WFP23_AGE_BAND:7" ],
+      "labels" : [ "Unknown" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  }, {
+    "uri" : "str:field:WFP23:V_F_WFP23:AMT_CODE",
+    "label" : "Amount",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:1" ],
+      "labels" : [ "£100" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:2" ],
+      "labels" : [ "£150" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:3" ],
+      "labels" : [ "£200" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:4" ],
+      "labels" : [ "£250" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:5" ],
+      "labels" : [ "£300" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:6" ],
+      "labels" : [ "£350" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:7" ],
+      "labels" : [ "£500" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:8" ],
+      "labels" : [ "£600" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:AMT_CODE:C_WFP23_AMT:99" ],
+      "labels" : [ "Unknown" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  }, {
+    "uri" : "str:field:WFP23:V_F_WFP23:SEX_CODE",
+    "label" : "Gender",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:SEX_CODE:C_WFP_SEX:1" ],
+      "labels" : [ "Male" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:SEX_CODE:C_WFP_SEX:2" ],
+      "labels" : [ "Female" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:WFP23:V_F_WFP23:SEX_CODE:C_WFP_SEX:99" ],
+      "labels" : [ "Unknown" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:WFP23:V_F_WFP23" : {
+      "values" : [ [ [ [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 364701, 594865, 0, 959572 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 693898, 524772, 0, 1218672 ], [ 30, 98, 0, 125 ], [ 0, 0, 0, 0 ], [ 1058635, 1119736, 0, 2178374 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 692692, 743773, 0, 1436468 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 529541, 579042, 0, 1108583 ], [ 362, 869, 0, 1232 ], [ 0, 0, 0, 0 ], [ 1222600, 1323683, 0, 2546280 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 714023, 641108, 0, 1355130 ], [ 0, 0, 0, 0 ], [ 0, 9, 0, 12 ], [ 394186, 606748, 0, 1000933 ], [ 1696, 3987, 0, 5684 ], [ 0, 0, 0, 0 ], [ 1109911, 1251844, 0, 2361758 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 333, 254, 0, 585 ], [ 171513, 256351, 0, 427863 ], [ 234235, 56299, 0, 290535 ], [ 143, 319, 0, 459 ], [ 243846, 493331, 0, 737175 ], [ 0, 0, 0, 0 ], [ 650072, 806543, 0, 1456618 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 163090, 128812, 0, 291904 ], [ 44981, 15046, 0, 60022 ], [ 0, 0, 0, 0 ], [ 165423, 388561, 0, 553982 ], [ 0, 0, 0, 0 ], [ 373497, 532420, 0, 905911 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 63630, 59939, 0, 123572 ], [ 10466, 17153, 0, 27620 ], [ 0, 0, 0, 0 ], [ 93062, 249861, 0, 342921 ], [ 0, 0, 0, 0 ], [ 167159, 326952, 0, 494112 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 1771752, 1980002, 0, 3751756 ], [ 398235, 445104, 0, 843335 ], [ 289692, 88502, 0, 378188 ], [ 1617773, 1710874, 0, 3328651 ], [ 504424, 1136697, 0, 1641125 ], [ 0, 0, 0, 0 ], [ 4581876, 5361184, 0, 9943056 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 23397, 38714, 0, 62116 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 44362, 33098, 0, 77458 ], [ 0, 13, 0, 9 ], [ 0, 0, 0, 0 ], [ 67761, 71828, 0, 139590 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 45951, 48493, 0, 94445 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 34806, 36675, 0, 71479 ], [ 25, 59, 0, 84 ], [ 0, 0, 0, 0 ], [ 80779, 85224, 0, 166006 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 44548, 39395, 0, 83947 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 26251, 38804, 0, 65057 ], [ 130, 388, 0, 515 ], [ 0, 0, 0, 0 ], [ 70927, 78589, 0, 149518 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 13, 8, 0, 28 ], [ 10815, 15691, 0, 26502 ], [ 14408, 3247, 0, 17655 ], [ 8, 31, 0, 35 ], [ 16582, 31638, 0, 48224 ], [ 0, 0, 0, 0 ], [ 41835, 50611, 0, 92447 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 9173, 7296, 0, 16472 ], [ 2511, 906, 0, 3414 ], [ 0, 0, 0, 0 ], [ 10623, 23821, 0, 34443 ], [ 0, 0, 0, 0 ], [ 22312, 32019, 0, 54333 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 3482, 3371, 0, 6856 ], [ 581, 947, 0, 1527 ], [ 0, 0, 0, 0 ], [ 5489, 14809, 0, 20297 ], [ 0, 0, 0, 0 ], [ 9552, 19130, 0, 28685 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 113912, 126619, 0, 240530 ], [ 23476, 26359, 0, 49830 ], [ 17500, 5100, 0, 22603 ], [ 105425, 108605, 0, 214033 ], [ 32855, 70720, 0, 103578 ], [ 0, 0, 0, 0 ], [ 293172, 337400, 0, 630572 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 42232, 65354, 0, 107586 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 77222, 62607, 0, 139830 ], [ 0, 12, 0, 10 ], [ 0, 0, 0, 0 ], [ 119460, 127966, 0, 247424 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 74280, 76719, 0, 151001 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 55422, 64227, 0, 119652 ], [ 19, 80, 0, 97 ], [ 0, 0, 0, 0 ], [ 129726, 141027, 0, 270750 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 67042, 58419, 0, 125459 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 39357, 63621, 0, 102976 ], [ 149, 407, 0, 551 ], [ 0, 0, 0, 0 ], [ 106545, 122443, 0, 228983 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 35, 21, 0, 56 ], [ 16113, 23278, 0, 39388 ], [ 19301, 4691, 0, 23994 ], [ 15, 32, 0, 50 ], [ 24511, 52763, 0, 77277 ], [ 0, 0, 0, 0 ], [ 59975, 80789, 0, 140764 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 13591, 10915, 0, 24501 ], [ 3027, 1086, 0, 4108 ], [ 0, 0, 0, 0 ], [ 15780, 39237, 0, 55011 ], [ 0, 0, 0, 0 ], [ 32391, 51238, 0, 83627 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 4600, 4677, 0, 9275 ], [ 753, 1177, 0, 1929 ], [ 0, 0, 0, 0 ], [ 7844, 21963, 0, 29808 ], [ 0, 0, 0, 0 ], [ 13194, 27822, 0, 41017 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ], [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 183586, 200510, 0, 384100 ], [ 34298, 38870, 0, 73166 ], [ 23082, 6956, 0, 30034 ], [ 172016, 190489, 0, 362506 ], [ 48307, 114462, 0, 162764 ], [ 0, 0, 0, 0 ], [ 461287, 551282, 0, 1012573 ] ] ] ] ],
+      "precision" : 0
+    }
+  },
+  "annotationMap" : {
+    "I" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants."
+  }
+}

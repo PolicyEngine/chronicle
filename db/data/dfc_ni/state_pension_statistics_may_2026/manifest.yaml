@@ -1,0 +1,18 @@
+source_id: dfc_ni
+package_id: dfc-ni-state-pension-statistics-may-2026
+dataset: dfc_ni_dfc-ni-state-pension-statistics-may-2026
+source_page: https://www.communities-ni.gov.uk/publications/benefits-statistics-summary-publication-accredited-official-statistics-may-2026
+table: 'Benefits Statistics Summary Publication May 2026: State Pension workbook'
+files:
+  2026:
+    filename: bss-state-pension-may-2026.xlsx
+    source_url: https://www.communities-ni.gov.uk/system/files/2026-08/bss-state-pension-may-2026.xlsx
+    sha256: 9871bdad5f2e8dcc09888acd28fcdb5647c0a076a38d6ecc4daae9d4c3e4c383
+    size_bytes: 100898
+    fetched_at: '2026-09-29T11:56:56+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/dfc_ni/dfc-ni-state-pension-statistics-may-2026/2026/9871bdad5f2e8dcc09888acd28fcdb5647c0a076a38d6ecc4daae9d4c3e4c383/bss-state-pension-may-2026.xlsx
+        uri: r2://ledger-raw/raw/dfc_ni/dfc-ni-state-pension-statistics-may-2026/2026/9871bdad5f2e8dcc09888acd28fcdb5647c0a076a38d6ecc4daae9d4c3e4c383/bss-state-pension-may-2026.xlsx

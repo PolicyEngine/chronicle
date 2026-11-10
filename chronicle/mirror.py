@@ -6,6 +6,7 @@ import hashlib
 import json
 import shutil
 import sqlite3
+from contextlib import closing
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -171,7 +172,7 @@ def export_chronicle_db_tables(
     _prepare_output_dir(output, replace=replace)
 
     exports: list[ChronicleTableExport] = []
-    with sqlite3.connect(db) as connection:
+    with closing(sqlite3.connect(db)) as connection, connection:
         connection.row_factory = sqlite3.Row
         build_ids = tuple(
             row["build_id"]

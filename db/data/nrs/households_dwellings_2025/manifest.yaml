@@ -1,0 +1,19 @@
+source_id: nrs
+package_id: nrs-households-dwellings-2025
+dataset: nrs_nrs-households-dwellings-2025
+source_page: https://nrscotland.gov.uk/publications/households-and-dwellings-in-scotland-2025/
+table: households_dwellings_2025
+files:
+  2025:
+    filename: household-est-25-data.xlsx
+    source_url: https://nrscotland.gov.uk/media/yzmpdfgd/household-est-25-data.xlsx
+    sha256: 53711a0501b392530025f7af58dc92e24245e74ad7ca5d59c38d5acfc40b233d
+    size_bytes: 233665
+    fetched_at: '2026-10-07T13:34:58+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-households-dwellings-2025/2025/53711a0501b392530025f7af58dc92e24245e74ad7ca5d59c38d5acfc40b233d/household-est-25-data.xlsx
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-households-dwellings-2025/2025/53711a0501b392530025f7af58dc92e24245e74ad7ca5d59c38d5acfc40b233d/household-est-25-data.xlsx
+registration_kind: source_facts

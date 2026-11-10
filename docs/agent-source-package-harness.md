@@ -19,7 +19,16 @@ metadata in `manifest.yaml`, and can upload the exact bytes to the private
 artifact registry with `uv run chronicle inventory-artifacts --root db/data`.
 For already-downloaded manifest artifacts, agents should run
 `uv run chronicle publish-raw --root db/data` to upload checksum-verified bytes to
-R2 and write `storage.r2` metadata back into each manifest entry.
+R2 and write `storage.r2` metadata back into each manifest entry. A file above the
+300 MiB that `wrangler r2 object put` accepts goes through R2's S3-compatible API
+instead, as a multipart upload in 100 MiB parts
+([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)). That path
+signs with `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY` when both are set, and
+otherwise with the S3 key pair Cloudflare derives from `CLOUDFLARE_API_TOKEN`. It
+takes the account from `CLOUDFLARE_ACCOUNT_ID` or `wrangler.toml`. A manifest
+entry marked `storage.local: false` keeps its bytes in R2 only and never in Git:
+both commands accept it without a local copy, so its absence is not an error to
+fix by downloading, and `uv run chronicle verify-raw` checks the R2 object.
 
 Builds do not require production raw bytes to be committed to Git. Source
 packages first read packaged fixture bytes, then
@@ -29,6 +38,35 @@ missing locally, set `LEDGER_SOURCE_ARTIFACT_FETCH=1` to fetch it from the
 manifest `source_url`, verify the declared SHA-256, and write it to that cache.
 The old `CHRONICLE_`-prefixed environment variables remain accepted only as
 migration fallbacks.
+
+A fact package may keep its artifact in R2 only when the bytes are too large to
+commit (DESNZ's 50-56 MB LSOA energy workbooks, chronicle#356), or when the publisher
+states no licence that lets Chronicle redistribute them (the Gambling Commission's GSGB
+2025 data tables, whose manifest records the evidence under `license_evidence`): its manifest entry
+carries `storage.local: false`, the file is git-ignored, and CI sets
+`LEDGER_SOURCE_ARTIFACT_FETCH=1` and caches the fetched bytes between runs.
+`publish-raw` refuses an R2-only entry that has no R2 location yet, so upload the
+bytes first and add the marker after.
+
+Two parsers suit large or nested publisher files:
+
+- `xlsx_read_only_used_range` streams only the worksheets `sheets:` names, in
+  openpyxl's read-only mode, instead of loading the whole workbook twice. It emits
+  the same cells for the LSOA workbooks it was added for, in seconds rather than
+  minutes, but read-only mode differs from the full load on a few existing
+  workbooks (used ranges, whitespace-only cells), so it is opt-in.
+- `zip_ods_used_range` parses an ODS member of a ZIP (`archive_member:`), as
+  `zip_xlsx_used_range` does for XLSX; DWP's HBAI confidence intervals are only
+  in the release's data-table ZIP.
+
+`ons_census_observations_json_rows` unpivots an ONS Census 2021 API
+`census-observations` response into one source row per published cell: the
+population type the response's request URL names, a label and a `_code` column
+per dimension (named after its dimension id), and `observation`.
+
+DESNZ's gas year has its own period type, `gas_year`, under the publisher's year
+label (since 2018 mid-May to mid-May); PeriodCoverage carries exact dates only
+where DESNZ publishes them (Northern Ireland).
 
 For broad PE source migration, generate the agent queue from the manifest before
 assigning work:
@@ -151,6 +189,12 @@ rows:
         expected_value: 14
         label: end age
 ```
+
+Package YAML renders a digit-only string such as `'2024'` to the integer 2024,
+while a delimited file's header row keeps the text `2024`. A guard that expects
+an integer therefore also matches a cell holding exactly that integer's digits,
+so a year-selecting package can check a CSV year header with
+`expected_column_header_by_year`. `02024`, `2024.0` and booleans still fail.
 
 Use `range_label_guards` when a fact sums a dense row range and interior labels
 are part of the fact definition. Endpoint guards catch off-by-one boundaries,
@@ -666,6 +710,27 @@ uv run chronicle build-consumer-artifact --facts /tmp/chronicle-uk --out /tmp/ch
 `--year` is inert for `--suite uk` because the UK packages are year-pinned.
 The US off-year bundle behavior is unchanged and out of scope here.
 
+`--suite nz` builds the curated New Zealand suite (every package under
+`packages/ird`, `packages/mbie`, `packages/msd`, `packages/stats_nz` and
+`packages/treasury`) the same way, and
+`--year` is inert for it as well: each NZ package pins its `artifact_year` and
+uses year-independent declarations.
+
+`--suite be` builds the curated Belgian suite: every package under
+`packages/bfp`, `fpb`, `nbb`, `onem_rva`, `onss`, `opgroeien`, `ostbelgien`,
+`rsz`, `sfpd`, `spf_finances` and `statbel`, plus each Eurostat package whose
+rows report for Belgium or a Belgian NUTS region, or which reads a euro
+exchange-rate series (`ert_bil_eur_*`). `packages/eurostat/` can hold
+packages that cover only other member states, and those stay out of the suite
+and its drift guard. A new package under those directories, or a new Eurostat
+package for Belgium, fails the guard until someone adds it to
+`BE_BUNDLE_SOURCES`. `tests/test_source_package_alias_drift.py` also sweeps
+every package for a Belgian country or NUTS geography or the commune level, so
+a package under another publisher directory that reports for Belgium, a
+Belgian region or a commune fails it unless the test names that package out
+with a reason. The sweep cannot see a package scoped only by a
+`statistical_scope` id, as Ostbelgien's is. `--year` is inert here too.
+
 The first agent-facing gate is now
 `/tmp/chronicle-suite/reports/agent_acceptance.json`; it summarizes whether raw
 artifacts have R2 pointers, the full source document was parsed, facts have
@@ -810,9 +875,74 @@ dimension_value_labels:
 A groupby axis whose rows cross several fields takes the label of its leading field, the one its id names; the crossed fields carry their own labels as dimensions of the same fact. A declaration wins over every recovered label. `build-bundle` reports an error
 for any package fact with an unlabelled or doubly labelled dimension or value,
 and for a dimension id two packages label differently (chronicle#265 — the rule
-covers every country, since a consumer reads one artifact); publisher row labels
-that differ across one groupby value's rows are a warning, since Chronicle keeps
-them as published. `build_facts` refuses a declaration no fact uses.
+covers every country, since a consumer reads one artifact). `build_facts`
+refuses a declaration no fact uses.
+
+One dimension value carries one label (chronicle#376). Microcosm copies labels
+into every target and merges packages built for different years into one feed,
+so a value must not depend on which packages one build compares. Chronicle's
+register, `chronicle/dimension_values/canonical_labels.json`, gives one label to
+every value that two or more packages emit, and to every value its packages word
+more than one way. When a package is built, at any year, each value the
+register lists takes the register's label in `dimension_value_labels` and, for
+the groupby value, `layout.groupby_value_label`; the package's own wording (the
+row's `label:`, else its declaration, else its source-row text) is kept in
+`package_dimension_value_labels` where it differs. That field holds the
+package's wording, not necessarily the publisher's, and nothing checks it
+against the publisher's file. The guards compare a row's `expected_row_header`
+and `expected_column_header`, which are fields separate from its `label:`, with
+the source cells (a row's `label:` is compared with the row-header cell only
+when the row sets no `expected_row_header`). So a row's `label:` is the
+publisher's text only where it equals the text a guard compares: the IRS
+filing-season week-47 table heads its below-$1 column "No adjusted gross income
+and deficit", the rows' `label:` and `expected_column_header` both say so, and
+their facts carry the register's "No adjusted gross income" with the IRS text
+beside it. Elsewhere the package's wording is often Chronicle's: a parser's
+constant (Census B01001's "Female 20 years"), a value id in an extract Chronicle
+prepared (Statbel's "65_plus"), or a package author's phrase (Eurostat's "First
+income decile cut-point", whose guard checks the code `D1`). The publisher's
+cells stay reachable through each fact's lineage.
+
+A value the register does not list is one only one package emits, so its
+package's label is its one label. A value labelled two ways is an error, with no
+list of exceptions:
+
+- inside one package, `validate-package` reports `conflicting_value_label` for
+  a groupby value whose rows word it two ways, `build-suite` reports the same
+  for any value its facts label two ways, and `build-bundle` reports
+  `conflicting_groupby_value_label` or `conflicting_dimension_value_label`;
+  declare one label for the value in the package's `dimension_value_labels`;
+- across packages, `build-bundle` reports
+  `conflicting_value_label_across_packages`; add the value to the register with
+  one label.
+
+A package may not declare a label in `dimension_value_labels` for a value the
+register lists unless it is the register's label: `validate-package` reports
+`declared_value_label_differs_from_register`, so the register is the one source
+of those labels.
+
+A new package that emits a value another package already emits should check the
+register: the value is either listed, and takes the listed label, or needs an
+entry. To choose a register label for a value its packages word differently,
+take the wording most packages use, ties going to the national statistics
+office's wording, without footnote markers or words that name the measure, and
+keep each package's text in its rows. Where every wording names the measure
+rather than the value, no package's text can be the label, and the maintainer
+gives the value Chronicle's own wording: HMRC's salary sacrifice package words
+`salary_sacrifice_threshold_position=all` "Employees using salary sacrifice to
+make pension contributions" and "National Insurance contributions forgone
+through salary sacrifice for pensions", and the register calls it "All threshold
+positions". A register label is display text, not a source value, so such a
+label invents no fact; the packages' texts stay in their rows and in
+`package_dimension_value_labels`. The register is generated by
+`scripts/build_dimension_value_register.py`, which holds the chosen labels;
+add a chosen label there, rerun it, and commit both files. Its `--static-check`
+mode compares the register with the package files without building them (every
+value two packages' files name must be listed, every listed value must be named
+by a package file, and no declaration may contradict the register), and
+`tests/test_dimension_value_register.py` runs it in CI. The script without
+`--static-check` builds every default-bundle package at its build year; with
+`--check` it fails if the register differs from what those builds give.
 
 Every fact also carries the publisher's name for its geography (chronicle#266),
 taken from the record set's or the row's `geography_name`. `build-bundle`
@@ -822,8 +952,42 @@ catalog only for identifiers it already knows, and an identifier is not a name.
 A country-level geography may stay unnamed, and no name is ever invented from
 the code. Where two packages name one area differently — the IRS truncates
 county names to twenty characters, and ONS writes "Yorkshire and The Humber"
-where HMRC writes "the" — Chronicle keeps each publisher's text and warns, the
-same way it does for a groupby value's row labels.
+where HMRC writes "the" — Chronicle's UK register gives one name where it
+carries the identifier (chronicle#281), and the bundle warns about the areas it
+does not carry yet.
+
+### Pinned artifacts and year labels
+
+`artifact.artifact_year` pins the file. A package with `artifact_year: 2022`
+reads the manifest's 2022 file at every `--year`, but each `{year}` and
+`{filing_year}` in the package still renders from `--year`. So a pinned package
+writes its labels as literals (`period: '2022'`, `record_set_id:
+irs_soi.ty2022.…`, `vintage: tax_year_2022`, `legal_vintage: tax_year_2022`)
+unless `--year` also changes what it reads, through `column_by_year`,
+`sheet_name_by_year` or a `selected_rows` filter on `{year}`. Otherwise a
+`--year 2023` build would stamp the 2022 file's facts as 2023 (chronicle#117).
+A consumer that wants a value at another period declares that alignment
+itself; Chronicle records the publisher's period.
+
+The harness enforces the rule. For a build at year Y other than the artifact
+year A, it compares what each record set selects at Y and at A: the artifact's
+parser, sheet, archive member and rendered `selected_rows`, and the record
+set's sheet, rows, columns, value scaling and guard cells. If a record set
+selects the same cells at both years while any other rendered field differs
+(period, record ids, `vintage`, `source_table`, `legal_vintage`, filters,
+constraints or notes), then:
+
+- the build refuses with `ArtifactYearRestampError`;
+- `validate-package` reports `artifact_year_restamp`;
+- a default `build-bundle` skips the package for that year and gives the reason
+  under `skipped_sources`;
+- an explicit `build-bundle --source` fails the bundle.
+
+The check compiles record-set specs only and never parses the artifact.
+Year-selecting pinned packages still build at other years and read that
+year's column, sheet or rows. A year the file does not cover fails with its
+own error, such as `No source artifact for year 2027` or a selected-row
+mismatch.
 
 Agents may add new package directories and YAML specs. They should not modify
 `chronicle.core`, `chronicle.database`, or `chronicle.suite` unless the package cannot be

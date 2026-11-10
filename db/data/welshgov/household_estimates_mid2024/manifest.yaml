@@ -1,0 +1,19 @@
+source_id: welshgov
+package_id: welshgov-household-estimates-mid2024
+dataset: welshgov_welshgov-household-estimates-mid2024
+source_page: https://stats.gov.wales/en-GB/ce1308bb-9afd-4107-ae5a-38d3022c7181
+table: household_estimates_mid2024
+files:
+  2024:
+    filename: wales_household_estimates.csv
+    source_url: https://stats.gov.wales/en-GB/ce1308bb-9afd-4107-ae5a-38d3022c7181/download
+    sha256: e66d3350862518723f74a7d83b297e1851b91b6ecc4aeb8acdb30bb146f58c85
+    size_bytes: 770764
+    fetched_at: '2026-10-07T13:42:25+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/welshgov/welshgov-household-estimates-mid2024/2024/e66d3350862518723f74a7d83b297e1851b91b6ecc4aeb8acdb30bb146f58c85/wales_household_estimates.csv
+        uri: r2://ledger-raw/raw/uk/welshgov/welshgov-household-estimates-mid2024/2024/e66d3350862518723f74a7d83b297e1851b91b6ecc4aeb8acdb30bb146f58c85/wales_household_estimates.csv
+registration_kind: source_facts

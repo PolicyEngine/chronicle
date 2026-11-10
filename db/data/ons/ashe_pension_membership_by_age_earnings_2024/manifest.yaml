@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-ashe-pension-membership-by-age-earnings-2024
+dataset: ons_ons-ashe-pension-membership-by-age-earnings-2024
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/workplacepensions/bulletins/annualsurveyofhoursandearningspensiontables/2024provisionaland2021to2023finalresults
+table: 'ASHE pension tables P1: pension membership by pension type, earnings and age,
+  2024 provisional'
+files:
+  2026:
+    filename: 2024provisionalp1.zip
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/workplacepensions/datasets/annualsurveyofhoursandearningspensiontablespensiontypebyagegroupandbygrossweeklyearningsbandsp1/2024provisional/2024provisionalp1.zip
+    sha256: 046bf6e5c0a8aef1d8e6b05d46335db9096dc79bf990b7f09632cd3aaf5c54f8
+    size_bytes: 176076
+    fetched_at: '2026-09-29T12:06:20+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-ashe-pension-membership-by-age-earnings-2024/2026/046bf6e5c0a8aef1d8e6b05d46335db9096dc79bf990b7f09632cd3aaf5c54f8/2024provisionalp1.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-ashe-pension-membership-by-age-earnings-2024/2026/046bf6e5c0a8aef1d8e6b05d46335db9096dc79bf990b7f09632cd3aaf5c54f8/2024provisionalp1.zip

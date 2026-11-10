@@ -8,29 +8,53 @@ carries ``dimension_labels`` (dimension id to label) and
 ``filters`` and, when it has one, its ``layout.groupby_dimension``, whose label
 is also stamped on ``layout.groupby_dimension_label``.
 
-Labels resolve per package; the first source that has one wins.
-
-Dimension ids:
+Dimension ids take the first label one of these gives:
 
 1. the package's ``dimension_labels`` declaration;
 2. the publisher's field label, for a Stat-Xplore field the parser read;
 3. the label on the package's ``==`` constraints for that filter, when they
    agree on one label that is not the identifier itself.
 
-Dimension values:
+One dimension value carries one label (chronicle#376). Microcosm merges facts
+from packages built for different years into one feed, so the label cannot
+depend on which packages one build happens to compare. A value takes the first
+label one of these gives:
 
-1. the package's ``dimension_value_labels`` declaration;
-2. the fact's publisher row label (``layout.groupby_value_label``) when the
-   dimension is the record set's groupby axis (the same id, or the same leaf
-   name source-filter canonicalization matches on) and the value is the row's
-   value id;
-3. the publisher's text in the matching column of the fact's source row, when
-   the row-semantic acceptance matches the filter to it (for ``all``, the
-   publisher's aggregate item, such as Stat-Xplore's ``Total``);
-4. a number or an ISO date, which labels itself.
+1. Chronicle's register, :data:`REGISTER_PATH`
+   (``chronicle/dimension_values/canonical_labels.json``), which lists every
+   value that two or more packages emit, or that its packages word more than
+   one way, with one label;
+2. the package's ``dimension_value_labels`` declaration;
+3. the package's row label for the fact (``layout.groupby_value_label``, the
+   record-set row's ``label:``) when the dimension is the record set's groupby
+   axis (the same id, or the same leaf name source-filter canonicalization
+   matches on) and the value is the row's value id;
+4. the text in the matching column of the fact's source row, as Chronicle's
+   parser read it (from the publisher's file or from an extract Chronicle
+   prepared), when the row-semantic acceptance matches the filter to it (for
+   ``all``, the source's aggregate item, such as Stat-Xplore's ``Total``);
+5. a number or an ISO date, which labels itself.
 
-Everything else must be declared. :func:`dimension_label_issues` checks rows
-the way Microcosm reads them and reports what is missing or labelled two ways.
+That label goes on ``dimension_value_labels`` and, for the groupby value, on
+``layout.groupby_value_label``. The package's own wording of the value (its row
+label, else its declaration, else its source-row text) is kept in
+``package_dimension_value_labels`` where it differs. That wording is the
+package's, and nothing checks it against the publisher's file: it is the
+publisher's text only where a row guard happens to compare the same text with a
+source cell (week 47's IRS column header), and elsewhere it is often text
+Chronicle wrote (a parser's constant, a value id in an extract Chronicle
+prepared, or a package author's phrase). The publisher's cells stay reachable
+through each fact's lineage.
+
+A package may not declare a label the register contradicts: ``validate-package``
+refuses it (:func:`declared_value_label_issues`), so the register is the one
+source of the label of every value it lists. A value the register does not list
+is one that only one package emits (``scripts/build_dimension_value_register.py
+--static-check`` checks this), so its package's label is its one label.
+:func:`dimension_label_issues` reports such a value labelled two ways inside one
+package, and ``build-bundle`` reports it labelled two ways by two packages; both
+are errors, with no exceptions. Everything else that is unlabelled must be
+declared.
 """
 
 from __future__ import annotations
@@ -41,6 +65,9 @@ from collections import defaultdict
 from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass, replace
 from decimal import Decimal
+from functools import cache
+from pathlib import Path
+from types import MappingProxyType
 from typing import Any
 
 from chronicle.consumer_contract import _concept_leaf
@@ -49,6 +76,116 @@ from chronicle.epoch import Epoch, canonicalize_key
 from chronicle.sources.rows import SourceRow, build_source_row_key
 
 _ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+#: Chronicle's register of dimension value labels (chronicle#376).
+REGISTER_PATH = Path(__file__).with_name("dimension_values") / "canonical_labels.json"
+#: The register's path as error messages name it, relative to the repository.
+REGISTER_DISPLAY_PATH = "chronicle/dimension_values/canonical_labels.json"
+#: Where the rule for choosing a register label is written down.
+LABEL_RULE_DISPLAY_PATH = "docs/agent-source-package-harness.md"
+#: The script that regenerates the register, as error messages name it.
+REGISTER_SCRIPT_DISPLAY_PATH = "scripts/build_dimension_value_register.py"
+#: The command that compares the register with the package files.
+REGISTER_STATIC_CHECK = f"uv run python {REGISTER_SCRIPT_DISPLAY_PATH} --static-check"
+
+
+def _register_label_remedy(canonical: str) -> str:
+    return (
+        f"Chronicle's register labels this value {canonical!r} "
+        f"({REGISTER_DISPLAY_PATH}), and every fact built at this Chronicle "
+        "version carries that label, so rebuild these facts (chronicle#376)."
+    )
+
+
+def in_package_value_label_remedy(dimension_id: str, value_id: str) -> str:
+    """Return the one remedy for a value one package labels two ways.
+
+    A value the register lists already has its label, which the message names.
+    Any other value is one only this package emits, so the remedy is one
+    declaration in the package, never a register entry.
+    """
+
+    canonical = canonical_value_label(dimension_id, value_id)
+    if canonical is not None:
+        return _register_label_remedy(canonical)
+    return (
+        "Declare one label for it in this package's dimension_value_labels "
+        "(chronicle#376): the publisher's wording of the value itself, without "
+        "words that name the measure, cell or table it was read from. Each "
+        "row's own wording is then kept in package_dimension_value_labels."
+    )
+
+
+def cross_package_value_label_remedy(dimension_id: str, value_id: str) -> str:
+    """Return the one remedy for a value two packages label differently.
+
+    Two packages emit the value, so a package declaration cannot settle it:
+    the remedy is a register entry, and the message says how to choose its
+    label. The packages word it differently, so the script that regenerates
+    the register needs the same label in its ``CHOSEN_LABELS``, or it no longer
+    reproduces the register. A value the register lists already has its label.
+    """
+
+    canonical = canonical_value_label(dimension_id, value_id)
+    if canonical is not None:
+        return _register_label_remedy(canonical)
+    return (
+        f"Add it to {REGISTER_DISPLAY_PATH} with one label (chronicle#376), "
+        f"chosen by the rule in {LABEL_RULE_DISPLAY_PATH}: the wording most of "
+        "these packages use, a tie going to the national statistics office's "
+        "wording, without footnote markers or words that name the measure, "
+        f"and add that label to CHOSEN_LABELS in {REGISTER_SCRIPT_DISPLAY_PATH}, "
+        "so the script still reproduces the register. "
+        f"Then run `{REGISTER_STATIC_CHECK}`."
+    )
+
+
+def declared_value_label_issues(
+    dimension_value_labels: Mapping[str, Mapping[str, Any]],
+) -> list[tuple[str, str, str, str]]:
+    """Return each declaration the register contradicts.
+
+    Returns ``(dimension id, value id, declared label, register label)``. The
+    register's label wins on every fact, so a different declaration would only
+    mislead someone reading the package file.
+    """
+
+    found = []
+    for dimension_id, value_labels in (dimension_value_labels or {}).items():
+        for value_id, declared in (value_labels or {}).items():
+            canonical = canonical_value_label(str(dimension_id), str(value_id))
+            if canonical is not None and str(declared).strip() != canonical:
+                found.append(
+                    (str(dimension_id), str(value_id), str(declared), canonical)
+                )
+    return sorted(found)
+
+
+@cache
+def _register() -> Mapping[str, Mapping[str, str]]:
+    payload = json.loads(REGISTER_PATH.read_text(encoding="utf-8"))
+    return MappingProxyType(
+        {
+            dimension_id: MappingProxyType(dict(value_labels))
+            for dimension_id, value_labels in payload["labels"].items()
+        }
+    )
+
+
+def canonical_value_label(dimension_id: str, value_id: str) -> str | None:
+    """Return the register's label for one dimension value, or None.
+
+    *value_id* is the value's :func:`dimension_value_id` form. A value the
+    register does not list takes its package's label.
+    """
+
+    return _register().get(str(dimension_id), {}).get(str(value_id))
+
+
+def register_size() -> int:
+    """Return how many dimension values the register labels."""
+
+    return sum(len(value_labels) for value_labels in _register().values())
 
 
 def dimension_value_id(value: Any) -> str:
@@ -80,8 +217,11 @@ def label_facts(
     ``dimension_labels`` and ``dimension_value_labels`` are the package's
     declarations, ``field_labels`` the publisher's labels for parsed source-row
     columns, and ``source_rows`` the parsed rows the facts' lineage points at.
-    A dimension or value no source labels is left unlabelled for
-    :func:`dimension_label_issues` to report.
+    A value the register lists takes the register's label, in
+    ``dimension_value_labels`` and ``layout.groupby_value_label`` alike, and
+    the package's own wording goes to ``package_dimension_value_labels``
+    where it differs. A dimension or value no source labels is left
+    unlabelled for :func:`dimension_label_issues` to report.
     """
     facts = list(facts)
     declared = dict(dimension_labels or {})
@@ -118,41 +258,104 @@ def label_facts(
             if key in rows_by_key
         ]
         value_labels: dict[str, dict[str, str]] = defaultdict(dict)
+        package_wordings: dict[str, dict[str, str]] = defaultdict(dict)
+
+        def resolve(
+            dimension_id: str,
+            value_id: str,
+            *,
+            row_label: str | None,
+            source_text: str | None = None,
+            self_label: str | None = None,
+        ) -> None:
+            declared_label = declared_values.get(dimension_id, {}).get(value_id)
+            label = (
+                canonical_value_label(dimension_id, value_id)
+                or declared_label
+                or row_label
+                or source_text
+                or self_label
+            )
+            if not label:
+                return
+            value_labels[dimension_id][value_id] = label
+            # The package's own wording: its row's label, else its declaration,
+            # else the source-row text. Nothing checks it against the
+            # publisher's file, and it is often Chronicle's text.
+            package_wording = row_label or declared_label or source_text
+            if package_wording and package_wording != label:
+                package_wordings[dimension_id][value_id] = package_wording
+
         for dimension_id, value in dimensions.items():
             value_id = dimension_value_id(value)
-            label = (
-                declared_values.get(dimension_id, {}).get(value_id)
-                or _groupby_row_label(layout, dimension_id, value_id)
-                or _source_row_label(rows, dimension_id, value)
-                or _self_label(value)
+            resolve(
+                dimension_id,
+                value_id,
+                row_label=_groupby_row_label(layout, dimension_id, value_id),
+                source_text=_source_row_label(rows, dimension_id, value),
+                self_label=_self_label(value),
             )
-            if label:
-                value_labels[dimension_id][value_id] = label
-        if (
-            groupby
-            and groupby not in dimensions
-            and layout.groupby_value_id is not None
-        ):
-            value_id = dimension_value_id(layout.groupby_value_id)
-            label = declared_values.get(groupby, {}).get(value_id) or (
-                _groupby_row_label(layout, groupby, value_id)
+        groupby_value_id = (
+            dimension_value_id(layout.groupby_value_id)
+            if groupby and layout.groupby_value_id is not None
+            else None
+        )
+        if groupby_value_id is not None and groupby not in dimensions:
+            resolve(
+                groupby,
+                groupby_value_id,
+                row_label=_groupby_row_label(layout, groupby, groupby_value_id),
             )
-            if label:
-                value_labels[groupby][value_id] = label
+        if layout is not None:
+            layout = replace(layout, groupby_dimension_label=labels.get(groupby))
+            if groupby_value_id is not None:
+                layout = replace(
+                    layout,
+                    groupby_value_label=_groupby_value_label(
+                        layout, value_labels, package_wordings, declared_values
+                    ),
+                )
 
         labelled.append(
             replace(
                 fact,
                 dimension_labels=labels,
                 dimension_value_labels=dict(value_labels),
-                layout=(
-                    replace(layout, groupby_dimension_label=labels.get(groupby))
-                    if layout
-                    else layout
-                ),
+                package_dimension_value_labels=dict(package_wordings),
+                layout=layout,
             )
         )
     return labelled
+
+
+def _groupby_value_label(
+    layout: SourceRecordLayout,
+    value_labels: Mapping[str, Mapping[str, str]],
+    package_wordings: dict[str, dict[str, str]],
+    declared_values: Mapping[str, Mapping[str, str]],
+) -> str | None:
+    """Return the one label of a fact's groupby value (chronicle#376).
+
+    The groupby value is usually in ``value_labels`` already. When the groupby
+    axis is also a filter whose value differs from the row's, the row's value
+    is not, so its label is resolved here the same way, and the row's own
+    wording is kept with the others.
+    """
+
+    groupby = layout.groupby_dimension
+    value_id = dimension_value_id(layout.groupby_value_id)
+    row_label = (layout.groupby_value_label or "").strip() or None
+    resolved = value_labels.get(groupby, {}).get(value_id)
+    if resolved is not None:
+        return resolved
+    label = (
+        canonical_value_label(groupby, value_id)
+        or declared_values.get(groupby, {}).get(value_id)
+        or row_label
+    )
+    if row_label and label and row_label != label:
+        package_wordings.setdefault(groupby, {})[value_id] = row_label
+    return label
 
 
 def unused_label_declarations(
@@ -210,9 +413,15 @@ class DimensionLabelIssue:
             target = f"{target} value {self.value_id!r}"
         if self.code == "conflicting_groupby_value_label":
             return (
-                f"{target} carries publisher row labels that differ across "
-                f"facts: {list(self.labels)!r}; a consumer selecting facts "
-                "from more than one of those rows sees conflicting labels."
+                f"{target} carries row labels that differ across facts: "
+                f"{list(self.labels)!r}; a consumer selecting facts from more "
+                "than one of those rows sees conflicting labels. "
+                f"{in_package_value_label_remedy(self.dimension_id, self.value_id)}"
+            )
+        if self.code == "conflicting_dimension_value_label":
+            return (
+                f"{target} carries more than one label: {list(self.labels)!r}. "
+                f"{in_package_value_label_remedy(self.dimension_id, self.value_id)}"
             )
         if self.code.startswith("conflicting"):
             return f"{target} carries more than one label: {list(self.labels)!r}."
@@ -246,13 +455,16 @@ def dimension_label_issues(
     dimension, ``layout.groupby_dimension_label``; each value likewise, from
     ``dimension_value_labels`` or, for the groupby value,
     ``layout.groupby_value_label``. Across *rows*, every dimension id and every
-    value must carry a single label. Values that only ever appear as a groupby
-    value, whose publisher row labels differ across rows, are reported
-    separately as ``conflicting_groupby_value_label``: that text is the
-    publisher's, kept as published — including the row value of a groupby axis
-    that is also a filter, whose own value the row names and the filter does
-    not. Issues are aggregated per dimension or value, with a fact count and an
-    example fact key.
+    value must carry a single label (chronicle#376). A value labelled two ways
+    that only ever appears as a groupby value is reported as
+    ``conflicting_groupby_value_label`` (including the row value of a groupby
+    axis that is also a filter, whose own value the row names and the filter
+    does not), and any other as ``conflicting_dimension_value_label``. Facts a
+    package builds take the register's label for every value it lists, so
+    either code means a value the register does not list, labelled two ways
+    by the package's rows or declarations; both are errors. Issues are
+    aggregated per dimension or value, with a fact count and an example fact
+    key.
     """
     missing: dict[tuple[str, str, str | None], list[Any]] = {}
     row_conflicts: dict[tuple[str, str | None], set[str]] = defaultdict(set)
@@ -494,10 +706,20 @@ def _count(
 
 
 __all__ = [
+    "LABEL_RULE_DISPLAY_PATH",
+    "REGISTER_DISPLAY_PATH",
+    "REGISTER_PATH",
+    "REGISTER_SCRIPT_DISPLAY_PATH",
+    "REGISTER_STATIC_CHECK",
     "DimensionLabelIssue",
+    "canonical_value_label",
+    "cross_package_value_label_remedy",
+    "declared_value_label_issues",
     "dimension_label_issues",
     "dimension_labels_by_id",
     "dimension_value_id",
+    "in_package_value_label_remedy",
     "label_facts",
+    "register_size",
     "unused_label_declarations",
 ]

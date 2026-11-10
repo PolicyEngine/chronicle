@@ -1,0 +1,176 @@
+{
+  "query" : {
+    "database" : "str:database:PC_New",
+    "measures" : [ "str:count:PC_New:V_F_PC_CASELOAD_New" ],
+    "recodes" : {
+      "str:field:PC_New:V_F_PC_CASELOAD_New:PCTYPE" : {
+        "map" : [ [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:1" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:2" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:3" ] ],
+        "total" : true
+      },
+      "str:field:PC_New:V_F_PC_CASELOAD_New:AMTGP" : {
+        "map" : [ [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:0" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:1" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:2" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:3" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:4" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:5" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:6" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:7" ], [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:9" ] ],
+        "total" : true
+      },
+      "str:field:PC_New:F_PC_QTR_New:DATE_NAME" : {
+        "map" : [ [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202302" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202305" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202308" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202311" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202402" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202405" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202408" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202411" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202502" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202505" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202508" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202511" ], [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202603" ] ],
+        "total" : false
+      },
+      "str:field:PC_New:V_F_PC_CASELOAD_New:COA_CODE" : {
+        "map" : [ [ "str:value:PC_New:V_F_PC_CASELOAD_New:COA_CODE:V_C_MASTERGEOG21_GB:K03000001" ] ],
+        "total" : false
+      }
+    },
+    "dimensions" : [ [ "str:field:PC_New:F_PC_QTR_New:DATE_NAME" ], [ "str:field:PC_New:V_F_PC_CASELOAD_New:COA_CODE" ], [ "str:field:PC_New:V_F_PC_CASELOAD_New:AMTGP" ], [ "str:field:PC_New:V_F_PC_CASELOAD_New:PCTYPE" ] ]
+  },
+  "database" : {
+    "id" : "PC_New",
+    "uri" : "str:database:PC_New",
+    "label" : "Pension Credit - Data from May 2018",
+    "annotationKeys" : [ "I", "II" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:PC_New:V_F_PC_CASELOAD_New",
+    "label" : "Pension Credit Caseload - 2021 Geographies",
+    "measure" : "str:count:PC_New:V_F_PC_CASELOAD_New",
+    "function" : "COUNT"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:PC_New:F_PC_QTR_New:DATE_NAME",
+    "label" : "Quarter",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202302" ],
+      "labels" : [ "Feb-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202305" ],
+      "labels" : [ "May-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202308" ],
+      "labels" : [ "Aug-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202311" ],
+      "labels" : [ "Nov-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202402" ],
+      "labels" : [ "Feb-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202405" ],
+      "labels" : [ "May-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202408" ],
+      "labels" : [ "Aug-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202411" ],
+      "labels" : [ "Nov-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202502" ],
+      "labels" : [ "Feb-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202505" ],
+      "labels" : [ "May-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202508" ],
+      "labels" : [ "Aug-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202511" ],
+      "labels" : [ "Nov-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:F_PC_QTR_New:DATE_NAME:C_PC_QTR_New:202603" ],
+      "labels" : [ "Mar-26" ]
+    } ]
+  }, {
+    "uri" : "str:field:PC_New:V_F_PC_CASELOAD_New:COA_CODE",
+    "label" : "National - Regional - LA - OAs",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:COA_CODE:V_C_MASTERGEOG21_GB:K03000001" ],
+      "labels" : [ "Great Britain" ]
+    } ]
+  }, {
+    "uri" : "str:field:PC_New:V_F_PC_CASELOAD_New:AMTGP",
+    "label" : "Grouped Amount of Benefit",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:0" ],
+      "labels" : [ "Nil payment" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:1" ],
+      "labels" : [ "Under £20.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:2" ],
+      "labels" : [ "£20.00 to under £40.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:3" ],
+      "labels" : [ "£40.00 to under £60.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:4" ],
+      "labels" : [ "£60.00 to under £80.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:5" ],
+      "labels" : [ "£80.00 to under £100.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:6" ],
+      "labels" : [ "£100.00 to under £150.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:7" ],
+      "labels" : [ "£150.00 and over" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:AMTGP:C_PC_AMTGP:9" ],
+      "labels" : [ "Unknown" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  }, {
+    "uri" : "str:field:PC_New:V_F_PC_CASELOAD_New:PCTYPE",
+    "label" : "Type of Pension Credit",
+    "annotationKeys" : [ "III" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:1" ],
+      "labels" : [ "Guarantee Credit only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:2" ],
+      "labels" : [ "Savings Credit only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PC_New:V_F_PC_CASELOAD_New:PCTYPE:C_PC_PCTYPE:3" ],
+      "labels" : [ "Both Guarantee and Savings Credit" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:PC_New:V_F_PC_CASELOAD_New" : {
+      "values" : [ [ [ [ 1457, 602, 980, 3044 ], [ 25671, 192316, 110641, 328628 ], [ 137772, 163, 116829, 254765 ], [ 93215, 217, 49093, 142524 ], [ 103630, 190, 53270, 157092 ], [ 91772, 75, 90961, 182807 ], [ 140052, 46, 11969, 152072 ], [ 139814, 8, 9128, 148949 ], [ 0, 0, 0, 0 ], [ 733376, 193622, 442876, 1369871 ] ] ], [ [ [ 1019, 480, 855, 2349 ], [ 22109, 191287, 65198, 278591 ], [ 103793, 134, 151748, 255678 ], [ 109581, 148, 39422, 149152 ], [ 105547, 176, 52303, 158028 ], [ 61265, 132, 89680, 151075 ], [ 172831, 45, 31817, 204686 ], [ 165221, 24, 11683, 176921 ], [ 0, 0, 0, 0 ], [ 741354, 192421, 442705, 1376480 ] ] ], [ [ [ 885, 383, 714, 1986 ], [ 23330, 189215, 64132, 276676 ], [ 103204, 94, 149653, 252948 ], [ 108566, 116, 39449, 148125 ], [ 108781, 135, 52310, 161231 ], [ 61093, 89, 90153, 151337 ], [ 172596, 29, 31970, 204597 ], [ 165986, 22, 11817, 177828 ], [ 0, 0, 0, 0 ], [ 744447, 190081, 440204, 1374725 ] ] ], [ [ [ 867, 368, 624, 1855 ], [ 24367, 185878, 62780, 273023 ], [ 102321, 86, 146765, 249176 ], [ 107299, 89, 39210, 146592 ], [ 112036, 92, 52107, 164234 ], [ 60542, 39, 90230, 150807 ], [ 172156, 27, 32203, 204391 ], [ 166508, 6, 11927, 178444 ], [ 0, 0, 0, 0 ], [ 746094, 186584, 435851, 1368526 ] ] ], [ [ [ 1147, 539, 947, 2633 ], [ 25442, 174425, 68630, 268495 ], [ 106370, 132, 138151, 244652 ], [ 105821, 171, 38571, 144559 ], [ 115394, 193, 51200, 166784 ], [ 60056, 103, 89909, 150066 ], [ 173241, 57, 30146, 203445 ], [ 167022, 29, 11785, 178837 ], [ 0, 0, 0, 0 ], [ 754501, 175637, 429335, 1359471 ] ] ], [ [ [ 4763, 442, 1393, 6598 ], [ 23023, 169610, 39168, 231798 ], [ 82310, 106, 157110, 239530 ], [ 114601, 102, 34093, 148796 ], [ 116916, 138, 48056, 165106 ], [ 57607, 135, 51547, 109280 ], [ 173029, 38, 78559, 251626 ], [ 187319, 34, 14353, 201710 ], [ 0, 0, 0, 0 ], [ 759564, 170601, 424276, 1354441 ] ] ], [ [ [ 963, 367, 752, 2087 ], [ 24379, 169896, 38761, 233033 ], [ 82390, 104, 155370, 237862 ], [ 114756, 101, 34368, 149227 ], [ 121927, 120, 48274, 170320 ], [ 58407, 84, 51407, 109895 ], [ 173511, 35, 78783, 252326 ], [ 190693, 42, 14278, 205012 ], [ 0, 0, 0, 0 ], [ 767028, 170745, 422002, 1359768 ] ] ], [ [ [ 1144, 419, 1026, 2584 ], [ 27384, 176098, 39140, 242616 ], [ 83938, 110, 155547, 239594 ], [ 115927, 95, 36219, 152246 ], [ 131772, 90, 49370, 181229 ], [ 59241, 66, 52038, 111345 ], [ 174144, 17, 79422, 253581 ], [ 193197, 24, 14330, 207553 ], [ 0, 0, 0, 0 ], [ 786736, 176912, 427087, 1390743 ] ] ], [ [ [ 1346, 545, 1268, 3162 ], [ 29247, 169424, 44570, 243242 ], [ 89769, 165, 148086, 238017 ], [ 115971, 177, 36263, 152408 ], [ 137683, 191, 48697, 186570 ], [ 59479, 133, 51441, 111052 ], [ 175628, 60, 76544, 252228 ], [ 194497, 34, 13851, 208385 ], [ 0, 0, 0, 0 ], [ 803622, 170723, 420720, 1395063 ] ] ], [ [ [ 4424, 413, 1568, 6399 ], [ 28014, 164764, 32013, 224790 ], [ 80657, 116, 153509, 234280 ], [ 117988, 79, 34713, 152780 ], [ 139423, 158, 47277, 186856 ], [ 58700, 129, 44580, 103412 ], [ 176019, 39, 86530, 262591 ], [ 204551, 29, 14543, 219123 ], [ 0, 0, 0, 0 ], [ 809774, 165716, 414743, 1390228 ] ] ], [ [ [ 1199, 451, 1271, 2918 ], [ 28799, 161621, 31367, 221784 ], [ 80246, 94, 150353, 230693 ], [ 116993, 77, 34570, 151640 ], [ 143573, 145, 47641, 191359 ], [ 59320, 128, 44643, 104087 ], [ 176883, 32, 86927, 263840 ], [ 208211, 45, 14441, 222699 ], [ 0, 0, 0, 0 ], [ 815217, 162592, 411214, 1389020 ] ] ], [ [ [ 205, 6, 16, 222 ], [ 29751, 160093, 30879, 220722 ], [ 80456, 81, 148036, 228573 ], [ 117132, 55, 34566, 151746 ], [ 148576, 88, 47539, 196204 ], [ 59673, 75, 44527, 104269 ], [ 176694, 35, 86687, 263412 ], [ 208578, 11, 14286, 222883 ], [ 0, 0, 0, 0 ], [ 821058, 160443, 406535, 1388034 ] ] ], [ [ [ 158, 6, 17, 182 ], [ 31062, 149563, 35690, 216317 ], [ 83337, 131, 139806, 223280 ], [ 115510, 138, 33832, 149475 ], [ 154252, 186, 46608, 201044 ], [ 60067, 164, 43955, 104178 ], [ 177873, 62, 84365, 262297 ], [ 210067, 37, 13959, 224065 ], [ 0, 0, 0, 0 ], [ 832322, 150288, 398237, 1380846 ] ] ] ],
+      "precision" : 0
+    }
+  },
+  "annotationMap" : {
+    "I" : "The move to publishing benefit data via the Stat-Xplore instead of the DWP Tabulation Tool has involved adopting a new disclosure control methodology, in line with other benefits published via this new tool. Although the data still comes from the same source there may be small differences in the outputs displayed using this new tool, when compared to the Tabulation Tool.",
+    "II" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants.",
+    "III" : "From May 2024, the 'Residual MIG' category field has been removed from the 'Type of Pension Credit' breakdown. This is due to the very small number of cases that were present in this field being incorrectly classified as such."
+  }
+}

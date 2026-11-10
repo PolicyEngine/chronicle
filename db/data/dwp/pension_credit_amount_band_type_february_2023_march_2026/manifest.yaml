@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-pension-credit-amount-band-type-february-2023-march-2026
+dataset: dwp_dwp-pension-credit-amount-band-type-february-2023-march-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: Pension Credit caseload by grouped weekly award amount and type of Pension
+  Credit, February 2023 to March 2026
+files:
+  2026:
+    filename: pension_credit_caseload_by_amount_band_and_type_february_2023_march_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: 2ed320ab09b522b84362985e6b697902b489c0b95282a5670afd54e1ad51b4c6
+    size_bytes: 12527
+    fetched_at: '2026-09-29T12:28:09+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-pension-credit-amount-band-type-february-2023-march-2026/2026/2ed320ab09b522b84362985e6b697902b489c0b95282a5670afd54e1ad51b4c6/pension_credit_caseload_by_amount_band_and_type_february_2023_march_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-pension-credit-amount-band-type-february-2023-march-2026/2026/2ed320ab09b522b84362985e6b697902b489c0b95282a5670afd54e1ad51b4c6/pension_credit_caseload_by_amount_band_and_type_february_2023_march_2026.json

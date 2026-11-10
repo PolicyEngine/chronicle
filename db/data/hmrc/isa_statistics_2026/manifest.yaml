@@ -1,0 +1,23 @@
+source_id: hmrc
+package_id: hmrc-isa-statistics-2026
+dataset: hmrc_hmrc-isa-statistics-2026
+source_page: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+table: 'Individual Savings Account (ISA) tables: September 2026'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: HM Revenue and Customs, Individual Savings Account (ISA) tables: September 2026. Contains public sector information licensed under the Open Government Licence v3.0.'
+license_evidence: 'The GOV.UK publication page (https://www.gov.uk/government/statistics/annual-savings-statistics-2026) states that all content is available under the Open Government Licence v3.0, except where otherwise stated. The workbook''s cover (Cover_Sheet!A17) adds: ''Bulletin is Crown copyright. Information may be used provided that the source is acknowledged.'''
+license_verified_at: '2026-10-28'
+files:
+  2026:
+    filename: Individual_Savings_Account_Tables_2026.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6aa26b174e17456e2cdf529c/Individual_Savings_Account_Tables_2026.ods
+    sha256: a0eaf90801fadc293c1187e8bcd66983b37a0fe81028d9a04b3e6dd71bd10e3b
+    size_bytes: 60311
+    fetched_at: '2026-10-28T19:36:51+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-isa-statistics-2026/2026/a0eaf90801fadc293c1187e8bcd66983b37a0fe81028d9a04b3e6dd71bd10e3b/Individual_Savings_Account_Tables_2026.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-isa-statistics-2026/2026/a0eaf90801fadc293c1187e8bcd66983b37a0fe81028d9a04b3e6dd71bd10e3b/Individual_Savings_Account_Tables_2026.ods

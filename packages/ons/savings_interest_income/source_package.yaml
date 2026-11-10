@@ -1,6 +1,6 @@
 # ONS UKEA HAXV annual observations only (2018-2025). policyengine-uk-data
 # additionally holds the last actual flat through 2029 - a computed extension
-# the facts-only ADR excludes; any forward fill is a populace-side declaration.
+# the facts-only ADR excludes; any forward fill is a Microcosm-side declaration.
 # Quarterly rows in the same CSV are not ported in this tranche.
 schema_version: ledger.source_package.v1
 package_id: ons-savings-interest-income

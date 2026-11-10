@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import sqlite3
+from contextlib import closing
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -111,7 +112,9 @@ def build_chronicle_db(
         *(row.artifact.sha256 for row in rows),
     }
 
-    with sqlite3.connect(path) as connection:
+    # sqlite3's context manager only commits or rolls back; closing() also
+    # releases the file, so a caller can delete it as soon as this returns.
+    with closing(sqlite3.connect(path)) as connection, connection:
         connection.execute("PRAGMA foreign_keys = ON")
         _create_schema(connection)
         _insert_build(
@@ -1055,9 +1058,14 @@ def _build_id(
 def _canonical_fact_mapping(fact: AggregateFact) -> dict[str, Any]:
     """Return a build-hash payload independent of accepted key epochs."""
     mapping = asdict(fact)
-    # Labels (chronicle#261) enter the hash only when present, so a fact
-    # without them keeps the build hash it had before they existed.
-    for label_field in ("dimension_labels", "dimension_value_labels"):
+    # Labels (chronicle#261) and the package's own value wording (chronicle#376)
+    # enter the hash only when present, so a fact without them keeps the build
+    # hash it had before they existed.
+    for label_field in (
+        "dimension_labels",
+        "dimension_value_labels",
+        "package_dimension_value_labels",
+    ):
         if not mapping[label_field]:
             mapping.pop(label_field)
     if mapping["layout"] and mapping["layout"]["groupby_dimension_label"] is None:

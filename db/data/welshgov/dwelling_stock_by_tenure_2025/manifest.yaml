@@ -1,0 +1,21 @@
+source_id: welshgov
+package_id: welshgov-dwelling-stock-by-tenure-2025
+dataset: welshgov_welshgov-dwelling-stock-by-tenure-2025
+source_page: https://stats.gov.wales/en-GB/6476cc20-ddeb-46a5-be64-10a23c8a159f
+table: Dwelling stock estimates by tenure and local authority area
+files:
+  2025:
+    filename: wales_dwelling_stock_by_tenure.csv
+    source_url: https://stats.gov.wales/en-GB/6476cc20-ddeb-46a5-be64-10a23c8a159f/download
+    sha256: b5893505c763cc79f853f7387b429ab1d552babe6ba1b8ad96cddecfce1f20a6
+    size_bytes: 772530
+    fetched_at: '2026-10-07T16:07:20+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/welshgov/welshgov-dwelling-stock-by-tenure-2025/2025/b5893505c763cc79f853f7387b429ab1d552babe6ba1b8ad96cddecfce1f20a6/wales_dwelling_stock_by_tenure.csv
+        uri: r2://ledger-raw/raw/uk/welshgov/welshgov-dwelling-stock-by-tenure-2025/2025/b5893505c763cc79f853f7387b429ab1d552babe6ba1b8ad96cddecfce1f20a6/wales_dwelling_stock_by_tenure.csv
+registration_kind: source_facts
+provenance_notes: Unformatted publisher CSV with reference codes and hierarchies;
+  extracted 7 October 2026.
