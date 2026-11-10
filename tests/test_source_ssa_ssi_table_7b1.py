@@ -20,7 +20,8 @@ import pytest
 import yaml
 
 from chronicle.artifacts import build_r2_key
-from chronicle.consumer_contract import build_semantic_fact_key
+from chronicle.consumer_contract import build_semantic_fact_key, consumer_fact_rows
+from chronicle.dimension_labels import dimension_label_issues
 from chronicle.source_package import load_source_package
 
 REPO = Path(__file__).resolve().parents[1]
@@ -293,6 +294,26 @@ def test_facts_point_at_the_publisher_workbook():
         assert fact.source.source_sha256 == XLSX_SHA256
         assert fact.source.raw_r2_uri.endswith(f"/2024/{XLSX_SHA256}/7b.xlsx")
         assert fact.source.url.endswith("/supplement/2025/7b.xlsx")
+
+
+def test_consumer_rows_label_every_category_value_with_the_workbook_heading():
+    # The xlsx parser reads cells, not source rows, so no row text labels the
+    # category values: the package declares them, in the workbook's own
+    # column headings. Without the declaration build_bundle reported three
+    # missing_dimension_value_label errors (chronicle#294's first CI run).
+    rows = consumer_fact_rows(list(package_facts()))
+
+    assert dimension_label_issues(rows) == []
+    labelled = {
+        (value, row["dimension_value_labels"]["ssi_category"][value])
+        for row in rows
+        for value in [(row.get("dimensions") or {}).get("ssi_category")]
+        if value is not None
+    }
+    assert labelled == {("aged", "Aged"), ("blind", "Blind"), ("disabled", "Disabled")}
+    assert {
+        row["dimension_labels"]["ssi_category"] for row in rows if row.get("dimensions")
+    } == {"SSI eligibility category"}
 
 
 def _mutated_build(address: str, value: str) -> None:
