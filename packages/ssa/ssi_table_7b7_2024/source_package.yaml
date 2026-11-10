@@ -1,0 +1,1141 @@
+schema_version: ledger.source_package.v1
+package_id: ssa-ssi-table-7b7-2024
+label: SSA Annual Statistical Supplement 2025 Table 7.B7 SSI payment amounts by type of payment
+dimension_labels:
+  geography: Geography
+artifact:
+  source_name: ssa
+  source_table: SSA Annual Statistical Supplement 2025 Table 7.B7
+  resource_package: db
+  resource_directory: data/ssa/ssi_table_7b1_2024
+  manifest: manifest.yaml
+  vintage: annual_statistical_supplement_2025
+  extracted_at: '2026-11-10'
+  extraction_method: xlsx_used_range parse of sheet 7.B7 of SSA's Annual Statistical Supplement 2025 section 7.B workbook (7b.xlsx), the file package ssa-ssi-table-7b1-2024 pins; the measures scale its payment cells, which hold thousands of dollars, by 1,000
+  parser: xlsx_used_range
+  artifact_year: 2024
+  sheet_name: 7.B7
+  sheets:
+  - 7.B7
+record_sets:
+- sheet_name: 7.B7
+  period_type: calendar_year
+  period: 2024
+  period_coverage: &id001
+    start_date: '2024-01-01'
+    end_date: '2024-12-31'
+    basis: calendar
+    source_period_label: calendar year 2024
+    notes: Total federally administered payments during the year.
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  entity: person
+  entity_role: ssi_recipient
+  domain: social_security_and_ssi_payments
+  rows:
+  - value_id: all_areas
+    label: All areas
+    ordinal: 0
+    row_number: 4
+    column: E
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: C
+    expected_row_header: All areas
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: Table 7.B7—Total federally administered payment amounts, by type of payment and state or other area, 2024 (in thousands of dollars)
+      label: Table 7.B7 title
+    table_record_kind: total
+  - value_id: alabama
+    label: Alabama
+    ordinal: 1
+    row_number: 5
+    column: E
+    geography_id: 0400000US01
+    geography_level: state
+    geography_name: Alabama
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Alabama
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: alaska
+    label: Alaska
+    ordinal: 2
+    row_number: 6
+    column: E
+    geography_id: 0400000US02
+    geography_level: state
+    geography_name: Alaska
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Alaska
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: arizona
+    label: Arizona
+    ordinal: 3
+    row_number: 7
+    column: E
+    geography_id: 0400000US04
+    geography_level: state
+    geography_name: Arizona
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Arizona
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: arkansas
+    label: Arkansas
+    ordinal: 4
+    row_number: 8
+    column: E
+    geography_id: 0400000US05
+    geography_level: state
+    geography_name: Arkansas
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Arkansas
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: california
+    label: California
+    ordinal: 5
+    row_number: 9
+    column: E
+    geography_id: 0400000US06
+    geography_level: state
+    geography_name: California
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: California
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: colorado
+    label: Colorado
+    ordinal: 6
+    row_number: 10
+    column: E
+    geography_id: 0400000US08
+    geography_level: state
+    geography_name: Colorado
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Colorado
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: connecticut
+    label: Connecticut
+    ordinal: 7
+    row_number: 11
+    column: E
+    geography_id: 0400000US09
+    geography_level: state
+    geography_name: Connecticut
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Connecticut
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: delaware
+    label: Delaware
+    ordinal: 8
+    row_number: 12
+    column: E
+    geography_id: 0400000US10
+    geography_level: state
+    geography_name: Delaware
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Delaware
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: district_of_columbia
+    label: District of Columbia
+    ordinal: 9
+    row_number: 13
+    column: E
+    geography_id: 0400000US11
+    geography_level: state
+    geography_name: District of Columbia
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: District of Columbia
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: florida
+    label: Florida
+    ordinal: 10
+    row_number: 14
+    column: E
+    geography_id: 0400000US12
+    geography_level: state
+    geography_name: Florida
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Florida
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: georgia
+    label: Georgia
+    ordinal: 11
+    row_number: 15
+    column: E
+    geography_id: 0400000US13
+    geography_level: state
+    geography_name: Georgia
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Georgia
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: hawaii
+    label: Hawaii
+    ordinal: 12
+    row_number: 16
+    column: E
+    geography_id: 0400000US15
+    geography_level: state
+    geography_name: Hawaii
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Hawaii
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: idaho
+    label: Idaho
+    ordinal: 13
+    row_number: 17
+    column: E
+    geography_id: 0400000US16
+    geography_level: state
+    geography_name: Idaho
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Idaho
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: illinois
+    label: Illinois
+    ordinal: 14
+    row_number: 18
+    column: E
+    geography_id: 0400000US17
+    geography_level: state
+    geography_name: Illinois
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Illinois
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: indiana
+    label: Indiana
+    ordinal: 15
+    row_number: 19
+    column: E
+    geography_id: 0400000US18
+    geography_level: state
+    geography_name: Indiana
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Indiana
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: iowa
+    label: Iowa
+    ordinal: 16
+    row_number: 20
+    column: E
+    geography_id: 0400000US19
+    geography_level: state
+    geography_name: Iowa
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Iowa
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: kansas
+    label: Kansas
+    ordinal: 17
+    row_number: 21
+    column: E
+    geography_id: 0400000US20
+    geography_level: state
+    geography_name: Kansas
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Kansas
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: kentucky
+    label: Kentucky
+    ordinal: 18
+    row_number: 22
+    column: E
+    geography_id: 0400000US21
+    geography_level: state
+    geography_name: Kentucky
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Kentucky
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: louisiana
+    label: Louisiana
+    ordinal: 19
+    row_number: 23
+    column: E
+    geography_id: 0400000US22
+    geography_level: state
+    geography_name: Louisiana
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Louisiana
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: maine
+    label: Maine
+    ordinal: 20
+    row_number: 24
+    column: E
+    geography_id: 0400000US23
+    geography_level: state
+    geography_name: Maine
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Maine
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: maryland
+    label: Maryland
+    ordinal: 21
+    row_number: 25
+    column: E
+    geography_id: 0400000US24
+    geography_level: state
+    geography_name: Maryland
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Maryland
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: massachusetts
+    label: Massachusetts
+    ordinal: 22
+    row_number: 26
+    column: E
+    geography_id: 0400000US25
+    geography_level: state
+    geography_name: Massachusetts
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Massachusetts
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: michigan
+    label: Michigan
+    ordinal: 23
+    row_number: 27
+    column: E
+    geography_id: 0400000US26
+    geography_level: state
+    geography_name: Michigan
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Michigan
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: minnesota
+    label: Minnesota
+    ordinal: 24
+    row_number: 28
+    column: E
+    geography_id: 0400000US27
+    geography_level: state
+    geography_name: Minnesota
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Minnesota
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: mississippi
+    label: Mississippi
+    ordinal: 25
+    row_number: 29
+    column: E
+    geography_id: 0400000US28
+    geography_level: state
+    geography_name: Mississippi
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Mississippi
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: missouri
+    label: Missouri
+    ordinal: 26
+    row_number: 30
+    column: E
+    geography_id: 0400000US29
+    geography_level: state
+    geography_name: Missouri
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Missouri
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: montana
+    label: Montana
+    ordinal: 27
+    row_number: 31
+    column: E
+    geography_id: 0400000US30
+    geography_level: state
+    geography_name: Montana
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Montana
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: nebraska
+    label: Nebraska
+    ordinal: 28
+    row_number: 32
+    column: E
+    geography_id: 0400000US31
+    geography_level: state
+    geography_name: Nebraska
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Nebraska
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: nevada
+    label: Nevada
+    ordinal: 29
+    row_number: 33
+    column: E
+    geography_id: 0400000US32
+    geography_level: state
+    geography_name: Nevada
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Nevada
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: new_hampshire
+    label: New Hampshire
+    ordinal: 30
+    row_number: 34
+    column: E
+    geography_id: 0400000US33
+    geography_level: state
+    geography_name: New Hampshire
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: New Hampshire
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: new_jersey
+    label: New Jersey
+    ordinal: 31
+    row_number: 35
+    column: E
+    geography_id: 0400000US34
+    geography_level: state
+    geography_name: New Jersey
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: New Jersey
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: new_mexico
+    label: New Mexico
+    ordinal: 32
+    row_number: 36
+    column: E
+    geography_id: 0400000US35
+    geography_level: state
+    geography_name: New Mexico
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: New Mexico
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: new_york
+    label: New York
+    ordinal: 33
+    row_number: 37
+    column: E
+    geography_id: 0400000US36
+    geography_level: state
+    geography_name: New York
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: New York
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: north_carolina
+    label: North Carolina
+    ordinal: 34
+    row_number: 38
+    column: E
+    geography_id: 0400000US37
+    geography_level: state
+    geography_name: North Carolina
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: North Carolina
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: north_dakota
+    label: North Dakota
+    ordinal: 35
+    row_number: 39
+    column: E
+    geography_id: 0400000US38
+    geography_level: state
+    geography_name: North Dakota
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: North Dakota
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: ohio
+    label: Ohio
+    ordinal: 36
+    row_number: 40
+    column: E
+    geography_id: 0400000US39
+    geography_level: state
+    geography_name: Ohio
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Ohio
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: oklahoma
+    label: Oklahoma
+    ordinal: 37
+    row_number: 41
+    column: E
+    geography_id: 0400000US40
+    geography_level: state
+    geography_name: Oklahoma
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Oklahoma
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: oregon
+    label: Oregon
+    ordinal: 38
+    row_number: 42
+    column: E
+    geography_id: 0400000US41
+    geography_level: state
+    geography_name: Oregon
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Oregon
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: pennsylvania
+    label: Pennsylvania
+    ordinal: 39
+    row_number: 43
+    column: E
+    geography_id: 0400000US42
+    geography_level: state
+    geography_name: Pennsylvania
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Pennsylvania
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: rhode_island
+    label: Rhode Island
+    ordinal: 40
+    row_number: 44
+    column: E
+    geography_id: 0400000US44
+    geography_level: state
+    geography_name: Rhode Island
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Rhode Island
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: south_carolina
+    label: South Carolina
+    ordinal: 41
+    row_number: 45
+    column: E
+    geography_id: 0400000US45
+    geography_level: state
+    geography_name: South Carolina
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: South Carolina
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: south_dakota
+    label: South Dakota
+    ordinal: 42
+    row_number: 46
+    column: E
+    geography_id: 0400000US46
+    geography_level: state
+    geography_name: South Dakota
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: South Dakota
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: tennessee
+    label: Tennessee
+    ordinal: 43
+    row_number: 47
+    column: E
+    geography_id: 0400000US47
+    geography_level: state
+    geography_name: Tennessee
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Tennessee
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: texas
+    label: Texas
+    ordinal: 44
+    row_number: 48
+    column: E
+    geography_id: 0400000US48
+    geography_level: state
+    geography_name: Texas
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Texas
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: utah
+    label: Utah
+    ordinal: 45
+    row_number: 49
+    column: E
+    geography_id: 0400000US49
+    geography_level: state
+    geography_name: Utah
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Utah
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: vermont
+    label: Vermont
+    ordinal: 46
+    row_number: 50
+    column: E
+    geography_id: 0400000US50
+    geography_level: state
+    geography_name: Vermont
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Vermont
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: virginia
+    label: Virginia
+    ordinal: 47
+    row_number: 51
+    column: E
+    geography_id: 0400000US51
+    geography_level: state
+    geography_name: Virginia
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Virginia
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: washington
+    label: Washington
+    ordinal: 48
+    row_number: 52
+    column: E
+    geography_id: 0400000US53
+    geography_level: state
+    geography_name: Washington
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Washington
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: west_virginia
+    label: West Virginia
+    ordinal: 49
+    row_number: 53
+    column: E
+    geography_id: 0400000US54
+    geography_level: state
+    geography_name: West Virginia
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: West Virginia
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: wisconsin
+    label: Wisconsin
+    ordinal: 50
+    row_number: 54
+    column: E
+    geography_id: 0400000US55
+    geography_level: state
+    geography_name: Wisconsin
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Wisconsin
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  - value_id: wyoming
+    label: Wyoming
+    ordinal: 51
+    row_number: 55
+    column: E
+    geography_id: 0400000US56
+    geography_level: state
+    geography_name: Wyoming
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Wyoming
+    expected_column_header_row: 3
+    expected_column_header: Federal SSI
+    table_record_kind: detail
+  record_set_id: ssa_supplement.cy2024.ssi_federal_payments.by_area
+  provenance_class: administrative
+  record_set_spec_id: ssa_supplement.ssi_federal_payments.by_area.v1
+  source_record_id_prefix: ssa_supplement.cy2024.ssi_federal_payments.by_area
+  measures:
+  - measure_id: payment_amount
+    label: Federal SSI payments
+    ordinal: 0
+    column: E
+    source_column_id: federal_ssi_payment_thousands
+    concept: ssa.ssi_federal_payment_amount
+    source_concept: ssa_supplement.table_7b7.federal_ssi_payment_amount
+    concept_relation: exact
+    concept_authority: ledger-us
+    concept_evidence_url: https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
+    concept_evidence_notes: SSA Annual Statistical Supplement 2025 Table 7.B7 reports calendar-year 2024 federal SSI payments by state or area in thousands of dollars.
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  groupby_dimension: geography
+- sheet_name: 7.B7
+  period_type: calendar_year
+  period: 2024
+  period_coverage: *id001
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  entity: person
+  entity_role: ssi_recipient
+  domain: social_security_and_ssi_payments
+  rows:
+  - value_id: all_areas
+    label: All areas
+    ordinal: 0
+    row_number: 4
+    column: F
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: C
+    expected_row_header: All areas
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: Table 7.B7—Total federally administered payment amounts, by type of payment and state or other area, 2024 (in thousands of dollars)
+      label: Table 7.B7 title
+    table_record_kind: total
+  - value_id: california
+    label: California
+    ordinal: 1
+    row_number: 9
+    column: F
+    geography_id: 0400000US06
+    geography_level: state
+    geography_name: California
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: California
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  - value_id: delaware
+    label: Delaware
+    ordinal: 2
+    row_number: 12
+    column: F
+    geography_id: 0400000US10
+    geography_level: state
+    geography_name: Delaware
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Delaware
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  - value_id: district_of_columbia
+    label: District of Columbia
+    ordinal: 3
+    row_number: 13
+    column: F
+    geography_id: 0400000US11
+    geography_level: state
+    geography_name: District of Columbia
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: District of Columbia
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  - value_id: hawaii
+    label: Hawaii
+    ordinal: 4
+    row_number: 16
+    column: F
+    geography_id: 0400000US15
+    geography_level: state
+    geography_name: Hawaii
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Hawaii
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  - value_id: iowa
+    label: Iowa
+    ordinal: 5
+    row_number: 20
+    column: F
+    geography_id: 0400000US19
+    geography_level: state
+    geography_name: Iowa
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Iowa
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  - value_id: michigan
+    label: Michigan
+    ordinal: 6
+    row_number: 27
+    column: F
+    geography_id: 0400000US26
+    geography_level: state
+    geography_name: Michigan
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Michigan
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  - value_id: montana
+    label: Montana
+    ordinal: 7
+    row_number: 31
+    column: F
+    geography_id: 0400000US30
+    geography_level: state
+    geography_name: Montana
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Montana
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  - value_id: nevada
+    label: Nevada
+    ordinal: 8
+    row_number: 33
+    column: F
+    geography_id: 0400000US32
+    geography_level: state
+    geography_name: Nevada
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Nevada
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  - value_id: new_jersey
+    label: New Jersey
+    ordinal: 9
+    row_number: 35
+    column: F
+    geography_id: 0400000US34
+    geography_level: state
+    geography_name: New Jersey
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: New Jersey
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  - value_id: pennsylvania
+    label: Pennsylvania
+    ordinal: 10
+    row_number: 43
+    column: F
+    geography_id: 0400000US42
+    geography_level: state
+    geography_name: Pennsylvania
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Pennsylvania
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  - value_id: rhode_island
+    label: Rhode Island
+    ordinal: 11
+    row_number: 44
+    column: F
+    geography_id: 0400000US44
+    geography_level: state
+    geography_name: Rhode Island
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Rhode Island
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  - value_id: vermont
+    label: Vermont
+    ordinal: 12
+    row_number: 50
+    column: F
+    geography_id: 0400000US50
+    geography_level: state
+    geography_name: Vermont
+    geography_vintage: current
+    filters: {}
+    constraints: []
+    expected_row_header_column: A
+    expected_row_header: Vermont
+    expected_column_header_row: 3
+    expected_column_header: Federally administered state supplementation
+    table_record_kind: detail
+  record_set_id: ssa_supplement.cy2024.ssi_state_supplementation_payments.by_area
+  provenance_class: administrative
+  record_set_spec_id: ssa_supplement.ssi_state_supplementation_payments.by_area.v1
+  source_record_id_prefix: ssa_supplement.cy2024.ssi_state_supplementation_payments.by_area
+  measures:
+  - measure_id: payment_amount
+    label: Federally administered state supplementation payments
+    ordinal: 0
+    column: F
+    source_column_id: state_supplementation_payment_thousands
+    concept: ssa.ssi_federally_administered_state_supplementation_payment_amount
+    source_concept: ssa_supplement.table_7b7.state_supplementation_payment_amount
+    concept_relation: exact
+    concept_authority: ledger-us
+    concept_evidence_url: https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
+    concept_evidence_notes: SSA Annual Statistical Supplement 2025 Table 7.B7 reports calendar-year 2024 federally administered state supplementation payments by state or area in thousands of dollars.
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  groupby_dimension: geography
