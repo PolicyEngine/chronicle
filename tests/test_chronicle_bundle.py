@@ -844,8 +844,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # package adds one (SC-EST2025-ALLDATA6) and 816 census_pep facts, and the
     # Vintage 2024 package gives up its 51 state totals (chronicle#397).
     # chronicle#420's young people batch adds 18, its PIP batch seven and its Scottish
-    # batch five, one per package.
-    assert len(table_counts) == 443
+    # batch five, one per package. SSA's Supplement Tables 7.B3 and 7.B7 add two,
+    # one per package.
+    assert len(table_counts) == 445
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "

@@ -23,6 +23,7 @@ import yaml
 
 from chronicle.bundle import DEFAULT_BUNDLE_SOURCES
 from chronicle.consumer_contract import build_semantic_fact_key, consumer_fact_rows
+from chronicle.core import PeriodCoverage, PeriodDimension
 from chronicle.dimension_labels import dimension_label_issues
 from chronicle.source_package import SOURCE_PACKAGE_ALIASES, load_source_package
 
@@ -48,6 +49,21 @@ MEASURES = {
     "ssi_state_supplementation_average_monthly_payment": ("7.B3", "G", 1),
     "ssi_federal_payments": ("7.B7", "E", 1000),
     "ssi_state_supplementation_payments": ("7.B7", "F", 1000),
+}
+# Record-set token -> the measure label its package gives it.
+MEASURE_LABELS = {
+    "ssi_federal_payment_recipients": "Federal SSI recipients",
+    "ssi_federal_average_monthly_payment": "Federal SSI average monthly payment",
+    "ssi_state_supplementation_recipients": (
+        "Federally administered state supplementation recipients"
+    ),
+    "ssi_state_supplementation_average_monthly_payment": (
+        "Federally administered state supplementation average monthly payment"
+    ),
+    "ssi_federal_payments": "Federal SSI payments",
+    "ssi_state_supplementation_payments": (
+        "Federally administered state supplementation payments"
+    ),
 }
 # The All-areas row of each sheet. The 50 states and DC follow it, then an
 # "Outlying area" heading and the Northern Mariana Islands.
@@ -434,6 +450,39 @@ def test_record_set_ids_name_their_record_ids_and_specs():
             assert (
                 record_set["record_set_spec_id"] == f"ssa_supplement.{token}.by_area.v1"
             )
+
+
+def test_facts_carry_each_table_period_and_coverage():
+    """Table 7.B3 counts December 2024 under period identity month 2024-12, as
+    SSI Monthly Statistics does; Table 7.B7 sums calendar 2024. No fact key
+    hashes period coverage, so the semantic identity digest can't catch a wrong
+    coverage date."""
+    calendar_2024 = PeriodCoverage(
+        start_date="2024-01-01",
+        end_date="2024-12-31",
+        basis="calendar",
+        source_period_label="calendar year 2024",
+        notes="Payments during calendar year 2024.",
+    )
+    expected = {
+        "7.B3": (PeriodDimension("month", "2024-12"), None),
+        "7.B7": (PeriodDimension("calendar_year", 2024), calendar_2024),
+    }
+    for table, (period, coverage) in expected.items():
+        facts = package_build(table)[2]
+        assert {fact.period for fact in facts} == {period}
+        assert {fact.period_coverage for fact in facts} == {coverage}
+
+
+def test_national_facts_are_table_totals_and_measures_keep_their_labels():
+    """Each All-areas fact is its table's total record and each area fact a
+    detail record. Each measure states its concept exactly."""
+    for table in PACKAGES:
+        for fact in package_build(table)[2]:
+            kind = "total" if _area(fact) == "All areas" else "detail"
+            assert fact.layout.table_record_kind == kind, fact.source_record_id
+            assert fact.layout.measure_label == MEASURE_LABELS[_token(fact)]
+            assert fact.measure.concept_relation == "exact"
 
 
 def test_consumer_rows_label_each_area_with_its_workbook_row_heading():
