@@ -1,4 +1,4 @@
-# Payment methods and Bands I and J for chronicle#420 items 12 and 13
+# Payment methods, Bands I and J and £1 million sales for chronicle#420 items 12 and 13
 
 [chronicle#420](https://github.com/PolicyEngine/chronicle/issues/420) items 12 and 13 come in
 with chronicle#435's package PR. Microcosm's next data PR (PolicyEngine/microcosm#1095) needs
@@ -7,16 +7,21 @@ them as well as #435's own items.
   Debit, standard credit and prepayment draw in Microcosm
   (PolicyEngine/uk-energy-price-cap-jan-2027#4).
 - **Item 13** gives the Scottish Government's estimates for the proposed council tax Bands I
-  and J, for extending Microcosm's home-value step to Scotland
-  (PolicyEngine/uk-scottish-budget-2027-28#5; PolicyEngine/microcosm#1112).
+  and J, and Registers of Scotland's sales over £1 million, for extending Microcosm's
+  home-value step to Scotland (PolicyEngine/uk-scottish-budget-2027-28#5;
+  PolicyEngine/microcosm#1112).
 
-Four packages add 1,823 facts, all official aggregates under the Open Government Licence v3.0
-with no microdata. `scripts/build_uk_qep_payment_method_packages.py` and
-`scripts/build_uk_scottish_high_value_bands_package.py` write them from the pinned bytes,
-asserting the publishers' text, and `--check` compares the output with the committed YAML.
-`tests/test_source_uk_qep_payment_methods.py` and
-`tests/test_source_uk_scottish_high_value_bands.py` re-read the pinned files. All four files
-are committed and in R2 (`chronicle publish-raw`, read back by `chronicle verify-raw`).
+Five packages add 1,991 facts, all official aggregates under the Open Government Licence v3.0
+with no microdata.
+- **Generators:** `scripts/build_uk_qep_payment_method_packages.py`,
+  `scripts/build_uk_scottish_high_value_bands_package.py` and
+  `scripts/build_uk_ros_high_value_sales_package.py` write them from the pinned bytes,
+  asserting the publishers' text. `--check` compares the output with the committed YAML.
+- **Tests:** `tests/test_source_uk_qep_payment_methods.py`,
+  `tests/test_source_uk_scottish_high_value_bands.py` and
+  `tests/test_source_uk_ros_high_value_sales.py` re-read the pinned files.
+- **Files:** all five are committed and in R2 (`chronicle publish-raw`, read back by
+  `chronicle verify-raw`).
 
 ## Sources
 
@@ -26,6 +31,10 @@ are committed and in R2 (`chronicle publish-raw`, read back by `chronicle verify
 | `desnz-qep-time-of-use-electricity-payment-methods-2026` | `table_243.xlsx` | DESNZ, Quarterly Energy Prices table 2.4.3, updated 29 September 2026 | `2fb7aa20…` |
 | `desnz-qep-gas-payment-methods-2026` | `table_252.xlsx` | DESNZ, Quarterly Energy Prices table 2.5.2, updated 29 September 2026 | `ea59d0bc…` |
 | `scotgov-council-tax-high-value-bands-consultation-2026` | `consultation-council-tax-high-value-property-bands-mansion-tax.pdf` | Scottish Government, [Council Tax High-Value Property Bands (Mansion Tax): consultation](https://www.gov.scot/publications/consultation-council-tax-high-value-property-bands-mansion-tax/), 6 July 2026 | `024fb42d…` |
+| `ros-property-market-report-2025-26` | `Online-data-tables-Property-Market-Report-2025-2026.xlsx` | Registers of Scotland, [Property Market Report 2025-26](https://www.ros.gov.uk/data-and-statistics/property-market-statistics/property-market-report) data tables, last updated 9 June 2026 | `7eef18d3…` |
+
+The RoS site answers scripted requests with HTTP 403, so the workbook was downloaded in a
+browser on 10 November 2026. The manifest keeps the link the browser recorded.
 
 The QEP tables are on gov.uk's
 [quarterly domestic energy price statistics](https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics)
@@ -98,7 +107,31 @@ paper's own text:
 
 The HTML page's alt text gives the same ranges, rounded.
 
-**Not here:** Registers of Scotland's residential sales over £1 million and £2 million, item 13's
-other part. The RoS property market report page
-(https://www.ros.gov.uk/data-and-statistics/property-market-statistics/property-market-report)
-refused the download (HTTP 403).
+### Item 13: sales over £1 million
+
+`ros-property-market-report-2025-26` (168 facts) ports Registers of Scotland's Property Market
+Report 2025-26 tables 9 and 10. They give the volume and value (in "£million", scaled to
+pounds) of residential property sales of more than £1 million, for Scotland and each local
+authority the tables list, in 2023-24, 2024-25 and 2025-26. Scotland had 403, 391 and 392
+such sales.
+- **Filter:** the band is `house_price_band` `over_1m`, with the constraint `sale_price` above
+  £1,000,000.
+- **Concepts:** `ros.residential_property_sales` and `ros.residential_property_sales_value`.
+- **Entity:** `dwelling` with role `residential_property_sale` in
+  `residential_property_transactions`, as ONS's house price statistics for small areas are.
+- **New publisher:** `ros` is new to Chronicle. It joins the UK bundle's source prefixes, and
+  its raw files go under `raw/uk/ros` in R2.
+
+Read them this way:
+- **Flows, not the stock.** These are sales over each financial year, not the number of homes
+  worth more than £1 million. "Only true market residential sales are included" (metadata
+  sheet), so share buy-outs and token or non-monetary sales are out.
+- **Five council areas have no row.** The tables list 27 of the 32 council areas, with RoS's own
+  codes. They print no row for Na h-Eileanan Siar, North Lanarkshire, Orkney Islands, Shetland
+  Islands or West Dunbartonshire. The 27 add to Scotland in every ported year, so those five
+  had no such sales; Chronicle stores no zero rows for them.
+- **Band J cross-check.** Table 9's Scotland row equals table 8's band "J - over £1,000,000"
+  in every ported year.
+- **Nothing over £2 million.** RoS publishes no split above £2 million, which #420 also asks
+  for; that needs an ad hoc table from RoS. The years before 2023-24 and table 11's top postal
+  districts are not ported.

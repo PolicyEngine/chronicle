@@ -587,8 +587,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # council areas at September 2024 and September 2025. With them come
         # chronicle#420's items 12 and 13 (1,823): DESNZ QEP tables 2.4.2, 2.4.3 and
         # 2.5.2's payment-method shares (627, 627 and 561) and the Scottish
-        # Government's Band I and J estimates (8).
-        "fact_count": 2245294,
+        # Government's Band I and J estimates (8), and Registers of Scotland's sales
+        # over £1 million (168).
+        "fact_count": 2245462,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -679,8 +680,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # HMRC's Scottish income tax outturn and four Social Security Scotland
         # caseload packages. chronicle#435 adds gov.scot's second homes and empty
         # properties, and with them chronicle#420's three QEP payment-method packages
-        # and the Band I and J estimates.
-        "source_package_count": 506,
+        # and the Band I and J estimates, and Registers of Scotland's Property Market
+        # Report.
+        "source_package_count": 507,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -732,14 +734,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2245294
+    assert row_count == 2245462
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 506
+    assert source_packages["source_package_count"] == 507
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -767,7 +769,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2245294
+    assert coverage["fact_count"] == 2245462
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -814,6 +816,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "opgroeien_groeipakket": 11,
         "orr": 99,
         "ostbelgien_kindergeld": 35,
+        "ros": 168,
         "rsz_annual_wages_key_figures": 252,
         "rsz_employment_daily_wage_class": 34629,
         "scotgov": 7058,
@@ -840,8 +843,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # chronicle#420's young people batch adds 18, its PIP batch seven and its Scottish
     # batch five, one per package. chronicle#435 adds five, one per package: the
     # second homes and empty properties web table, QEP tables 2.4.2, 2.4.3 and 2.5.2,
-    # and the Band I and J consultation's figures.
-    assert len(table_counts) == 448
+    # and the Band I and J consultation's figures; and one more for Registers of
+    # Scotland's tables 9 and 10.
+    assert len(table_counts) == 449
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2824,6 +2828,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         expected_period_counts[key] += (19 + 19 + 17) * 3
     expected_period_counts["month:2026-04"] += 4
     expected_period_counts["fiscal_year:2026"] += 4
+    # Item 13's Registers of Scotland sales over £1 million: 28 areas x 2 tables in
+    # each financial year 2023-24 to 2025-26.
+    for year in (2023, 2024, 2025):
+        expected_period_counts[f"fiscal_year:{year}"] += 28 * 2
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2984,10 +2992,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # chronicle#420's Scottish packages add 3,966 people.
     # chronicle#435: dwellings +396 (gov.scot's second homes and empty properties).
     # With it, chronicle#420 items 12 and 13: households +1,815 (QEP payment
-    # methods), and the Band I and J estimates' dwellings +4 and government +4.
+    # methods), and the Band I and J estimates' dwellings +4 and government +4;
+    # Registers of Scotland's sales over £1 million add 168 dwellings.
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
-        "dwelling": 708936,
+        "dwelling": 709104,
         "family": 1700,
         "firm": 1927,
         "government": 14075,

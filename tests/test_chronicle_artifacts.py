@@ -203,8 +203,9 @@ def test_all_desnz_manifests_use_canonical_uk_r2_keys_and_pinned_bytes():
 
     # chronicle#322 adds the road-transport fuel-consumption workbook.
     # chronicle#356 adds Northern Ireland's electricity and gas workbooks and the
-    # LSOA and MSOA domestic gas and electricity workbooks.
-    assert len(manifests) == 21
+    # LSOA and MSOA domestic gas and electricity workbooks. chronicle#420 item 12 adds
+    # Quarterly Energy Prices tables 2.4.2, 2.4.3 and 2.5.2.
+    assert len(manifests) == 24
     for manifest_path in manifests:
         manifest = yaml.safe_load(manifest_path.read_text())
         for year, artifact in manifest["files"].items():

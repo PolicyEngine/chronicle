@@ -602,8 +602,8 @@ facts; field contracts and caveats are in
 ## Beyond parity — UK payment methods and Bands I and J (chronicle#420 items 12 and 13)
 
 Two items of [chronicle#420](https://github.com/PolicyEngine/chronicle/issues/420) that
-Microcosm's next data PR also needs, carried with chronicle#435's package PR. Four packages add
-1,823 facts; field contracts and caveats are in
+Microcosm's next data PR also needs, carried with chronicle#435's package PR. Five packages add
+1,991 facts; field contracts and caveats are in
 [`docs/data-sources/uk-payment-methods-and-high-value-bands-420.md`](data-sources/uk-payment-methods-and-high-value-bands-420.md).
 
 - **Quarterly Energy Prices payment methods** (item 12;
@@ -618,11 +618,17 @@ Microcosm's next data PR also needs, carried with chronicle#435's package PR. Fo
   from the Scottish Government's consultation of 6 July 2026. These are the published low and
   high estimates of properties in the proposed Bands I and J at 1 April 2026 values, and of
   their additional revenue per year.
+- **Sales over £1 million** (item 13; `ros-property-market-report-2025-26`, 168), from
+  Registers of Scotland's Property Market Report 2025-26 tables 9 and 10. These are the volume
+  and value of residential sales of more than £1 million by local authority, 2023-24 to
+  2025-26.
+  - `ros` is a new UK publisher. The RoS site refuses scripted requests, so the workbook was
+    downloaded in a browser.
 - Not ported:
   - QEP's earlier periods, its fixed-tariff sheets, and its supplier-type tables 2.4.1 and
-    2.5.1.
-- Not available: Registers of Scotland's sales over £1 million and £2 million (item 13's other
-  part). The RoS property market report page refused the download (HTTP 403).
+    2.5.1;
+  - RoS's years before 2023-24.
+- Not published: any RoS split of sales above £2 million, which needs an ad hoc table from RoS.
 
 ## Consumer contracts
 

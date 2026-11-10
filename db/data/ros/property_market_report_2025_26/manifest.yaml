@@ -1,0 +1,28 @@
+source_id: ros
+package_id: ros-property-market-report-2025-26
+dataset: ros_ros-property-market-report-2025-26
+source_page: https://www.ros.gov.uk/data-and-statistics/property-market-statistics/property-market-report
+table: 'Registers of Scotland, Property Market Report 2025-26: online data tables
+  (last updated 9 June 2026)'
+publisher: Registers of Scotland (Land and Property Data Team)
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: "Contains Registers of Scotland data \xA9 Crown copyright and database\
+  \ right 2026. This data is licensed under the Open Government Licence v3.0."
+license_evidence: 'The workbook''s Metadata sheet states: ''You may use or re-use
+  this information (not including logos) free of charge in any format or medium, under
+  the Open Government Licence'', with the attribution statement above.'
+license_verified_at: '2026-11-10'
+files:
+  2026:
+    filename: Online-data-tables-Property-Market-Report-2025-2026.xlsx
+    source_url: https://www.ros.gov.uk/__data/assets/excel_doc/0007/336445/Online-data-tables-Property-Market-Report-2025-2026.xlsx
+    sha256: 7eef18d338bea2914903348dfadb006b9c16d4df85e700364ff35562c01befa6
+    size_bytes: 305821
+    fetched_at: '2026-11-10T18:18:51+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ros/ros-property-market-report-2025-26/2026/7eef18d338bea2914903348dfadb006b9c16d4df85e700364ff35562c01befa6/Online-data-tables-Property-Market-Report-2025-2026.xlsx
+        uri: r2://ledger-raw/raw/uk/ros/ros-property-market-report-2025-26/2026/7eef18d338bea2914903348dfadb006b9c16d4df85e700364ff35562c01befa6/Online-data-tables-Property-Market-Report-2025-2026.xlsx

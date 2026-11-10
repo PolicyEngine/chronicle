@@ -752,10 +752,12 @@ SOURCE_PACKAGE_ALIASES = {
         "desnz/qep_time_of_use_electricity_payment_methods_2026"
     ),
     "desnz-qep-gas-payment-methods-2026": Path("desnz/qep_gas_payment_methods_2026"),
-    # Item 13, the Scottish Government's Band I and J estimates.
+    # Item 13, the Scottish Government's Band I and J estimates and Registers of
+    # Scotland's residential sales over £1 million.
     "scotgov-council-tax-high-value-bands-consultation-2026": Path(
         "scotgov/council_tax_high_value_bands_consultation_2026"
     ),
+    "ros-property-market-report-2025-26": Path("ros/property_market_report_2025_26"),
     # end chronicle#435
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
