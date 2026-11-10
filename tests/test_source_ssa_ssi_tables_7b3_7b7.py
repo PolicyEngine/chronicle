@@ -17,6 +17,7 @@ from html.parser import HTMLParser
 import json
 from pathlib import Path
 import re
+import runpy
 
 import pytest
 import yaml
@@ -528,6 +529,16 @@ def test_both_packages_join_the_default_bundle():
             path.removeprefix("packages/")
         )
         assert package_id in DEFAULT_BUNDLE_SOURCES
+
+
+def test_generator_reproduces_the_committed_packages():
+    generator = runpy.run_path(str(REPO / "scripts/build_ssa_ssi_7b_packages.py"))
+    built = generator["build_packages"]()
+    assert sorted(path.relative_to(REPO) for path in built) == sorted(
+        Path(path) / "source_package.yaml" for _, path in PACKAGES.values()
+    )
+    for path, text in built.items():
+        assert text == path.read_text(encoding="utf-8"), path
 
 
 def _mutated_build(table: str, address: str, value: str) -> None:
