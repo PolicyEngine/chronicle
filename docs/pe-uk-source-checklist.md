@@ -599,6 +599,31 @@ facts; field contracts and caveats are in
   long-term empty table, or Band D equivalents by class.
 - Item 2, NEET's November 2026 edition, follows ONS's release.
 
+## Beyond parity — UK payment methods and Bands I and J (chronicle#420 items 12 and 13)
+
+Two items of [chronicle#420](https://github.com/PolicyEngine/chronicle/issues/420) that
+Microcosm's next data PR also needs, carried with chronicle#435's package PR. Four packages add
+1,823 facts; field contracts and caveats are in
+[`docs/data-sources/uk-payment-methods-and-high-value-bands-420.md`](data-sources/uk-payment-methods-and-high-value-bands-420.md).
+
+- **Quarterly Energy Prices payment methods** (item 12;
+  `desnz-qep-electricity-payment-methods-2026`, 627 facts;
+  `desnz-qep-time-of-use-electricity-payment-methods-2026`, 627;
+  `desnz-qep-gas-payment-methods-2026`, 561). These are tables 2.4.2, 2.4.3 and 2.5.2: the
+  percentage of domestic customers paying by standard credit, Direct Debit and prepayment.
+  - Standard electricity, Economy 7 and other time of use electricity, and gas.
+  - By former PES region and nation, each quarter from April 2024 to June 2026 and in 2024 and
+    2025.
+- **Bands I and J** (item 13; `scotgov-council-tax-high-value-bands-consultation-2026`, 8),
+  from the Scottish Government's consultation of 6 July 2026. These are the published low and
+  high estimates of properties in the proposed Bands I and J at 1 April 2026 values, and of
+  their additional revenue per year.
+- Not ported:
+  - QEP's earlier periods, its fixed-tariff sheets, and its supplier-type tables 2.4.1 and
+    2.5.1.
+- Not available: Registers of Scotland's sales over £1 million and £2 million (item 13's other
+  part). The RoS property market report page refused the download (HTTP 403).
+
 ## Consumer contracts
 
 The UK national, local-geography, and firms selection contracts now live in
