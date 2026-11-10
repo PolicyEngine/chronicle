@@ -92,9 +92,9 @@ SEMANTIC_IDENTITY_DIGEST = (
 # The same lines with each fact's aggregate_fact_key. That key hashes the
 # source release, the source series and the observed measure, which the
 # semantic key leaves out, so a wrong source table, vintage or source concept
-# moves this digest while the semantic one holds. It hashes each measure's
-# source concept in place of its canonical concept, which only the semantic
-# pin guards.
+# moves this digest while the semantic one holds. The aggregate key hashes each
+# measure's source concept in place of its canonical concept, which only the
+# semantic pin guards.
 AGGREGATE_IDENTITY_DIGEST = (
     "c842bb741d1a2e8829f1ecfc47f8717dfaa07220e809894959795aaf37c14373"
 )
@@ -346,7 +346,9 @@ def test_table_7b7_total_column_repeats_table_7b1_payment_totals():
         for fact in b1_package.build_facts(
             YEAR, cells=list(b1_package.build_source_cells(YEAR))
         )
-        if fact.measure.concept == "ssa.ssi_payment_amount" and not fact.filters
+        if fact.measure.concept == "ssa.ssi_payment_amount"
+        and not fact.filters
+        and not fact.constraints
     )
     assert b1_totals == sorted(
         (label, "calendar_year", YEAR, values[0] * 1000)
