@@ -1,6 +1,11 @@
 schema_version: ledger.source_package.v1
 package_id: ssa-ssi-table-7b1-2024
 label: SSA Annual Statistical Supplement 2025 Table 7.B1 SSI recipients and payments
+dimension_value_labels:
+  ssi_category:
+    aged: Aged
+    blind: Blind
+    disabled: Disabled
 artifact:
   source_name: ssa
   source_table: SSA Annual Statistical Supplement 2025 Table 7.B1
