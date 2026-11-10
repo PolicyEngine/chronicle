@@ -6,10 +6,10 @@ Run from the repository root:
 
 ``--check`` compares the generated YAML with the committed files instead of writing.
 Both packages read SSA's section 7.B workbook (``7b.xlsx``), the file the Table 7.B1
-package pins, through that package's manifest. Every selector, guard and label comes
-from the workbook's own cells, and the geography fields come from the 7.B1 package's
-rows, so the three tables name each area the same way. Nothing is downloaded and no
-value is computed.
+package pins, through that package's manifest. Every selector, guard and row label
+comes from the workbook's own cells, and the geography fields come from the 7.B1
+package's rows, so the three tables name each area the same way. Nothing is downloaded
+and no value is computed.
 
 - ``ssa-ssi-table-7b3-2024`` (period month 2024-12): December 2024 recipients of
   federal SSI and of federally administered state supplementation, with their average
@@ -17,7 +17,8 @@ value is computed.
 - ``ssa-ssi-table-7b7-2024`` (calendar year 2024): federal SSI and federally
   administered state supplementation payments by state or area, which the workbook
   gives in thousands of dollars. Its Total column repeats Table 7.B1's payment totals
-  cell for cell, so those totals reach the ledger once, through the 7.B1 package.
+  cell for cell, and the 7.B1 package already emits those totals for every row but the
+  Northern Mariana Islands'.
 
 Like the 7.B1 package, both emit All areas, the 50 states and DC. They parse the
 Northern Mariana Islands row as source cells and emit no fact for it. A cell SSA marks

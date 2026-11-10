@@ -23,7 +23,11 @@ import pytest
 import yaml
 
 from chronicle.bundle import DEFAULT_BUNDLE_SOURCES
-from chronicle.consumer_contract import build_semantic_fact_key, consumer_fact_rows
+from chronicle.consumer_contract import (
+    build_aggregate_fact_key,
+    build_semantic_fact_key,
+    consumer_fact_rows,
+)
 from chronicle.core import PeriodCoverage, PeriodDimension
 from chronicle.dimension_labels import dimension_label_issues
 from chronicle.source_package import SOURCE_PACKAGE_ALIASES, load_source_package
@@ -84,6 +88,13 @@ STATE_FIPS = {
 # packages. A change to a record-set id, value id, measure or concept moves it.
 SEMANTIC_IDENTITY_DIGEST = (
     "f23a4f74480fa736da9e2674572a80b9cbfda417ee320d7ef6b0e62e599d1421"
+)
+# The same lines with each fact's aggregate_fact_key. That key also hashes the
+# source release, the source series and the observed measure, so a wrong
+# source table, vintage or source concept moves this digest while the semantic
+# one holds.
+AGGREGATE_IDENTITY_DIGEST = (
+    "c842bb741d1a2e8829f1ecfc47f8717dfaa07220e809894959795aaf37c14373"
 )
 
 
@@ -317,7 +328,8 @@ def test_cells_without_a_plain_number_emit_no_fact():
 def test_table_7b7_total_column_repeats_table_7b1_payment_totals():
     """The Table 7.B7 package reads only columns E and F. Its Total column
     equals Table 7.B1's total payments in all 53 rows, and the Table 7.B1
-    package already emits those."""
+    package already emits 52 of them, every row but the Northern Mariana
+    Islands'."""
     b1, b7 = published("7.B1"), published("7.B7")
     assert list(b1) == list(b7)
     assert all(b7[label][0] == b1[label][4] for label in b1)
@@ -430,14 +442,21 @@ def test_national_federal_recipients_repeat_ssi_monthly_statistics_table_1():
     assert other.source_record_id.endswith(".by_age.all_ages.recipient_count")
 
 
-def test_semantic_identity_digest():
+def _identity_digest(key) -> str:
     lines = sorted(
-        f"{fact.source_record_id}\t{build_semantic_fact_key(fact)}"
+        f"{fact.source_record_id}\t{key(fact)}"
         for table in PACKAGES
         for fact in package_build(table)[2]
     )
-    digest = hashlib.sha256("\n".join(lines).encode()).hexdigest()
-    assert digest == SEMANTIC_IDENTITY_DIGEST
+    return hashlib.sha256("\n".join(lines).encode()).hexdigest()
+
+
+def test_semantic_identity_digest():
+    assert _identity_digest(build_semantic_fact_key) == SEMANTIC_IDENTITY_DIGEST
+
+
+def test_aggregate_identity_digest():
+    assert _identity_digest(build_aggregate_fact_key) == AGGREGATE_IDENTITY_DIGEST
 
 
 def test_record_set_ids_name_their_record_ids_and_specs():
