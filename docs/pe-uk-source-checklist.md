@@ -577,6 +577,28 @@ field contracts and caveats are in
     and the CDP and PADP award-level, age and council tables (#420 asks for their totals);
   - the "Other" council rows, which have no code.
 
+## Beyond parity — UK Scottish second homes and empty dwellings (chronicle#435)
+
+Published facts for Microcosm's Scottish council tax level (PolicyEngine/microcosm#1095), item 1
+of [chronicle#435](https://github.com/PolicyEngine/chronicle/issues/435). Microcosm levels
+Scotland's bills to the liability of every chargeable dwelling, and these counts let it take
+out the second homes and empty dwellings no survey household lives in. One package adds 396
+facts; field contracts and caveats are in
+[`docs/data-sources/uk-scottish-second-homes-facts-435.md`](data-sources/uk-scottish-second-homes-facts-435.md).
+
+- **Second homes and empty properties, September 2025 edition**
+  (`scotgov-second-homes-empty-properties-2025`, 396 facts): second homes, empty properties
+  (more than 6 months, liable for council tax), long-term empty properties (12 months or more),
+  those with a discount below 10% or an increase, unoccupied exemptions, and second homes plus
+  empty properties, for Scotland and its 32 council areas at September 2024 and September 2025.
+- Not ported:
+  - the years before 2024, which #435 does not ask for;
+  - the "Charts and Tables" workbook, which repeats the September 2025 counts with rates per
+    10,000 dwellings.
+- Not published: any split by council tax band or by discount or premium rate beyond the
+  long-term empty table, or Band D equivalents by class.
+- Item 2, NEET's November 2026 edition, follows ONS's release.
+
 ## Consumer contracts
 
 The UK national, local-geography, and firms selection contracts now live in

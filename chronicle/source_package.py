@@ -738,6 +738,12 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "scotgov-padp-caseload-july-2026": Path("scotgov/padp_caseload_july_2026"),
     # end chronicle#420 (Scotland)
+    # chronicle#435: Scotland's second homes and empty dwellings by council area, for
+    # Microcosm's Scottish council tax level (PolicyEngine/microcosm#1095).
+    "scotgov-second-homes-empty-properties-2025": Path(
+        "scotgov/second_homes_empty_properties_2025"
+    ),
+    # end chronicle#435
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),

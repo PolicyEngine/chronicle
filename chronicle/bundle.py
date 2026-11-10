@@ -382,6 +382,7 @@ UK_BUNDLE_SOURCES = (
     "scotgov-padp-caseload-july-2026",
     "scotgov-private-sector-rents-2025",
     "scotgov-scottish-budget-social-security-assistance-2026",
+    "scotgov-second-homes-empty-properties-2025",
     "scotgov-slgfs-council-tax-2024-25",
     "slc-student-loan-borrower-forecasts-england-2025",
     "slc-student-loan-repayments-england-2025",

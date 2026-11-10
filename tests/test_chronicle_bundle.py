@@ -582,7 +582,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # outturn 2024-25 (1,652) and Social Security Scotland's caseloads of Adult
         # Disability Payment (1,885), Carer Support Payment (282), Child Disability
         # Payment (81) and Pension Age Disability Payment (66).
-        "fact_count": 2243075,
+        # chronicle#435 adds 396: gov.scot's second homes, empty and long-term empty
+        # properties and unoccupied exemptions, six tables for Scotland and its 32
+        # council areas at September 2024 and September 2025.
+        "fact_count": 2243471,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -671,8 +674,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # PIP batch adds seven: six Stat-Xplore PIP cases packages and the Pathways
         # to Work evidence pack's points tables; and its Scottish batch adds five:
         # HMRC's Scottish income tax outturn and four Social Security Scotland
-        # caseload packages.
-        "source_package_count": 501,
+        # caseload packages. chronicle#435 adds gov.scot's second homes and empty
+        # properties.
+        "source_package_count": 502,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -724,14 +728,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2243075
+    assert row_count == 2243471
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 501
+    assert source_packages["source_package_count"] == 502
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -759,7 +763,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2243075
+    assert coverage["fact_count"] == 2243471
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -808,7 +812,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "ostbelgien_kindergeld": 35,
         "rsz_annual_wages_key_figures": 252,
         "rsz_employment_daily_wage_class": 34629,
-        "scotgov": 6654,
+        "scotgov": 7050,
         "sfpd_pension_amount_bands": 10239,
         "sfpd_pensions": 20954,
         "slc": 343,
@@ -830,8 +834,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # package adds one (SC-EST2025-ALLDATA6) and 816 census_pep facts, and the
     # Vintage 2024 package gives up its 51 state totals (chronicle#397).
     # chronicle#420's young people batch adds 18, its PIP batch seven and its Scottish
-    # batch five, one per package.
-    assert len(table_counts) == 443
+    # batch five, one per package. chronicle#435 adds one, the second homes and empty
+    # properties web table.
+    assert len(table_counts) == 444
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2798,6 +2803,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in chronicle_420_scotland_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#435: six tables x 33 areas at each September, months the CTAXBASE
+    # chargeable dwellings packages already stamp.
+    for year in (2024, 2025):
+        expected_period_counts[f"month:{year}-09"] += 6 * 33
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2955,9 +2964,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # employers claiming HMRC's NICs reliefs, and the reliefs' cost).
     # chronicle#420's PIP packages add 23,947 people.
     # chronicle#420's Scottish packages add 3,966 people.
+    # chronicle#435: dwellings +396 (gov.scot's second homes and empty properties).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
-        "dwelling": 708536,
+        "dwelling": 708932,
         "family": 1700,
         "firm": 1927,
         "government": 14071,
