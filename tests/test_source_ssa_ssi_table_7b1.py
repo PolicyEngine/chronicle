@@ -299,8 +299,8 @@ def test_facts_point_at_the_publisher_workbook():
 def test_consumer_rows_label_every_category_value_with_the_workbook_heading():
     # The xlsx parser reads cells, not source rows, so no row text labels the
     # category values: the package declares them, in the workbook's own
-    # column headings. Without the declaration build_bundle reported three
-    # missing_dimension_value_label errors (chronicle#294's first CI run).
+    # column headings. Without the declaration build_bundle reports three
+    # missing_dimension_value_label errors.
     rows = consumer_fact_rows(list(package_facts()))
 
     assert dimension_label_issues(rows) == []
@@ -310,7 +310,14 @@ def test_consumer_rows_label_every_category_value_with_the_workbook_heading():
         for value in [(row.get("dimensions") or {}).get("ssi_category")]
         if value is not None
     }
-    assert labelled == {("aged", "Aged"), ("blind", "Blind"), ("disabled", "Disabled")}
+    grid = _cell_grid()
+    headings = set()
+    for category, columns in (("aged", "EI"), ("blind", "FJ"), ("disabled", "GK")):
+        # Row 4 heads the recipient (E:G) and payment (I:K) columns alike.
+        texts = {grid[f"{column}4"] for column in columns}
+        assert len(texts) == 1, (category, texts)
+        headings.add((category, texts.pop()))
+    assert labelled == headings
     assert {
         row["dimension_labels"]["ssi_category"] for row in rows if row.get("dimensions")
     } == {"SSI eligibility category"}
