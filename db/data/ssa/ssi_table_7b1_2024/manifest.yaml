@@ -15,14 +15,18 @@ files:
     - https://web.archive.org/web/20260101161550id_/https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.xlsx
     - https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
     notes: 'SSA''s own workbook for Annual Statistical Supplement 2025 section 7.B
-      (sheets 7.B1, 7.B3, 7.B7, 7.B8, 7.B9); the package parses sheet 7.B1. These
-      bytes equal the file ssa.gov served on 2026-09-26 (Last-Modified Mon, 15 Dec
-      2025 15:08:03 GMT) and every Wayback id_ capture of the same URL from 2026-01-01
-      on. ssa.gov answers non-browser clients with HTTP 403; the Wayback id_ URL returns
-      the same bytes. The earlier 22 May 2025 upload differs only in the SOURCE-note
-      wording of sheets 7.B1 and 7.B7. Payments are thousands of dollars (footnote
-      a: totals do not necessarily equal the sum of rounded components). All areas
-      includes the Northern Mariana Islands row, which this package does not emit.'
+      (sheets 7.B1, 7.B3, 7.B7, 7.B8, 7.B9); packages ssa-ssi-table-7b1-2024,
+      ssa-ssi-table-7b3-2024 and ssa-ssi-table-7b7-2024 parse sheets 7.B1, 7.B3 and 7.B7.
+      These bytes equal the file ssa.gov served on 2026-09-26 (Last-Modified Mon, 15 Dec
+      2025 15:08:03 GMT) and every Wayback id_ capture of the same URL from 2026-01-01 on.
+      ssa.gov answers non-browser clients with HTTP 403; the Wayback id_ URL returns the
+      same bytes. The earlier 22 May 2025 upload differs only in the SOURCE-note wording
+      of sheets 7.B1 and 7.B7. Tables 7.B1 and 7.B7 give payments in thousands of dollars,
+      and both note that totals do not necessarily equal the sum of rounded components.
+      All areas includes the Northern Mariana Islands row, which none of the three
+      packages emits. Table 7.B3''s footnote a marks its All-areas state supplementation
+      cells, which include recipients and payments not assigned to a state; the 7.B3
+      package emits no fact for them.'
     storage:
       r2:
         provider: r2
