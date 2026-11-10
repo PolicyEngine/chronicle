@@ -89,10 +89,12 @@ STATE_FIPS = {
 SEMANTIC_IDENTITY_DIGEST = (
     "f23a4f74480fa736da9e2674572a80b9cbfda417ee320d7ef6b0e62e599d1421"
 )
-# The same lines with each fact's aggregate_fact_key. That key also hashes the
-# source release, the source series and the observed measure, so a wrong
-# source table, vintage or source concept moves this digest while the semantic
-# one holds.
+# The same lines with each fact's aggregate_fact_key. That key hashes the
+# source release, the source series and the observed measure, which the
+# semantic key leaves out, so a wrong source table, vintage or source concept
+# moves this digest while the semantic one holds. It hashes each measure's
+# source concept in place of its canonical concept, which only the semantic
+# pin guards.
 AGGREGATE_IDENTITY_DIGEST = (
     "c842bb741d1a2e8829f1ecfc47f8717dfaa07220e809894959795aaf37c14373"
 )
@@ -338,6 +340,19 @@ def test_table_7b7_total_column_repeats_table_7b1_payment_totals():
         for record_set in _spec("7.B7")["record_sets"]
         for row in record_set["rows"]
     } == {"E", "F"}
+    b1_package = load_source_package("packages/ssa/ssi_table_7b1_2024")
+    b1_totals = sorted(
+        (_area(fact), fact.period.type, fact.period.value, fact.value)
+        for fact in b1_package.build_facts(
+            YEAR, cells=list(b1_package.build_source_cells(YEAR))
+        )
+        if fact.measure.concept == "ssa.ssi_payment_amount" and not fact.filters
+    )
+    assert b1_totals == sorted(
+        (label, "calendar_year", YEAR, values[0] * 1000)
+        for label, values in b7.items()
+        if label != OUTLYING_AREA
+    )
 
 
 def test_table_7b7_totals_equal_federal_plus_state_payments_within_rounding():
