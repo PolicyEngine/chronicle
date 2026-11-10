@@ -2968,6 +2968,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # employers claiming HMRC's NICs reliefs, and the reliefs' cost).
     # chronicle#420's PIP packages add 23,947 people.
     # chronicle#420's Scottish packages add 3,966 people.
+    # IRS SOI Table 1.3 adds 20 tax units (PolicyEngine/microcosm#880).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 708536,
@@ -2980,7 +2981,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "person": 734326,
         "return": 16087,
         "social_protection_scheme": 36,
-        "tax_unit": 45268,
+        "tax_unit": 45288,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 3930
