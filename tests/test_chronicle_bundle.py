@@ -659,8 +659,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Seven ACS 2020–2024 county packages also have no 2023 artifact, so
         # they are skipped (17 -> 24) and the built-package count is unchanged.
         "skipped_source_count": 24,
-        # chronicle#381 adds the Gambling Commission.
-        "source_count": 62,
+        # chronicle#381 adds the Gambling Commission, and chronicle#420 item 13
+        # Registers of Scotland.
+        "source_count": 63,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
         # all-claims UC area packages. chronicle#381 adds four and replaces the
         # 30 June Consumer Trends package with the 30 September one. GSGB 2025
