@@ -128,28 +128,33 @@ The intended flow is:
    `LEDGER_SOURCE_ARTIFACT_FETCH=1`. The old `CHRONICLE_`-prefixed environment
    variables remain accepted only as migration fallbacks.
 2. Validate and build a source package with `uv run chronicle validate-package` and
-   `uv run chronicle build-suite`.
+   `uv run chronicle build-suite`. Build into your own run directory
+   (`RUN_DIR="$(mktemp -d)"`, then `--out "$RUN_DIR/chronicle-suite"`), never a
+   fixed shared path: `--replace` deletes the output directory first, so
+   concurrent builds that share a path delete each other's output. The steps
+   below reuse that `$RUN_DIR`.
 3. Produce local deterministic outputs: parsed rows/cells, source records,
    aggregate facts, `ledger.db`, QA reports, Data Package metadata, and RO-Crate
    metadata.
-4. Export relational mirror files with `uv run chronicle export-db-tables`.
+4. Export relational mirror files with `uv run chronicle export-db-tables`
+   (`--db "$RUN_DIR/chronicle-suite/ledger.db" --out "$RUN_DIR/chronicle-mirror"`).
 5. Publish derived build outputs to `ledger-derived`:
 
    ```bash
    uv run chronicle publish-derived \
-     --dir /tmp/chronicle-suite \
+     --dir "$RUN_DIR/chronicle-suite" \
      --source-id irs_soi \
      --package-id soi-table-1-1 \
      --year 2023 \
-     --build-artifacts-out /tmp/chronicle-build-artifacts.jsonl
+     --build-artifacts-out "$RUN_DIR/chronicle-build-artifacts.jsonl"
    ```
 
 6. Bulk-load or upsert accepted relational rows into Supabase/Postgres:
 
    ```bash
    uv run chronicle load-supabase-mirror \
-     --dir /tmp/chronicle-mirror \
-     --build-artifacts /tmp/chronicle-build-artifacts.jsonl
+     --dir "$RUN_DIR/chronicle-mirror" \
+     --build-artifacts "$RUN_DIR/chronicle-build-artifacts.jsonl"
    ```
 
 The Supabase project must have the checked migration applied and the `chronicle`
