@@ -1,0 +1,27 @@
+source_id: census_acs
+package_id: census-acs1-b11003-national-2024
+dataset: census_acs1_b11003_national_2024
+source_page: https://api.census.gov/data/2024/acs/acs1.html
+vintage: 2024 ACS 1-year detailed tables
+reference_period: '2024'
+table: B11003 Family Type by Presence and Age of Own Children Under 18 Years
+notes: Publisher bytes copied unchanged from the 2026-11-08 fetch. The response holds one
+  row, the United States. The API now redirects requests without a key to its missing-key
+  page, so a refetch adds a key parameter to source_url. storage.r2 is a content-addressed
+  locator; no upload or archival completion is asserted.
+files:
+  2024:
+    filename: acs1_2024_B11003_us.json
+    source_url: https://api.census.gov/data/2024/acs/acs1?get=NAME,group(B11003)&for=us:1
+    sha256: 25e981752fabf1515a58d1cb9914df1d61b12827d6ac66d171d440fa06ae58cf
+    size_bytes: 1811
+    fetched_at: '2026-11-08'
+    source_table: ACS 2024 1-year detailed table B11003 national estimates and margins
+      of error
+    year: 2024
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_acs/census-acs1-b11003-national-2024/2024/25e981752fabf1515a58d1cb9914df1d61b12827d6ac66d171d440fa06ae58cf/acs1_2024_B11003_us.json
+        uri: r2://ledger-raw/raw/census_acs/census-acs1-b11003-national-2024/2024/25e981752fabf1515a58d1cb9914df1d61b12827d6ac66d171d440fa06ae58cf/acs1_2024_B11003_us.json

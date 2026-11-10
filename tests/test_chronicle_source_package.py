@@ -1575,6 +1575,13 @@ def test_national_soi_source_package_aliases_validate_fixture_counts():
             "source_record_count": 7,
             "source_region_count": 1,
         },
+        "soi-table-1-3": {
+            "record_set_count": 4,
+            "row_count": 20,
+            "measure_count": 4,
+            "source_record_count": 20,
+            "source_region_count": 4,
+        },
         "soi-table-2-1": {
             "record_set_count": 1,
             "row_count": 1,
