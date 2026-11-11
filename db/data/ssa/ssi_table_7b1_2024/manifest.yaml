@@ -23,10 +23,13 @@ files:
       same bytes. The earlier 22 May 2025 upload differs only in the SOURCE-note wording
       of sheets 7.B1 and 7.B7. Tables 7.B1 and 7.B7 give payments in thousands of dollars,
       and both note that totals do not necessarily equal the sum of rounded components.
-      All areas includes the Northern Mariana Islands row, which none of the three
-      packages emits. Table 7.B3''s footnote a marks its All-areas state supplementation
-      cells, which include recipients and payments not assigned to a state; the 7.B3
-      package emits no fact for them.'
+      All areas includes the Northern Mariana Islands row. None of the three packages
+      emits that row: all three keep the area set the Table 7.B1 package has had since
+      chronicle#48 (All areas, the 50 states and DC). Table 7.B3''s footnote a marks its
+      All-areas state supplementation cells, which include recipients and payments not
+      assigned to a state. The workbook stores both cells as text with the marker
+      (''a 1,327,153'', ''a 212.86''), and the xlsx parser keeps text as text, so the
+      7.B3 package emits no fact for them.'
     storage:
       r2:
         provider: r2
@@ -42,10 +45,10 @@ files:
     source_urls:
     - https://web.archive.org/web/20260101161547id_/https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
     - https://www.ssa.gov/policy/docs/statcomps/supplement/2025/7b.html
-    notes: Wayback Machine id_ capture of the Table 7.B web page, kept as an independent
-      rendering of Table 7.B1 for the package's cross-format fidelity test. Not a
-      fact artifact. The page carries per-request tracking script, so whole-file hashes
-      differ between captures; the table markup does not.
+    notes: Wayback Machine id_ capture of the Table 7.B web page. The fidelity tests of
+      all three packages read it as an independent rendering of Tables 7.B1, 7.B3 and
+      7.B7. Not a fact artifact. The page carries per-request tracking script, so
+      whole-file hashes differ between captures; the table markup does not.
     storage:
       r2:
         provider: r2

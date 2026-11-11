@@ -16,12 +16,18 @@ import hashlib
 from html.parser import HTMLParser
 from pathlib import Path
 import re
+import runpy
 
 import pytest
 import yaml
 
 from chronicle.bundle import DEFAULT_BUNDLE_SOURCES
-from chronicle.consumer_contract import build_semantic_fact_key, consumer_fact_rows
+from chronicle.consumer_contract import (
+    build_aggregate_fact_key,
+    build_semantic_fact_key,
+    consumer_fact_rows,
+)
+from chronicle.core import PeriodCoverage, PeriodDimension
 from chronicle.dimension_labels import dimension_label_issues
 from chronicle.source_package import SOURCE_PACKAGE_ALIASES, load_source_package
 
@@ -47,6 +53,21 @@ MEASURES = {
     "ssi_federal_payments": ("7.B7", "E", 1000),
     "ssi_state_supplementation_payments": ("7.B7", "F", 1000),
 }
+# Record-set token -> the measure label its package gives it.
+MEASURE_LABELS = {
+    "ssi_federal_payment_recipients": "Federal SSI recipients",
+    "ssi_federal_average_monthly_payment": "Federal SSI average monthly payment",
+    "ssi_state_supplementation_recipients": (
+        "Federally administered state supplementation recipients"
+    ),
+    "ssi_state_supplementation_average_monthly_payment": (
+        "Federally administered state supplementation average monthly payment"
+    ),
+    "ssi_federal_payments": "Federal SSI payments",
+    "ssi_state_supplementation_payments": (
+        "Federally administered state supplementation payments"
+    ),
+}
 # The All-areas row of each sheet. The 50 states and DC follow it, then an
 # "Outlying area" heading and the Northern Mariana Islands.
 ALL_AREAS_ROW = {"7.B3": 5, "7.B7": 4}
@@ -65,6 +86,15 @@ STATE_FIPS = {
 # packages. A change to a record-set id, value id, measure or concept moves it.
 SEMANTIC_IDENTITY_DIGEST = (
     "f23a4f74480fa736da9e2674572a80b9cbfda417ee320d7ef6b0e62e599d1421"
+)
+# The same lines with each fact's aggregate_fact_key. That key hashes the
+# source release, the source series and the observed measure, which the
+# semantic key leaves out, so a wrong source table, vintage or source concept
+# moves this digest while the semantic one holds. The aggregate key hashes each
+# measure's source concept in place of its canonical concept, which only the
+# semantic pin guards.
+AGGREGATE_IDENTITY_DIGEST = (
+    "c842bb741d1a2e8829f1ecfc47f8717dfaa07220e809894959795aaf37c14373"
 )
 
 
@@ -298,7 +328,8 @@ def test_cells_without_a_plain_number_emit_no_fact():
 def test_table_7b7_total_column_repeats_table_7b1_payment_totals():
     """The Table 7.B7 package reads only columns E and F. Its Total column
     equals Table 7.B1's total payments in all 53 rows, and the Table 7.B1
-    package already emits those."""
+    package already emits 52 of them, every row but the Northern Mariana
+    Islands'."""
     b1, b7 = published("7.B1"), published("7.B7")
     assert list(b1) == list(b7)
     assert all(b7[label][0] == b1[label][4] for label in b1)
@@ -307,6 +338,21 @@ def test_table_7b7_total_column_repeats_table_7b1_payment_totals():
         for record_set in _spec("7.B7")["record_sets"]
         for row in record_set["rows"]
     } == {"E", "F"}
+    b1_package = load_source_package("packages/ssa/ssi_table_7b1_2024")
+    b1_totals = sorted(
+        (_area(fact), fact.period.type, fact.period.value, fact.value)
+        for fact in b1_package.build_facts(
+            YEAR, cells=list(b1_package.build_source_cells(YEAR))
+        )
+        if fact.measure.concept == "ssa.ssi_payment_amount"
+        and not fact.filters
+        and not fact.constraints
+    )
+    assert b1_totals == sorted(
+        (label, "calendar_year", YEAR, values[0] * 1000)
+        for label, values in b7.items()
+        if label != OUTLYING_AREA
+    )
 
 
 def test_table_7b7_totals_equal_federal_plus_state_payments_within_rounding():
@@ -411,14 +457,21 @@ def test_national_federal_recipients_repeat_ssi_monthly_statistics_table_1():
     assert other.source_record_id.endswith(".by_age.all_ages.recipient_count")
 
 
-def test_semantic_identity_digest():
+def _identity_digest(key) -> str:
     lines = sorted(
-        f"{fact.source_record_id}\t{build_semantic_fact_key(fact)}"
+        f"{fact.source_record_id}\t{key(fact)}"
         for table in PACKAGES
         for fact in package_build(table)[2]
     )
-    digest = hashlib.sha256("\n".join(lines).encode()).hexdigest()
-    assert digest == SEMANTIC_IDENTITY_DIGEST
+    return hashlib.sha256("\n".join(lines).encode()).hexdigest()
+
+
+def test_semantic_identity_digest():
+    assert _identity_digest(build_semantic_fact_key) == SEMANTIC_IDENTITY_DIGEST
+
+
+def test_aggregate_identity_digest():
+    assert _identity_digest(build_aggregate_fact_key) == AGGREGATE_IDENTITY_DIGEST
 
 
 def test_record_set_ids_name_their_record_ids_and_specs():
@@ -432,6 +485,39 @@ def test_record_set_ids_name_their_record_ids_and_specs():
             assert (
                 record_set["record_set_spec_id"] == f"ssa_supplement.{token}.by_area.v1"
             )
+
+
+def test_facts_carry_each_table_period_and_coverage():
+    """Table 7.B3 counts December 2024 under period identity month 2024-12, as
+    SSI Monthly Statistics does; Table 7.B7 sums calendar 2024. No fact key
+    hashes period coverage, so the semantic identity digest can't catch a wrong
+    coverage date."""
+    calendar_2024 = PeriodCoverage(
+        start_date="2024-01-01",
+        end_date="2024-12-31",
+        basis="calendar",
+        source_period_label="calendar year 2024",
+        notes="Payments during calendar year 2024.",
+    )
+    expected = {
+        "7.B3": (PeriodDimension("month", "2024-12"), None),
+        "7.B7": (PeriodDimension("calendar_year", 2024), calendar_2024),
+    }
+    for table, (period, coverage) in expected.items():
+        facts = package_build(table)[2]
+        assert {fact.period for fact in facts} == {period}
+        assert {fact.period_coverage for fact in facts} == {coverage}
+
+
+def test_national_facts_are_table_totals_and_measures_keep_their_labels():
+    """Each All-areas fact is its table's total record and each area fact a
+    detail record. Each measure states its concept exactly."""
+    for table in PACKAGES:
+        for fact in package_build(table)[2]:
+            kind = "total" if _area(fact) == "All areas" else "detail"
+            assert fact.layout.table_record_kind == kind, fact.source_record_id
+            assert fact.layout.measure_label == MEASURE_LABELS[_token(fact)]
+            assert fact.measure.concept_relation == "exact"
 
 
 def test_consumer_rows_label_each_area_with_its_workbook_row_heading():
@@ -472,6 +558,16 @@ def test_both_packages_join_the_default_bundle():
             path.removeprefix("packages/")
         )
         assert package_id in DEFAULT_BUNDLE_SOURCES
+
+
+def test_generator_reproduces_the_committed_packages():
+    generator = runpy.run_path(str(REPO / "scripts/build_ssa_ssi_7b_packages.py"))
+    built = generator["build_packages"]()
+    assert sorted(path.relative_to(REPO) for path in built) == sorted(
+        Path(path) / "source_package.yaml" for _, path in PACKAGES.values()
+    )
+    for path, text in built.items():
+        assert text == path.read_text(encoding="utf-8"), path
 
 
 def _mutated_build(table: str, address: str, value: str) -> None:
