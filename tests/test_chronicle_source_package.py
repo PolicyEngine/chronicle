@@ -293,6 +293,25 @@ def test_record_set_measure_year_scope_requires_every_header_year():
         DeclarativeRecordSet(record_set).to_record_set_spec(2023)
 
 
+def test_record_set_measure_year_scope_reads_string_year_keys_and_refuses_bad_maps():
+    payload = {
+        "measure_id": "m",
+        "years": [2021, 2022],
+        "column_by_year": {"2021": "A", "2022": "B"},
+        7: "a key the year scope ignores",
+    }
+    assert _mapping_applies_to_year(payload, year=2021, context="measure")
+    assert not _mapping_applies_to_year(payload, year=2020, context="measure")
+
+    payload["column_by_year"]["2023"] = "C"
+    with pytest.raises(ValueError, match=r"column_by_year maps year\(s\) 2023"):
+        _mapping_applies_to_year(payload, year=2021, context="measure")
+
+    payload["column_by_year"] = ["A", "B"]
+    with pytest.raises(ValueError, match="column_by_year must map years to values"):
+        _mapping_applies_to_year(payload, year=2021, context="measure")
+
+
 def test_record_set_measure_year_scope_is_membership_for_every_small_year_set():
     """For every non-empty set of 2020-2024 and every year 2019-2025, a measure
     with ``years`` applies exactly when the year is in the set, and a measure

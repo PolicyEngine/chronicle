@@ -955,6 +955,20 @@ where HMRC writes "the" — Chronicle's UK register gives one name where it
 carries the identifier (chronicle#281), and the bundle warns about the areas it
 does not carry yet.
 
+### Measures that apply to some years
+
+A measure may list `years`. A build at one of those years includes it; a build
+at any other year compiles the record set without it, so that year's record
+layout, and its hash, match a package without the measure. Table 1.4 uses this
+for its partnership and S corporation legs, which SOI publishes separately from
+TY2021 and combined in TY2020.
+
+The list must be non-empty and hold unique integers, and every `*_by_year` map
+the measure declares (`column_by_year`, `expected_column_header_by_year`) must
+cover exactly those years. A `years` entry with no map entry, or a map entry
+outside `years`, refuses the build, so a new year added to the maps alone
+cannot drop the measure without an error.
+
 ### Pinned artifacts and year labels
 
 `artifact.artifact_year` pins the file. A package with `artifact_year: 2022`
@@ -987,20 +1001,6 @@ Year-selecting pinned packages still build at other years and read that
 year's column, sheet or rows. A year the file does not cover fails with its
 own error, such as `No source artifact for year 2027` or a selected-row
 mismatch.
-
-### Measures that apply to some years
-
-A measure may list `years`. A build at one of those years includes it; a build
-at any other year compiles the record set without it, so that year's record
-layout, and its hash, match a package without the measure. Table 1.4 uses this
-for its partnership and S corporation legs, which SOI publishes separately from
-TY2021 and combined in TY2020.
-
-The list must be non-empty and hold unique integers, and every `*_by_year` map
-the measure declares (`column_by_year`, `expected_column_header_by_year`) must
-cover exactly those years. A `years` entry with no map entry, or a map entry
-outside `years`, refuses the build, so a new year added to the maps alone
-cannot drop the measure without an error.
 
 Agents may add new package directories and YAML specs. They should not modify
 `chronicle.core`, `chronicle.database`, or `chronicle.suite` unless the package cannot be

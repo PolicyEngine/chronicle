@@ -3862,15 +3862,15 @@ def _mapping_applies_to_year(
     # Every per-year map must cover exactly the declared years: a map year
     # outside ``years`` would drop the mapping at that year without an error.
     by_year_keys = sorted(
-        key
-        for key, value in payload.items()
-        if key.endswith("_by_year") and isinstance(value, dict)
+        key for key in payload if isinstance(key, str) and key.endswith("_by_year")
     )
     if "column_by_year" in by_year_keys:
         by_year_keys.remove("column_by_year")
         by_year_keys.insert(0, "column_by_year")
     for key in by_year_keys:
         mapped = payload[key]
+        if not isinstance(mapped, dict):
+            raise ValueError(f"{context_label} {key} must map years to values")
         for declared_year in years:
             if declared_year not in mapped and str(declared_year) not in mapped:
                 raise ValueError(
