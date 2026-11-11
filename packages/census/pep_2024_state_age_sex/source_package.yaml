@@ -131615,51 +131615,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 2
-    row_end_number: 517
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 1
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 1
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -133210,51 +133165,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 518
-    row_end_number: 1033
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 2
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 2
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -134805,51 +134715,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 1034
-    row_end_number: 1549
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 4
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 4
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -136400,51 +136265,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 1550
-    row_end_number: 2065
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 5
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 5
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -137995,51 +137815,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 2066
-    row_end_number: 2581
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 6
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 6
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -139590,51 +139365,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 2582
-    row_end_number: 3097
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 8
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 8
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -141185,51 +140915,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 3098
-    row_end_number: 3613
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 9
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 9
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -142780,51 +142465,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 3614
-    row_end_number: 4129
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 10
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 10
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -144375,51 +144015,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 4130
-    row_end_number: 4645
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 11
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 11
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -145970,51 +145565,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 4646
-    row_end_number: 5161
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 12
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 12
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -147565,51 +147115,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 5162
-    row_end_number: 5677
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 13
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 13
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -149160,51 +148665,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 5678
-    row_end_number: 6193
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 15
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 15
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -150755,51 +150215,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 6194
-    row_end_number: 6709
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 16
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 16
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -152350,51 +151765,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 6710
-    row_end_number: 7225
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 17
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 17
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -153945,51 +153315,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 7226
-    row_end_number: 7741
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 18
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 18
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -155540,51 +154865,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 7742
-    row_end_number: 8257
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 19
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 19
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -157135,51 +156415,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 8258
-    row_end_number: 8773
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 20
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 20
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -158730,51 +157965,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 8774
-    row_end_number: 9289
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 21
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 21
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -160325,51 +159515,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 9290
-    row_end_number: 9805
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 22
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 22
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -161920,51 +161065,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 9806
-    row_end_number: 10321
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 23
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 23
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -163515,51 +162615,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 10322
-    row_end_number: 10837
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 24
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 24
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -165110,51 +164165,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 10838
-    row_end_number: 11353
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 25
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 25
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -166705,51 +165715,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 11354
-    row_end_number: 11869
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 26
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 26
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -168300,51 +167265,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 11870
-    row_end_number: 12385
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 27
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 27
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -169895,51 +168815,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 12386
-    row_end_number: 12901
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 28
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 28
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -171490,51 +170365,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 12902
-    row_end_number: 13417
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 29
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 29
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -173085,51 +171915,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 13418
-    row_end_number: 13933
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 30
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 30
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -174680,51 +173465,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 13934
-    row_end_number: 14449
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 31
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 31
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -176275,51 +175015,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 14450
-    row_end_number: 14965
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 32
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 32
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -177870,51 +176565,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 14966
-    row_end_number: 15481
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 33
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 33
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -179465,51 +178115,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 15482
-    row_end_number: 15997
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 34
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 34
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -181060,51 +179665,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 15998
-    row_end_number: 16513
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 35
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 35
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -182655,51 +181215,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 16514
-    row_end_number: 17029
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 36
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 36
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -184250,51 +182765,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 17030
-    row_end_number: 17545
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 37
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 37
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -185845,51 +184315,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 17546
-    row_end_number: 18061
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 38
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 38
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -187440,51 +185865,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 18062
-    row_end_number: 18577
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 39
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 39
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -189035,51 +187415,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 18578
-    row_end_number: 19093
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 40
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 40
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -190630,51 +188965,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 19094
-    row_end_number: 19609
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 41
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 41
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -192225,51 +190515,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 19610
-    row_end_number: 20125
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 42
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 42
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -193820,51 +192065,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 20126
-    row_end_number: 20641
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 44
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 44
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -195415,51 +193615,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 20642
-    row_end_number: 21157
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 45
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 45
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -197010,51 +195165,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 21158
-    row_end_number: 21673
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 46
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 46
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -198605,51 +196715,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 21674
-    row_end_number: 22189
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 47
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 47
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -200200,51 +198265,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 22190
-    row_end_number: 22705
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 48
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 48
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -201795,51 +199815,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 22706
-    row_end_number: 23221
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 49
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 49
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -203390,51 +201365,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 23222
-    row_end_number: 23737
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 50
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 50
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -204985,51 +202915,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 23738
-    row_end_number: 24253
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 51
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 51
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -206580,51 +204465,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 24254
-    row_end_number: 24769
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 53
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 53
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -208175,51 +206015,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 24770
-    row_end_number: 25285
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 54
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 54
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -209770,51 +207565,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 25286
-    row_end_number: 25801
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 55
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 55
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1
@@ -211365,51 +209115,6 @@ record_sets:
   domain: resident_population
   groupby_dimension: age
   rows:
-  - value_id: all
-    label: All ages
-    ordinal: 0
-    row_number: 25802
-    row_end_number: 26317
-    expected_row_header_column: I
-    expected_row_header: 0
-    table_record_kind: total
-    guard_cells:
-    - column: A
-      row: start
-      expected_value: 40
-      label: state summary level
-    - column: A
-      row: end
-      expected_value: 40
-      label: state summary level
-    - column: D
-      row: start
-      expected_value: 56
-      label: state FIPS
-    - column: D
-      row: end
-      expected_value: 56
-      label: state FIPS
-    - column: F
-      row: start
-      expected_value: 0
-      label: all sexes
-    - column: F
-      row: end
-      expected_value: 0
-      label: all sexes
-    - column: G
-      row: start
-      expected_value: 0
-      label: all Hispanic origins
-    - column: G
-      row: end
-      expected_value: 0
-      label: all Hispanic origins
-    - column: I
-      row: end
-      expected_value: 85
-      label: age 85 plus
   - value_id: 0_to_4
     label: Age 0 to 4
     ordinal: 1

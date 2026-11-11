@@ -1,0 +1,28 @@
+source_id: ons
+package_id: ons-ashe-table2-2024-revised
+dataset: ons_ons-ashe-table2-2024-revised
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/occupation2digitsocashetable2
+table: 'ASHE Table 2: earnings and hours worked, occupation by two-digit SOC, 2024
+  revised'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, Annual Survey of Hours and Earnings,
+  Table 2, 2024 revised (released 23 October 2025, corrected 3 November 2025). Contains
+  public sector information licensed under the Open Government Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (dataset page https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/occupation2digitsocashetable2);
+  the workbooks state no other terms.'
+license_verified_at: '2026-11-04'
+files:
+  2024:
+    filename: ashetable22024revised.zip
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/occupation2digitsocashetable2/2024revised/ashetable22024revised.zip
+    sha256: 684813289945144e8198e23d4b73ce3b5b18c5fd60b1dc546ab6da0d79de57c3
+    size_bytes: 1395477
+    fetched_at: '2026-11-04T13:01:46+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-ashe-table2-2024-revised/2024/684813289945144e8198e23d4b73ce3b5b18c5fd60b1dc546ab6da0d79de57c3/ashetable22024revised.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-ashe-table2-2024-revised/2024/684813289945144e8198e23d4b73ce3b5b18c5fd60b1dc546ab6da0d79de57c3/ashetable22024revised.zip

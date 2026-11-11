@@ -1,0 +1,25 @@
+source_id: mhclg
+package_id: mhclg-english-indices-of-deprivation-2019-file-1
+dataset: mhclg_mhclg-english-indices-of-deprivation-2019-file-1
+source_page: https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019
+table: 'English indices of deprivation 2019, File 1: index of multiple deprivation'
+files:
+  2019:
+    filename: File_1_-_IMD2019_Index_of_Multiple_Deprivation.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/5d8b3abded915d0373d3540f/File_1_-_IMD2019_Index_of_Multiple_Deprivation.xlsx
+    sha256: b95ca12952c3a8ebdb2e5c3bb03d5b0e56b76ede3fcf45205db26f280b912d9d
+    size_bytes: 1433347
+    fetched_at: '2026-11-04T18:19:45+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-english-indices-of-deprivation-2019-file-1/2019/b95ca12952c3a8ebdb2e5c3bb03d5b0e56b76ede3fcf45205db26f280b912d9d/File_1_-_IMD2019_Index_of_Multiple_Deprivation.xlsx
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-english-indices-of-deprivation-2019-file-1/2019/b95ca12952c3a8ebdb2e5c3bb03d5b0e56b76ede3fcf45205db26f280b912d9d/File_1_-_IMD2019_Index_of_Multiple_Deprivation.xlsx
+registration_kind: raw_only
+provenance_notes: 'English Indices of Deprivation 2019, File 1 (published 26 September
+  2019): Index of Multiple Deprivation rank (1 most deprived to 32,844) and decile
+  for each of the 32,844 LSOAs in England on 2011 boundaries, with the 2019 local
+  authority district. The May 2026 NSPL (ons-nspl-may-2026) carries these ranks as
+  imd20ind. Licence: Open Government Licence v3.0. Raw-only for chronicle#412 item
+  1.'

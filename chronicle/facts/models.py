@@ -20,7 +20,7 @@ class DerivationStep:
 
 @dataclass(frozen=True)
 class SourceFact:
-    """A source-backed fact before target-input materialization."""
+    """A source-backed fact with its structural normalization lineage."""
 
     name: str
     value: float

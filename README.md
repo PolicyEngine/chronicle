@@ -108,12 +108,12 @@ chronicle/
 │   ├── sources/             # Source lineage helpers
 │   ├── facts/               # Source-backed facts
 │   ├── normalization/       # Low-assumption representation helpers
-│   ├── targets/             # Target input schema, client, loaders
+│   ├── targets/             # Target source coverage (US poverty/nonfiler)
 │   ├── jurisdictions/       # Temporary in-repo jurisdiction source prototypes
-├── db/                      # SQLModel persistence and source loaders
-│   ├── schema.py            # SQLModel: Target, Stratum, StratumConstraint
+├── db/                      # Source-artifact store and packaged source files
+│   ├── schema.py            # SQLModel: SourceArtifact, SourceTable, SourceRow
 │   ├── supabase_client.py   # Supabase client helpers
-│   └── etl_*.py             # Source-specific ETL pipelines
+│   └── data/                # Publisher files that source packages read
 ├── data/                    # Cached data files
 └── docs/                    # Architecture and source documentation
 ```
@@ -127,23 +127,16 @@ Solver execution and calibrated dataset construction belong in Microcosm.
 
 ### 1. Install
 
+Chronicle is not published on PyPI. Clone this repository into a
+Chronicle-named directory and install it with its development extras:
+
 ```bash
-pip install policyengine-chronicle
-# Or for development, clone this repository into a Chronicle-named directory:
 git clone <current repository URL> chronicle
 cd chronicle
-pip install -e ".[dev]"
+uv sync --all-extras
 ```
 
-### 2. Initialize and Load Legacy Target Inputs
-
-```bash
-chronicle init
-chronicle load soi --years 2021
-chronicle stats
-```
-
-### 3. Validate Fixture Facts
+### 2. Validate Fixture Facts
 
 The standalone Chronicle fact harness validates JSONL aggregate facts and emits a
 JSON report with fact counts, QA counts, warnings, and validation errors:
@@ -289,9 +282,17 @@ carry canonical constraints explicitly in `universe_constraints`; source-layout
 `dimensions` are metadata and are not target constraints. Rows also carry
 Chronicle-owned labels for every dimension and dimension value
 (`dimension_labels`, `dimension_value_labels`, `layout.groupby_dimension_label`;
-chronicle#261), which Microcosm's calibration hierarchy displays. Every UK
-package must label all of them, and `build-bundle` reports a gap as an error;
-see `docs/agent-source-package-harness.md` for where labels come from.
+chronicle#261), which Microcosm's calibration hierarchy displays. Every package
+must label all of them, and `build-bundle` reports a gap as an error
+(chronicle#265). One dimension value carries one label (chronicle#376): a value
+two or more packages emit takes the label in
+`chronicle/dimension_values/canonical_labels.json` at every build year, and the
+package's own wording, where it differs, rides in
+`package_dimension_value_labels` (the package's text, which is not checked
+against the publisher's file and is often Chronicle's). A value labelled two ways is an error, never
+a warning: `validate-package` and `build-suite` refuse one a package's rows label
+two ways, and `build-bundle` also refuses one two packages label differently.
+See `docs/agent-source-package-harness.md` for where labels come from.
 
 For the UK source-package feed, build the curated UK suite and then a facts-only
 consumer artifact:
@@ -544,7 +545,7 @@ same `--axiom-cli` and `--axiom-root` flags, plus
 `--require-axiom-validation` when skipped concept checks should fail agent
 acceptance.
 
-### 4. Run Chronicle Explorer
+### 3. Run Chronicle Explorer
 
 Chronicle Explorer is a Next/Tailwind app that reads the fixture fact JSONL and
 source-cell JSONL, then shows aggregate facts, source-cell lineage, and
@@ -566,25 +567,19 @@ By default, the workbench reads the current local suite outputs at
 LEDGER_EXPLORER_DATA_DIRS=/tmp/chronicle-build-a,/tmp/chronicle-build-b npm run dev -- --port 3090
 ```
 
-### 5. Query Target Inputs in Python
+## Retired legacy target tables
 
-```python
-from policyengine_chronicle.targets import DataSource, Target, TargetType, query_targets
-
-target_rows = query_targets(jurisdiction="us", year=2024)
-```
-
-## Target Input Schema
-
-Target inputs use a three-table schema:
-
-- **strata**: Population subgroups, such as California filers with AGI between
-  $50k and $75k.
-- **stratum_constraints**: Rules defining each stratum.
-- **targets**: Source-published aggregate values linked to strata.
-
-These are source-backed inputs. Microcosm owns the contracts that select them,
-the active support-aware subset, and calibrated solver execution.
+Chronicle used to load hand-written ETLs into a local SQLite `targets` /
+`strata` / `stratum_constraints` schema (`chronicle load`, `chronicle stats`,
+`chronicle query`) and to read a Supabase copy through
+`policyengine_chronicle.targets.query_targets`. No live consumer read those
+tables, and most of their values did not trace to publisher bytes, so they were
+retired.
+Source-backed facts reach consumers through source packages, the bundle and
+the consumer-fact export. Microcosm owns the contracts that select them, the
+active support-aware subset, and calibrated solver execution. See
+[`docs/us-legacy-etl-cleanup.md`](docs/us-legacy-etl-cleanup.md) for what each
+retired loader held and which package publishes it now.
 
 ## Identifier Epochs
 
@@ -605,15 +600,19 @@ payload as its Ledger key; only the prefix differs.
 - **The row contract moves on its own.** Each contract in
   `CONSUMER_FACT_ROW_CONTRACTS` adds to the one before it, so a row restamped
   with a later id stays valid: `chronicle.consumer_fact.v2` (chronicle#261) is
-  the frozen v1 row plus optional dimension and value labels, and
+  the frozen v1 row plus optional dimension and value labels,
   `chronicle.consumer_fact.v3` (chronicle#266) is v2 plus the publisher's name
-  for the fact's geography. Rows are emitted as v3 with Ledger-named keys, and
-  each row validates against the schema of the contract it names. Only v1 and
-  v2 name a naming epoch: the epoch table renames identifiers, it does not
-  version the row.
+  for the fact's geography, `chronicle.consumer_fact.v4` (chronicle#281) is v3
+  with one name per UK geography identifier and the publisher's text in an
+  optional `geography.publisher_name`, and `chronicle.consumer_fact.v5`
+  (chronicle#376) is v4 with one label per dimension value and the package's
+  own wording in an optional `package_dimension_value_labels`. Rows are
+  emitted as v5 with Ledger-named keys, and each row validates against the
+  schema of the contract it names. Only v1 and v2 name a naming epoch: the
+  epoch table renames identifiers, it does not version the row.
 - **Artifacts canonicalize on emit.** The consumer artifact pins the sha256 of
-  the v3 consumer-fact schema, so `build_consumer_artifact` rewrites every row
-  it read to Ledger-named keys and the v3 contract before writing it; an
+  the v5 consumer-fact schema, so `build_consumer_artifact` rewrites every row
+  it read to Ledger-named keys and the v5 contract before writing it; an
   artifact built from mixed-epoch rows is byte-identical to one built from the
   same rows written Ledger-named. Loads accept an artifact pinned to any
   packaged schema whose rows use that contract. Asking an artifact boundary to
@@ -651,7 +650,7 @@ normalized_fact = convert_units(fact, 1000, "count")
 
 ## Current Coverage
 
-### Aggregate Facts And Target Inputs
+### Aggregate facts
 
 | Source | Coverage | Description |
 |--------|----------|-------------|

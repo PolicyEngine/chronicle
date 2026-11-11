@@ -1,0 +1,28 @@
+source_id: mhclg
+package_id: mhclg-live-table-126-dwelling-density-2026
+dataset: mhclg_mhclg-live-table-126-dwelling-density-2026
+source_page: https://www.gov.uk/government/statistical-data-sets/live-tables-on-dwelling-stock-including-vacants
+table: 'Live Table 126: dwelling stock density estimates by local authority district'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Ministry of Housing, Communities and Local Government, Live
+  Table 126: dwelling stock density estimates by local authority district, England,
+  2011 to 2025 (published 21 May 2026). Contains public sector information licensed
+  under the Open Government Licence v3.0.'
+license_evidence: 'GOV.UK states: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' The live tables page and the workbook
+  state no other licence.'
+license_verified_at: '2026-11-04'
+files:
+  2026:
+    filename: LiveTable126.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a0dcc035c3c79da61662e3a/LiveTable126.ods
+    sha256: 6d74dde0004a6f058121559dd66089ef239813abbe69d48bc45892606410fadb
+    size_bytes: 90471
+    fetched_at: '2026-11-04T13:06:36+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-live-table-126-dwelling-density-2026/2026/6d74dde0004a6f058121559dd66089ef239813abbe69d48bc45892606410fadb/LiveTable126.ods
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-live-table-126-dwelling-density-2026/2026/6d74dde0004a6f058121559dd66089ef239813abbe69d48bc45892606410fadb/LiveTable126.ods

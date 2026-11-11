@@ -1,0 +1,26 @@
+source_id: mhclg
+package_id: mhclg-council-tax-levels-england-2024-25-table-3
+dataset: mhclg_mhclg-council-tax-levels-england-2024-25-table-3
+source_page: https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2024-to-2025
+table: 'Council Tax levels set by local authorities in England 2024 to 2025, Table
+  3: Average Band D council tax (including parish and adult social care precepts)
+  in England and the annual percentage change 2010-11 to 2024-25'
+files:
+  2024:
+    filename: Table_3_24-25.ods
+    source_url: https://assets.publishing.service.gov.uk/media/65fb24f3703c423c5158ef04/Table_3_24-25.ods
+    sha256: cbbaeb226800075bd2e591d3b94bf74f170bc60d2ceabe9e165c17b18be56a17
+    size_bytes: 5788
+    fetched_at: '2026-11-04T18:19:43+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-council-tax-levels-england-2024-25-table-3/2024/cbbaeb226800075bd2e591d3b94bf74f170bc60d2ceabe9e165c17b18be56a17/Table_3_24-25.ods
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-council-tax-levels-england-2024-25-table-3/2024/cbbaeb226800075bd2e591d3b94bf74f170bc60d2ceabe9e165c17b18be56a17/Table_3_24-25.ods
+registration_kind: raw_only
+provenance_notes: 'MHCLG, Council Tax levels set by local authorities in England 2024
+  to 2025 (first published 21 March 2024). The 2024-25 release publishes Tables 1
+  to 9 as nine files; this is Table 3. England average Band D including parish and
+  adult social care precepts, 2010-11 to 2024-25. Licence: Open Government Licence
+  v3.0. Raw-only for chronicle#412 item 2.'

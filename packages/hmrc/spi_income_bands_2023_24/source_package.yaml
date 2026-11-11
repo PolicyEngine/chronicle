@@ -6,8 +6,8 @@
 # from the ported pairs and are not facts here. tax_year period 2023 (opening
 # year; uk-data maps to 2024). Band lower bounds are numeric ODS cells, so
 # numeric row-header guards work here. uk-data's 1.9x property-income scale
-# (SPI-vs-ITSA coverage) and its uprated projections are populace-side
-# adjustments, not facts. Same artifact populace's national HMRC stage parses
+# (SPI-vs-ITSA coverage) and its uprated projections are Microcosm-side
+# adjustments, not facts. Same artifact Microcosm's national HMRC stage parses
 # (hmrc_income.py); Table 3.11's region cut of the same workbook is the
 # hmrc-spi-income-by-region-2023-24 package.
 #

@@ -1,0 +1,190 @@
+{
+  "query" : {
+    "database" : "str:database:PIP_Monthly_new",
+    "measures" : [ "str:count:PIP_Monthly_new:V_F_PIP_MONTHLY" ],
+    "recodes" : {
+      "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE" : {
+        "map" : [ [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_2021_COUNTRY:E92000001" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_2021_COUNTRY:W92000004" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_2021_COUNTRY:S92000003" ] ],
+        "total" : false
+      },
+      "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:TERMINALLY_ILL_RULES_IND" : {
+        "map" : [ [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:TERMINALLY_ILL_RULES_IND:C_PIP_TERM_ILL_IND:2" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:TERMINALLY_ILL_RULES_IND:C_PIP_TERM_ILL_IND:1" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:TERMINALLY_ILL_RULES_IND:C_PIP_TERM_ILL_IND:99" ] ],
+        "total" : false
+      },
+      "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE" : {
+        "map" : [ [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:1" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:2" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:3" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:99" ] ],
+        "total" : true
+      },
+      "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE" : {
+        "map" : [ [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:1" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:2" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:3" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:99" ] ],
+        "total" : true
+      },
+      "str:field:PIP_Monthly_new:F_PIP_DATE:DATE2" : {
+        "map" : [ [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202401" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202404" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202407" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202410" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202501" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202504" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202507" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202510" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202601" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202604" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202607" ] ],
+        "total" : false
+      }
+    },
+    "dimensions" : [ [ "str:field:PIP_Monthly_new:F_PIP_DATE:DATE2" ], [ "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE" ], [ "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:TERMINALLY_ILL_RULES_IND" ], [ "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE" ], [ "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE" ] ]
+  },
+  "database" : {
+    "id" : "PIP_Monthly_new",
+    "uri" : "str:database:PIP_Monthly_new",
+    "label" : "PIP Cases with Entitlement from 2019",
+    "annotationKeys" : [ "I", "II", "III", "IV" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:PIP_Monthly_new:V_F_PIP_MONTHLY",
+    "label" : "PIP Cases with Entitlement from 2019",
+    "measure" : "str:count:PIP_Monthly_new:V_F_PIP_MONTHLY",
+    "function" : "COUNT"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:PIP_Monthly_new:F_PIP_DATE:DATE2",
+    "label" : "Month",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202401" ],
+      "labels" : [ "Jan-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202404" ],
+      "labels" : [ "Apr-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202407" ],
+      "labels" : [ "Jul-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202410" ],
+      "labels" : [ "Oct-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202501" ],
+      "labels" : [ "Jan-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202504" ],
+      "labels" : [ "Apr-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202507" ],
+      "labels" : [ "Jul-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202510" ],
+      "labels" : [ "Oct-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202601" ],
+      "labels" : [ "Jan-26" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202604" ],
+      "labels" : [ "Apr-26" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202607" ],
+      "labels" : [ "Jul-26" ]
+    } ]
+  }, {
+    "uri" : "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE",
+    "label" : "National - Regional - LA - OAs",
+    "annotationKeys" : [ "V" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_2021_COUNTRY:E92000001" ],
+      "labels" : [ "England" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_2021_COUNTRY:W92000004" ],
+      "labels" : [ "Wales" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_2021_COUNTRY:S92000003" ],
+      "labels" : [ "Scotland" ]
+    } ]
+  }, {
+    "uri" : "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:TERMINALLY_ILL_RULES_IND",
+    "label" : "End of Life Rules Indicator",
+    "annotationKeys" : [ "IX" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:TERMINALLY_ILL_RULES_IND:C_PIP_TERM_ILL_IND:2" ],
+      "labels" : [ "Normal Rules" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:TERMINALLY_ILL_RULES_IND:C_PIP_TERM_ILL_IND:1" ],
+      "labels" : [ "SREL" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:TERMINALLY_ILL_RULES_IND:C_PIP_TERM_ILL_IND:99" ],
+      "labels" : [ "Missing or Unknown" ]
+    } ]
+  }, {
+    "uri" : "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE",
+    "label" : "Daily Living Award Status",
+    "annotationKeys" : [ "XI" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:1" ],
+      "labels" : [ "Daily Living - Enhanced" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:2" ],
+      "labels" : [ "Daily Living - Standard" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:3" ],
+      "labels" : [ "Daily Living - Nil" ],
+      "annotationKeys" : [ "X" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:99" ],
+      "labels" : [ "Unknown or missing" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  }, {
+    "uri" : "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE",
+    "label" : "Mobility Award Status",
+    "annotationKeys" : [ "XI" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:1" ],
+      "labels" : [ "Mobility Award - Enhanced" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:2" ],
+      "labels" : [ "Mobility Award - Standard" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:3" ],
+      "labels" : [ "Mobility Award - Nil" ],
+      "annotationKeys" : [ "X" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:99" ],
+      "labels" : [ "Unknown or missing" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:PIP_Monthly_new:V_F_PIP_MONTHLY" : {
+      "values" : [ [ [ [ [ 1061552, 327371, 135419, 0, 1524349 ], [ 358509, 475126, 513607, 0, 1347241 ], [ 53197, 64119, 1244, 0, 118556 ], [ 0, 0, 0, 281, 281 ], [ 1473259, 866616, 650272, 281, 2990430 ] ], [ [ 26477, 665, 363, 0, 27503 ], [ 63, 38, 39, 0, 134 ], [ 6, 0, 13, 0, 17 ], [ 0, 0, 0, 11, 11 ], [ 26538, 707, 414, 11, 27670 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 92804, 26831, 9348, 0, 128990 ], [ 44824, 39563, 27467, 0, 111850 ], [ 4729, 5919, 171, 0, 10818 ], [ 0, 0, 0, 13, 13 ], [ 142353, 72319, 36988, 13, 251674 ] ], [ [ 1775, 55, 23, 0, 1855 ], [ 0, 0, 0, 0, 7 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 1778, 59, 23, 0, 1859 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 81420, 24527, 11140, 0, 117087 ], [ 22865, 34323, 37616, 0, 94805 ], [ 2820, 3120, 31, 0, 5970 ], [ 0, 0, 0, 9, 9 ], [ 107100, 61971, 48790, 9, 217876 ] ], [ [ 689, 7, 6, 0, 697 ], [ 7, 6, 5, 0, 15 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 699, 12, 8, 0, 714 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ] ], [ [ [ [ 1102591, 341515, 136892, 0, 1580999 ], [ 371736, 484612, 519672, 0, 1376015 ], [ 54834, 67038, 1227, 0, 123100 ], [ 0, 0, 0, 268, 268 ], [ 1529157, 893163, 657795, 268, 3080389 ] ], [ [ 27077, 683, 388, 0, 28150 ], [ 57, 41, 36, 0, 130 ], [ 0, 0, 15, 0, 17 ], [ 0, 0, 0, 10, 10 ], [ 27142, 722, 438, 10, 28312 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 95215, 27765, 9516, 0, 132499 ], [ 45357, 40069, 27890, 0, 113320 ], [ 4816, 6034, 237, 0, 11088 ], [ 0, 0, 0, 13, 13 ], [ 145388, 73869, 37644, 13, 256920 ] ], [ [ 1811, 73, 26, 0, 1908 ], [ 0, 0, 0, 0, 7 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 1819, 69, 26, 0, 1914 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 62002, 20405, 9283, 0, 91691 ], [ 18096, 27331, 30280, 0, 75706 ], [ 2256, 2495, 27, 0, 4774 ], [ 0, 0, 0, 8, 8 ], [ 82355, 50229, 39582, 8, 172176 ] ], [ [ 482, 5, 5, 0, 491 ], [ 6, 5, 5, 0, 11 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 489, 8, 8, 0, 502 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ] ], [ [ [ [ 1142228, 356577, 138848, 0, 1637654 ], [ 386634, 497687, 529970, 0, 1414297 ], [ 57213, 71188, 1094, 0, 129493 ], [ 0, 0, 0, 274, 274 ], [ 1586074, 925456, 669912, 274, 3181711 ] ], [ [ 27815, 693, 409, 0, 28922 ], [ 58, 39, 32, 0, 126 ], [ 0, 6, 11, 0, 17 ], [ 0, 0, 0, 9, 9 ], [ 27880, 741, 451, 9, 29076 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 97547, 28677, 9741, 0, 135963 ], [ 46057, 40979, 28573, 0, 115604 ], [ 4975, 6275, 142, 0, 11397 ], [ 0, 0, 0, 17, 17 ], [ 148576, 75934, 38456, 17, 262984 ] ], [ [ 1873, 75, 20, 0, 1967 ], [ 0, 0, 0, 0, 7 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 1876, 78, 20, 0, 1969 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 41575, 16113, 7450, 0, 65135 ], [ 13843, 20358, 22967, 0, 57170 ], [ 1751, 1812, 19, 0, 3582 ], [ 0, 0, 0, 7, 7 ], [ 57169, 38275, 30440, 7, 125894 ] ], [ [ 314, 0, 5, 0, 319 ], [ 0, 0, 0, 0, 5 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 317, 6, 6, 0, 328 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ] ], [ [ [ [ 1178645, 369808, 140882, 0, 1689341 ], [ 399442, 510071, 540701, 0, 1450216 ], [ 59393, 74661, 841, 0, 134896 ], [ 0, 0, 0, 270, 270 ], [ 1637485, 954541, 682420, 270, 3274718 ] ], [ [ 28396, 735, 438, 0, 29570 ], [ 54, 42, 28, 0, 122 ], [ 5, 6, 10, 0, 23 ], [ 0, 0, 0, 9, 9 ], [ 28457, 780, 481, 9, 29724 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 99898, 29588, 9885, 0, 139374 ], [ 46856, 41848, 29247, 0, 117949 ], [ 5067, 6385, 107, 0, 11565 ], [ 0, 0, 0, 20, 20 ], [ 151823, 77823, 39241, 20, 268905 ] ], [ [ 1891, 70, 30, 0, 1994 ], [ 6, 0, 0, 0, 6 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 1894, 71, 30, 0, 1996 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 22818, 10761, 5166, 0, 38748 ], [ 9190, 13746, 16044, 0, 38978 ], [ 1239, 1198, 20, 0, 2457 ], [ 0, 0, 0, 0, 0 ], [ 33247, 25703, 21231, 0, 80184 ] ], [ [ 42, 0, 0, 0, 43 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 42, 6, 0, 0, 45 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ] ], [ [ [ [ 1208870, 380426, 142567, 0, 1731867 ], [ 410436, 519665, 547364, 0, 1477468 ], [ 60807, 76569, 981, 0, 138358 ], [ 0, 0, 0, 271, 271 ], [ 1680113, 976662, 690914, 271, 3347954 ] ], [ [ 28494, 780, 476, 0, 29747 ], [ 53, 42, 29, 0, 126 ], [ 7, 6, 14, 0, 24 ], [ 0, 0, 0, 9, 9 ], [ 28556, 825, 515, 9, 29902 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 101713, 30318, 10052, 0, 142094 ], [ 47394, 42575, 29629, 0, 119605 ], [ 5122, 6417, 101, 0, 11635 ], [ 0, 0, 0, 20, 20 ], [ 154233, 79314, 39782, 20, 273349 ] ], [ [ 1902, 67, 29, 0, 1996 ], [ 6, 0, 0, 0, 6 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 1905, 69, 29, 0, 2002 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 8695, 4633, 2458, 0, 15781 ], [ 3945, 6287, 8248, 0, 18478 ], [ 611, 515, 13, 0, 1137 ], [ 0, 0, 0, 0, 0 ], [ 13246, 11432, 10717, 0, 35399 ] ], [ [ 15, 0, 0, 0, 18 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 15, 0, 0, 0, 18 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ] ], [ [ [ [ 1241114, 391749, 143739, 0, 1776600 ], [ 421835, 530388, 555497, 0, 1507719 ], [ 62321, 79164, 1596, 0, 143082 ], [ 0, 0, 0, 268, 268 ], [ 1725270, 1001301, 700835, 268, 3427666 ] ], [ [ 28453, 792, 494, 0, 29739 ], [ 54, 40, 30, 0, 127 ], [ 0, 6, 16, 0, 20 ], [ 0, 0, 0, 5, 5 ], [ 28516, 836, 540, 5, 29895 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 103260, 30755, 10108, 0, 144118 ], [ 47702, 42951, 29779, 0, 120432 ], [ 5179, 6453, 170, 0, 11801 ], [ 0, 0, 0, 13, 13 ], [ 156138, 80154, 40053, 13, 276363 ] ], [ [ 1929, 70, 31, 0, 2031 ], [ 6, 0, 0, 0, 6 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 1929, 72, 31, 0, 2035 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 1097, 352, 182, 0, 1636 ], [ 301, 416, 513, 0, 1231 ], [ 48, 56, 14, 0, 114 ], [ 0, 0, 0, 0, 0 ], [ 1446, 829, 707, 0, 2979 ] ], [ [ 12, 0, 0, 0, 10 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 12, 0, 0, 0, 10 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ] ], [ [ [ [ 1270106, 402282, 145449, 0, 1817830 ], [ 433026, 542375, 566548, 0, 1541940 ], [ 64353, 82125, 990, 0, 147465 ], [ 0, 0, 0, 264, 264 ], [ 1767477, 1026778, 712981, 264, 3507501 ] ], [ [ 29364, 852, 504, 0, 30721 ], [ 51, 40, 32, 0, 123 ], [ 0, 6, 16, 0, 20 ], [ 0, 0, 0, 10, 10 ], [ 29417, 891, 553, 10, 30871 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 105192, 31555, 10267, 0, 147015 ], [ 48224, 43868, 30448, 0, 122539 ], [ 5308, 6588, 100, 0, 11995 ], [ 0, 0, 0, 11, 11 ], [ 158725, 82017, 40814, 11, 281569 ] ], [ [ 1882, 84, 33, 0, 2000 ], [ 6, 0, 0, 0, 6 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 1886, 86, 33, 0, 2003 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 903, 332, 152, 0, 1384 ], [ 261, 383, 469, 0, 1107 ], [ 31, 54, 14, 0, 98 ], [ 0, 0, 0, 0, 0 ], [ 1191, 768, 629, 0, 2597 ] ], [ [ 9, 0, 0, 0, 12 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 9, 0, 0, 0, 12 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ] ], [ [ [ [ 1294146, 408118, 145351, 0, 1847608 ], [ 441757, 548706, 568300, 0, 1558762 ], [ 65011, 82629, 1321, 0, 148961 ], [ 0, 0, 0, 260, 260 ], [ 1800913, 1039453, 714967, 260, 3555590 ] ], [ [ 29938, 856, 544, 0, 31336 ], [ 51, 33, 30, 0, 119 ], [ 0, 6, 15, 0, 23 ], [ 0, 0, 0, 7, 7 ], [ 29993, 897, 588, 7, 31481 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 106827, 31954, 10269, 0, 149053 ], [ 48573, 44297, 30658, 0, 123526 ], [ 5351, 6555, 170, 0, 12076 ], [ 0, 0, 0, 11, 11 ], [ 160753, 82807, 41097, 11, 284669 ] ], [ [ 1933, 77, 32, 0, 2036 ], [ 6, 0, 0, 0, 6 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 1934, 73, 32, 0, 2041 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 538, 232, 114, 0, 882 ], [ 199, 308, 414, 0, 919 ], [ 36, 50, 14, 0, 100 ], [ 0, 0, 0, 0, 0 ], [ 772, 593, 535, 0, 1901 ] ], [ [ 9, 0, 0, 0, 12 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 9, 0, 0, 0, 12 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ] ], [ [ [ [ 1312835, 414207, 145701, 0, 1872743 ], [ 447662, 555095, 572578, 0, 1575330 ], [ 65727, 83193, 1038, 0, 149960 ], [ 0, 0, 0, 253, 253 ], [ 1826224, 1052487, 719322, 253, 3598286 ] ], [ [ 29965, 893, 531, 0, 31387 ], [ 51, 36, 33, 0, 122 ], [ 0, 6, 17, 0, 21 ], [ 0, 0, 0, 7, 7 ], [ 30019, 929, 584, 7, 31534 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 107423, 32104, 10242, 0, 149766 ], [ 48657, 44434, 30773, 0, 123866 ], [ 5338, 6445, 106, 0, 11892 ], [ 0, 0, 0, 11, 11 ], [ 161421, 82984, 41122, 11, 285543 ] ], [ [ 1895, 74, 30, 0, 2000 ], [ 6, 0, 0, 0, 6 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 1896, 77, 30, 0, 2007 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 447, 183, 93, 0, 722 ], [ 182, 273, 334, 0, 788 ], [ 32, 36, 14, 0, 81 ], [ 0, 0, 0, 0, 0 ], [ 664, 492, 439, 0, 1594 ] ], [ [ 8, 0, 0, 0, 13 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 8, 0, 0, 0, 13 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ] ], [ [ [ [ 1341013, 424015, 147519, 0, 1912550 ], [ 457214, 568018, 585137, 0, 1610364 ], [ 67358, 85220, 1049, 0, 153626 ], [ 0, 0, 0, 248, 248 ], [ 1865583, 1077254, 733703, 248, 3676786 ] ], [ [ 30644, 878, 554, 0, 32075 ], [ 51, 32, 33, 0, 115 ], [ 0, 6, 21, 0, 26 ], [ 0, 0, 0, 5, 5 ], [ 30699, 919, 601, 5, 32221 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 108883, 32574, 10265, 0, 151722 ], [ 49112, 45498, 31370, 0, 125982 ], [ 5422, 6646, 110, 0, 12174 ], [ 0, 0, 0, 10, 10 ], [ 163420, 84714, 41742, 10, 289894 ] ], [ [ 1928, 73, 36, 0, 2030 ], [ 6, 0, 0, 0, 6 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 1929, 73, 36, 0, 2038 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 437, 170, 71, 0, 676 ], [ 146, 255, 271, 0, 665 ], [ 25, 29, 16, 0, 68 ], [ 0, 0, 0, 0, 0 ], [ 601, 452, 353, 0, 1409 ] ], [ [ 7, 0, 0, 0, 7 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 7, 0, 0, 0, 7 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ] ], [ [ [ [ 1369741, 433267, 149785, 0, 1952789 ], [ 466011, 580366, 598909, 0, 1645290 ], [ 69266, 87429, 821, 0, 157520 ], [ 0, 0, 0, 252, 252 ], [ 1905013, 1101062, 749514, 252, 3755846 ] ], [ [ 31164, 943, 577, 0, 32684 ], [ 50, 31, 33, 0, 114 ], [ 0, 0, 18, 0, 23 ], [ 0, 0, 0, 6, 6 ], [ 31218, 982, 625, 6, 32826 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 110570, 33177, 10404, 0, 154145 ], [ 49605, 46485, 32156, 0, 128244 ], [ 5535, 6777, 93, 0, 12398 ], [ 0, 0, 0, 13, 13 ], [ 165707, 86436, 42651, 13, 294805 ] ], [ [ 1922, 73, 38, 0, 2032 ], [ 0, 0, 0, 0, 5 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 1931, 72, 38, 0, 2043 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ], [ [ [ 280, 121, 55, 0, 450 ], [ 96, 143, 169, 0, 408 ], [ 19, 21, 16, 0, 55 ], [ 0, 0, 0, 0, 0 ], [ 396, 285, 236, 0, 914 ] ], [ [ 7, 0, 0, 0, 7 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 7, 0, 0, 0, 7 ] ], [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ] ] ] ] ],
+      "precision" : 0
+    }
+  },
+  "annotationMap" : {
+    "I" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants.",
+    "II" : "From March 2022, a new benefit called Adult Disability Payment (ADP) began to be introduced in Scotland. All Scottish applications for support because of disability or long term ill-health should be made to ADP from 29th August 2022. Social Security Scotland began to move clients to ADP from September 2022, and completed this case transfer process for those who were in receipt of PIP in Scotland by the end of June 2025.",
+    "III" : "Retrieving \"DWP Ownership\" returns claims administered by DWP in England, Wales and Abroad. Retrieving \"Devolved to Scotland\" returns claims DWP still administer in Scotland. From July 2025 onwards, any data appearing in Stat-Xplore for PIP activity in Scotland may relate to cases where a person moves to Scotland from England or Wales while in receipt of PIP and is in the process of applying for ADP instead. New legislation introduced in November 2025 provides for an extension of entitlement to PIP (commonly referred to as a \"run-on period\") of up to 13 weeks from the date of the move.",
+    "IV" : "Please note: If you retrieve all data within this benefit, this will return PIP claims administered by DWP. Datapoints from March 2022 will no longer reflect a full total for Great Britain because of the introduction of Adult Disability Payment in Scotland.",
+    "XI" : "For a very small proportion of the caseload (0.2%), the combination of award rates (daily living and mobility) is reported as nil-nil. Investigations suggest that award rates may be temporarily shown as a nil rate in the data used to derive the statistics for a short period, whilst a claim review is in process, after which the new award rate is set. These cases should be treated with caution and may be revised in a subsequent release.\n",
+    "IX" : "DWP offers particular support for those coming to the end of their life due to a progressive disease, known as Special Rules for End of Life (SREL).  This was formerly called Special Rules for Terminal Illness (SRTI).",
+    "V" : "Geographies are based on the claimants latest recorded address.  In some cases this may not be in the same geographical area as their initial claim.",
+    "X" : "From June 2024, cases classified as “Chronic Fatigue Syndrome” (CFS) on the PIP Computer System have been moved to Neurological Disease > Other neurological disorders. This change has been applied to all data from April 2013 onwards. In earlier published versions of the data, CFS cases were classified as Musculoskeletal disease (general) > Chronic pain syndromes. \n"
+  }
+}

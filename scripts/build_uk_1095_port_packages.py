@@ -6,7 +6,8 @@ under ``db/data``, nothing downloaded and no fact built:
 
 - ``hmrc-stamp-tax-statistics-2024-25``: HMRC Annual Stamp Tax Statistics 2024 to
   2025 (the 11 March 2026 corrected tables), Tables 6b, 8a and 8b for both
-  financial years the workbook carries.
+  financial years the workbook carries, and for PolicyEngine/chronicle#408 item 5
+  Tables 7, 3a, 5a, 9a and 9d for both years and the quarterly Table 2e.
 - the OBR EFO March 2026 receipts package's sheet 3.7 lines, the EFO's only
   breakdown of SDLT receipts (by property type and rate, not by buyer).
 - ``dwp-hbai-summary-fye2025``: Households Below Average Income, the FYE 2025
@@ -242,9 +243,1007 @@ def stamp_record_set(record_set_id, sheet, opening_year, label, extra):
     return payload
 
 
+# PolicyEngine/chronicle#408 item 5: Tables 7, 3a, 5a, 9a and 9d for both financial
+# years, and the quarterly Table 2e.
+
+STAMP_DIMENSION_LABELS = {
+    "sdlt_price_band": "SDLT price band",
+    "sdlt_property_type": "SDLT property type",
+    "sdlt_buyer_type": "Type of buyer",
+    "sdlt_higher_rates": "SDLT higher rates",
+    "sdlt_purchaser_age_band": "Age of the first-listed purchaser",
+    "sdlt_ftbr_liability": "First Time Buyers' Relief claim liability",
+    "sdlt_corporate_flat_rate": "Corporate bodies paying the flat rate",
+    "hmrc.sdlt_country_region": "Country/Region",
+    "hmrc.sdlt_quarter": "Year/Quarter",
+}
+ENGLAND = {
+    "geography_id": "E92000001",
+    "geography_level": "country",
+    "geography_name": "England",
+    "geography_vintage": "current",
+}
+NORTHERN_IRELAND = {
+    "geography_id": "N92000002",
+    "geography_level": "country",
+    "geography_name": "Northern Ireland",
+    "geography_vintage": "current",
+}
+# SDLT applied in Wales until the Land Transaction Tax replaced it on 1 April 2018.
+ENGLAND_WALES_AND_NI = {
+    "geography_id": "hmrc:england_wales_and_northern_ireland",
+    "geography_level": "statistical_scope",
+    "geography_name": "England, Wales and Northern Ireland",
+    "geography_vintage": "current",
+}
+# Country/Region rows of Tables 3a, 5a and 9a: printed name, printed code, geography.
+STAMP_AREAS = (
+    ("All countries", "[X]", ENGLAND_AND_NI),
+    ("England", "E92000001", ENGLAND),
+    *(
+        (
+            name,
+            code,
+            {
+                "geography_id": code,
+                "geography_level": "region",
+                "geography_name": name,
+                "geography_vintage": "current",
+            },
+        )
+        for name, code in (
+            ("North East", "E12000001"),
+            ("North West", "E12000002"),
+            ("Yorkshire and The Humber", "E12000003"),
+            ("East Midlands", "E12000004"),
+            ("West Midlands", "E12000005"),
+            ("East of England", "E12000006"),
+            ("London", "E12000007"),
+            ("South East", "E12000008"),
+            ("South West", "E12000009"),
+        )
+    ),
+    ("Northern Ireland", "N92000002", NORTHERN_IRELAND),
+)
+# Age of the first-listed purchaser (Tables 7 and 9d): printed label, slug, display.
+AGE_BANDS = tuple(
+    (label, f"age_{label.lower().replace(' ', '_')}", f"Aged {label.lower()}")
+    for label in (
+        "0 to 19",
+        "20 to 24",
+        "25 to 29",
+        "30 to 34",
+        "35 to 39",
+        "40 to 44",
+        "45 to 49",
+        "50 to 54",
+        "55 to 59",
+        "60 to 64",
+        "65 to 69",
+        "70 to 74",
+        "75 to 79",
+        "Over 79",
+    )
+) + (("Unknown", "age_unknown", "Age unknown"),)
+AGE_COLUMNS = "BCDEFGHIJKLMNOP"
+FTBR_LIABILITY = {"exempt": "Exempt transactions", "liable": "Liable transactions"}
+CORPORATE_IN_BANDS = "included_in_price_bands"
+EDITION = "HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected 11 March 2026)"
+FTBR_2022_THRESHOLDS = (
+    "In most cases exempt transactions correspond to purchases below £425,000 and "
+    "liable transactions to claims for properties valued between £425,000 and "
+    "£625,000 (sheet notes), the thresholds in force from 23 September 2022 to 31 March "
+    "2025 (Table 2e notes)."
+)
+
+
+def is_number(value: object) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+def stamp_measure(
+    measure_id,
+    label,
+    column,
+    header,
+    header_row,
+    concept,
+    unit,
+    notes,
+    *,
+    ordinal,
+    scale=None,
+    aggregation="sum",
+    filters=None,
+):
+    measure = {
+        "measure_id": measure_id,
+        "label": label,
+        "ordinal": ordinal,
+        "column": column,
+        "source_column_id": measure_id,
+    }
+    if filters:
+        measure["source_column_dimensions"] = dict(filters)
+    measure.update(
+        {
+            "expected_column_header_row": header_row,
+            "expected_column_header": header,
+            "concept": concept,
+            "source_concept": concept,
+            "concept_relation": "source_label",
+            "concept_authority": "hmrc",
+            "concept_evidence_url": STAMPS_URL,
+            "concept_evidence_notes": notes,
+            "unit": unit,
+            "aggregation": aggregation,
+        }
+    )
+    if filters:
+        measure["filters"] = dict(filters)
+        measure["constraints"] = [
+            constraint(key, value, STAMP_DIMENSION_LABELS[key])
+            for key, value in filters.items()
+        ]
+    measure["expected_cell_type"] = "number"
+    if scale:
+        measure["value_scale"] = int(scale)
+    return measure
+
+
+def stamp_shared(filters: dict, universe: bool = True) -> dict:
+    """Shared filters and constraints, with the GBP 40,000 universe first."""
+    constraints = [UNIVERSE] if universe else []
+    constraints += [
+        constraint(key, value, STAMP_DIMENSION_LABELS[key])
+        for key, value in filters.items()
+    ]
+    shared = {"shared_constraints": constraints}
+    if filters:
+        shared = {"shared_filters": dict(filters), **shared}
+    return shared
+
+
+def stamp_area_rows(grid: dict, first_row: int, *, all_countries: bool) -> list[dict]:
+    """The Country/Region rows, England's regions inside England, as printed."""
+    rows = []
+    for offset, (name, code, geography) in enumerate(STAMP_AREAS):
+        row = first_row + offset
+        assert (grid.get((row, "A")), grid.get((row, "B"))) == (name, code), row
+        if code == "[X]" and not all_countries:
+            continue
+        spec = {
+            "value_id": re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_"),
+            "label": name,
+            "ordinal": len(rows),
+            "row_number": row,
+            "expected_row_header_column": "A",
+            "expected_row_header": name,
+            **geography,
+            "table_record_kind": "total",
+        }
+        if code != "[X]":
+            spec["guard_cells"] = [
+                {
+                    "column": "B",
+                    "row": row,
+                    "expected_value": code,
+                    "label": "Country/Region Code",
+                }
+            ]
+        rows.append(spec)
+    assert grid.get((first_row + len(STAMP_AREAS), "A")) == "End of worksheet"
+    return rows
+
+
+def printed_record_sets(
+    record_set_id, rows, measures, grid, title, make, extra_guards=()
+):
+    """One record set for the rows that print every measure, and one per other pattern.
+
+    An [X] cell (fewer than 50 transactions, under the value threshold or not
+    available) emits no fact, so a row carries only the measures it prints. Rows that
+    print every measure keep the plain record set id; each other pattern of printed
+    measures gets ``<id>.subset_<n>`` with only those measures, and a row that prints
+    none is left out. The first row of each record set guards the table title, and
+    any ``extra_guards``.
+    """
+    patterns: dict[tuple[str, ...], list[dict]] = {}
+    for row in rows:
+        printed = []
+        for measure in measures:
+            value = grid.get((row["row_number"], measure["column"]))
+            if is_number(value):
+                printed.append(measure["measure_id"])
+            else:
+                assert value == "[X]", (record_set_id, row["value_id"], value)
+        if printed:
+            patterns.setdefault(tuple(printed), []).append(row)
+    every = tuple(measure["measure_id"] for measure in measures)
+    ordered = sorted(
+        patterns.items(),
+        key=lambda item: (item[0] != every, item[1][0]["row_number"]),
+    )
+    record_sets = []
+    for number, (printed, members) in enumerate(ordered):
+        suffix = "" if printed == every else f".subset_{number}"
+        kept_rows = []
+        for ordinal, row in enumerate(members):
+            row = dict(row, ordinal=ordinal)
+            if ordinal == 0:
+                row["guard_cells"] = (
+                    [
+                        {
+                            "column": "A",
+                            "row": 1,
+                            "expected_value": title,
+                            "label": "table title",
+                        }
+                    ]
+                    + list(extra_guards)
+                    + row.get("guard_cells", [])
+                )
+            kept_rows.append(row)
+        kept_measures = [
+            dict(measure, ordinal=ordinal)
+            for ordinal, measure in enumerate(
+                m for m in measures if m["measure_id"] in printed
+            )
+        ]
+        record_sets.append(make(f"{record_set_id}{suffix}", kept_rows, kept_measures))
+    return record_sets
+
+
+def stamp_table_7(cells, opening_year, label) -> list[dict]:
+    """Individuals' residential purchases by the first-listed purchaser's age band."""
+    sheet = f"Table_7_({label})"
+    grid = sheet_grid(cells, sheet)
+    title = grid[(1, "A")]
+    assert title == (
+        f"Table 7 {label}: Age bands by property price band for residential purchases "
+        "by individuals."
+    ), title
+    assert grid[(5, "A")] == (
+        "Transactions are rounded to the nearest 100. Percentages are rounded to the "
+        "nearest 1%."
+    )
+    assert grid[(8, "A")] == "Price bands"
+    suffix = " transactions" if opening_year == 2023 else ""
+    all_ages = grid[(8, "Q")]
+    assert all_ages == f"All ages{suffix}", all_ages
+    rows = stamp_band_rows(grid, BANDS_8, 9)
+    # 'All ages' (column Q) restates Table 8a's individuals: exactly in 2023-24, and
+    # to 8a's rounding in 2024-25, where it is also the exact sum of the age columns.
+    table_8a = sheet_grid(cells, f"Table_8a_({label})")
+    for offset in range(len(rows)):
+        printed, restated = grid[(9 + offset, "Q")], table_8a[(8 + offset, "B")]
+        assert abs(printed - restated) <= 50, (sheet, offset, printed, restated)
+        if opening_year == 2024:
+            assert printed == sum(grid[(9 + offset, c)] for c in AGE_COLUMNS)
+    notes = (
+        f"{EDITION}, {sheet} (row 8 header '{{header}}'): residential SDLT "
+        "transactions purchased by individuals at £40,000 or above, by the age of the "
+        "first-listed purchaser ('Ages are based on the first listed purchaser'). The "
+        "sheet notes 'Transactions are rounded to the nearest 100'"
+        + (
+            "; this sheet prints unrounded counts, including counts under 50 that "
+            "its [X] note would withhold, and they are stored as printed. "
+            if opening_year == 2024
+            else ". "
+        )
+        + "[X] cells (fewer than 50 transactions or not available) emit no fact."
+    )
+    measures = [
+        stamp_measure(
+            f"transactions_{slug}",
+            f"Residential transactions by individuals, first-listed purchaser "
+            f"{display.lower()}, {label}",
+            column,
+            f"{printed}{suffix}",
+            8,
+            "hmrc.sdlt.transactions",
+            "count",
+            notes.format(header=f"{printed}{suffix}"),
+            ordinal=ordinal,
+            filters={"sdlt_purchaser_age_band": slug},
+        )
+        for ordinal, ((printed, slug, display), column) in enumerate(
+            zip(AGE_BANDS, AGE_COLUMNS)
+        )
+    ]
+    for measure in measures:
+        assert grid[(8, measure["column"])] == measure["expected_column_header"]
+    return printed_record_sets(
+        f"{STAMPS_PREFIX}.table_7.individuals.fy{opening_year}",
+        rows,
+        measures,
+        grid,
+        title,
+        lambda record_set_id, kept_rows, kept_measures: stamp_record_set(
+            record_set_id,
+            sheet,
+            opening_year,
+            label,
+            {
+                **stamp_shared(
+                    {
+                        "sdlt_property_type": "residential",
+                        "sdlt_buyer_type": "individuals",
+                    }
+                ),
+                "rows": kept_rows,
+                "measures": kept_measures,
+            },
+        ),
+    )
+
+
+def stamp_table_3a(cells, opening_year, label) -> list[dict]:
+    """Transactions, property value and receipts by property type and area."""
+    sheet = f"Table_3a_({label})"
+    grid = sheet_grid(cells, sheet)
+    title = grid[(1, "A")]
+    assert title == (
+        f"Table 3a {label}: Stamp Duty Land Tax (SDLT) transactions and receipts by "
+        "property type and by country and within England, region."
+    ), title
+    assert grid[(4, "A")] == (
+        "Property values and receipts are shown in millions and rounded to the nearest "
+        "£5 million."
+    )
+    table_8 = {
+        table: sheet_grid(cells, f"Table_{table}_({label})") for table in ("8a", "8b")
+    }
+    record_sets = []
+    for property_type, words, columns in (
+        ("residential", "Residential", "CDE"),
+        ("non_residential", "Non-residential", "FGH"),
+        (None, "Total", "IJK"),
+    ):
+        if property_type:
+            # The All countries row restates Table 8a's or 8b's all-buyer totals (to
+            # 8a's and 8b's rounding of transactions to the nearest 100).
+            restated = table_8["8a" if property_type == "residential" else "8b"]
+            for column, column_8 in zip(columns, "HIJ"):
+                assert abs(grid[(7, column)] - restated[(8, column_8)]) <= 50
+        else:
+            for column, left, right in zip(columns, "CDE", "FGH"):
+                assert abs(grid[(7, column)] - grid[(7, left)] - grid[(7, right)]) <= 10
+        rows = stamp_area_rows(grid, 7, all_countries=property_type is None)
+        measures = []
+        for ordinal, (
+            (measure_id, concept, unit, scale, words_after),
+            column,
+        ) in enumerate(
+            zip(
+                (
+                    (
+                        "transactions",
+                        "hmrc.sdlt.transactions",
+                        "count",
+                        None,
+                        "transactions",
+                    ),
+                    (
+                        "property_value",
+                        "hmrc.sdlt.property_value",
+                        "gbp",
+                        1e6,
+                        "property value",
+                    ),
+                    ("receipts", "hmrc.sdlt.receipts", "gbp", 1e6, "receipts"),
+                ),
+                columns,
+            )
+        ):
+            header = f"{words} {words_after}"
+            assert grid[(6, column)] == header, (sheet, column, grid[(6, column)])
+            measures.append(
+                stamp_measure(
+                    measure_id,
+                    f"{header}, {label}",
+                    column,
+                    header,
+                    6,
+                    concept,
+                    unit,
+                    f"{EDITION}, {sheet}, column {column} ('{header}'): SDLT "
+                    "transactions at £40,000 or above, estimated property value and net "
+                    "receipts by property type, by country and within England, region "
+                    "(sheet note). Property values and receipts are in millions, rounded "
+                    "to the nearest £5 million; the sheet states no rounding for "
+                    "transactions and they are stored as printed. 'All countries' is "
+                    "England and Northern Ireland, where SDLT applies; its residential "
+                    "and non-residential cells restate Tables 8a and 8b's all-buyer "
+                    "totals and are not ported again.",
+                    ordinal=ordinal,
+                    scale=scale,
+                )
+            )
+        for row in rows:
+            for measure in measures:
+                assert is_number(grid[(row["row_number"], measure["column"])])
+        rows[0]["guard_cells"] = [
+            {"column": "A", "row": 1, "expected_value": title, "label": "table title"}
+        ] + rows[0].get("guard_cells", [])
+        record_sets.append(
+            stamp_record_set(
+                f"{STAMPS_PREFIX}.table_3a.{property_type or 'all_property_types'}"
+                f".fy{opening_year}",
+                sheet,
+                opening_year,
+                label,
+                {
+                    "groupby_dimension": "hmrc.sdlt_country_region",
+                    **stamp_shared(
+                        {"sdlt_property_type": property_type} if property_type else {}
+                    ),
+                    "rows": rows,
+                    "measures": measures,
+                },
+            )
+        )
+    return record_sets
+
+
+def stamp_table_5a(cells, opening_year, label) -> list[dict]:
+    """Residential SDLT by price band and area; the bands include corporate bodies
+    paying the flat rate, which Table 8a reports on a row of its own."""
+    sheet = f"Table_5a_({label})"
+    grid = sheet_grid(cells, sheet)
+    title = grid[(1, "A")]
+    # The 2024-25 sheet's title (and its contents entry) say 2023-24; its own note
+    # says 2024-25, and its totals are Table 8a's 2024-25 totals.
+    assert title == (
+        "Table 5a 2023-24: Stamp Duty Land Tax (SDLT) transactions and receipts for "
+        "residential property by price band and by country and within England, region."
+    ), title
+    assert grid[(3, "A")] == (
+        "This table shows residential SDLT transactions at £40,000 or above, estimated "
+        "property value and net receipts by price band and by country and within "
+        f"England, region for {label}."
+    )
+    assert grid[(5, "A")] == (
+        "Property values and receipts are shown in millions and rounded to the nearest "
+        "£5 million. Transactions are rounded to the nearest 100."
+    )
+    assert grid[(8, "A")] == "Country/Region"
+    table_8a = sheet_grid(cells, f"Table_8a_({label})")
+    table_3a = sheet_grid(cells, f"Table_3a_({label})")
+    assert [grid[(9, c)] for c in "UVW"] == [table_8a[(8, c)] for c in "HIJ"]
+    # 'All price bands' (U to W) restates Table 3a's residential columns, area by area
+    # (to the nearest 100 transactions; 3a's 2023-24 transactions print to the 10).
+    for offset in range(len(STAMP_AREAS)):
+        for column, column_3a in zip("UVW", "CDE"):
+            assert (
+                abs(grid[(9 + offset, column)] - table_3a[(7 + offset, column_3a)])
+                <= 50
+            )
+    # Above GBP 500,000 the all-countries bands exceed Table 8a's by its corporate
+    # flat-rate row: property value by exactly that row's in 2024-25.
+    excess = [
+        sum(
+            grid[(9, "CDEFGHIJKLMNOPQRST"[3 * band + measure])]
+            - table_8a[(9 + band, "HIJ"[measure])]
+            for band in range(len(BANDS_8))
+        )
+        for measure in range(3)
+    ]
+    corporate = [table_8a[(15, c)] for c in "HIJ"]
+    assert table_8a[(15, "A")] == CORPORATE_FLAT_RATE[0]
+    assert all(abs(e - c) <= 100 for e, c in zip(excess, corporate)), (
+        excess,
+        corporate,
+    )
+    rows = stamp_area_rows(grid, 9, all_countries=True)
+    record_sets = []
+    for band, (printed_band, slug, display) in enumerate(BANDS_8):
+        columns = "CDEFGHIJKLMNOPQRST"[3 * band : 3 * band + 3]
+        measures = []
+        for ordinal, ((measure_id, concept, unit, scale, code), column) in enumerate(
+            zip(
+                (
+                    ("transactions", "hmrc.sdlt.transactions", "count", None, "T"),
+                    ("property_value", "hmrc.sdlt.property_value", "gbp", 1e6, "P"),
+                    ("receipts", "hmrc.sdlt.receipts", "gbp", 1e6, "Re"),
+                ),
+                columns,
+            )
+        ):
+            header = f"{printed_band} ({code})"
+            assert grid[(8, column)] == header, (sheet, column, grid[(8, column)])
+            measures.append(
+                stamp_measure(
+                    measure_id,
+                    f"Residential SDLT {measure_id.replace('_', ' ')}, {display}, "
+                    f"{label}",
+                    column,
+                    header,
+                    8,
+                    concept,
+                    unit,
+                    f"{EDITION}, {sheet}, column {column} ('{header}'): residential "
+                    "SDLT transactions at £40,000 or above, estimated property value and "
+                    "net receipts by price band, by country and within England, region "
+                    "(sheet note). Property values and receipts in millions, rounded to "
+                    "the nearest £5 million; transactions to the nearest 100. Above "
+                    "£500,000 the bands include corporate bodies paying the flat rate, "
+                    "which Table 8a reports on a row of its own: the all-countries bands "
+                    "exceed 8a's by that row's property value and receipts. [X] cells "
+                    "(fewer than 50 transactions, under £2.5 million or not available) "
+                    "emit no fact."
+                    + (
+                        " The sheet's title and its contents entry say 2023-24; its own "
+                        "note says 2024-25 and its totals are Table 8a's 2024-25 totals, "
+                        "so the period is 2024-25."
+                        if opening_year == 2024
+                        else ""
+                    ),
+                    ordinal=ordinal,
+                    scale=scale,
+                )
+            )
+        record_sets += printed_record_sets(
+            f"{STAMPS_PREFIX}.table_5a.{slug}.fy{opening_year}",
+            rows,
+            measures,
+            grid,
+            title,
+            lambda record_set_id, kept_rows, kept_measures, slug=slug: stamp_record_set(
+                record_set_id,
+                sheet,
+                opening_year,
+                label,
+                {
+                    "groupby_dimension": "hmrc.sdlt_country_region",
+                    **stamp_shared(
+                        {
+                            "sdlt_property_type": "residential",
+                            "sdlt_price_band": slug,
+                            "sdlt_corporate_flat_rate": CORPORATE_IN_BANDS,
+                        }
+                    ),
+                    "rows": kept_rows,
+                    "measures": kept_measures,
+                },
+            ),
+            # The note that states the period (the title does not, in 2024-25).
+            extra_guards=[
+                {
+                    "column": "A",
+                    "row": 3,
+                    "expected_value": grid[(3, "A")],
+                    "label": "table note",
+                }
+            ],
+        )
+    return record_sets
+
+
+FTBR_MEASURES = (
+    # (column, header, measure id, concept, unit, scale, aggregation, liability)
+    (
+        "C",
+        "Amount relieved",
+        "ftbr_amount_relieved",
+        "hmrc.sdlt.ftbr_amount_relieved",
+        "gbp",
+        1e6,
+        "sum",
+        None,
+    ),
+    (
+        "D",
+        "Number of transactions",
+        "ftbr_claims",
+        "hmrc.sdlt.ftbr_claims",
+        "count",
+        None,
+        "sum",
+        None,
+    ),
+    (
+        "E",
+        "Average FTBR claimed",
+        "ftbr_average_amount_relieved",
+        "hmrc.sdlt.ftbr_average_amount_relieved",
+        "gbp",
+        None,
+        "mean",
+        None,
+    ),
+    (
+        "F",
+        "Exempt Transactions",
+        "ftbr_claims_exempt",
+        "hmrc.sdlt.ftbr_claims",
+        "count",
+        None,
+        "sum",
+        "exempt",
+    ),
+    (
+        "G",
+        "Liable transactions",
+        "ftbr_claims_liable",
+        "hmrc.sdlt.ftbr_claims",
+        "count",
+        None,
+        "sum",
+        "liable",
+    ),
+)
+
+
+def stamp_table_9a(cells, opening_year, label) -> dict:
+    """First Time Buyers' Relief claims by country and, within England, region."""
+    sheet = f"Table_9a_({label})"
+    grid = sheet_grid(cells, sheet)
+    title = grid[(1, "A")]
+    assert title == (
+        f"Table 9a {label}: First Time Buyers' Relief (FTBR) claims by region."
+    ), title
+    assert grid[(7, "A")] == (
+        "Estimated amounts relieved are shown in millions and rounded to the nearest £1 "
+        "million. Transactions are rounded to the nearest 100. Average value to the "
+        "nearest £100. Percentages are rounded to the nearest 1%."
+    )
+    assert grid[(10, "H")] == "FTBR percentage"
+    rows = stamp_area_rows(grid, 11, all_countries=True)
+    measures = []
+    for ordinal, (
+        column,
+        header,
+        measure_id,
+        concept,
+        unit,
+        scale,
+        aggregation,
+        liability,
+    ) in enumerate(FTBR_MEASURES):
+        assert grid[(10, column)] == header, (sheet, column, grid[(10, column)])
+        measures.append(
+            stamp_measure(
+                measure_id,
+                f"First Time Buyers' Relief: {header.lower()}, {label}",
+                column,
+                header,
+                10,
+                concept,
+                unit,
+                f"{EDITION}, {sheet}, column {column} ('{header}'): residential "
+                "transactions at £40,000 or above claiming First Time Buyers' Relief, "
+                "by country and within England, region (sheet note). Amounts relieved "
+                "are estimates in millions, rounded to the nearest £1 million; "
+                "transactions to the nearest 100; the average to the nearest £100. "
+                f"{FTBR_2022_THRESHOLDS} The FTBR percentage (column H, text that "
+                "divides published counts) is not ported.",
+                ordinal=ordinal,
+                scale=scale,
+                aggregation=aggregation,
+                filters={"sdlt_ftbr_liability": liability} if liability else None,
+            )
+        )
+    for row in rows:
+        for measure in measures:
+            assert is_number(grid[(row["row_number"], measure["column"])])
+    rows[0]["guard_cells"] = [
+        {"column": "A", "row": 1, "expected_value": title, "label": "table title"}
+    ] + rows[0].get("guard_cells", [])
+    return stamp_record_set(
+        f"{STAMPS_PREFIX}.table_9a.ftbr.fy{opening_year}",
+        sheet,
+        opening_year,
+        label,
+        {
+            "groupby_dimension": "hmrc.sdlt_country_region",
+            **stamp_shared({"sdlt_property_type": "residential"}),
+            "rows": rows,
+            "measures": measures,
+        },
+    )
+
+
+def stamp_table_9d(cells, opening_year, label) -> list[dict]:
+    """First Time Buyers' Relief claims by the first-listed purchaser's age band."""
+    sheet = f"Table_9d_({label})"
+    grid = sheet_grid(cells, sheet)
+    title = grid[(1, "A")]
+    assert title == (
+        f"Table 9d {label}: First Time Buyers' Relief (FTBR) claims by age."
+    ), title
+    assert grid[(6, "A")] == "Transactions are rounded to the nearest 100."
+    assert grid[(9, "A")] == "Age bands (Years, inclusive)"
+    assert grid[(9, "Q")] == "All ages"
+    # 'All ages' (column Q) restates Table 9a's all-countries claims, exempt and liable.
+    table_9a = sheet_grid(cells, f"Table_9a_({label})")
+    assert [grid[(row, "Q")] for row in (10, 11, 12)] == [
+        table_9a[(11, column)] for column in "DFG"
+    ]
+    rows = []
+    for ordinal, (row, printed, liability) in enumerate(
+        ((10, "Total", None), (11, "Exempt", "exempt"), (12, "Liable", "liable"))
+    ):
+        assert grid[(row, "A")] == printed
+        spec = {
+            "value_id": printed.lower(),
+            "label": FTBR_LIABILITY[liability] if liability else "All FTBR claims",
+            "ordinal": ordinal,
+            "row_number": row,
+            "expected_row_header_column": "A",
+            "expected_row_header": printed,
+            "table_record_kind": "detail" if liability else "total",
+        }
+        if liability:
+            spec["filters"] = {"sdlt_ftbr_liability": liability}
+            spec["constraints"] = [
+                constraint(
+                    "sdlt_ftbr_liability",
+                    liability,
+                    STAMP_DIMENSION_LABELS["sdlt_ftbr_liability"],
+                )
+            ]
+        rows.append(spec)
+    assert grid[(13, "A")] == "End of worksheet"
+    measures = []
+    for ordinal, ((printed, slug, display), column) in enumerate(
+        zip(AGE_BANDS, AGE_COLUMNS)
+    ):
+        assert grid[(9, column)] == printed, (sheet, column, grid[(9, column)])
+        measures.append(
+            stamp_measure(
+                f"ftbr_claims_{slug}",
+                f"First Time Buyers' Relief claims, first-listed purchaser "
+                f"{display.lower()}, {label}",
+                column,
+                printed,
+                9,
+                "hmrc.sdlt.ftbr_claims",
+                "count",
+                f"{EDITION}, {sheet}, column {column} ('{printed}'): residential SDLT "
+                "transactions purchased by individuals claiming First Time Buyers' "
+                "Relief, by age band (years, inclusive), in total and split into "
+                "exempt and liable claims; transactions rounded to the nearest 100. "
+                f"{FTBR_2022_THRESHOLDS} The table's totals are Table 9a's, which "
+                "counts transactions at £40,000 or above, and its 'All ages' column "
+                "restates them and is not ported again. [X] cells (fewer than 50 "
+                "transactions or not available) emit no fact.",
+                ordinal=ordinal,
+                filters={"sdlt_purchaser_age_band": slug},
+            )
+        )
+    return printed_record_sets(
+        f"{STAMPS_PREFIX}.table_9d.ftbr.fy{opening_year}",
+        rows,
+        measures,
+        grid,
+        title,
+        lambda record_set_id, kept_rows, kept_measures: stamp_record_set(
+            record_set_id,
+            sheet,
+            opening_year,
+            label,
+            {
+                "groupby_dimension": "sdlt_ftbr_liability",
+                **stamp_shared(
+                    {
+                        "sdlt_property_type": "residential",
+                        "sdlt_buyer_type": "individuals",
+                    }
+                ),
+                "rows": kept_rows,
+                "measures": kept_measures,
+            },
+        ),
+    )
+
+
+QUARTER_MONTHS = {
+    1: ("01-01", "03-31"),
+    2: ("04-01", "06-30"),
+    3: ("07-01", "09-30"),
+    4: ("10-01", "12-31"),
+}
+
+
+def ftbr_quarter_notes(year: int, quarter: int) -> str:
+    """The relief's thresholds (Table 2e notes) in force during a quarter."""
+    if (year, quarter) <= (2022, 2):
+        thresholds = (
+            "zero rate threshold £300,000 and maximum price £500,000, in force from 22 "
+            "November 2017 to 22 September 2022"
+        )
+    elif (year, quarter) == (2022, 3):
+        thresholds = (
+            "zero rate threshold £300,000 and maximum price £500,000 to 22 September "
+            "2022, and £425,000 and £625,000 from 23 September 2022"
+        )
+    else:
+        thresholds = (
+            "zero rate threshold £425,000 and maximum price £625,000, in force from 23 "
+            "September 2022 to 31 March 2025"
+        )
+    notes = (
+        "In most cases exempt transactions are purchases below the zero rate threshold "
+        "and liable transactions claims above it but below the maximum price (sheet "
+        f"notes): this quarter, {thresholds}."
+    )
+    if (year, quarter) == (2017, 4):
+        notes += " The relief starts on 22 November 2017."
+    if (year, quarter) == (2020, 3):
+        notes += (
+            " The residential SDLT holiday from 8 July 2020 to 30 June 2021 meant there "
+            "was no requirement to claim the relief."
+        )
+    return notes
+
+
+def stamp_table_2e(cells) -> list[dict]:
+    """Quarterly First Time Buyers' Relief claims, 2017 Q4 to 2025 Q1."""
+    sheet = "Table_2e"
+    grid = sheet_grid(cells, sheet)
+    title = grid[(1, "A")]
+    assert title == (
+        "Table 2e: Quarterly First Time Buyers' Relief (FTBR) claims by Price Band from "
+        "2017 Q4 to 2025 Q1"
+    ), title
+    assert grid[(4, "A")].endswith(
+        "From 22 Nov 2017 to 22 Sep 2022 this was £300,000. From 23 Sep 2022 to 31 Mar "
+        "2025 this was £425,000"
+    )
+    assert grid[(5, "A")].endswith(
+        "From 22 Nov 2017 to 22 Sep 2022 this was £500,000. From 23 Sep 2022 to 31 Mar "
+        "2025 this was £625,000"
+    )
+    assert grid[(8, "A")] == (
+        "Land transaction taxes were devolved in Scotland in April 2015 and in Wales in "
+        "April 2018."
+    )
+    headers = {
+        "B": "Estimated amount relieved",
+        "C": "Number of FTBR claims",
+        "D": "Exempt transactions",
+        "E": "Liable transactions",
+        "F": "FTBR transactions as a percentage of residential transactions",
+    }
+    assert {column: grid[(11, column)] for column in headers} == headers
+    record_sets = []
+    row = 12
+    while grid[(row, "A")] != "End of worksheet":
+        printed = grid[(row, "A")]
+        match = re.fullmatch(r"(\d{4}) Q([1-4])", printed)
+        assert match, printed
+        year, quarter = int(match.group(1)), int(match.group(2))
+        values = [grid[(row, column)] for column in "BCDEF"]
+        if values == ["[X]"] * 5:
+            # 2020 Q4 to 2021 Q2: the SDLT holiday (sheet notes).
+            assert (2020, 4) <= (year, quarter) <= (2021, 2), printed
+            row += 1
+            continue
+        assert all(is_number(value) for value in values[:4]), (printed, values)
+        start, end = QUARTER_MONTHS[quarter]
+        before_ltt = (year, quarter) < (2018, 2)
+        notes = (
+            f"{EDITION}, {sheet}, row '{printed}': residential transactions at £40,000 "
+            "or above benefiting from First Time Buyers' Relief, by quarter, in total "
+            "and split into exempt and liable claims; despite the table's title it is "
+            "not split by price band. Amounts relieved are estimates in millions, "
+            "rounded to the nearest £1 million; claims to the nearest 100, except that "
+            "2024 Q2 to 2025 Q1 print unrounded, fractional claims, stored as printed. "
+            f"{ftbr_quarter_notes(year, quarter)} The percentage of residential "
+            "transactions (column F, text that divides published counts) is not ported."
+            + (
+                " Before April 2018 SDLT also applied in Wales (sheet note: land "
+                "transaction taxes were devolved in Wales in April 2018)."
+                if before_ltt
+                else ""
+            )
+        )
+        measures = [
+            stamp_measure(
+                measure_id,
+                f"First Time Buyers' Relief: {headers[column].lower()}, {printed}",
+                column,
+                headers[column],
+                11,
+                concept,
+                unit,
+                notes,
+                ordinal=ordinal,
+                scale=scale,
+                filters={"sdlt_ftbr_liability": liability} if liability else None,
+            )
+            for ordinal, (
+                column,
+                measure_id,
+                concept,
+                unit,
+                scale,
+                liability,
+            ) in enumerate(
+                (
+                    (
+                        "B",
+                        "ftbr_amount_relieved",
+                        "hmrc.sdlt.ftbr_amount_relieved",
+                        "gbp",
+                        1e6,
+                        None,
+                    ),
+                    ("C", "ftbr_claims", "hmrc.sdlt.ftbr_claims", "count", None, None),
+                    (
+                        "D",
+                        "ftbr_claims_exempt",
+                        "hmrc.sdlt.ftbr_claims",
+                        "count",
+                        None,
+                        "exempt",
+                    ),
+                    (
+                        "E",
+                        "ftbr_claims_liable",
+                        "hmrc.sdlt.ftbr_claims",
+                        "count",
+                        None,
+                        "liable",
+                    ),
+                )
+            )
+        ]
+        record_sets.append(
+            stamp_record_set(
+                f"{STAMPS_PREFIX}.table_2e.ftbr.{year}_q{quarter}",
+                sheet,
+                year,
+                printed,
+                {
+                    "period_type": "quarter",
+                    "period": f"{year}-Q{quarter}",
+                    "period_coverage": {
+                        "start_date": f"{year}-{start}",
+                        "end_date": f"{year}-{end}",
+                        "basis": "calendar",
+                        "source_period_label": printed,
+                        "notes": "Calendar quarter (Q1 is January to March).",
+                    },
+                    **(ENGLAND_WALES_AND_NI if before_ltt else {}),
+                    "groupby_dimension": "hmrc.sdlt_quarter",
+                    **stamp_shared({"sdlt_property_type": "residential"}),
+                    "rows": [
+                        {
+                            "value_id": f"{year}_q{quarter}",
+                            "label": printed,
+                            "ordinal": 0,
+                            "row_number": row,
+                            "expected_row_header_column": "A",
+                            "expected_row_header": printed,
+                            "table_record_kind": "total",
+                            "guard_cells": [
+                                {
+                                    "column": "A",
+                                    "row": 1,
+                                    "expected_value": title,
+                                    "label": "table title",
+                                }
+                            ],
+                        }
+                    ],
+                    "measures": measures,
+                },
+            )
+        )
+        row += 1
+    assert printed == "2025 Q1"
+    return record_sets
+
+
 def build_stamps() -> None:
     path = STAMPS_DATA / STAMPS_ODS
-    cells = source_cells_from_ods(path.read_bytes(), artifact_meta(path))
+    # Table 5a's 2023-24 sheet stores some numbers as text ('15800'), so the package
+    # parses with numeric-text coercion; no cell the other tables port is text.
+    cells = source_cells_from_ods(
+        path.read_bytes(), artifact_meta(path), coerce_numeric_text=True
+    )
     record_sets = []
     for opening_year, label in STAMPS_YEARS:
         # Tables 8a (residential) and 8b (non-residential).
@@ -495,6 +1494,15 @@ def build_stamps() -> None:
             )
         )
 
+    # PolicyEngine/chronicle#408 item 5, after chronicle#357's record sets.
+    for opening_year, label in STAMPS_YEARS:
+        record_sets += stamp_table_7(cells, opening_year, label)
+        record_sets += stamp_table_3a(cells, opening_year, label)
+        record_sets += stamp_table_5a(cells, opening_year, label)
+        record_sets.append(stamp_table_9a(cells, opening_year, label))
+        record_sets += stamp_table_9d(cells, opening_year, label)
+    record_sets += stamp_table_2e(cells)
+
     band_labels = {
         slug: display
         for _, slug, display in BANDS_6B + BANDS_8 + (CORPORATE_FLAT_RATE,)
@@ -504,15 +1512,13 @@ def build_stamps() -> None:
         "package_id": "hmrc-stamp-tax-statistics-2024-25",
         "label": (
             "HMRC Annual Stamp Tax Statistics 2024 to 2025 (corrected): SDLT transactions, "
-            "property value and receipts by price band and buyer type (Tables 8a, 8b) and "
-            "higher rates on additional dwellings (Table 6b), 2023-24 and 2024-25"
+            "property value and receipts by price band and buyer type (Tables 8a, 8b), "
+            "higher rates on additional dwellings (Table 6b), purchases by the purchaser's "
+            "age (Table 7), by country and region (Tables 3a, 5a) and First Time Buyers' "
+            "Relief (Tables 9a, 9d), 2023-24 and 2024-25, and quarterly First Time Buyers' "
+            "Relief, 2017 Q4 to 2025 Q1 (Table 2e)"
         ),
-        "dimension_labels": {
-            "sdlt_price_band": "SDLT price band",
-            "sdlt_property_type": "SDLT property type",
-            "sdlt_buyer_type": "Type of buyer",
-            "sdlt_higher_rates": "SDLT higher rates",
-        },
+        "dimension_labels": STAMP_DIMENSION_LABELS,
         "dimension_value_labels": {
             "sdlt_price_band": band_labels,
             "sdlt_property_type": {
@@ -526,6 +1532,13 @@ def build_stamps() -> None:
             "sdlt_higher_rates": {
                 "additional_dwellings": "Higher rates on additional dwellings (HRAD)",
             },
+            "sdlt_purchaser_age_band": {
+                slug: display for _, slug, display in AGE_BANDS
+            },
+            "sdlt_ftbr_liability": FTBR_LIABILITY,
+            "sdlt_corporate_flat_rate": {
+                CORPORATE_IN_BANDS: "Included in the price bands",
+            },
         },
         "artifact": {
             "source_name": "hmrc",
@@ -538,8 +1551,10 @@ def build_stamps() -> None:
             "manifest": "manifest.yaml",
             "vintage": "annual_stamp_tax_statistics_2024_25_corrected_2026_03_11",
             "extracted_at": "2026-10-15",
-            "extraction_method": "ODS whole-workbook used-range cell parse",
-            "parser": "ods_used_range",
+            "extraction_method": (
+                "ODS whole-workbook used-range parse with numeric-text coercion"
+            ),
+            "parser": "ods_numeric_text_used_range",
             "artifact_year": 2025,
         },
         "record_sets": record_sets,
@@ -572,7 +1587,8 @@ STAMPS_HEADER = """\
 # Not ported: Table 6b's percentage columns (C, G and I, text cells that divide published
 # counts), its 'Residential receipts' column (E, which restates Table 8a's all-buyer
 # receipts and Table 6a's residential receipts by band) and its corporate-bodies row (only
-# column E is published). The workbook's other tables are not asked for.
+# column E is published). The workbook's other tables were not asked for by #357;
+# PolicyEngine/chronicle#408's are below.
 #
 # Coverage: SDLT applies in England and Northern Ireland (publication page; commentary
 # section 3.1), so facts carry the scope hmrc:england_and_northern_ireland. Transactions
@@ -581,6 +1597,46 @@ STAMPS_HEADER = """\
 # GBP 5 million), so bands need not sum to the 'All price bands' row; [X] marks fewer
 # than 50 transactions, under GBP 2.5 million or not available, and emits no fact.
 # Periods are financial years ending in March. The vintage names the corrected edition.
+#
+# Added for PolicyEngine/chronicle#408 item 5, from the same pinned workbook:
+# - Table 7, individuals' residential purchases by the first-listed purchaser's age band
+#   (fifteen bands, 'Unknown' among them) and price band, both years. The sheet says
+#   transactions are rounded to the nearest 100, but the 2024-25 sheet prints unrounded
+#   counts, including counts under 50 that its [X] note would withhold; they are stored
+#   as printed. 'All ages' restates Table 8a's individuals (exactly in 2023-24, to 8a's
+#   rounding in 2024-25, where it is also the exact sum of the age columns) and is not
+#   ported again; nor are the percentage columns.
+# - Table 3a, transactions, property value and receipts by property type, by country
+#   and, within England, region. 'All countries' is England and Northern Ireland; its
+#   residential and non-residential cells restate Tables 8a and 8b's all-buyer totals and
+#   are not ported again, its totals are.
+# - Table 5a, residential SDLT by price band, by country and region. Its price bands
+#   include corporate bodies paying the flat rate, which Table 8a reports on a row of its
+#   own: the all-countries bands above GBP 500,000 exceed 8a's by that row (in 2024-25 by
+#   exactly its GBP 405 million of property value). Its facts carry
+#   sdlt_corporate_flat_rate: included_in_price_bands. Its 'All price bands' columns
+#   restate Table 3a's residential columns and are not ported again. The 2024-25 sheet's
+#   title and contents entry say 2023-24; its own note says 2024-25 and its totals are 8a's
+#   2024-25 totals, so it is stamped 2024-25. The 2023-24 sheet stores some numbers as
+#   text ('15800'), which the package now reads with numeric-text coercion; no cell the
+#   chronicle#357 record sets read is text, and their facts are unchanged.
+# - Table 9a, First Time Buyers' Relief (FTBR) by country and region: amount relieved,
+#   claims, the average relief, and exempt and liable claims.
+# - Table 9d, FTBR claims by the first-listed purchaser's age band, in total and exempt
+#   and liable; its 'All ages' column restates 9a's all-countries claims.
+# - Table 2e, quarterly FTBR, 2017 Q4 to 2025 Q1: amount relieved, claims, and exempt and
+#   liable claims. Despite its title it is not split by price band. 2024 Q2 to 2025 Q1
+#   print unrounded, fractional claims, stored as printed; 2020 Q4 to 2021 Q2 are [X]
+#   (the SDLT holiday) and emit no fact. Quarters before April 2018 carry England, Wales
+#   and Northern Ireland, where SDLT then applied (sheet note).
+# - Exempt claims are in most cases purchases below the zero rate threshold, and liable
+#   claims those above it but below the maximum price: GBP 425,000 and GBP 625,000 from 23
+#   September 2022 to 31 March 2025, which covers both years' relief counts, and GBP
+#   300,000 and GBP 500,000 before (Table 2e notes).
+# - Not ported: the FTBR percentages (9a column H, 2e column F) and Table 7's percentages,
+#   text that divides published counts, as for Table 6b; Tables 4a to 4d, 9b and 9c. The
+#   artifact's source_table still names Tables 6b, 8a and 8b: it is part of every fact's
+#   key, so changing it would re-key chronicle#357's facts.
 """
 
 

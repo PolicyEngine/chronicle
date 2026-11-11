@@ -2,26 +2,16 @@
 
 from chronicle.client import get_supabase_client
 from chronicle.normalization import convert_units
-from chronicle.targets import (
-    Target,
-    TargetType,
-    query_targets,
+from chronicle.targets import TargetSourceCoverage, coverage_entries
+from chronicle.targets.us_poverty import (
+    TargetSourceCoverage as UsPovertyTargetSourceCoverage,
 )
-from db.schema import Target as DbTarget
-from db.supabase_client import (
-    LEDGER_SCHEMA,
-    TARGETS_SCHEMA,
-    query_targets as db_query_targets,
-)
+from db.supabase_client import LEDGER_SCHEMA
 
 
-def test_chronicle_targets_reexport_schema_objects():
-    assert Target is DbTarget
-    assert TargetType.COUNT.value == "count"
-
-
-def test_chronicle_targets_reexport_client_helpers():
-    assert query_targets is db_query_targets
+def test_chronicle_targets_reexports_source_coverage_helpers():
+    assert TargetSourceCoverage is UsPovertyTargetSourceCoverage
+    assert callable(coverage_entries)
 
 
 def test_chronicle_client_reexports_supabase_client():
@@ -30,7 +20,6 @@ def test_chronicle_client_reexports_supabase_client():
 
 def test_chronicle_supabase_schema_boundaries_are_defaulted():
     assert LEDGER_SCHEMA == "ledger"
-    assert TARGETS_SCHEMA == "targets"
 
 
 def test_chronicle_normalization_exports_helpers():

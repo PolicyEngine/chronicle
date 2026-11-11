@@ -34,7 +34,8 @@ RECEIPTS = "obr-efo-receipts-march-2026"
 EXPENDITURE = "obr-efo-expenditure-march-2026"
 MTUC = "dwp-mtuc-households-legacy-benefit-move-status-july-2022-june-2026"
 NEW_PACKAGES = {
-    STAMPS: (2025, 352),
+    # 352 facts from Tables 6b, 8a and 8b; 1,135 from chronicle#408's tables.
+    STAMPS: (2025, 1487),
     HBAI: (2025, 124),
     HBAI_CI: (2025, 8),
     MTUC: (2026, 80),
@@ -137,16 +138,23 @@ def test_stamp_table_6b_keeps_the_surcharge_gross(facts):
 
 
 def test_stamp_facts_state_coverage_threshold_and_edition(facts):
-    stamps = facts[STAMPS]
+    # chronicle#408's tables add areas and quarters, which
+    # tests/test_source_uk_408_facts.py covers.
+    stamps = [
+        f
+        for f in facts[STAMPS]
+        if f.layout.record_set_id.split(".")[2] in {"table_6b", "table_8a", "table_8b"}
+    ]
+    assert len(stamps) == 352
     assert {f.geography.id for f in stamps} == {"hmrc:england_and_northern_ireland"}
     assert {f.geography.level for f in stamps} == {"statistical_scope"}
     assert {f.geography.name for f in stamps} == {"England and Northern Ireland"}
     assert {f.period.type for f in stamps} == {"fiscal_year"}
     assert {f.period.value for f in stamps} == {2023, 2024}
-    assert {f.source.vintage for f in stamps} == {
+    assert {f.source.vintage for f in facts[STAMPS]} == {
         "annual_stamp_tax_statistics_2024_25_corrected_2026_03_11"
     }
-    for fact in stamps:
+    for fact in facts[STAMPS]:
         threshold = [
             c for c in fact.constraints if c.variable == "sdlt_chargeable_consideration"
         ]

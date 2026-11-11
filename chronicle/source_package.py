@@ -10,6 +10,7 @@ from io import BytesIO
 from pathlib import Path
 import re
 import time
+from collections.abc import Mapping, Sequence
 from typing import Any
 from urllib.parse import unquote, urlparse
 from zipfile import ZipFile
@@ -32,7 +33,15 @@ from chronicle.core import (
     AggregateFact,
     build_label,
 )
-from chronicle.dimension_labels import label_facts, unused_label_declarations
+from chronicle.dimension_labels import (
+    REGISTER_DISPLAY_PATH,
+    canonical_value_label,
+    declared_value_label_issues,
+    dimension_value_id,
+    in_package_value_label_remedy,
+    label_facts,
+    unused_label_declarations,
+)
 from chronicle.epoch import SCHEMA_IDS, schema_id
 from chronicle.sources.cells import (
     SourceArtifactMetadata,
@@ -248,6 +257,9 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "stats-nz-qes-average-weekly-earnings-june-2026": Path(
         "stats_nz/qes_average_weekly_earnings_june_2026"
+    ),
+    "stats-nz-qes-average-weekly-earnings-september-2026": Path(
+        "stats_nz/qes_average_weekly_earnings_september_2026"
     ),
     "stats-nz-subnational-population-estimates-2025": Path(
         "stats_nz/subnational_population_estimates_2025"
@@ -509,6 +521,52 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/employee_workplace_pensions_summary_2024"
     ),
     # end chronicle#302
+    # chronicle#407 (PolicyEngine/microcosm#1490): APS employment by occupation and
+    # ASHE Table 2 earnings by two-digit SOC 2020.
+    "ons-aps218-occupation-apr-2024-mar-2025": Path(
+        "ons/aps218_occupation_apr_2024_mar_2025"
+    ),
+    "ons-aps218-occupation-jan-dec-2025": Path("ons/aps218_occupation_jan_dec_2025"),
+    "ons-aps218-occupation-apr-2025-mar-2026": Path(
+        "ons/aps218_occupation_apr_2025_mar_2026"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-2024-revised": Path(
+        "ons/ashe_table2_weekly_pay_gross_2024_revised"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-cv-2024-revised": Path(
+        "ons/ashe_table2_weekly_pay_gross_cv_2024_revised"
+    ),
+    "ons-ashe-table2-annual-pay-gross-2024-revised": Path(
+        "ons/ashe_table2_annual_pay_gross_2024_revised"
+    ),
+    "ons-ashe-table2-annual-pay-gross-cv-2024-revised": Path(
+        "ons/ashe_table2_annual_pay_gross_cv_2024_revised"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-2025-revised": Path(
+        "ons/ashe_table2_weekly_pay_gross_2025_revised"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-cv-2025-revised": Path(
+        "ons/ashe_table2_weekly_pay_gross_cv_2025_revised"
+    ),
+    "ons-ashe-table2-annual-pay-gross-2025-revised": Path(
+        "ons/ashe_table2_annual_pay_gross_2025_revised"
+    ),
+    "ons-ashe-table2-annual-pay-gross-cv-2025-revised": Path(
+        "ons/ashe_table2_annual_pay_gross_cv_2025_revised"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-2026-provisional": Path(
+        "ons/ashe_table2_weekly_pay_gross_2026_provisional"
+    ),
+    "ons-ashe-table2-weekly-pay-gross-cv-2026-provisional": Path(
+        "ons/ashe_table2_weekly_pay_gross_cv_2026_provisional"
+    ),
+    "ons-ashe-table2-annual-pay-gross-2026-provisional": Path(
+        "ons/ashe_table2_annual_pay_gross_2026_provisional"
+    ),
+    "ons-ashe-table2-annual-pay-gross-cv-2026-provisional": Path(
+        "ons/ashe_table2_annual_pay_gross_cv_2026_provisional"
+    ),
+    # end chronicle#407
     # chronicle#343: high-value housing facts for the UK local calibration (the
     # Price Paid, UK HPI and NSPL releases are raw-only registrations, not packages).
     "obr-hvcts-costing-april-2026": Path("obr/hvcts_costing_april_2026"),
@@ -589,6 +647,97 @@ SOURCE_PACKAGE_ALIASES = {
         "nrs/census2022_uv404_tenure_output_area"
     ),
     # end chronicle#326
+    # chronicle#420: young people and work (PolicyEngine/uk-young-people-work-review):
+    # ONS NEET, LFS table A06, PAYE RTI by age, ASHE Table 6 and HMRC's employer
+    # NICs reliefs for young employees, and DWP's people on Universal Credit by age
+    # and conditionality regime.
+    "ons-neet-august-2026": Path("ons/neet_august_2026"),
+    "ons-a06-sa-october-2026": Path("ons/a06_sa_october_2026"),
+    "ons-a06-nsa-october-2026": Path("ons/a06_nsa_october_2026"),
+    "ons-paye-rti-age-nsa-october-2026": Path("ons/paye_rti_age_nsa_october_2026"),
+    "ons-ashe-table6-weekly-pay-gross-2024-revised": Path(
+        "ons/ashe_table6_weekly_pay_gross_2024_revised"
+    ),
+    "ons-ashe-table6-weekly-pay-gross-cv-2024-revised": Path(
+        "ons/ashe_table6_weekly_pay_gross_cv_2024_revised"
+    ),
+    "ons-ashe-table6-annual-pay-gross-2024-revised": Path(
+        "ons/ashe_table6_annual_pay_gross_2024_revised"
+    ),
+    "ons-ashe-table6-annual-pay-gross-cv-2024-revised": Path(
+        "ons/ashe_table6_annual_pay_gross_cv_2024_revised"
+    ),
+    "ons-ashe-table6-weekly-pay-gross-2025-revised": Path(
+        "ons/ashe_table6_weekly_pay_gross_2025_revised"
+    ),
+    "ons-ashe-table6-weekly-pay-gross-cv-2025-revised": Path(
+        "ons/ashe_table6_weekly_pay_gross_cv_2025_revised"
+    ),
+    "ons-ashe-table6-annual-pay-gross-2025-revised": Path(
+        "ons/ashe_table6_annual_pay_gross_2025_revised"
+    ),
+    "ons-ashe-table6-annual-pay-gross-cv-2025-revised": Path(
+        "ons/ashe_table6_annual_pay_gross_cv_2025_revised"
+    ),
+    "ons-ashe-table6-weekly-pay-gross-2026-provisional": Path(
+        "ons/ashe_table6_weekly_pay_gross_2026_provisional"
+    ),
+    "ons-ashe-table6-weekly-pay-gross-cv-2026-provisional": Path(
+        "ons/ashe_table6_weekly_pay_gross_cv_2026_provisional"
+    ),
+    "ons-ashe-table6-annual-pay-gross-2026-provisional": Path(
+        "ons/ashe_table6_annual_pay_gross_2026_provisional"
+    ),
+    "ons-ashe-table6-annual-pay-gross-cv-2026-provisional": Path(
+        "ons/ashe_table6_annual_pay_gross_cv_2026_provisional"
+    ),
+    "hmrc-employer-nics-age-reliefs-january-2026": Path(
+        "hmrc/employer_nics_age_reliefs_january_2026"
+    ),
+    "dwp-uc-people-country-age-conditionality-regime-april-2024-may-2026": Path(
+        "dwp/uc_people_country_age_conditionality_regime_april_2024_may_2026"
+    ),
+    # end chronicle#420 (young people)
+    # chronicle#420: the PIP review (PolicyEngine/uk-pip-review-2026): DWP's
+    # Pathways to Work evidence pack (PIP points) and Stat-Xplore PIP cases with
+    # entitlement.
+    "dwp-pathways-to-work-pip-points-january-2025": Path(
+        "dwp/pathways_to_work_pip_points_january_2025"
+    ),
+    "dwp-pip-cases-by-constituency-july-2026": Path(
+        "dwp/pip_cases_by_constituency_july_2026"
+    ),
+    "dwp-pip-cases-by-local-authority-july-2026": Path(
+        "dwp/pip_cases_by_local_authority_july_2026"
+    ),
+    "dwp-pip-cases-country-award-age-january-2024-july-2026": Path(
+        "dwp/pip_cases_country_award_age_january_2024_july_2026"
+    ),
+    "dwp-pip-cases-country-disability-award-january-2024-july-2026": Path(
+        "dwp/pip_cases_country_disability_award_january_2024_july_2026"
+    ),
+    "dwp-pip-cases-country-end-of-life-rules-award-january-2024-july-2026": Path(
+        "dwp/pip_cases_country_end_of_life_rules_award_january_2024_july_2026"
+    ),
+    "dwp-pip-cases-region-award-january-2024-july-2026": Path(
+        "dwp/pip_cases_region_award_january_2024_july_2026"
+    ),
+    # end chronicle#420 (PIP)
+    # chronicle#420: the Scottish Budget 2027-28
+    # (PolicyEngine/uk-scottish-budget-2027-28): HMRC's Scottish income tax outturn
+    # and Social Security Scotland's caseloads.
+    "hmrc-scottish-income-tax-outturn-2024-25": Path(
+        "hmrc/scottish_income_tax_outturn_2024_25"
+    ),
+    "scotgov-adp-caseload-july-2026": Path("scotgov/adp_caseload_july_2026"),
+    "scotgov-carer-support-payment-caseload-june-2026": Path(
+        "scotgov/carer_support_payment_caseload_june_2026"
+    ),
+    "scotgov-child-disability-payment-caseload-june-2026": Path(
+        "scotgov/child_disability_payment_caseload_june_2026"
+    ),
+    "scotgov-padp-caseload-july-2026": Path("scotgov/padp_caseload_july_2026"),
+    # end chronicle#420 (Scotland)
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),
@@ -835,6 +984,7 @@ SOURCE_PACKAGE_ALIASES = {
     "census-pep-county-population-2024": Path("census/pep_county_2024"),
     "census-pep-2024-national-age-sex": Path("census/pep_2024_national_age_sex"),
     "census-pep-2024-state-age-sex": Path("census/pep_2024_state_age_sex"),
+    "census-pep-2025-state-age-bands": Path("census/pep_2025_state_age_bands"),
     "census-population-projections-2023": Path("census/population_projections_2023"),
     "census-stc-individual-income-tax": Path("census/stc_individual_income_tax"),
     "cms-medicaid-chip-monthly-enrollment-december-2024": Path(
@@ -1096,6 +1246,30 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/mm23_cpi_index_liquefied_hydrocarbons_october_2026"
     ),
     # end PolicyEngine/chronicle#395
+    # PolicyEngine/chronicle#408: UK land value inputs
+    "mhclg-land-value-estimates-2023": Path("mhclg/land_value_estimates_2023"),
+    "voa-council-tax-bands-2026": Path("voa/council_tax_bands_2026"),
+    "voa-council-tax-property-types-2026": Path("voa/council_tax_property_types_2026"),
+    "voa-council-tax-build-periods-2026": Path("voa/council_tax_build_periods_2026"),
+    "mhclg-epc-d3-domestic-2026-q3": Path("mhclg/epc_d3_domestic_2026_q3"),
+    "mhclg-live-table-126-dwelling-density-2026": Path(
+        "mhclg/live_table_126_dwelling_density_2026"
+    ),
+    "mhclg-council-tax-collection-by-authority-2025-26": Path(
+        "mhclg/council_tax_collection_by_authority_2025_26"
+    ),
+    "mhclg-council-tax-qrc4-2025-26": Path("mhclg/council_tax_qrc4_2025_26"),
+    "mhclg-market-value-survey-2024-chapter-1": Path(
+        "mhclg/market_value_survey_2024_chapter_1"
+    ),
+    "mhclg-market-value-survey-2024-chapter-3": Path(
+        "mhclg/market_value_survey_2024_chapter_3"
+    ),
+    "mhclg-market-value-survey-2024-chapter-4": Path(
+        "mhclg/market_value_survey_2024_chapter_4"
+    ),
+    "ons-land-underlying-buildings-2022": Path("ons/land_underlying_buildings_2022"),
+    # end PolicyEngine/chronicle#408
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"
     ),
@@ -2477,6 +2651,103 @@ def try_load_source_package(source: str | Path) -> SourcePackage | None:
         return None
 
 
+def _row_value_label_issues(
+    record_sets: Sequence[SourceRecordSetSpec],
+    declared_value_labels: Mapping[str, Mapping[str, str]],
+    *,
+    package_path: Path | None = None,
+) -> list[SourcePackageIssue]:
+    """Refuse a groupby value the package's rows label two ways (chronicle#376).
+
+    Each row's ``label:`` becomes its facts' value label unless Chronicle's
+    register lists the value or the package declares one label for it in
+    ``dimension_value_labels``; the rows' wording is then kept as the
+    package's own, in ``package_dimension_value_labels``. Otherwise rows
+    that word one value differently would give its facts two labels, which
+    ``build-bundle`` refuses. This finds it from the package file alone, at
+    any build year.
+    """
+
+    labels_by_value: dict[tuple[str, str], set[str]] = {}
+    record_sets_by_value: dict[tuple[str, str], list[str]] = {}
+    for record_set in record_sets:
+        groupby = (record_set.groupby_dimension or "").strip()
+        if not groupby:
+            continue
+        for row in record_set.rows:
+            label = (row.label or "").strip()
+            if not label:
+                continue
+            value_id = dimension_value_id(row.value_id)
+            if canonical_value_label(groupby, value_id) or (
+                declared_value_labels.get(groupby, {}).get(value_id)
+            ):
+                continue
+            labels_by_value.setdefault((groupby, value_id), set()).add(label)
+            record_sets_by_value.setdefault((groupby, value_id), []).append(
+                record_set.record_set_id
+            )
+    where = f" in {_display_package_path(package_path)}" if package_path else ""
+    return [
+        SourcePackageIssue(
+            code="conflicting_value_label",
+            message=(
+                f"Dimension {dimension_id!r} value {value_id!r} is labelled "
+                f"{sorted(labels)!r} by the rows of this package{where}. "
+                f"{in_package_value_label_remedy(dimension_id, value_id)}"
+            ),
+            record_set_id=record_sets_by_value[(dimension_id, value_id)][0],
+            row_id=value_id,
+        )
+        for (dimension_id, value_id), labels in sorted(labels_by_value.items())
+        if len(labels) > 1
+    ]
+
+
+def _declared_value_label_register_issues(
+    declared_value_labels: Mapping[str, Mapping[str, Any]],
+    *,
+    package_path: Path | None = None,
+) -> list[SourcePackageIssue]:
+    """Refuse a declaration that Chronicle's register contradicts (chronicle#376).
+
+    Every fact takes the register's label for a value it lists, so a package
+    declaration with other text would never reach a fact and would mislead
+    whoever reads the package file. The register is the one source of those
+    labels; the package's rows keep their own wording.
+    """
+
+    where = f" in {_display_package_path(package_path)}" if package_path else ""
+    return [
+        SourcePackageIssue(
+            code="declared_value_label_differs_from_register",
+            message=(
+                f"dimension_value_labels.{dimension_id}.{value_id} declares "
+                f"{declared!r}{where}, but Chronicle's register "
+                f"({REGISTER_DISPLAY_PATH}) labels this value {canonical!r}, "
+                "and every fact takes the register's label (chronicle#376). "
+                f"Change the declaration to {canonical!r}."
+            ),
+            row_id=value_id,
+        )
+        for dimension_id, value_id, declared, canonical in (
+            declared_value_label_issues(declared_value_labels)
+        )
+    ]
+
+
+def _display_package_path(package_path: str | Path) -> str:
+    """Return a package file's path relative to the repository when it can."""
+
+    path = Path(package_path)
+    if path.is_dir():
+        path = path / "source_package.yaml"
+    try:
+        return str(path.resolve().relative_to(Path(__file__).resolve().parents[1]))
+    except ValueError:
+        return str(path)
+
+
 def validate_source_package(
     source: str | Path,
     *,
@@ -2577,6 +2848,19 @@ def validate_source_package(
             source_record_ids.setdefault(spec.source_record_id, []).append(spec_index)
             counts["source_record_count"] += 1
 
+    errors.extend(
+        _row_value_label_issues(
+            record_sets,
+            package.dimension_value_labels or {},
+            package_path=package.package_path,
+        )
+    )
+    errors.extend(
+        _declared_value_label_register_issues(
+            package.dimension_value_labels or {},
+            package_path=package.package_path,
+        )
+    )
     for record_set_id, indices in record_set_ids.items():
         if len(indices) > 1:
             errors.append(
