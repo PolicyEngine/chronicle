@@ -19,7 +19,6 @@ import hashlib
 import itertools
 import json
 import sqlite3
-from datetime import datetime
 from pathlib import Path
 
 from chronicle.bundle import (
@@ -49,14 +48,6 @@ KEPT_SUITE_FILES = (
 )
 
 
-class _FrozenDatetime(datetime):
-    """``ledger.db`` stores its build time; pin it so two builds match byte for byte."""
-
-    @classmethod
-    def now(cls, tz=None):
-        return cls(2026, 1, 1, tzinfo=tz)
-
-
 def _file_hashes(root: Path) -> dict[str, str]:
     return {
         path.relative_to(root).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
@@ -65,8 +56,8 @@ def _file_hashes(root: Path) -> dict[str, str]:
     }
 
 
-def test_slim_bundle_matches_full_bundle_byte_for_byte(tmp_path, monkeypatch):
-    monkeypatch.setattr("chronicle.database.datetime", _FrozenDatetime)
+def test_slim_bundle_matches_full_bundle_byte_for_byte(tmp_path):
+    # ledger.db's build time comes from SOURCE_DATE_EPOCH, not the clock (#316).
     # One output path for both builds: reports embed absolute output paths.
     output_dir = tmp_path / "bundle"
 
