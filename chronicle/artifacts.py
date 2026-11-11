@@ -55,6 +55,7 @@ R2_COUNTRY_PUBLISHERS = {
             "nrs",
             "obr",
             "ons",
+            "ros",
             "scotgov",
             "slc",
             "ucl",

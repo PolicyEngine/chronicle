@@ -33,6 +33,17 @@ BUNDLE_SCHEMA_VERSION = schema_id("bundle")
 BUNDLE_COVERAGE_SCHEMA_VERSION = schema_id("bundle_coverage")
 BUNDLE_SOURCES_SCHEMA_VERSION = schema_id("bundle_sources")
 DEFAULT_BUNDLE_SOURCES = tuple(sorted(SOURCE_PACKAGE_ALIASES))
+# Per-source suite files that bundle assembly never reads back: it merges each
+# suite's consumer_facts.jsonl and keeps its reports. A slim bundle
+# (keep_suite_intermediates=False) deletes these as each suite finishes; the
+# BEA NIPA suites alone write a 1 GB ledger.db each for under 100 KB of facts.
+SUITE_INTERMEDIATE_FILES = (
+    "source_rows.jsonl",
+    "source_cells.jsonl",
+    "facts.jsonl",
+    "ledger.db",
+)
+PRUNED_INTERMEDIATES_REPORT = "pruned_intermediates.json"
 UK_BUNDLE_SOURCE_PREFIXES = (
     "desnz",
     "dfc_ni",
@@ -52,6 +63,7 @@ UK_BUNDLE_SOURCE_PREFIXES = (
     "ofgem",
     "ons",
     "orr",
+    "ros",
     "scotgov",
     "slc",
     "voa",
@@ -68,9 +80,12 @@ UK_BUNDLE_SOURCES = (
     "desnz-need-scotland-2023",
     "desnz-need-scotland-2024",
     "desnz-qep-electricity-annual-bills-2026",
+    "desnz-qep-electricity-payment-methods-2026",
     "desnz-qep-electricity-unit-fixed-costs-2026",
     "desnz-qep-gas-annual-bills-2026",
+    "desnz-qep-gas-payment-methods-2026",
     "desnz-qep-gas-unit-fixed-costs-2026",
+    "desnz-qep-time-of-use-electricity-payment-methods-2026",
     "desnz-road-transport-fuel-consumption-2024",
     "desnz-subnational-electricity-consumption-2024",
     "desnz-subnational-electricity-consumption-northern-ireland-2024",
@@ -367,6 +382,7 @@ UK_BUNDLE_SOURCES = (
     "orr-government-support-7271-2024-25",
     "orr-rail-fares-7180-2026",
     "orr-rail-finance-7223-2024-25",
+    "ros-property-market-report-2025-26",
     "scotgov-adp-caseload-july-2026",
     "scotgov-band-d-council-tax-rates-2026-27",
     "scotgov-band-d-equivalents-2025",
@@ -379,10 +395,12 @@ UK_BUNDLE_SOURCES = (
     "scotgov-council-tax-bands-2025",
     "scotgov-council-tax-collection-2024-25",
     "scotgov-council-tax-collection-2025-26",
+    "scotgov-council-tax-high-value-bands-consultation-2026",
     "scotgov-dwelling-stock-by-tenure-2024",
     "scotgov-padp-caseload-july-2026",
     "scotgov-private-sector-rents-2025",
     "scotgov-scottish-budget-social-security-assistance-2026",
+    "scotgov-second-homes-empty-properties-2025",
     "scotgov-slgfs-council-tax-2024-25",
     "slc-student-loan-borrower-forecasts-england-2025",
     "slc-student-loan-repayments-england-2025",
@@ -829,8 +847,18 @@ def build_bundle(
     axiom_roots: Sequence[str | Path] = (),
     require_axiom_validation: bool = False,
     replace: bool = False,
+    keep_suite_intermediates: bool = True,
 ) -> BuildBundleReport:
-    """Build source-package suites and merge their consumer-contract facts."""
+    """Build source-package suites and merge their consumer-contract facts.
+
+    With ``keep_suite_intermediates=False`` each suite's
+    ``SUITE_INTERMEDIATE_FILES`` are deleted as soon as that suite finishes,
+    whether or not it built, and ``reports/pruned_intermediates.json`` lists
+    what was deleted. Slim mode changes no file the bundle keeps, so its
+    reports and sidecars still name or hash the deleted files
+    (tests/test_chronicle_bundle_slim.py compares every kept file with a full
+    build's, byte for byte).
+    """
     build_created_at()  # Refuse a malformed SOURCE_DATE_EPOCH before writing.
     output_path = Path(output_dir)
     _prepare_output_dir(output_path, replace=replace)
@@ -865,6 +893,7 @@ def build_bundle(
     # for the default bundle's 1.74M rows, close to the runner's memory. The file
     # takes its final name once every package is in it; a failed build removes it.
     coverage_counts = _BundleCoverage()
+    pruned_suites: list[dict[str, Any]] = []
     consumer_facts_path = output_path / "consumer_facts.jsonl"
     partial_facts_path = output_path / "consumer_facts.jsonl.partial"
     partial_facts_path.write_text("", encoding="utf-8")
@@ -891,6 +920,17 @@ def build_bundle(
                     )
                 )
                 continue
+            finally:
+                if not keep_suite_intermediates:
+                    pruned_files = _prune_suite_intermediates(suite_dir)
+                    if pruned_files:
+                        pruned_suites.append(
+                            {
+                                "source": source,
+                                "output_dir": str(suite_dir),
+                                "files": pruned_files,
+                            }
+                        )
 
             if not suite_report.valid:
                 errors.append(
@@ -1002,6 +1042,19 @@ def build_bundle(
         warnings=tuple(warnings),
     )
     _write_report(report_path, report.to_dict())
+    if not keep_suite_intermediates:
+        _write_report(
+            reports_path / PRUNED_INTERMEDIATES_REPORT,
+            {
+                "pruned_file_names": list(SUITE_INTERMEDIATE_FILES),
+                "suite_count": len(pruned_suites),
+                "file_count": sum(len(suite["files"]) for suite in pruned_suites),
+                "bytes": sum(
+                    file["bytes"] for suite in pruned_suites for file in suite["files"]
+                ),
+                "suites": pruned_suites,
+            },
+        )
     return report
 
 
@@ -1545,6 +1598,19 @@ def _observed_concept_key(row: dict[str, Any]) -> str | None:
 
 def _canonical_concept_key(row: dict[str, Any]) -> str | None:
     return row.get("concept_alignment", {}).get("canonical_concept")
+
+
+def _prune_suite_intermediates(suite_dir: Path) -> list[dict[str, Any]]:
+    """Delete a suite's intermediate files and return each one's name and size."""
+    pruned: list[dict[str, Any]] = []
+    for name in SUITE_INTERMEDIATE_FILES:
+        path = suite_dir / name
+        if not path.is_file():
+            continue
+        size = path.stat().st_size
+        path.unlink()
+        pruned.append({"name": name, "bytes": size})
+    return pruned
 
 
 def _safe_source_dir_name(source: str) -> str:
