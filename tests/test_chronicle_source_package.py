@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import csv
 import hashlib
 from io import BytesIO
 from pathlib import Path
+import re
 from zipfile import ZipFile
 
 import openpyxl
@@ -35,6 +37,7 @@ from chronicle.sources.cells import build_source_cell_key, validate_source_cells
 from chronicle.sources.rows import validate_source_rows
 from chronicle.sources.specs import resolve_source_record
 from chronicle.suite import build_source_suite
+from chronicle.yaml_io import safe_load as safe_load_yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 ALLOWED_PROVENANCE_CLASSES = {
@@ -225,7 +228,7 @@ def test_hmrc_packages_preserve_provenance_and_definition_year_metadata():
 
     assert hmrc_packages
     for path in hmrc_packages:
-        payload = yaml.safe_load(path.read_text())
+        payload = safe_load_yaml(path.read_text())
         artifact = payload["artifact"]
         assert artifact["vintage"]
         assert isinstance(artifact["artifact_year"], int)
@@ -743,7 +746,7 @@ def test_every_source_package_record_set_declares_provenance_class():
             for line in text.splitlines()
             if line.lstrip().startswith("provenance_class:")
         )
-        payload = yaml.safe_load(text)
+        payload = safe_load_yaml(text)
         for index, record_set in enumerate(payload["record_sets"]):
             record_set_count += 1
             record_set_id = record_set.get("record_set_id", f"index {index}")
@@ -1622,6 +1625,13 @@ def test_national_soi_source_package_aliases_validate_fixture_counts():
             "source_record_count": 1836,
             "source_region_count": 51,
         },
+        "soi-historic-table-2-state-agi-2023": {
+            "record_set_count": 51,
+            "row_count": 510,
+            "measure_count": 102,
+            "source_record_count": 1020,
+            "source_region_count": 51,
+        },
         "soi-historic-table-2-state-broad-2022": {
             "record_set_count": 51,
             "row_count": 51,
@@ -2482,7 +2492,7 @@ def test_ssa_ssi_table_7b1_source_package_builds_area_category_facts():
     assert package.package_id == "ssa-ssi-table-7b1-2024"
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
-    assert len(cells) == 1_672
+    assert len(cells) == 715
     assert len(facts) == 416
     assert all(fact.source.raw_r2_uri for fact in facts)
 
@@ -2503,7 +2513,7 @@ def test_ssa_ssi_table_7b1_source_package_builds_area_category_facts():
     assert us_payments.measure.concept == "ssa.ssi_payment_amount"
     assert us_payments.constraints == ()
 
-    assert ca_disabled_recipients.value == 849_834
+    assert ca_disabled_recipients.value == 753_206
     assert ca_disabled_recipients.geography.id == "0400000US06"
     assert ca_disabled_recipients.measure.concept == "ssa.ssi_recipient_count"
     assert {
@@ -2511,7 +2521,7 @@ def test_ssa_ssi_table_7b1_source_package_builds_area_category_facts():
         for constraint in ca_disabled_recipients.constraints
     } == {("ssi_category", "==", "disabled")}
 
-    assert ca_disabled_payments.value == 9_834_761_000
+    assert ca_disabled_payments.value == 8_036_411_000
     assert ca_disabled_payments.geography.id == "0400000US06"
 
 
@@ -2554,7 +2564,7 @@ def test_ssa_ssi_monthly_2024_12_package_builds_federal_payment_age_facts():
     # SSA SSI Monthly Statistics, December 2024, Table 1, "Total with—
     # Federal payment" row: persons receiving a federal SSI payment in
     # December 2024, by the three published age groups. These are the
-    # PolicyEngine/populace#470 age-band take-up count targets.
+    # PolicyEngine/microcosm#470 age-band take-up count targets.
     assert all_ages.value == 7_289_843
     assert under_18.value == 1_001_922
     assert aged_18_to_64.value == 3_905_779
@@ -2945,11 +2955,185 @@ def test_census_pep_state_source_package_alias_validates_fixture_counts():
     assert report.valid
     assert report.counts == {
         "record_set_count": 51,
-        "row_count": 969,
+        "row_count": 918,
         "measure_count": 51,
-        "source_record_count": 969,
+        "source_record_count": 918,
         "source_region_count": 51,
     }
+
+
+def test_census_pep_2025_state_age_bands_source_package_validates_counts():
+    report = validate_source_package("census-pep-2025-state-age-bands", year=2023)
+
+    assert report.valid
+    assert report.counts == {
+        "record_set_count": 51,
+        "row_count": 816,
+        "measure_count": 51,
+        "source_record_count": 816,
+        "source_region_count": 51,
+    }
+
+
+def test_census_pep_2025_state_age_bands_partition_each_state():
+    package = load_source_package("census-pep-2025-state-age-bands")
+    rows = package.build_source_rows(2024)
+    cells = package.build_source_cells(2024, source_rows=rows)
+    facts = package.build_facts(2024, cells=cells, source_rows=rows)
+
+    assert validate_facts(facts).valid
+    assert {fact.period.value for fact in facts} == {2024}
+    values: dict[str, dict[str, float]] = {}
+    bounds: dict[str, dict[str, tuple[int, float]]] = {}
+    for fact in facts:
+        prefix, state, value_id, measure = fact.source_record_id.rsplit(".", 3)
+        assert prefix == "census_pep.v2025.cy2024.state_resident_population_age_bands"
+        assert measure == "population"
+        assert fact.geography.id == f"0400000US{state}"
+        values.setdefault(state, {})[value_id] = float(fact.value)
+        if value_id == "all":
+            continue
+        lower = upper = None
+        for constraint in fact.constraints:
+            if constraint.variable == "age" and constraint.operator == ">=":
+                lower = int(constraint.value)
+            if constraint.variable == "age" and constraint.operator == "<":
+                upper = int(constraint.value)
+        bounds.setdefault(state, {})[value_id] = (
+            lower,
+            float("inf") if upper is None else upper,
+        )
+    assert len(values) == 51
+    for state, state_values in values.items():
+        assert len(state_values) == 16
+        # The state's fifteen age groups tile [0, inf) without a gap or an overlap.
+        edges = sorted(bounds[state].values())
+        assert edges[0][0] == 0 and edges[-1][1] == float("inf")
+        assert all(edges[i][1] == edges[i + 1][0] for i in range(len(edges) - 1))
+        groups_total = sum(v for k, v in state_values.items() if k != "all")
+        assert groups_total == state_values["all"]
+    # SC-EST2025-ALLDATA6, POPESTIMATE2024, SEX 0 and ORIGIN 0 summed over the
+    # six race groups.
+    indiana = values["18"]
+    assert [indiana[f"age_{age}"] for age in range(6)] == [
+        79070,
+        80279,
+        82196,
+        80483,
+        84136,
+        84966,
+    ]
+    assert indiana["6_to_11"] == 532317
+    assert indiana["12_to_17"] == 560707
+    assert indiana["18_to_24"] == 683990
+    assert indiana["75_plus"] == 518414
+    assert indiana["all"] == 6934754
+    assert values["06"]["all"] == 39364774
+    assert sum(state_values["all"] for state_values in values.values()) == 340003797
+
+
+def _census_pep_state_age_ranges(package_id: str) -> dict[tuple, float]:
+    package = load_source_package(package_id)
+    rows = package.build_source_rows(2024)
+    cells = package.build_source_cells(2024, source_rows=rows)
+    ranges: dict[tuple, float] = {}
+    for fact in package.build_facts(2024, cells=cells, source_rows=rows):
+        # A total and a fact bounded only by age >= 0 cover the same range.
+        lower, upper = 0, None
+        for constraint in fact.constraints:
+            if constraint.variable == "age" and constraint.operator == ">=":
+                lower = int(constraint.value)
+            if constraint.variable == "age" and constraint.operator == "<":
+                upper = int(constraint.value)
+        key = (fact.geography.id, fact.period.value, lower, upper)
+        assert key not in ranges
+        ranges[key] = float(fact.value)
+    return ranges
+
+
+def test_census_pep_vintages_give_each_state_age_range_one_number():
+    # Of two vintages' numbers for a line and year, Chronicle keeps the later
+    # (chronicle#397). Vintages 2024 and 2025 both estimate July 1, 2024, so
+    # Vintage 2024 leaves out each state's total, which Vintage 2025 also gives.
+    earlier = _census_pep_state_age_ranges("census-pep-2024-state-age-sex")
+    later = _census_pep_state_age_ranges("census-pep-2025-state-age-bands")
+
+    assert not earlier.keys() & later.keys()
+    assert (len(earlier), len(later)) == (918, 816)
+
+
+def _assert_census_pep_state_facts_equal_direct_csv_sums(
+    package_id: str, csv_path: str, age_groups: dict[str, tuple[int, int]]
+) -> None:
+    # Sum the state ALLDATA6 file with the csv module, apart from Chronicle's
+    # parser and selectors, and compare every fact with that sum. AGE 85 holds
+    # everyone 85 and over.
+    by_age: dict[str, list[int]] = {}
+    with (REPO_ROOT / csv_path).open(newline="", encoding="utf-8") as stream:
+        for row in csv.DictReader(stream):
+            if (row["SUMLEV"], row["SEX"], row["ORIGIN"]) != ("040", "0", "0"):
+                continue
+            ages = by_age.setdefault(f"{int(row['STATE']):02d}", [0] * 86)
+            ages[int(row["AGE"])] += int(row["POPESTIMATE2024"])
+    package = load_source_package(package_id)
+    rows = package.build_source_rows(2024)
+    cells = package.build_source_cells(2024, source_rows=rows)
+    facts = package.build_facts(2024, cells=cells, source_rows=rows)
+
+    compared = set()
+    for fact in facts:
+        _prefix, state, value_id, _measure = fact.source_record_id.rsplit(".", 3)
+        first, last = age_groups[value_id]
+        expected = sum(by_age[state][first : last + 1])
+        assert float(fact.value) == expected, fact.source_record_id
+        # The fact's age bounds name the ages its value sums.
+        bounds = {
+            constraint.operator: int(constraint.value)
+            for constraint in fact.constraints
+            if constraint.variable == "age"
+        }
+        if value_id == "all":
+            assert not bounds, fact.source_record_id
+        elif last == 85:
+            assert bounds == {">=": first}, fact.source_record_id
+        else:
+            assert bounds == {">=": first, "<": last + 1}, fact.source_record_id
+        compared.add((state, value_id))
+    assert len(by_age) == 51
+    assert len(compared) == len(facts) == 51 * len(age_groups)
+
+
+def test_census_pep_2025_state_age_bands_equal_direct_csv_sums():
+    _assert_census_pep_state_facts_equal_direct_csv_sums(
+        "census-pep-2025-state-age-bands",
+        "db/data/census/pep_2025_age_sex/sc-est2025-alldata6.csv",
+        {
+            "all": (0, 85),
+            **{f"age_{age}": (age, age) for age in range(6)},
+            "6_to_11": (6, 11),
+            "12_to_17": (12, 17),
+            "18_to_24": (18, 24),
+            "25_to_34": (25, 34),
+            "35_to_44": (35, 44),
+            "45_to_54": (45, 54),
+            "55_to_64": (55, 64),
+            "65_to_74": (65, 74),
+            "75_plus": (75, 85),
+        },
+    )
+
+
+def test_census_pep_2024_state_age_sex_equal_direct_csv_sums():
+    # Vintage 2024 keeps its eighteen five-year groups. A state total would
+    # fail the lookup below, since Vintage 2025 gives the totals (chronicle#397).
+    _assert_census_pep_state_facts_equal_direct_csv_sums(
+        "census-pep-2024-state-age-sex",
+        "db/data/census/pep_2024_age_sex/sc-est2024-alldata6.csv",
+        {
+            **{f"{age}_to_{age + 4}": (age, age + 4) for age in range(0, 85, 5)},
+            "85_plus": (85, 85),
+        },
+    )
 
 
 def test_census_population_projections_source_package_alias_validates_counts():
@@ -3729,7 +3913,7 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
     assert package.package_id == "soi-congressional-district-2022"
     assert len(rows) == 4_791
     assert len(cells) == 79_365
-    assert len(facts) == 26_880
+    assert len(facts) == 29_760
     assert validate_source_rows(rows).valid
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
@@ -3759,6 +3943,33 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
         "us.eitc_three_or_more_children_amount"
     ]
     assert eitc_three_or_more_amount.value == 13_600_954_503
+    # The IRS guide's columns: limited SALT is Schedule A line 5e (not 5a),
+    # the PTC is the total premium tax credit (not additional Medicare tax),
+    # and N19300/A19300 is line 8a mortgage interest (not the line 10 total).
+    us_columns = {
+        measure_id: (fact.value, fact.layout.source_column_id)
+        for record_id, fact in values_by_record.items()
+        if record_id.startswith(
+            "irs_soi.ty2022.congressional_district_2022.all_returns.us."
+        )
+        for measure_id in [record_id.rsplit(".", 1)[1]]
+    }
+    assert us_columns["limited_state_local_taxes_returns"] == (14_777_040, "N18460")
+    assert us_columns["limited_state_local_taxes_amount"] == (
+        121_189_294_000,
+        "A18460",
+    )
+    assert us_columns["premium_tax_credit_returns"] == (7_713_000, "N85770")
+    assert us_columns["premium_tax_credit_amount"] == (53_073_341_000, "A85770")
+    assert us_columns["mortgage_interest_paid_returns"] == (11_352_500, "N19300")
+    assert us_columns["mortgage_interest_paid_amount"] == (140_135_155_000, "A19300")
+    assert us_columns["home_mortgage_personal_seller_amount"] == (
+        2_583_705_000,
+        "A19500",
+    )
+    assert us_columns["deductible_points_amount"] == (1_014_806_000, "A19530")
+    assert us_columns["investment_interest_paid_amount"] == (19_977_693_000, "A19570")
+    assert "interest_paid_deduction_amount" not in us_columns
     assert eitc_three_or_more_amount.layout.source_column_id == "A59664"
     assert eitc_three_or_more_amount.filters["eitc_child_count"] == "3plus"
     assert {
@@ -3853,7 +4064,10 @@ def test_soi_historic_table_2_package_builds_2022_national_facts():
     assert schedule_c_returns.value == 30_354_680
     assert partnership_scorp.value == 1_033_254_282_000
     assert medical_dental.value == 80_235_875_000
-    assert qbi.value == 31_307_205_000
+    # A04475, the QBI deduction; A03270 (self-employed health insurance) is
+    # 31_307_205_000.
+    assert qbi.value == 215_679_578_000
+    assert qbi.layout.source_column_id == "A04475"
     assert rental.value == 85_642_801_000
     assert ctc.value == 82_862_736_000
     assert actc.value == 33_857_987_000
@@ -3914,7 +4128,8 @@ def test_soi_historic_table_2_state_broad_package_builds_2022_state_facts():
     assert ca_ptc.value == 6_379_623_000
     assert ca_partnership.value == 125_930_370_000
     assert ca_medical.value == 11_456_144_000
-    assert ca_qbi.value == 4_400_400_000
+    assert ca_qbi.value == 25_995_054_000
+    assert ca_qbi.layout.source_column_id == "A04475"
     assert ca_rental.value == 14_331_993_000
     assert ca_ctc.value == 9_724_583_000
     assert ca_actc.value == 3_605_628_000
@@ -4027,6 +4242,14 @@ def test_usda_snap_source_package_builds_fy24_national_and_state_facts():
     assert len(cells) == 6_288
     assert len(facts) == 216
     assert all(fact.source.raw_r2_uri for fact in facts)
+    # The package artifact is the FY2024 workbook: every fact refers to fiscal
+    # 2024 and cites the workbook's checksum.
+    assert {(fact.period.type, fact.period.value) for fact in facts} == {
+        ("fiscal_year", 2024)
+    }
+    assert all(
+        re.fullmatch(r"[0-9a-f]{64}", fact.source.source_sha256 or "") for fact in facts
+    )
 
     households = (
         "usda_snap.fy2024.national_average_monthly_households."
@@ -4266,13 +4489,14 @@ def test_kff_marketplace_effectuated_enrollment_builds_2024_state_facts():
 def test_obr_efo_economy_package_validates_macro_series_counts():
     report = validate_source_package("obr-efo-economy-march-2026", year=2026)
 
+    # chronicle#397: calendar 2024 only; the October 2026 EFO carries 2025 on.
     assert report.valid
     assert report.counts == {
-        "record_set_count": 36,
-        "row_count": 36,
-        "measure_count": 36,
-        "source_record_count": 36,
-        "source_region_count": 36,
+        "record_set_count": 6,
+        "row_count": 6,
+        "measure_count": 6,
+        "source_record_count": 6,
+        "source_region_count": 6,
     }
 
 
@@ -4284,37 +4508,40 @@ def test_obr_efo_economy_package_builds_cell_faithful_macro_facts():
 
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
-    assert len(facts) == 36
+    assert len(facts) == 6
 
     nominal_gdp_2024 = values_by_record[
         "obr.efo_2026_03.economy.nominal_gdp_nsa.cy2024.nominal_gdp_nsa.nominal_gdp_nsa"
     ]
-    cpi_2025 = values_by_record[
-        "obr.efo_2026_03.economy.cpi_inflation.cy2025.cpi_inflation.cpi_inflation"
+    cpi_2024 = values_by_record[
+        "obr.efo_2026_03.economy.cpi_inflation.cy2024.cpi_inflation.cpi_inflation"
     ]
-    bank_rate_2029 = values_by_record[
-        "obr.efo_2026_03.economy.bank_rate.cy2029.bank_rate.bank_rate"
+    bank_rate_2024 = values_by_record[
+        "obr.efo_2026_03.economy.bank_rate.cy2024.bank_rate.bank_rate"
     ]
 
+    assert {fact.period.value for fact in facts} == {2024}
     assert nominal_gdp_2024.value == 2_890_664_000_000
     assert nominal_gdp_2024.period.type == "calendar_year"
     assert nominal_gdp_2024.assertion == "observation"
     assert nominal_gdp_2024.measure.concept == "obr.nominal_gdp_nsa"
-    assert cpi_2025.value == pytest.approx(3.3730368724933735)
-    assert cpi_2025.assertion == "source_projection"
-    assert bank_rate_2029.value == pytest.approx(3.741552661678499)
+    assert cpi_2024.value == pytest.approx(2.5301927741606)
+    assert cpi_2024.assertion == "observation"
+    assert bank_rate_2024.value == pytest.approx(5.111)
 
 
 def test_obr_efo_aggregates_package_validates_fiscal_series_counts():
     report = validate_source_package("obr-efo-aggregates-march-2026", year=2026)
 
+    # chronicle#397: net debt's 2024-25 and the other three lines' 2025-26, the
+    # years the October 2026 EFO does not print.
     assert report.valid
     assert report.counts == {
-        "record_set_count": 21,
-        "row_count": 21,
-        "measure_count": 21,
-        "source_record_count": 21,
-        "source_region_count": 21,
+        "record_set_count": 4,
+        "row_count": 4,
+        "measure_count": 4,
+        "source_record_count": 4,
+        "source_region_count": 4,
     }
 
 
@@ -4326,7 +4553,7 @@ def test_obr_efo_aggregates_package_builds_cell_faithful_fiscal_facts():
 
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
-    assert len(facts) == 21
+    assert len(facts) == 4
 
     psnb_2025 = values_by_record[
         "obr.efo_2026_03.aggregates.public_sector_net_borrowing.fy2025."
@@ -4445,13 +4672,13 @@ def test_render_string_treats_non_integer_year_as_label():
 def test_build_facts_with_label_year_does_not_crash():
     """Building a package with a label year yields facts, not a TypeError.
 
-    The SSA Table 7.B1 manifest carries an ``extracted_targets`` label key in
+    The SSA Table 7.B1 manifest carries a ``source_capture`` label key in
     ``files:`` alongside the numeric ``2024`` key. Building with that label
     must not raise ``year + 1`` TypeError; the package has no label-scoped
     record sets, so it simply builds what it can (see PolicyEngine/chronicle#79).
     """
     package = load_source_package("packages/ssa/ssi_table_7b1_2024")
-    facts = package.build_facts("extracted_targets")
+    facts = package.build_facts("source_capture")
     # Record-set periods are literal 2024, so a label build still resolves them.
     assert facts
     assert all(fact.period.value == 2024 for fact in facts)

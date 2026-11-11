@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/otago-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-14.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/14/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/14/
+    http_status: 200
+    sha256: 3491f761dd689c4a2cce52ebe950e9af97ad184e99b589a53bb9b40685c2b1e8
+    size_bytes: 404747
+    fetched_at: '2026-10-10T20:12:10Z'
+    content_disposition_filename: place-summaries-otago-region-20261011-091210.csv
+    place_code: '14'
+    place: Otago Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/3491f761dd689c4a2cce52ebe950e9af97ad184e99b589a53bb9b40685c2b1e8/place-summaries-rc-14.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/3491f761dd689c4a2cce52ebe950e9af97ad184e99b589a53bb9b40685c2b1e8/place-summaries-rc-14.csv

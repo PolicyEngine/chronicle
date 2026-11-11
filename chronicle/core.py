@@ -34,11 +34,18 @@ Scalar = str | int | float | bool | None
 # value COLUMNS
 # by the academic year's END year ("2024/25" -> 2025); that is source-layout
 # naming only and must not leak into fact periods.
+# gas_year is DESNZ's sub-national gas year (chronicle#356), neither a calendar nor
+# a fiscal year. The value is the publisher's year label: from 2016 the year the gas
+# year opens (since 2018 mid-May to mid-May, so 2024 is mid-May 2024 to mid-May
+# 2025), and for 2015 and earlier the closing year of an October-to-September year.
+# Great Britain's gas years publish no exact dates; Northern Ireland's are dated in
+# DESNZ's methodology (15 May to 15 May from 2018), and PeriodCoverage carries them.
 ALLOWED_PERIOD_TYPES = {
     "calendar_year",
     "tax_year",
     "fiscal_year",
     "academic_year",
+    "gas_year",
     "month",
     "quarter",
     "week",
@@ -283,6 +290,13 @@ class AggregateFact:
     # keyed by ``consumer_contract.dimension_value_id``.
     dimension_labels: dict[str, str] = field(default_factory=dict)
     dimension_value_labels: dict[str, dict[str, str]] = field(default_factory=dict)
+    # The package's own wording of a value, keyed like dimension_value_labels,
+    # where it differs from the label Chronicle's register gives the value
+    # (chronicle#376). Display metadata too, and not checked against the
+    # publisher's file: often it is text Chronicle wrote.
+    package_dimension_value_labels: dict[str, dict[str, str]] = field(
+        default_factory=dict
+    )
 
 
 @dataclass(frozen=True)

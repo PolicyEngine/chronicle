@@ -1,0 +1,40 @@
+source_id: hmlr
+package_id: hmlr-uk-hpi-full-file-july-2026
+source_name: UK House Price Index full file, July 2026 release
+publisher: HM Land Registry, with the Office for National Statistics, Registers of
+  Scotland and Land and Property Services Northern Ireland
+source_page: https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-july-2026
+files:
+  2026:
+    filename: UK-HPI-full-file-2026-07.csv
+    source_url: https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/UK-HPI-full-file-2026-07.csv
+    source_table: 'UK House Price Index: full file, every published area and month
+      to July 2026'
+    sha256: 654a541934ba7b393a741e23bc0c6fb668690f562feb8a7b4fff62d653fd6607
+    size_bytes: 35012747
+    fetched_at: '2026-10-12T12:50:13+00:00'
+    retrieved_at: '2026-10-12'
+    vintage: uk_hpi_2026_07
+    vintages:
+    - uk_hpi_2026_07
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmlr/hmlr-uk-hpi-full-file-july-2026/2026/654a541934ba7b393a741e23bc0c6fb668690f562feb8a7b4fff62d653fd6607/UK-HPI-full-file-2026-07.csv
+        uri: r2://ledger-raw/raw/uk/hmlr/hmlr-uk-hpi-full-file-july-2026/2026/654a541934ba7b393a741e23bc0c6fb668690f562feb8a7b4fff62d653fd6607/UK-HPI-full-file-2026-07.csv
+registration_kind: raw_only
+provenance_notes: "Released 16 September 2026, data to July 2026. One row per area\
+  \ and month, 151,920 rows, with a 54-column header row; Date is dd/mm/yyyy. Country\
+  \ and region series start in April 1968, and the 317 England and Wales local authorities\
+  \ run 379 months from January 1995. Index levels are January 2023 = 100. Each of\
+  \ the property-type (Detached, SemiDetached, Terraced, Flat), funding (Cash, Mortgage),\
+  \ buyer (FTB, FOO) and build (New, Old) breakdowns carries Price, Index and 1-month\
+  \ and 12-month changes. The sales-volume columns are blank before 1995 and for the\
+  \ latest months while registrations complete. Each monthly release revises earlier\
+  \ months, so a consumer pins this release by sha256, and the bytes are archived\
+  \ in R2 and not committed. The Isles of Scilly (E06000053) have no series. Open\
+  \ Government Licence v3.0, with HM Land Registry's attribution: Contains HM Land\
+  \ Registry data \xA9 Crown copyright and database right 2020. This data is licensed\
+  \ under the Open Government Licence v3.0."

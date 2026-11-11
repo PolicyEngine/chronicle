@@ -10,34 +10,44 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 import posixpath
+import re
 import shlex
 import sqlite3
 import subprocess
-from typing import Any
+from threading import Thread
+from typing import Any, BinaryIO, Iterator, Literal, get_args
 from urllib.parse import unquote, urlparse
 
 import httpx
 import yaml
 
+from chronicle import r2_s3
 from chronicle.epoch import EMIT_EPOCH, Epoch, canonicalize_key, hash_domain
+from chronicle.yaml_io import safe_load as safe_load_yaml
 
 
 DEFAULT_R2_RAW_BUCKET = "ledger-raw"
 DEFAULT_R2_DERIVED_BUCKET = "ledger-derived"
 DEFAULT_R2_PREFIX = "raw"
 DEFAULT_R2_DERIVED_PREFIX = "derived"
+#: ``wrangler r2 object put`` refuses objects above 300 MiB. Larger files go to R2
+#: through its S3-compatible API as multipart uploads (chronicle#409).
+WRANGLER_PUT_LIMIT_BYTES = 300 * 1024 * 1024
 
 # New UK and New Zealand uploads are namespaced by country. US objects predate
 # the country segment and deliberately keep their legacy ``raw/{source_id}``
 # and ``derived/{source_id}`` shapes. Publisher directories are the stable
 # routing input because they are shared by packages/ and db/data/.
 R2_COUNTRY_PUBLISHERS = {
-    "nz": frozenset({"ird", "mbie", "msd", "stats_nz"}),
+    "nz": frozenset({"ird", "mbie", "msd", "stats_nz", "treasury"}),
     "uk": frozenset(
         {
+            "defra",
             "desnz",
             "dft",
             "dwp",
+            "gambling_commission",
+            "hmlr",
             "hmrc",
             "isc",
             "mhclg",
@@ -47,6 +57,7 @@ R2_COUNTRY_PUBLISHERS = {
             "ons",
             "scotgov",
             "slc",
+            "ucl",
             "voa",
             "welshgov",
         }
@@ -159,10 +170,11 @@ class ArtifactInventoryEntry:
     source_url: str | None
     r2: dict[str, Any] | None
     errors: tuple[str, ...]
+    r2_only: bool = False
 
     @property
     def valid(self) -> bool:
-        """Whether this artifact is locally available and checksum-valid."""
+        """Whether this artifact is checksum-valid, or R2-only and absent."""
         return not self.errors
 
     def to_dict(self) -> dict[str, Any]:
@@ -179,6 +191,7 @@ class ArtifactInventoryEntry:
             "size_bytes": self.size_bytes,
             "source_url": self.source_url,
             "r2": self.r2,
+            "r2_only": self.r2_only,
             "errors": list(self.errors),
         }
 
@@ -223,11 +236,14 @@ class RawArtifactPublishEntry:
     r2_location: ArtifactStorageLocation | None
     upload: ArtifactCommandResult | None
     errors: tuple[str, ...] = ()
+    skipped: bool = False
 
     @property
     def valid(self) -> bool:
-        """Whether this raw artifact uploaded and was registered."""
-        return not self.errors and self.upload is not None and self.upload.ok
+        """Whether this raw artifact uploaded, or is R2-only and absent here."""
+        if self.errors:
+            return False
+        return self.skipped or (self.upload is not None and self.upload.ok)
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable entry."""
@@ -243,6 +259,7 @@ class RawArtifactPublishEntry:
             "size_bytes": self.size_bytes,
             "r2_location": (self.r2_location.to_dict() if self.r2_location else None),
             "upload": self.upload.to_dict() if self.upload else None,
+            "skipped": self.skipped,
             "errors": list(self.errors),
         }
 
@@ -267,7 +284,10 @@ class RawArtifactPublishReport:
         return {
             "manifest_count": len(manifest_paths),
             "artifact_count": len(self.entries),
-            "uploaded_count": sum(1 for entry in self.entries if entry.valid),
+            "uploaded_count": sum(
+                1 for entry in self.entries if entry.valid and not entry.skipped
+            ),
+            "skipped_count": sum(1 for entry in self.entries if entry.skipped),
             "failed_count": sum(1 for entry in self.entries if not entry.valid),
             "r2_link_count": sum(
                 1 for entry in self.entries if entry.r2_location is not None
@@ -276,6 +296,109 @@ class RawArtifactPublishReport:
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable report."""
+        return {
+            "valid": self.valid,
+            "root": self.root,
+            "counts": self.counts,
+            "entries": [entry.to_dict() for entry in self.entries],
+            "errors": list(self.errors),
+        }
+
+
+RawArtifactVerificationStatus = Literal[
+    "verified",
+    "key_mismatch",
+    "digest_mismatch",
+    "size_mismatch",
+    "missing_remote",
+    "no_r2_location",
+    "fetch_error",
+    "invalid_manifest",
+]
+
+
+@dataclass(frozen=True)
+class RawArtifactVerifyEntry:
+    """Read-only comparison of one declared R2 object and its pinned bytes."""
+
+    manifest_path: str
+    source_id: str
+    package_id: str
+    year: str
+    filename: str
+    local_path: str
+    status: RawArtifactVerificationStatus
+    canonical_key: str | None
+    r2_location: ArtifactStorageLocation | None
+    sha256_expected: str | None
+    size_bytes_expected: int | None
+    sha256_remote: str | None = None
+    size_bytes_remote: int | None = None
+    sha256_local: str | None = None
+    size_bytes_local: int | None = None
+    fetch: ArtifactCommandResult | None = None
+    errors: tuple[str, ...] = ()
+
+    @property
+    def valid(self) -> bool:
+        """Whether the key and all available bytes match the manifest."""
+        return self.status == "verified"
+
+    def to_dict(self) -> dict[str, Any]:
+        """Return metadata and diagnostics without the remote payload."""
+        return {
+            "valid": self.valid,
+            "manifest_path": self.manifest_path,
+            "source_id": self.source_id,
+            "package_id": self.package_id,
+            "year": self.year,
+            "filename": self.filename,
+            "local_path": self.local_path,
+            "status": self.status,
+            "canonical_key": self.canonical_key,
+            "r2_location": self.r2_location.to_dict() if self.r2_location else None,
+            "sha256_expected": self.sha256_expected,
+            "size_bytes_expected": self.size_bytes_expected,
+            "sha256_remote": self.sha256_remote,
+            "size_bytes_remote": self.size_bytes_remote,
+            "sha256_local": self.sha256_local,
+            "size_bytes_local": self.size_bytes_local,
+            "fetch": self.fetch.to_dict() if self.fetch else None,
+            "errors": list(self.errors),
+        }
+
+
+@dataclass(frozen=True)
+class RawArtifactVerifyReport:
+    """Verification report; undeclared R2 locations also fail the audit."""
+
+    root: str
+    entries: tuple[RawArtifactVerifyEntry, ...]
+    errors: tuple[str, ...] = ()
+
+    @property
+    def valid(self) -> bool:
+        """Whether every entry was verified and every manifest was readable."""
+        return not self.errors and all(entry.valid for entry in self.entries)
+
+    @property
+    def counts(self) -> dict[str, int]:
+        """Count each closed status separately, including missing R2 metadata."""
+        return {
+            "manifest_count": len({entry.manifest_path for entry in self.entries}),
+            "artifact_count": len(self.entries),
+            "r2_link_count": sum(
+                entry.r2_location is not None for entry in self.entries
+            ),
+            "failed_count": sum(not entry.valid for entry in self.entries),
+            **{
+                f"{status}_count": sum(entry.status == status for entry in self.entries)
+                for status in get_args(RawArtifactVerificationStatus)
+            },
+        }
+
+    def to_dict(self) -> dict[str, Any]:
+        """Return a JSON-serializable verification report."""
         return {
             "valid": self.valid,
             "root": self.root,
@@ -407,17 +530,13 @@ def fetch_source_artifact(
         package_path=output,
     )
     fetched_at = datetime.now(UTC).replace(microsecond=0).isoformat()
-    content, inferred_filename = _read_artifact(source_url)
-    artifact_filename = filename or inferred_filename
+    artifact_filename = filename or _filename_from_url(source_url)
     if not artifact_filename:
         raise ValueError("Could not infer artifact filename; pass --filename.")
 
     output.mkdir(parents=True, exist_ok=True)
     local_path = output / artifact_filename
-    local_path.write_bytes(content)
-
-    sha256 = hashlib.sha256(content).hexdigest()
-    size_bytes = len(content)
+    sha256, size_bytes = _read_artifact(source_url, local_path)
     manifest_path = output / "manifest.yaml"
 
     r2_location = ArtifactStorageLocation(
@@ -440,6 +559,7 @@ def fetch_source_artifact(
             r2_location,
             local_path,
             wrangler_command=wrangler_command,
+            content_addressed=True,
         )
         if not r2_upload.ok:
             errors.append("r2_upload_failed")
@@ -564,8 +684,7 @@ def publish_derived_artifacts(
         relative_path = artifact_path.relative_to(input_path).as_posix()
         if relative_path == "build_artifacts.jsonl":
             continue
-        content = artifact_path.read_bytes()
-        sha256 = hashlib.sha256(content).hexdigest()
+        sha256, size_bytes = _hash_file(artifact_path)
         location = ArtifactStorageLocation(
             provider="r2",
             bucket=r2_bucket,
@@ -590,7 +709,7 @@ def publish_derived_artifacts(
                 artifact_name=relative_path,
                 local_path=str(artifact_path),
                 sha256=sha256,
-                size_bytes=len(content),
+                size_bytes=size_bytes,
                 r2_location=location,
                 upload=upload,
             )
@@ -636,7 +755,7 @@ def publish_source_artifacts(
     errors: list[str] = []
     for manifest_path in sorted(root_path.rglob(manifest_filename)):
         try:
-            manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+            manifest = safe_load_yaml(manifest_path.read_text(encoding="utf-8")) or {}
         except (OSError, yaml.YAMLError) as exc:
             errors.append(f"Could not read {manifest_path}: {exc}")
             continue
@@ -693,6 +812,287 @@ def publish_source_artifacts(
         root=str(root_path),
         entries=tuple(entries),
         errors=tuple(errors),
+    )
+
+
+def verify_raw_artifacts(
+    root: str | Path,
+    *,
+    manifest_filename: str = "manifest.yaml",
+    source_id: str | None = None,
+    package_id: str | None = None,
+    r2_bucket: str = DEFAULT_R2_RAW_BUCKET,
+    r2_prefix: str | None = None,
+    wrangler_command: str = "npx wrangler",
+) -> RawArtifactVerifyReport:
+    """Read back declared R2 objects without changing local or remote files.
+
+    Keys use the manifest's pinned digest, even when the local file is absent
+    or differs. A declared bucket takes precedence over the fallback bucket.
+    Manifests and file entries use the same scan order as ``publish-raw``.
+    """
+    root_path = Path(root)
+    if not root_path.exists():
+        return RawArtifactVerifyReport(
+            root=str(root_path),
+            entries=(),
+            errors=(f"Root does not exist: {root_path}",),
+        )
+
+    entries: list[RawArtifactVerifyEntry] = []
+    errors: list[str] = []
+    for manifest_path in sorted(root_path.rglob(manifest_filename)):
+        try:
+            manifest = safe_load_yaml(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, yaml.YAMLError) as exc:
+            errors.append(f"Could not read {manifest_path}: {exc}")
+            continue
+        if manifest is None:
+            manifest = {}
+        if not isinstance(manifest, dict):
+            errors.append(f"Manifest must be a mapping: {manifest_path}")
+            continue
+        manifest_source_id = source_id or manifest.get("source_id")
+        manifest_package_id = package_id or manifest.get("package_id")
+        files = manifest.get("files", {})
+        if files is None:
+            files = {}
+        if not manifest_source_id:
+            errors.append(f"Manifest missing source_id: {manifest_path}")
+            continue
+        if not manifest_package_id:
+            errors.append(f"Manifest missing package_id: {manifest_path}")
+            continue
+        if not isinstance(files, dict):
+            errors.append(f"Manifest files must be a mapping: {manifest_path}")
+            continue
+        try:
+            resolved_r2_prefix = resolve_r2_prefix(
+                prefix=r2_prefix,
+                default_prefix=DEFAULT_R2_PREFIX,
+                source_id=str(manifest_source_id),
+                package_path=manifest_path,
+            )
+        except ValueError as exc:
+            errors.append(f"Could not resolve R2 prefix for {manifest_path}: {exc}")
+            continue
+        for year, spec in files.items():
+            entries.append(
+                _verify_raw_manifest_entry(
+                    manifest_path,
+                    str(manifest_source_id),
+                    str(manifest_package_id),
+                    year,
+                    spec,
+                    r2_bucket=r2_bucket,
+                    r2_prefix=resolved_r2_prefix,
+                    wrangler_command=wrangler_command,
+                )
+            )
+    return RawArtifactVerifyReport(
+        root=str(root_path), entries=tuple(entries), errors=tuple(errors)
+    )
+
+
+def _verify_raw_manifest_entry(
+    manifest_path: Path,
+    source_id: str,
+    package_id: str,
+    year: Any,
+    spec: Any,
+    *,
+    r2_bucket: str,
+    r2_prefix: str,
+    wrangler_command: str,
+) -> RawArtifactVerifyEntry:
+    malformed_spec = not isinstance(spec, dict)
+    spec = spec if isinstance(spec, dict) else {}
+    filename = str(spec.get("filename") or "")
+    local_path = manifest_path.parent / filename
+    expected_digest = spec.get("sha256")
+    expected_size = spec.get("size_bytes")
+    values: dict[str, Any] = {
+        "manifest_path": str(manifest_path),
+        "source_id": source_id,
+        "package_id": package_id,
+        "year": str(year),
+        "filename": filename,
+        "local_path": str(local_path),
+        "canonical_key": None,
+        "r2_location": None,
+        "sha256_expected": expected_digest
+        if isinstance(expected_digest, str)
+        else None,
+        "size_bytes_expected": expected_size if type(expected_size) is int else None,
+    }
+
+    def result(
+        status: RawArtifactVerificationStatus, *errors: str
+    ) -> RawArtifactVerifyEntry:
+        return RawArtifactVerifyEntry(status=status, errors=tuple(errors), **values)
+
+    if malformed_spec:
+        return result("invalid_manifest", "malformed_file_spec")
+    storage = spec.get("storage")
+    if storage is None:
+        return result("no_r2_location", "no_r2_location")
+    if not isinstance(storage, dict):
+        return result("invalid_manifest", "malformed_storage")
+    if "r2" not in storage or storage["r2"] is None:
+        return result("no_r2_location", "no_r2_location")
+    r2 = storage["r2"]
+    if not isinstance(r2, dict):
+        return result("invalid_manifest", "malformed_r2_location")
+    key = r2.get("key")
+    bucket = r2.get("bucket", r2_bucket)
+    if not isinstance(key, str) or not key or not isinstance(bucket, str) or not bucket:
+        return result("invalid_manifest", "missing_r2_key_or_bucket")
+    values["r2_location"] = ArtifactStorageLocation("r2", bucket, key)
+    if not isinstance(spec.get("filename"), str) or not filename:
+        return result("invalid_manifest", "missing_filename")
+    if (
+        not isinstance(expected_digest, str)
+        or len(expected_digest) != 64
+        or any(char not in "0123456789abcdef" for char in expected_digest)
+    ):
+        return result("invalid_manifest", "missing_or_invalid_sha256")
+    if type(expected_size) is not int or expected_size < 0:
+        return result("invalid_manifest", "missing_or_invalid_size_bytes")
+    try:
+        canonical_key = build_r2_key(
+            source_id=source_id,
+            package_id=package_id,
+            year=year,
+            sha256=expected_digest,
+            filename=filename,
+            prefix=r2_prefix,
+            package_path=manifest_path,
+        )
+    except ValueError as exc:
+        return result("invalid_manifest", str(exc))
+    values["canonical_key"] = canonical_key
+    if key != canonical_key:
+        return result("key_mismatch", "declared_key_differs_from_canonical_key")
+
+    try:
+        remote_digest, remote_size, fetch = _stream_r2_object(
+            values["r2_location"], wrangler_command=wrangler_command
+        )
+    except (OSError, ValueError) as exc:
+        return result("fetch_error", str(exc))
+    values["fetch"] = fetch
+    if not fetch.ok:
+        missing = _is_missing_object_diagnostic(fetch.stderr)
+        return result("missing_remote" if missing else "fetch_error", "r2_get_failed")
+    values["sha256_remote"] = remote_digest
+    values["size_bytes_remote"] = remote_size
+    try:
+        if local_path.exists():
+            with local_path.open("rb") as local_file:
+                local_digest, local_size = _hash_stream(local_file)
+            values["sha256_local"] = local_digest
+            values["size_bytes_local"] = local_size
+    except OSError as exc:
+        return result("fetch_error", f"Could not read local artifact: {exc}")
+    if remote_size != expected_size or (
+        values.get("size_bytes_local") is not None
+        and values["size_bytes_local"] != remote_size
+    ):
+        return result("size_mismatch", "remote_manifest_or_local_size_mismatch")
+    if remote_digest != expected_digest or (
+        values.get("sha256_local") is not None
+        and values["sha256_local"] != remote_digest
+    ):
+        return result("digest_mismatch", "remote_manifest_or_local_digest_mismatch")
+    return result("verified")
+
+
+def _hash_stream(stream: BinaryIO) -> tuple[str, int]:
+    """Compute a digest and byte length without retaining the payload."""
+    digest = hashlib.sha256()
+    size_bytes = 0
+    for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+        digest.update(chunk)
+        size_bytes += len(chunk)
+    return digest.hexdigest(), size_bytes
+
+
+def _hash_file(path: Path) -> tuple[str, int]:
+    """Hash a file a chunk at a time: raw files can be several GB (chronicle#409)."""
+    with path.open("rb") as stream:
+        return _hash_stream(stream)
+
+
+_ANSI_ESCAPE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
+_MISSING_OBJECT_MARKER = re.compile(
+    r"(?<![a-z0-9_])(?:nosuchkey"
+    r"|(?:the )?specified key does not exist"
+    r"|object (?:not found|does not exist))(?![a-z0-9_])"
+)
+_ERROR_LINE = re.compile(r"(?<![a-z0-9_])(?:error|failed)(?![a-z0-9_])|\u2718")
+
+
+def _is_missing_object_diagnostic(stderr: str) -> bool:
+    """Return whether Wrangler's diagnostics say the object is absent.
+
+    Colour codes are removed first, because Wrangler wraps words in them. A
+    marker counts only as a whole phrase, and only on a line that holds nothing
+    but markers (such as ``NoSuchKey: specified key does not exist``) or is an
+    error line. A marker on a line that reports no error stays a fetch error,
+    but an error line that merely mentions a marker still counts as missing:
+    both are failures, so neither can produce ``verified``.
+    """
+    for raw_line in _ANSI_ESCAPE.sub("", stderr).lower().splitlines():
+        line = " ".join(raw_line.split())
+        if _MISSING_OBJECT_MARKER.search(line) is None:
+            continue
+        remainder = _MISSING_OBJECT_MARKER.sub("", line).strip(" .:;()[]-")
+        if not remainder or _ERROR_LINE.search(line):
+            return True
+    return False
+
+
+def _stream_r2_object(
+    location: ArtifactStorageLocation, *, wrangler_command: str
+) -> tuple[str, int, ArtifactCommandResult]:
+    """Hash binary Wrangler stdout and concurrently drain bounded diagnostics."""
+    command = [
+        *shlex.split(wrangler_command),
+        "r2",
+        "object",
+        "get",
+        f"{location.bucket}/{location.key}",
+        "--remote",
+        "--pipe",
+    ]
+    diagnostics = bytearray()
+
+    def drain_stderr(stream: BinaryIO) -> None:
+        for chunk in iter(lambda: stream.read(8192), b""):
+            diagnostics.extend(chunk[: max(0, 65536 - len(diagnostics))])
+
+    with subprocess.Popen(
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    ) as process:
+        reader = Thread(target=drain_stderr, args=(process.stderr,))
+        reader.start()
+        try:
+            digest, size_bytes = _hash_stream(process.stdout)
+        except BaseException:
+            process.kill()
+            raise
+        finally:
+            process.wait()
+            reader.join()
+    return (
+        digest,
+        size_bytes,
+        ArtifactCommandResult(
+            command=tuple(command),
+            returncode=process.returncode,
+            stdout="",
+            stderr=diagnostics.decode("utf-8", errors="replace"),
+        ),
     )
 
 
@@ -753,6 +1153,7 @@ def inventory_source_artifacts(
                 "manifest_count": 0,
                 "artifact_count": 0,
                 "missing_count": 0,
+                "r2_only_count": 0,
                 "checksum_mismatch_count": 0,
                 "r2_link_count": 0,
             },
@@ -763,7 +1164,7 @@ def inventory_source_artifacts(
     manifests = sorted(root_path.rglob(manifest_filename))
     for manifest_path in manifests:
         try:
-            manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+            manifest = safe_load_yaml(manifest_path.read_text(encoding="utf-8")) or {}
             files = manifest.get("files") or {}
         except (OSError, yaml.YAMLError) as exc:
             errors.append(f"Could not read {manifest_path}: {exc}")
@@ -777,7 +1178,11 @@ def inventory_source_artifacts(
     counts = {
         "manifest_count": len(manifests),
         "artifact_count": len(entries),
-        "missing_count": sum(1 for entry in entries if not entry.exists),
+        # R2-only entries are absent by design, so they never count as missing.
+        "missing_count": sum(
+            1 for entry in entries if not entry.exists and not entry.r2_only
+        ),
+        "r2_only_count": sum(1 for entry in entries if entry.r2_only),
         "checksum_mismatch_count": sum(
             1 for entry in entries if "checksum_mismatch" in entry.errors
         ),
@@ -1025,19 +1430,43 @@ def infer_build_id(input_dir: str | Path) -> str | None:
     return None
 
 
-def _read_artifact(source_url: str) -> tuple[bytes, str]:
+def _read_artifact(source_url: str, local_path: Path) -> tuple[str, int]:
+    """Copy a source artifact to ``local_path`` a chunk at a time, hashing it.
+
+    The bytes go to a ``.partial`` file that takes the final name only once the
+    copy is complete, so a failed download leaves any earlier copy in place.
+    """
+    parsed = urlparse(source_url)
+    if parsed.scheme not in ("http", "https", "file", ""):
+        raise ValueError(f"Unsupported source URL scheme: {parsed.scheme}")
+    partial_path = local_path.with_name(f"{local_path.name}.partial")
+    digest = hashlib.sha256()
+    size_bytes = 0
+    try:
+        with partial_path.open("wb") as output:
+            for chunk in _artifact_chunks(source_url):
+                output.write(chunk)
+                digest.update(chunk)
+                size_bytes += len(chunk)
+        partial_path.replace(local_path)
+    except BaseException:
+        partial_path.unlink(missing_ok=True)
+        raise
+    return digest.hexdigest(), size_bytes
+
+
+def _artifact_chunks(source_url: str) -> Iterator[bytes]:
     parsed = urlparse(source_url)
     if parsed.scheme in ("http", "https"):
-        response = httpx.get(source_url, follow_redirects=True, timeout=60)
-        response.raise_for_status()
-        return response.content, _filename_from_url(source_url)
-    if parsed.scheme == "file":
-        path = Path(unquote(parsed.path))
-        return path.read_bytes(), path.name
-    if not parsed.scheme:
-        path = Path(source_url)
-        return path.read_bytes(), path.name
-    raise ValueError(f"Unsupported source URL scheme: {parsed.scheme}")
+        with httpx.stream(
+            "GET", source_url, follow_redirects=True, timeout=60
+        ) as response:
+            response.raise_for_status()
+            yield from response.iter_bytes(1024 * 1024)
+        return
+    path = Path(unquote(parsed.path)) if parsed.scheme == "file" else Path(source_url)
+    with path.open("rb") as stream:
+        yield from iter(lambda: stream.read(1024 * 1024), b"")
 
 
 def _filename_from_url(source_url: str) -> str:
@@ -1062,7 +1491,7 @@ def _upsert_manifest(
     r2_location: ArtifactStorageLocation | None,
 ) -> None:
     if manifest_path.exists():
-        payload = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+        payload = safe_load_yaml(manifest_path.read_text(encoding="utf-8")) or {}
     else:
         payload = {}
     payload.setdefault("source_id", source_id)
@@ -1092,8 +1521,18 @@ def _upload_r2_object(
     local_path: Path,
     *,
     wrangler_command: str,
+    content_addressed: bool = False,
 ) -> ArtifactCommandResult:
+    """Upload one file through Wrangler, or through R2's S3 API above its limit.
+
+    ``content_addressed`` marks a key that carries the file's sha256, as raw
+    and fetched files' keys do and derived files' keys do not.
+    """
     content_type, _ = mimetypes.guess_type(local_path.name)
+    if local_path.stat().st_size > WRANGLER_PUT_LIMIT_BYTES:
+        return _upload_r2_object_in_parts(
+            location, local_path, content_type, content_addressed=content_addressed
+        )
     command = [
         *shlex.split(wrangler_command),
         "r2",
@@ -1107,6 +1546,90 @@ def _upload_r2_object(
     if content_type:
         command.extend(["--content-type", content_type])
     return _run_command(command)
+
+
+def _upload_r2_object_in_parts(
+    location: ArtifactStorageLocation,
+    local_path: Path,
+    content_type: str | None,
+    *,
+    content_addressed: bool,
+) -> ArtifactCommandResult:
+    """Upload a file too large for Wrangler through R2's S3 API (chronicle#409).
+
+    Under a content-addressed key, an object of the file's size already holds
+    these bytes. Such a file is not sent again, and a failed upload, such as a
+    completion whose response was lost, counts once the object is there. A
+    derived file's key names its build, not its bytes, so it is always sent,
+    as Wrangler sends smaller files.
+    """
+    command = (
+        "r2-s3-multipart-put",
+        f"{location.bucket}/{location.key}",
+        str(local_path),
+    )
+    try:
+        size_bytes = local_path.stat().st_size
+        with _r2_s3_client() as client:
+            if (
+                content_addressed
+                and client.object_size(location.bucket, location.key) == size_bytes
+            ):
+                return ArtifactCommandResult(
+                    command=command, returncode=0, stdout="already in R2", stderr=""
+                )
+            try:
+                parts = client.put_file(
+                    location.bucket, location.key, local_path, content_type=content_type
+                )
+            except r2_s3.R2S3Error as error:
+                if not content_addressed:
+                    raise
+                try:
+                    landed = client.object_size(location.bucket, location.key)
+                except r2_s3.R2S3Error:
+                    landed = None
+                if landed != size_bytes:
+                    raise error
+                return ArtifactCommandResult(
+                    command=command,
+                    returncode=0,
+                    stdout=f"in R2 although the upload reported: {error}",
+                    stderr="",
+                )
+    except (OSError, r2_s3.R2S3Error) as exc:
+        return ArtifactCommandResult(
+            command=command, returncode=1, stdout="", stderr=str(exc)
+        )
+    return ArtifactCommandResult(
+        command=command, returncode=0, stdout=f"uploaded in {parts} parts", stderr=""
+    )
+
+
+def _r2_s3_client() -> r2_s3.R2Client:
+    """Return the S3 API client for large uploads; tests substitute their own."""
+    return r2_s3.R2Client(r2_s3.credentials_from_environment())
+
+
+def _r2_only_storage(spec: dict[str, Any]) -> tuple[bool, list[str]]:
+    """Return whether a file entry keeps its bytes in R2 only, and any issues.
+
+    ``storage.local: false`` declares bytes that are never committed: R2 holds
+    them and ``verify-raw`` checks them, so a checkout without them is complete.
+    The entry must name the R2 object it relies on.
+    """
+    storage = spec.get("storage")
+    if not isinstance(storage, dict) or "local" not in storage:
+        return False, []
+    local = storage["local"]
+    if not isinstance(local, bool):
+        return False, ["malformed_storage_local"]
+    if local:
+        return False, []
+    r2 = storage.get("r2")
+    if not isinstance(r2, dict) or not r2.get("key"):
+        return True, ["r2_only_without_r2_location"]
+    return True, []
 
 
 def _publish_raw_manifest_entry(
@@ -1129,14 +1652,37 @@ def _publish_raw_manifest_entry(
     sha256_expected = spec.get("sha256")
     sha256_actual = None
     size_bytes = None
+    r2_only, r2_only_errors = _r2_only_storage(spec)
+    errors.extend(r2_only_errors)
+    if r2_only and filename and not errors and not artifact_path.exists():
+        # Nothing to upload from this checkout; verify-raw checks the object.
+        recorded_r2 = spec["storage"]["r2"]
+        return (
+            RawArtifactPublishEntry(
+                manifest_path=str(manifest_path),
+                source_id=source_id,
+                package_id=package_id,
+                year=str(year),
+                filename=filename,
+                local_path=str(artifact_path),
+                sha256=sha256_expected,
+                size_bytes=spec.get("size_bytes"),
+                r2_location=ArtifactStorageLocation(
+                    provider=str(recorded_r2.get("provider") or "r2"),
+                    bucket=str(recorded_r2.get("bucket") or r2_bucket),
+                    key=str(recorded_r2["key"]),
+                ),
+                upload=None,
+                skipped=True,
+            ),
+            None,
+        )
     if not filename:
         errors.append("missing_filename")
     elif not artifact_path.exists():
         errors.append("missing_file")
     else:
-        content = artifact_path.read_bytes()
-        sha256_actual = hashlib.sha256(content).hexdigest()
-        size_bytes = len(content)
+        sha256_actual, size_bytes = _hash_file(artifact_path)
         if sha256_expected and sha256_actual != sha256_expected:
             errors.append("checksum_mismatch")
 
@@ -1199,6 +1745,7 @@ def _publish_raw_manifest_entry(
         location,
         artifact_path,
         wrangler_command=wrangler_command,
+        content_addressed=True,
     )
     if not upload.ok:
         errors.append("r2_upload_failed")
@@ -1249,14 +1796,16 @@ def _inventory_entry(
     sha256_expected = spec.get("sha256")
     sha256_actual = None
     size_bytes = None
+    r2_only, r2_only_errors = _r2_only_storage(spec)
+    errors.extend(r2_only_errors)
     if not filename:
         errors.append("missing_filename")
     elif not exists:
-        errors.append("missing_file")
+        # An R2-only entry is complete without local bytes; verify-raw checks it.
+        if not r2_only:
+            errors.append("missing_file")
     else:
-        content = artifact_path.read_bytes()
-        sha256_actual = hashlib.sha256(content).hexdigest()
-        size_bytes = len(content)
+        sha256_actual, size_bytes = _hash_file(artifact_path)
         if sha256_expected and sha256_actual != sha256_expected:
             errors.append("checksum_mismatch")
     storage = spec.get("storage") if isinstance(spec, dict) else None
@@ -1273,6 +1822,7 @@ def _inventory_entry(
         source_url=spec.get("source_url"),
         r2=r2,
         errors=tuple(errors),
+        r2_only=r2_only,
     )
 
 

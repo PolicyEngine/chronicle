@@ -1,0 +1,19 @@
+source_id: ird
+package_id: ird-wage-salary-distribution-2026
+dataset: ird_wage_salary_distribution_2026
+source_page: https://www.ird.govt.nz/about-us/tax-statistics/revenue-refunds/wage-salary-distributions/wage-and-salary-statistics-datasets
+table: Wage and salary distributions for individuals 2026
+license: CC BY 4.0
+files:
+  2026:
+    filename: wage-and-salary-distributions-for-individuals.xlsx
+    source_url: https://www.ird.govt.nz/-/media/project/ir/home/documents/about-us/tax-statistics---current/revenue-and-refunds/wage-and-salary/wage-and-salary-statistics/wage-and-salary-distributions-for-individuals.xlsx
+    sha256: d0526b2092f9fa2bec44e11984c0ef17fda788a742c1c7054d416f6a0cd9e750
+    size_bytes: 198542
+    fetched_at: '2026-10-10T08:31:07Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/ird/ird-wage-salary-distribution-2026/2026/d0526b2092f9fa2bec44e11984c0ef17fda788a742c1c7054d416f6a0cd9e750/wage-and-salary-distributions-for-individuals.xlsx
+        uri: r2://ledger-raw/raw/nz/ird/ird-wage-salary-distribution-2026/2026/d0526b2092f9fa2bec44e11984c0ef17fda788a742c1c7054d416f6a0cd9e750/wage-and-salary-distributions-for-individuals.xlsx

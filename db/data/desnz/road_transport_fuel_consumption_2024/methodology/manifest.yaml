@@ -1,0 +1,18 @@
+source_id: desnz
+package_id: desnz-road-transport-fuel-consumption-2024-methodology
+dataset: desnz_desnz-road-transport-fuel-consumption-2024-methodology
+source_page: https://www.gov.uk/government/statistics/uk-road-transport-fuel-consumption-at-regional-and-local-authority-level-2005-to-2024/sub-national-road-transport-fuel-consumption-statistics-methodology-summary-2005-2024-web-accessible
+table: Sub-national road transport fuel consumption methodology summary, 2005-2024
+files:
+  2026:
+    filename: methodology.html
+    source_url: https://www.gov.uk/government/statistics/uk-road-transport-fuel-consumption-at-regional-and-local-authority-level-2005-to-2024/sub-national-road-transport-fuel-consumption-statistics-methodology-summary-2005-2024-web-accessible
+    sha256: 7ef875c8fe92a3a2f3642e74c78109d1873b74e961d66ef4ec4bb6344b6ab5d8
+    size_bytes: 148423
+    fetched_at: '2026-10-08T12:21:49+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-road-transport-fuel-consumption-2024-methodology/2026/7ef875c8fe92a3a2f3642e74c78109d1873b74e961d66ef4ec4bb6344b6ab5d8/methodology.html
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-road-transport-fuel-consumption-2024-methodology/2026/7ef875c8fe92a3a2f3642e74c78109d1873b74e961d66ef4ec4bb6344b6ab5d8/methodology.html

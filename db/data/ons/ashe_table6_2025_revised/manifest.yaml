@@ -1,0 +1,27 @@
+source_id: ons
+package_id: ons-ashe-table6-2025-revised
+dataset: ons_ons-ashe-table6-2025-revised
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/agegroupashetable6
+table: 'ASHE Table 6: earnings and hours worked, age group, 2025 revised'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, Annual Survey of Hours and Earnings,
+  Table 6, 2025 revised (released 22 October 2026). Contains public sector information
+  licensed under the Open Government Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (dataset page https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/agegroupashetable6);
+  the workbook states no other terms.'
+license_verified_at: '2026-11-06'
+files:
+  2025:
+    filename: ashetable62025revised.zip
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/agegroupashetable6/2025revised/ashetable62025revised.zip
+    sha256: 2ccc3b3703a2a1a9b0c8a9a837497eeb3f7425ea4e21219099b2d8e0e3363c03
+    size_bytes: 835642
+    fetched_at: '2026-11-06T12:24:10+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-ashe-table6-2025-revised/2025/2ccc3b3703a2a1a9b0c8a9a837497eeb3f7425ea4e21219099b2d8e0e3363c03/ashetable62025revised.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-ashe-table6-2025-revised/2025/2ccc3b3703a2a1a9b0c8a9a837497eeb3f7425ea4e21219099b2d8e0e3363c03/ashetable62025revised.zip

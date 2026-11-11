@@ -1,0 +1,18 @@
+source_id: desnz
+package_id: desnz-subnational-gas-consumption-northern-ireland-2024
+dataset: desnz_desnz-subnational-gas-consumption-northern-ireland-2024
+source_page: https://www.gov.uk/government/statistics/sub-national-gas-consumption-statistics-in-northern-ireland
+table: Subnational gas consumption statistics in Northern Ireland, 2015 to 2024
+files:
+  2025:
+    filename: Northern_Ireland_subnational_gas_consumption_2015-2024.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/6942b8e5143d960161547dbe/Northern_Ireland_subnational_gas_consumption_2015-2024.xlsx
+    sha256: 988df5f909b47bcd92c8e28cda9748d037bc67fbf0e3b2127b5b94bb43fe3791
+    size_bytes: 161724
+    fetched_at: '2026-10-15T10:01:09+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-subnational-gas-consumption-northern-ireland-2024/2025/988df5f909b47bcd92c8e28cda9748d037bc67fbf0e3b2127b5b94bb43fe3791/Northern_Ireland_subnational_gas_consumption_2015-2024.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-subnational-gas-consumption-northern-ireland-2024/2025/988df5f909b47bcd92c8e28cda9748d037bc67fbf0e3b2127b5b94bb43fe3791/Northern_Ireland_subnational_gas_consumption_2015-2024.xlsx

@@ -1,0 +1,627 @@
+schema_version: ledger.source_package.v1
+package_id: ons-public-sector-employment-june-2026
+label: 'ONS public sector employment, June 2026 edition: March, June, September and December 2025 headcounts'
+dimension_labels:
+  ons.pse_sector_classification: Reference date
+artifact:
+  source_name: ons
+  source_table: ONS public sector employment reference table, June 2026 edition, Table 1
+  resource_package: db
+  resource_directory: data/ons/public_sector_employment_june_2026
+  manifest: manifest.yaml
+  vintage: pse_june_2026_2026_09_15
+  extracted_at: '2026-10-07'
+  extraction_method: xlsx whole-workbook used-range cell parse
+  parser: xlsx_used_range
+  artifact_year: 2026
+  sheets:
+  - Table 1
+record_sets:
+- record_set_id: ons.pse_june2026.table1.2025_03
+  provenance_class: survey_aggregate
+  survey_instrument: Quarterly Public Sector Employment Survey
+  record_set_spec_id: ons.pse_june2026.table1.2025_03.v1
+  source_record_id_prefix: ons.pse_june2026.table1.2025_03
+  sheet_name: Table 1
+  period_type: month
+  period: 2025-03
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: public_sector_employee
+  domain: public_sector_employment
+  groupby_dimension: ons.pse_sector_classification
+  rows:
+  - value_id: '03_2025'
+    label: Mar 2025
+    ordinal: 0
+    row_number: 143
+    expected_row_header_column: A
+    expected_row_header: Mar 2025
+    table_record_kind: total
+  measures:
+  - measure_id: central_government
+    label: Public sector employment headcount, Central government, Mar 2025
+    ordinal: 0
+    column: B
+    source_column_id: central_government
+    expected_column_header_row: 8
+    expected_column_header: G6NQ
+    concept: ons.pse_headcount_central_government
+    source_concept: ons.g6nq
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Mar 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: local_government
+    label: Public sector employment headcount, Local government, Mar 2025
+    ordinal: 1
+    column: C
+    source_column_id: local_government
+    expected_column_header_row: 8
+    expected_column_header: G6NT
+    concept: ons.pse_headcount_local_government
+    source_concept: ons.g6nt
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Mar 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_general_government
+    label: Public sector employment headcount, Total general government, Mar 2025
+    ordinal: 2
+    column: D
+    source_column_id: total_general_government
+    expected_column_header_row: 8
+    expected_column_header: G6NW
+    concept: ons.pse_headcount_total_general_government
+    source_concept: ons.g6nw
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Mar 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_public_corporations
+    label: Public sector employment headcount, Total public corporations, Mar 2025
+    ordinal: 3
+    column: E
+    source_column_id: total_public_corporations
+    expected_column_header_row: 8
+    expected_column_header: G7AR
+    concept: ons.pse_headcount_total_public_corporations
+    source_concept: ons.g7ar
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Mar 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_public_sector
+    label: Public sector employment headcount, Total public sector, Mar 2025
+    ordinal: 4
+    column: F
+    source_column_id: total_public_sector
+    expected_column_header_row: 8
+    expected_column_header: G7AU
+    concept: ons.pse_headcount_total_public_sector
+    source_concept: ons.g7au
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Mar 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: civil_service
+    label: Public sector employment headcount, Civil Service, Mar 2025
+    ordinal: 5
+    column: G
+    source_column_id: civil_service
+    expected_column_header_row: 8
+    expected_column_header: G7D6
+    concept: ons.pse_headcount_civil_service
+    source_concept: ons.g7d6
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Mar 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  period_coverage:
+    start_date: '2025-03-31'
+    end_date: '2025-03-31'
+    basis: calendar
+    source_period_label: 03/2025
+    notes: Quarter-end headcounts, thousands, seasonally adjusted. Calendar-year averaging is a consumer
+      operation.
+- record_set_id: ons.pse_june2026.table1.2025_06
+  provenance_class: survey_aggregate
+  survey_instrument: Quarterly Public Sector Employment Survey
+  record_set_spec_id: ons.pse_june2026.table1.2025_06.v1
+  source_record_id_prefix: ons.pse_june2026.table1.2025_06
+  sheet_name: Table 1
+  period_type: month
+  period: 2025-06
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: public_sector_employee
+  domain: public_sector_employment
+  groupby_dimension: ons.pse_sector_classification
+  rows:
+  - value_id: '06_2025'
+    label: Jun 2025 [r]
+    ordinal: 0
+    row_number: 144
+    expected_row_header_column: A
+    expected_row_header: Jun 2025 [r]
+    table_record_kind: total
+  measures:
+  - measure_id: central_government
+    label: Public sector employment headcount, Central government, Jun 2025 [r]
+    ordinal: 0
+    column: B
+    source_column_id: central_government
+    expected_column_header_row: 8
+    expected_column_header: G6NQ
+    concept: ons.pse_headcount_central_government
+    source_concept: ons.g6nq
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Jun 2025 [r]; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: local_government
+    label: Public sector employment headcount, Local government, Jun 2025 [r]
+    ordinal: 1
+    column: C
+    source_column_id: local_government
+    expected_column_header_row: 8
+    expected_column_header: G6NT
+    concept: ons.pse_headcount_local_government
+    source_concept: ons.g6nt
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Jun 2025 [r]; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_general_government
+    label: Public sector employment headcount, Total general government, Jun 2025 [r]
+    ordinal: 2
+    column: D
+    source_column_id: total_general_government
+    expected_column_header_row: 8
+    expected_column_header: G6NW
+    concept: ons.pse_headcount_total_general_government
+    source_concept: ons.g6nw
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Jun 2025 [r]; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_public_corporations
+    label: Public sector employment headcount, Total public corporations, Jun 2025 [r]
+    ordinal: 3
+    column: E
+    source_column_id: total_public_corporations
+    expected_column_header_row: 8
+    expected_column_header: G7AR
+    concept: ons.pse_headcount_total_public_corporations
+    source_concept: ons.g7ar
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Jun 2025 [r]; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_public_sector
+    label: Public sector employment headcount, Total public sector, Jun 2025 [r]
+    ordinal: 4
+    column: F
+    source_column_id: total_public_sector
+    expected_column_header_row: 8
+    expected_column_header: G7AU
+    concept: ons.pse_headcount_total_public_sector
+    source_concept: ons.g7au
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Jun 2025 [r]; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: civil_service
+    label: Public sector employment headcount, Civil Service, Jun 2025 [r]
+    ordinal: 5
+    column: G
+    source_column_id: civil_service
+    expected_column_header_row: 8
+    expected_column_header: G7D6
+    concept: ons.pse_headcount_civil_service
+    source_concept: ons.g7d6
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Jun 2025 [r]; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  period_coverage:
+    start_date: '2025-06-30'
+    end_date: '2025-06-30'
+    basis: calendar
+    source_period_label: 06/2025
+    notes: Quarter-end headcounts, thousands, seasonally adjusted. Calendar-year averaging is a consumer
+      operation.
+- record_set_id: ons.pse_june2026.table1.2025_09
+  provenance_class: survey_aggregate
+  survey_instrument: Quarterly Public Sector Employment Survey
+  record_set_spec_id: ons.pse_june2026.table1.2025_09.v1
+  source_record_id_prefix: ons.pse_june2026.table1.2025_09
+  sheet_name: Table 1
+  period_type: month
+  period: 2025-09
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: public_sector_employee
+  domain: public_sector_employment
+  groupby_dimension: ons.pse_sector_classification
+  rows:
+  - value_id: 09_2025
+    label: Sep 2025
+    ordinal: 0
+    row_number: 145
+    expected_row_header_column: A
+    expected_row_header: Sep 2025
+    table_record_kind: total
+  measures:
+  - measure_id: central_government
+    label: Public sector employment headcount, Central government, Sep 2025
+    ordinal: 0
+    column: B
+    source_column_id: central_government
+    expected_column_header_row: 8
+    expected_column_header: G6NQ
+    concept: ons.pse_headcount_central_government
+    source_concept: ons.g6nq
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Sep 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: local_government
+    label: Public sector employment headcount, Local government, Sep 2025
+    ordinal: 1
+    column: C
+    source_column_id: local_government
+    expected_column_header_row: 8
+    expected_column_header: G6NT
+    concept: ons.pse_headcount_local_government
+    source_concept: ons.g6nt
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Sep 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_general_government
+    label: Public sector employment headcount, Total general government, Sep 2025
+    ordinal: 2
+    column: D
+    source_column_id: total_general_government
+    expected_column_header_row: 8
+    expected_column_header: G6NW
+    concept: ons.pse_headcount_total_general_government
+    source_concept: ons.g6nw
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Sep 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_public_corporations
+    label: Public sector employment headcount, Total public corporations, Sep 2025
+    ordinal: 3
+    column: E
+    source_column_id: total_public_corporations
+    expected_column_header_row: 8
+    expected_column_header: G7AR
+    concept: ons.pse_headcount_total_public_corporations
+    source_concept: ons.g7ar
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Sep 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_public_sector
+    label: Public sector employment headcount, Total public sector, Sep 2025
+    ordinal: 4
+    column: F
+    source_column_id: total_public_sector
+    expected_column_header_row: 8
+    expected_column_header: G7AU
+    concept: ons.pse_headcount_total_public_sector
+    source_concept: ons.g7au
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Sep 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: civil_service
+    label: Public sector employment headcount, Civil Service, Sep 2025
+    ordinal: 5
+    column: G
+    source_column_id: civil_service
+    expected_column_header_row: 8
+    expected_column_header: G7D6
+    concept: ons.pse_headcount_civil_service
+    source_concept: ons.g7d6
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Sep 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  period_coverage:
+    start_date: '2025-09-30'
+    end_date: '2025-09-30'
+    basis: calendar
+    source_period_label: 09/2025
+    notes: Quarter-end headcounts, thousands, seasonally adjusted. Calendar-year averaging is a consumer
+      operation.
+- record_set_id: ons.pse_june2026.table1.2025_12
+  provenance_class: survey_aggregate
+  survey_instrument: Quarterly Public Sector Employment Survey
+  record_set_spec_id: ons.pse_june2026.table1.2025_12.v1
+  source_record_id_prefix: ons.pse_june2026.table1.2025_12
+  sheet_name: Table 1
+  period_type: month
+  period: 2025-12
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: public_sector_employee
+  domain: public_sector_employment
+  groupby_dimension: ons.pse_sector_classification
+  rows:
+  - value_id: '12_2025'
+    label: Dec 2025
+    ordinal: 0
+    row_number: 146
+    expected_row_header_column: A
+    expected_row_header: Dec 2025
+    table_record_kind: total
+  measures:
+  - measure_id: central_government
+    label: Public sector employment headcount, Central government, Dec 2025
+    ordinal: 0
+    column: B
+    source_column_id: central_government
+    expected_column_header_row: 8
+    expected_column_header: G6NQ
+    concept: ons.pse_headcount_central_government
+    source_concept: ons.g6nq
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Dec 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: local_government
+    label: Public sector employment headcount, Local government, Dec 2025
+    ordinal: 1
+    column: C
+    source_column_id: local_government
+    expected_column_header_row: 8
+    expected_column_header: G6NT
+    concept: ons.pse_headcount_local_government
+    source_concept: ons.g6nt
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Dec 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_general_government
+    label: Public sector employment headcount, Total general government, Dec 2025
+    ordinal: 2
+    column: D
+    source_column_id: total_general_government
+    expected_column_header_row: 8
+    expected_column_header: G6NW
+    concept: ons.pse_headcount_total_general_government
+    source_concept: ons.g6nw
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Dec 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_public_corporations
+    label: Public sector employment headcount, Total public corporations, Dec 2025
+    ordinal: 3
+    column: E
+    source_column_id: total_public_corporations
+    expected_column_header_row: 8
+    expected_column_header: G7AR
+    concept: ons.pse_headcount_total_public_corporations
+    source_concept: ons.g7ar
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Dec 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_public_sector
+    label: Public sector employment headcount, Total public sector, Dec 2025
+    ordinal: 4
+    column: F
+    source_column_id: total_public_sector
+    expected_column_header_row: 8
+    expected_column_header: G7AU
+    concept: ons.pse_headcount_total_public_sector
+    source_concept: ons.g7au
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Dec 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: civil_service
+    label: Public sector employment headcount, Civil Service, Dec 2025
+    ordinal: 5
+    column: G
+    source_column_id: civil_service
+    expected_column_header_row: 8
+    expected_column_header: G7D6
+    concept: ons.pse_headcount_civil_service
+    source_concept: ons.g7d6
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+    concept_evidence_notes: June 2026 edition released 15 September 2026, Table 1, Dec 2025; UK headcounts
+      in thousands, seasonally adjusted. [r] on June 2025 denotes a revised observation. Civil Service
+      excludes Northern Ireland Civil Service, which remains within central government (footnote 6). England/Wales
+      police headcounts include publisher projections (footnote 4).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  period_coverage:
+    start_date: '2025-12-31'
+    end_date: '2025-12-31'
+    basis: calendar
+    source_period_label: 12/2025
+    notes: Quarter-end headcounts, thousands, seasonally adjusted. Calendar-year averaging is a consumer
+      operation.

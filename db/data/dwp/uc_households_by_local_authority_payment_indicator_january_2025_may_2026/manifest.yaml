@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-uc-households-by-local-authority-payment-indicator-january-2025-may-2026
+dataset: dwp_dwp-uc-households-by-local-authority-payment-indicator-january-2025-may-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: uc_households_by_local_authority_payment_indicator_january_2025_may_2026
+files:
+  2025:
+    filename: uc_households_by_local_authority_payment_indicator_january_2025_may_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: 5e7ccb16e57ec3be437a57aa6c54086904c8f9c680a6f025957fe0c670aa3d1c
+    size_bytes: 181462
+    fetched_at: '2026-10-15T12:23:39+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-uc-households-by-local-authority-payment-indicator-january-2025-may-2026/2025/5e7ccb16e57ec3be437a57aa6c54086904c8f9c680a6f025957fe0c670aa3d1c/uc_households_by_local_authority_payment_indicator_january_2025_may_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-uc-households-by-local-authority-payment-indicator-january-2025-may-2026/2025/5e7ccb16e57ec3be437a57aa6c54086904c8f9c680a6f025957fe0c670aa3d1c/uc_households_by_local_authority_payment_indicator_january_2025_may_2026.json
+registration_kind: source_facts

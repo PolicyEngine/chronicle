@@ -26,6 +26,7 @@ def main() -> None:
         ["plan-pe-sources"],
         ["publish-derived"],
         ["publish-raw"],
+        ["verify-raw"],
         ["scaffold-package"],
         ["validate-concept-alignments"],
         ["validate-package"],

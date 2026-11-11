@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-mtuc-households-legacy-benefit-move-status-july-2022-june-2026
+dataset: dwp_dwp-mtuc-households-legacy-benefit-move-status-july-2022-june-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: mtuc_households_legacy_benefit_move_status_july_2022_june_2026
+files:
+  2026:
+    filename: mtuc_households_legacy_benefit_move_status_july_2022_june_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: 5c238500100b87d136008b5a8ed1a610e628bff43a890763181d4723a463443f
+    size_bytes: 9796
+    fetched_at: '2026-10-15T12:40:41+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-mtuc-households-legacy-benefit-move-status-july-2022-june-2026/2026/5c238500100b87d136008b5a8ed1a610e628bff43a890763181d4723a463443f/mtuc_households_legacy_benefit_move_status_july_2022_june_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-mtuc-households-legacy-benefit-move-status-july-2022-june-2026/2026/5c238500100b87d136008b5a8ed1a610e628bff43a890763181d4723a463443f/mtuc_households_legacy_benefit_move_status_july_2022_june_2026.json
+registration_kind: source_facts

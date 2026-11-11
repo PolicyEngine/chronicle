@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-census2021-ur-ce-age101-sex-rgn
+dataset: ons_ons-census2021-ur-ce-age101-sex-rgn
+source_page: https://www.ons.gov.uk/datasets/create
+table: 'ONS Census 2021 custom dataset: UR_CE by resident_age_101a,sex, area type
+  rgn (Census API census-observations)'
+files:
+  2021:
+    filename: census2021_ur_ce_rgn_resident_age_101a_sex.json
+    source_url: https://api.beta.ons.gov.uk/v1/population-types/UR_CE/census-observations?area-type=rgn&dimensions=resident_age_101a,sex
+    sha256: 3a2595fc37b894ad8a66f0b74c1785a3424554f84fc973d03e43735697a2d279
+    size_bytes: 667712
+    fetched_at: '2026-10-15T10:34:43+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-census2021-ur-ce-age101-sex-rgn/2021/3a2595fc37b894ad8a66f0b74c1785a3424554f84fc973d03e43735697a2d279/census2021_ur_ce_rgn_resident_age_101a_sex.json
+        uri: r2://ledger-raw/raw/uk/ons/ons-census2021-ur-ce-age101-sex-rgn/2021/3a2595fc37b894ad8a66f0b74c1785a3424554f84fc973d03e43735697a2d279/census2021_ur_ce_rgn_resident_age_101a_sex.json

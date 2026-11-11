@@ -3,30 +3,83 @@
 from __future__ import annotations
 
 import json
+import weakref
 from collections import Counter
 from datetime import date, timedelta
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
+import chronicle.bundle
 from chronicle.bundle import (
+    BE_BUNDLE_SOURCES,
     BUNDLE_COVERAGE_SCHEMA_VERSION,
     BUNDLE_SCHEMA_VERSION,
     BUNDLE_SOURCES_SCHEMA_VERSION,
+    NZ_BUNDLE_SOURCES,
     PRUNED_INTERMEDIATES_REPORT,
     SUITE_INTERMEDIATE_FILES,
     UK_BUNDLE_SOURCES,
-    _load_jsonl as load_bundle_jsonl,
     build_bundle,
     build_bundle_coverage,
 )
+from chronicle.bundle import (
+    _load_jsonl as load_bundle_jsonl,
+)
+from chronicle.consumer_contract import consumer_fact_rows
 from chronicle.epoch import CONSUMER_FACT_EMIT_SCHEMA_VERSION, HASH_DOMAINS, Epoch
 from chronicle.harness import build_bundle_dir
 from chronicle.harness import main as harness_main
+from chronicle.source_package import (
+    load_source_package,
+    r2_only_package_artifacts,
+    read_registered_artifact,
+)
 
 
 def _load_jsonl(path):
-    return [json.loads(line) for line in path.read_text().splitlines() if line]
+    return list(_iter_jsonl(path))
+
+
+def _iter_jsonl(path):
+    with path.open(encoding="utf-8") as file:
+        for line in file:
+            if line.rstrip("\n"):
+                yield json.loads(line)
+
+
+def _bundle_failure_diagnostics(summary):
+    """Expose actual bundle and nested source errors without dumping coverage."""
+    invalid_sources = []
+    for source in summary["source_packages"]:
+        if source["valid"]:
+            continue
+        details = {"source": source["source"], "counts": source["counts"]}
+        path = Path(source["outputs"]["reports"]) / "build_summary.json"
+        try:
+            nested = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError) as error:
+            details["report_read_error"] = str(error)
+        else:
+            details["errors"] = {
+                name: {
+                    "error_count": len(report["errors"]),
+                    "first_errors": report["errors"][:5],
+                }
+                for name, report in nested["reports"].items()
+                if report.get("errors")
+            }
+        invalid_sources.append(details)
+    return json.dumps(
+        {
+            "counts": summary["counts"],
+            "first_errors": summary["errors"][:20],
+            "invalid_source_count": len(invalid_sources),
+            "first_invalid_sources": invalid_sources[:10],
+        },
+        indent=2,
+    )
 
 
 def _fixture_consumer_rows():
@@ -97,6 +150,14 @@ def test_build_bundle_dir_uk_suite_uses_curated_sources(tmp_path, monkeypatch):
     assert "hmrc-cgt-residential-property-2026" in UK_BUNDLE_SOURCES
     assert "hmrc-cgt-badr-ir-2026" in UK_BUNDLE_SOURCES
     assert "hmrc-cgt-carried-interest-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-isa-statistics-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-lisa-statistics-2026" in UK_BUNDLE_SOURCES
+    assert "hmrc-cash-isa-limit-reduction-2026" in UK_BUNDLE_SOURCES
+    # chronicle#393: the October 2026 EFO sits beside the March 2026 vintage.
+    for kind in ("receipts", "expenditure", "economy", "aggregates"):
+        assert f"obr-efo-{kind}-march-2026" in UK_BUNDLE_SOURCES
+        assert f"obr-efo-{kind}-october-2026" in UK_BUNDLE_SOURCES
+    assert "obr-efo-policy-october-2026" in UK_BUNDLE_SOURCES
     assert tuple(captured["sources"]) == UK_BUNDLE_SOURCES
     assert captured["output_dir"] == tmp_path / "bundle"
 
@@ -123,7 +184,203 @@ def test_build_bundle_cli_accepts_uk_suite(tmp_path, monkeypatch):
     assert captured["suite"] == "uk"
 
 
+class _FakeBundleReport:
+    valid = True
+
+    def to_dict(self):
+        return {"valid": True}
+
+
+@pytest.fixture
+def fake_build_bundle(monkeypatch):
+    """Record what build_bundle_dir asks build_bundle to build, without building."""
+    calls = []
+
+    def record(output_dir, **kwargs):
+        calls.append({"output_dir": output_dir, **kwargs})
+        return _FakeBundleReport()
+
+    monkeypatch.setattr("chronicle.harness.build_bundle", record)
+    return calls
+
+
+def test_build_bundle_dir_nz_suite_uses_curated_sources(tmp_path, fake_build_bundle):
+    report = build_bundle_dir(tmp_path / "bundle", year=2023, suite="nz")
+
+    assert report.valid
+    [call] = fake_build_bundle
+    assert tuple(call["sources"]) == NZ_BUNDLE_SOURCES
+    assert call["output_dir"] == tmp_path / "bundle"
+    assert call["year"] == 2023
+    assert "treasury-an24-01-fiscal-totals" in call["sources"]
+    assert "treasury-estimates-of-appropriations-2026-27" in call["sources"]
+    assert "treasury-prefu26-economic-assumptions" in call["sources"]
+    assert "stats-nz-qes-average-weekly-earnings-june-2025" in call["sources"]
+    assert "stats-nz-qes-average-weekly-earnings-june-2026" in call["sources"]
+    assert "stats-nz-qes-average-weekly-earnings-september-2026" in call["sources"]
+    assert "stats-nz-census-2023-households-by-region-rc-99" in call["sources"]
+    assert not set(call["sources"]) & set(UK_BUNDLE_SOURCES)
+
+
+def test_build_bundle_dir_be_suite_uses_curated_sources(tmp_path, fake_build_bundle):
+    report = build_bundle_dir(tmp_path / "bundle", year=2023, suite="be")
+
+    assert report.valid
+    [call] = fake_build_bundle
+    assert tuple(call["sources"]) == BE_BUNDLE_SOURCES
+    assert call["output_dir"] == tmp_path / "bundle"
+    assert call["year"] == 2023
+    for alias in (
+        "statbel-fiscal-income-distribution-2023",
+        "statbel-population-structure-commune-2025",
+        "fpb-economic-outlook-2026-2031-june-2026",
+        "rsz-employment-daily-wage-class-2023-2026",
+        "sfpd-pension-amount-bands-2025",
+        "spf-finances-municipal-tax-rate-ay2026",
+        "nbb-national-accounts-household-disposable-income-2024",
+        "eurostat-ert-bil-eur-a-usd",
+        "eurostat-gov-10a-taxag-2025",
+    ):
+        assert alias in call["sources"]
+    # A comparison statistic: the suite leaves it out while decision d1822 is open.
+    assert "jrc-euromod-be-baseline-statistics-2025" not in call["sources"]
+    assert not set(call["sources"]) & set(NZ_BUNDLE_SOURCES)
+    assert not set(call["sources"]) & set(UK_BUNDLE_SOURCES)
+
+
+@pytest.mark.parametrize(
+    "suite,roster",
+    [
+        pytest.param("be", BE_BUNDLE_SOURCES, id="be"),
+        pytest.param("nz", NZ_BUNDLE_SOURCES, id="nz"),
+        pytest.param("uk", UK_BUNDLE_SOURCES, id="uk"),
+    ],
+)
+def test_build_bundle_cli_builds_each_curated_suite(
+    tmp_path, fake_build_bundle, suite, roster
+):
+    status = harness_main(
+        ["build-bundle", "--suite", suite, "--out", str(tmp_path / "bundle")]
+    )
+
+    assert status == 0
+    [call] = fake_build_bundle
+    assert tuple(call["sources"]) == roster
+    assert call["year"] == 2023
+
+
+@pytest.mark.parametrize("suite", ["be", "nz", "uk"])
+def test_build_bundle_dir_refuses_a_suite_with_explicit_sources(
+    tmp_path, fake_build_bundle, suite
+):
+    with pytest.raises(ValueError) as excinfo:
+        build_bundle_dir(
+            tmp_path / "bundle",
+            year=2023,
+            suite=suite,
+            sources=["ird-working-for-families-statistics-sept-2025"],
+        )
+
+    assert str(excinfo.value) == f"--suite {suite} cannot be combined with --source."
+    assert fake_build_bundle == []
+
+
+@pytest.mark.parametrize("suite", ["be", "nz", "uk"])
+def test_build_bundle_cli_refuses_a_suite_with_explicit_sources(
+    tmp_path, fake_build_bundle, suite
+):
+    argv = [
+        "build-bundle",
+        "--suite",
+        suite,
+        "--source",
+        "treasury-an24-01-fiscal-totals",
+        "--out",
+        str(tmp_path / "bundle"),
+    ]
+
+    with pytest.raises(ValueError, match=f"^--suite {suite} cannot be combined"):
+        harness_main(argv)
+
+    assert fake_build_bundle == []
+
+
+def test_build_bundle_dir_nz_suite_refuses_a_drifted_roster(
+    tmp_path, fake_build_bundle, monkeypatch
+):
+    monkeypatch.setattr(
+        chronicle.bundle,
+        "NZ_BUNDLE_SOURCES",
+        tuple(
+            alias
+            for alias in NZ_BUNDLE_SOURCES
+            if alias != "stats-nz-census-2023-family-type-rc-12"
+        ),
+    )
+
+    with pytest.raises(
+        ValueError,
+        match=r"^NZ_BUNDLE_SOURCES drifted .*"
+        r"missing=\['stats-nz-census-2023-family-type-rc-12'\], extra=\[\]$",
+    ):
+        build_bundle_dir(tmp_path / "bundle", year=2023, suite="nz")
+
+    assert fake_build_bundle == []
+
+
+def test_build_bundle_dir_be_suite_refuses_a_drifted_roster(
+    tmp_path, fake_build_bundle, monkeypatch
+):
+    monkeypatch.setattr(
+        chronicle.bundle,
+        "BE_BUNDLE_SOURCES",
+        tuple(
+            alias
+            for alias in BE_BUNDLE_SOURCES
+            if alias != "eurostat-ert-bil-eur-a-usd"
+        ),
+    )
+
+    with pytest.raises(
+        ValueError,
+        match=r"^BE_BUNDLE_SOURCES drifted .*"
+        r"missing=\['eurostat-ert-bil-eur-a-usd'\], extra=\[\]$",
+    ):
+        build_bundle_dir(tmp_path / "bundle", year=2023, suite="be")
+
+    assert fake_build_bundle == []
+
+
+def test_build_bundle_dir_rejects_an_unknown_suite(tmp_path, fake_build_bundle):
+    with pytest.raises(ValueError, match="Unknown bundle suite: 'au'"):
+        build_bundle_dir(tmp_path / "bundle", year=2023, suite="au")
+
+    assert fake_build_bundle == []
+
+
+def test_build_bundle_cli_rejects_an_unknown_suite(tmp_path, fake_build_bundle, capsys):
+    with pytest.raises(SystemExit) as excinfo:
+        harness_main(["build-bundle", "--suite", "au", "--out", str(tmp_path)])
+
+    assert excinfo.value.code == 2
+    assert "invalid choice: 'au'" in capsys.readouterr().err
+    assert fake_build_bundle == []
+
+
+def _skip_unless_r2_only_artifacts_available() -> None:
+    """The merged bundle reads every package's artifact. Those stored in R2 only come
+    from the cache or, with LEDGER_SOURCE_ARTIFACT_FETCH=1 as CI sets, a download;
+    without either the test skips, as chronicle#343's raw-byte tests do."""
+    data_root = Path(__file__).parents[1] / "db" / "data"
+    for manifest_path, file_key in r2_only_package_artifacts(data_root):
+        try:
+            read_registered_artifact(manifest_path, file_key)
+        except FileNotFoundError as error:
+            pytest.skip(f"R2-only source artifact unavailable: {error}")
+
+
 def test_build_bundle_writes_merged_consumer_contract(tmp_path):
+    _skip_unless_r2_only_artifacts_available()
     output_dir = tmp_path / "bundle"
 
     # Slim: a full default bundle keeps tens of GB of per-suite intermediates
@@ -131,14 +388,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # the bundle keeps (tests/test_chronicle_bundle_slim.py).
     report = build_bundle(output_dir, year=2023, keep_suite_intermediates=False)
     summary = json.loads((output_dir / "reports" / "build_bundle.json").read_text())
-    rows = _load_jsonl(output_dir / "consumer_facts.jsonl")
+    rows_path = output_dir / "consumer_facts.jsonl"
     source_packages = json.loads((output_dir / "source_packages.json").read_text())
     coverage = json.loads((output_dir / "coverage.json").read_text())
     pruned = json.loads(
         (output_dir / "reports" / PRUNED_INTERMEDIATES_REPORT).read_text()
     )
 
-    assert report.valid
+    assert report.valid, _bundle_failure_diagnostics(summary)
     assert summary["valid"]
     assert pruned["suite_count"] == summary["counts"]["source_package_count"]
     assert pruned["file_count"] == pruned["suite_count"] * len(SUITE_INTERMEDIATE_FILES)
@@ -149,13 +406,213 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     ]
     # chronicle#209's NZ WFF package adds 330 TY2024 facts: 329 families and 1
     # person, in one new publisher, package, source table and country.
+    # MBIE adds 5,663 August 2025–July 2026 dwelling/bond-record facts, one
+    # publisher/package/table and 67 new geography keys (NZ already exists).
+    # The single-source build adds no warnings or duplicate keys; all twelve
+    # months and the dwelling entity already occur in the default bundle.
+    # B4 adds 139 MSD facts: 128 persons and 11 government expenses,
+    # four packages/tables and 12 W&I statistical scopes. Period/entity keys
+    # already exist. Each source was measured separately; the full bundle
+    # runs in CI. The additive source counts are 46 + 36 + 46 + 11.
+    # chronicle#210 I1 adds 3,522 TY2024 person facts to the existing IRD/NZ
+    # coverage, with one new package and source table; no new periods,
+    # geographies, entities, publisher names, duplicates or bundle warnings.
+    # Treasury AN24-01 adds 27 TY2019 government facts, one publisher/package/
+    # table, and no new geography, period, entity, duplicate keys or warnings.
+    # Measured with only treasury-an24-01-fiscal-totals at bundle year 2023.
+    # chronicle#211's Stats NZ package adds 85 population counts at 30 June
+    # 2025: 16 regional council areas and New Zealand, each for all ages and
+    # four age bands, from one new publisher, package and source table over 16 new
+    # geographies (its country:NZ geography is #209's).
+    # Stats NZ household net worth adds 1,413 July 2023–June 2024 HES facts:
+    # 940 households and 473 people, one package/table, all at country:NZ and
+    # fiscal_year:2023. Publisher, geography, period and entity keys already
+    # exist; the measured single-source bundle adds no warnings or duplicates.
+    # chronicle#210 I2 adds 510 TY2026 person facts, one package/table,
+    # to existing IRD/country:NZ/period/entity keys. Measured by a single-source
+    # build at bundle year 2023: no new geographies or warnings/duplicate keys.
+    # B7 part 2 adds 112 Treasury Social Development expense facts, measured
+    # with only treasury-estimates-of-appropriations-2026-27 at bundle year
+    # 2023: one package/table, existing Treasury/NZ/government keys and six
+    # existing fiscal-year keys, with no bundle warnings or duplicate keys.
+    # B5 adds 288 2023 Census counts in 36 per-place package members sharing
+    # 18 CSV artifacts and one source table. Single-source measurements add
+    # 216 households and 72 families, with 16 facts at each NZ/REGC key.
+    # Only region:99 is new; publisher, period and entity keys already exist.
+    # No duplicate keys or bundle warnings are added. The full bundle is CI-only.
+    # G8-d1 adds 162 Census weekly-rent facts in 18 per-place members:
+    # eight household counts and one published median at each existing place.
+    # Separate single-source builds measure +18 packages and one source table,
+    # with no new geography, publisher, period or entity keys, warnings or
+    # duplicates. Each country:NZ/region key gains nine CY2023 household facts.
+    # BEA NIPA Table 7.8 line 17 (B4923C, private group health insurance) adds
+    # one CY2023 person fact at US country geography from one new package and
+    # source table; the publisher, period, geography and entity keys already
+    # exist. Measured with only bea-nipa-private-group-health-insurance at
+    # bundle year 2023: no warnings and no duplicate keys.
+    # The congressional-district package adds its Schedule A line 8b, 8c and 9
+    # columns: 2,880 TY2022 tax-unit facts (six measures at 480 rows), six at
+    # each of its geographies. Measured with the 20 IRS SOI packages at bundle
+    # year 2023: no new geography, period or entity keys, duplicate keys or
+    # warnings. Its SALT and PTC column fixes, its line 8a relabel and the
+    # Historic Table 2 QBI column fix change no count.
+    # G8-d2: one-source build at year 2023 measured 67 CY2025 person facts,
+    # one package/table and 67 TA geography keys; only nz-ta-067 is new to
+    # the default bundle. Publisher, period and entity keys already exist.
+    # Standalone warnings/duplicates are zero. Comparing the declared names
+    # with MBIE through the bundle warning function adds two geography-name
+    # warnings (nz-ta-018 and nz-ta-027); both publisher spellings are kept.
+    # G8-d3: three separate single-source builds measure +33 facts: +26
+    # Stats NZ QES people and +7 Treasury economic assumptions (government).
+    # Three packages/tables; existing country:NZ, publishers, entities and
+    # quarter/fiscal-year keys; no bundle warnings or duplicate keys.
+    # G8-x: single-source builds of June 2026 (18 -> 2 facts, 2024-Q2 only)
+    # and September 2026 (18 facts, 2024-Q3 to 2026-Q3) measure +2 person
+    # facts at country:NZ, one package and one table; quarter:2026-Q3,
+    # stats_nz, person and country:NZ already exist; no warnings or duplicates.
+    # B2a: the Statbel commune package's source-only suite at build year 2025
+    # measured 3,955 person facts, one package/table, and seven facts at each
+    # of 565 existing commune keys. All retain their 1 January 2025 reference
+    # date. Source-only coverage and comparisons with the NUTS1/fiscal facts
+    # found no new period/entity/geography keys, duplicates or label warnings.
+    # The Belgian transport sources add one source (FPD amount bands), two
+    # packages, two tables net, two statistical-scope geographies (Eurostat's
+    # USD series and PensionStat's residents abroad) and 18 calendar years.
+    # Their commune, NUTS1 and country names follow the existing Statbel
+    # packages, so no geography-name warning is added.
+    # B2b: SPF Finances' assessment-year 2026 municipal surcharge rates add 565
+    # government facts, one at each existing commune key (tax_year:2025). SPF
+    # spells nine communes unlike Statbel (Bruxelles, Waimes and seven
+    # orthographic forms); the package keeps SPF's wording, so nine commune
+    # geography-name warnings are added.
+    # B2f: RSZ/ONSS adds 34,881 person facts at country:BE: 34,629 quarterly
+    # daily-wage-class cells (2023 Q1 to 2026 Q1) and 252 annual wage key
+    # figures (2020 to 2025). Two packages, sources and tables; no new
+    # geography, period or entity keys and no warnings.
+    # B2e: Ostbelgien's Kindergeld article adds 35 calendar-2025 facts (19
+    # person, 2 benefit_unit premium payments, 14 government expenditure) and
+    # one statistical_scope geography, the German-speaking Community; no
+    # warnings.
+    # SSA's Supplement 2025 Tables 7.B3 (December 2024 recipients and average
+    # monthly payments, 128 facts) and 7.B7 (calendar 2024 payment amounts, 65
+    # facts) add 193 person facts in two packages and source tables. Table
+    # 7.B7's Total column repeats Table 7.B1's payment totals, so its package
+    # leaves that column out. Measured with the three SSA packages already in
+    # the bundle, at bundle year 2023: the publisher, geography, period and
+    # entity keys already exist, and Table 7.B3's national federal SSI recipient
+    # count adds the one duplicate key (SSI Monthly Statistics Table 1 prints
+    # the same December 2024 figure, 7,289,843). The bundle already carries the
+    # one duplicate-key warning, so the warning count holds.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
         "error_count": 0,
-        "fact_count": 408475,
-        "geography_count": 12593,
-        "period_count": 495,
+        # chronicle#322 adds 4,947 ONS observations and 3,200 DESNZ ones.
+        # Inner/Outer London also add two region-level geography keys.
+        # chronicle#343 adds 63 OBR surcharge-costing projections and 22,940 ONS
+        # constituency sales and median prices, at existing geographies.
+        # chronicle#326, #339, #356, #357 and #358 add 549,059: 457,077 for the
+        # stamp taxes, HBAI, OBR lines, DESNZ, DfT, UV404 and residence-by-age
+        # packages, and 91,982 net for the Stat-Xplore extracts (183,804 UC
+        # area facts by Payment Indicator replace the 91,902 all-claims ones;
+        # Move to UC adds 80).
+        # G8-d4 adds 17 CY2023 ERP cells to the existing Stats NZ package;
+        # G8-d3 adds 33 (26 QES levels, 7 PREFU26 earnings assumptions);
+        # G8-x adds 2 net (September 2026 QES emits 18, June 2026 drops 16).
+        # chronicle#381 adds 2,990: 181 OBR excise lines, HMRC's alcohol (288),
+        # tobacco (710) and betting and gaming (376) tables, and 1,435
+        # Gambling Commission facts. Its 30 September Consumer Trends package
+        # replaces the 30 June one fact for fact (5,164).
+        # The Belgian transport sources add 31,244: Eurostat's 55 annual USD
+        # rates, FPD's 10,239 January 2025 amount-band cells and PensionStat's
+        # 20,954 workbook cells, which replace its four curated headlines.
+        # PolicyEngine/microcosm#1381's GSGB 2025 package adds 1,024 survey
+        # facts for people in calendar 2025, at existing keys.
+        # PolicyEngine/microcosm#1415's HMRC annual savings statistics add 3,272
+        # person facts: 3,230 from the ISA tables (9.4, 9.6 and 9.7 to 9.12), 40
+        # from Lifetime ISA Table 1a and 2 from the cash ISA limit impact note.
+        # PolicyEngine/microcosm#1418 adds SPI 2023-24 Table 3.10 to the SPI
+        # bands package: 159 tax year 2023 facts for UK individuals with a
+        # self-employment source, at existing keys (15 rows of 10 measures and
+        # the GBP 0 to GBP 1 band's 9, its self-employment amount suppressed).
+        # chronicle#393's OBR October 2026 EFO packages add 4,317: receipts
+        # 1,551, expenditure 165, economy 56, aggregates 25 and policy 2,520.
+        # chronicle#395 adds 1,076: LPS domestic rates paid (144) and its Lone
+        # Pensioner (420) and Disabled Person's Allowance (360) statistics, ONS's
+        # Northern Ireland domestic rates (52), DfT BUS01 for Wales (57), the Childcare
+        # Offer for Wales report (3), ONS vehicle duty by payer (16), ONS CPI gas
+        # weights (9) and indices (14), and the March EFO's VED outturn for
+        # 2024-25 (1). October's VED line moves to the March concept fact for
+        # fact. No new geography, period or entity key, and no duplicate key: of
+        # two vintages' numbers Chronicle keeps the later (chronicle#397).
+        # PolicyEngine/uk-autumn-budget-dashboard-2026#316's HMRC benefits in kind
+        # statistics add 544 person facts. chronicle#397 drops the 427 March 2026
+        # EFO facts whose line and year the October 2026 packages also publish:
+        # receipts 239, expenditure 141, economy 30, aggregates 17.
+        # chronicle#407 adds 73,039 person facts from 15 ONS packages: Nomis
+        # APS218's employment by SOC 2020 group (24,956) and ASHE Table 2's pay
+        # and CVs by two-digit SOC (48,083). Its geography, period and entity
+        # keys already exist, and no key is duplicated.
+        # chronicle#408 adds 326,495 facts, and no key is duplicated: VOA's
+        # council tax stock by band, property type and build period (222,588),
+        # EPC live table D3's domestic certificates (75,051), MHCLG's land value
+        # estimates (10,101), council tax collection Table 6 (1,208) and QRC4
+        # (5,757), Live Table 126's dwelling density (5,406), the Market Value
+        # Survey's chapters 1, 3 and 4 (4,458), HMRC's stamp tax Tables 2e, 3a,
+        # 5a, 7, 9a and 9d (1,135), ONS's land by sector (387) and the council
+        # rows of the Welsh (308) and Scottish (96) council tax tables.
+        # chronicle#419 adds 118,272 dwelling facts: NRS's council tax bands A to
+        # H for each of Scotland's 7,392 2022 data zones, December 2024 and
+        # December 2025. Measured with only nrs-dwellings-data-zone-2025 at
+        # bundle year 2023: no new geography, period or entity key, duplicate
+        # key or warning.
+        # Census Vintage 2025 state age groups add 816 facts, and Vintage 2024
+        # gives up its 51 state totals for the same date (chronicle#397).
+        # chronicle#420's young people packages add 33,641: DWP's people on UC by
+        # age and conditionality regime (16,510), ASHE Table 6 by age group (10,806),
+        # LFS table A06 (SA 1,701, NSA 2,831), ONS NEET (945), PAYE RTI by age (826)
+        # and HMRC's employer NICs reliefs for young employees (22).
+        # chronicle#420's PIP packages add 23,947: DWP's Stat-Xplore PIP cases with
+        # entitlement (22,707: by country, award and age 7,997; by disability
+        # category 10,769; by region 1,881; by End of Life Rules 1,078; by
+        # constituency 632 and local authority 350) and the Pathways to Work
+        # evidence pack's PIP points tables (1,240).
+        # chronicle#420's Scottish packages add 3,966: HMRC's Scottish income tax
+        # outturn 2024-25 (1,652) and Social Security Scotland's caseloads of Adult
+        # Disability Payment (1,885), Carer Support Payment (282), Child Disability
+        # Payment (81) and Pension Age Disability Payment (66).
+        # SSA's Supplement Tables 7.B3 and 7.B7 add 193 (128 and 65).
+        "fact_count": 2243268,
+        # The same change adds 82,064 geography keys: 46,363 Scottish 2022
+        # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
+        # workbooks (Scotland's data zones already exist), the 26 Northern
+        # Ireland districts of DESNZ's 2009-2014 rows, DESNZ's Northern Ireland
+        # unallocated row and HMRC's England and Northern Ireland scope.
+        # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope.
+        # PolicyEngine/uk-autumn-budget-dashboard-2026#316 adds HMRC's unknown
+        # region of company car benefit recipients (Table 4).
+        # chronicle#408 adds 275: the land value estimates' 109 built-up areas,
+        # 109 postcode districts and 25 London locations; Live Table 126's 25
+        # districts and three counties retired at the 2019 to 2021
+        # reorganisations, and Tyne and Wear's E11000004 (EPC D3 reports 11 of
+        # the districts too); and three scopes: HMRC's England, Wales and
+        # Northern Ireland, EPC D3's England area unknown and the Market Value
+        # Survey's England excluding London.
+        "geography_count": 102893,
+        # And 12 period keys: HBAI's FYE 1995 and FYE 1996 (fiscal_year 1994,
+        # 1995) and gas_year 2015 to 2024, the period type chronicle#356 adds.
+        # chronicle#381 adds 12 more: HMRC's betting and gaming receipts from
+        # 1986-87 and tobacco from 1990-91 (fiscal_year 1986 to 1993), and
+        # tobacco's calendar years 1991 to 1994. chronicle#393 adds fiscal_year
+        # 2031: 2031-32 is the October 2026 EFO's new forecast year, and no
+        # other package carries it.
+        # chronicle#408 adds 46: EPC D3's quarters 2008-Q4 to 2019-Q4 (HMRC's
+        # quarterly First Time Buyers' Relief shares the nine from 2017-Q4) and
+        # the Market Value Survey's 1 October 2015 valuations (month 2015-10).
+        # chronicle#420 adds month 2026-09, PAYE RTI's early estimate, and nine
+        # months from April 2016 to March 2017, the start of HMRC's in-year RTI
+        # income tax series (Table 4 of the Scottish outturn).
+        "period_count": 610,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -169,107 +626,382 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # than one cut or release (+198). Sixteen of those differ: the Winter
         # Fuel Payment 2023-24 workbook against the Stat-Xplore cube, both kept
         # as published.
-        "semantic_duplicate_key_count": 2324,
-        "skipped_source_count": 10,
-        "source_count": 51,
-        "source_package_count": 269,
+        # chronicle#313 replaces superseded NRS/UC/DfI cells in the current
+        # export: 5,244 NRS + 5,406 UC + 12 DfI overlap groups are retired.
+        # Independent census cuts and the older-only combined Metro/Glider
+        # journey series remain publisher facts with their original provenance.
+        # PolicyEngine/microcosm#1415 adds none: totals the ISA tables print in
+        # more than one of Tables 9.7 to 9.12 are ported once.
+        # chronicle#393 added 363: the October 2026 EFO's projections of the March
+        # 2026 packages' lines for the years both vintages forecast. chronicle#397
+        # removes them: the March packages keep only the line-years October does
+        # not publish.
+        # chronicle#420's young people packages add 1,592, each figure kept as each
+        # table prints it: ASHE Table 6's 'All employees' rows are Table 2's
+        # (chronicle#407), cell for cell (12 packages of 117); ONS NEET's population
+        # is LFS table A06's totals (162, of which the nine women aged 18 to 24 not
+        # seasonally adjusted differ, as NEET's sheet prints them); and the people
+        # on UC cube's Great Britain totals are the employment indicator cube's (26).
+        # chronicle#420's Pathways to Work package adds 14: its age and condition
+        # tables' all-claimants rows describe one caseload on bases DWP prints
+        # differently (3,627,000 and 3,701,000 for daily living), both kept.
+        # SSA's Table 7.B3 adds one: its national federal SSI recipient count for
+        # December 2024 is SSI Monthly Statistics Table 1's all-ages figure, and
+        # Chronicle keeps both as published.
+        "semantic_duplicate_key_count": 3931,
+        # chronicle#310's six FSA portfolio packages (FY2026 files) and the
+        # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
+        # bundle skips them (10 -> 17); no fact or key count moves.
+        # Seven ACS 2020–2024 county packages also have no 2023 artifact, so
+        # they are skipped (17 -> 24) and the built-package count is unchanged.
+        "skipped_source_count": 24,
+        # chronicle#381 adds the Gambling Commission.
+        "source_count": 62,
+        # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
+        # all-claims UC area packages. chronicle#381 adds four and replaces the
+        # 30 June Consumer Trends package with the 30 September one. GSGB 2025
+        # (PolicyEngine/microcosm#1381) adds one. PolicyEngine/microcosm#1415
+        # adds three, and chronicle#393 the five OBR October 2026 EFO packages.
+        # PolicyEngine/uk-autumn-budget-dashboard-2026#316 adds HMRC's benefits in
+        # kind statistics. G8-x adds the September 2026 QES vintage. chronicle#407
+        # adds the three APS218 and twelve ASHE Table 2 packages. chronicle#408
+        # adds twelve: VOA's three council tax stock packages, MHCLG's EPC D3,
+        # land value estimates, Live Table 126, collection Table 6, QRC4 and
+        # three Market Value Survey chapters, and ONS's land underlying other
+        # buildings. chronicle#420's young people batch adds 18: ONS NEET, A06 SA
+        # and NSA, PAYE RTI by age, twelve ASHE Table 6 packages, HMRC's employer
+        # NICs reliefs and DWP's people on UC by age and conditionality regime; its
+        # PIP batch adds seven: six Stat-Xplore PIP cases packages and the Pathways
+        # to Work evidence pack's points tables; and its Scottish batch adds five:
+        # HMRC's Scottish income tax outturn and four Social Security Scotland
+        # caseload packages. SSA's Supplement Tables 7.B3 and 7.B7 add two.
+        "source_package_count": 503,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
         # areas the canonical name register does not yet carry - every UK one
         # it does has stopped warning (chronicle#281). chronicle#302 adds two:
         # ASHE writes '30 to 39' and '40 to 49' where NTS0601 writes 'Age 30 to 39'.
-        "warning_count": 78,
+        # chronicle#211 adds one: Stats NZ heads its oldest band '65+' where
+        # Statbel's population-structure rows write '65_plus'.
+        # chronicle#322 retains six division labels that differ between
+        # the ONS overview and detailed worksheets; chronicle#381's September
+        # release keeps them.
+        # chronicle#313 adds 27 English county wording differences and one
+        # Scottish BRMA difference, preserving each publisher's name.
+        # It also retains detached/terraced casing differences between DESNZ
+        # and PIPR, plus SLC's two literal returning-support footnote spellings.
+        # Male/Males wording remains; total sex axes are omitted, matching
+        # predecessors, so there is no sex=all wording warning.
+        # chronicle#343 adds one: ONS's 'Semi-detached houses' against DESNZ's
+        # 'Semi detached' for property_type=semi_detached, each as published.
+        # chronicle#356 adds two: DESNZ's LSOA workbooks name data zones
+        # S01019676 and S01019677 'Newtown St Boswells', where NRS writes
+        # 'Newton St Boswells'.
+        # The Belgian transport sources add one: Eurostat's exchange-rate
+        # dataset labels freq=A 'Annual', as its JSON-stat category label
+        # prints it, where the older Eurostat packages carry the bare code 'A'.
+        # GSGB 2025 adds one: B.9 writes "Tickets National Lottery draws bought in
+        # person" where B.10 writes "Tickets for ...", both kept as published.
+        # chronicle#376 removes 41: every dimension value two packages emit
+        # takes its label from chronicle/dimension_values/canonical_labels.json,
+        # so the 17 values two packages labelled differently and the 24 values
+        # one package's rows labelled two ways now carry one label each (freq=A
+        # 'Annual', and B.10's wording for GSGB's row), and a value labelled
+        # two ways is an error rather than a warning.
+        "warning_count": 92,
     }
-    assert len(rows) == 408475
-    assert {row["provenance_class"] for row in rows} <= {
+    row_count = 0
+    provenance_classes = set()
+    for row in _iter_jsonl(rows_path):
+        row_count += 1
+        provenance_classes.add(row["provenance_class"])
+        assert (
+            (
+                isinstance(row.get("survey_instrument"), str)
+                and row["survey_instrument"].strip()
+            )
+            if row["provenance_class"] == "survey_aggregate"
+            else ("survey_instrument" not in row)
+        )
+        if row_count == 1:
+            assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
+            assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
+    assert row_count == 2243268
+    assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert all(
-        (
-            isinstance(row.get("survey_instrument"), str)
-            and row["survey_instrument"].strip()
-        )
-        if row["provenance_class"] == "survey_aggregate"
-        else "survey_instrument" not in row
-        for row in rows
-    )
-    assert rows[0]["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
-    assert rows[0]["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert source_packages["source_package_count"] == 269
-    assert source_packages["skipped_source_count"] == 10
+    assert source_packages["source_package_count"] == 503
+    assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
         "census-acs-s0101-national-age-2024",
         "census-acs-s0101-state-age-2024",
+        "census-acs-s1501-state-attainment-2024",
         "census-acs-s2201-congressional-district-snap-2024",
+        "census-acs5-b01003-county-2024",
+        "census-acs5-b11001-county-2024",
+        "census-acs5-b19001-county-2024",
+        "census-acs5-b19013-county-2024",
+        "census-acs5-b19025-county-2024",
+        "census-acs5-b19051-county-2024",
+        "census-acs5-b19061-county-2024",
         "cms-aca-effectuated-enrollment-2022",
         "cms-aca-oep-state-level",
         "cms-aca-oep-state-level-2022",
         "cms-aca-oep-state-level-2025",
+        "ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3",
+        "ed-fsa-portfolio-by-age-fy2026-q2",
+        "ed-fsa-portfolio-by-debt-size-fy2026-q2",
+        "ed-fsa-portfolio-by-loan-type-fy2026-q3",
+        "ed-fsa-portfolio-by-location-fy2026-q2",
+        "ed-fsa-portfolio-summary-fy2026-q3",
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 408475
+    assert coverage["fact_count"] == 2243268
     assert coverage["counts"]["by_source"] == {
-        "bea": 445,
+        "bea": 446,
         "bfp_economic_outlook": 5,
         "cbo": 7,
         "census_acs": 468,
-        "census_pep": 4132,
+        "census_pep": 4897,
         "census_population_projections": 86,
         "census_stc": 46,
         "cms_medicaid": 515,
         "cms_medicare": 1,
         "cms_nhe": 3,
-        "desnz": 5697,
+        "desnz": 352584,
         "dfe": 770,
         "dfc_ni": 1700,
-        "dfi_ni": 30,
-        "dft": 2771,
-        "dwp": 56100,
-        "eurostat": 207,
+        "dfi_ni": 33,
+        "dft": 2834,
+        "dwp": 274535,
+        "eurostat": 262,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
+        "gambling_commission": 2459,
         "hhs_acf_liheap": 2,
         "hhs_acf_tanf": 110,
-        "hmrc": 31515,
+        "hmrc": 40025,
         "ici": 12,
-        "ird": 330,
-        "irs_soi": 40063,
-        "isc": 2,
+        "ird": 4362,
+        "irs_soi": 43963,
+        "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
-        "mhclg": 118542,
+        "lps": 996,
+        "mbie": 5663,
+        "mhclg": 220523,
+        "msd": 139,
         "nbb_national_accounts": 1,
-        "nisra": 533,
+        "nisra": 29227,
         "nithc": 8,
-        "nrs": 6063,
-        "obr": 355,
+        "nrs": 477366,
+        "obr": 4539,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 100365,
+        "ons": 437810,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
-        "scotgov": 3687,
-        "sfpd_pensions": 4,
-        "slc": 199,
+        "ostbelgien_kindergeld": 35,
+        "rsz_annual_wages_key_figures": 252,
+        "rsz_employment_daily_wage_class": 34629,
+        "scotgov": 6654,
+        "sfpd_pension_amount_bands": 10239,
+        "sfpd_pensions": 20954,
+        "slc": 343,
+        "spf_finances_municipal_tax_rate": 565,
         "spf_finances_pit": 1,
-        "ssa": 426,
+        "ssa": 619,
         "statbel_fiscal_income": 565,
         "statbel_fiscal_income_distribution": 14600,
-        "statbel_population_structure": 36,
+        "statbel_population_structure": 3991,
+        "treasury": 146,
+        "stats_nz": 2060,
         "usda_snap": 852,
-        "voa": 3001,
-        "welshgov": 9325,
+        "voa": 225589,
+        "welshgov": 9878,
     }
     table_counts = coverage["counts"]["by_source_table"]
-    assert len(table_counts) == 264
+    # chronicle#407 adds 15 source tables, one per package, and chronicle#408
+    # adds 12, one per new package. The Census Vintage 2025 state age-group
+    # package adds one (SC-EST2025-ALLDATA6) and 816 census_pep facts, and the
+    # Vintage 2024 package gives up its 51 state totals (chronicle#397).
+    # chronicle#420's young people batch adds 18, its PIP batch seven and its Scottish
+    # batch five, one per package. SSA's Supplement Tables 7.B3 and 7.B7 add two,
+    # one per package.
+    assert len(table_counts) == 445
+    assert (
+        table_counts[
+            "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
+            "benefit and company car fuel benefit"
+        ]
+        == 544
+    )
+    assert (
+        table_counts[
+            "ostbelgien_kindergeld:Kindergeld in Ostbelgien, Aktualisierung "
+            "vom 31.03.2026"
+        ]
+        == 35
+    )
+    assert (
+        table_counts[
+            "rsz_employment_daily_wage_class:RSZ T17 daily wage, age and sex; "
+            "T7 NACE 2025, daily wage, sex and status"
+        ]
+        == 34629
+    )
+    assert (
+        table_counts[
+            "rsz_annual_wages_key_figures:Lonen en bezoldigde prestaties, "
+            "Kerncijfers-Chiffres Clés, 2020–2025"
+        ]
+        == 252
+    )
+    assert (
+        table_counts[
+            "spf_finances_municipal_tax_rate:Municipal tax rates (%) for tax "
+            "assessment year 2026"
+        ]
+        == 565
+    )
+    assert (
+        table_counts["bea:NIPA Table 7.8. Supplements to Wages and Salaries by Type"]
+        == 1
+    )
+    assert (
+        table_counts["stats_nz:2023 Census Place summaries: families and households"]
+        == 288
+    )
+    assert (
+        table_counts[
+            "stats_nz:2023 Census Place summaries: weekly rent paid by households"
+        ]
+        == 162
+    )
+    assert (
+        table_counts[
+            "stats_nz:Household net worth statistics: Year ended June 2024, "
+            "Tables 1.01, 2.01–2.04, 3.01–3.04, 5.01 and 7.01–7.04"
+        ]
+        == 1413
+    )
+    assert table_counts["mbie:Detailed monthly TLA tenancy bond data"] == 5663
+    assert (
+        table_counts[
+            "ons:Consumer Trends current price, not seasonally adjusted, "
+            "30 September 2026 release, 0CN, 01CN-12CN and TOURCN"
+        ]
+        == 5164
+    )
+    assert table_counts["hmrc:Alcohol Bulletin tables (May 2026 to July 2026)"] == 288
+    assert table_counts["hmrc:Tobacco Bulletin tables July 2026"] == 710
+    assert (
+        table_counts[
+            "hmrc:UK Betting and Gaming Statistics tables (August 2025 to July 2026)"
+        ]
+        == 376
+    )
+    assert (
+        table_counts[
+            "gambling_commission:Industry Statistics - Annual report - Financial "
+            "year April 2025 to March 2026 - Official statistics"
+        ]
+        == 1435
+    )
+    assert (
+        table_counts[
+            "gambling_commission:Gambling Survey for Great Britain, Annual Report "
+            "2025: data tables B.1 to B.4, B.9, B.10 and B.13"
+        ]
+        == 1024
+    )
+    assert (
+        table_counts[
+            "desnz:Sub-national road transport fuel consumption statistics, 2005-2024"
+        ]
+        == 3200
+    )
     assert table_counts["ird:Working for Families statistics - September 2025"] == 330
+    assert table_counts["treasury:AN24-01 fiscal totals, TY2019"] == 27
+    assert (
+        table_counts[
+            "stats_nz:Quarterly Employment Survey June 2025 quarter, "
+            "Table 7: Average weekly earnings for FTEs, by sector"
+        ]
+        == 8
+    )
+    assert (
+        table_counts[
+            "stats_nz:Quarterly Employment Survey June 2026 quarter, "
+            "Table 7: Average weekly earnings for FTEs, by sector"
+        ]
+        == 2
+    )
+    assert (
+        table_counts[
+            "stats_nz:Quarterly Employment Survey September 2026 quarter, "
+            "Table 7: Average weekly earnings for FTEs, by sector"
+        ]
+        == 18
+    )
+    assert (
+        table_counts[
+            "treasury:PREFU 2026 Table 4.1 - Key economic assumptions for fiscal forecasts"
+        ]
+        == 7
+    )
+    assert (
+        table_counts[
+            "treasury:Expenditure - Budget 2026 Data from the Estimates of "
+            "Appropriations 2026/27, Vote Social Development"
+        ]
+        == 112
+    )
+    assert (
+        table_counts[
+            "stats_nz:Subnational population estimates: At 30 June 2025 "
+            "(provisional), Tables 1 and 3"
+        ]
+        == 102
+    )
+    assert (
+        table_counts[
+            "stats_nz:Subnational population estimates: At 30 June 2025 "
+            "(provisional), Table 2"
+        ]
+        == 67
+    )
+    assert table_counts["ird:Taxable income distribution of individuals 2025"] == 3522
+    assert table_counts["ird:Wage and salary distributions for individuals 2026"] == 510
+    assert (
+        table_counts[
+            "msd:Quarterly Benefit Fact Sheets - National Benefit Tables, June 2026"
+        ]
+        == 46
+    )
+    assert (
+        table_counts[
+            "msd:Quarterly Benefit Fact Sheets: supplementary assistance by Work and Income region, June 2026"
+        ]
+        == 36
+    )
+    assert (
+        table_counts["msd:New Zealand Superannuation and Veteran's Pension - June 2026"]
+        == 46
+    )
+    assert (
+        table_counts[
+            "msd:Ministry of Social Development Annual Report 2025, Benefits or Related Expenses"
+        ]
+        == 11
+    )
     assert (
         table_counts[
             "dwp:State Pension caseload and mean weekly amount by age, gender and "
@@ -541,21 +1273,24 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         ]
         == 108
     )
+    # chronicle#408 adds Tables 2.8 and 2.11's 32 council rows (96).
     assert (
         table_counts[
             "scotgov:Scottish Local Government Finance Statistics (SLGFS) "
             "2024-25: publication tables, council tax tables 2.6, 2.8, 2.10, 2.11 "
             "and chart 2.7"
         ]
-        == 71
+        == 167
     )
+    # chronicle#408 adds the 22 billing authorities' rows to both years' Table 2
+    # (154 each).
     assert (
         table_counts[
             "welshgov:Council tax collection rates in Wales, April 2024 to March "
             "2025, Table 2 amounts outstanding in respect of 2024-25 bills and "
             "arrears"
         ]
-        == 7
+        == 161
     )
     assert (
         table_counts[
@@ -563,9 +1298,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             "2026, Table 2 amounts outstanding in respect of 2025-26 bills and "
             "arrears"
         ]
-        == 7
+        == 161
     )
-    assert table_counts["irs_soi:Congressional District Data 2022"] == 26880
+    assert table_counts["irs_soi:Congressional District Data 2022"] == 29760
     assert table_counts["irs_soi:IRS SOI County Data 2022"] == 6286
     assert table_counts["census_pep:Vintage 2024 County Population Totals"] == 3144
     assert (
@@ -615,6 +1350,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         == 515
     )
     assert table_counts["ssa:SSA Annual Statistical Supplement 2025 Table 7.B1"] == 416
+    assert table_counts["ssa:SSA Annual Statistical Supplement 2025 Table 7.B3"] == 128
+    assert table_counts["ssa:SSA Annual Statistical Supplement 2025 Table 7.B7"] == 65
     assert (
         table_counts[
             "ons:UK Business, Activity, Size and Location 2025 enterprise "
@@ -680,6 +1417,28 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     assert (
         table_counts[
+            "eurostat:Eurostat ert_bil_eur_a Euro/ECU exchange rates - "
+            "annual data, USD average"
+        ]
+        == 55
+    )
+    assert (
+        table_counts[
+            "sfpd_pension_amount_bands:Jaarlijkse statistiek 2025, "
+            "sections 1.2, 6.2 and 9"
+        ]
+        == 10239
+    )
+    # PensionStat's workbook table replaces its curated headline table.
+    assert table_counts["sfpd_pensions:PensionStat legal pensions and IGO, 2025"] == (
+        20954
+    )
+    assert (
+        "sfpd_pensions:Legal pension beneficiaries by scheme, January 2025"
+        not in table_counts
+    )
+    assert (
+        table_counts[
             "spf_finances_pit:Personal income tax statistics total taxes, income year "
             "2023"
         ]
@@ -691,6 +1450,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             "marital status, age and sex, 2025"
         ]
         == 18
+    )
+    assert (
+        table_counts[
+            "statbel_population_structure:Population by place of residence, nationality, "
+            "marital status, age and sex, 2025, NIS 2025 communes"
+        ]
+        == 3955
     )
     assert (
         table_counts[
@@ -794,7 +1560,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "academic_year:2020": 6,
         "academic_year:2021": 6,
         "academic_year:2022": 6,
-        "academic_year:2023": 6,
+        "academic_year:2023": 9,
         "academic_year:2024": 26,
         "academic_year:2025": 20,
         "academic_year:2026": 20,
@@ -820,23 +1586,23 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "calendar_year:2007": 39,
         "calendar_year:2008": 39,
         "calendar_year:2009": 39,
-        "calendar_year:2010": 39,
-        "calendar_year:2011": 39,
-        "calendar_year:2012": 39,
-        "calendar_year:2013": 72,
-        "calendar_year:2014": 72,
-        "calendar_year:2015": 74,
-        "calendar_year:2016": 72,
-        "calendar_year:2017": 72,
-        "calendar_year:2018": 176,
-        "calendar_year:2019": 175,
-        "calendar_year:2020": 175,
-        "calendar_year:2021": 4196,
-        "calendar_year:2022": 2223,
-        "calendar_year:2023": 6445,
-        "calendar_year:2024": 34038,
-        "calendar_year:2025": 4661,
-        "calendar_year:2026": 341,
+        "calendar_year:2010": 63,
+        "calendar_year:2011": 63,
+        "calendar_year:2012": 63,
+        "calendar_year:2013": 96,
+        "calendar_year:2014": 96,
+        "calendar_year:2015": 98,
+        "calendar_year:2016": 96,
+        "calendar_year:2017": 96,
+        "calendar_year:2018": 202,
+        "calendar_year:2019": 201,
+        "calendar_year:2020": 201,
+        "calendar_year:2021": 4222,
+        "calendar_year:2022": 2249,
+        "calendar_year:2023": 6473,
+        "calendar_year:2024": 34069,
+        "calendar_year:2025": 4668,
+        "calendar_year:2026": 344,
         "calendar_year:2027": 320,
         "calendar_year:2028": 320,
         "calendar_year:2029": 320,
@@ -845,33 +1611,33 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fiscal_year:1996": 33,
         "fiscal_year:1997": 33,
         "fiscal_year:1998": 33,
-        "fiscal_year:1999": 41,
-        "fiscal_year:2000": 41,
-        "fiscal_year:2001": 41,
-        "fiscal_year:2002": 41,
-        "fiscal_year:2003": 41,
-        "fiscal_year:2004": 41,
-        "fiscal_year:2005": 41,
-        "fiscal_year:2006": 41,
-        "fiscal_year:2007": 41,
-        "fiscal_year:2008": 41,
-        "fiscal_year:2009": 41,
-        "fiscal_year:2010": 41,
-        "fiscal_year:2011": 41,
-        "fiscal_year:2012": 41,
-        "fiscal_year:2013": 41,
-        "fiscal_year:2014": 41,
-        "fiscal_year:2015": 41,
-        "fiscal_year:2016": 41,
-        "fiscal_year:2017": 41,
-        "fiscal_year:2018": 41,
-        "fiscal_year:2019": 41,
-        "fiscal_year:2020": 44,
-        "fiscal_year:2021": 52,
-        "fiscal_year:2022": 52,
-        "fiscal_year:2023": 2467,
-        "fiscal_year:2024": 2770,
-        "fiscal_year:2025": 3394,
+        "fiscal_year:1999": 43,
+        "fiscal_year:2000": 43,
+        "fiscal_year:2001": 43,
+        "fiscal_year:2002": 43,
+        "fiscal_year:2003": 43,
+        "fiscal_year:2004": 43,
+        "fiscal_year:2005": 44,
+        "fiscal_year:2006": 44,
+        "fiscal_year:2007": 44,
+        "fiscal_year:2008": 46,
+        "fiscal_year:2009": 74,
+        "fiscal_year:2010": 74,
+        "fiscal_year:2011": 74,
+        "fiscal_year:2012": 74,
+        "fiscal_year:2013": 74,
+        "fiscal_year:2014": 74,
+        "fiscal_year:2015": 74,
+        "fiscal_year:2016": 74,
+        "fiscal_year:2017": 74,
+        "fiscal_year:2018": 74,
+        "fiscal_year:2019": 74,
+        "fiscal_year:2020": 101,
+        "fiscal_year:2021": 109,
+        "fiscal_year:2022": 109,
+        "fiscal_year:2023": 2524,
+        "fiscal_year:2024": 2800,
+        "fiscal_year:2025": 3421,
         "fiscal_year:2026": 3528,
         "fiscal_year:2027": 34,
         "fiscal_year:2028": 35,
@@ -927,7 +1693,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "month:2022-10": 4,
         "month:2022-11": 4,
         "month:2022-12": 4,
-        "month:2023-01": 435,
+        "month:2023-01": 437,
         "month:2023-02": 434,
         "month:2023-03": 442,
         "month:2023-04": 508,
@@ -939,7 +1705,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "month:2023-10": 39118,
         "month:2023-11": 508,
         "month:2023-12": 522,
-        "month:2024-01": 503,
+        "month:2024-01": 505,
         "month:2024-02": 502,
         "month:2024-03": 510,
         "month:2024-04": 508,
@@ -951,7 +1717,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "month:2024-10": 39224,
         "month:2024-11": 614,
         "month:2024-12": 892,
-        "month:2025-01": 610,
+        "month:2025-01": 612,
         "month:2025-02": 608,
         "month:2025-03": 738,
         "month:2025-04": 805,
@@ -963,7 +1729,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "month:2025-10": 39371,
         "month:2025-11": 776,
         "month:2025-12": 1025,
-        "month:2026-01": 553,
+        "month:2026-01": 555,
         "month:2026-02": 557,
         "month:2026-03": 498,
         "month:2026-04": 490,
@@ -1287,45 +2053,939 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # chronicle#209: IRD's Working for Families statistics for the 2024 tax
     # year (1 April 2023 to 31 March 2024).
     expected_period_counts["tax_year:2024"] += 330
+    mbie_month_increments = {
+        "month:2025-08": 469,
+        "month:2025-09": 476,
+        "month:2025-10": 469,
+        "month:2025-11": 476,
+        "month:2025-12": 469,
+        "month:2026-01": 469,
+        "month:2026-02": 476,
+        "month:2026-03": 462,
+        "month:2026-04": 476,
+        "month:2026-05": 476,
+        "month:2026-06": 469,
+        "month:2026-07": 476,
+    }
+    for key, count in mbie_month_increments.items():
+        expected_period_counts[key] += count
+    # B4: three June 2026 count packages and actual FY2024/25 expenses.
+    expected_period_counts["month:2026-06"] += 128
+    expected_period_counts["fiscal_year:2024"] += 11
+    # chronicle#210 I1: ending TY2024, from the September 2025 release.
+    expected_period_counts["tax_year:2024"] += 3522
+    # chronicle#210 I2: ending TY2026, from the August 2026 extraction.
+    expected_period_counts["tax_year:2026"] += 510
+    expected_period_counts["tax_year:2019"] += 27
+    # B7 part 2: publisher ending-year labels 2022–2027, opening-year periods.
+    for fiscal_year, count in {
+        2021: 19,
+        2022: 18,
+        2023: 18,
+        2024: 19,
+        2025: 19,
+        2026: 19,
+    }.items():
+        expected_period_counts[f"fiscal_year:{fiscal_year}"] += count
+    # chronicle#211: Stats NZ's population estimates at 30 June 2025.
+    expected_period_counts["calendar_year:2025"] += 85
+    # G8-d2 reads Table 2 at the same point-in-time publisher period.
+    expected_period_counts["calendar_year:2025"] += 67
+    # B2a: measured source-only commune facts retain the 1 January 2025 period.
+    expected_period_counts["calendar_year:2025"] += 3955
+    # GSGB 2025 (PolicyEngine/microcosm#1381): fieldwork January 2025 to January
+    # 2026, stamped calendar 2025.
+    expected_period_counts["calendar_year:2025"] += 1024
+    # chronicle#322: 16 areas x 10 vehicle/fuel columns annually, and the
+    # ONS extension (166 columns minus seven existing series, plus three
+    # annual tourism columns).
+    for year in range(2005, 2025):
+        expected_period_counts[f"calendar_year:{year}"] += 160
+    for year in range(2020, 2026):
+        expected_period_counts[f"calendar_year:{year}"] += 162
+        for quarter in range(1, 5):
+            expected_period_counts[f"quarter:{year}-Q{quarter}"] += 159
+    expected_period_counts["quarter:2026-Q1"] += 159
+    # chronicle#313 preserves census dates, revised back-years, publisher
+    # projection years and individual UC/PIPR months as their own periods.
+    issue_313_period_increments = {
+        "calendar_year:2011": 15732,
+        "calendar_year:2012": 15732,
+        "calendar_year:2013": 15732,
+        "calendar_year:2014": 15732,
+        "calendar_year:2015": 15744,
+        "calendar_year:2016": 15744,
+        "calendar_year:2017": 15744,
+        "calendar_year:2018": 15744,
+        "calendar_year:2019": 15744,
+        "calendar_year:2020": 15744,
+        "calendar_year:2021": 151574,
+        "calendar_year:2022": 27330,
+        "calendar_year:2023": 16116,
+        "calendar_year:2024": 30966,
+        "calendar_year:2025": 35215,
+        "calendar_year:2026": 361,
+        "calendar_year:2027": 349,
+        "calendar_year:2028": 349,
+        "calendar_year:2029": 349,
+        "calendar_year:2030": 349,
+        "calendar_year:2031": 349,
+        "calendar_year:2032": 349,
+        "calendar_year:2033": 349,
+        "calendar_year:2034": 349,
+        "calendar_year:2035": 349,
+        "calendar_year:2036": 349,
+        "calendar_year:2037": 349,
+        "calendar_year:2038": 349,
+        "calendar_year:2039": 349,
+        "calendar_year:2040": 349,
+        "calendar_year:2041": 349,
+        "calendar_year:2042": 349,
+        "calendar_year:2043": 349,
+        "calendar_year:2044": 349,
+        "calendar_year:2045": 349,
+        "calendar_year:2046": 349,
+        "calendar_year:2047": 349,
+        "month:2025-01": 8547,
+        "month:2025-02": 8547,
+        "month:2025-03": 8547,
+        "month:2025-04": 8547,
+        "month:2025-05": 8547,
+        "month:2025-06": 8547,
+        "month:2025-07": 8547,
+        "month:2025-08": 8547,
+        "month:2025-09": 8547,
+        "month:2025-10": 8547,
+        "month:2025-11": 8547,
+        "month:2025-12": 8547,
+        "month:2026-01": 8547,
+        "month:2026-02": 8547,
+        "month:2026-03": 8547,
+        "month:2026-04": 8547,
+        "month:2026-05": 8547,
+        "month:2026-06": 3141,
+        "month:2026-07": 3132,
+        "month:2026-08": 3132,
+    }
+    for key, count in issue_313_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # National additions requested in issue 313's latest comment. Early-year
+    # student support keeps AY2025; employment and ISC keep source months.
+    issue_313_comment_period_increments = {
+        "academic_year:2025": 136,
+        "calendar_year:2021": 12,
+        "calendar_year:2022": 12,
+        "calendar_year:2023": 12,
+        "calendar_year:2024": 220,
+        "calendar_year:2025": 4569,
+        "fiscal_year:2019": 2,
+        "fiscal_year:2020": 2,
+        "fiscal_year:2021": 2,
+        "fiscal_year:2022": 2,
+        "fiscal_year:2023": 2,
+        "fiscal_year:2024": 2,
+        "fiscal_year:2025": 10,
+        "month:2025-01": 1,
+        "month:2025-03": 6,
+        "month:2025-06": 6,
+        "month:2025-09": 6,
+        "month:2025-12": 6,
+        "month:2026-01": 1,
+    }
+    for key, count in issue_313_comment_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # Current publisher editions replace 5,244 NRS and thirteen ONS 2024
+    # cells, plus 6,038 UC May snapshots. DfI removes twelve old receipts,
+    # replaces six Ulsterbus journeys and adds its direct FY2025 cell.
+    expected_period_counts["calendar_year:2024"] -= 5244 + 13
+    expected_period_counts["month:2025-05"] -= 6038
+    for fiscal_year in range(2019, 2025):
+        expected_period_counts[f"fiscal_year:{fiscal_year}"] -= 2
+    expected_period_counts["fiscal_year:2025"] += 1
+    expected_period_counts["fiscal_year:2023"] += 1413
+    expected_period_counts["calendar_year:2023"] += 288
+    expected_period_counts["calendar_year:2023"] += 162
+    expected_period_counts["calendar_year:2023"] += 17  # G8-d4 regional ERP.
+    # chronicle#291: IRS SOI Historic Table 2 TY2023 state AGI-band facts.
+    expected_period_counts["tax_year:2023"] += 1020
+    # The congressional-district file's Schedule A line 8b, 8c and 9 columns:
+    # six measures at its 480 rows.
+    expected_period_counts["tax_year:2022"] += 2880
+    # BEA NIPA Table 7.8 line 17 (B4923C): the bundle year's own column.
+    expected_period_counts["calendar_year:2023"] += 1
+    # chronicle#343: ONS constituency sales and medians for the years ending
+    # March 2023 to 2026 (575 seats x 10 tables, less suppressed medians), and
+    # the OBR surcharge costing, 2026-27 to 2030-31.
+    issue_343_period_increments = {
+        "fiscal_year:2022": 5741,
+        "fiscal_year:2023": 5733,
+        "fiscal_year:2024": 5737,
+        "fiscal_year:2025": 5729,
+        "fiscal_year:2026": 6,
+        "fiscal_year:2027": 6,
+        "fiscal_year:2028": 19,
+        "fiscal_year:2029": 16,
+        "fiscal_year:2030": 16,
+    }
+    for key, count in issue_343_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#326, #339, #356, #357 and #358 add 549,059 facts.
+    # - Months: each UC area-month carries Payment Indicator Yes and No cells in
+    #   place of its all-claims one (+5,406 a month, January 2025 to May 2026),
+    #   and Move to UC's 80 cumulative facts sit at their latest notice month.
+    # - Census residence type by age (2021: ONS 6,666, NISRA 18,180) and NRS
+    #   (2022: UV404 by output area 87,816, UV101a Scotland 189).
+    # - DESNZ: Northern Ireland electricity (calendar years 2009-2011, then
+    #   financial years), the LSOA electricity rows, and the GB gas rows (726 a
+    #   year) that leave calendar_year for gas_year beside Northern Ireland's
+    #   gas years 2015-2024 and the LSOA gas rows.
+    # - Financial years: HBAI FYE 1995-2025 (four a year) and FYE 2025's eight
+    #   confidence bounds, HMRC stamp taxes (176 a year), DfT BUS04 (three a
+    #   year, DfT's year-ending labels) and the OBR's sheet 3.7 SDLT lines and
+    #   table 4.9 Northern Ireland rows (seven a year, 2024-25 to 2030-31).
+    uk_feed_period_increments = Counter(
+        {f"month:2025-{month:02d}": 5406 for month in range(1, 13)}
+        | {f"month:2026-{month:02d}": 5406 for month in range(1, 6)}
+        | {"month:2026-06": 80}
+    )
+    uk_feed_period_increments.update(
+        {
+            "calendar_year:2021": 6666 + 18180,
+            "calendar_year:2022": 87816 + 189,
+            "calendar_year:2009": 336,
+            "calendar_year:2010": 336,
+            "calendar_year:2011": 336,
+            "calendar_year:2023": 86120 - 726,
+            "calendar_year:2024": 86126 - 726,
+            "gas_year:2015": 102,
+            "gas_year:2016": 104,
+            "gas_year:2017": 104,
+            "gas_year:2018": 105,
+            "gas_year:2019": 96,
+            "gas_year:2020": 96,
+            "gas_year:2021": 96,
+            "gas_year:2022": 96,
+            "gas_year:2023": 82914 + 726 + 96,
+            "gas_year:2024": 82920 + 726 + 96,
+        }
+    )
+    for year in range(2012, 2025):
+        uk_feed_period_increments[f"fiscal_year:{year}"] += 336 if year < 2015 else 260
+    for year in range(1994, 2025):
+        uk_feed_period_increments[f"fiscal_year:{year}"] += 4
+    uk_feed_period_increments["fiscal_year:2024"] += 8
+    for year in (2023, 2024):
+        uk_feed_period_increments[f"fiscal_year:{year}"] += 176
+    for year in (2024, 2025):
+        uk_feed_period_increments[f"fiscal_year:{year}"] += 3
+    for year in range(2024, 2031):
+        uk_feed_period_increments[f"fiscal_year:{year}"] += 7
+    for key, count in uk_feed_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # G8-d3: QES published quarters and PREFU opening-year fiscal periods.
+    for year, quarters in (
+        (2023, (2, 3, 4)),
+        (2024, (1, 2, 3, 4)),
+        (2025, (1, 2, 3, 4)),
+        (2026, (1, 2)),
+    ):
+        for quarter in quarters:
+            expected_period_counts[f"quarter:{year}-Q{quarter}"] += 2
+    for fiscal_year in range(2024, 2031):
+        expected_period_counts[f"fiscal_year:{fiscal_year}"] += 1
+    # G8-x: September 2026 QES adds 2026-Q3; its other quarters move from
+    # June 2026, so their counts do not change.
+    expected_period_counts["quarter:2026-Q3"] += 2
+    # chronicle#381: OBR's excise lines (2024-25 to 2030-31); HMRC's alcohol
+    # tables (2023 to 2025, financial and calendar years), tobacco tables (1990-91
+    # to 2025-26 and 1991 to 2025) and betting and gaming tables (receipts by
+    # duty in force from 1986-87, Machine Games Duty liabilities from 2013-14);
+    # and the Gambling Commission's financial years from 2008-09, with remote
+    # detail from 2015-16.
+    issue_381_period_increments = Counter(
+        {"fiscal_year:2024": 19}
+        | {f"fiscal_year:{year}": 27 for year in range(2025, 2031)}
+    )
+    for year in range(2023, 2026):
+        issue_381_period_increments[f"calendar_year:{year}"] += 48
+        issue_381_period_increments[f"fiscal_year:{year}"] += 48
+    for year in range(1990, 2026):
+        issue_381_period_increments[f"fiscal_year:{year}"] += 10
+        if year > 1990:
+            issue_381_period_increments[f"calendar_year:{year}"] += 10
+    for year in range(1986, 2026):
+        issue_381_period_increments[f"fiscal_year:{year}"] += (
+            7 if year < 1994 else 8 if year < 2013 else 12 if year == 2013 else 13
+        )
+    issue_381_period_increments.update(
+        {"fiscal_year:2008": 52}
+        | {f"fiscal_year:{year}": 54 for year in range(2009, 2015)}
+        | {f"fiscal_year:{year}": 97 for year in range(2015, 2024)}
+        | {"fiscal_year:2024": 93, "fiscal_year:2025": 93}
+    )
+    for key, count in issue_381_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # Belgian transport sources: Eurostat's annual USD rate for each year
+    # 1971-2025 (1972-1980 and 1982-1990 are new keys); January 2025 for FPD's
+    # amount bands and PensionStat's caseloads; and PensionStat's printed 2025
+    # expenditure year in place of its four calendar-2025 headlines.
+    for year in range(1971, 2026):
+        key = f"calendar_year:{year}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + 1
+    expected_period_counts["month:2025-01"] += 10239 + 20932
+    expected_period_counts["calendar_year:2025"] += 22 - 4
+    # B2b: SPF Finances' municipal rates, income year 2025 (assessment year 2026).
+    expected_period_counts["tax_year:2025"] += 565
+    # B2f: RSZ's quarterly daily-wage classes and annual wage key figures.
+    expected_period_counts["quarter:2023-Q1"] += 432
+    expected_period_counts["quarter:2023-Q2"] += 432
+    expected_period_counts["quarter:2023-Q3"] += 432
+    expected_period_counts["quarter:2023-Q4"] += 432
+    expected_period_counts["quarter:2024-Q1"] += 3669
+    expected_period_counts["quarter:2024-Q2"] += 3672
+    expected_period_counts["quarter:2024-Q3"] += 3654
+    expected_period_counts["quarter:2024-Q4"] += 3636
+    expected_period_counts["quarter:2025-Q1"] += 3648
+    expected_period_counts["quarter:2025-Q2"] += 3654
+    expected_period_counts["quarter:2025-Q3"] += 3642
+    expected_period_counts["quarter:2025-Q4"] += 3669
+    expected_period_counts["quarter:2026-Q1"] += 3657
+    expected_period_counts["calendar_year:2020"] += 42
+    expected_period_counts["calendar_year:2021"] += 42
+    expected_period_counts["calendar_year:2022"] += 42
+    expected_period_counts["calendar_year:2023"] += 42
+    expected_period_counts["calendar_year:2024"] += 42
+    expected_period_counts["calendar_year:2025"] += 42
+    # B2e: Ostbelgien's Kindergeld figures for 2025.
+    expected_period_counts["calendar_year:2025"] += 35
+    # PolicyEngine/microcosm#1415: ISA Table 9.4 for 2008-09 to 2024-25, Table 9.6
+    # for 2011-12 to 2024-25 and Tables 9.7 to 9.12 for 2023-24; Lifetime ISA Table 1a
+    # for 2018-19 to 2025-26; the impact note's two 2022-23 shares.
+    for year, count in {
+        2008: 8,
+        2009: 8,
+        2010: 8,
+        2011: 23,
+        2012: 23,
+        2013: 24,
+        2014: 24,
+        2015: 24,
+        2016: 29,
+        2017: 31,
+        2018: 36,
+        2019: 36,
+        2020: 36,
+        2021: 36,
+        2022: 38,
+        2023: 2847,
+        2024: 36,
+        2025: 5,
+    }.items():
+        key = f"tax_year:{year}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # PolicyEngine/microcosm#1418: SPI 2023-24 Table 3.10.
+    expected_period_counts["tax_year:2023"] += 159
+    # chronicle#393: the OBR October 2026 EFO packages, by fiscal and calendar year.
+    for key, count in {
+        "calendar_year:2024": 1,
+        "calendar_year:2025": 13,
+        "calendar_year:2026": 13,
+        "calendar_year:2027": 13,
+        "calendar_year:2028": 13,
+        "calendar_year:2029": 13,
+        "calendar_year:2030": 13,
+        "calendar_year:2031": 13,
+        "fiscal_year:2022": 17,
+        "fiscal_year:2023": 22,
+        "fiscal_year:2024": 31,
+        "fiscal_year:2025": 209,
+        "fiscal_year:2026": 657,
+        "fiscal_year:2027": 657,
+        "fiscal_year:2028": 658,
+        "fiscal_year:2029": 658,
+        "fiscal_year:2030": 658,
+        "fiscal_year:2031": 658,
+    }.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # PolicyEngine/uk-autumn-budget-dashboard-2026#316: HMRC benefits in kind
+    # statistics, Tables 1, 2A, 2C and 2E for 2011-12 to 2024-25 and Tables 3A, 3B and
+    # 4 for 2024-25.
+    for year, count in {
+        2011: 27,
+        2012: 27,
+        2013: 28,
+        2014: 29,
+        2015: 29,
+        2016: 30,
+        2017: 30,
+        2018: 30,
+        2019: 31,
+        2020: 38,
+        2021: 38,
+        2022: 38,
+        2023: 38,
+        2024: 131,
+    }.items():
+        key = f"tax_year:{year}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#397: the March 2026 EFO packages keep only the line-years the October
+    # 2026 packages do not publish.
+    for key, count in {
+        "calendar_year:2025": 6,
+        "calendar_year:2026": 6,
+        "calendar_year:2027": 6,
+        "calendar_year:2028": 6,
+        "calendar_year:2029": 6,
+        "fiscal_year:2025": 58,
+        "fiscal_year:2026": 68,
+        "fiscal_year:2027": 68,
+        "fiscal_year:2028": 69,
+        "fiscal_year:2029": 69,
+        "fiscal_year:2030": 65,
+    }.items():
+        expected_period_counts[key] -= count
+    # chronicle#407: APS218's April-March and calendar 2025 periods, ASHE weekly pay
+    # by survey year and ASHE annual pay by the tax year it covers (estimates and
+    # CVs together).
+    for key, count in {
+        "fiscal_year:2024": 8306,
+        "calendar_year:2025": 8320 + 4053 + 4053,
+        "fiscal_year:2025": 8330,
+        "calendar_year:2024": 4046 + 4098,
+        "calendar_year:2026": 4056 + 4056,
+        "tax_year:2023": 3937 + 4020,
+        "tax_year:2024": 3934 + 3934,
+        "tax_year:2025": 3948 + 3948,
+    }.items():
+        expected_period_counts[key] += count
+    # chronicle#408. Months: VOA's council tax stock at 31 March 2026 (222,588),
+    # the land value estimates at 1 October 2023 (10,101) and the Market Value
+    # Survey's valuations at 1 July 2024 and 1 October 2015 (4,458). Quarters:
+    # EPC D3's 2008-Q4 to 2026-Q3 (74,898), QRC4's 2025-Q2 to 2026-Q1 (1,212)
+    # and HMRC's Table 2e, 2017-Q4 to 2025-Q1 (108). Calendar years: Live Table
+    # 126's 2011 to 2025 (5,406), ONS's land, 1995 to 2025 (387), and EPC D3's
+    # years 2009 to 2025 (153). Fiscal years: QRC4 (4,545), Table 6 (1,208),
+    # HMRC's stamp tax (1,027), Wales (308) and Scotland (96).
+    chronicle_408_period_increments = {
+        "calendar_year:1995": 13,
+        "calendar_year:1996": 13,
+        "calendar_year:1997": 13,
+        "calendar_year:1998": 13,
+        "calendar_year:1999": 13,
+        "calendar_year:2000": 13,
+        "calendar_year:2001": 13,
+        "calendar_year:2002": 13,
+        "calendar_year:2003": 13,
+        "calendar_year:2004": 13,
+        "calendar_year:2005": 13,
+        "calendar_year:2006": 13,
+        "calendar_year:2007": 13,
+        "calendar_year:2008": 13,
+        "calendar_year:2009": 22,
+        "calendar_year:2010": 22,
+        "calendar_year:2011": 393,
+        "calendar_year:2012": 393,
+        "calendar_year:2013": 393,
+        "calendar_year:2014": 393,
+        "calendar_year:2015": 393,
+        "calendar_year:2016": 393,
+        "calendar_year:2017": 393,
+        "calendar_year:2018": 393,
+        "calendar_year:2019": 393,
+        "calendar_year:2020": 383,
+        "calendar_year:2021": 379,
+        "calendar_year:2022": 369,
+        "calendar_year:2023": 348,
+        "calendar_year:2024": 352,
+        "calendar_year:2025": 352,
+        "fiscal_year:2023": 513,
+        "fiscal_year:2024": 1368,
+        "fiscal_year:2025": 5303,
+        "month:2015-10": 2050,
+        "month:2023-10": 10101,
+        "month:2024-07": 2408,
+        "month:2026-03": 222588,
+        "quarter:2008-Q4": 1056,
+        "quarter:2009-Q1": 1056,
+        "quarter:2009-Q2": 1056,
+        "quarter:2009-Q3": 1056,
+        "quarter:2009-Q4": 1056,
+        "quarter:2010-Q1": 1056,
+        "quarter:2010-Q2": 1056,
+        "quarter:2010-Q3": 1056,
+        "quarter:2010-Q4": 1056,
+        "quarter:2011-Q1": 1056,
+        "quarter:2011-Q2": 1056,
+        "quarter:2011-Q3": 1056,
+        "quarter:2011-Q4": 1056,
+        "quarter:2012-Q1": 1056,
+        "quarter:2012-Q2": 1056,
+        "quarter:2012-Q3": 1056,
+        "quarter:2012-Q4": 1056,
+        "quarter:2013-Q1": 1056,
+        "quarter:2013-Q2": 1056,
+        "quarter:2013-Q3": 1056,
+        "quarter:2013-Q4": 1056,
+        "quarter:2014-Q1": 1056,
+        "quarter:2014-Q2": 1056,
+        "quarter:2014-Q3": 1056,
+        "quarter:2014-Q4": 1056,
+        "quarter:2015-Q1": 1056,
+        "quarter:2015-Q2": 1056,
+        "quarter:2015-Q3": 1056,
+        "quarter:2015-Q4": 1056,
+        "quarter:2016-Q1": 1056,
+        "quarter:2016-Q2": 1053,
+        "quarter:2016-Q3": 1053,
+        "quarter:2016-Q4": 1056,
+        "quarter:2017-Q1": 1053,
+        "quarter:2017-Q2": 1056,
+        "quarter:2017-Q3": 1056,
+        "quarter:2017-Q4": 1060,
+        "quarter:2018-Q1": 1060,
+        "quarter:2018-Q2": 1057,
+        "quarter:2018-Q3": 1060,
+        "quarter:2018-Q4": 1060,
+        "quarter:2019-Q1": 1057,
+        "quarter:2019-Q2": 1057,
+        "quarter:2019-Q3": 1057,
+        "quarter:2019-Q4": 1057,
+        "quarter:2020-Q1": 1057,
+        "quarter:2020-Q2": 1048,
+        "quarter:2020-Q3": 1051,
+        "quarter:2020-Q4": 1047,
+        "quarter:2021-Q1": 1047,
+        "quarter:2021-Q2": 1032,
+        "quarter:2021-Q3": 1036,
+        "quarter:2021-Q4": 1036,
+        "quarter:2022-Q1": 1036,
+        "quarter:2022-Q2": 1036,
+        "quarter:2022-Q3": 1036,
+        "quarter:2022-Q4": 1036,
+        "quarter:2023-Q1": 1036,
+        "quarter:2023-Q2": 997,
+        "quarter:2023-Q3": 997,
+        "quarter:2023-Q4": 997,
+        "quarter:2024-Q1": 997,
+        "quarter:2024-Q2": 997,
+        "quarter:2024-Q3": 997,
+        "quarter:2024-Q4": 997,
+        "quarter:2025-Q1": 997,
+        "quarter:2025-Q2": 1296,
+        "quarter:2025-Q3": 1296,
+        "quarter:2025-Q4": 1302,
+        "quarter:2026-Q1": 1296,
+        "quarter:2026-Q2": 993,
+        "quarter:2026-Q3": 993,
+    }
+    for key, count in chronicle_408_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#419: NRS's eight council tax bands for each of the 7,392 data
+    # zones, at December 2024 and December 2025.
+    for year in (2024, 2025):
+        expected_period_counts[f"calendar_year:{year}"] += 8 * 7392
+    # Census Vintage 2025 state age groups: 51 states x 16 groups, July 1, 2024.
+    # Vintage 2024 gives up its 51 state totals for the same date (chronicle#397).
+    expected_period_counts["calendar_year:2024"] += 816 - 51
+    # chronicle#420's young people packages, counted from each package's facts:
+    # NEET and A06's quarters (2024-Q2 to 2026-Q2), PAYE RTI's months (April 2024
+    # to September 2026; month 2026-09 is new) and the UC cube's (April 2024 to May
+    # 2026), ASHE Table 6's years and HMRC's relief years (tax_year 2020 to 2025).
+    chronicle_420_young_people_period_increments = {
+        "calendar_year:2024": 1858,
+        "calendar_year:2025": 1856,
+        "calendar_year:2026": 1848,
+        "month:2024-04": 663,
+        "month:2024-05": 663,
+        "month:2024-06": 663,
+        "month:2024-07": 663,
+        "month:2024-08": 663,
+        "month:2024-09": 663,
+        "month:2024-10": 663,
+        "month:2024-11": 663,
+        "month:2024-12": 663,
+        "month:2025-01": 663,
+        "month:2025-02": 663,
+        "month:2025-03": 663,
+        "month:2025-04": 663,
+        "month:2025-05": 663,
+        "month:2025-06": 663,
+        "month:2025-07": 663,
+        "month:2025-08": 663,
+        "month:2025-09": 663,
+        "month:2025-10": 663,
+        "month:2025-11": 663,
+        "month:2025-12": 663,
+        "month:2026-01": 663,
+        "month:2026-02": 663,
+        "month:2026-03": 663,
+        "month:2026-04": 663,
+        "month:2026-05": 663,
+        "month:2026-06": 28,
+        "month:2026-07": 28,
+        "month:2026-08": 28,
+        "month:2026-09": 14,
+        "quarter:2024-Q2": 607,
+        "quarter:2024-Q3": 609,
+        "quarter:2024-Q4": 609,
+        "quarter:2025-Q1": 609,
+        "quarter:2025-Q2": 609,
+        "quarter:2025-Q3": 609,
+        "quarter:2025-Q4": 607,
+        "quarter:2026-Q1": 609,
+        "quarter:2026-Q2": 609,
+        "tax_year:2020": 4,
+        "tax_year:2021": 4,
+        "tax_year:2022": 4,
+        "tax_year:2023": 1770,
+        "tax_year:2024": 1758,
+        "tax_year:2025": 1726,
+    }
+    for key, count in chronicle_420_young_people_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#420's PIP packages, counted from each package's facts: the
+    # Stat-Xplore cases at DWP's quarter-end months (January 2024 to July 2026; the
+    # constituency and local authority totals at July 2026) and the Pathways to Work
+    # tables at month 2025-01, the end of January 2025 caseload. No key is new.
+    chronicle_420_pip_period_increments = {
+        "month:2024-01": 1975,
+        "month:2024-04": 1975,
+        "month:2024-07": 1975,
+        "month:2024-10": 1975,
+        "month:2025-01": 3215,
+        "month:2025-04": 1975,
+        "month:2025-07": 1975,
+        "month:2025-10": 1975,
+        "month:2026-01": 1975,
+        "month:2026-04": 1975,
+        "month:2026-07": 2957,
+    }
+    for key, count in chronicle_420_pip_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#420's Scottish packages, counted from each package's facts: HMRC's
+    # outturn years (tax_year 2016 to 2024) and its in-year RTI months from April
+    # 2016 (nine of them new keys), and Social Security Scotland's month-end
+    # caseloads from April 2024 to June or July 2026.
+    chronicle_420_scotland_period_increments = {
+        "month:2016-04": 3,
+        "month:2016-05": 3,
+        "month:2016-06": 3,
+        "month:2016-07": 3,
+        "month:2016-08": 3,
+        "month:2016-09": 3,
+        "month:2016-10": 3,
+        "month:2016-11": 3,
+        "month:2016-12": 3,
+        "month:2017-01": 3,
+        "month:2017-02": 3,
+        "month:2017-03": 3,
+        "month:2017-04": 3,
+        "month:2017-05": 3,
+        "month:2017-06": 3,
+        "month:2017-07": 3,
+        "month:2017-08": 3,
+        "month:2017-09": 3,
+        "month:2017-10": 3,
+        "month:2017-11": 3,
+        "month:2017-12": 3,
+        "month:2018-01": 3,
+        "month:2018-02": 3,
+        "month:2018-03": 3,
+        "month:2018-04": 3,
+        "month:2018-05": 3,
+        "month:2018-06": 3,
+        "month:2018-07": 3,
+        "month:2018-08": 3,
+        "month:2018-09": 3,
+        "month:2018-10": 3,
+        "month:2018-11": 3,
+        "month:2018-12": 3,
+        "month:2019-01": 3,
+        "month:2019-02": 3,
+        "month:2019-03": 3,
+        "month:2019-04": 4,
+        "month:2019-05": 4,
+        "month:2019-06": 4,
+        "month:2019-07": 4,
+        "month:2019-08": 4,
+        "month:2019-09": 4,
+        "month:2019-10": 4,
+        "month:2019-11": 4,
+        "month:2019-12": 4,
+        "month:2020-01": 4,
+        "month:2020-02": 4,
+        "month:2020-03": 4,
+        "month:2020-04": 4,
+        "month:2020-05": 4,
+        "month:2020-06": 4,
+        "month:2020-07": 4,
+        "month:2020-08": 4,
+        "month:2020-09": 4,
+        "month:2020-10": 4,
+        "month:2020-11": 4,
+        "month:2020-12": 4,
+        "month:2021-01": 4,
+        "month:2021-02": 4,
+        "month:2021-03": 4,
+        "month:2021-04": 4,
+        "month:2021-05": 4,
+        "month:2021-06": 4,
+        "month:2021-07": 4,
+        "month:2021-08": 4,
+        "month:2021-09": 4,
+        "month:2021-10": 4,
+        "month:2021-11": 4,
+        "month:2021-12": 4,
+        "month:2022-01": 4,
+        "month:2022-02": 4,
+        "month:2022-03": 4,
+        "month:2022-04": 4,
+        "month:2022-05": 4,
+        "month:2022-06": 4,
+        "month:2022-07": 4,
+        "month:2022-08": 4,
+        "month:2022-09": 4,
+        "month:2022-10": 4,
+        "month:2022-11": 4,
+        "month:2022-12": 4,
+        "month:2023-01": 4,
+        "month:2023-02": 4,
+        "month:2023-03": 4,
+        "month:2023-04": 4,
+        "month:2023-05": 4,
+        "month:2023-06": 4,
+        "month:2023-07": 4,
+        "month:2023-08": 4,
+        "month:2023-09": 4,
+        "month:2023-10": 4,
+        "month:2023-11": 4,
+        "month:2023-12": 4,
+        "month:2024-01": 4,
+        "month:2024-02": 4,
+        "month:2024-03": 4,
+        "month:2024-04": 80,
+        "month:2024-05": 80,
+        "month:2024-06": 82,
+        "month:2024-07": 82,
+        "month:2024-08": 82,
+        "month:2024-09": 82,
+        "month:2024-10": 85,
+        "month:2024-11": 85,
+        "month:2024-12": 85,
+        "month:2025-01": 85,
+        "month:2025-02": 85,
+        "month:2025-03": 85,
+        "month:2025-04": 85,
+        "month:2025-05": 85,
+        "month:2025-06": 85,
+        "month:2025-07": 85,
+        "month:2025-08": 85,
+        "month:2025-09": 85,
+        "month:2025-10": 85,
+        "month:2025-11": 85,
+        "month:2025-12": 85,
+        "month:2026-01": 85,
+        "month:2026-02": 85,
+        "month:2026-03": 85,
+        "month:2026-04": 81,
+        "month:2026-05": 81,
+        "month:2026-06": 124,
+        "month:2026-07": 106,
+        "tax_year:2016": 91,
+        "tax_year:2017": 91,
+        "tax_year:2018": 121,
+        "tax_year:2019": 208,
+        "tax_year:2020": 135,
+        "tax_year:2021": 135,
+        "tax_year:2022": 135,
+        "tax_year:2023": 135,
+        "tax_year:2024": 153,
+        "tax_year:2025": 4,
+    }
+    for key, count in chronicle_420_scotland_period_increments.items():
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # SSA's Supplement Table 7.B3 counts recipients in December 2024; Table
+    # 7.B7 sums payments over calendar 2024.
+    expected_period_counts["month:2024-12"] += 128
+    expected_period_counts["calendar_year:2024"] += 65
     assert coverage["counts"]["by_period"] == expected_period_counts
-    assert coverage["counts"]["by_geography"]["country:NZ"] == 330
-    assert coverage["counts"]["by_geography"]["country:BE"] == 4888
+    # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
+    # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
+    # + 84 MBIE (#320) + 112 Treasury Budget 2026 expenses (B7 part 2)
+    # + 1,413 Stats NZ household net worth + 16 B5 national census
+    # + nine G8-d1 national weekly-rent facts + one G8-d4 ERP fact
+    # + 33 G8-d3 earnings facts + 2 G8-x QES facts (2026-Q3) = 6,167.
+    assert coverage["counts"]["by_geography"]["country:NZ"] == 6167
+    for regional_council in (*range(1, 10), *range(12, 19)):
+        assert (
+            coverage["counts"]["by_geography"][f"region:{regional_council:02d}"] == 31
+        )
+    assert coverage["counts"]["by_geography"]["region:99"] == 25
+    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-054"] == 57
+    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-057"] == 78
+    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-066"] == 71
+    assert coverage["counts"]["by_geography"]["local_authority:nz-ta-067"] == 1
+    assert (
+        coverage["counts"]["by_geography"]["statistical_scope:nz-mbie-location-na"]
+        == 84
+    )
+    assert coverage["counts"]["by_geography"]["country:BE"] == 50026
     assert coverage["counts"]["by_geography"]["country:DE"] == 36
     assert coverage["counts"]["by_geography"]["country:FR"] == 36
-    assert coverage["counts"]["by_geography"]["nuts1:BE1"] == 3662
-    assert coverage["counts"]["by_geography"]["nuts1:BE2"] == 3673
-    assert coverage["counts"]["by_geography"]["nuts1:BE3"] == 3662
-    assert coverage["counts"]["by_geography"]["commune:11002"] == 1
-    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2109
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 229
+    assert coverage["counts"]["by_geography"]["nuts1:BE1"] == 8567
+    assert coverage["counts"]["by_geography"]["nuts1:BE2"] == 9447
+    assert coverage["counts"]["by_geography"]["nuts1:BE3"] == 9321
+    assert coverage["counts"]["by_geography"]["commune:11002"] == 10
     assert (
-        coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 56
+        coverage["counts"]["by_geography"][
+            "statistical_scope:eurostat:ert_bil_eur_a:USD"
+        ]
+        == 55
     )
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 26269
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 5261
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 20744
+    assert (
+        coverage["counts"]["by_geography"][
+            "statistical_scope:pensionstat:residence:BUI"
+        ]
+        == 4029
+    )
+    assert (
+        coverage["counts"]["by_geography"][
+            "statistical_scope:ostbelgien:deutschsprachige_gemeinschaft"
+        ]
+        == 35
+    )
+    # SSA's Supplement Tables 7.B3 and 7.B7 add four (two national cells each).
+    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2120
+    # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
+    # 2025 age groups (15 groups and the total), + 6 from SSA's Supplement
+    # Tables 7.B3 (four California cells) and 7.B7 (two).
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 276
+    assert (
+        coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 62
+    )
+    # chronicle#357 adds HBAI's FYE 2003-2025 rows (92) and FYE 2025 bounds (8)
+    # and the EFO sheet 3.7 SDLT lines (35), and moves table 4.9's DWP lines (84)
+    # to the geography DWP counts them over: +51. chronicle#381 adds 1,555:
+    # OBR's 181 excise lines and HMRC's 1,374 alcohol, tobacco and betting and
+    # gaming facts. PolicyEngine/microcosm#1415's HMRC annual savings statistics
+    # add 2,993: all but Table 9.9 and 9.12's area rows. SPI 2023-24 Table 3.10
+    # adds 159 (PolicyEngine/microcosm#1418). chronicle#393's OBR October 2026
+    # EFO packages add 4,219: all but the DWP and Northern Ireland lines of
+    # expenditure table 5.9. chronicle#395 adds 40: ONS's vehicle duty (16) and
+    # CPI gas (23) series, and the March EFO's 2024-25 VED outturn (1). HMRC's
+    # benefits in kind statistics add 505 (all but Table 4's regions;
+    # PolicyEngine/uk-autumn-budget-dashboard-2026#316), and chronicle#397 drops
+    # 343 March 2026 EFO facts. chronicle#407 adds 49,991: every ASHE Table 2
+    # fact (48,083) and APS218's UK rows (1,908). chronicle#408 adds ONS's 387 land
+    # facts. chronicle#420's young people packages add 17,131: NEET, A06, PAYE RTI,
+    # ASHE Table 6 and HMRC's NICs reliefs; its Scottish income tax outturn adds
+    # its 429 UK rows.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 109018
+    # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
+    # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
+    # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
+    # England rows add 20 (PolicyEngine/microcosm#1415). APS218's England rows add
+    # 1,902 (chronicle#407). chronicle#408 adds 3,455: the Market Value Survey's
+    # 2,259 (chapters 1, 3 and 4: 1,938, 137 and 184), VOA's council tax stock
+    # 693, EPC D3 267, council tax collection 157 (QRC4 133, Table 6 24), HMRC's
+    # stamp tax 64 and Live Table 126 15. The people on UC cube's England rows add
+    # 4,238 and the PIP cases packages England's 7,095 (chronicle#420).
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 23518
+    # Great Britain gains HBAI's FYE 1995-2002 rows (32), Move to UC (80), the
+    # table 4.9 lines DWP counts over Great Britain (56) and BUS04 (2): +170.
+    # chronicle#381's 1,435 Gambling Commission facts, the National Lottery's
+    # included, as the publication describes them. GSGB 2025's Great Britain
+    # tables (B.1, B.3, B.9 and B.13) add 544. The October 2026 EFO's table 5.9
+    # DWP lines add 56 (chronicle#393). chronicle#397 drops the March 2026 table 4.9
+    # DWP lines' 48 facts after 2024-25. The people on UC cube's Great Britain rows
+    # add 4,238 (chronicle#420).
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 27796
+    # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28),
+    # and the October 2026 EFO's table 5.9 the same four lines (28, chronicle#393).
+    # chronicle#397 drops the March lines' 24 facts after 2024-25. chronicle#408
+    # adds 1,033: VOA's council tax stock (766) and EPC D3 (267). chronicle#420's
+    # Pathways to Work package adds 1,240 (England, Wales and abroad).
+    assert coverage["counts"]["by_geography"]["country:K04000001"] == 3453
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
-    assert len(coverage["counts"]["by_geography"]) == 12593
+    # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope, and
+    # PolicyEngine/uk-autumn-budget-dashboard-2026#316 its unknown recipient region.
+    # chronicle#408 adds 275 (see geography_count).
+    assert len(coverage["counts"]["by_geography"]) == 102893
+    for region in (
+        "auckland",
+        "bay-of-plenty",
+        "canterbury",
+        "central",
+        "east-coast",
+        "nelson",
+        "northland",
+        "other-regions",
+        "southern",
+        "taranaki",
+        "waikato",
+        "wellington",
+    ):
+        assert (
+            coverage["counts"]["by_geography"][f"statistical_scope:nz-wi-{region}"] == 3
+        )
+    # chronicle#408 adds 675 to each: VOA's council tax stock (660) and Live
+    # Table 126 (15).
+    assert coverage["counts"]["by_geography"]["region:E13000001"] == 875
+    assert coverage["counts"]["by_geography"]["region:E13000002"] == 875
+    # chronicle#326/#339/#356/#357/#358: households +521,305 (the DESNZ LSOA
+    # and Northern Ireland energy rows, the UC area cells net of the retired
+    # all-claims ones, UV404 by output area and Move to UC), people +25,216
+    # (residence type by age, UV101a, HBAI and the OBR lines), institutional
+    # sectors +2,186 (DESNZ Northern Ireland non-domestic, BUS04) and returns
+    # +352 (HMRC stamp-tax transactions). chronicle#381: institutional sectors
+    # +2,097 (OBR and HMRC clearances, HMRC production and the Gambling
+    # Commission's figures) and people +893 (OBR and HMRC receipts and levies,
+    # and Machine Games Duty liabilities). GSGB 2025 adds 1,024 people,
+    # PolicyEngine/microcosm#1415's HMRC annual savings statistics 3,272 and SPI
+    # 2023-24 Table 3.10 159 (PolicyEngine/microcosm#1418). chronicle#393's
+    # OBR October 2026 EFO packages: government +2,601 (policy costings,
+    # aggregates and the economy forecasts), people +1,547, institutional
+    # sectors +113 and firms +56 (corporation tax credits). chronicle#395:
+    # households +227 (LPS, ONS NI domestic rates, CDDZ and the CPI series),
+    # people +481 (BUS01 for Wales, the Childcare Offer, the March VED line and
+    # Lone Pensioner Allowance), dwellings +360 (Disabled Person's Allowance) and
+    # firms +8 (EKED). HMRC's benefits in kind statistics add 544 people
+    # (PolicyEngine/uk-autumn-budget-dashboard-2026#316).
+    # chronicle#397's March 2026 EFO drop: people -338, government -47 and
+    # institutional sectors -42. chronicle#407 adds 73,039 people (APS218's
+    # employment estimates and ASHE Table 2's pay by occupation).
+    # chronicle#408: dwellings +315,537 (VOA's council tax stock 222,588, EPC D3
+    # 75,051, the land value estimates 9,700, Live Table 126 5,406 and the
+    # Market Value Survey 2,792), government +7,369 (council tax collection:
+    # QRC4 5,757, Table 6 1,208, Wales 308 and Scotland 96), households +1,666
+    # (the Market Value Survey), returns +1,135 (HMRC's stamp tax), firms +401
+    # (the land value estimates) and institutional sectors +387 (ONS's land).
+    # chronicle#419: dwellings +118,272 (NRS's council tax bands by data zone).
+    # Census Vintage 2025 state age groups add 816 people, and Vintage 2024 gives
+    # up its 51 state totals (chronicle#397).
+    # chronicle#420's young people packages: people +33,619 and firms +22 (the
+    # employers claiming HMRC's NICs reliefs, and the reliefs' cost).
+    # chronicle#420's PIP packages add 23,947 people.
+    # chronicle#420's Scottish packages add 3,966 people.
+    # SSA's Supplement Tables 7.B3 and 7.B7 add 193 people.
     assert coverage["counts"]["by_entity"] == {
-        "benefit_unit": 33643,
-        "dwelling": 152487,
-        "family": 1628,
-        "firm": 1440,
-        "government": 3412,
-        "household": 53521,
-        "institutional_sector": 1263,
+        "benefit_unit": 33645,
+        "dwelling": 708536,
+        "family": 1700,
+        "firm": 1927,
+        "government": 14071,
+        "household": 678213,
+        "institutional_sector": 9264,
         "pension_plan": 2,
-        "person": 105075,
-        "return": 14600,
+        "person": 734519,
+        "return": 16087,
         "social_protection_scheme": 36,
-        "tax_unit": 41368,
+        "tax_unit": 45268,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 2324
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 3931
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
-        "conflicting_geography_name_across_packages": 50,
-        "conflicting_groupby_value_label": 16,
-        "conflicting_value_label_across_packages": 11,
+        "conflicting_geography_name_across_packages": 91,
         "duplicate_semantic_fact_key": 1,
     }
     assert [
@@ -1345,32 +3005,39 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # now answers with one name for every identifier it carries. What is left is
     # what it does not: the IRS truncating county names to twenty characters.
     # The 95 UK areas that warned here - local authorities, constituencies,
-    # regions and countries - no longer do.
+    # regions and countries - no longer do. The new household projections and
+    # Scottish rent tables add county and BRMA identifiers outside the register.
+    # chronicle#356's DESNZ LSOA workbooks spell two Scottish data zones
+    # (S01019676, S01019677) 'Newtown St Boswells' where NRS writes 'Newton'.
     geography_names = [
         warning
         for warning in summary["warnings"]
         if warning["code"] == "conflicting_geography_name_across_packages"
     ]
     assert Counter(warning["key"].split(":")[0] for warning in geography_names) == {
-        "county": 50,
+        "commune": 9,
+        "county": 77,
+        "local_authority": 2,
+        "statistical_scope": 3,
     }
     assert sorted(
         warning["key"]
-        for warning in summary["warnings"]
-        if warning["code"] == "conflicting_value_label_across_packages"
-    ) == [
-        "age=85_plus",
-        "age=age_20",
-        "age=age_21",
-        "age_band=30 to 39",
-        "age_band=40 to 49",
-        "household_type=couple_3_plus_children_households",
-        "measure=country_total",
-        "ons.household_type=couple_3_plus_children_households",
-        "sex=female",
-        "us:statutes/26/62#adjusted_gross_income=all",
-        "us:statutes/26/62#adjusted_gross_income=under_1",
-    ]
+        for warning in geography_names
+        if warning["key"].startswith("local_authority:")
+    ) == ["local_authority:nz-ta-018", "local_authority:nz-ta-027"]
+    # One label per dimension value (chronicle#376): nothing about value labels
+    # is left as a warning, and the bundle reports no value label error.
+    assert [
+        issue["key"]
+        for issue in (*summary["errors"], *summary["warnings"])
+        if issue["code"]
+        in {
+            "conflicting_value_label",
+            "conflicting_value_label_across_packages",
+            "conflicting_groupby_value_label",
+            "conflicting_dimension_value_label",
+        }
+    ] == []
     # E12000003 is the case chronicle#281 was opened on: six packages wrote
     # "Yorkshire and The Humber" and five "Yorkshire and the Humber". The
     # register carries the identifier, so the export names it once and the
@@ -1379,7 +3046,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert [
         warning for warning in geography_names if warning["key"] == "region:E12000003"
     ] == []
-    assert {warning["key"].split(":")[1][0] for warning in geography_names} == {"0"}
+    assert {warning["key"].split(":")[1][0] for warning in geography_names} == {
+        "0",
+        "2",
+        "5",
+        "6",
+        "E",
+        "S",
+        "n",
+    }
     for source in (
         "dfe-funded-early-education-childcare-2026",
         "dfi-ni-bus-concessionary-journeys-2024-25",
@@ -1411,6 +3086,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc-cgt-residential-property-2026",
         "hmrc-cgt-size-of-gain-2026",
         "hmrc-cgt-statistics-2026",
+        "hmrc-isa-statistics-2026",
+        "hmrc-lisa-statistics-2026",
+        "hmrc-cash-isa-limit-reduction-2026",
+        "obr-efo-receipts-october-2026",
+        "obr-efo-expenditure-october-2026",
+        "obr-efo-economy-october-2026",
+        "obr-efo-aggregates-october-2026",
+        "obr-efo-policy-october-2026",
     ):
         assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
     for source in (
@@ -1419,6 +3102,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fpb-economic-outlook-2026-2031-june-2026",
         "statbel-fiscal-income-distribution-2023",
         "statbel-population-structure-2025",
+        "sfpd-pension-amount-bands-2025",
+        "sfpd-legal-pension-caseload-2025",
+        "spf-finances-municipal-tax-rate-ay2026",
+        "rsz-employment-daily-wage-class-2023-2026",
+        "rsz-annual-wages-key-figures-2020-2025",
+        "ostbelgien-kindergeld-2025",
     ):
         assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
     assert (output_dir / "sources" / "soi-table-1-1" / "consumer_facts.jsonl").exists()
@@ -1457,6 +3146,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     ).exists()
     assert (
         output_dir / "sources" / "cms-nhe-table-24" / "consumer_facts.jsonl"
+    ).exists()
+    assert (
+        output_dir
+        / "sources"
+        / "bea-nipa-private-group-health-insurance"
+        / "consumer_facts.jsonl"
     ).exists()
     assert (
         output_dir
@@ -1503,6 +3198,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         output_dir / "sources" / "ssa-ssi-table-7b1-2024" / "consumer_facts.jsonl"
     ).exists()
+    for source in ("ssa-ssi-table-7b3-2024", "ssa-ssi-table-7b7-2024"):
+        assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
     assert (
         output_dir
         / "sources"
@@ -1561,6 +3258,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         / "consumer_facts.jsonl"
     ).exists()
     for source in (
+        "eurostat-ert-bil-eur-a-usd",
         "eurostat-gov-10a-taxag",
         "eurostat-spr-exp-func",
         "eurostat-nasa-10-nf-tr",
@@ -1568,6 +3266,80 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "eurostat-ilc-di01",
     ):
         assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
+
+
+def test_eurostat_exchange_rate_source_coverage():
+    package = load_source_package("eurostat-ert-bil-eur-a-usd")
+    rows = consumer_fact_rows(package.build_facts(2023))
+
+    coverage = build_bundle_coverage(rows)
+
+    assert coverage["fact_count"] == 55
+    assert coverage["counts"]["by_source"] == {"eurostat": 55}
+    assert coverage["counts"]["by_source_table"] == {
+        "eurostat:Eurostat ert_bil_eur_a Euro/ECU exchange rates - "
+        "annual data, USD average": 55
+    }
+    assert coverage["counts"]["by_period"] == {
+        f"calendar_year:{year}": 1 for year in range(1971, 2026)
+    }
+    assert coverage["counts"]["by_geography"] == {
+        "statistical_scope:eurostat:ert_bil_eur_a:USD": 55
+    }
+    assert coverage["counts"]["by_entity"] == {"institutional_sector": 55}
+    assert coverage["unique_counts"]["aggregate_fact_key"] == 55
+    assert coverage["unique_counts"]["semantic_fact_key"] == 55
+    assert coverage["duplicates"] == {
+        "aggregate_fact_keys": [],
+        "semantic_fact_keys": [],
+    }
+
+
+def test_belgian_pension_source_coverage():
+    """The source-only measurements behind the merged bundle's pension pins."""
+    bands = build_bundle_coverage(
+        consumer_fact_rows(
+            load_source_package("sfpd-pension-amount-bands-2025").build_facts(2023)
+        )
+    )
+    assert bands["fact_count"] == 10239
+    assert bands["counts"]["by_source"] == {"sfpd_pension_amount_bands": 10239}
+    assert bands["counts"]["by_period"] == {"month:2025-01": 10239}
+    assert bands["counts"]["by_geography"] == {"country:BE": 10239}
+    assert bands["counts"]["by_entity"] == {"person": 10239}
+
+    pensionstat = build_bundle_coverage(
+        consumer_fact_rows(
+            load_source_package("sfpd-legal-pension-caseload-2025").build_facts(2023)
+        )
+    )
+    geography = pensionstat["counts"]["by_geography"]
+    assert pensionstat["fact_count"] == 20954
+    assert pensionstat["counts"]["by_source"] == {"sfpd_pensions": 20954}
+    assert pensionstat["counts"]["by_source_table"] == {
+        "sfpd_pensions:PensionStat legal pensions and IGO, 2025": 20954
+    }
+    assert pensionstat["counts"]["by_period"] == {
+        "calendar_year:2025": 22,
+        "month:2025-01": 20932,
+    }
+    assert pensionstat["counts"]["by_entity"] == {"person": 20954}
+    communes = {
+        key: count for key, count in geography.items() if key.startswith("commune:")
+    }
+    assert len(communes) == 565 and set(communes.values()) == {1}
+    assert {key: count for key, count in geography.items() if key not in communes} == {
+        "country:BE": 22,
+        "nuts1:BE1": 4905,
+        "nuts1:BE2": 5774,
+        "nuts1:BE3": 5659,
+        "statistical_scope:pensionstat:residence:BUI": 4029,
+    }
+    for coverage in (bands, pensionstat):
+        assert coverage["duplicates"] == {
+            "aggregate_fact_keys": [],
+            "semantic_fact_keys": [],
+        }
 
 
 def test_build_bundle_cli_supports_explicit_sources(tmp_path, capsys):
@@ -1877,6 +3649,48 @@ def test_bundle_coverage_canonicalizes_cross_epoch_identities():
     ]
 
 
+def test_bundle_coverage_duplicates_keep_each_keys_first_row():
+    # Coverage keeps only a key's first row's source table and legacy key until
+    # the key repeats, so the first row's must still reach the report. Main's
+    # build, which grouped every row by key, reports the same.
+    fixture_rows = _fixture_consumer_rows()
+    first, second, third = (json.loads(json.dumps(fixture_rows[0])) for _ in range(3))
+    first["source"]["source_table"] = "Publication 1304 Table 1.2"
+    first["legacy_fact_key"] = fixture_rows[1]["legacy_fact_key"]
+    first["semantic_fact_key"] = fixture_rows[1]["semantic_fact_key"]
+    del second["legacy_fact_key"]
+
+    coverage = build_bundle_coverage([first, second, third])
+
+    assert coverage["unique_counts"]["aggregate_fact_key"] == 1
+    assert coverage["unique_counts"]["semantic_fact_key"] == 2
+    assert coverage["duplicates"] == {
+        "aggregate_fact_keys": [
+            {
+                "key": fixture_rows[0]["aggregate_fact_key"],
+                "count": 3,
+                "sources": [
+                    "irs_soi:Publication 1304 Table 1.1",
+                    "irs_soi:Publication 1304 Table 1.2",
+                ],
+                "legacy_fact_keys": [
+                    fixture_rows[0]["legacy_fact_key"],
+                    fixture_rows[1]["legacy_fact_key"],
+                ],
+            }
+        ],
+        # The semantic key's first row is the second, which has no legacy key.
+        "semantic_fact_keys": [
+            {
+                "key": fixture_rows[0]["semantic_fact_key"],
+                "count": 2,
+                "sources": ["irs_soi:Publication 1304 Table 1.1"],
+                "legacy_fact_keys": [fixture_rows[0]["legacy_fact_key"]],
+            }
+        ],
+    }
+
+
 def test_bundle_coverage_preserves_non_string_identity_scalars(tmp_path):
     identity_fields = (
         "aggregate_fact_key",
@@ -1919,3 +3733,125 @@ def test_bundle_coverage_preserves_non_string_identity_scalars(tmp_path):
         "aggregate_fact_keys": [],
         "semantic_fact_keys": [],
     }
+
+
+def test_bundle_metadata_pool_preserves_serialized_rows_and_distinct_facts(tmp_path):
+    rows = _fixture_consumer_rows()[:2]
+    # Exact JSON representations matter even when Python compares 1 and 1.0
+    # as equal. Pooling must retain the publisher representation of each row.
+    rows[0]["source"]["scale"] = 1
+    rows[1]["source"]["scale"] = 1.0
+    path = tmp_path / "consumer_facts.jsonl"
+    encoded = "".join(json.dumps(row, sort_keys=True) + "\n" for row in rows)
+    path.write_text(encoded, encoding="utf-8")
+
+    loaded = load_bundle_jsonl(path, shared_metadata={})
+
+    assert "".join(json.dumps(row, sort_keys=True) + "\n" for row in loaded) == encoded
+    assert build_bundle_coverage(loaded) == build_bundle_coverage(rows)
+    assert len({row["aggregate_fact_key"] for row in loaded}) == 2
+    assert loaded[0] is not loaded[1]
+    assert loaded[0]["source"] is not loaded[1]["source"]
+    assert loaded[0]["geography"] is loaded[1]["geography"]
+    assert loaded[0]["entity"] is loaded[1]["entity"]
+    assert loaded[0]["period"] is loaded[1]["period"]
+
+
+def _stub_source_suites(monkeypatch, packages, on_build=lambda: None):
+    """Have build_bundle build each named package as a suite of the given rows."""
+
+    def build_source_suite(source, suite_dir, **kwargs):
+        on_build()
+        suite_dir.mkdir(parents=True)
+        facts = suite_dir / "consumer_facts.jsonl"
+        facts.write_text(
+            "".join(json.dumps(row, sort_keys=True) + "\n" for row in packages[source]),
+            encoding="utf-8",
+        )
+        return SimpleNamespace(
+            source=source,
+            output_dir=str(suite_dir),
+            valid=True,
+            outputs={"consumer_facts": str(facts)},
+            to_dict=lambda: {"counts": {}},
+        )
+
+    monkeypatch.setattr(chronicle.bundle, "build_source_suite", build_source_suite)
+    monkeypatch.setattr(
+        chronicle.bundle,
+        "validate_source_package",
+        lambda source, year: SimpleNamespace(valid=True, errors=()),
+    )
+
+
+def test_build_bundle_frees_each_packages_rows_before_the_next_builds(
+    tmp_path, monkeypatch
+):
+    """Holding every package's rows until the end peaked at 15.0 GiB on CI for
+    the default bundle's 1.74M rows. build_bundle now writes and counts a
+    package's rows, and frees them before the next package builds."""
+    fixture_rows = _fixture_consumer_rows()
+    # The second package repeats the first package's first fact.
+    packages = {
+        "first": fixture_rows[:2],
+        "second": [fixture_rows[0], fixture_rows[2]],
+    }
+    loaded = []
+    held_when_built = []
+
+    class Row(dict):
+        """A row that can be weakly referenced, to see when it is freed."""
+
+    load_jsonl = chronicle.bundle._load_jsonl
+
+    def load_weakly_referenced_rows(path, **kwargs):
+        rows = [Row(row) for row in load_jsonl(path, **kwargs)]
+        loaded.extend(weakref.ref(row) for row in rows)
+        return rows
+
+    def note_rows_held():
+        # build_bundle records a failed package build as a bundle error, so
+        # this notes what is held rather than asserting here.
+        held_when_built.append(sum(row() is not None for row in loaded))
+
+    monkeypatch.setattr(chronicle.bundle, "_load_jsonl", load_weakly_referenced_rows)
+    _stub_source_suites(monkeypatch, packages, on_build=note_rows_held)
+
+    report = build_bundle(tmp_path / "bundle", sources=["first", "second"])
+
+    rows = [*packages["first"], *packages["second"]]
+    assert held_when_built == [0, 0]
+    assert _load_jsonl(Path(report.outputs["consumer_facts"])) == rows
+    assert not (tmp_path / "bundle" / "consumer_facts.jsonl.partial").exists()
+    assert report.coverage == build_bundle_coverage(rows)
+    assert report.coverage["fact_count"] == 4
+    assert report.coverage["duplicates"]["aggregate_fact_keys"] == [
+        {
+            "key": fixture_rows[0]["aggregate_fact_key"],
+            "count": 2,
+            "sources": ["irs_soi:Publication 1304 Table 1.1"],
+            "legacy_fact_keys": [fixture_rows[0]["legacy_fact_key"]],
+        }
+    ]
+    assert "duplicate_aggregate_fact_key" in [issue.code for issue in report.errors]
+
+
+def test_build_bundle_removes_its_partial_facts_file_when_it_fails(
+    tmp_path, monkeypatch
+):
+    """The first package's rows are written before the second fails to load.
+    The old build wrote no facts file before the end, and nor does a failed
+    build now: the UK suite's partial file reaches about 8 GB."""
+    fixture_rows = _fixture_consumer_rows()
+    unloadable = json.loads(json.dumps(fixture_rows[1]))
+    digest = unloadable["aggregate_fact_key"].partition(":")[2]
+    unloadable["aggregate_fact_key"] = f"future.aggregate_fact.v4:{digest}"
+    _stub_source_suites(
+        monkeypatch, {"first": fixture_rows[:1], "second": [unloadable]}
+    )
+
+    with pytest.raises(ValueError, match="chronicle.aggregate_fact.v3"):
+        build_bundle(tmp_path / "bundle", sources=["first", "second"])
+
+    assert not (tmp_path / "bundle" / "consumer_facts.jsonl.partial").exists()
+    assert not (tmp_path / "bundle" / "consumer_facts.jsonl").exists()

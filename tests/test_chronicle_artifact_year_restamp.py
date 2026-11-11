@@ -828,6 +828,7 @@ REPRESENTATIVE_PINNED_PACKAGES = (
     "irs_soi/historic_table_2",
     "ici/fact_book_table_30",
     "bea/regional_personal_income_state",
+    "bea/nipa_private_group_health_insurance",
     "cbo/revenue_projections_income_by_source_2026_02",
     "cbo/individual_income_tax_receipts_2026_02",
     "cms_nhe/table_24",

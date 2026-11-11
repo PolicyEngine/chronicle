@@ -9,7 +9,7 @@
 # revised the series, and this edition publishes Dec 2023 = 6,089k and
 # Dec 2024 = 6,146k total public sector. The current publisher truth is what
 # lands here; the pre-revision vintage remains portable later through the
-# historical-vintage backfill lane if populace needs it.
+# historical-vintage backfill lane if Microcosm needs it.
 schema_version: ledger.source_package.v1
 package_id: ons-public-sector-employment-2026
 label: 'ONS public sector employment, UK (March 2026 edition), Table 1: headcount by sector

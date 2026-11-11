@@ -1,0 +1,736 @@
+{
+  "overlap": {
+    "rows": 576,
+    "cells": 1728,
+    "raw_mismatch_cells": 285,
+    "two_decimal_mismatches": 0,
+    "one_decimal_differences": [
+      {
+        "quarter": "20241",
+        "wage_class": "100 - 149",
+        "age": "45-49",
+        "sex": "vrouw-femme",
+        "older_cell": "G474",
+        "newer_cell": "G1199",
+        "older_cache": "58038.14999999998",
+        "newer_cache": "58038.15",
+        "older_display": "58038.1",
+        "newer_display": "58038.2"
+      },
+      {
+        "quarter": "20242",
+        "wage_class": "100 - 149",
+        "age": "45-49",
+        "sex": "man-homme",
+        "older_cell": "G328",
+        "newer_cell": "G1053",
+        "older_cache": "53974.94999999999",
+        "newer_cache": "53974.95",
+        "older_display": "53974.9",
+        "newer_display": "53975.0"
+      },
+      {
+        "quarter": "20242",
+        "wage_class": "200 - 299",
+        "age": "25-29",
+        "sex": "man-homme",
+        "older_cell": "G368",
+        "newer_cell": "G1093",
+        "older_cache": "22888.949999999997",
+        "newer_cache": "22888.95",
+        "older_display": "22888.9",
+        "newer_display": "22889.0"
+      },
+      {
+        "quarter": "20242",
+        "wage_class": "<100",
+        "age": "70+",
+        "sex": "vrouw-femme",
+        "older_cell": "G315",
+        "newer_cell": "G1040",
+        "older_cache": "466.75",
+        "newer_cache": "466.74999999999994",
+        "older_display": "466.8",
+        "newer_display": "466.7"
+      },
+      {
+        "quarter": "20242",
+        "wage_class": "onbekend-inconnu",
+        "age": "20-24",
+        "sex": "vrouw-femme",
+        "older_cell": "G415",
+        "newer_cell": "G1140",
+        "older_cache": "17.349999999999998",
+        "newer_cache": "17.35",
+        "older_display": "17.3",
+        "newer_display": "17.4"
+      },
+      {
+        "quarter": "20243",
+        "wage_class": "100 - 149",
+        "age": "25-29",
+        "sex": "vrouw-femme",
+        "older_cell": "G176",
+        "newer_cell": "G901",
+        "older_cache": "100483.35000000002",
+        "newer_cache": "100483.34999999999",
+        "older_display": "100483.4",
+        "newer_display": "100483.3"
+      },
+      {
+        "quarter": "20243",
+        "wage_class": "200 - 299",
+        "age": "35-39",
+        "sex": "man-homme",
+        "older_cell": "G227",
+        "newer_cell": "G952",
+        "older_cache": "59192.65",
+        "newer_cache": "59192.649999999994",
+        "older_display": "59192.7",
+        "newer_display": "59192.6"
+      },
+      {
+        "quarter": "20243",
+        "wage_class": ">= 300",
+        "age": "25-29",
+        "sex": "vrouw-femme",
+        "older_cell": "G248",
+        "newer_cell": "G973",
+        "older_cache": "457.85",
+        "newer_cache": "457.84999999999997",
+        "older_display": "457.9",
+        "newer_display": "457.8"
+      },
+      {
+        "quarter": "20243",
+        "wage_class": ">= 300",
+        "age": "45-49",
+        "sex": "man-homme",
+        "older_cell": "G255",
+        "newer_cell": "G980",
+        "older_cache": "28308.550000000003",
+        "newer_cache": "28308.549999999992",
+        "older_display": "28308.6",
+        "newer_display": "28308.5"
+      },
+      {
+        "quarter": "20244",
+        "wage_class": "100 - 149",
+        "age": "70+",
+        "sex": "man-homme",
+        "older_cell": "G48",
+        "newer_cell": "G773",
+        "older_cache": "2426.45",
+        "newer_cache": "2426.4499999999994",
+        "older_display": "2426.5",
+        "newer_display": "2426.4"
+      },
+      {
+        "quarter": "20244",
+        "wage_class": "150 - 199",
+        "age": "60-64",
+        "sex": "vrouw-femme",
+        "older_cell": "G69",
+        "newer_cell": "G794",
+        "older_cache": "20804.249999999996",
+        "newer_cache": "20804.25",
+        "older_display": "20804.2",
+        "newer_display": "20804.3"
+      },
+      {
+        "quarter": "20244",
+        "wage_class": "200 - 299",
+        "age": "50-54",
+        "sex": "vrouw-femme",
+        "older_cell": "G89",
+        "newer_cell": "G814",
+        "older_cache": "68376.84999999999",
+        "newer_cache": "68376.85",
+        "older_display": "68376.8",
+        "newer_display": "68376.9"
+      },
+      {
+        "quarter": "20244",
+        "wage_class": "<100",
+        "age": "35-39",
+        "sex": "vrouw-femme",
+        "older_cell": "G11",
+        "newer_cell": "G736",
+        "older_cache": "5394.35",
+        "newer_cache": "5394.349999999999",
+        "older_display": "5394.4",
+        "newer_display": "5394.3"
+      },
+      {
+        "quarter": "20244",
+        "wage_class": "onbekend-inconnu",
+        "age": "45-49",
+        "sex": "vrouw-femme",
+        "older_cell": "G135",
+        "newer_cell": "G860",
+        "older_cache": "19.95",
+        "newer_cache": "19.949999999999996",
+        "older_display": "20.0",
+        "newer_display": "19.9"
+      },
+      {
+        "quarter": "20244",
+        "wage_class": "onbekend-inconnu",
+        "age": "55-59",
+        "sex": "man-homme",
+        "older_cell": "G138",
+        "newer_cell": "G863",
+        "older_cache": "85.54999999999998",
+        "newer_cache": "85.55",
+        "older_display": "85.5",
+        "newer_display": "85.6"
+      }
+    ]
+  },
+  "subtotal_checks": [
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T17",
+      "quarter": 20244,
+      "total_row": 146,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.2"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T17",
+      "quarter": 20243,
+      "total_row": 291,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.7"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T17",
+      "quarter": 20242,
+      "total_row": 436,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "-0.1"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T17",
+      "quarter": 20241,
+      "total_row": 581,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.1"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T17",
+      "quarter": 20234,
+      "total_row": 726,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.4"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T17",
+      "quarter": 20233,
+      "total_row": 871,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.6"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T17",
+      "quarter": 20232,
+      "total_row": 1016,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.3"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T17",
+      "quarter": 20231,
+      "total_row": 1161,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.4"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T7",
+      "quarter": 20244,
+      "total_row": 1069,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "2.9"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T7",
+      "quarter": 20243,
+      "total_row": 2144,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "2.0"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T7",
+      "quarter": 20242,
+      "total_row": 3224,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "2.8"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T7",
+      "quarter": 20241,
+      "total_row": 4304,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "2.4"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T7",
+      "quarter": 20234,
+      "total_row": 5380,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "2.2"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T7",
+      "quarter": 20233,
+      "total_row": 6456,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "2.7"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T7",
+      "quarter": 20232,
+      "total_row": 7539,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "3.5"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2023-2024.xlsx",
+      "sheet": "T7",
+      "quarter": 20231,
+      "total_row": 8612,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "2.4"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T17",
+      "quarter": 20261,
+      "total_row": 146,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.8"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T17",
+      "quarter": 20254,
+      "total_row": 291,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.8"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T17",
+      "quarter": 20253,
+      "total_row": 436,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.0"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T17",
+      "quarter": 20252,
+      "total_row": 581,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.2"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T17",
+      "quarter": 20251,
+      "total_row": 726,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.1"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T17",
+      "quarter": 20244,
+      "total_row": 871,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.2"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T17",
+      "quarter": 20243,
+      "total_row": 1016,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.3"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T17",
+      "quarter": 20242,
+      "total_row": 1161,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.1"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T17",
+      "quarter": 20241,
+      "total_row": 1306,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.2"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T7",
+      "quarter": 20261,
+      "total_row": 1078,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "5.5"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T7",
+      "quarter": 20254,
+      "total_row": 2158,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "5.9"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T7",
+      "quarter": 20253,
+      "total_row": 3229,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "2.1"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T7",
+      "quarter": 20252,
+      "total_row": 4304,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "3.0"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T7",
+      "quarter": 20251,
+      "total_row": 5377,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "2.4"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T7",
+      "quarter": 20244,
+      "total_row": 6446,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "3.1"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T7",
+      "quarter": 20243,
+      "total_row": 7521,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "2.3"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T7",
+      "quarter": 20242,
+      "total_row": 8602,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "1.6"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    },
+    {
+      "workbook": "rsz-arbeidsmarktanalyse-per-kwartaal-2024-2026.xlsx",
+      "sheet": "T7",
+      "quarter": 20241,
+      "total_row": 9682,
+      "display_sum_minus_subtotal": [
+        "0",
+        "0",
+        "2.0"
+      ],
+      "cache_2dp_sum_minus_subtotal": [
+        "0",
+        "0",
+        "0.00"
+      ]
+    }
+  ]
+}

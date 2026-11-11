@@ -1,0 +1,19 @@
+source_id: stats_nz
+package_id: national_population_estimates_2025
+dataset: stats_nz_national_population_estimates_2025
+source_page: https://www.stats.govt.nz/information-releases/national-population-estimates-at-30-june-2025/
+table: 'National population estimates: At 30 June 2025 (landing-page evidence only;
+  no single-year-age artifact)'
+files:
+  2025:
+    filename: national-population-estimates-at-30-june-2025-landing-page.html
+    source_url: https://www.stats.govt.nz/information-releases/national-population-estimates-at-30-june-2025/
+    sha256: b2d2751800857895b1498d87df6f03ac3511ec8c7a9b17cc3150c8ab56533053
+    size_bytes: 61286
+    fetched_at: '2026-08-30T01:43:59+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/national_population_estimates_2025/2025/b2d2751800857895b1498d87df6f03ac3511ec8c7a9b17cc3150c8ab56533053/national-population-estimates-at-30-june-2025-landing-page.html
+        uri: r2://ledger-raw/raw/nz/stats_nz/national_population_estimates_2025/2025/b2d2751800857895b1498d87df6f03ac3511ec8c7a9b17cc3150c8ab56533053/national-population-estimates-at-30-june-2025-landing-page.html

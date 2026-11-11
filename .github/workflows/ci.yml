@@ -1,17 +1,55 @@
 name: CI
 
+# Runner capacity (2026-10-08): one run of this workflow holds a shared
+# org-wide runner slot for about 2h20m (p50 137 min, Oct 7-8). Before this
+# change every branch push ran it twice, once for `push` and once for the
+# PR's `pull_request` event, and superseded runs kept going. So:
+#   - `push` runs only on the long-lived branches. Feature branches get CI
+#     through their pull request; use workflow_dispatch for a branch with no
+#     PR yet.
+#   - A new commit on a pull request cancels that PR's in-progress run.
+#     Pushes keep a unique group (the run id), so every main commit is still
+#     checked and none is cancelled.
 on:
   pull_request:
   push:
+    branches:
+      - main
+      - codex/thesis-ledger-facts
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  chronicle:
-    name: Chronicle checks
+  bundle:
+    name: Chronicle bundle
     runs-on: ubuntu-latest
+    # Kill a hung run instead of letting it hold a slot for GitHub's 360-minute
+    # default. Successful runs on main-based branches took 76-147 min on Oct 7-8
+    # (p50 137); the spread is runner speed, which varied 1.6x on one commit.
+    # The bundle test alone took 84 min for 1.03M facts on Oct 14's fastest run.
+    # chronicle#356 and #339 grow the bundle by about 53%, which puts a slow
+    # runner near 210 min, so the limit is 300.
+    timeout-minutes: 300
+    # Source artifacts archived in R2 only (manifest storage.local: false), such
+    # as DESNZ's 50-56 MB LSOA energy workbooks (chronicle#356), are not in Git.
+    # A build that needs one fetches it from its manifest source_url, checks the
+    # pinned sha256 and caches it; the cache step below keeps it between runs.
+    env:
+      LEDGER_SOURCE_ARTIFACT_FETCH: "1"
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Cache R2-only source artifacts
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/policyengine-chronicle/source-artifacts
+          key: source-artifacts-${{ hashFiles('db/data/**/manifest.yaml') }}
+          restore-keys: source-artifacts-
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -24,6 +62,13 @@ jobs:
       - name: Install dependencies
         run: uv sync --locked --all-extras
 
+      # Fetch the R2-only artifacts packages read (DESNZ's LSOA workbooks) before
+      # any test, from their source_url with retries and sha256 checks, so a
+      # publisher outage or a replaced download fails here by name rather than
+      # part-way through a long build.
+      - name: Fetch R2-only source artifacts
+        run: uv run python scripts/fetch_r2_only_source_artifacts.py
+
       - name: Lint Chronicle surface
         run: >
           uv run ruff check
@@ -33,23 +78,94 @@ jobs:
           scripts
           tests
 
-      - name: Test Chronicle surface
-        run: >
-          uv run pytest -q
+      - name: Test UK calibration source additions
+        run: uv run pytest -q --durations=30 tests/test_chronicle_uk_national_2025.py
 
-      # Keep this security-sensitive operational surface explicit even though
-      # the broad Chronicle lint and test commands above also cover it.
+      # GNU time reports the run's peak memory ("Maximum resident set size", in
+      # KiB). build_bundle writes and counts each package's rows as it reads them
+      # (chronicle#414), so this step peaked at 3.4 GiB for 1.74M facts on Nov 5,
+      # against 15.0 GiB, close to the runner's memory, when every row was held
+      # to the end.
+      - name: Test merged Chronicle bundles
+        run: |
+          timer=""
+          if [ -x /usr/bin/time ]; then timer="/usr/bin/time -v"; fi
+          $timer uv run pytest -q --durations=30 tests/test_chronicle_bundle.py \
+            --basetemp=/tmp/chronicle-bundle-ci
+
+      - name: Upload failed bundle reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chronicle-bundle-failure-reports
+          if-no-files-found: ignore
+          retention-days: 7
+          path: |
+            /tmp/chronicle-bundle-ci/**/reports/*.json
+            /tmp/chronicle-bundle-ci/**/coverage.json
+            /tmp/chronicle-bundle-ci/**/source_packages.json
+
+  surface:
+    name: Chronicle surface
+    runs-on: ubuntu-latest
+    timeout-minutes: 210
+    # Source artifacts archived in R2 only (manifest storage.local: false), such
+    # as DESNZ's 50-56 MB LSOA energy workbooks (chronicle#356), are not in Git.
+    # A build that needs one fetches it from its manifest source_url, checks the
+    # pinned sha256 and caches it; the cache step below keeps it between runs.
+    env:
+      LEDGER_SOURCE_ARTIFACT_FETCH: "1"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Cache R2-only source artifacts
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/policyengine-chronicle/source-artifacts
+          key: source-artifacts-${{ hashFiles('db/data/**/manifest.yaml') }}
+          restore-keys: source-artifacts-
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: uv sync --locked --all-extras
+
+      # Fetch the R2-only artifacts packages read (DESNZ's LSOA workbooks) before
+      # any test, from their source_url with retries and sha256 checks, so a
+      # publisher outage or a replaced download fails here by name rather than
+      # part-way through a long build.
+      - name: Fetch R2-only source artifacts
+        run: uv run python scripts/fetch_r2_only_source_artifacts.py
+
+      - name: Test Chronicle surface
+        # --durations lists the slowest tests so a slowdown is visible in the
+        # log instead of only in the job's total time.
+        run: >
+          uv run pytest -q --durations=30
+          --ignore=tests/test_chronicle_uk_national_2025.py
+          --ignore=tests/test_chronicle_bundle.py
+          --ignore=tests/test_ots_anchor.py
+
+      # Keep this security-sensitive operational surface explicit. The bundle
+      # job lint also covers it; its tests run only in the step below.
       - name: Lint OpenTimestamps anchoring
         run: uv run ruff check scripts/ots_anchor.py tests/test_ots_anchor.py
 
       - name: Test OpenTimestamps anchoring
-        run: uv run pytest -q tests/test_ots_anchor.py
+        run: uv run pytest -q --durations=30 tests/test_ots_anchor.py
 
-      - name: Build source input database
+      - name: Smoke-test the source-artifact database CLI
         run: |
-          uv run chronicle --db /tmp/chronicle-targets-ci.db init
-          uv run chronicle --db /tmp/chronicle-targets-ci.db load all
-          uv run chronicle --db /tmp/chronicle-targets-ci.db stats
+          uv run chronicle --db /tmp/chronicle-source-ci.db init
+          uv run chronicle --db /tmp/chronicle-source-ci.db source-stats
 
       - name: Build wheel
         run: |
@@ -67,6 +183,7 @@ jobs:
           import policyengine_chronicle.normalization
           import policyengine_chronicle.sources
           import policyengine_chronicle.targets
+          from policyengine_chronicle.targets import hard_target_package_aliases
           from policyengine_chronicle.schema import (
               CONSUMER_FACT_SCHEMA_SHA256,
               CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION,
@@ -74,28 +191,60 @@ jobs:
           )
 
           assert policyengine_chronicle.__name__ == "policyengine_chronicle"
+          # Target source coverage ships; the legacy target tables do not.
+          assert "soi-table-1-1" in hard_target_package_aliases()
+          assert not hasattr(policyengine_chronicle.targets, "query_targets")
           # Every consumer-fact contract must ship inside the wheel: frozen v1,
-          # the v2 labels contract, the v3 geography-name contract, and the v4
-          # contract rows are emitted under.
+          # the v2 labels contract, the v3 geography-name contract, the v4
+          # geography-register contract, and the v5 contract rows are emitted
+          # under.
           assert (
               consumer_fact_schema("ledger.consumer_fact.v1")["title"]
               == "Ledger consumer fact contract row"
           )
           assert consumer_fact_schema()["title"] == "Chronicle consumer fact contract row"
           assert consumer_fact_schema()["properties"]["schema_version"] == {
-              "const": "chronicle.consumer_fact.v4"
+              "const": "chronicle.consumer_fact.v5"
           }
           assert set(CONSUMER_FACT_SCHEMA_SHA256_BY_VERSION) == {
               "ledger.consumer_fact.v1",
               "chronicle.consumer_fact.v2",
               "chronicle.consumer_fact.v3",
               "chronicle.consumer_fact.v4",
+              "chronicle.consumer_fact.v5",
           }
           # v4 rows take their UK area names from the register, which the
           # export reads from package data, so the wheel must carry it.
           from chronicle.geography_names import canonical_geography_name
 
           assert canonical_geography_name("E06000001") == "Hartlepool"
+          # v5 rows take shared dimension value labels from the register, which
+          # facts read from package data at build time.
+          from chronicle.dimension_labels import canonical_value_label
+
+          assert (
+              canonical_value_label(
+                  "us:statutes/26/62#adjusted_gross_income", "under_1"
+              )
+              == "No adjusted gross income"
+          )
           assert len(CONSUMER_FACT_SCHEMA_SHA256) == 64
           PY
           /tmp/chronicle-wheel-smoke/bin/chronicle --help >/dev/null
+
+  chronicle:
+    name: Chronicle checks
+    needs: [bundle, surface]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Require bundle and surface checks
+        env:
+          BUNDLE_RESULT: ${{ needs.bundle.result }}
+          SURFACE_RESULT: ${{ needs.surface.result }}
+        run: |
+          if [[ "$BUNDLE_RESULT" != "success" || "$SURFACE_RESULT" != "success" ]]; then
+            printf 'Bundle: %s; surface: %s\n' "$BUNDLE_RESULT" "$SURFACE_RESULT"
+            exit 1
+          fi

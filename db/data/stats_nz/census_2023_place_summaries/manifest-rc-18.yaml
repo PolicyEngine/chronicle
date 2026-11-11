@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/marlborough-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-18.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/18/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/18/
+    http_status: 200
+    sha256: 92533df51e133c0c47bf24e0a28f2ee68aecaf737f65ec8d9e5d5bf72f697b44
+    size_bytes: 416244
+    fetched_at: '2026-10-10T20:12:08Z'
+    content_disposition_filename: place-summaries-marlborough-region-20261011-091207.csv
+    place_code: '18'
+    place: Marlborough Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/92533df51e133c0c47bf24e0a28f2ee68aecaf737f65ec8d9e5d5bf72f697b44/place-summaries-rc-18.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/92533df51e133c0c47bf24e0a28f2ee68aecaf737f65ec8d9e5d5bf72f697b44/place-summaries-rc-18.csv

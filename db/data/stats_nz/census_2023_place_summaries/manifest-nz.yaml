@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-nz.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/newzealand/NZ/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/newzealand/NZ/
+    http_status: 200
+    sha256: 6b35e4339ab98bd85dcfa0d297f9bf2c88403327dfe70430513cb7c10b26d89b
+    size_bytes: 394086
+    fetched_at: '2026-10-10T20:12:00Z'
+    content_disposition_filename: place-summaries-new-zealand-20261011-080638.csv
+    place_code: NZ
+    place: New Zealand
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/6b35e4339ab98bd85dcfa0d297f9bf2c88403327dfe70430513cb7c10b26d89b/place-summaries-nz.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/6b35e4339ab98bd85dcfa0d297f9bf2c88403327dfe70430513cb7c10b26d89b/place-summaries-nz.csv
