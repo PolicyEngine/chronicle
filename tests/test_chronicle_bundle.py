@@ -18,6 +18,8 @@ from chronicle.bundle import (
     BUNDLE_SCHEMA_VERSION,
     BUNDLE_SOURCES_SCHEMA_VERSION,
     NZ_BUNDLE_SOURCES,
+    PRUNED_INTERMEDIATES_REPORT,
+    SUITE_INTERMEDIATE_FILES,
     UK_BUNDLE_SOURCES,
     build_bundle,
     build_bundle_coverage,
@@ -365,31 +367,6 @@ def test_build_bundle_cli_rejects_an_unknown_suite(tmp_path, fake_build_bundle, 
     assert fake_build_bundle == []
 
 
-@pytest.fixture
-def prune_suite_intermediates(monkeypatch):
-    """Delete each source suite's intermediates once the suite is built.
-
-    Every suite in the default bundle writes source_rows.jsonl,
-    source_cells.jsonl, facts.jsonl and a per-source ledger.db, and
-    build_bundle then reads back only its consumer_facts.jsonl. A BEA NIPA
-    suite alone writes a 496 MB source_rows.jsonl and a 1 GB ledger.db for
-    under 100 KB of consumer facts. Suite runs that reached this test left
-    24 GB (2026-09-20) and 19.7 GB (2026-10-07) in pytest's temp directory.
-    The suites are still built, validated and merged exactly as before; only
-    files nothing reads afterwards are removed, so they no longer pile up
-    across the bundle's 268 source packages.
-    """
-    build_source_suite = chronicle.bundle.build_source_suite
-
-    def build_then_prune(*args, **kwargs):
-        report = build_source_suite(*args, **kwargs)
-        for output in ("source_rows", "source_cells", "facts", "database"):
-            Path(report.outputs[output]).unlink(missing_ok=True)
-        return report
-
-    monkeypatch.setattr(chronicle.bundle, "build_source_suite", build_then_prune)
-
-
 def _skip_unless_r2_only_artifacts_available() -> None:
     """The merged bundle reads every package's artifact. Those stored in R2 only come
     from the cache or, with LEDGER_SOURCE_ARTIFACT_FETCH=1 as CI sets, a download;
@@ -402,19 +379,31 @@ def _skip_unless_r2_only_artifacts_available() -> None:
             pytest.skip(f"R2-only source artifact unavailable: {error}")
 
 
-@pytest.mark.usefixtures("prune_suite_intermediates")
 def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     _skip_unless_r2_only_artifacts_available()
     output_dir = tmp_path / "bundle"
 
-    report = build_bundle(output_dir, year=2023)
+    # Slim: a full default bundle keeps tens of GB of per-suite intermediates
+    # this test never reads (24 GB on 2026-09-20). Slim mode changes no file
+    # the bundle keeps (tests/test_chronicle_bundle_slim.py).
+    report = build_bundle(output_dir, year=2023, keep_suite_intermediates=False)
     summary = json.loads((output_dir / "reports" / "build_bundle.json").read_text())
     rows_path = output_dir / "consumer_facts.jsonl"
     source_packages = json.loads((output_dir / "source_packages.json").read_text())
     coverage = json.loads((output_dir / "coverage.json").read_text())
+    pruned = json.loads(
+        (output_dir / "reports" / PRUNED_INTERMEDIATES_REPORT).read_text()
+    )
 
     assert report.valid, _bundle_failure_diagnostics(summary)
     assert summary["valid"]
+    assert pruned["suite_count"] == summary["counts"]["source_package_count"]
+    assert pruned["file_count"] == pruned["suite_count"] * len(SUITE_INTERMEDIATE_FILES)
+    assert not [
+        path
+        for name in SUITE_INTERMEDIATE_FILES
+        for path in (output_dir / "sources").glob(f"*/{name}")
+    ]
     # chronicle#209's NZ WFF package adds 330 TY2024 facts: 329 families and 1
     # person, in one new publisher, package, source table and country.
     # MBIE adds 5,663 August 2025–July 2026 dwelling/bond-record facts, one
