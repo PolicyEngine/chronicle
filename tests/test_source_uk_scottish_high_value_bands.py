@@ -161,6 +161,23 @@ def test_ranges_match_the_papers_own_statements(built):
     assert (round(low / 1e6), round(high / 1e6)) == (12, 16)
 
 
+def test_revenue_is_the_increase_over_the_average_band_h_charge(built):
+    _, facts = built
+    counts, revenue = _by_key(facts, PROPERTIES), _by_key(facts, REVENUE)
+    # "compared to the average Band H charge", Band I properties "would pay around £720
+    # more per year" and Band J properties "around £3,600": Figure 2 is Figure 3 times
+    # these increases, to the £0.01m the chart prints.
+    increase = {"I": 720, "J": 3_600}
+    for (band, bound), count in counts.items():
+        assert abs(count * increase[band] - revenue[(band, bound)]) <= 5_000
+    # The revenue facts say what they are measured against.
+    for fact in facts:
+        if fact.measure.concept == REVENUE:
+            baseline = "compared to the average Band H charge"
+            assert baseline in fact.measure.concept_evidence_notes
+            assert baseline in fact.period_coverage.notes
+
+
 def test_estimates_carry_their_semantics(built):
     _, facts = built
     for fact in facts:

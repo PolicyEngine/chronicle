@@ -9,13 +9,14 @@
 # Ported, at Scotland, as the published low and high estimates: the number of properties
 # in the proposed Band I (more than £1 million and up to £2 million) and Band J (more than
 # £2 million) at 1 April 2026 values, 12,680 to 16,740 and 760 to 1,070 (Figure 3); and
-# the additional annual revenue at the paper's illustrative multipliers on 2026-27 Band D
-# charges, £9.13m to £12.05m and £2.74m to £3.85m (Figure 2, '£ millions', scaled to
-# pounds). Band is council_tax_band I or J and the bound is statistic low_estimate or
-# high_estimate, filters on the two estimate concepts. The facts are model_output
-# estimates: the paper calls its rates illustrative, and the figures' source reads
-# 'Source: Illustrative Scottish Government estimates based on Records of Scotland data,
-# CTAXBASE statistics and analysis by the Institute for Fiscal Studies'.
+# the additional annual revenue, compared to the average Band H charge, at the paper's
+# illustrative multipliers on 2026-27 Band D charges, £9.13m to £12.05m and £2.74m to
+# £3.85m (Figure 2, '£ millions', scaled to pounds). Band is council_tax_band I or J and
+# the bound is statistic low_estimate or high_estimate, filters on the two estimate
+# concepts. The facts are model_output estimates: the paper calls its rates illustrative,
+# and the figures' source reads 'Source: Illustrative Scottish Government estimates based
+# on Records of Scotland data, CTAXBASE statistics and analysis by the Institute for
+# Fiscal Studies'.
 #
 # Reading the labels: the charts print their data labels series by series, the low
 # estimates for Band I and Band J and then the high estimates, as their legends order
@@ -24,9 +25,15 @@
 # 'approximately 15,000 properties in total', and the revenue ranges sum to the 'between
 # £12 million and £16 million per year' the paper states.
 #
-# Not here: Registers of Scotland's residential sales over £1 million and £2 million, the
-# item's other part; the RoS property market report page refused the download (HTTP 403).
-# 8 facts.
+# What the revenue is measured against: 'compared to the average Band H charge', Band I
+# properties 'would pay around £720 more per year' and Band J properties 'around £3,600
+# more per year'. Each revenue label is its property label times that increase, to the
+# £0.01m the chart prints (the generator asserts it), so the figures apply the full
+# increase over the average Band H charge to every estimated property.
+#
+# The item's other part, Registers of Scotland's residential sales over £1 million, is the
+# package ros-property-market-report-2025-26. RoS publishes no split above £2 million. 8
+# facts.
 schema_version: ledger.source_package.v1
 package_id: scotgov-council-tax-high-value-bands-consultation-2026
 label: 'Scottish Government council tax Bands I and J consultation: estimated properties and additional
@@ -179,8 +186,9 @@ record_sets:
     end_date: '2027-03-31'
     basis: fiscal
     source_period_label: per year, based on 2026-27 Band D charges
-    notes: Additional revenue per year at the paper's illustrative multipliers (2.886 for Band I, 4.628
-      for Band J) on 2026-27 Band D charges; the period value stores the opening year of 2026-27.
+    notes: Additional revenue per year compared to the average Band H charge, at the paper's illustrative
+      multipliers (2.886 for Band I, 4.628 for Band J) on 2026-27 Band D charges; the period value stores
+      the opening year of 2026-27.
   geography_id: S92000003
   geography_level: country
   geography_name: Scotland
@@ -269,12 +277,18 @@ record_sets:
     concept_evidence_url: https://www.gov.scot/publications/consultation-council-tax-high-value-property-bands-mansion-tax/
     concept_evidence_notes: 'Figure 2: Estimates of additional annual revenue from Bands I and J (page
       9), the chart''s data labels in £ millions: ''Estimated Additional Revenue'', low and high estimates.
-      Council Tax High-Value Property Bands (Mansion Tax): consultation (published 6 July 2026), section
-      4. ''Band I: for properties with an estimated open market capital value of more than £1 million
-      and up to £2 million as at 1 April 2026.'' ''Band J: for properties with an estimated open market
-      capital value of more than £2 million as at 1 April 2026.'' ''Source: Illustrative Scottish Government
-      estimates based on Records of Scotland data, CTAXBASE statistics and analysis by the Institute for
-      Fiscal Studies.'' The paper calls its rates and estimates illustrative: ''The rates below are illustrative.'''
+      ''This means that, compared to the average Band H charge, it is estimated that:'' ''Band I properties
+      (valued between £1 million and £2 million) would pay around £720 more per year than the Band H.''
+      ''Band J properties (valued at over £2 million) would pay around £3,600 more per year than the Band
+      H.'' Each figure is the matching property estimate times £720 (Band I) or £3,600 (Band J), to the
+      £0.01m the chart prints, so it applies the full increase over the average Band H charge to every
+      estimated property. Council Tax High-Value Property Bands (Mansion Tax): consultation (published
+      6 July 2026), section 4. ''Band I: for properties with an estimated open market capital value of
+      more than £1 million and up to £2 million as at 1 April 2026.'' ''Band J: for properties with an
+      estimated open market capital value of more than £2 million as at 1 April 2026.'' ''Source: Illustrative
+      Scottish Government estimates based on Records of Scotland data, CTAXBASE statistics and analysis
+      by the Institute for Fiscal Studies.'' The paper calls its rates and estimates illustrative: ''The
+      rates below are illustrative.'''
     unit: gbp
     value_scale: 1000000
     aggregation: sum

@@ -93,6 +93,13 @@ How the facts are typed:
 - **Revenue** is `fiscal_year` 2026 (2026-27), entity `government`, assertion
   `source_projection`, as the OBR's council tax surcharge costing is. It is scaled from the
   chart's "£ millions" to pounds.
+- **What the revenue is measured against.** The paper prices the bands "compared to the
+  average Band H charge": Band I properties "would pay around £720 more per year than the
+  Band H", and Band J properties "around £3,600 more per year". Each revenue figure is its
+  property estimate times that increase, so it applies the full increase over the average
+  Band H charge to every estimated property. A score that charges each property the
+  increase over its own current band measures something else. The revenue facts' notes
+  quote the paper's sentence.
 - **Provenance.** Both are `model_output`. The paper calls its rates "illustrative", and the
   figures' source reads "Illustrative Scottish Government estimates based on Records of
   Scotland data, CTAXBASE statistics and analysis by the Institute for Fiscal Studies".
@@ -103,7 +110,9 @@ paper's own text:
 - each band's high estimate exceeds its low;
 - Band I exceeds Band J;
 - the property ranges bracket "approximately 15,000 properties in total";
-- the revenue ranges sum to "between £12 million and £16 million per year".
+- the revenue ranges sum to "between £12 million and £16 million per year";
+- each revenue figure is its property estimate times £720 (Band I) or £3,600 (Band J), to
+  the £0.01m the chart prints.
 
 The HTML page's alt text gives the same ranges, rounded.
 
@@ -130,8 +139,9 @@ Read them this way:
   codes. They print no row for Na h-Eileanan Siar, North Lanarkshire, Orkney Islands, Shetland
   Islands or West Dunbartonshire. The 27 add to Scotland in every ported year, so those five
   had no such sales; Chronicle stores no zero rows for them.
-- **Band J cross-check.** Table 9's Scotland row equals table 8's band "J - over £1,000,000"
-  in every ported year.
+- **RoS price band J cross-check.** Table 9's Scotland row equals table 8's price band
+  "J - over £1,000,000" in every ported year. This J is RoS's own price band letter, not
+  the proposed council tax Band J above £2 million.
 - **Nothing over £2 million.** RoS publishes no split above £2 million, which #420 also asks
   for; that needs an ad hoc table from RoS. The years before 2023-24 and table 11's top postal
   districts are not ported.

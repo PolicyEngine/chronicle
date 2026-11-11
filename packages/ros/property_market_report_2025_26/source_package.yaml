@@ -21,7 +21,8 @@
 # no row for Na h-Eileanan Siar, North Lanarkshire, Orkney Islands, Shetland Islands or
 # West Dunbartonshire. The 27 add to Scotland in every ported year (the generator asserts
 # it), so those five had no such sales in these years. Table 9's Scotland row equals table
-# 8's band 'J - over £1,000,000' in every ported year.
+# 8's price band 'J - over £1,000,000' in every ported year; that J is RoS's own price
+# band letter, not a council tax band.
 #
 # Not ported: the years before 2023-24, not asked in PolicyEngine/chronicle#420; table
 # 11's top postal districts; and the rest of the report. RoS publishes no split above £2

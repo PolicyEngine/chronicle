@@ -16,8 +16,9 @@ Microcosm's next data PR, for extending Microcosm's home-value step to Scotland
 consultation's estimates of homes in the proposed council tax Bands I (more than £1
 million and up to £2 million) and J (more than £2 million) at 1 April 2026 values, and of
 the additional revenue they would raise, as the published ranges. The item's other part,
-Registers of Scotland's sales over £1 million and £2 million, is not here: the RoS
-property market report page refused the download (HTTP 403).
+Registers of Scotland's sales over £1 million, is the package
+ros-property-market-report-2025-26 (scripts/build_uk_ros_high_value_sales_package.py).
+RoS publishes no split above £2 million.
 """
 
 from __future__ import annotations
@@ -153,6 +154,16 @@ REVENUE_TEXT = (
     "the new bands are estimated to raise between £12 million and £16 million per year in "
     "total across Scotland.",
 )
+# What the revenue is measured against: each band's increase over the average Band H
+# charge. Figure 2 is Figure 3's property estimates times these increases.
+BAND_H_TEXT = (
+    "This means that, compared to the average Band H charge, it is estimated that:",
+    "Band I properties (valued between £1 million and £2 million) would pay around £720 "
+    "more per year than the Band H.",
+    "Band J properties (valued at over £2 million) would pay around £3,600 more per year "
+    "than the Band H.",
+)
+BAND_H_INCREASE = {"I": 720, "J": 3_600}
 SOURCE = (
     "Source: Illustrative Scottish Government estimates based on Records of Scotland data, "
     "CTAXBASE statistics and analysis by the Institute for Fiscal Studies"
@@ -215,7 +226,7 @@ def record_rows(found: list[tuple[int, dict]], what: str) -> list[dict]:
 def build() -> str:
     entry, content = pinned(DIRECTORY)
     text = squeeze(" ".join(page.extract_text() or "" for page in pdf_pages(content)))
-    for quote in (*BANDS_TEXT, *REVENUE_TEXT, SOURCE):
+    for quote in (*BANDS_TEXT, *REVENUE_TEXT, *BAND_H_TEXT, SOURCE):
         assert squeeze(quote) in text, quote
     page_text = squeeze(pdf_pages(content)[FIGURE_PAGE - 1].extract_text())
     assert (
@@ -249,6 +260,14 @@ def build() -> str:
         12,
         16,
     )  # "between £12m and £16m"
+    # Each revenue label is its property label times the band's increase over the
+    # average Band H charge, to the £0.01m the chart prints.
+    for band, statistic in ORDER:
+        revenue_millions = counts[(band, statistic)] * BAND_H_INCREASE[band] / 1e6
+        assert abs(revenue_millions - millions[(band, statistic)]) <= 0.005, (
+            band,
+            statistic,
+        )
     common = {
         "provenance_class": "model_output",
         "sheet_name": "document_numbers",
@@ -324,9 +343,10 @@ def build() -> str:
                 "end_date": "2027-03-31",
                 "basis": "fiscal",
                 "source_period_label": "per year, based on 2026-27 Band D charges",
-                "notes": "Additional revenue per year at the paper's illustrative "
-                "multipliers (2.886 for Band I, 4.628 for Band J) on 2026-27 Band D charges; "
-                "the period value stores the opening year of 2026-27.",
+                "notes": "Additional revenue per year compared to the average Band H "
+                "charge, at the paper's illustrative multipliers (2.886 for Band I, 4.628 "
+                "for Band J) on 2026-27 Band D charges; the period value stores the opening "
+                "year of 2026-27.",
             },
             **{key: common[key] for key in common if key.startswith("geography")},
             "entity": "government",
@@ -353,7 +373,11 @@ def build() -> str:
                     "concept_evidence_notes": "Figure 2: Estimates of additional annual "
                     "revenue from Bands I and J (page 9), the chart's data labels in £ "
                     "millions: 'Estimated Additional Revenue', low and high estimates. "
-                    + notes,
+                    + " ".join(f"'{quote}'" for quote in BAND_H_TEXT)
+                    + " Each figure is the matching property estimate times £720 (Band I) "
+                    "or £3,600 (Band J), to the £0.01m the chart prints, so it applies the "
+                    "full increase over the average Band H charge to every estimated "
+                    "property. " + notes,
                     "unit": "gbp",
                     "value_scale": 1000000,
                     "aggregation": "sum",
@@ -406,12 +430,13 @@ def build() -> str:
     {
         counts[
             ("J", "high_estimate")
-        ]:,} (Figure 3); and the additional annual revenue at the
-    paper's illustrative multipliers on 2026-27 Band D charges, £{
-        millions[("I", "low_estimate")]
-    }m to £{millions[("I", "high_estimate")]}m and £{
-        millions[("J", "low_estimate")]
-    }m to £{millions[("J", "high_estimate")]}m (Figure 2, '£ millions',
+        ]:,} (Figure 3); and the additional annual revenue, compared to the
+    average Band H charge, at the paper's illustrative multipliers on 2026-27 Band D
+    charges, £{millions[("I", "low_estimate")]}m to £{
+        millions[("I", "high_estimate")]
+    }m and £{millions[("J", "low_estimate")]}m to £{
+        millions[("J", "high_estimate")]
+    }m (Figure 2, '£ millions',
     scaled to pounds). Band is council_tax_band I or J and the bound is statistic
     low_estimate or high_estimate, filters on the two estimate concepts. The facts are
     model_output estimates: the paper calls its rates illustrative, and the figures'
@@ -424,9 +449,15 @@ def build() -> str:
     'approximately 15,000 properties in total', and the revenue ranges sum to the 'between
     £12 million and £16 million per year' the paper states.
 
-    Not here: Registers of Scotland's residential sales over £1 million and £2 million,
-    the item's other part; the RoS property market report page refused the download (HTTP
-    403). 8 facts.
+    What the revenue is measured against: 'compared to the average Band H charge', Band I
+    properties 'would pay around £720 more per year' and Band J properties 'around £3,600
+    more per year'. Each revenue label is its property label times that increase, to the
+    £0.01m the chart prints (the generator asserts it), so the figures apply the full
+    increase over the average Band H charge to every estimated property.
+
+    The item's other part, Registers of Scotland's residential sales over £1 million, is
+    the package ros-property-market-report-2025-26. RoS publishes no split above £2
+    million. 8 facts.
     """
     return render(header, payload)
 

@@ -419,7 +419,8 @@ def build() -> str:
     The tables list 27 of the 32 council areas, with the publisher's own codes; they print
     no row for {absent_names}. The 27 add to Scotland in every ported year (the
     generator asserts it), so those five had no such sales in these years. Table 9's
-    Scotland row equals table 8's band 'J - over £1,000,000' in every ported year.
+    Scotland row equals table 8's price band 'J - over £1,000,000' in every ported year;
+    that J is RoS's own price band letter, not a council tax band.
 
     Not ported: the years before 2023-24, not asked in {ISSUE}; table 11's top postal
     districts; and the rest of the report. RoS publishes no split above £2 million, which
