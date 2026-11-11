@@ -3859,14 +3859,34 @@ def _mapping_applies_to_year(
         raise ValueError(f"{context_label} years entries must be integers")
     if len(set(years)) != len(years):
         raise ValueError(f"{context_label} years entries must be unique")
-    if "column_by_year" in payload:
-        columns = payload["column_by_year"]
+    # Every per-year map must cover exactly the declared years: a map year
+    # outside ``years`` would drop the mapping at that year without an error.
+    by_year_keys = sorted(
+        key
+        for key, value in payload.items()
+        if key.endswith("_by_year") and isinstance(value, dict)
+    )
+    if "column_by_year" in by_year_keys:
+        by_year_keys.remove("column_by_year")
+        by_year_keys.insert(0, "column_by_year")
+    for key in by_year_keys:
+        mapped = payload[key]
         for declared_year in years:
-            if declared_year not in columns and str(declared_year) not in columns:
+            if declared_year not in mapped and str(declared_year) not in mapped:
                 raise ValueError(
-                    f"{context_label} column_by_year has no entry for "
+                    f"{context_label} {key} has no entry for "
                     f"declared year {declared_year}"
                 )
+        extra = sorted(
+            str(mapped_year)
+            for mapped_year in mapped
+            if str(mapped_year) not in {str(item) for item in years}
+        )
+        if extra:
+            raise ValueError(
+                f"{context_label} {key} maps year(s) {', '.join(extra)} "
+                f"outside its years {years}"
+            )
     return year in years
 
 

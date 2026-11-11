@@ -270,6 +270,29 @@ def test_record_set_measure_year_scope_requires_every_column_mapping():
         DeclarativeRecordSet(record_set).to_record_set_spec(2020)
 
 
+def test_record_set_measure_year_scope_refuses_a_by_year_map_beyond_its_years():
+    source_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    payload = yaml.safe_load((source_path / "source_package.yaml").read_text())
+    record_set = payload["record_sets"][0]
+    record_set["measures"][-1]["years"].remove(2022)
+
+    with pytest.raises(ValueError, match=r"column_by_year maps year\(s\) 2022"):
+        DeclarativeRecordSet(record_set).to_record_set_spec(2023)
+
+
+def test_record_set_measure_year_scope_requires_every_header_year():
+    source_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    payload = yaml.safe_load((source_path / "source_package.yaml").read_text())
+    record_set = payload["record_sets"][0]
+    del record_set["measures"][-1]["expected_column_header_by_year"][2022]
+
+    with pytest.raises(
+        ValueError,
+        match="expected_column_header_by_year has no entry for declared year 2022",
+    ):
+        DeclarativeRecordSet(record_set).to_record_set_spec(2023)
+
+
 def test_record_set_measure_year_scope_is_membership_for_every_small_year_set():
     """For every non-empty set of 2020-2024 and every year 2019-2025, a measure
     with ``years`` applies exactly when the year is in the set, and a measure
